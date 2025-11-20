@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/your-org/builder-layer-end/wiki
+    about: Check our documentation for answers
+  - name: Discussions
+    url: https://github.com/your-org/builder-layer-end/discussions
+    about: Ask questions and discuss with the community
+  - name: Security Issue
+    url: https://github.com/your-org/builder-layer-end/security/policy
+    about: Report security vulnerabilities privately
