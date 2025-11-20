@@ -1,0 +1,34 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    name: Review Dependencies
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v3
+        with:
+          # Fail the build if there are vulnerabilities
+          fail-on-severity: moderate
+          # Comment on PR with results
+          comment-summary-in-pr: true
+          # Allow licenses
+          allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, GPL-3.0
+          # Deny licenses
+          deny-licenses: AGPL-3.0, LGPL-2.0, LGPL-2.1
+          # Vulnerability check
+          vulnerability-check: true
+          # License check
+          license-check: true

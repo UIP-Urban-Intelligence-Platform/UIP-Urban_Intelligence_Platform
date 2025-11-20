@@ -1,0 +1,139 @@
+# Configuration for automatic PR/issue labeling
+# https://github.com/actions/labeler
+
+# Source code changes
+'src:agents':
+  - changed-files:
+    - any-glob-to-any-file: 'src/agents/**/*'
+
+'src:core':
+  - changed-files:
+    - any-glob-to-any-file: 'src/core/**/*'
+
+# Component-specific labels
+'component:image-refresh':
+  - changed-files:
+    - any-glob-to-any-file: 'src/agents/image_refresh/**/*'
+
+'component:cv-detection':
+  - changed-files:
+    - any-glob-to-any-file: 
+      - 'src/agents/cv_detection/**/*'
+      - 'src/agents/yolo_detector/**/*'
+
+'component:data-connectors':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/agents/stellio_connector/**/*'
+      - 'src/agents/fuseki_publisher/**/*'
+      - 'src/agents/neo4j_sync/**/*'
+
+'component:validation':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/agents/data_validator/**/*'
+      - 'src/agents/data_quality/**/*'
+
+'component:workflow':
+  - changed-files:
+    - any-glob-to-any-file: 
+      - 'orchestrator.py'
+      - 'src/agents/workflow_orchestrator/**/*'
+
+# Testing
+'tests':
+  - changed-files:
+    - any-glob-to-any-file: 'tests/**/*'
+
+'tests:unit':
+  - changed-files:
+    - any-glob-to-any-file: 'tests/unit/**/*'
+
+'tests:integration':
+  - changed-files:
+    - any-glob-to-any-file: 'tests/integration/**/*'
+
+# Documentation
+'documentation':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'docs/**/*'
+      - '*.md'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+
+# Configuration
+'config':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'config/**/*'
+      - '.env.example'
+      - '*.yaml'
+      - '*.yml'
+
+# Infrastructure
+'docker':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'Dockerfile*'
+      - 'docker-compose*.yml'
+      - 'docker/**/*'
+      - '.dockerignore'
+
+'ci/cd':
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/workflows/**/*'
+      - '.github/actions/**/*'
+
+# Dependencies
+'dependencies':
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'requirements/**/*'
+      - 'setup.py'
+      - 'pyproject.toml'
+      - 'MANIFEST.in'
+
+# Security
+'security':
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/SECURITY.md'
+      - 'scripts/security/**/*'
+
+# Scripts
+'scripts':
+  - changed-files:
+    - any-glob-to-any-file: 'scripts/**/*'
+
+# Templates
+'templates':
+  - changed-files:
+    - any-glob-to-any-file: 'templates/**/*'
+
+# Size labels
+'size:XS':
+  - changed-files:
+    - 1-10
+
+'size:S':
+  - changed-files:
+    - 11-50
+
+'size:M':
+  - changed-files:
+    - 51-200
+
+'size:L':
+  - changed-files:
+    - 201-500
+
+'size:XL':
+  - changed-files:
+    - 501-1000
+
+'size:XXL':
+  - changed-files:
+    - 1001+
