@@ -1,0 +1,628 @@
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-20
+
+# Multi-Agent Workflow Orchestration Configuration
+# 100% DOMAIN-AGNOSTIC - Works with ANY LOD domain (healthcare, geography, commerce, etc.)
+# ALL workflow configurations are here - NO hardcoded logic in Python code
+
+# Seed Data Configuration
+# Set enabled: true to generate mock data for testing (no real accidents/patterns needed)
+# Set enabled: false to use real data from actual processing
+# NOTE: Seeding happens BEFORE validation agents run, so it seeds accidents.json, patterns.json, etc.
+seed_data:
+  enabled: true  # Set to true to seed mock data, false to use real data
+  files:
+    # Seed source files (before validation)
+    - path: "data/accidents.json"
+      count: 40  # Number of mock accidents to generate (1 per camera)
+    - path: "data/patterns.json"  # FIXED: Use patterns.json (not traffic_patterns.json)
+      count: 40  # Number of mock patterns to generate (1 per camera)
+    - path: "data/updated_cameras.json"
+      count: 40  # Number of mock camera updates to generate (1 per camera)
+
+workflow:
+  # Workflow name and metadata
+  name: "LOD Data Pipeline Workflow"
+  version: "1.0.0"
+  description: "End-to-end data processing pipeline for Linked Open Data"
+  
+  # Workflow execution phases
+  # Each phase can run agents sequentially or in parallel
+  phases:
+    # Phase 1: Data Collection
+    - name: "Data Collection"
+      description: "Collect raw data from various sources"
+      parallel: false  # Run sequentially to ensure data is ready
+      agents:
+        # 1. First: Refresh camera images (required to create cameras_updated.json)
+        - name: "image_refresh_agent"
+          module: "src.agents.data_collection.image_refresh_agent"
+          enabled: true
+          required: true  # Required to process cameras
+          timeout: 180
+          input_file: "data/cameras_raw.json"
+          output_file: "data/cameras_updated.json"
+        
+        # 2. Second: Enrich cameras with external data (weather, air quality)
+        - name: "external_data_collector_agent"
+          module: "src.agents.data_collection.external_data_collector_agent"
+          enabled: true  # ✅ ENABLED - Now active in workflow
+          required: true  # ✅ REQUIRED - Must complete successfully
+          timeout: 60
+          config:
+            config_path: "config/data_sources.yaml"
+            source_file: "data/cameras_updated.json"  # Reads output from image_refresh_agent
+            output_file: "data/cameras_enriched.json"  # Creates enriched cameras
+            mode: "once"  # Run once per workflow execution
+      
+      # Phase-level outputs
+      outputs:
+        - "data/cameras_updated.json"
+        - "data/cameras_enriched.json"  # ✅ NEW OUTPUT - Enriched with weather + air quality
+    
+    # Phase 2: Data Transformation
+    - name: "Transformation"
+      description: "Transform raw data to NGSI-LD and enhance with semantic annotations"
+      parallel: false  # Run agents sequentially
+      agents:
+        # 1. Transform enriched cameras to NGSI-LD (Camera + WeatherObserved + AirQualityObserved)
+        - name: "ngsi_ld_transformer_agent"
+          module: "src.agents.transformation.ngsi_ld_transformer_agent"
+          enabled: true
+          required: true  # Critical agent
+          timeout: 60
+          input_file: "data/cameras_enriched.json"  # ✅ UPDATED - Reads enriched cameras from Phase 1
+          output_file: "data/ngsi_ld_entities.json"  # Creates ~120 entities (40 Camera + 40 Weather + 40 AirQuality)
+        
+        # 2. Add SOSA/SSN semantic annotations (Sensor + Observation types)
+        - name: "sosa_ssn_mapper_agent"
+          module: "src.agents.transformation.sosa_ssn_mapper_agent"
+          enabled: true
+          required: true
+          timeout: 60
+          input_file: "data/ngsi_ld_entities.json"  # Reads NGSI-LD entities
+          output_file: "data/sosa_enhanced_entities.json"  # Adds sosa:Sensor + sosa:Observation types
+      
+      outputs:
+        - "data/ngsi_ld_entities.json"
+        - "data/sosa_enhanced_entities.json"
+    
+    # Phase 3: Data Validation
+    - name: "Validation"
+      description: "Validate entities against Smart Data Models specifications"
+      parallel: false
+      agents:
+        - name: "smart_data_models_validation_agent"
+          module: "src.agents.rdf_linked_data.smart_data_models_validation_agent"
+          enabled: true
+          required: true
+          timeout: 90
+          input_file: "data/sosa_enhanced_entities.json"
+          output_file: "data/validated_entities.json"
+      
+      outputs:
+        - "data/validated_entities.json"
+    
+    # Phase 4: Data Publishing (parallel execution)
+    - name: "Publishing"
+      description: "Publish validated data to Stellio and convert to RDF"
+      parallel: true
+      agents:
+        - name: "entity_publisher_agent"
+          module: "src.agents.context_management.entity_publisher_agent"
+          enabled: true
+          required: true
+          timeout: 120
+          config:
+            input_file: "data/validated_entities.json"
+        
+        - name: "ngsi_ld_to_rdf_agent"
+          module: "src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent"
+          enabled: true
+          required: true
+          timeout: 60
+          config:
+            input_file: "data/validated_entities.json"
+            output_dir: "data/rdf"
+      
+      outputs:
+        - "data/rdf/*.ttl"
+        - "data/rdf/*.nt"
+        - "data/rdf/*.rdf"
+        - "data/rdf/*.jsonld"
+    
+    # Phase 5: Analytics
+    - name: "Analytics"
+      description: "Perform CV analysis and detect traffic patterns"
+      parallel: false
+      agents:
+        - name: "cv_analysis_agent"
+          module: "src.agents.analytics.cv_analysis_agent"
+          enabled: true
+          required: true
+          timeout: 300
+          config:
+            input_file: "data/cameras_enriched.json"  # FIXED: Use enriched cameras with location data
+            output_file: "data/observations.json"
+            batch_size: 10
+            model: "yolov8n.pt"
+            confidence_threshold: 0.25
+            device: "cpu"
+        
+        - name: "congestion_detection_agent"
+          module: "src.agents.analytics.congestion_detection_agent"
+          enabled: true
+          required: false
+          timeout: 60
+          config:
+            input_file: "data/observations.json"
+            config_file: "config/congestion_config.yaml"
+        
+        - name: "accident_detection_agent"
+          module: "src.agents.analytics.accident_detection_agent"
+          enabled: true  # ✅ ENABLED - Accident detection now active
+          required: true  # ✅ REQUIRED - Must complete successfully
+          timeout: 60
+          config:
+            input_file: "data/observations.json"
+            config_file: "config/accident_config.yaml"
+            output_file: "data/accidents.json"
+        
+        - name: "pattern_recognition_agent"
+          module: "src.agents.analytics.pattern_recognition_agent"
+          enabled: true  # ✅ ENABLED - Pattern recognition now active
+          required: true  # ✅ REQUIRED - Must complete successfully
+          timeout: 120
+          config:
+            config_file: "config/pattern_recognition.yaml"
+            input_file: "data/observations.json"
+            output_file: "data/patterns.json"
+            time_window: "7_days"
+      
+      outputs:
+        - "data/observations.json"
+        - "data/congestion_report.json"
+        - "data/congestion_state.json"
+        - "data/accidents.json"  # ✅ NEW OUTPUT - Accident detection results
+        - "data/accident_alerts.json"  # ✅ NEW OUTPUT - Real-time accident alerts
+        - "data/patterns.json"  # ✅ NEW OUTPUT - Traffic pattern analysis
+        - "data/predictions.json"  # ✅ NEW OUTPUT - Traffic forecasts
+        - "data/anomalies.json"  # ✅ NEW OUTPUT - Detected anomalies
+    
+    # Phase 6: RDF Loading (Camera entities only)
+    - name: "RDF Loading"
+      description: "Load RDF triples into Apache Jena Fuseki triplestore"
+      parallel: false
+      agents:
+        - name: "triplestore_loader_agent"
+          module: "src.agents.rdf_linked_data.triplestore_loader_agent"
+          enabled: true
+          required: true
+          timeout: 120
+          config:
+            input_dir: "data/rdf"
+            mode: "single"  # Only load camera RDF in Phase 6
+      
+      outputs:
+        - "data/reports/triplestore_load_*.json"
+    
+    # Phase 7: Analytics Data Loop (NEW - Close the analytics data gap!)
+    - name: "Analytics Data Loop"
+      description: "Publish analytics outputs (observations, accidents, patterns) to LOD pipeline"
+      parallel: false
+      agents:
+        # Step 1: Validate observations.json (ItemFlowObserved entities)
+        - name: "smart_data_models_validation_agent"
+          module: "src.agents.rdf_linked_data.smart_data_models_validation_agent"
+          enabled: true
+          required: false
+          timeout: 90
+          config:
+            input_file: "data/observations.json"
+            output_file: "data/validated_observations.json"
+            entity_type: "ItemFlowObserved"
+        
+        # Step 2a: Publish observations to Stellio
+        - name: "entity_publisher_agent"
+          module: "src.agents.context_management.entity_publisher_agent"
+          enabled: true
+          required: false
+          timeout: 120
+          config:
+            input_file: "data/validated_observations.json"
+        
+        # Step 2b: Convert observations to RDF (parallel with 2a)
+        - name: "ngsi_ld_to_rdf_agent"
+          module: "src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent"
+          enabled: true
+          required: false
+          timeout: 60
+          config:
+            input_file: "data/validated_observations.json"
+            output_dir: "data/rdf_observations"
+        
+        # Step 3: Load observations RDF to Fuseki
+        - name: "triplestore_loader_agent"
+          module: "src.agents.rdf_linked_data.triplestore_loader_agent"
+          enabled: true
+          required: false
+          timeout: 120
+          config:
+            input_dir: "data/rdf_observations"
+      
+      outputs:
+        - "data/validated_observations.json"
+        - "data/rdf_observations/*.ttl"
+        - "data/rdf_observations/*.nt"
+    
+    # Phase 7.5: Accidents & Patterns Data Loop (NEW - Push accidents and patterns to LOD)
+    - name: "Accidents & Patterns Data Loop"
+      description: "Publish accident detection and pattern recognition outputs to LOD pipeline"
+      parallel: false
+      agents:
+        # Step 1: Validate accidents.json (RoadAccident entities)
+        - name: "smart_data_models_validation_agent"
+          module: "src.agents.rdf_linked_data.smart_data_models_validation_agent"
+          enabled: true
+          required: false
+          timeout: 90
+          config:
+            input_file: "data/accidents.json"
+            output_file: "data/validated_accidents.json"
+            entity_type: "RoadAccident"
+        
+        # Step 2a: Publish accidents to Stellio
+        - name: "entity_publisher_agent"
+          module: "src.agents.context_management.entity_publisher_agent"
+          enabled: true
+          required: false
+          timeout: 120
+          config:
+            input_file: "data/validated_accidents.json"
+        
+        # Step 2b: Convert accidents to RDF
+        - name: "ngsi_ld_to_rdf_agent"
+          module: "src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent"
+          enabled: true
+          required: false
+          timeout: 60
+          config:
+            input_file: "data/validated_accidents.json"
+            output_dir: "data/rdf_accidents"
+        
+        # Step 3: Load accidents RDF to Fuseki
+        - name: "triplestore_loader_agent"
+          module: "src.agents.rdf_linked_data.triplestore_loader_agent"
+          enabled: true
+          required: false
+          timeout: 120
+          config:
+            input_dir: "data/rdf_accidents"
+        
+        # Step 4: Validate patterns.json (TrafficPattern entities)
+        - name: "smart_data_models_validation_agent"
+          module: "src.agents.rdf_linked_data.smart_data_models_validation_agent"
+          enabled: true
+          required: false
+          timeout: 90
+          config:
+            input_file: "data/patterns.json"
+            output_file: "data/validated_patterns.json"
+            entity_type: "TrafficPattern"
+        
+        # Step 5a: Publish patterns to Stellio
+        - name: "entity_publisher_agent"
+          module: "src.agents.context_management.entity_publisher_agent"
+          enabled: true
+          required: false
+          timeout: 120
+          config:
+            input_file: "data/validated_patterns.json"
+        
+        # Step 5b: Convert patterns to RDF
+        - name: "ngsi_ld_to_rdf_agent"
+          module: "src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent"
+          enabled: true
+          required: false
+          timeout: 60
+          config:
+            input_file: "data/validated_patterns.json"
+            output_dir: "data/rdf_patterns"
+        
+        # Step 6: Load patterns RDF to Fuseki
+        - name: "triplestore_loader_agent"
+          module: "src.agents.rdf_linked_data.triplestore_loader_agent"
+          enabled: true
+          required: false
+          timeout: 120
+          config:
+            input_dir: "data/rdf_patterns"
+      
+      outputs:
+        - "data/validated_accidents.json"
+        - "data/rdf_accidents/*.ttl"
+        - "data/validated_patterns.json"
+        - "data/rdf_patterns/*.ttl"
+    
+    # Phase 8: State Update Sync (NEW - Sync Camera state changes to RDF)
+    - name: "State Update Sync"
+      description: "Sync Camera entity state updates (congestion, accidents) from Stellio to Fuseki"
+      parallel: false
+      agents:
+        # Query Stellio for updated Camera entities (with congested=true)
+        - name: "stellio_state_query_agent"
+          module: "src.agents.context_management.stellio_state_query_agent"
+          enabled: true
+          required: false
+          timeout: 60
+          config:
+            query_filter: "congested==true"
+            output_file: "data/updated_cameras.json"
+        
+        # Convert updated cameras to RDF
+        - name: "ngsi_ld_to_rdf_agent"
+          module: "src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent"
+          enabled: true
+          required: false
+          timeout: 60
+          config:
+            input_file: "data/updated_cameras.json"
+            output_dir: "data/rdf_updates"
+            mode: "update"  # Update existing named graphs
+        
+        # Load updated RDF to Fuseki (overwrite existing graphs)
+        - name: "triplestore_loader_agent"
+          module: "src.agents.rdf_linked_data.triplestore_loader_agent"
+          enabled: true
+          required: false
+          timeout: 120
+          config:
+            input_dir: "data/rdf_updates"
+            mode: "update"  # Overwrite existing named graphs
+      
+      outputs:
+        - "data/updated_cameras.json"
+        - "data/rdf_updates/*.ttl"
+    
+    # Phase 9: Neo4j Sync (NEW - Stellio PostgreSQL to Neo4j Graph Database)
+    - name: "Neo4j Sync"
+      description: "Synchronize NGSI-LD entities from Stellio PostgreSQL backend to Neo4j graph database for pattern analysis"
+      parallel: false
+      agents:
+        # Sync entities from Stellio PostgreSQL to Neo4j
+        - name: "neo4j_sync_agent"
+          module: "src.agents.integration.neo4j_sync_agent"
+          enabled: true
+          required: false  # Optional - only needed if Neo4j is available
+          timeout: 180
+          config:
+            config_file: "config/neo4j_sync.yaml"
+            sync_mode: "full"  # Options: full, incremental
+            clear_before_sync: false
+            create_indexes: true
+          description: |
+            Bridges Stellio Context Broker (PostgreSQL backend) to Neo4j graph database.
+            
+            Process:
+            1. Connect to Stellio PostgreSQL (stellio_search.entity_payload)
+            2. Extract Camera, Platform, ObservableProperty entities
+            3. Parse JSONB payload and extract properties
+            4. Create Neo4j nodes (MERGE operation, idempotent)
+            5. Create relationships: IS_HOSTED_BY, OBSERVES
+            6. Create indexes: id (unique), spatial (latitude/longitude)
+            
+            Output:
+            - 42 nodes (40 Camera + 1 Platform + 1 ObservableProperty)
+            - 80 relationships (40 IS_HOSTED_BY + 40 OBSERVES)
+            - Spatial index for geolocation queries
+            
+            Use cases:
+            - Graph pattern queries (find nearby cameras)
+            - Relationship traversal (platform -> all cameras)
+            - Geospatial queries (cameras within radius)
+            - Historical pattern analysis (pattern_recognition_agent)
+      
+      outputs:
+        - "Neo4j graph database (bolt://neo4j:7687)"
+        - "42 nodes + 80 relationships"
+  
+  # Retry policy for failed agents
+  retry_policy:
+    # Maximum retry attempts per agent
+    max_attempts: 3
+    
+    # Retry delay strategy: fixed, linear, exponential
+    strategy: "exponential"
+    
+    # Base delay in seconds
+    base_delay: 2
+    
+    # Maximum delay between retries
+    max_delay: 60
+    
+    # Retry only on specific errors
+    retry_on_errors:
+      - "ConnectionError"
+      - "TimeoutError"
+      - "ServiceUnavailable"
+    
+    # Do not retry on these errors
+    no_retry_on_errors:
+      - "ValidationError"
+      - "ConfigurationError"
+      - "AuthenticationError"
+  
+  # Health check configuration
+  health_checks:
+    # Enable health checks before and after workflow
+    enabled: true
+    
+    # Timeout for each health check
+    timeout: 10
+    
+    # Endpoints to check
+    endpoints:
+      - name: "Stellio Context Broker"
+        url: "http://localhost:8080/health"
+        required: false
+        method: "GET"
+      
+      - name: "Neo4j Graph Database"
+        url: "http://localhost:7474"
+        required: false
+        method: "GET"
+      
+      - name: "Apache Jena Fuseki"
+        url: "http://localhost:3030/$/ping"
+        required: false
+        method: "GET"
+      
+      - name: "Kong API Gateway"
+        url: "http://localhost:8000/status"
+        required: false
+        method: "GET"
+  
+  # Workflow execution settings
+  execution:
+    # Continue workflow on non-required agent failures
+    continue_on_optional_failure: true
+    
+    # Stop workflow on required agent failures
+    stop_on_required_failure: true
+    
+    # Enable parallel phase execution
+    enable_parallel: true
+    
+    # Maximum parallel workers
+    max_workers: 4
+    
+    # Workflow timeout (seconds)
+    timeout: 300  # 5 minutes
+    
+    # Save intermediate outputs
+    save_intermediate: true
+    
+    # Cleanup on failure
+    cleanup_on_failure: false
+  
+  # Reporting configuration
+  reporting:
+    # Enable workflow reporting
+    enabled: true
+    
+    # Report output directory
+    output_dir: "data/reports"
+    
+    # Report format: json, yaml, html
+    format: "json"
+    
+    # Report filename pattern
+    filename_pattern: "workflow_report_{timestamp}.json"
+    
+    # Include detailed agent outputs
+    include_agent_outputs: true
+    
+    # Include execution statistics
+    include_statistics: true
+  
+  # Monitoring and alerting
+  monitoring:
+    # Enable monitoring
+    enabled: true  # ✅ ENABLED - Monitoring now active
+    
+    # Monitoring interval (seconds)
+    interval: 10
+    
+    # Metrics to collect
+    metrics:
+      - "execution_time"
+      - "memory_usage"
+      - "cpu_usage"
+      - "agent_status"
+    
+    # Alert thresholds
+    alerts:
+      execution_time_threshold: 180  # 3 minutes
+      memory_threshold_mb: 2048
+      error_threshold: 3
+
+# Domain-specific workflow configurations (examples)
+# Add your own domain configurations here
+domains:
+  # Example: Traffic camera domain
+  traffic-cameras:
+    workflow:
+      name: "Traffic Camera LOD Pipeline"
+      phases:
+        - name: "Data Collection"
+          agents:
+            - name: "camera_refresh_agent"
+              input_file: "data/cameras_raw.json"
+  
+  # Example: Healthcare domain
+  healthcare:
+    workflow:
+      name: "Healthcare LOD Pipeline"
+      phases:
+        - name: "Data Collection"
+          agents:
+            - name: "patient_data_collector"
+              input_file: "data/patients_raw.json"
+  
+  # Example: Geographic data domain
+  geography:
+    workflow:
+      name: "Geographic LOD Pipeline"
+      phases:
+        - name: "Data Collection"
+          agents:
+            - name: "geo_data_collector"
+              input_file: "data/locations_raw.json"
+
+# Agent registry (for dynamic agent loading)
+agent_registry:
+  # Data collection agents
+  data_collection:
+    - image_refresh_agent
+    - external_data_collector_agent
+  
+  # Transformation agents
+  transformation:
+    - ngsi_ld_transformer_agent
+    - sosa_ssn_mapper_agent
+  
+  # Validation agents
+  validation:
+    - smart_data_models_validation_agent
+  
+  # Publishing agents
+  publishing:
+    - entity_publisher_agent
+  
+  # RDF and Linked Data agents
+  rdf_linked_data:
+    - ngsi_ld_to_rdf_agent
+    - triplestore_loader_agent
+  
+  # Analytics agents
+  analytics:
+    - cv_analysis_agent
+    - congestion_detection_agent
+    - accident_detection_agent
+
+# Performance optimization
+performance:
+  # Enable caching
+  enable_caching: true
+  
+  # Cache directory
+  cache_dir: "data/cache"
+  
+  # Cache expiry (seconds)
+  cache_expiry: 3600
+  
+  # Enable profiling
+  enable_profiling: false
+  
+  # Profiling output
+  profile_output: "data/reports/profile.txt"

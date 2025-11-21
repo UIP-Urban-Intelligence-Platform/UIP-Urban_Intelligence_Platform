@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-20
+>>>>>>> main
 # Domain-Agnostic Data Sources Configuration
 # This configuration supports ANY LOD domain (healthcare, geography, commerce, etc.)
 # Add new domains by adding new sections without code changes

@@ -1,0 +1,32 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include pyproject.toml
+include setup.py
+include .env.example
+include pytest.ini
+include docker-compose.yml
+include Dockerfile
+
+recursive-include config *.yaml *.yml
+recursive-include templates *.html *.jinja2
+recursive-include docs *.md *.rst
+recursive-include src *.py
+
+# Exclude unnecessary files
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *.so
+global-exclude .DS_Store
+global-exclude *.swp
+global-exclude *.log
+
+prune tests
+prune .github
+prune scripts
+prune data
+prune logs
+prune htmlcov
+prune .pytest_cache
+prune .mypy_cache

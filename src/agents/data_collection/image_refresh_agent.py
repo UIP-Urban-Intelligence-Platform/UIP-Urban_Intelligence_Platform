@@ -1,8 +1,8 @@
 """Image Refresh Agent - Data Collection with URL Timestamp Updates.
 
 Module: src.agents.data_collection.image_refresh_agent
-Author: Builder Layer Data Collection Team
-Created: 2024-09-15
+Author: Nguyen Viet Hoang
+Created: 2025-11-21
 Version: 2.0.0
 License: MIT
 

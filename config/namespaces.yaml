@@ -1,0 +1,237 @@
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-20
+
+# RDF Namespace Configuration
+# 100% Domain-Agnostic Configuration for NGSI-LD to RDF Conversion
+#
+# This configuration supports ANY LOD domain (healthcare, geography, commerce, IoT, etc.)
+# without requiring code changes. All RDF namespaces, prefixes, and output formats
+# are defined here.
+
+# RDF Namespace Definitions
+# Add any domain-specific namespaces here without code changes
+namespaces:
+  # W3C Semantic Sensor Network Ontology
+  sosa: "http://www.w3.org/ns/sosa/"
+  ssn: "http://www.w3.org/ns/ssn/"
+  
+  # Geographic Coordinates
+  geo: "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  
+  # Schema.org Vocabulary
+  schema: "https://schema.org/"
+  
+  # NGSI-LD Core Context
+  ngsi-ld: "https://uri.etsi.org/ngsi-ld/"
+  
+  # Smart Data Models - Device
+  camera: "https://smartdatamodels.org/dataModel.Device/Camera/"
+  device: "https://smartdatamodels.org/dataModel.Device/"
+  
+  # RDF/RDFS/OWL Core Vocabularies
+  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  rdfs: "http://www.w3.org/2000/01/rdf-schema#"
+  owl: "http://www.w3.org/2002/07/owl#"
+  xsd: "http://www.w3.org/2001/XMLSchema#"
+  
+  # Dublin Core Metadata
+  dc: "http://purl.org/dc/elements/1.1/"
+  dcterms: "http://purl.org/dc/terms/"
+  
+  # SKOS (Simple Knowledge Organization System)
+  skos: "http://www.w3.org/2004/02/skos/core#"
+  
+  # FOAF (Friend of a Friend)
+  foaf: "http://xmlns.com/foaf/0.1/"
+  
+  # Time Ontology
+  time: "http://www.w3.org/2006/time#"
+  
+  # PROV-O (Provenance Ontology)
+  prov: "http://www.w3.org/ns/prov#"
+  
+  # Additional Smart Data Models contexts
+  # (Can be extended for any domain)
+  building: "https://smartdatamodels.org/dataModel.Building/"
+  energy: "https://smartdatamodels.org/dataModel.Energy/"
+  environment: "https://smartdatamodels.org/dataModel.Environment/"
+  parking: "https://smartdatamodels.org/dataModel.Parking/"
+  pointofinterest: "https://smartdatamodels.org/dataModel.PointOfInterest/"
+  streetlighting: "https://smartdatamodels.org/dataModel.Streetlighting/"
+  transportation: "https://smartdatamodels.org/dataModel.Transportation/"
+  weather: "https://smartdatamodels.org/dataModel.Weather/"
+
+# RDF Serialization Output Formats
+# Each format has specific characteristics for different use cases
+output_formats:
+  # Turtle (Terse RDF Triple Language)
+  # Human-readable, compact, good for documentationf
+  - format: "turtle"
+    extension: ".ttl"
+    mime_type: "text/turtle"
+    description: "Turtle (Terse RDF Triple Language) - Human-readable format with namespace prefixes"
+    
+  # N-Triples
+  # Simple line-based format, good for streaming and parsing
+  - format: "nt"
+    extension: ".nt"
+    mime_type: "application/n-triples"
+    description: "N-Triples - Simple line-based format with full URIs"
+    
+  # RDF/XML
+  # Standard XML-based RDF format, widely supported
+  - format: "xml"
+    extension: ".rdf"
+    mime_type: "application/rdf+xml"
+    description: "RDF/XML - XML-based RDF serialization format"
+    
+  # JSON-LD (optional, for round-trip testing)
+  - format: "json-ld"
+    extension: ".jsonld"
+    mime_type: "application/ld+json"
+    description: "JSON-LD - JSON-based RDF format with @context"
+
+# Output Configuration
+output:
+  # Base directory for RDF output files
+  output_dir: "data/rdf"
+  
+  # Filename template (can use variables: {entity_type}, {timestamp}, {format})
+  filename_template: "{entity_type}_{timestamp}"
+  
+  # Default entity type (when not specified)
+  default_entity_type: "entities"
+  
+  # Pretty print output (more readable but larger files)
+  pretty_print: true
+  
+  # Include statistics in output
+  include_stats: true
+  
+  # Statistics filename
+  stats_filename: "conversion_stats.json"
+
+# Processing Configuration
+processing:
+  # Streaming mode for large datasets (process in chunks)
+  streaming_enabled: true
+  
+  # Chunk size for streaming (number of entities per chunk)
+  chunk_size: 100
+  
+  # Memory limit for in-memory processing (MB)
+  memory_limit_mb: 1024
+  
+  # Enable RDF validation after conversion
+  validate_rdf: true
+  
+  # Log detailed conversion progress
+  verbose_logging: true
+
+# JSON-LD Processing Options
+jsonld:
+  # Expand JSON-LD before conversion (resolve all @context)
+  expand: true
+  
+  # Compact output after conversion
+  compact: false
+  
+  # Frame output (structure according to frame)
+  frame: false
+  
+  # Base URI for relative URIs
+  base_uri: "https://example.org/"
+  
+  # Document loader cache
+  cache_remote_contexts: true
+
+# RDF Graph Configuration
+graph:
+  # Default graph URI (empty for default graph)
+  default_graph_uri: null
+  
+  # Named graph URI pattern
+  named_graph_pattern: "https://example.org/graph/{entity_type}"
+  
+  # Use named graphs for each entity type
+  use_named_graphs: false
+
+# Validation Rules
+validation:
+  # Minimum number of triples expected per entity
+  min_triples_per_entity: 3
+  
+  # Required namespace prefixes (must be present in output)
+  required_prefixes:
+    - "rdf"
+    - "rdfs"
+    - "xsd"
+  
+  # Required RDF types (at least one must be present)
+  required_types:
+    - "http://www.w3.org/ns/sosa/Sensor"
+    - "https://smartdatamodels.org/dataModel.Device/Camera"
+  
+  # Validate datatype literals
+  validate_datatypes: true
+  
+  # Validate URI syntax
+  validate_uris: true
+
+# Error Handling
+error_handling:
+  # Stop on first error or continue processing
+  stop_on_error: false
+  
+  # Log errors to separate file
+  log_errors: true
+  
+  # Error log filename
+  error_log_filename: "conversion_errors.log"
+  
+  # Max errors before stopping (0 = unlimited)
+  max_errors: 0
+
+# Performance Tuning
+performance:
+  # Use multi-threading for parallel processing
+  use_multithreading: false
+  
+  # Number of worker threads (0 = auto-detect)
+  num_threads: 0
+  
+  # Buffer size for file I/O (bytes)
+  buffer_size: 65536
+  
+  # Optimize for speed vs memory
+  optimize_for: "balanced"  # Options: "speed", "memory", "balanced"
+
+# Logging Configuration
+logging:
+  # Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  level: "INFO"
+  
+  # Log format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # Log to file
+  log_to_file: true
+  
+  # Log filename
+  log_filename: "ngsi_ld_to_rdf.log"
+  
+  # Rotate log files
+  rotate_logs: true
+  
+  # Max log file size (MB)
+  max_log_size_mb: 10
+  
+  # Number of backup log files
+  backup_count: 5
+
+# Environment Variable Mapping
+# These can be overridden by environment variables:
+# - RDF_OUTPUT_DIR
+# - RDF_CHUNK_SIZE
+# - RDF_VALIDATE
+# - RDF_LOG_LEVEL
