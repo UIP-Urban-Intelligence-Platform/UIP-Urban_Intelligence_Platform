@@ -1,0 +1,467 @@
+# ==============================================================================
+# DATA QUALITY VALIDATOR CONFIGURATION
+# ==============================================================================
+# This configuration defines validation rules for NGSI-LD entities.
+# 100% DOMAIN-AGNOSTIC: Works with ANY NGSI-LD entity type
+# 100% CONFIG-DRIVEN: Add new rules without code changes
+#
+# Environment variables can be used with ${VAR_NAME} syntax
+# ==============================================================================
+
+data_quality_validator:
+  # ==========================================================================
+  # SCHEMA VALIDATION
+  # ==========================================================================
+  # JSON Schema validation for NGSI-LD structure
+  schema_validation:
+    enabled: true
+    strict_mode: false  # If false, allows extra fields not in schema
+    
+    # Required fields for all NGSI-LD entities
+    required_fields:
+      - "id"
+      - "type"
+      - "@context"
+    
+    # Field type validation (JSONPath -> expected type)
+    field_types:
+      id: "string"
+      type: "string"
+      "@context": ["string", "array", "object"]
+    
+    # NGSI-LD property structure validation
+    property_structure:
+      required_keys:
+        - "type"
+        - "value"
+      optional_keys:
+        - "observedAt"
+        - "unitCode"
+        - "datasetId"
+        - "metadata"
+      valid_types:
+        - "Property"
+        - "GeoProperty"
+        - "Relationship"
+        - "TemporalProperty"
+  
+  # ==========================================================================
+  # BUSINESS RULES ENGINE
+  # ==========================================================================
+  # Domain-agnostic validation rules applied to entity fields
+  # Rules are evaluated using a simple expression language
+  # Operators: >=, <=, ==, !=, AND, OR, NOT, IN, MATCHES
+  # Functions: now(), http_head(), http_get(), len(), exists()
+  business_rules:
+    # -----------------------------------------------------------------------
+    # Coordinate Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "valid_coordinates"
+      description: "Validates geographic coordinates are within valid ranges"
+      field: "location.value.coordinates"
+      field_type: "array"
+      rules:
+        - expression: "len(coordinates) == 2"
+          error_message: "Coordinates must be [longitude, latitude] array"
+        - expression: "coordinates[0] >= -180.0 AND coordinates[0] <= 180.0"
+          error_message: "Longitude must be between -180 and 180"
+        - expression: "coordinates[1] >= -90.0 AND coordinates[1] <= 90.0"
+          error_message: "Latitude must be between -90 and 90"
+      weight: 1.0
+      severity: "critical"
+    
+    - name: "valid_ho_chi_minh_coordinates"
+      description: "Validates coordinates are within Ho Chi Minh City bounds"
+      field: "location.value.coordinates"
+      field_type: "array"
+      rules:
+        - expression: "coordinates[0] >= 106.5 AND coordinates[0] <= 107.0"
+          error_message: "Longitude must be within Ho Chi Minh City bounds (106.5-107.0)"
+        - expression: "coordinates[1] >= 10.5 AND coordinates[1] <= 11.0"
+          error_message: "Latitude must be within Ho Chi Minh City bounds (10.5-11.0)"
+      weight: 0.8
+      severity: "warning"
+      applies_to_types: ["Camera", "TrafficFlowObserved", "WeatherObserved"]
+    
+    # -----------------------------------------------------------------------
+    # Speed Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "realistic_speed"
+      description: "Validates speed values are within realistic ranges"
+      field: "averageSpeed.value"
+      field_type: "number"
+      rules:
+        - expression: "speed >= 0.0"
+          error_message: "Speed cannot be negative"
+        - expression: "speed <= 120.0"
+          error_message: "Speed exceeds maximum realistic value (120 km/h)"
+      weight: 0.8
+      severity: "warning"
+    
+    - name: "realistic_vehicle_speed"
+      description: "Validates vehicle speed is within urban traffic limits"
+      field: "speed.value"
+      field_type: "number"
+      rules:
+        - expression: "speed >= 0.0 AND speed <= 150.0"
+          error_message: "Vehicle speed must be between 0 and 150 km/h"
+      weight: 0.7
+      severity: "warning"
+      applies_to_types: ["Vehicle", "TrafficFlowObserved"]
+    
+    # -----------------------------------------------------------------------
+    # Timestamp Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "timestamp_order"
+      description: "Validates timestamps are reasonable and not in future"
+      field: "observedAt"
+      field_type: "string"
+      rules:
+        - expression: "exists(observedAt)"
+          error_message: "observedAt timestamp is required"
+        - expression: "observedAt <= now()"
+          error_message: "observedAt cannot be in the future"
+        - expression: "observedAt >= now() - 86400"
+          error_message: "observedAt is older than 24 hours"
+      weight: 0.5
+      severity: "warning"
+    
+    - name: "valid_datetime_format"
+      description: "Validates datetime strings follow ISO 8601 format"
+      field: "dateObserved.value"
+      field_type: "string"
+      rules:
+        - expression: "MATCHES(dateObserved, '^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$')"
+          error_message: "dateObserved must be in ISO 8601 format (YYYY-MM-DDTHH:MM:SS.sssZ)"
+      weight: 0.6
+      severity: "error"
+    
+    # -----------------------------------------------------------------------
+    # URL Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "image_url_accessible"
+      description: "Validates image URLs are accessible via HTTP HEAD"
+      field: "imageSnapshot.value"
+      field_type: "string"
+      rules:
+        - expression: "MATCHES(imageSnapshot, '^https?://')"
+          error_message: "imageSnapshot must be a valid HTTP/HTTPS URL"
+        - expression: "http_head(imageSnapshot) IN [200, 301, 302]"
+          error_message: "imageSnapshot URL is not accessible (HTTP status != 200/301/302)"
+      weight: 0.6
+      severity: "warning"
+      timeout: 5  # seconds for HTTP check
+    
+    - name: "video_stream_accessible"
+      description: "Validates video stream URLs are accessible"
+      field: "streamURL.value"
+      field_type: "string"
+      rules:
+        - expression: "MATCHES(streamURL, '^(https?|rtsp|rtmp)://')"
+          error_message: "streamURL must be a valid streaming protocol URL"
+        - expression: "http_head(streamURL) IN [200, 301, 302, 403]"
+          error_message: "streamURL is not accessible"
+      weight: 0.5
+      severity: "info"
+      timeout: 3
+    
+    # -----------------------------------------------------------------------
+    # Numeric Range Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "valid_temperature"
+      description: "Validates temperature values are within realistic ranges"
+      field: "temperature.value"
+      field_type: "number"
+      rules:
+        - expression: "temperature >= -50.0 AND temperature <= 60.0"
+          error_message: "Temperature must be between -50°C and 60°C"
+      weight: 0.7
+      severity: "warning"
+      applies_to_types: ["WeatherObserved", "TemperatureSensor"]
+    
+    - name: "valid_humidity"
+      description: "Validates humidity percentage is within valid range"
+      field: "relativeHumidity.value"
+      field_type: "number"
+      rules:
+        - expression: "relativeHumidity >= 0.0 AND relativeHumidity <= 100.0"
+          error_message: "Relative humidity must be between 0% and 100%"
+      weight: 0.6
+      severity: "error"
+      applies_to_types: ["WeatherObserved"]
+    
+    # -----------------------------------------------------------------------
+    # String Length Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "valid_entity_id"
+      description: "Validates entity ID format and length"
+      field: "id"
+      field_type: "string"
+      rules:
+        - expression: "MATCHES(id, '^urn:ngsi-ld:[A-Za-z0-9_-]+:[A-Za-z0-9_-]+$')"
+          error_message: "Entity ID must follow NGSI-LD URN format: urn:ngsi-ld:EntityType:EntityId"
+        - expression: "len(id) >= 10 AND len(id) <= 256"
+          error_message: "Entity ID length must be between 10 and 256 characters"
+      weight: 1.0
+      severity: "critical"
+    
+    - name: "valid_description"
+      description: "Validates description field length"
+      field: "description.value"
+      field_type: "string"
+      rules:
+        - expression: "len(description) >= 10 AND len(description) <= 1000"
+          error_message: "Description must be between 10 and 1000 characters"
+      weight: 0.3
+      severity: "info"
+    
+    # -----------------------------------------------------------------------
+    # Array Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "non_empty_array"
+      description: "Validates array fields are not empty"
+      field: "category.value"
+      field_type: "array"
+      rules:
+        - expression: "len(category) > 0"
+          error_message: "Category array cannot be empty"
+      weight: 0.4
+      severity: "warning"
+    
+    # -----------------------------------------------------------------------
+    # Relationship Validation Rules
+    # -----------------------------------------------------------------------
+    - name: "valid_relationship_object"
+      description: "Validates relationship property has correct structure"
+      field: "refDevice"
+      field_type: "object"
+      rules:
+        - expression: "refDevice.type == 'Relationship'"
+          error_message: "refDevice must be a Relationship type"
+        - expression: "exists(refDevice.object)"
+          error_message: "refDevice must have an object field with target entity ID"
+        - expression: "MATCHES(refDevice.object, '^urn:ngsi-ld:')"
+          error_message: "refDevice.object must be a valid NGSI-LD URN"
+      weight: 0.7
+      severity: "error"
+    
+    # -----------------------------------------------------------------------
+    # Data Consistency Rules
+    # -----------------------------------------------------------------------
+    - name: "traffic_flow_consistency"
+      description: "Validates traffic flow data consistency"
+      field: "intensity.value"
+      field_type: "number"
+      rules:
+        - expression: "intensity >= 0"
+          error_message: "Traffic intensity cannot be negative"
+        - expression: "intensity <= 10000"
+          error_message: "Traffic intensity exceeds maximum realistic value"
+      weight: 0.6
+      severity: "warning"
+      applies_to_types: ["TrafficFlowObserved"]
+    
+    - name: "occupancy_percentage"
+      description: "Validates occupancy percentage is valid"
+      field: "occupancy.value"
+      field_type: "number"
+      rules:
+        - expression: "occupancy >= 0.0 AND occupancy <= 1.0"
+          error_message: "Occupancy must be between 0.0 and 1.0 (0% to 100%)"
+      weight: 0.6
+      severity: "error"
+      applies_to_types: ["TrafficFlowObserved", "ParkingSpot"]
+  
+  # ==========================================================================
+  # QUALITY THRESHOLDS
+  # ==========================================================================
+  # Score ranges for quality assessment (0.0 - 1.0)
+  quality_thresholds:
+    accept: 0.7    # score >= 0.7: PASS - entity accepted
+    warn: 0.5      # 0.5 <= score < 0.7: WARN - entity accepted with warnings
+    reject: 0.5    # score < 0.5: REJECT - entity rejected
+  
+  # Quality status labels
+  status_labels:
+    pass: "PASS"
+    warn: "WARNING"
+    reject: "REJECT"
+  
+  # ==========================================================================
+  # DATA CLEANING RULES
+  # ==========================================================================
+  # Automatic data cleaning/normalization before validation
+  data_cleaning:
+    enabled: true
+    
+    rules:
+      # Timezone normalization
+      - name: "fix_timezone"
+        description: "Convert all timestamps to UTC timezone"
+        enabled: true
+        fields:
+          - "observedAt"
+          - "dateObserved.value"
+          - "dateCreated.value"
+          - "dateModified.value"
+        action: "convert_to_utc"
+      
+      # String trimming
+      - name: "trim_whitespace"
+        description: "Remove leading/trailing whitespace from string fields"
+        enabled: true
+        field_types:
+          - "string"
+        action: "trim"
+      
+      # Case normalization
+      - name: "normalize_case"
+        description: "Normalize case for specific fields"
+        enabled: true
+        fields:
+          - "type"
+        action: "uppercase"  # Options: uppercase, lowercase, titlecase
+      
+      # Remove null/empty values
+      - name: "remove_nulls"
+        description: "Remove null or empty string values from properties"
+        enabled: true
+        action: "remove_null_values"
+      
+      # Fix numeric precision
+      - name: "fix_numeric_precision"
+        description: "Round numeric values to specified precision"
+        enabled: true
+        fields:
+          - "location.value.coordinates[0]"  # longitude
+          - "location.value.coordinates[1]"  # latitude
+        precision: 6  # decimal places
+        action: "round"
+      
+      # URL normalization
+      - name: "normalize_urls"
+        description: "Normalize URL formats"
+        enabled: true
+        field_patterns:
+          - ".*URL.*"
+          - ".*url.*"
+          - ".*Snapshot.*"
+        action: "normalize_url"  # lowercase scheme/host, remove trailing slash
+      
+      # Date format normalization
+      - name: "normalize_datetime"
+        description: "Ensure all datetime strings use ISO 8601 format with timezone"
+        enabled: true
+        field_patterns:
+          - ".*observedAt.*"
+          - ".*dateObserved.*"
+          - ".*dateCreated.*"
+          - ".*dateModified.*"
+        action: "ensure_iso8601_with_timezone"
+  
+  # ==========================================================================
+  # VALIDATION REPORTING
+  # ==========================================================================
+  reporting:
+    # Include detailed check results in validation report
+    include_passed_checks: true
+    
+    # Include cleaned data in validation report
+    include_cleaned_data: false
+    
+    # Generate validation report file
+    save_reports: true
+    report_directory: "logs/validation_reports"
+    report_format: "json"  # Options: json, yaml
+    
+    # Log validation results
+    log_validation: true
+    log_level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+    
+    # Metrics collection
+    collect_metrics: true
+    metrics_prefix: "data_quality_validator"
+  
+  # ==========================================================================
+  # PERFORMANCE SETTINGS
+  # ==========================================================================
+  performance:
+    # Parallel validation for batch processing
+    parallel_validation: true
+    max_workers: 4
+    
+    # HTTP check timeouts
+    http_timeout: 5  # seconds
+    
+    # Cache validation results
+    cache_results: true
+    cache_ttl: 300  # seconds (5 minutes)
+    
+    # Rate limiting for HTTP checks
+    http_rate_limit:
+      enabled: true
+      max_requests_per_second: 10
+  
+  # ==========================================================================
+  # INTEGRATION SETTINGS
+  # ==========================================================================
+  integration:
+    # Pre-publish validation hook
+    validate_before_publish: true
+    
+    # Automatically fix issues if possible
+    auto_fix: true
+    
+    # Fail fast on critical errors
+    fail_fast: false
+    
+    # Entity types to validate (empty = all types)
+    entity_types: []  # Example: ["Camera", "TrafficFlowObserved"]
+    
+    # Entity types to skip validation (empty = none)
+    skip_entity_types: []  # Example: ["TestEntity"]
+
+# ==============================================================================
+# CUSTOM DOMAIN RULES
+# ==============================================================================
+# Add domain-specific validation rules here
+# These rules are loaded dynamically based on entity type
+
+custom_domain_rules:
+  # Example: Healthcare domain rules
+  healthcare:
+    enabled: true  # ✅ ENABLED - Healthcare domain rules active
+    entity_types: ["Patient", "MedicalDevice", "Observation"]
+    rules:
+      - name: "valid_patient_id"
+        field: "patientId.value"
+        rules:
+          - expression: "MATCHES(patientId, '^P\\d{6}$')"
+            error_message: "Patient ID must match format P######"
+        weight: 1.0
+        severity: "critical"
+  
+  # Example: Smart City domain rules
+  smart_city:
+    enabled: true
+    entity_types: ["Camera", "TrafficFlowObserved", "WeatherObserved", "ParkingSpot"]
+    rules:
+      - name: "valid_device_status"
+        field: "status.value"
+        rules:
+          - expression: "status IN ['online', 'offline', 'maintenance', 'error']"
+            error_message: "Device status must be one of: online, offline, maintenance, error"
+        weight: 0.5
+        severity: "warning"
+      
+      - name: "required_geolocation"
+        field: "location"
+        rules:
+          - expression: "exists(location)"
+            error_message: "Smart city entities must have a location property"
+        weight: 1.0
+        severity: "critical"
+
+# ==============================================================================
+# END OF CONFIGURATION
+# ==============================================================================
