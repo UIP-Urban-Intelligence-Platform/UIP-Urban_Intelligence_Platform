@@ -1,0 +1,138 @@
+# Pattern Recognition Agent Configuration
+# Domain-agnostic time-series analysis framework
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-21
+pattern_recognition:
+  # Neo4j Connection
+  neo4j:
+    uri: "bolt://localhost:7687"
+    auth:
+      username: "neo4j"
+      password: "test12345"  # Neo4j default password from docker-compose
+    database: "neo4j"
+    connection_timeout: 30
+    max_connection_lifetime: 3600
+  
+  # Analysis Configuration
+  analysis:
+    # Time windows for pattern analysis
+    time_windows:
+      - "1_hour"
+      - "1_day"
+      - "7_days"
+      - "30_days"
+    
+    # Metrics to analyze (must match Neo4j Observation properties)
+    metrics:
+      - "intensity"
+      - "occupancy"
+      - "vehicle_count"
+      - "average_speed"
+    
+    # Minimum data points required for analysis
+    min_data_points:
+      hourly: 10
+      daily: 7
+      weekly: 28
+  
+  # Pattern Detection
+  patterns:
+    # Rush hour detection
+    rush_hours:
+      morning:
+        start: 7   # 7:00 AM
+        end: 9     # 9:00 AM
+      evening:
+        start: 17  # 5:00 PM
+        end: 19    # 7:00 PM
+      
+      # Threshold for rush hour classification
+      intensity_threshold: 0.7
+      occupancy_threshold: 0.6
+    
+    # Anomaly detection
+    anomaly_detection:
+      enabled: true
+      method: "zscore"      # z-score method
+      threshold: 2.5        # Standard deviations from mean
+      min_samples: 30       # Minimum samples for stable statistics
+    
+    # Day-of-week patterns
+    weekly_patterns:
+      enabled: true
+      compare_weekdays: true   # Monday-Friday vs Saturday-Sunday
+      weekend_days: [5, 6]     # Saturday=5, Sunday=6 (ISO weekday)
+    
+    # Holiday detection
+    holiday_detection:
+      enabled: true  # ✅ ENABLED - Holiday detection active
+      holiday_file: "/config/holidays.json"
+  
+  # Forecasting
+  forecasting:
+    enabled: true
+    
+    # Methods: moving_average, exponential_smoothing, arima
+    method: "moving_average"
+    
+    # Moving average window (days)
+    window: 7
+    
+    # Exponential smoothing alpha (0-1)
+    alpha: 0.3
+    
+    # ARIMA parameters (p, d, q)
+    arima:
+      p: 1  # Auto-regressive order
+      d: 1  # Differencing order
+      q: 1  # Moving average order
+    
+    # Forecast horizon
+    horizon:
+      next_hour: true
+      next_day: false
+      next_week: false
+    
+    # Confidence intervals
+    confidence_level: 0.75
+  
+  # Entity Creation
+  entity:
+    type: "TrafficPattern"
+    id_prefix: "urn:ngsi-ld:TrafficPattern:"
+    
+    # Entity relationships
+    relationships:
+      link_to_camera: true
+      link_to_observations: false
+    
+    # Pattern types to generate
+    pattern_types:
+      - "hourly"
+      - "daily"
+      - "weekly"
+  
+  # Stellio Context Broker
+  stellio:
+    base_url: "http://stellio:8080"
+    create_endpoint: "/ngsi-ld/v1/entities"
+    update_endpoint: "/ngsi-ld/v1/entities/{entity_id}/attrs"
+    batch_create: true
+    max_workers: 4
+  
+  # Output
+  output:
+    patterns_file: "data/patterns.json"  # ✅ Fixed: relative path for consistency
+    visualization_data: "data/pattern_viz.json"
+    save_raw_data: false
+  
+  # State Persistence
+  state:
+    file: "data/pattern_recognition_state.json"  # ✅ Fixed: relative path
+    cache_ttl: 3600  # Cache lifetime in seconds (1 hour)
+  
+  # Logging
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    file: "data/logs/pattern_recognition.log"  # ✅ Fixed: relative path
