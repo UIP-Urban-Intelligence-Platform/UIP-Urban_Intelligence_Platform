@@ -1,0 +1,259 @@
+# Accident Detection Agent Configuration
+#  DOMAIN-AGNOSTIC: Anomaly detection framework for ANY traffic data
+# Supports multiple detection methods with configurable thresholds
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-21
+accident_detection:
+  # Detection Methods - Enable/disable and configure thresholds
+  # Each method contributes to overall accident confidence score
+  methods:
+    # Statistical Method: Speed Variance Detection
+    - name: "speed_variance"
+      enabled: true
+      weight: 0.3  # Contribution to overall confidence
+      threshold: 3.0  # Standard deviations from mean
+      window_size: 10  # Number of observations to analyze
+      min_samples: 5  # Minimum samples required for detection
+      description: "Detect sudden speed changes indicating collision"
+    
+    # Rule-Based Method: Occupancy Spike Detection
+    - name: "occupancy_spike"
+      enabled: true
+      weight: 0.3  # Contribution to overall confidence
+      spike_factor: 2.0  # 2x normal occupancy = spike
+      baseline_window: 20  # Observations for baseline calculation
+      min_baseline: 5  # Minimum baseline observations
+      description: "Detect sudden increase in vehicles on road"
+    
+    # Rule-Based Method: Sudden Stop Detection
+    - name: "sudden_stop"
+      enabled: true
+      weight: 0.25  # Contribution to overall confidence
+      speed_drop_threshold: 0.8  # 80% speed drop
+      time_window: 30  # Seconds to detect drop
+      min_initial_speed: 20  # km/h minimum speed before stop
+      description: "Detect vehicles stopping suddenly"
+    
+    # Pattern-Based Method: Traffic Pattern Anomaly
+    - name: "pattern_anomaly"
+      enabled: true
+      weight: 0.15  # Contribution to overall confidence
+      intensity_threshold: 2.5  # Standard deviations
+      min_history: 10  # Minimum historical observations
+      description: "Detect abnormal traffic intensity patterns"
+  
+  # Severity Classification Thresholds
+  # Based on weighted confidence scores from detection methods
+  severity_thresholds:
+    minor: 0.3      # Low confidence: possible incident (0.3-0.6)
+    moderate: 0.6   # Medium confidence: likely accident (0.6-0.9)
+    severe: 0.9     # High confidence: confirmed accident (0.9+)
+  
+  # False Positive Filtering Configuration
+  filtering:
+    # Minimum confidence threshold
+    min_confidence: 0.4  # Only report detections above 40% confidence
+    
+    # Cooldown configuration
+    cooldown_period: 600  # Seconds (10 minutes) between same-camera alerts
+    cooldown_radius: 100  # Meters - cooldown for nearby cameras
+    
+    # Rate limiting
+    max_alerts_per_hour: 10       # Maximum alerts per camera per hour
+    max_alerts_per_camera: 50     # Maximum total alerts per camera
+    
+    # Multi-method confirmation
+    require_multiple_methods: false  # If true, require 2+ methods to agree
+    multi_method_threshold: 2        # Number of methods required if enabled
+    
+    # Temporal filtering
+    min_duration: 30  # Minimum seconds for sustained anomaly
+    max_gap: 120      # Maximum gap (seconds) between observations
+    
+    # Historical filtering
+    check_history: true
+    history_window: 3600  # Check last 1 hour for duplicates
+    duplicate_threshold: 0.8  # Similarity threshold for duplicates
+  
+  # Stellio Context Broker Configuration
+  stellio:
+    base_url: "http://localhost:8080"
+    tenant: "urn:ngsi-ld:tenant:default"
+    
+    # Entity creation endpoint (required by agent)
+    create_endpoint: "/ngsi-ld/v1/entities"
+    
+    # API endpoints
+    endpoints:
+      create_entity: "/ngsi-ld/v1/entities"
+      batch_create: "/ngsi-ld/v1/entityOperations/create"
+      update_entity: "/ngsi-ld/v1/entities/{id}/attrs"
+      delete_entity: "/ngsi-ld/v1/entities/{id}"
+    
+    # Batch operations
+    batch_create: true
+    batch_size: 10  # Accidents per batch
+    max_workers: 4  # Parallel workers for batch operations
+    
+    # Request configuration
+    timeout: 30  # seconds
+    retry_attempts: 3
+    retry_delay: 2  # seconds between retries
+    
+    # Headers
+    headers:
+      Content-Type: "application/ld+json"
+      Accept: "application/ld+json"
+  
+  # Alert Configuration
+  alert:
+    enabled: true
+    
+    # Alert severity levels to notify
+    notify_on_severity:
+      - "moderate"
+      - "severe"
+    
+    # Alert channels
+    channels:
+      - type: "file"
+        path: "data/accident_alerts.json"
+        enabled: true
+      
+      - type: "log"
+        level: "WARNING"  # Log level for alerts
+        enabled: true
+      
+      - type: "webhook"
+        url: "http://localhost:9000/alerts"
+        enabled: true  # ✅ ENABLED - Webhook alerts now active
+        headers:
+          Authorization: "Bearer ${ALERT_TOKEN}"
+    
+    # Alert content configuration
+    include_observations: true
+    include_location: true
+    include_severity: true
+    include_confidence: true
+    
+    # Alert output file
+    alert_file: "data/accident_alerts.json"
+    alert_format: "json"  # Options: json, jsonld
+    pretty_print: true
+  
+  # State Management Configuration
+  state:
+    # State persistence
+    enabled: true
+    file: "data/accident_state.json"
+    save_interval: 60  # Save state every 60 seconds
+    
+    # Detection history
+    history_enabled: true
+    history_file: "data/accident_history.json"
+    retention_days: 7  # Keep detection history for 7 days
+    max_history_size: 10000  # Maximum history entries
+    
+    # Cooldown tracking
+    cooldown_file: "data/accident_cooldown.json"
+    cooldown_cleanup_interval: 300  # Clean expired cooldowns every 5 minutes
+    
+    # State backup
+    backup_enabled: true
+    backup_interval: 3600  # Backup every hour
+    backup_dir: "data/backups/accident"
+    max_backups: 24  # Keep last 24 hourly backups
+  
+  # Entity Configuration (NGSI-LD)
+  entity:
+    # Base context for NGSI-LD entities
+    base_context: "https://raw.githubusercontent.com/smart-data-models/data-models/master/context.jsonld"
+    
+    # Entity type and ID generation
+    type: "RoadAccident"
+    id_prefix: "urn:ngsi-ld:RoadAccident"
+    id_format: "{prefix}:{camera_id}:{timestamp}"  # ID generation template
+    
+    # Entity metadata
+    include_metadata: true
+    metadata_fields:
+      - "createdAt"
+      - "modifiedAt"
+      - "source"
+      - "detectionMethod"
+    
+    # Relationships to other entities
+    relationships:
+      link_to_camera: true
+      link_to_observations: true
+      link_to_location: true
+    
+    # Properties to include
+    properties:
+      - "accidentType"
+      - "severity"
+      - "confidence"
+      - "detectionMethods"
+      - "location"
+      - "dateDetected"
+      - "description"
+      - "status"
+      - "involvedVehicles"
+      - "trafficImpact"
+    
+    # Additional computed properties
+    computed_properties:
+      - "estimatedDuration"
+      - "affectedLanes"
+      - "trafficDelay"
+  
+  # Performance Configuration
+  performance:
+    # Parallel processing
+    parallel_processing: true
+    max_workers: 4
+    chunk_size: 10  # Observations per chunk
+    
+    # Memory management
+    max_memory_mb: 512
+    clear_cache_interval: 600  # Clear cache every 10 minutes
+    
+    # Optimization flags
+    use_numpy: true  # Use NumPy for faster calculations
+    cache_statistics: true
+    precompute_baselines: true
+  
+  # Logging Configuration
+  logging:
+    level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    
+    # Log files
+    file_enabled: true
+    file_path: "logs/accident_detection.log"
+    file_max_bytes: 10485760  # 10 MB
+    file_backup_count: 5
+    
+    # Console logging
+    console_enabled: true
+    
+    # Detailed logging
+    log_detections: true
+    log_filtering: false
+    log_state_changes: true
+    log_performance: true
+  
+  # Output Configuration
+  output:
+    # Output files
+    accidents_file: "data/accidents.json"
+    statistics_file: "data/accident_statistics.json"
+    
+    # Output format
+    format: "json"  # Options: json, jsonld, csv
+    pretty_print: true
+    include_timestamp: true
+    
+    # Compression
+    compress: false
+    compression_format: "gzip"
