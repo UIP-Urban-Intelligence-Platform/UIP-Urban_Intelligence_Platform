@@ -1,0 +1,326 @@
+# Pattern Recognition Agent Configuration
+# 100% DOMAIN-AGNOSTIC: Works with ANY temporal data via configuration
+# Time-Series Analysis, Pattern Detection, and Forecasting
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-21
+pattern_recognition:
+  # Neo4j Graph Database Connection
+  neo4j:
+    uri: "bolt://localhost:7687"
+    database: "neo4j"
+    auth:
+      username: "neo4j"
+      password: "your_password_here"
+    # Connection pool settings
+    max_connection_lifetime: 3600  # seconds
+    max_connection_pool_size: 50
+    connection_timeout: 30  # seconds
+    max_retry_time: 30
+    fetch_size: 1000
+  
+  # Time-Series Analysis Configuration
+  analysis:
+    # Metrics to analyze from observations
+    metrics:
+      - "vehicle_count"
+      - "average_speed"
+      - "occupancy"
+      - "intensity"
+    
+    # Time windows for analysis
+    time_windows:
+      hourly:
+        enabled: true
+        window_size: 3600  # seconds (1 hour)
+        min_samples: 10    # Minimum observations required
+        description: "Hourly pattern analysis for rush hour detection"
+      
+      daily:
+        enabled: true
+        window_size: 86400  # seconds (24 hours)
+        min_samples: 24     # At least 24 hourly data points
+        description: "Daily pattern analysis for day/night patterns"
+      
+      weekly:
+        enabled: true
+        window_size: 604800  # seconds (7 days)
+        min_samples: 168     # At least 168 hourly data points
+        description: "Weekly pattern analysis for weekday/weekend patterns"
+      
+      monthly:
+        enabled: true  # ✅ ENABLED - Monthly pattern analysis active
+        window_size: 2592000  # seconds (30 days)
+        min_samples: 720      # At least 720 hourly data points
+        description: "Monthly pattern analysis for seasonal trends"
+    
+    # Anomaly detection settings
+    anomaly_detection:
+      enabled: true
+      method: "z_score"  # Options: z_score, iqr, isolation_forest
+      z_score_threshold: 3.0  # Standard deviations from mean
+      iqr_factor: 1.5         # IQR multiplier for outlier detection
+      min_samples: 30         # Minimum samples for anomaly detection
+      confidence_level: 0.95  # Confidence level for statistical tests
+    
+    # Statistical aggregation methods
+    aggregation:
+      methods:
+        - "mean"
+        - "median"
+        - "std"
+        - "min"
+        - "max"
+        - "percentile_25"
+        - "percentile_75"
+        - "percentile_95"
+      
+      # Rolling window aggregation
+      rolling_window:
+        enabled: true
+        window_size: 12  # Number of observations
+        min_periods: 6   # Minimum observations in window
+  
+  # Pattern Detection Configuration
+  patterns:
+    # Rush hour detection
+    rush_hours:
+      enabled: true
+      threshold_multiplier: 1.5  # 1.5x average traffic = rush hour
+      min_duration: 1800         # Minimum 30 minutes to qualify
+      description: "Detect morning and evening rush hours"
+    
+    # Weekly pattern detection
+    weekly_patterns:
+      enabled: true
+      weekday_vs_weekend: true
+      compare_days: true
+      min_difference: 0.2  # 20% difference to be significant
+      description: "Detect weekday vs weekend traffic patterns"
+    
+    # Seasonal pattern detection
+    seasonal_patterns:
+      enabled: true  # ✅ ENABLED - Seasonal pattern detection active
+      min_data_points: 90  # Minimum 90 days
+      description: "Detect seasonal variations (requires long history)"
+    
+    # Traffic flow patterns
+    flow_patterns:
+      enabled: true
+      smooth_factor: 0.3  # Exponential smoothing factor
+      change_threshold: 0.25  # 25% change is significant
+      description: "Detect changes in traffic flow patterns"
+  
+  # Forecasting Configuration
+  forecasting:
+    enabled: true
+    
+    # Forecasting horizon
+    horizon:
+      short_term: 1   # 1 hour ahead
+      medium_term: 6  # 6 hours ahead
+      long_term: 24   # 24 hours ahead
+    
+    # Forecasting methods
+    methods:
+      # Simple Moving Average
+      - name: "moving_average"
+        enabled: true
+        window: 7  # Use last 7 observations
+        weight: 0.25
+        min_samples: 5
+        description: "Simple moving average forecasting"
+      
+      # Exponential Smoothing
+      - name: "exponential_smoothing"
+        enabled: true
+        alpha: 0.3  # Smoothing factor (0-1)
+        weight: 0.30
+        confidence_level: 0.75
+        description: "Exponential smoothing with trend"
+      
+      # Weighted Moving Average
+      - name: "weighted_moving_average"
+        enabled: true
+        window: 5
+        weights: [0.4, 0.3, 0.2, 0.1, 0.0]
+        weight: 0.20
+        confidence_level: 0.75
+        description: "Weighted moving average (recent data weighted more)"
+      
+      # ARIMA (AutoRegressive Integrated Moving Average)
+      - name: "arima"
+        enabled: true  # Requires statsmodels library
+        p: 1  # AutoRegressive order
+        d: 1  # Integration order
+        q: 1  # Moving Average order
+        weight: 0.25
+        confidence_level: 0.75
+        seasonal: false
+        description: "ARIMA statistical forecasting"
+    
+    # Ensemble configuration
+    ensemble:
+      enabled: true
+      method: "weighted_average"  # Options: weighted_average, median, best_performer
+      min_methods: 2  # Minimum methods required for ensemble
+      confidence_boost: 0.1  # Confidence boost for ensemble predictions
+  
+  # Entity Configuration (NGSI-LD)
+  entity:
+    # Base context for NGSI-LD entities
+    base_context: "https://raw.githubusercontent.com/smart-data-models/data-models/master/context.jsonld"
+    
+    # Entity type
+    type: "TrafficPattern"
+    id_prefix: "urn:ngsi-ld:TrafficPattern"
+    
+    # Pattern types to create
+    pattern_types:
+      - "hourly"
+      - "daily"
+      - "weekly"
+      - "rush_hour"
+      - "anomaly"
+    
+    # Include metadata in entities
+    include_metadata: true
+    
+    # Link to related entities
+    relationships:
+      link_to_camera: true
+      link_to_observations: true
+      link_to_predictions: true
+    
+    # Entity properties to include
+    properties:
+      - "patternType"
+      - "analysisWindow"
+      - "metrics"
+      - "statistics"
+      - "anomalies"
+      - "predictions"
+      - "confidence"
+      - "detectedAt"
+      - "validUntil"
+    
+    # Publish to Stellio
+    publish_to_stellio: true
+  
+  # Stellio Context Broker Configuration
+  stellio:
+    base_url: "http://localhost:8080"
+    tenant: "urn:ngsi-ld:tenant:default"
+    
+    # API endpoints
+    endpoints:
+      create_entity: "/ngsi-ld/v1/entities"
+      update_entity: "/ngsi-ld/v1/entities/{id}/attrs"
+      query_entities: "/ngsi-ld/v1/entities"
+    
+    # Batch operations
+    batch_create: true
+    batch_size: 20
+    max_workers: 4
+    
+    # Request configuration
+    timeout: 30  # seconds
+    retry_attempts: 3
+    retry_delay: 2  # seconds
+    
+    # Headers
+    headers:
+      Content-Type: "application/ld+json"
+      Accept: "application/ld+json"
+  
+  # Output Configuration
+  output:
+    # Output files
+    patterns_file: "data/patterns.json"
+    predictions_file: "data/predictions.json"
+    anomalies_file: "data/anomalies.json"
+    statistics_file: "data/pattern_statistics.json"
+    
+    # Output format
+    format: "json"  # Options: json, jsonld, csv
+    pretty_print: true
+    include_timestamp: true
+    
+    # Compression
+    compress: false
+    compression_format: "gzip"
+  
+  # State Management
+  state:
+    # State persistence
+    enabled: true
+    state_file: "data/pattern_state.json"
+    
+    # History management
+    keep_history: true
+    history_file: "data/pattern_history.json"
+    retention_days: 30  # Keep 30 days of pattern history
+    
+    # Cache configuration
+    cache_enabled: true
+    cache_ttl: 3600  # seconds (1 hour)
+    max_cache_size: 1000  # Maximum cached patterns
+  
+  # Alert Configuration
+  alerts:
+    enabled: true
+    
+    # Alert conditions
+    conditions:
+      - type: "anomaly_detected"
+        severity: "high"
+        threshold: 3.0  # Z-score threshold
+        notify: true
+      
+      - type: "pattern_change"
+        severity: "medium"
+        threshold: 0.5  # 50% change from historical pattern
+        notify: true
+      
+      - type: "forecast_deviation"
+        severity: "low"
+        threshold: 0.3  # 30% deviation from forecast
+        notify: false
+    
+    # Alert output
+    alert_file: "data/pattern_alerts.json"
+    log_level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  
+  # Performance Configuration
+  performance:
+    # Parallel processing
+    parallel_processing: true
+    max_workers: 4
+    chunk_size: 10  # Cameras per chunk
+    
+    # Memory management
+    max_memory_mb: 1024
+    clear_cache_on_complete: true
+    
+    # Query optimization
+    neo4j_fetch_size: 1000
+    use_query_cache: true
+    cache_query_results: 300  # seconds
+  
+  # Logging Configuration
+  logging:
+    level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    
+    # Log files
+    file_enabled: true
+    file_path: "logs/pattern_recognition.log"
+    file_max_bytes: 10485760  # 10 MB
+    file_backup_count: 5
+    
+    # Console logging
+    console_enabled: true
+    
+    # Detailed logging
+    log_queries: false
+    log_results: false
+    log_performance: true
