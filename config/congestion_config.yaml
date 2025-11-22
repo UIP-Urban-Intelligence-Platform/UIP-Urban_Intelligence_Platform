@@ -1,0 +1,44 @@
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-21
+congestion_detection:
+  thresholds:
+    occupancy: 0.7
+    average_speed: 15  # km/h
+    intensity: 0.75
+  
+  rules:
+    logic: "AND"  # occupancy > 0.7 AND speed < 15
+    min_duration: 0  # seconds (0 = immediate detection for demo/testing)
+  
+  stellio:
+    base_url: "http://localhost:8080"
+    update_endpoint: "/ngsi-ld/v1/entities/{id}/attrs"
+    batch_updates: true
+    max_workers: 4
+    
+  # PostgreSQL connection for camera ID mapping
+  postgres:
+    host: "localhost"
+    port: 5432
+    database: "stellio_search"
+    user: "stellio"
+    password: "stellio_test"
+  
+  alert:
+    enabled: true
+    notify_on_change: true  # only when false→true
+
+  # State storage for congestion history and last known states
+  state:
+    file: "data/congestion_state.json"
+
+  # Output Configuration
+  output:
+    # Output files
+    congestion_file: "data/congestion.json"
+    statistics_file: "data/congestion_statistics.json"
+    
+    # Output format
+    format: "json"
+    pretty_print: true
+    include_timestamp: true
