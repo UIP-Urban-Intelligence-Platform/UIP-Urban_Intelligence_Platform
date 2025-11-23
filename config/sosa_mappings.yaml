@@ -1,0 +1,125 @@
+# SOSA/SSN Ontology Mapping Configuration
+# 100% Domain-Agnostic - Works with ANY LOD domain
+# Version: 2.0.0 - Updated to support Camera (Sensor) + WeatherObserved/AirQualityObserved (Observation)
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-22
+# Sensor type configuration (for Camera entities)
+sensor_type: "sosa:Sensor"
+
+# Observation type configuration (for WeatherObserved, AirQualityObserved entities)
+observation_type: "sosa:Observation"
+
+# Observable property configuration
+# This is domain-specific and should be configured per use case
+observable_property:
+  type: "ObservableProperty"
+  domain_type: "TrafficFlow" # Change this for different domains (AirQuality, Temperature, etc.)
+  uri_prefix: "urn:ngsi-ld:ObservableProperty:"
+  properties:
+    name: "Traffic Flow Monitoring"
+    description: "Observable property representing traffic flow characteristics"
+    unit_of_measurement: "vehicles/hour"
+
+# Platform configuration
+# Represents the hosting platform for sensors
+platform:
+  id: "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+  name: "Ho Chi Minh City Traffic Monitoring System"
+  description: "City-wide traffic monitoring infrastructure"
+  type: "Platform"
+  properties:
+    operator: "HCMC Department of Transportation"
+    deployment_year: 2020
+    coverage_area: "Ho Chi Minh City, Vietnam"
+
+# Sensor mappings (for Camera entities)
+sensor_mappings:
+  type_name: "Camera"
+  sosa_type: "sosa:Sensor"
+  relationships:
+    - sosa:isHostedBy
+    - sosa:observes
+
+# Observation mappings (for WeatherObserved and AirQualityObserved entities)
+observation_mappings:
+  - type_name: "WeatherObserved"
+    sosa_type: "sosa:Observation"
+  - type_name: "AirQualityObserved"
+    sosa_type: "sosa:Observation"
+
+# SOSA/SSN Relationships (for Camera entities only)
+relationships:
+  observes:
+    type: "Relationship"
+    property_name: "sosa:observes"
+    target_type: "ObservableProperty"
+    description: "Links sensor to what it observes"
+    required: true
+
+  isHostedBy:
+    type: "Relationship"
+    property_name: "sosa:isHostedBy"
+    target_type: "Platform"
+    description: "Links sensor to hosting platform"
+    required: true
+
+  madeObservation:
+    type: "Relationship"
+    property_name: "sosa:madeObservation"
+    target_type: "Observation"
+    description: "Links sensor to observations it has made"
+    dynamic: true # Created dynamically based on actual observations
+    required: true # CRITICAL: Initialize empty array, populate during analytics
+    initialize_empty: true # Initialize as empty array [] on Camera creation
+
+# SOSA/SSN Context URLs
+sosa_context: "https://www.w3.org/ns/sosa/"
+
+context:
+  sosa: "https://www.w3.org/ns/sosa/"
+  ssn: "https://www.w3.org/ns/ssn/"
+  time: "http://www.w3.org/2006/time#"
+
+# Entity type enhancement
+# Controls which entity types get SOSA/SSN properties
+entity_type_mappings:
+  Camera:
+    add_sensor_type: true
+    sensor_capabilities:
+      - visual_observation
+      - motion_detection
+      - vehicle_counting
+  WeatherObserved:
+    add_observation_type: true
+  AirQualityObserved:
+    add_observation_type: true
+  Sensor:
+    add_sensor_type: true
+  Device:
+    add_sensor_type: true
+
+# Output configuration
+output:
+  source_file: "data/ngsi_ld_entities.json"
+  output_file: "data/sosa_enhanced_entities.json"
+  pretty_print: true
+  validate_output: true
+  include_generated_entities: true # Include ObservableProperty and Platform entities
+
+# Validation rules
+validation:
+  required_sosa_properties:
+    - "sosa:observes"
+  optional_sosa_properties:
+    - "sosa:isHostedBy"
+    - "sosa:madeObservation"
+  check_relationship_targets: true
+  validate_context_urls: true
+
+# Processing configuration
+processing:
+  batch_size: 100
+  generate_observable_properties: true
+  generate_platform: true
+  preserve_original_properties: true
+  merge_contexts: true
