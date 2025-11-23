@@ -1,0 +1,312 @@
+# State Updater Agent Configuration
+# Domain-agnostic real-time entity state updater
+# Processes events from multiple sources and updates Stellio Context Broker
+
+state_updater:
+  # Event Sources Configuration
+  # Supports multiple event source types for maximum flexibility
+  event_sources:
+    # Kafka Event Stream
+    - type: "kafka"
+      enabled: true
+      topic: "camera-updates"
+      bootstrap_servers: "kafka:9092"
+      group_id: "state-updater-group"
+      auto_offset_reset: "latest"  # earliest, latest
+      enable_auto_commit: true
+      max_poll_records: 100
+      session_timeout_ms: 30000
+      heartbeat_interval_ms: 3000
+      consumer_config:
+        security_protocol: "PLAINTEXT"  # PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL
+        # sasl_mechanism: "PLAIN"
+        # sasl_username: "${KAFKA_USERNAME}"
+        # sasl_password: "${KAFKA_PASSWORD}"
+    
+    # Webhook HTTP Endpoint
+    - type: "webhook"
+      enabled: true
+      endpoint: "/updates"
+      port: 8081
+      host: "0.0.0.0"
+      path_prefix: "/api/v1"
+      auth:
+        enabled: true  # ✅ ENABLED - Webhook auth active for security
+        type: "bearer"  # bearer, basic, api_key
+        # token: "${WEBHOOK_AUTH_TOKEN}"
+      
+      # Rate limiting
+      rate_limit:
+        enabled: true
+        max_requests: 1000
+        window_seconds: 60
+      
+      # Request validation
+      validation:
+        require_entity_id: true
+        require_updates: true
+        max_payload_size: 10485760  # 10MB
+    
+    # WebSocket Stream
+    - type: "websocket"
+      enabled: true  # ✅ ENABLED - WebSocket stream active
+      url: "ws://event-stream:8082/updates"
+      reconnect: true
+      reconnect_interval: 5
+      ping_interval: 30
+      max_message_size: 10485760  # 10MB
+  
+  # Stellio Context Broker Configuration
+  stellio:
+    base_url: "http://stellio:8080"
+    api_version: "v1"
+    endpoints:
+      patch_entity: "/ngsi-ld/v1/entities/{entity_id}/attrs"
+      get_entity: "/ngsi-ld/v1/entities/{entity_id}"
+      batch_update: "/ngsi-ld/v1/entityOperations/update"
+    
+    timeout: 10
+    max_retries: 3
+    
+    # Retry Strategy
+    retry:
+      max_attempts: 3
+      backoff_factor: 2  # Exponential backoff: 1s, 2s, 4s
+      max_backoff: 30
+      retry_on_status: [408, 429, 500, 502, 503, 504]
+      jitter: true  # Add randomness to backoff
+    
+    # Connection Pooling
+    connection_pool:
+      max_connections: 50
+      max_keepalive_connections: 20
+      keepalive_expiry: 30
+    
+    # Headers
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/ld+json"
+      # Authorization: "Bearer ${STELLIO_TOKEN}"
+  
+  # Update Rules Configuration
+  # Domain-agnostic field mapping and update strategies
+  update_rules:
+    # Image snapshot updates
+    imageSnapshot:
+      method: "PATCH"
+      attributes:
+        - "imageSnapshot"
+        - "observedAt"
+      validation:
+        imageSnapshot:
+          type: "string"
+          format: "url"
+          required: true
+      concurrency: "last_write_wins"
+      notify_subscribers: false
+    
+    # Congestion state changes
+    congested:
+      method: "PATCH"
+      attributes:
+        - "congested"
+        - "observedAt"
+      validation:
+        congested:
+          type: "boolean"
+          required: true
+      concurrency: "optimistic_lock"
+      notify_subscribers: true
+      notification:
+        high_priority: true
+        channels: ["webhook", "email"]
+    
+    # Traffic intensity updates
+    intensity:
+      method: "PATCH"
+      attributes:
+        - "intensity"
+        - "observedAt"
+      validation:
+        intensity:
+          type: "number"
+          min: 0.0
+          max: 1.0
+          required: true
+      concurrency: "last_write_wins"
+      notify_subscribers: false
+      batch_enabled: true
+      batch_size: 50
+      batch_timeout: 5
+    
+    # Occupancy updates
+    occupancy:
+      method: "PATCH"
+      attributes:
+        - "occupancy"
+        - "observedAt"
+      validation:
+        occupancy:
+          type: "number"
+          min: 0.0
+          max: 1.0
+          required: true
+      concurrency: "last_write_wins"
+      notify_subscribers: false
+      batch_enabled: true
+      batch_size: 50
+      batch_timeout: 5
+    
+    # Speed updates
+    speed:
+      method: "PATCH"
+      attributes:
+        - "speed"
+        - "observedAt"
+      validation:
+        speed:
+          type: "number"
+          min: 0
+          required: true
+      concurrency: "last_write_wins"
+      notify_subscribers: false
+    
+    # Generic observation update
+    observation:
+      method: "PATCH"
+      attributes:
+        - "intensity"
+        - "occupancy"
+        - "speed"
+        - "congested"
+        - "congested_count"
+        - "observedAt"
+      validation:
+        observedAt:
+          type: "string"
+          format: "datetime"
+          required: true
+      concurrency: "last_write_wins"
+      notify_subscribers: false
+      batch_enabled: true
+      batch_size: 100
+      batch_timeout: 5
+  
+  # Processing Configuration
+  processing:
+    # Concurrency Control
+    concurrency:
+      max_workers: 10
+      queue_size: 1000
+      timeout: 30
+    
+    # Deduplication
+    deduplication:
+      enabled: true
+      window_seconds: 60
+      strategy: "entity_id_hash"  # entity_id_hash, full_payload_hash
+    
+    # Batching
+    batching:
+      enabled: true
+      max_batch_size: 100
+      max_wait_seconds: 5
+      adaptive: true  # Adjust batch size based on load
+    
+    # Error Handling
+    error_handling:
+      dead_letter_queue:
+        enabled: true
+        topic: "state-updater-dlq"
+        max_retries: 3
+      
+      fallback:
+        enabled: true
+        strategy: "log_and_skip"  # log_and_skip, retry_indefinitely, rollback
+      
+      circuit_breaker:
+        enabled: true
+        failure_threshold: 5
+        timeout: 60
+        half_open_timeout: 30
+  
+  # Monitoring and Metrics
+  monitoring:
+    enabled: true
+    
+    # Prometheus Metrics
+    metrics:
+      port: 9090
+      path: "/metrics"
+      collect_interval: 10
+    
+    # Statistics
+    stats:
+      collect: true
+      window: 60
+      metrics:
+        - "updates_processed"
+        - "updates_failed"
+        - "avg_latency_ms"
+        - "p95_latency_ms"
+        - "p99_latency_ms"
+        - "retry_count"
+        - "batch_count"
+        - "dedup_count"
+  
+  # Logging Configuration
+  logging:
+    level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format: "json"  # json, text
+    output:
+      - type: "console"
+        level: "INFO"
+      - type: "file"
+        level: "DEBUG"
+        path: "/var/log/state_updater/agent.log"
+        max_size_mb: 100
+        backup_count: 5
+        rotation: "time"  # time, size
+        rotation_interval: "midnight"
+    
+    # Structured Logging Fields
+    fields:
+      service: "state-updater-agent"
+      version: "1.0.0"
+      environment: "${ENVIRONMENT}"
+  
+  # State Persistence
+  state:
+    enabled: true
+    backend: "file"  # file, redis, database
+    
+    # File Backend
+    file:
+      path: "/data/state/state_updater_state.json"
+      sync_interval: 10
+    
+    # Redis Backend
+    redis:
+      host: "redis"
+      port: 6379
+      db: 0
+      password: "${REDIS_PASSWORD}"
+      key_prefix: "state_updater:"
+    
+    # What to persist
+    persist:
+      - "processed_event_ids"
+      - "failed_updates"
+      - "statistics"
+      - "circuit_breaker_state"
+  
+  # Health Check
+  health:
+    enabled: true
+    port: 8082
+    endpoint: "/health"
+    checks:
+      - "event_sources"
+      - "stellio_connection"
+      - "state_persistence"
+      - "processing_queue"
