@@ -1,0 +1,280 @@
+# Content Negotiation Agent Configuration
+# Implements LOD best practices for content negotiation
+# Domain-agnostic, config-driven HTTP server
+
+content_negotiation:
+  server:
+    host: "0.0.0.0"
+    port: 8082
+    workers: 4
+    reload: false
+    log_level: "info"
+  
+  formats:
+    # JSON-LD (default, highest priority)
+    - mime_type: "application/ld+json"
+      extension: ".jsonld"
+      priority: 1.0
+      source: "stellio"
+      description: "JSON-LD Linked Data format"
+      charset: "utf-8"
+    
+    # Turtle (RDF format)
+    - mime_type: "text/turtle"
+      extension: ".ttl"
+      priority: 0.9
+      source: "fuseki"
+      description: "Turtle RDF format"
+      charset: "utf-8"
+    
+    # RDF/XML (RDF format)
+    - mime_type: "application/rdf+xml"
+      extension: ".rdf"
+      priority: 0.8
+      source: "convert"
+      description: "RDF/XML format"
+      charset: "utf-8"
+    
+    # HTML (human-readable)
+    - mime_type: "text/html"
+      extension: ".html"
+      priority: 0.7
+      source: "template"
+      template: "templates/entity.html"
+      description: "Human-readable HTML representation"
+      charset: "utf-8"
+  
+  backends:
+    stellio:
+      url: "http://stellio:8080/ngsi-ld/v1/entities/{id}"
+      default_format: "application/ld+json"
+      timeout: 30
+      headers:
+        Accept: "application/ld+json"
+        Content-Type: "application/ld+json"
+      retry:
+        max_attempts: 3
+        backoff_factor: 2
+    
+    fuseki:
+      url: "http://fuseki:3030/traffic-cameras/query"
+      sparql_endpoint: "http://fuseki:3030/traffic-cameras/sparql"
+      graph: "default"
+      timeout: 30
+      query_template: |
+        PREFIX ngsi-ld: <https://uri.etsi.org/ngsi-ld/>
+        PREFIX schema: <https://schema.org/>
+        
+        CONSTRUCT {
+          ?s ?p ?o .
+        }
+        WHERE {
+          GRAPH ?g {
+            ?s ?p ?o .
+            FILTER(?s = <{uri}>)
+          }
+        }
+      retry:
+        max_attempts: 3
+        backoff_factor: 2
+  
+  redirects:
+    enabled: true
+    information_resource_suffix: "/data"
+    non_information_pattern: "^/id/([^/]+)/([^/]+)$"
+    information_pattern: "^/id/([^/]+)/([^/]+)/data$"
+    # Pattern: /id/Camera/TTH406 → 303 → /id/Camera/TTH406/data
+    status_code: 303
+    vary_header: "Accept"
+  
+  link_headers:
+    enabled: true
+    rel: "alternate"
+    # Format: Link: <url>;rel="alternate";type="text/turtle"
+    include_formats:
+      - "application/ld+json"
+      - "text/turtle"
+      - "application/rdf+xml"
+      - "text/html"
+  
+  uri_patterns:
+    # Base URI for entities
+    base_uri: "http://example.org"
+    entity_pattern: "/id/{type}/{id}"
+    data_pattern: "/id/{type}/{id}/data"
+    
+    # URI construction rules
+    use_https: false
+    include_port: true
+    preserve_query_params: true
+  
+  caching:
+    enabled: true
+    cache_control:
+      max_age: 300
+      public: true
+      must_revalidate: false
+    vary_headers:
+      - "Accept"
+      - "Accept-Encoding"
+    etag:
+      enabled: true
+      algorithm: "sha256"
+  
+  compression:
+    enabled: true
+    algorithms:
+      - "gzip"
+      - "deflate"
+      - "br"
+    minimum_size: 1024
+    level: 6
+  
+  cors:
+    enabled: true
+    allow_origins:
+      - "*"
+    allow_methods:
+      - "GET"
+      - "HEAD"
+      - "OPTIONS"
+    allow_headers:
+      - "Accept"
+      - "Content-Type"
+      - "Authorization"
+    expose_headers:
+      - "Content-Type"
+      - "Link"
+      - "Vary"
+      - "ETag"
+      - "Cache-Control"
+    max_age: 3600
+  
+  error_handling:
+    return_format: "application/ld+json"
+    include_stack_trace: false
+    custom_errors:
+      404:
+        title: "Resource Not Found"
+        detail: "The requested resource does not exist"
+        type: "about:blank"
+      406:
+        title: "Not Acceptable"
+        detail: "Cannot produce a response matching the Accept header"
+        type: "about:blank"
+      500:
+        title: "Internal Server Error"
+        detail: "An error occurred processing the request"
+        type: "about:blank"
+  
+  monitoring:
+    enabled: true
+    metrics:
+      - request_count
+      - response_time
+      - format_usage
+      - cache_hit_rate
+      - error_rate
+    log_interval: 60
+    health_check_path: "/health"
+    metrics_path: "/metrics"
+  
+  logging:
+    level: "INFO"
+    format: "json"
+    file: "logs/content_negotiation.log"
+    max_bytes: 10485760
+    backup_count: 5
+    console_output: true
+    log_requests: true
+    log_responses: false
+    log_headers: false
+
+  rdf_conversion:
+    # rdflib configuration
+    default_format: "json-ld"
+    formats:
+      json-ld:
+        serialization_format: "json-ld"
+        context: "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+      turtle:
+        serialization_format: "turtle"
+        base_uri: "http://example.org/"
+      rdf-xml:
+        serialization_format: "xml"
+        xml_base: "http://example.org/"
+    
+    # Parsing options
+    parser:
+      strict: false
+      recover: true
+      encoding: "utf-8"
+    
+    # Serialization options
+    serializer:
+      indent: 2
+      sort_keys: true
+      ensure_ascii: false
+
+  templates:
+    # Jinja2 configuration
+    template_dir: "templates"
+    auto_reload: true
+    autoescape: true
+    cache_size: 400
+    
+    # Template globals
+    globals:
+      site_name: "LOD Content Negotiation Service"
+      version: "1.0.0"
+    
+    # Custom filters
+    filters:
+      - name: "format_coordinates"
+        description: "Format coordinate arrays"
+      - name: "format_datetime"
+        description: "Format ISO datetime strings"
+
+  security:
+    # Rate limiting
+    rate_limit:
+      enabled: true
+      requests_per_minute: 100
+      burst: 20
+    
+    # Request validation
+    max_request_size: 10485760
+    max_uri_length: 2048
+    
+    # Response headers
+    security_headers:
+      X-Content-Type-Options: "nosniff"
+      X-Frame-Options: "DENY"
+      X-XSS-Protection: "1; mode=block"
+      Referrer-Policy: "strict-origin-when-cross-origin"
+
+  performance:
+    # Connection pooling
+    connection_pool:
+      max_connections: 100
+      max_keepalive_connections: 20
+      keepalive_expiry: 5
+    
+    # Timeouts
+    timeouts:
+      connect: 5
+      read: 30
+      write: 30
+      pool: 10
+    
+    # Async settings
+    async_workers: 4
+    max_concurrent_requests: 1000
+
+# Environment variable substitutions
+# Use ${VAR_NAME:-default_value} syntax
+environment:
+  stellio_url: "${STELLIO_URL:-http://stellio:8080}"
+  fuseki_url: "${FUSEKI_URL:-http://fuseki:3030}"
+  server_port: "${CN_PORT:-8082}"
+  log_level: "${LOG_LEVEL:-INFO}"
