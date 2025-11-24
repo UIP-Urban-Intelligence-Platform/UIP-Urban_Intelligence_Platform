@@ -1,0 +1,326 @@
+# Temporal Data Manager Agent Configuration
+# Domain-agnostic temporal data lifecycle management
+# Handles storage, retention, aggregation, and archival of time-series observations
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-24
+temporal_data_manager:
+  # Stellio Temporal API Configuration
+  stellio:
+    base_url: "http://stellio:8080"
+    api_version: "v1"
+    temporal_endpoint: "/ngsi-ld/v1/temporal/entities/{entity_id}/attrs"
+    query_endpoint: "/ngsi-ld/v1/temporal/entities/{entity_id}"
+    
+    timeout: 30
+    max_retries: 3
+    
+    # Batch Operations
+    batch:
+      enabled: true
+      max_batch_size: 100
+      flush_interval: 10  # seconds
+    
+    # Headers
+    headers:
+      Content-Type: "application/ld+json"
+      Accept: "application/ld+json"
+      # Authorization: "Bearer ${STELLIO_TOKEN}"
+  
+  # Neo4j Temporal Storage
+  neo4j:
+    uri: "bolt://neo4j:7687"
+    auth:
+      username: "neo4j"
+      password: "${NEO4J_PASSWORD}"
+    database: "neo4j"
+    
+    # Query Optimization
+    indexes:
+      - property: "observedAt"
+        type: "range"
+      - property: "entity_id"
+        type: "btree"
+      - property: "attribute_name"
+        type: "btree"
+    
+    # Connection Settings
+    connection_timeout: 30
+    max_connection_lifetime: 3600
+    max_transaction_retry_time: 30
+  
+  # Retention Policies
+  # Data lifecycle: detailed → aggregated → archived → deleted
+  retention:
+    # Detailed: Full resolution data
+    detailed:
+      enabled: true
+      period: 30  # days
+      resolution: "full"  # Store every observation
+      description: "Keep full-resolution data for 30 days"
+    
+    # Aggregated: Reduced resolution
+    aggregated:
+      enabled: true
+      period: 60  # days (30-90 total)
+      resolution: "hourly"  # Aggregate to hourly averages
+      start_after: 30  # Start aggregating after 30 days
+      description: "Keep hourly aggregates for 60 days (30-90 total)"
+    
+    # Archived: Cold storage
+    archived:
+      enabled: true
+      period: 365  # days (90-455 total)
+      storage: "filesystem"  # filesystem, s3, azure_blob
+      start_after: 90  # Start archiving after 90 days
+      description: "Archive daily aggregates for 1 year (90-455 total)"
+      
+      # Filesystem Backend
+      filesystem:
+        base_path: "/data/archive"
+        compression: "gzip"
+        format: "parquet"  # parquet, csv, json
+      
+      # S3 Backend
+      s3:
+        bucket: "traffic-archive"
+        prefix: "temporal-data"
+        region: "us-east-1"
+        access_key: "${AWS_ACCESS_KEY_ID}"
+        secret_key: "${AWS_SECRET_ACCESS_KEY}"
+        storage_class: "GLACIER"  # STANDARD, GLACIER, DEEP_ARCHIVE
+      
+      # Azure Blob Backend
+      azure_blob:
+        container: "traffic-archive"
+        account_name: "${AZURE_STORAGE_ACCOUNT}"
+        account_key: "${AZURE_STORAGE_KEY}"
+        tier: "Cool"  # Hot, Cool, Archive
+    
+    # Deletion: Permanent removal
+    deletion:
+      enabled: true
+      period: 365  # days (455+ total)
+      start_after: 455  # Delete after 1 year + 90 days
+      description: "Permanently delete data older than 455 days"
+  
+  # Cleanup Configuration
+  cleanup:
+    enabled: true
+    schedule: "0 2 * * *"  # Cron format: 2am daily
+    batch_size: 1000
+    parallel_workers: 5
+    
+    # Cleanup Phases
+    phases:
+      - name: "aggregate_old_data"
+        enabled: true
+        priority: 1
+      
+      - name: "archive_aggregated_data"
+        enabled: true
+        priority: 2
+      
+      - name: "delete_expired_data"
+        enabled: true
+        priority: 3
+    
+    # Performance
+    performance:
+      max_execution_time: 3600  # 1 hour
+      checkpoint_interval: 300  # 5 minutes
+      resume_on_failure: true
+  
+  # Aggregation Configuration
+  aggregation:
+    enabled: true
+    
+    # Aggregation Resolutions
+    resolutions:
+      hourly:
+        window: 3600  # seconds
+        offset: 0
+      
+      daily:
+        window: 86400  # seconds
+        offset: 0
+      
+      weekly:
+        window: 604800  # seconds
+        offset: 0
+    
+    # Metrics Configuration
+    metrics:
+      - name: "intensity"
+        method: "mean"  # mean, median, min, max, sum, count
+        precision: 2
+        fill_missing: true
+        fill_value: 0.0
+      
+      - name: "occupancy"
+        method: "max"
+        precision: 2
+        fill_missing: true
+        fill_value: 0.0
+      
+      - name: "speed"
+        method: "mean"
+        precision: 1
+        fill_missing: false
+      
+      - name: "congested"
+        method: "mode"  # Most common value
+        fill_missing: true
+        fill_value: false
+      
+      - name: "congested_count"
+        method: "sum"
+        precision: 0
+        fill_missing: true
+        fill_value: 0
+    
+    # Aggregation Quality
+    quality:
+      min_samples: 5  # Minimum samples for valid aggregate
+      outlier_detection: true
+      outlier_threshold: 3.0  # Z-score threshold
+  
+  # Temporal Query Optimization
+  query_optimization:
+    enabled: true
+    
+    # Caching
+    cache:
+      enabled: true
+      ttl: 3600  # 1 hour
+      max_size: 1000  # entries
+    
+    # Indexing
+    indexing:
+      auto_create: true
+      rebuild_interval: 86400  # 1 day
+    
+    # Query Hints
+    hints:
+      use_temporal_index: true
+      prefer_aggregated: true  # Use aggregated data when possible
+      time_range_optimization: true
+  
+  # Data Integrity
+  integrity:
+    enabled: true
+    
+    # Validation
+    validation:
+      check_timestamps: true
+      check_duplicates: true
+      check_gaps: false
+    
+    # Verification
+    verification:
+      enabled: true
+      sample_rate: 0.01  # Verify 1% of data
+      schedule: "0 3 * * *"  # 3am daily
+    
+    # Recovery
+    recovery:
+      enabled: true
+      auto_repair: false
+      backup_before_cleanup: true
+  
+  # Monitoring and Metrics
+  monitoring:
+    enabled: true
+    
+    # Prometheus Metrics
+    metrics:
+      port: 9091
+      path: "/metrics"
+      collect_interval: 60
+    
+    # Statistics
+    stats:
+      collect: true
+      window: 3600  # 1 hour
+      metrics:
+        - "observations_stored"
+        - "observations_aggregated"
+        - "observations_archived"
+        - "observations_deleted"
+        - "storage_size_bytes"
+        - "query_latency_ms"
+        - "cleanup_duration_ms"
+    
+    # Alerts
+    alerts:
+      enabled: true
+      
+      - name: "storage_full"
+        condition: "storage_usage > 90%"
+        severity: "critical"
+      
+      - name: "cleanup_failed"
+        condition: "cleanup_errors > 0"
+        severity: "warning"
+      
+      - name: "data_loss_detected"
+        condition: "missing_observations > 100"
+        severity: "critical"
+  
+  # Logging Configuration
+  logging:
+    level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    format: "json"  # json, text
+    output:
+      - type: "console"
+        level: "INFO"
+      - type: "file"
+        level: "DEBUG"
+        path: "/var/log/temporal_data_manager/agent.log"
+        max_size_mb: 100
+        backup_count: 10
+        rotation: "time"
+        rotation_interval: "midnight"
+    
+    fields:
+      service: "temporal-data-manager-agent"
+      version: "1.0.0"
+      environment: "${ENVIRONMENT}"
+  
+  # State Persistence
+  state:
+    enabled: true
+    backend: "file"  # file, redis, database
+    
+    # File Backend
+    file:
+      path: "/data/state/temporal_manager_state.json"
+      sync_interval: 60
+    
+    # Redis Backend
+    redis:
+      host: "redis"
+      port: 6379
+      db: 1
+      password: "${REDIS_PASSWORD}"
+      key_prefix: "temporal_manager:"
+    
+    # Persist State
+    persist:
+      - "last_cleanup_timestamp"
+      - "last_aggregation_timestamp"
+      - "last_archive_timestamp"
+      - "processed_entities"
+      - "statistics"
+      - "checkpoints"
+  
+  # Health Check
+  health:
+    enabled: true
+    port: 8083
+    endpoint: "/health"
+    checks:
+      - "stellio_connection"
+      - "neo4j_connection"
+      - "storage_availability"
+      - "cleanup_status"
+      - "archive_status"
