@@ -1,5 +1,7 @@
 """
 Unit Tests for NGSI-LD Transformer - PRODUCTION READY
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-23
 """
 
 import pytest

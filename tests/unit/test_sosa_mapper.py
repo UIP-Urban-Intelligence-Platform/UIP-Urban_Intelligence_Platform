@@ -1,5 +1,7 @@
 """
 Unit Tests for SOSA Mapper - PRODUCTION READY
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-23
 """
 
 import pytest
