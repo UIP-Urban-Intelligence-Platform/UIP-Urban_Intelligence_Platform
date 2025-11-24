@@ -1,8 +1,8 @@
 """Setup Configuration for Builder Layer.
 
 Module: setup
-Author: Builder Layer Development Team
-Created: 2024-09-01
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-23
 Version: 1.0.0
 License: MIT
 

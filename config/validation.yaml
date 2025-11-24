@@ -1,0 +1,136 @@
+# Smart Data Models Validation Configuration
+# 100% Domain-Agnostic - Works with ANY LOD domain
+# Version: 1.0.0
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-23
+
+# LOD (Linked Open Data) 5-Star Rating Criteria
+# Based on Tim Berners-Lee's 5-star deployment scheme
+lod_criteria:
+  star_1:
+    name: "Open License"
+    description: "Data available on the web (whatever format) but with an open license"
+    check_type: "license"
+    required_fields: []
+    validation_logic: "Always true for public data (assumed CC-BY or ODbL)"
+
+  star_2:
+    name: "Machine Readable"
+    description: "Available as machine-readable structured data (e.g., Excel instead of image scan)"
+    check_type: "structure"
+    required_fields: ["id", "type"]
+    validation_logic: "Valid JSON structure with id and type fields"
+
+  star_3:
+    name: "Open Format"
+    description: "Available in non-proprietary format (e.g., CSV instead of Excel)"
+    check_type: "format"
+    required_fields: ["@context"]
+    validation_logic: "JSON-LD format with @context field"
+
+  star_4:
+    name: "URI Identifiers"
+    description: "Use URIs to denote things, so people can point at your stuff"
+    check_type: "uri"
+    required_fields: ["id"]
+    validation_logic: "id field starts with 'urn:' or 'http://' or 'https://'"
+    uri_prefixes: ["urn:", "http://", "https://"]
+
+  star_5:
+    name: "Linked Data"
+    description: "Link your data to other data to provide context"
+    check_type: "relationships"
+    required_fields: []
+    validation_logic: "Contains at least one Relationship type linking to external URIs"
+    relationship_types: ["Relationship"]
+
+# Smart Data Models Schema Sources
+# Schemas downloaded from smartdatamodels.org
+schema_sources:
+  camera:
+    url: "https://raw.githubusercontent.com/smart-data-models/dataModel.Device/master/Camera/schema.json"
+    local_cache: "schemas/camera_schema.json"
+    entity_type: "Camera"
+
+  observation:
+    url: "https://raw.githubusercontent.com/smart-data-models/dataModel.Environment/master/Observation/schema.json"
+    local_cache: "schemas/observation_schema.json"
+    entity_type: "Observation"
+
+  platform:
+    url: "https://raw.githubusercontent.com/smart-data-models/dataModel.Device/master/Device/schema.json"
+    local_cache: "schemas/platform_schema.json"
+    entity_type: "Platform"
+
+  observable_property:
+    # Generic property schema
+    local_cache: "schemas/observable_property_schema.json"
+    entity_type: "ObservableProperty"
+
+# Validation Rules
+validation:
+  # Core NGSI-LD fields
+  required_fields:
+    - "id"
+    - "type"
+    - "@context"
+
+  # Optional fields that improve quality
+  recommended_fields:
+    - "dateCreated"
+    - "dateModified"
+    - "description"
+
+  # @context validation
+  context_validation:
+    required_contexts:
+      - "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    recommended_contexts:
+      - "https://www.w3.org/ns/sosa/"
+      - "https://raw.githubusercontent.com/smart-data-models/dataModel.Device/master/context.jsonld"
+
+  # Property type validation
+  property_types:
+    allowed: ["Property", "GeoProperty", "Relationship"]
+
+  # URI validation
+  uri_validation:
+    id_patterns:
+      - "^urn:ngsi-ld:"
+      - "^http://"
+      - "^https://"
+    relationship_object_patterns:
+      - "^urn:ngsi-ld:"
+      - "^http://"
+      - "^https://"
+
+  # Data type validation
+  data_types:
+    string_fields: ["name", "description"]
+    number_fields: ["value"]
+    object_fields: ["@context", "location"]
+    array_fields: ["type"]
+
+# Report Configuration
+report:
+  output_file: "data/validation_report.json"
+  detailed_errors: true
+  include_warnings: true
+  lod_distribution: true
+  entity_level_details: false # Set to true for per-entity LOD scores in report
+
+# Output Configuration
+output:
+  source_file: "data/sosa_enhanced_entities.json"
+  valid_entities_file: "data/validated_entities.json"
+  invalid_entities_file: "data/invalid_entities.json"
+  save_invalid: true
+  pretty_print: true
+
+# Processing Configuration
+processing:
+  batch_size: 100
+  fail_on_error: false # Continue validation even if some entities fail
+  skip_schema_download: false # Set to true to use cached schemas only
+  schema_cache_dir: "schemas/"
+  strict_mode: false # If true, warnings become errors
