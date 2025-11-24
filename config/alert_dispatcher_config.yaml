@@ -1,0 +1,340 @@
+# Alert Dispatcher Agent Configuration
+# Domain-agnostic multi-channel notification system
+# Version: 1.0.0
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-22
+alert_dispatcher:
+  # HTTP Server Configuration
+  server:
+    host: "0.0.0.0"
+    port: 8080
+    debug: false
+    threaded: true
+    
+    # Webhook endpoints
+    endpoints:
+      congestion: "/notify/congestion"
+      accident: "/notify/accident"
+      parking: "/notify/parking"
+      weather: "/notify/weather"
+      generic: "/notify"
+  
+  # Notification Channels
+  channels:
+    # WebSocket (real-time)
+    websocket:
+      enabled: true
+      url: "ws://alert-dispatcher:8080/ws"
+      namespace: "/alerts"
+      max_connections: 1000
+      ping_interval: 25
+      ping_timeout: 60
+    
+    # Firebase Cloud Messaging (mobile push)
+    fcm:
+      enabled: true
+      server_key: "${FCM_SERVER_KEY}"
+      api_url: "https://fcm.googleapis.com/fcm/send"
+      priority: "high"  # high, normal
+      timeout: 10
+      max_retries: 3
+    
+    # Email (SMTP)
+    email:
+      enabled: true
+      smtp_host: "smtp.gmail.com"
+      smtp_port: 587
+      use_tls: true
+      username: "${EMAIL_USERNAME}"
+      password: "${EMAIL_PASSWORD}"
+      from_addr: "traffic@hcmc.gov.vn"
+      from_name: "HCMC Traffic System"
+      timeout: 30
+      max_retries: 3
+    
+    # SMS (Twilio)
+    sms:
+      enabled: false
+      provider: "twilio"
+      account_sid: "${TWILIO_ACCOUNT_SID}"
+      auth_token: "${TWILIO_AUTH_TOKEN}"
+      from_number: "${TWILIO_PHONE_NUMBER}"
+      api_url: "https://api.twilio.com/2010-04-01"
+      timeout: 10
+      max_retries: 3
+    
+    # Webhook forwarding (to other services)
+    webhook:
+      enabled: true
+      endpoints:
+        - url: "http://analytics-service:8080/alerts"
+          method: "POST"
+          headers:
+            Content-Type: "application/json"
+        
+        - url: "http://dashboard-service:8080/notifications"
+          method: "POST"
+          headers:
+            Content-Type: "application/json"
+  
+  # Routing Rules (domain-agnostic)
+  routing_rules:
+    # Traffic congestion alerts
+    congestion:
+      channels: ["websocket", "fcm"]
+      priority: "medium"
+      throttle_seconds: 300  # Max 1 per 5 minutes per user
+      retry_on_failure: true
+      max_retries: 3
+    
+    # Accident alerts
+    accident:
+      channels: ["websocket", "fcm", "sms", "email"]
+      priority: "high"
+      throttle_seconds: 0  # Immediate, no throttling
+      retry_on_failure: true
+      max_retries: 5
+    
+    # Parking alerts
+    parking:
+      channels: ["websocket", "fcm"]
+      priority: "low"
+      throttle_seconds: 600  # Max 1 per 10 minutes
+      retry_on_failure: true
+      max_retries: 2
+    
+    # Weather alerts
+    weather:
+      channels: ["websocket", "fcm", "email"]
+      priority: "high"
+      throttle_seconds: 1800  # Max 1 per 30 minutes
+      retry_on_failure: true
+      max_retries: 3
+    
+    # Pattern detection
+    pattern:
+      channels: ["email", "webhook"]
+      priority: "low"
+      throttle_seconds: 3600  # Max 1 per hour
+      retry_on_failure: true
+      max_retries: 2
+    
+    # Generic alerts (fallback)
+    generic:
+      channels: ["websocket"]
+      priority: "medium"
+      throttle_seconds: 60
+      retry_on_failure: false
+      max_retries: 1
+  
+  # Rate Limiting (per user)
+  rate_limiting:
+    enabled: true
+    max_per_user_per_hour: 10
+    max_per_user_per_day: 50
+    max_global_per_second: 100
+    
+    # Whitelist (unlimited)
+    whitelist:
+      - "admin@hcmc.gov.vn"
+      - "emergency@hcmc.gov.vn"
+  
+  # Message Templates
+  templates:
+    # Congestion alerts
+    congestion:
+      title: "🚦 Traffic Congestion Alert"
+      body: "Heavy traffic detected at {{camera_name}} ({{entity_id}}). Average speed: {{speed}} km/h. Intensity: {{intensity}}. Time: {{timestamp}}."
+      
+      email_subject: "Traffic Congestion Alert - {{camera_name}}"
+      email_body: """
+      <html>
+      <body>
+        <h2>Traffic Congestion Alert</h2>
+        <p><strong>Location:</strong> {{camera_name}}</p>
+        <p><strong>Entity ID:</strong> {{entity_id}}</p>
+        <p><strong>Average Speed:</strong> {{speed}} km/h</p>
+        <p><strong>Intensity:</strong> {{intensity}}</p>
+        <p><strong>Congestion Status:</strong> {{congested}}</p>
+        <p><strong>Time:</strong> {{timestamp}}</p>
+        <p>Please plan your route accordingly.</p>
+      </body>
+      </html>
+      """
+      
+      sms_body: "Traffic congestion at {{camera_name}}. Speed: {{speed}} km/h. Time: {{timestamp}}."
+    
+    # Accident alerts
+    accident:
+      title: "⚠️ Traffic Accident Alert"
+      body: "Possible accident at {{location}} ({{entity_id}}). Severity: {{severity}}. Status: {{status}}. Time: {{timestamp}}."
+      
+      email_subject: "URGENT: Traffic Accident - {{location}}"
+      email_body: """
+      <html>
+      <body style="background-color: #fff3cd;">
+        <h2 style="color: #856404;">⚠️ Traffic Accident Alert</h2>
+        <p><strong>Location:</strong> {{location}}</p>
+        <p><strong>Entity ID:</strong> {{entity_id}}</p>
+        <p><strong>Severity:</strong> {{severity}}</p>
+        <p><strong>Status:</strong> {{status}}</p>
+        <p><strong>Time:</strong> {{timestamp}}</p>
+        <p style="color: #721c24;"><strong>Emergency services have been notified.</strong></p>
+      </body>
+      </html>
+      """
+      
+      sms_body: "ACCIDENT at {{location}}. Severity: {{severity}}. Time: {{timestamp}}. Avoid area."
+    
+    # Parking alerts
+    parking:
+      title: "🅿️ Parking Occupancy Alert"
+      body: "Parking {{parking_name}} is {{occupancy}}% full. Status: {{status}}. Time: {{timestamp}}."
+      
+      email_subject: "Parking Alert - {{parking_name}}"
+      email_body: """
+      <html>
+      <body>
+        <h2>Parking Occupancy Alert</h2>
+        <p><strong>Parking Location:</strong> {{parking_name}}</p>
+        <p><strong>Entity ID:</strong> {{entity_id}}</p>
+        <p><strong>Occupancy:</strong> {{occupancy}}%</p>
+        <p><strong>Status:</strong> {{status}}</p>
+        <p><strong>Available Spots:</strong> {{available_spots}}</p>
+        <p><strong>Time:</strong> {{timestamp}}</p>
+      </body>
+      </html>
+      """
+    
+    # Weather alerts
+    weather:
+      title: "🌦️ Severe Weather Alert"
+      body: "Severe weather conditions detected. Temperature: {{temperature}}°C, Wind: {{wind_speed}} km/h, Precipitation: {{precipitation}} mm. Time: {{timestamp}}."
+      
+      email_subject: "Severe Weather Alert - {{location}}"
+      email_body: """
+      <html>
+      <body style="background-color: #d1ecf1;">
+        <h2 style="color: #0c5460;">🌦️ Severe Weather Alert</h2>
+        <p><strong>Location:</strong> {{location}}</p>
+        <p><strong>Temperature:</strong> {{temperature}}°C</p>
+        <p><strong>Wind Speed:</strong> {{wind_speed}} km/h</p>
+        <p><strong>Precipitation:</strong> {{precipitation}} mm</p>
+        <p><strong>Conditions:</strong> {{conditions}}</p>
+        <p><strong>Time:</strong> {{timestamp}}</p>
+        <p>Please take necessary precautions.</p>
+      </body>
+      </html>
+      """
+    
+    # Pattern detection
+    pattern:
+      title: "📊 Traffic Pattern Alert"
+      body: "Unusual traffic pattern detected: {{pattern_type}}. Location: {{location}}. Confidence: {{confidence}}%. Time: {{timestamp}}."
+      
+      email_subject: "Traffic Pattern Alert - {{pattern_type}}"
+      email_body: """
+      <html>
+      <body>
+        <h2>Traffic Pattern Alert</h2>
+        <p><strong>Pattern Type:</strong> {{pattern_type}}</p>
+        <p><strong>Location:</strong> {{location}}</p>
+        <p><strong>Entity ID:</strong> {{entity_id}}</p>
+        <p><strong>Confidence:</strong> {{confidence}}%</p>
+        <p><strong>Description:</strong> {{description}}</p>
+        <p><strong>Time:</strong> {{timestamp}}</p>
+        <p>Detailed analysis available in the dashboard.</p>
+      </body>
+      </html>
+      """
+    
+    # Generic template (fallback)
+    generic:
+      title: "🔔 Notification"
+      body: "New notification from {{entity_id}}. Attributes changed: {{attributes}}. Time: {{timestamp}}."
+      
+      email_subject: "Notification from {{entity_id}}"
+      email_body: """
+      <html>
+      <body>
+        <h2>Notification</h2>
+        <p><strong>Entity ID:</strong> {{entity_id}}</p>
+        <p><strong>Entity Type:</strong> {{entity_type}}</p>
+        <p><strong>Changed Attributes:</strong> {{attributes}}</p>
+        <p><strong>Time:</strong> {{timestamp}}</p>
+        <p><strong>Details:</strong></p>
+        <pre>{{data}}</pre>
+      </body>
+      </html>
+      """
+  
+  # Retry Configuration
+  retry:
+    enabled: true
+    max_attempts: 3
+    backoff_factor: 2  # Exponential backoff: 1s, 2s, 4s
+    retry_on_status_codes: [500, 502, 503, 504]
+  
+  # Delivery Tracking
+  delivery_tracking:
+    enabled: true
+    log_path: "logs/deliveries.log"
+    
+    # Store delivery status
+    storage:
+      type: "file"  # file, database, redis
+      path: "data/delivery_status.json"
+  
+  # Monitoring
+  monitoring:
+    enabled: true
+    
+    prometheus:
+      enabled: true
+      port: 9093
+      path: "/metrics"
+    
+    statistics:
+      enabled: true
+      collection_interval: 60
+      
+      metrics:
+        - alerts_received_total
+        - alerts_delivered_total
+        - alerts_failed_total
+        - delivery_latency_seconds
+        - channel_delivery_count
+        - rate_limit_exceeded_total
+  
+  # Logging
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    
+    handlers:
+      console:
+        enabled: true
+      
+      file:
+        enabled: true
+        path: "logs/alert_dispatcher.log"
+        max_bytes: 10485760  # 10MB
+        backup_count: 5
+
+# User Preferences (example data structure)
+# This would typically come from a database
+user_preferences:
+  example_users:
+    - user_id: "user001"
+      email: "john.doe@example.com"
+      phone: "+84901234567"
+      fcm_token: "example_fcm_token_123"
+      channels: ["websocket", "fcm", "email"]
+      alert_types: ["congestion", "accident"]
+    
+    - user_id: "user002"
+      email: "jane.smith@example.com"
+      phone: "+84907654321"
+      fcm_token: "example_fcm_token_456"
+      channels: ["email", "sms"]
+      alert_types: ["accident", "weather"]

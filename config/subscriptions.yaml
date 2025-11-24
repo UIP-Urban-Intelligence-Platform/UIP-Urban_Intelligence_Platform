@@ -1,0 +1,358 @@
+# Subscription Manager Agent Configuration
+# Domain-agnostic NGSI-LD subscription definitions
+# Version: 1.0.0
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-22
+subscription_manager:
+  # Stellio Subscription API Configuration
+  stellio:
+    base_url: "http://localhost:8080"
+    timeout: 10
+    max_retries: 3
+    retry_backoff_factor: 2
+    
+    endpoints:
+      create: "/ngsi-ld/v1/subscriptions"
+      get: "/ngsi-ld/v1/subscriptions/{subscription_id}"
+      update: "/ngsi-ld/v1/subscriptions/{subscription_id}"
+      delete: "/ngsi-ld/v1/subscriptions/{subscription_id}"
+      list: "/ngsi-ld/v1/subscriptions"
+    
+    headers:
+      Content-Type: "application/ld+json"
+      Accept: "application/ld+json"
+  
+  # Health Monitoring Configuration
+  monitoring:
+    enabled: true
+    check_interval: 300  # seconds (5 minutes)
+    
+    # Auto-renewal before expiry
+    auto_renew:
+      enabled: true
+      renew_before_days: 7  # Renew 7 days before expiry
+      default_extension_days: 365
+    
+    # Health check actions
+    actions:
+      on_inactive:
+        action: "recreate"
+        max_retries: 3
+      
+      on_failed:
+        action: "alert"
+        notify_endpoint: "http://alert-dispatcher:8080/subscription-failure"
+    
+    # Prometheus metrics
+    prometheus:
+      enabled: true
+      port: 9092
+      path: "/metrics"
+  
+  # Subscription Definitions
+  # DOMAIN-AGNOSTIC: Add any entity type/attributes
+  subscriptions:
+    # Example 1: Traffic Congestion Alerts
+    - name: "congestion-alerts"
+      description: "Notify when traffic congestion is detected on any camera"
+      enabled: true
+      
+      # Entity filter
+      entities:
+        - type: "Camera"
+          # Optional: specific entity IDs
+          # id_pattern: "urn:ngsi-ld:Camera:TTH*"
+      
+      # Watched attributes (triggers notification on change)
+      watched_attributes:
+        - "congested"
+        - "intensity"
+      
+      # NGSI-LD query filter
+      q: "congested==true"
+      
+      # Notification configuration
+      notification:
+        endpoint:
+          uri: "http://alert-dispatcher:8080/notify/congestion"
+          accept: "application/json"
+        
+        # Notification format
+        format: "normalized"  # normalized, keyValues, concise
+        
+        # Attributes to include in notification
+        attributes:
+          - "congested"
+          - "intensity"
+          - "observedAt"
+          - "location"
+      
+      # Throttling (seconds between notifications for same entity)
+      throttling: 60
+      
+      # Expiration
+      expires_at: "2026-11-01T00:00:00Z"
+      
+      # Temporal filter (optional)
+      temporal_q:
+        timerel: "after"
+        time: "2025-01-01T00:00:00Z"
+    
+    # Example 2: Accident Alerts (different domain)
+    - name: "accident-alerts"
+      description: "Immediate notification on road accident detection"
+      enabled: true
+      
+      entities:
+        - type: "RoadAccident"
+      
+      watched_attributes:
+        - "severity"
+        - "status"
+        - "location"
+      
+      notification:
+        endpoint:
+          uri: "http://alert-dispatcher:8080/notify/accident"
+          accept: "application/json"
+        
+        format: "keyValues"
+        
+        attributes:
+          - "severity"
+          - "status"
+          - "location"
+          - "reportedAt"
+      
+      throttling: 0  # Immediate, no throttling
+      
+      expires_at: "2026-11-01T00:00:00Z"
+    
+    # Example 3: High Occupancy Monitoring
+    - name: "high-occupancy-alerts"
+      description: "Alert when parking occupancy exceeds threshold"
+      enabled: true
+      
+      entities:
+        - type: "ParkingSpot"
+      
+      watched_attributes:
+        - "occupancy"
+      
+      q: "occupancy>0.9"  # > 90% full
+      
+      notification:
+        endpoint:
+          uri: "http://alert-dispatcher:8080/notify/parking"
+          accept: "application/json"
+        
+        format: "normalized"
+      
+      throttling: 300  # 5 minutes
+      
+      expires_at: "2026-11-01T00:00:00Z"
+    
+    # Example 4: Weather Alert (different domain)
+    - name: "severe-weather-alerts"
+      description: "Notify on severe weather conditions"
+      enabled: true
+      
+      entities:
+        - type: "WeatherObserved"
+      
+      watched_attributes:
+        - "temperature"
+        - "windSpeed"
+        - "precipitation"
+      
+      q: "temperature<-10;windSpeed>100"  # Extreme conditions
+      
+      notification:
+        endpoint:
+          uri: "http://alert-dispatcher:8080/notify/weather"
+          accept: "application/json"
+        
+        format: "keyValues"
+      
+      throttling: 600  # 10 minutes
+      
+      expires_at: "2026-11-01T00:00:00Z"
+    
+    # Example 5: Entity Lifecycle (creation/deletion)
+    - name: "entity-lifecycle-monitor"
+      description: "Monitor entity creation and deletion"
+      enabled: true
+      
+      entities:
+        - type: ".*"  # All entity types (regex)
+      
+      # No watched_attributes = trigger on entity creation/deletion
+      
+      notification:
+        endpoint:
+          uri: "http://audit-service:8080/lifecycle"
+          accept: "application/json"
+        
+        format: "normalized"
+      
+      throttling: 0
+      
+      expires_at: "2026-11-01T00:00:00Z"
+    
+    # Example 6: Temporal Query Subscription
+    - name: "recent-updates-monitor"
+      description: "Monitor entities updated in last hour"
+      enabled: true  # ✅ ENABLED - Recent updates monitoring active
+      
+      entities:
+        - type: "Device"
+      
+      watched_attributes:
+        - "status"
+        - "batteryLevel"
+      
+      # Temporal query
+      temporal_q:
+        timerel: "after"
+        timeproperty: "modifiedAt"
+        time: "PT1H"  # Last 1 hour (ISO 8601 duration)
+      
+      notification:
+        endpoint:
+          uri: "http://monitor-service:8080/updates"
+          accept: "application/json"
+        
+        format: "normalized"
+      
+      throttling: 120
+      
+      expires_at: "2026-11-01T00:00:00Z"
+    
+    # Example 7: Geo-Query Subscription
+    - name: "geofence-alerts"
+      description: "Alert when entities enter specific geographic area"
+      enabled: true
+      
+      entities:
+        - type: "Vehicle"
+      
+      watched_attributes:
+        - "location"
+        - "speed"
+      
+      # Geo-query (within 500m radius of point)
+      geo_q:
+        georel: "near;maxDistance==500"
+        geometry: "Point"
+        coordinates: [-3.691944, 40.418889]  # Madrid center
+      
+      notification:
+        endpoint:
+          uri: "http://fleet-service:8080/geofence"
+          accept: "application/json"
+        
+        format: "keyValues"
+      
+      throttling: 30
+      
+      expires_at: "2026-11-01T00:00:00Z"
+    
+    # Example 8: Multi-Entity Type Subscription
+    - name: "smart-city-events"
+      description: "Monitor multiple entity types for city events"
+      enabled: true
+      
+      entities:
+        - type: "TrafficCongestion"
+        - type: "RoadAccident"
+        - type: "PublicTransportAlert"
+        - type: "WeatherAlert"
+      
+      notification:
+        endpoint:
+          uri: "http://city-dashboard:8080/events"
+          accept: "application/json"
+        
+        format: "normalized"
+        
+        attributes:
+          - "type"
+          - "severity"
+          - "location"
+          - "timestamp"
+      
+      throttling: 60
+      
+      expires_at: "2026-11-01T00:00:00Z"
+  
+  # Subscription Templates (for programmatic creation)
+  templates:
+    - name: "basic-entity-watch"
+      description: "Basic entity attribute monitoring template"
+      template:
+        entities:
+          - type: "{entity_type}"
+        
+        watched_attributes:
+          - "{attribute_name}"
+        
+        notification:
+          endpoint:
+            uri: "{notification_endpoint}"
+            accept: "application/json"
+          
+          format: "normalized"
+        
+        throttling: 60
+        
+        expires_at: "{expiry_date}"
+    
+    - name: "query-filter-watch"
+      description: "Template with query filter"
+      template:
+        entities:
+          - type: "{entity_type}"
+        
+        watched_attributes:
+          - "{attribute_name}"
+        
+        q: "{query_expression}"
+        
+        notification:
+          endpoint:
+            uri: "{notification_endpoint}"
+            accept: "application/json"
+          
+          format: "normalized"
+        
+        throttling: "{throttling_seconds}"
+        
+        expires_at: "{expiry_date}"
+  
+  # Statistics Collection
+  statistics:
+    enabled: true
+    collection_interval: 60  # seconds
+    
+    metrics:
+      - subscriptions_active
+      - subscriptions_failed
+      - subscriptions_expired
+      - notifications_sent
+      - notifications_failed
+      - auto_renewals_performed
+  
+  # Logging
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    
+    handlers:
+      console:
+        enabled: true
+      
+      file:
+        enabled: true
+        path: "logs/subscription_manager.log"
+        max_bytes: 10485760  # 10MB
+        backup_count: 5

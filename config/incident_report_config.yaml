@@ -1,0 +1,518 @@
+# Incident Report Generator Configuration
+# Domain-agnostic configuration for generating incident reports from NGSI-LD entities
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-22
+incident_report_generator:
+  # Trigger configuration - what entities trigger report generation
+  triggers:
+    - entity_type: "RoadAccident"
+      severity: ["moderate", "severe", "critical"]  # Skip minor incidents
+      min_confidence: 0.7  # Minimum detection confidence
+    
+    - entity_type: "TrafficIncident"
+      severity: ["high", "critical"]
+    
+    - entity_type: "EmergencyEvent"
+      severity: ["all"]  # Report all emergency events
+  
+  # Data source configuration
+  data_sources:
+    # Neo4j graph database for context queries
+    neo4j:
+      enabled: true
+      uri: "${NEO4J_URI}"
+      username: "${NEO4J_USERNAME}"
+      password: "${NEO4J_PASSWORD}"
+      database: "neo4j"
+      connection_timeout: 30
+      max_retry_time: 30
+      
+      # Cypher queries for different data contexts
+      queries:
+        # Get accident context (camera, location details)
+        context:
+          query: |
+            MATCH (a:RoadAccident {id: $accident_id})
+            OPTIONAL MATCH (a)-[:DETECTED_BY]->(c:Camera)
+            OPTIONAL MATCH (c)-[:LOCATED_AT]->(l:Location)
+            OPTIONAL MATCH (a)-[:OCCURRED_AT]->(loc:Location)
+            RETURN a, c, l, loc
+          timeout: 10
+        
+        # Get timeline of observations before/after incident
+        timeline:
+          query: |
+            MATCH (c:Camera {id: $camera_id})-[:HAS_OBSERVATION]->(o:Observation)
+            WHERE o.observedAt >= datetime($start_time)
+              AND o.observedAt <= datetime($end_time)
+            RETURN o
+            ORDER BY o.observedAt ASC
+          timeout: 15
+        
+        # Get related incidents in area
+        related_incidents:
+          query: |
+            MATCH (a1:RoadAccident {id: $accident_id})-[:OCCURRED_AT]->(loc:Location)
+            MATCH (a2:RoadAccident)-[:OCCURRED_AT]->(loc2:Location)
+            WHERE a2.id <> a1.id
+              AND point.distance(loc.coordinates, loc2.coordinates) < $radius_meters
+              AND datetime(a2.detectionTime) >= datetime($start_time)
+              AND datetime(a2.detectionTime) <= datetime($end_time)
+            RETURN a2, loc2
+            ORDER BY a2.detectionTime DESC
+            LIMIT 10
+          timeout: 15
+        
+        # Get historical patterns for this location
+        historical_patterns:
+          query: |
+            MATCH (a:RoadAccident)-[:OCCURRED_AT]->(loc:Location)
+            WHERE point.distance(loc.coordinates, point($coordinates)) < $radius_meters
+              AND datetime(a.detectionTime) >= datetime($start_date)
+              AND datetime(a.detectionTime) < datetime($end_date)
+            RETURN 
+              count(a) as incident_count,
+              collect(a.severity) as severities,
+              avg(a.avgSpeed) as avg_speed,
+              avg(a.speedVariance) as avg_variance
+          timeout: 20
+        
+        # Get weather conditions at time of incident
+        weather_context:
+          query: |
+            MATCH (w:WeatherObservation)
+            WHERE w.location = $location
+              AND datetime(w.observedAt) >= datetime($start_time)
+              AND datetime(w.observedAt) <= datetime($end_time)
+            RETURN w
+            ORDER BY w.observedAt DESC
+            LIMIT 1
+          timeout: 10
+    
+    # Stellio NGSI-LD broker for entity data
+    stellio:
+      enabled: true
+      base_url: "${STELLIO_URL}"
+      tenant: "urn:ngsi-ld:tenant:hcmc"
+      
+      # Entity queries
+      queries:
+        # Get full accident entity
+        accident_details:
+          endpoint: "/ngsi-ld/v1/entities/{entity_id}"
+          method: "GET"
+          headers:
+            Accept: "application/ld+json"
+          timeout: 10
+        
+        # Get temporal history of entity
+        temporal_history:
+          endpoint: "/ngsi-ld/v1/temporal/entities/{entity_id}"
+          method: "GET"
+          params:
+            timerel: "between"
+            timeAt: "{start_time}"
+            endTimeAt: "{end_time}"
+          timeout: 15
+  
+  # Report format specifications
+  report_formats:
+    - type: "pdf"
+      enabled: true
+      template: "templates/incident_report.html"
+      engine: "weasyprint"  # HTML to PDF converter
+      settings:
+        page_size: "A4"
+        orientation: "portrait"
+        margins:
+          top: "2cm"
+          right: "2cm"
+          bottom: "2cm"
+          left: "2cm"
+        include_toc: true  # Table of contents
+        include_charts: true
+        include_map: true
+      css: "templates/report_styles.css"
+    
+    - type: "json"
+      enabled: true
+      fields:
+        - "report_id"
+        - "accident_id"
+        - "generated_at"
+        - "summary"
+        - "timeline"
+        - "impact"
+        - "recommendations"
+        - "metadata"
+      pretty_print: true
+      indent: 2
+    
+    - type: "html"
+      enabled: true
+      template: "templates/incident_web.html"
+      settings:
+        interactive: true
+        include_charts: true
+        include_map: true
+        theme: "modern"
+  
+  # Report sections configuration
+  report_sections:
+    summary:
+      enabled: true
+      fields:
+        - "location"
+        - "severity"
+        - "detection_time"
+        - "estimated_clearance"
+        - "affected_area"
+        - "camera_id"
+      
+    timeline:
+      enabled: true
+      time_window_before: 300  # seconds before incident
+      time_window_after: 1800   # seconds after incident
+      min_events: 3
+      
+    impact:
+      enabled: true
+      metrics:
+        - "affected_cameras"
+        - "avg_speed_drop"
+        - "max_speed_variance"
+        - "congestion_duration"
+        - "estimated_vehicles_affected"
+      
+    context:
+      enabled: true
+      include:
+        - "weather_conditions"
+        - "time_of_day"
+        - "day_of_week"
+        - "historical_patterns"
+        - "related_incidents"
+      
+    recommendations:
+      enabled: true
+      rules:
+        # Severity-based recommendations
+        - condition:
+            severity: "critical"
+          actions:
+            - "Deploy emergency services immediately"
+            - "Close affected lanes"
+            - "Activate emergency broadcast"
+            - "Notify hospitals in vicinity"
+        
+        - condition:
+            severity: "severe"
+          actions:
+            - "Deploy traffic police to scene"
+            - "Activate alternate routes via GPS apps"
+            - "Monitor adjacent camera zones"
+            - "Prepare tow services"
+        
+        - condition:
+            severity: "moderate"
+          actions:
+            - "Monitor situation for escalation"
+            - "Update traffic apps with incident data"
+            - "Alert nearby cameras for spillover"
+        
+        # Time-based recommendations
+        - condition:
+            time_of_day: "rush_hour"
+          actions:
+            - "Activate dynamic lane management"
+            - "Increase public transit frequency"
+        
+        # Weather-based recommendations
+        - condition:
+            weather: "heavy_rain"
+          actions:
+            - "Issue weather warning alerts"
+            - "Reduce speed limits in area"
+            - "Deploy additional signage"
+  
+  # Visualization settings
+  visualizations:
+    charts:
+      enabled: true
+      library: "matplotlib"  # matplotlib or plotly
+      types:
+        - name: "speed_timeline"
+          type: "line"
+          title: "Speed Profile Before/After Incident"
+          x_axis: "time"
+          y_axis: "speed (km/h)"
+          colors: ["#FF6B6B", "#4ECDC4"]
+        
+        - name: "speed_variance"
+          type: "bar"
+          title: "Speed Variance Distribution"
+          x_axis: "time_interval"
+          y_axis: "variance"
+          color: "#95E1D3"
+        
+        - name: "impact_radius"
+          type: "scatter"
+          title: "Impact on Surrounding Cameras"
+          x_axis: "distance (m)"
+          y_axis: "speed_drop (%)"
+          color: "#F38181"
+      
+      output_format: "png"
+      dpi: 300
+      width: 800
+      height: 600
+    
+    maps:
+      enabled: true
+      library: "folium"
+      settings:
+        tile_layer: "OpenStreetMap"
+        zoom_start: 15
+        center_on_incident: true
+        markers:
+          incident:
+            icon: "exclamation-triangle"
+            color: "red"
+            size: "large"
+          camera:
+            icon: "camera"
+            color: "blue"
+            size: "medium"
+          affected_area:
+            icon: "circle"
+            color: "orange"
+            radius: 500  # meters
+        
+        layers:
+          - name: "incident_location"
+            type: "marker"
+          - name: "affected_cameras"
+            type: "marker_cluster"
+          - name: "impact_radius"
+            type: "circle"
+          - name: "related_incidents"
+            type: "marker"
+      
+      output_format: "png"
+      width: 1024
+      height: 768
+  
+  # Storage configuration
+  storage:
+    # Local filesystem storage
+    filesystem:
+      enabled: true
+      base_path: "data/incident_reports"
+      naming_pattern: "incident_{accident_id}_{timestamp}"
+      subdirs_by_date: true  # data/incident_reports/2025/11/01/
+      max_reports: 10000  # Archive older reports
+      
+      # File retention policy
+      retention:
+        pdf: 365  # days
+        json: 730
+        html: 90
+    
+    # S3/cloud storage (optional)
+    s3:
+      enabled: true  # ✅ ENABLED - S3 storage active
+      bucket: "${S3_BUCKET}"
+      region: "ap-southeast-1"
+      prefix: "incident-reports/"
+      access_key: "${AWS_ACCESS_KEY_ID}"
+      secret_key: "${AWS_SECRET_ACCESS_KEY}"
+      storage_class: "STANDARD"
+      encryption: "AES256"
+    
+    # Database storage for metadata
+    database:
+      enabled: true
+      type: "sqlite"  # sqlite, postgresql, mysql
+      connection_string: "sqlite:///data/incident_reports.db"
+      table: "incident_reports"
+      
+      # Metadata fields to store
+      metadata_fields:
+        - "report_id"
+        - "accident_id"
+        - "entity_type"
+        - "generated_at"
+        - "severity"
+        - "location"
+        - "file_paths"
+        - "file_sizes"
+        - "generation_time_ms"
+  
+  # Notification configuration
+  notifications:
+    email:
+      enabled: true
+      smtp_host: "${SMTP_HOST}"
+      smtp_port: 587
+      use_tls: true
+      username: "${SMTP_USERNAME}"
+      password: "${SMTP_PASSWORD}"
+      from_addr: "reports@hcmc.gov.vn"
+      from_name: "Incident Report System"
+      
+      # Recipients based on severity
+      recipients:
+        critical:
+          - "emergency@hcmc.gov.vn"
+          - "director@traffic.hcmc.gov.vn"
+          - "ops-manager@hcmc.gov.vn"
+        severe:
+          - "traffic-ops@hcmc.gov.vn"
+          - "admin@hcmc.gov.vn"
+        moderate:
+          - "admin@hcmc.gov.vn"
+      
+      subject_template: "Incident Report: {{severity}} - {{location}} [{{report_id}}]"
+      
+      body_template: |
+        A new incident report has been generated.
+        
+        Report ID: {{report_id}}
+        Incident: {{accident_id}}
+        Severity: {{severity}}
+        Location: {{location}}
+        Detection Time: {{detection_time}}
+        
+        Summary:
+        {{summary}}
+        
+        The complete report is attached in PDF format.
+        You can also view it online at: {{report_url}}
+      
+      attachments:
+        - "pdf"  # Attach PDF report
+      
+      max_attachment_size: 10485760  # 10MB
+    
+    webhook:
+      enabled: true  # ✅ ENABLED - Webhook notifications active
+      url: "${WEBHOOK_URL}"
+      method: "POST"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer ${WEBHOOK_TOKEN}"
+      payload_template: |
+        {
+          "report_id": "{{report_id}}",
+          "accident_id": "{{accident_id}}",
+          "severity": "{{severity}}",
+          "generated_at": "{{generated_at}}",
+          "report_url": "{{report_url}}"
+        }
+      timeout: 30
+      retry_count: 3
+  
+  # API endpoint for report retrieval
+  api:
+    enabled: true
+    host: "0.0.0.0"
+    port: 8081
+    
+    endpoints:
+      # Get report by ID
+      get_report:
+        path: "/api/reports/{report_id}"
+        method: "GET"
+        response_formats: ["json", "pdf", "html"]
+      
+      # List all reports
+      list_reports:
+        path: "/api/reports"
+        method: "GET"
+        pagination: true
+        page_size: 50
+        filters:
+          - "severity"
+          - "start_date"
+          - "end_date"
+          - "location"
+      
+      # Generate report on-demand
+      generate_report:
+        path: "/api/reports/generate"
+        method: "POST"
+        auth_required: true
+        body_schema:
+          accident_id: "string"
+          format: "string"
+  
+  # Report generation settings
+  generation:
+    # Parallel processing
+    max_workers: 4
+    timeout: 300  # seconds
+    
+    # Retry settings
+    max_retries: 3
+    retry_delay: 5  # seconds
+    
+    # Cache settings
+    cache_enabled: true
+    cache_ttl: 3600  # seconds
+    cache_path: "data/report_cache"
+    
+    # Quality checks
+    validation:
+      enabled: true
+      checks:
+        - "pdf_valid_structure"
+        - "json_valid_schema"
+        - "html_valid_markup"
+        - "min_content_length"
+        - "required_sections_present"
+  
+  # Logging configuration
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    file: "logs/incident_report_generator.log"
+    max_bytes: 10485760  # 10MB
+    backup_count: 5
+    
+    # Log specific events
+    log_events:
+      - "report_generated"
+      - "report_failed"
+      - "notification_sent"
+      - "notification_failed"
+      - "data_query_executed"
+      - "data_query_failed"
+  
+  # Performance monitoring
+  monitoring:
+    enabled: true
+    prometheus:
+      enabled: true
+      port: 9094
+      metrics_path: "/metrics"
+    
+    metrics:
+      - name: "reports_generated_total"
+        type: "counter"
+        description: "Total number of reports generated"
+        labels: ["severity", "format"]
+      
+      - name: "report_generation_duration_seconds"
+        type: "histogram"
+        description: "Time to generate report"
+        buckets: [1, 5, 10, 30, 60, 120]
+      
+      - name: "report_generation_failures_total"
+        type: "counter"
+        description: "Total number of failed report generations"
+        labels: ["error_type"]
+      
+      - name: "data_query_duration_seconds"
+        type: "histogram"
+        description: "Time to execute data queries"
+        labels: ["query_type"]

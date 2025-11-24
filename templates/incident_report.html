@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Report - {{ report_id }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+            @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+                font-size: 10pt;
+                color: #666;
+            }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #e74c3c;
+            margin: 0;
+            font-size: 28pt;
+        }
+        
+        .header .report-meta {
+            color: #666;
+            font-size: 11pt;
+            margin-top: 10px;
+        }
+        
+        .severity-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: white;
+            margin: 10px 0;
+        }
+        
+        .severity-critical { background-color: #c0392b; }
+        .severity-severe { background-color: #e74c3c; }
+        .severity-moderate { background-color: #f39c12; }
+        .severity-minor { background-color: #3498db; }
+        
+        .section {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            font-size: 18pt;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .info-item label {
+            font-weight: bold;
+            color: #7f8c8d;
+            font-size: 10pt;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .info-item value {
+            font-size: 14pt;
+            color: #2c3e50;
+        }
+        
+        .timeline {
+            margin: 20px 0;
+        }
+        
+        .timeline-event {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            page-break-inside: avoid;
+        }
+        
+        .timeline-event .time {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 12pt;
+        }
+        
+        .timeline-event .event {
+            color: #2c3e50;
+            margin-top: 5px;
+        }
+        
+        .metric-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .metric-card h4 {
+            margin: 0 0 10px 0;
+            color: #7f8c8d;
+            font-size: 11pt;
+            text-transform: uppercase;
+        }
+        
+        .metric-card .value {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .recommendations {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .recommendations li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            page-break-inside: avoid;
+        }
+        
+        .recommendations li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 14pt;
+            margin-right: 10px;
+        }
+        
+        .chart-container {
+            margin: 30px 0;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+        
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .chart-caption {
+            font-size: 10pt;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .map-container {
+            margin: 30px 0;
+            text-align: center;
+            page-break-before: always;
+        }
+        
+        .map-container img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            font-size: 9pt;
+            color: #7f8c8d;
+            text-align: center;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🚨 INCIDENT REPORT</h1>
+        <div class="report-meta">
+            <strong>Report ID:</strong> {{ report_id }}<br>
+            <strong>Generated:</strong> {{ generated_at }}<br>
+            <strong>Incident ID:</strong> {{ accident_id }}
+        </div>
+        <span class="severity-badge severity-{{ severity|lower }}">{{ severity|upper }}</span>
+    </div>
+    
+    <!-- Executive Summary -->
+    <div class="section">
+        <h2 class="section-title">Executive Summary</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Location</label>
+                <value>{{ summary.location }}</value>
+            </div>
+            <div class="info-item">
+                <label>Detection Time</label>
+                <value>{{ summary.detection_time }}</value>
+            </div>
+            <div class="info-item">
+                <label>Camera ID</label>
+                <value>{{ summary.camera_id }}</value>
+            </div>
+            <div class="info-item">
+                <label>Estimated Clearance</label>
+                <value>{{ summary.estimated_clearance }}</value>
+            </div>
+        </div>
+        
+        {% if summary.description %}
+        <p style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid #ffc107;">
+            <strong>Incident Description:</strong><br>
+            {{ summary.description }}
+        </p>
+        {% endif %}
+    </div>
+    
+    <!-- Timeline -->
+    <div class="section">
+        <h2 class="section-title">Incident Timeline</h2>
+        <div class="timeline">
+            {% for event in timeline %}
+            <div class="timeline-event">
+                <div class="time">{{ event.time }}</div>
+                <div class="event">{{ event.event }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- Impact Analysis -->
+    <div class="section">
+        <h2 class="section-title">Impact Analysis</h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="metric-card">
+                <h4>Affected Cameras</h4>
+                <div class="value">{{ impact.affected_cameras|length }}</div>
+            </div>
+            
+            <div class="metric-card">
+                <h4>Average Speed Drop</h4>
+                <div class="value">{{ impact.avg_speed_drop }}%</div>
+            </div>
+            
+            <div class="metric-card">
+                <h4>Congestion Duration</h4>
+                <div class="value">{{ impact.congestion_duration }}</div>
+            </div>
+            
+            <div class="metric-card">
+                <h4>Estimated Vehicles Affected</h4>
+                <div class="value">{{ impact.estimated_vehicles_affected }}</div>
+            </div>
+        </div>
+        
+        {% if impact.affected_cameras %}
+        <h3 style="margin-top: 30px; color: #2c3e50;">Affected Camera Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Camera ID</th>
+                    <th>Distance from Incident</th>
+                    <th>Speed Impact</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for camera in impact.affected_cameras %}
+                <tr>
+                    <td>{{ camera.id }}</td>
+                    <td>{{ camera.distance }} m</td>
+                    <td>{{ camera.speed_impact }}%</td>
+                    <td>{{ camera.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    
+    <!-- Visualizations -->
+    {% if charts %}
+    <div class="section">
+        <h2 class="section-title">Data Visualizations</h2>
+        
+        {% for chart in charts %}
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ chart.data }}" alt="{{ chart.title }}">
+            <div class="chart-caption">Figure {{ loop.index }}: {{ chart.title }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Map -->
+    {% if map_image %}
+    <div class="map-container">
+        <h2 class="section-title">Incident Location Map</h2>
+        <img src="data:image/png;base64,{{ map_image }}" alt="Incident Location Map">
+        <div class="chart-caption">Incident location and affected area</div>
+    </div>
+    {% endif %}
+    
+    <!-- Context Information -->
+    {% if context %}
+    <div class="section page-break">
+        <h2 class="section-title">Context Information</h2>
+        
+        {% if context.weather_conditions %}
+        <h3 style="color: #2c3e50;">Weather Conditions</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Temperature</label>
+                <value>{{ context.weather_conditions.temperature }}°C</value>
+            </div>
+            <div class="info-item">
+                <label>Conditions</label>
+                <value>{{ context.weather_conditions.conditions }}</value>
+            </div>
+            <div class="info-item">
+                <label>Wind Speed</label>
+                <value>{{ context.weather_conditions.wind_speed }} km/h</value>
+            </div>
+            <div class="info-item">
+                <label>Precipitation</label>
+                <value>{{ context.weather_conditions.precipitation }} mm</value>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if context.time_context %}
+        <h3 style="color: #2c3e50; margin-top: 30px;">Time Context</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Time of Day</label>
+                <value>{{ context.time_context.time_of_day }}</value>
+            </div>
+            <div class="info-item">
+                <label>Day of Week</label>
+                <value>{{ context.time_context.day_of_week }}</value>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if context.historical_patterns %}
+        <h3 style="color: #2c3e50; margin-top: 30px;">Historical Patterns</h3>
+        <p style="padding: 15px; background: #f8f9fa; border-left: 4px solid #3498db;">
+            This location has experienced <strong>{{ context.historical_patterns.incident_count }}</strong> 
+            incidents in the past {{ context.historical_patterns.time_period }}. 
+            The average speed at this location is typically <strong>{{ context.historical_patterns.avg_speed }} km/h</strong>.
+        </p>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    <!-- Recommendations -->
+    <div class="section">
+        <h2 class="section-title">Recommended Actions</h2>
+        <ul class="recommendations">
+            {% for recommendation in recommendations %}
+            <li>{{ recommendation }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- Related Incidents -->
+    {% if related_incidents %}
+    <div class="section">
+        <h2 class="section-title">Related Incidents</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Incident ID</th>
+                    <th>Location</th>
+                    <th>Time</th>
+                    <th>Severity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incident in related_incidents %}
+                <tr>
+                    <td>{{ incident.id }}</td>
+                    <td>{{ incident.location }}</td>
+                    <td>{{ incident.time }}</td>
+                    <td><span class="severity-badge severity-{{ incident.severity|lower }}">{{ incident.severity }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    <!-- Footer -->
+    <div class="footer">
+        <p>
+            This report was automatically generated by the Incident Report Generator Agent.<br>
+            Ho Chi Minh City Traffic Management System<br>
+            Report generated at: {{ generated_at }}
+        </p>
+    </div>
+</body>
+</html>
