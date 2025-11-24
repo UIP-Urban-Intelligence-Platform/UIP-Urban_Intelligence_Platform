@@ -1,0 +1,181 @@
+# Apache Jena Fuseki Triplestore Configuration
+# 100% DOMAIN-AGNOSTIC - Works with ANY LOD domain (healthcare, geography, commerce, etc.)
+# ALL endpoint configurations are here - NO hardcoded URLs in Python code
+
+fuseki:
+  # Base URL for Fuseki server
+  # Can be overridden with environment variable: FUSEKI_BASE_URL
+  base_url: "http://localhost:3030"
+  
+  # Default dataset name
+  # Can be overridden with environment variable: FUSEKI_DATASET
+  dataset: "lod-dataset"
+  
+  # Authentication credentials
+  auth:
+    # Username for Fuseki admin
+    # Can be overridden with environment variable: FUSEKI_USERNAME
+    username: "admin"
+    
+    # Password for Fuseki admin
+    # MUST be set via environment variable: FUSEKI_PASSWORD
+    # Never hardcode passwords in config files
+    password: "test_admin"  # For testing only - use env var in production
+  
+  # Fuseki REST API endpoints (relative to dataset)
+  endpoints:
+    # Data endpoint for uploading RDF
+    data: "/{dataset}/data"
+    
+    # SPARQL query endpoint
+    sparql: "/{dataset}/sparql"
+    
+    # SPARQL update endpoint
+    update: "/{dataset}/update"
+    
+    # Graph Store Protocol endpoint
+    graph: "/{dataset}/data"
+  
+  # Named graphs for organizing RDF data
+  # Domain-agnostic - configure graphs based on your data structure
+  named_graphs:
+    # Example: Domain-specific graphs can be added here
+    - "http://example.org/graphs/default"
+    - "http://example.org/graphs/metadata"
+    - "http://example.org/graphs/observations"
+  
+  # Upload configuration
+  upload:
+    # Number of triples to upload per batch
+    # Larger batches = faster but more memory
+    batch_size: 1000
+    
+    # Request timeout in seconds
+    timeout: 60
+    
+    # Retry configuration
+    retry_attempts: 3
+    retry_delay: 2  # seconds between retries
+    
+    # Supported RDF formats (auto-detected by file extension)
+    supported_formats:
+      - format: "turtle"
+        extensions: [".ttl"]
+        mime_type: "text/turtle"
+      
+      - format: "nt"
+        extensions: [".nt"]
+        mime_type: "application/n-triples"
+      
+      - format: "xml"
+        extensions: [".rdf", ".xml"]
+        mime_type: "application/rdf+xml"
+      
+      - format: "json-ld"
+        extensions: [".jsonld"]
+        mime_type: "application/ld+json"
+  
+  # SPARQL query configuration
+  sparql:
+    # Default query timeout
+    query_timeout: 30
+    
+    # Maximum results per query
+    max_results: 10000
+    
+    # Enable query logging
+    log_queries: true
+    
+    # Test queries to validate endpoint
+    test_queries:
+      # Count all triples
+      - name: "count_triples"
+        query: "SELECT (COUNT(*) as ?count) WHERE { ?s ?p ?o }"
+        expected_binding: "count"
+      
+      # Check dataset is not empty (queries both default and named graphs)
+      - name: "check_subjects"
+        query: "SELECT DISTINCT ?s WHERE { { ?s ?p ?o } UNION { GRAPH ?g { ?s ?p ?o } } } LIMIT 10"
+        expected_binding: "s"
+      
+      # Verify named graphs
+      - name: "list_graphs"
+        query: "SELECT DISTINCT ?g WHERE { GRAPH ?g { ?s ?p ?o } }"
+        expected_binding: "g"
+  
+  # Validation configuration
+  validation:
+    # Validate RDF syntax before upload
+    validate_before_upload: true
+    
+    # Validate triples after upload (query count)
+    validate_after_upload: true
+    
+    # Minimum triples to consider upload successful
+    min_triples: 1
+  
+  # Logging configuration
+  logging:
+    # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    level: "INFO"
+    
+    # Log file path (optional)
+    log_file: "logs/triplestore_loader.log"
+    
+    # Log format
+    log_format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Domain-specific configurations (examples)
+# Add your own domain configurations here
+domains:
+  # Example: Traffic camera domain
+  traffic-cameras:
+    dataset: "traffic-cameras"
+    named_graphs:
+      - "http://hcmc-traffic/cameras"
+      - "http://hcmc-traffic/observations"
+      - "http://hcmc-traffic/accidents"
+  
+  # Example: Healthcare domain
+  healthcare:
+    dataset: "healthcare-data"
+    named_graphs:
+      - "http://health.example.org/patients"
+      - "http://health.example.org/observations"
+      - "http://health.example.org/devices"
+  
+  # Example: Geographic data domain
+  geography:
+    dataset: "geo-data"
+    named_graphs:
+      - "http://geo.example.org/locations"
+      - "http://geo.example.org/features"
+      - "http://geo.example.org/boundaries"
+
+# Performance tuning
+performance:
+  # Enable parallel uploads (multiple files at once)
+  parallel_uploads: false
+  
+  # Number of parallel workers
+  max_workers: 4
+  
+  # Enable compression for large uploads
+  enable_compression: false
+  
+  # Chunk size for streaming large files (bytes)
+  stream_chunk_size: 8192
+
+# Report generation
+reporting:
+  # Output directory for load reports
+  output_dir: "data/reports"
+  
+  # Report format: json, yaml, text
+  format: "json"
+  
+  # Include detailed statistics
+  detailed_stats: true
+  
+  # Report filename pattern
+  filename_pattern: "triplestore_load_{timestamp}.json"
