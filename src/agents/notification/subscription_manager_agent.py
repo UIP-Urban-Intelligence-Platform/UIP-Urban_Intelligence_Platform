@@ -1,9 +1,8 @@
 """Subscription Manager Agent.
 
 Module: src.agents.notification.subscription_manager_agent
-Author: Builder Layer Notification Team
-#Author: nguyễn Nhật Quang
-#Created: 2025-11-22
+Author: nguyễn Nhật Quang
+Created: 2025-11-22
 License: MIT
 
 Description:

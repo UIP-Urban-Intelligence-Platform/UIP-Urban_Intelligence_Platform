@@ -1,8 +1,8 @@
 """Content Negotiation Agent.
 
 Module: src.agents.rdf_linked_data.content_negotiation_agent
-Author: Builder Layer RDF Team
-Created: 2024-10-15
+Author: Nguyễn Việt Hoàng
+Created: 2025-11-22
 Version: 2.0.0
 License: MIT
 

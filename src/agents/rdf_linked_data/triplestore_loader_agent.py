@@ -1,8 +1,8 @@
 """Triplestore Loader Agent - Apache Jena Fuseki Integration.
 
 Module: src.agents.rdf_linked_data.triplestore_loader_agent
-Author: Builder Layer RDF Team
-Created: 2024-09-25
+Author: Nguyễn Việt Hoàng
+Created: 2025-11-22
 Version: 2.0.0
 License: MIT
 

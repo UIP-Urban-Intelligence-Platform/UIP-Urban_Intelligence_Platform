@@ -1,8 +1,8 @@
 """Smart Data Models Validation Agent.
 
 Module: src.agents.rdf_linked_data.smart_data_models_validation_agent
-Author: Builder Layer Validation Team
-Created: 2024-10-01
+Author: Nguyễn Việt Hoàng 
+Created: 2025-11-22
 Version: 2.0.0
 License: MIT
 
