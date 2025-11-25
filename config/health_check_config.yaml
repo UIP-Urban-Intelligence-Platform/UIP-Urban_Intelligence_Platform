@@ -1,0 +1,498 @@
+# Health Check Agent Configuration
+# Domain-agnostic health monitoring system
+# Author: Builder Layer Development Team
+# Version: 1.0.0
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-25
+health_check:
+  # Monitoring interval
+  interval: 300  # seconds (5 minutes)
+  timeout: 30     # default timeout for checks
+  retries: 3      # retry failed checks
+  
+  # Service availability checks
+  checks:
+    # Stellio NGSI-LD Broker
+    - name: "stellio_api"
+      type: "http"
+      enabled: true
+      url: "http://localhost:8080/ngsi-ld/v1/entities"
+      method: "GET"
+      timeout: 5
+      expected_status: 200
+      headers:
+        Accept: "application/ld+json"
+      critical: true
+      description: "Stellio NGSI-LD broker API availability"
+    
+    - name: "stellio_health"
+      type: "http"
+      enabled: true
+      url: "http://localhost:8080/actuator/health"
+      method: "GET"
+      timeout: 5
+      expected_status: 200
+      critical: false
+      description: "Stellio internal health endpoint"
+    
+    # Neo4j Graph Database
+    - name: "neo4j_connectivity"
+      type: "tcp"
+      enabled: true
+      host: "localhost"
+      port: 7687
+      timeout: 5
+      critical: true
+      description: "Neo4j database connectivity (bolt protocol)"
+    
+    - name: "neo4j_query"
+      type: "cypher"
+      enabled: true
+      uri: "bolt://localhost:7687"
+      username: "neo4j"
+      password: "${NEO4J_PASSWORD}"
+      database: "traffic"
+      query: "MATCH (c:Camera) RETURN count(c) as camera_count LIMIT 1"
+      timeout: 10
+      expected_fields: ["camera_count"]
+      critical: true
+      description: "Neo4j query execution test"
+    
+    # Apache Jena Fuseki SPARQL Endpoint
+    - name: "fuseki_http"
+      type: "http"
+      enabled: true
+      url: "http://localhost:3030/$/ping"
+      method: "GET"
+      timeout: 5
+      expected_status: 200
+      critical: true
+      description: "Fuseki server HTTP availability"
+    
+    - name: "fuseki_sparql"
+      type: "sparql"
+      enabled: true
+      url: "http://localhost:3030/traffic-cameras/sparql"
+      query: |
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        ASK { ?s rdf:type ?o }
+      timeout: 10
+      critical: true
+      description: "Fuseki SPARQL query execution"
+    
+    - name: "fuseki_update"
+      type: "http"
+      enabled: true
+      url: "http://localhost:3030/traffic-cameras/update"
+      method: "POST"
+      timeout: 5
+      expected_status: [200, 405]  # 405 if updates disabled
+      critical: false
+      description: "Fuseki SPARQL update endpoint"
+    
+    # Apache Kafka
+    - name: "kafka_broker"
+      type: "tcp"
+      enabled: true
+      host: "localhost"
+      port: 9092
+      timeout: 5
+      critical: true
+      description: "Kafka broker connectivity"
+    
+    - name: "kafka_topics"
+      type: "kafka"
+      enabled: true
+      bootstrap_servers: "localhost:9092"
+      timeout: 10
+      check: "list_topics"
+      expected_topics: ["camera-observations", "traffic-incidents"]
+      critical: false
+      description: "Kafka topics availability"
+    
+    # Alert Dispatcher Agent
+    - name: "alert_dispatcher"
+      type: "http"
+      enabled: true
+      url: "http://localhost:8080/health"
+      method: "GET"
+      timeout: 5
+      expected_status: 200
+      critical: false
+      description: "Alert Dispatcher Agent health"
+    
+    # Incident Report Generator
+    - name: "report_generator"
+      type: "http"
+      enabled: true
+      url: "http://localhost:8081/health"
+      method: "GET"
+      timeout: 5
+      expected_status: 200
+      critical: false
+      description: "Incident Report Generator health"
+  
+  # Data quality checks
+  data_quality_checks:
+    - name: "cameras_online_count"
+      type: "cypher_count"
+      enabled: true
+      uri: "bolt://localhost:7687"
+      username: "neo4j"
+      password: "${NEO4J_PASSWORD}"
+      database: "traffic"
+      query: |
+        MATCH (c:Camera)
+        WHERE c.status = 'online'
+        RETURN count(c) as count
+      threshold:
+        min: 700      # at least 700 cameras online
+        max: 750      # not more than 750 (sanity check)
+        warn_min: 680 # warning threshold
+      critical: true
+      description: "Number of online cameras (expected ~722)"
+    
+    - name: "recent_observations"
+      type: "cypher_age"
+      enabled: true
+      uri: "bolt://localhost:7687"
+      username: "neo4j"
+      password: "${NEO4J_PASSWORD}"
+      database: "traffic"
+      query: |
+        MATCH (o:Observation)
+        RETURN o.observedAt as timestamp
+        ORDER BY o.observedAt DESC
+        LIMIT 1
+      field: "timestamp"
+      threshold:
+        max: 300      # less than 5 minutes old
+        warn_max: 180 # warning if over 3 minutes
+      unit: "seconds"
+      critical: true
+      description: "Age of most recent observation"
+    
+    - name: "valid_image_urls"
+      type: "cypher_validation"
+      enabled: true
+      uri: "bolt://localhost:7687"
+      username: "neo4j"
+      password: "${NEO4J_PASSWORD}"
+      database: "traffic"
+      query: |
+        MATCH (c:Camera)
+        WHERE c.imageUrl IS NOT NULL
+        RETURN count(c) as count
+      threshold:
+        min: 700
+      critical: false
+      description: "Cameras with valid image URLs"
+    
+    - name: "incident_processing_lag"
+      type: "cypher_age"
+      enabled: true
+      uri: "bolt://localhost:7687"
+      username: "neo4j"
+      password: "${NEO4J_PASSWORD}"
+      database: "traffic"
+      query: |
+        MATCH (i:RoadAccident)
+        WHERE i.processed = false
+        RETURN i.detectionTime as timestamp
+        ORDER BY i.detectionTime ASC
+        LIMIT 1
+      field: "timestamp"
+      threshold:
+        max: 600      # process within 10 minutes
+        warn_max: 300
+      unit: "seconds"
+      critical: false
+      description: "Oldest unprocessed incident age"
+    
+    - name: "stellio_entity_count"
+      type: "http_json"
+      enabled: true
+      url: "http://localhost:8080/ngsi-ld/v1/entities?type=Camera&count=true"
+      method: "GET"
+      headers:
+        Accept: "application/ld+json"
+      timeout: 10
+      json_path: "$.totalCount"
+      threshold:
+        min: 700
+      critical: false
+      description: "Number of Camera entities in Stellio"
+    
+    - name: "sparql_triple_count"
+      type: "sparql_count"
+      enabled: true
+      url: "http://localhost:3030/traffic-cameras/sparql"
+      query: |
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        SELECT (COUNT(*) as ?count)
+        WHERE { ?s ?p ?o }
+      threshold:
+        min: 1000  # at least 1000 triples
+      critical: false
+      description: "Total RDF triples in Fuseki"
+  
+  # Performance metrics
+  performance_checks:
+    - name: "stellio_response_time"
+      type: "http_timing"
+      enabled: true
+      url: "http://localhost:8080/ngsi-ld/v1/entities?type=Camera&limit=10"
+      method: "GET"
+      timeout: 10
+      threshold:
+        max: 1000  # milliseconds
+        warn_max: 500
+      critical: false
+      description: "Stellio API response time"
+    
+    - name: "neo4j_query_time"
+      type: "cypher_timing"
+      enabled: true
+      uri: "bolt://localhost:7687"
+      username: "neo4j"
+      password: "${NEO4J_PASSWORD}"
+      database: "traffic"
+      query: "MATCH (c:Camera) RETURN c LIMIT 100"
+      threshold:
+        max: 1000  # milliseconds
+        warn_max: 500
+      critical: false
+      description: "Neo4j query execution time"
+    
+    - name: "sparql_query_time"
+      type: "sparql_timing"
+      enabled: true
+      url: "http://localhost:3030/traffic-cameras/sparql"
+      query: |
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        SELECT ?s ?p ?o
+        WHERE { ?s ?p ?o }
+        LIMIT 100
+      threshold:
+        max: 2000  # milliseconds
+        warn_max: 1000
+      critical: false
+      description: "SPARQL query execution time"
+  
+  # Health status aggregation
+  status:
+    # Overall health determination
+    rules:
+      - condition: "all_critical_ok"
+        status: "GREEN"
+        description: "All critical services operational"
+      
+      - condition: "any_critical_failed"
+        status: "RED"
+        description: "One or more critical services failed"
+      
+      - condition: "any_warning"
+        status: "YELLOW"
+        description: "Services degraded but operational"
+      
+      - condition: "any_non_critical_failed"
+        status: "YELLOW"
+        description: "Non-critical service failures detected"
+    
+    # Status persistence
+    history:
+      enabled: true
+      retention_days: 30
+      storage: "sqlite:///data/health_history.db"
+  
+  # Alerting configuration
+  alerting:
+    enabled: true
+    
+    # Trigger conditions
+    triggers:
+      on_state_change: true      # Alert when health status changes
+      on_critical_failure: true  # Immediate alert for critical failures
+      on_recovery: true          # Alert when service recovers
+    
+    # Notification channels
+    channels:
+      # Webhook to Alert Dispatcher
+      - type: "webhook"
+        enabled: true
+        url: "http://localhost:8080/api/alerts"
+        method: "POST"
+        headers:
+          Content-Type: "application/json"
+        payload:
+          title: "Health Check Alert: {{status}}"
+          message: "{{description}}"
+          severity: "{{severity}}"
+          timestamp: "{{timestamp}}"
+          details: "{{checks}}"
+        timeout: 10
+        retry: 3
+      
+      # Email notification
+      - type: "email"
+        enabled: true  # ✅ ENABLED - Email notifications active
+        smtp_host: "smtp.gmail.com"
+        smtp_port: 587
+        use_tls: true
+        username: "${SMTP_USERNAME}"
+        password: "${SMTP_PASSWORD}"
+        from: "health-check@trafficmanagement.com"
+        to:
+          - "ops-team@example.com"
+          - "admin@example.com"
+        subject: "[{{status}}] Health Check Alert"
+        template: |
+          Health Status: {{status}}
+          
+          Timestamp: {{timestamp}}
+          
+          Failed Checks:
+          {{#failed_checks}}
+          - {{name}}: {{error}}
+          {{/failed_checks}}
+          
+          Summary:
+          {{description}}
+      
+      # Slack webhook
+      - type: "slack"
+        enabled: true  # ✅ ENABLED - Slack notifications active
+        webhook_url: "${SLACK_WEBHOOK_URL}"
+        channel: "#alerts"
+        username: "Health Check Bot"
+        icon_emoji: ":hospital:"
+        template: |
+          :warning: *Health Status: {{status}}*
+          
+          {{description}}
+          
+          Timestamp: {{timestamp}}
+    
+    # Rate limiting
+    rate_limit:
+      enabled: true
+      max_alerts_per_hour: 10
+      cooldown_seconds: 300  # Don't repeat same alert within 5 min
+  
+  # Prometheus metrics export
+  prometheus:
+    enabled: true
+    host: "0.0.0.0"
+    port: 9095
+    path: "/metrics"
+    
+    # Metrics configuration
+    metrics:
+      # Service health gauge (0=down, 1=up)
+      - name: "health_check_service_up"
+        type: "gauge"
+        description: "Service availability (1=up, 0=down)"
+        labels: ["service", "type"]
+      
+      # Overall health status (0=red, 1=yellow, 2=green)
+      - name: "health_check_overall_status"
+        type: "gauge"
+        description: "Overall health status (0=RED, 1=YELLOW, 2=GREEN)"
+      
+      # Response time histogram
+      - name: "health_check_response_time_seconds"
+        type: "histogram"
+        description: "Service response time in seconds"
+        labels: ["service", "type"]
+        buckets: [0.01, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0]
+      
+      # Check execution counter
+      - name: "health_check_executions_total"
+        type: "counter"
+        description: "Total number of health check executions"
+        labels: ["check_name", "status"]
+      
+      # Failure counter
+      - name: "health_check_failures_total"
+        type: "counter"
+        description: "Total number of failed health checks"
+        labels: ["check_name", "error_type"]
+      
+      # Data quality metrics
+      - name: "health_check_cameras_online"
+        type: "gauge"
+        description: "Number of cameras currently online"
+      
+      - name: "health_check_observation_age_seconds"
+        type: "gauge"
+        description: "Age of most recent observation in seconds"
+      
+      - name: "health_check_incident_processing_lag_seconds"
+        type: "gauge"
+        description: "Age of oldest unprocessed incident in seconds"
+      
+      - name: "health_check_entity_count"
+        type: "gauge"
+        description: "Number of entities by type"
+        labels: ["entity_type", "source"]
+      
+      # System uptime
+      - name: "health_check_uptime_percent"
+        type: "gauge"
+        description: "System uptime percentage over last 24 hours"
+        labels: ["service"]
+  
+  # Dashboard API
+  api:
+    enabled: true
+    host: "0.0.0.0"
+    port: 8082
+    
+    endpoints:
+      # Current health status
+      - path: "/health"
+        method: "GET"
+        description: "Get current health status"
+        response:
+          status: "string"
+          timestamp: "ISO8601"
+          checks: "array"
+          uptime_percent: "float"
+      
+      # Health history
+      - path: "/health/history"
+        method: "GET"
+        description: "Get health status history"
+        params:
+          - name: "hours"
+            type: "integer"
+            default: 24
+        response:
+          data: "array"
+      
+      # Specific check status
+      - path: "/health/check/{check_name}"
+        method: "GET"
+        description: "Get status of specific check"
+        response:
+          check: "object"
+      
+      # Trigger manual check
+      - path: "/health/check/{check_name}/run"
+        method: "POST"
+        description: "Manually trigger a health check"
+        response:
+          result: "object"
+  
+  # Logging configuration
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    handlers:
+      - type: "file"
+        filename: "logs/health_check.log"
+        max_bytes: 10485760  # 10 MB
+        backup_count: 5
+      
+      - type: "console"
+        stream: "stdout"

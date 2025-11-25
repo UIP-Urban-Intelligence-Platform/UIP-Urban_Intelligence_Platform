@@ -1,0 +1,570 @@
+# ==============================================================================
+# PERFORMANCE MONITOR AGENT CONFIGURATION
+# ==============================================================================
+# Purpose: Define metrics collection, Prometheus export, and alerting rules
+# Architecture: 100% domain-agnostic, config-driven monitoring system
+# ==============================================================================
+#Author: Nguyen Dinh Anh Tuan
+#Created: 2025-11-25
+performance_monitor:
+  # Collection interval in seconds
+  collection_interval: 30
+  
+  # Enable/disable metric categories
+  enabled_collectors:
+    - system
+    - application
+    - neo4j
+  
+  # ==============================================================================
+  # SYSTEM METRICS - OS-level resource monitoring
+  # ==============================================================================
+  system_metrics:
+    # CPU metrics
+    - name: "cpu_percent"
+      description: "CPU usage percentage"
+      type: "gauge"
+      enabled: true
+    
+    - name: "cpu_count"
+      description: "Number of CPU cores"
+      type: "gauge"
+      enabled: true
+    
+    - name: "cpu_freq_current"
+      description: "Current CPU frequency in MHz"
+      type: "gauge"
+      enabled: true
+    
+    # Memory metrics
+    - name: "memory_percent"
+      description: "Memory usage percentage"
+      type: "gauge"
+      enabled: true
+    
+    - name: "memory_used_bytes"
+      description: "Used memory in bytes"
+      type: "gauge"
+      enabled: true
+    
+    - name: "memory_available_bytes"
+      description: "Available memory in bytes"
+      type: "gauge"
+      enabled: true
+    
+    - name: "swap_percent"
+      description: "Swap usage percentage"
+      type: "gauge"
+      enabled: true
+    
+    # Disk metrics
+    - name: "disk_usage_percent"
+      description: "Disk usage percentage"
+      type: "gauge"
+      enabled: true
+      labels: ["mount_point"]
+    
+    - name: "disk_io_read_bytes"
+      description: "Disk read bytes per second"
+      type: "counter"
+      enabled: true
+    
+    - name: "disk_io_write_bytes"
+      description: "Disk write bytes per second"
+      type: "counter"
+      enabled: true
+    
+    - name: "disk_io_read_count"
+      description: "Disk read operations per second"
+      type: "counter"
+      enabled: true
+    
+    - name: "disk_io_write_count"
+      description: "Disk write operations per second"
+      type: "counter"
+      enabled: true
+    
+    # Network metrics
+    - name: "network_bytes_sent"
+      description: "Network bytes sent per second"
+      type: "counter"
+      enabled: true
+      labels: ["interface"]
+    
+    - name: "network_bytes_recv"
+      description: "Network bytes received per second"
+      type: "counter"
+      enabled: true
+      labels: ["interface"]
+    
+    - name: "network_packets_sent"
+      description: "Network packets sent per second"
+      type: "counter"
+      enabled: true
+      labels: ["interface"]
+    
+    - name: "network_packets_recv"
+      description: "Network packets received per second"
+      type: "counter"
+      enabled: true
+      labels: ["interface"]
+    
+    - name: "network_errors_in"
+      description: "Network receive errors"
+      type: "counter"
+      enabled: true
+      labels: ["interface"]
+    
+    - name: "network_errors_out"
+      description: "Network transmit errors"
+      type: "counter"
+      enabled: true
+      labels: ["interface"]
+  
+  # ==============================================================================
+  # APPLICATION METRICS - Agent and API performance
+  # ==============================================================================
+  application_metrics:
+    # Agent execution metrics
+    - name: "agent_execution_time"
+      description: "Agent execution duration in seconds"
+      type: "histogram"
+      labels: ["agent_name", "status"]
+      buckets: [0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 30.0, 60.0, 120.0]
+      enabled: true
+    
+    - name: "agent_execution_count"
+      description: "Total agent executions"
+      type: "counter"
+      labels: ["agent_name", "status"]
+      enabled: true
+    
+    - name: "agent_error_count"
+      description: "Agent execution errors"
+      type: "counter"
+      labels: ["agent_name", "error_type"]
+      enabled: true
+    
+    # API metrics
+    - name: "api_request_duration"
+      description: "API request duration in seconds"
+      type: "histogram"
+      labels: ["endpoint", "method", "status"]
+      buckets: [0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0]
+      enabled: true
+    
+    - name: "api_request_count"
+      description: "Total API requests"
+      type: "counter"
+      labels: ["endpoint", "method", "status"]
+      enabled: true
+    
+    - name: "api_error_count"
+      description: "API request errors"
+      type: "counter"
+      labels: ["endpoint", "method", "error_type"]
+      enabled: true
+    
+    # Queue metrics
+    - name: "queue_length"
+      description: "Current queue length"
+      type: "gauge"
+      labels: ["queue_name"]
+      enabled: true
+    
+    - name: "queue_items_processed"
+      description: "Total items processed from queue"
+      type: "counter"
+      labels: ["queue_name"]
+      enabled: true
+    
+    - name: "queue_processing_time"
+      description: "Queue item processing duration in seconds"
+      type: "histogram"
+      labels: ["queue_name"]
+      buckets: [0.1, 0.5, 1.0, 5.0, 10.0, 30.0]
+      enabled: true
+    
+    # Entity processing metrics
+    - name: "entities_processed_total"
+      description: "Total entities processed"
+      type: "counter"
+      labels: ["entity_type", "operation"]
+      enabled: true
+    
+    - name: "entities_processing_time"
+      description: "Entity processing duration in seconds"
+      type: "histogram"
+      labels: ["entity_type", "operation"]
+      buckets: [0.01, 0.05, 0.1, 0.5, 1.0, 5.0]
+      enabled: true
+    
+    # Cache metrics
+    - name: "cache_hits"
+      description: "Cache hits"
+      type: "counter"
+      labels: ["cache_name"]
+      enabled: true
+    
+    - name: "cache_misses"
+      description: "Cache misses"
+      type: "counter"
+      labels: ["cache_name"]
+      enabled: true
+    
+    - name: "cache_size"
+      description: "Current cache size"
+      type: "gauge"
+      labels: ["cache_name"]
+      enabled: true
+  
+  # ==============================================================================
+  # NEO4J METRICS - Database performance monitoring
+  # ==============================================================================
+  neo4j_metrics:
+    uri: "${NEO4J_URI:-bolt://localhost:7687}"
+    user: "${NEO4J_USER:-neo4j}"
+    password: "${NEO4J_PASSWORD:-password}"
+    database: "${NEO4J_DATABASE:-neo4j}"
+    
+    # Connection pool settings
+    connection_pool:
+      max_size: 50
+      timeout: 30
+    
+    # Metrics collection queries
+    queries:
+      # Query performance
+      - name: "neo4j_query_duration_p50"
+        description: "Query duration 50th percentile (ms)"
+        type: "gauge"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Queries')
+          YIELD attributes
+          RETURN attributes.ExecutionTimeP50 AS value
+        enabled: true
+      
+      - name: "neo4j_query_duration_p95"
+        description: "Query duration 95th percentile (ms)"
+        type: "gauge"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Queries')
+          YIELD attributes
+          RETURN attributes.ExecutionTimeP95 AS value
+        enabled: true
+      
+      - name: "neo4j_query_duration_p99"
+        description: "Query duration 99th percentile (ms)"
+        type: "gauge"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Queries')
+          YIELD attributes
+          RETURN attributes.ExecutionTimeP99 AS value
+        enabled: true
+      
+      # Database size
+      - name: "neo4j_database_size_bytes"
+        description: "Database size in bytes"
+        type: "gauge"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Store file sizes')
+          YIELD attributes
+          RETURN attributes.TotalStoreSize AS value
+        enabled: true
+      
+      # Transaction metrics
+      - name: "neo4j_transactions_active"
+        description: "Active transactions"
+        type: "gauge"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Transactions')
+          YIELD attributes
+          RETURN attributes.NumberOfOpenTransactions AS value
+        enabled: true
+      
+      - name: "neo4j_transactions_committed"
+        description: "Committed transactions"
+        type: "counter"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Transactions')
+          YIELD attributes
+          RETURN attributes.NumberOfCommittedTransactions AS value
+        enabled: true
+      
+      - name: "neo4j_transactions_rolled_back"
+        description: "Rolled back transactions"
+        type: "counter"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Transactions')
+          YIELD attributes
+          RETURN attributes.NumberOfRolledBackTransactions AS value
+        enabled: true
+      
+      # Connection pool
+      - name: "neo4j_connection_pool_total"
+        description: "Total connections in pool"
+        type: "gauge"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Bolt')
+          YIELD attributes
+          RETURN attributes.ConnectionsOpened AS value
+        enabled: true
+      
+      - name: "neo4j_connection_pool_idle"
+        description: "Idle connections in pool"
+        type: "gauge"
+        query: |
+          CALL dbms.queryJmx('org.neo4j:name=Bolt')
+          YIELD attributes
+          RETURN attributes.ConnectionsIdle AS value
+        enabled: true
+      
+      # Node and relationship counts
+      - name: "neo4j_node_count"
+        description: "Total node count"
+        type: "gauge"
+        query: |
+          MATCH (n)
+          RETURN count(n) AS value
+        enabled: true
+      
+      - name: "neo4j_relationship_count"
+        description: "Total relationship count"
+        type: "gauge"
+        query: |
+          MATCH ()-[r]->()
+          RETURN count(r) AS value
+        enabled: true
+      
+      # Label-specific counts (domain-agnostic)
+      - name: "neo4j_label_count"
+        description: "Node count by label"
+        type: "gauge"
+        labels: ["label"]
+        query: |
+          CALL db.labels() YIELD label
+          CALL apoc.cypher.run('MATCH (n:`' + label + '`) RETURN count(n) AS count', {})
+          YIELD value
+          RETURN label, value.count AS value
+        enabled: true
+      
+      # Relationship type counts
+      - name: "neo4j_relationship_type_count"
+        description: "Relationship count by type"
+        type: "gauge"
+        labels: ["type"]
+        query: |
+          CALL db.relationshipTypes() YIELD relationshipType
+          CALL apoc.cypher.run('MATCH ()-[r:`' + relationshipType + '`]->() RETURN count(r) AS count', {})
+          YIELD value
+          RETURN relationshipType AS type, value.count AS value
+        enabled: true
+  
+  # ==============================================================================
+  # PROMETHEUS EXPORTER CONFIGURATION
+  # ==============================================================================
+  prometheus:
+    # HTTP server settings
+    host: "0.0.0.0"
+    port: 9091
+    path: "/metrics"
+    
+    # Metric prefix
+    metric_prefix: "multi_agent_system"
+    
+    # Default labels for all metrics
+    default_labels:
+      environment: "${ENVIRONMENT:-development}"
+      instance: "${HOSTNAME:-localhost}"
+      version: "${APP_VERSION:-1.0.0}"
+    
+    # Export options
+    include_timestamp: true
+    include_process_metrics: true
+    include_platform_metrics: true
+  
+  # ==============================================================================
+  # ALERTING RULES - Threshold-based alerts
+  # ==============================================================================
+  alerting:
+    enabled: true
+    
+    # Alert notification settings
+    notifications:
+      channels:
+        - type: "log"
+          level: "warning"
+          enabled: true
+        
+        - type: "kafka"
+          topic: "system-alerts"
+          enabled: true  # ✅ ENABLED - Kafka alerts active
+        
+        - type: "webhook"
+          url: "${ALERT_WEBHOOK_URL}"
+          enabled: true  # ✅ ENABLED - Webhook alerts active
+    
+    # Alert rules
+    rules:
+      # System resource alerts
+      - name: "high_cpu_usage"
+        metric: "cpu_percent"
+        condition: ">"
+        threshold: 85
+        duration: 300  # 5 minutes sustained
+        severity: "warning"
+        message: "CPU usage above 85% for 5 minutes"
+        enabled: true
+      
+      - name: "critical_cpu_usage"
+        metric: "cpu_percent"
+        condition: ">"
+        threshold: 95
+        duration: 60  # 1 minute
+        severity: "critical"
+        message: "CPU usage above 95%"
+        enabled: true
+      
+      - name: "high_memory_usage"
+        metric: "memory_percent"
+        condition: ">"
+        threshold: 85
+        duration: 300
+        severity: "warning"
+        message: "Memory usage above 85% for 5 minutes"
+        enabled: true
+      
+      - name: "critical_memory_usage"
+        metric: "memory_percent"
+        condition: ">"
+        threshold: 95
+        duration: 60
+        severity: "critical"
+        message: "Memory usage above 95%"
+        enabled: true
+      
+      - name: "high_disk_usage"
+        metric: "disk_usage_percent"
+        condition: ">"
+        threshold: 90
+        duration: 600  # 10 minutes
+        severity: "warning"
+        message: "Disk usage above 90%"
+        enabled: true
+      
+      # Application performance alerts
+      - name: "slow_api_response"
+        metric: "api_request_duration"
+        aggregation: "p95"
+        condition: ">"
+        threshold: 1.0  # 1 second
+        duration: 300
+        severity: "warning"
+        message: "API P95 response time above 1 second"
+        enabled: true
+      
+      - name: "very_slow_api_response"
+        metric: "api_request_duration"
+        aggregation: "p99"
+        condition: ">"
+        threshold: 5.0  # 5 seconds
+        duration: 60
+        severity: "critical"
+        message: "API P99 response time above 5 seconds"
+        enabled: true
+      
+      - name: "high_error_rate"
+        metric: "agent_error_count"
+        aggregation: "rate_5m"
+        condition: ">"
+        threshold: 10  # errors per second
+        duration: 60
+        severity: "critical"
+        message: "Agent error rate above 10/sec"
+        enabled: true
+      
+      - name: "queue_backlog"
+        metric: "queue_length"
+        condition: ">"
+        threshold: 1000
+        duration: 600
+        severity: "warning"
+        message: "Queue length above 1000 for 10 minutes"
+        enabled: true
+      
+      # Neo4j performance alerts
+      - name: "slow_neo4j_queries"
+        metric: "neo4j_query_duration_p95"
+        condition: ">"
+        threshold: 1000  # 1 second in ms
+        duration: 300
+        severity: "warning"
+        message: "Neo4j P95 query duration above 1 second"
+        enabled: true
+      
+      - name: "neo4j_connection_pool_exhausted"
+        metric: "neo4j_connection_pool_idle"
+        condition: "<"
+        threshold: 5
+        duration: 60
+        severity: "critical"
+        message: "Neo4j connection pool has less than 5 idle connections"
+        enabled: true
+      
+      - name: "neo4j_transaction_failures"
+        metric: "neo4j_transactions_rolled_back"
+        aggregation: "rate_5m"
+        condition: ">"
+        threshold: 5  # rollbacks per second
+        duration: 60
+        severity: "warning"
+        message: "Neo4j transaction rollback rate above 5/sec"
+        enabled: true
+
+# ==============================================================================
+# HISTORICAL TREND ANALYSIS
+# ==============================================================================
+trend_analysis:
+  enabled: true
+  
+  # Storage settings for historical data
+  storage:
+    backend: "file"  # file, redis, influxdb
+    path: "logs/metrics_history"
+    retention_days: 30
+    compression: true
+  
+  # Metrics to track trends
+  tracked_metrics:
+    - metric: "cpu_percent"
+      aggregations: ["mean", "max", "min"]
+      windows: ["1h", "24h", "7d"]
+    
+    - metric: "memory_percent"
+      aggregations: ["mean", "max", "min"]
+      windows: ["1h", "24h", "7d"]
+    
+    - metric: "api_request_duration"
+      aggregations: ["p50", "p95", "p99"]
+      windows: ["1h", "24h", "7d"]
+    
+    - metric: "neo4j_query_duration_p95"
+      aggregations: ["mean", "max"]
+      windows: ["1h", "24h", "7d"]
+  
+  # Anomaly detection
+  anomaly_detection:
+    enabled: true
+    algorithm: "zscore"  # zscore, iqr, isolation_forest
+    sensitivity: 2.0  # standard deviations
+    min_samples: 100
+
+# ==============================================================================
+# LOGGING CONFIGURATION
+# ==============================================================================
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/performance_monitor.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
