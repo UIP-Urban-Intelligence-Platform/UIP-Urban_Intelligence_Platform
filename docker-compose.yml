@@ -1,6 +1,7 @@
 # Docker Compose Test Stack
 # Complete integration testing environment for all agents
-
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-24
 services:
   # ==========================================================================
   # CORE DATA STORES
@@ -24,8 +25,9 @@ services:
     healthcheck:
       test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "test12345", "RETURN 1"]
       interval: 10s
-      timeout: 5s
-      retries: 10
+      timeout: 10s
+      retries: 15
+      start_period: 40s  # Neo4j needs time to start and install APOC plugin
     networks:
       - test-network
 
@@ -44,7 +46,8 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:3030/$/ping"]
       interval: 10s
       timeout: 5s
-      retries: 10
+      retries: 12
+      start_period: 30s  # JVM needs time to start
     networks:
       - test-network
 
@@ -77,12 +80,13 @@ services:
       - POSTGRES_DB=stellio_test
     volumes:
       - postgres_test_data:/var/lib/postgresql/data
-      - ./init-stellio-dbs-timescale.sql:/docker-entrypoint-initdb.d/init-stellio-dbs.sql
+      - ./scripts/database/init-stellio-dbs-timescale.sql:/docker-entrypoint-initdb.d/init-stellio-dbs.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U stellio"]
+      test: ["CMD-SHELL", "pg_isready -U stellio -d stellio_search"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 60s  # Wait 60s before starting healthchecks (init script needs time)
     networks:
       - test-network
 
@@ -112,8 +116,8 @@ services:
       test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
       interval: 10s
       timeout: 10s
-      retries: 10
-      start_period: 30s
+      retries: 15
+      start_period: 45s  # Kafka KRaft mode needs time to initialize
     networks:
       - test-network
 
@@ -147,7 +151,8 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 15s
       timeout: 10s
-      retries: 10
+      retries: 12
+      start_period: 60s  # Spring Boot app needs time to start
     networks:
       - test-network
 
@@ -209,13 +214,43 @@ services:
       - test-network
 
   # ==========================================================================
+  # CV VERIFICATION SERVICE (Background Service)
+  # ==========================================================================
+  
+  cv-verification-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cv-verification-service
+    command: python start_cv_verification_service.py
+    restart: unless-stopped
+    depends_on:
+      stellio-api-gateway:
+        condition: service_healthy
+    environment:
+      - STELLIO_URL=http://stellio-api-gateway:8080
+      - LOG_LEVEL=INFO
+      - PYTHONPATH=/app
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./assets:/app/assets  # YOLOv8 models
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "start_cv_verification_service.py"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - test-network
+
+  # ==========================================================================
   # TEST RUNNER
   # ==========================================================================
   
   test-runner:
     build:
       context: .
-      dockerfile: Dockerfile.test.optimized
+      dockerfile: docker/Dockerfile.test.optimized
       args:
         BUILDKIT_INLINE_CACHE: 1
     container_name: test-runner
