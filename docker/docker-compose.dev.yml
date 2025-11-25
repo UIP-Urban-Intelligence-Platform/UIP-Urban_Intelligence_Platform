@@ -1,0 +1,187 @@
+version: '3.8'
+
+# Production-ready Docker Compose for Development Environment
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-25
+services:
+  orchestrator:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: orchestrator-dev
+    environment:
+      - ENV=development
+      - LOG_LEVEL=DEBUG
+      - STELLIO_URL=http://stellio:8080
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=dev_password
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=stellio
+      - FUSEKI_URL=http://fuseki:3030
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    volumes:
+      - ../src:/app/src
+      - ../config:/app/config
+      - ../data:/app/data
+      - ../logs:/app/logs
+    depends_on:
+      stellio:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - smart-city-dev
+    command: python orchestrator.py
+
+  stellio:
+    image: stellio/stellio-context-broker:latest
+    container_name: stellio-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/stellio
+      - SPRING_DATASOURCE_USERNAME=stellio
+      - SPRING_DATASOURCE_PASSWORD=stellio_dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-city-dev
+
+  neo4j:
+    image: neo4j:5.14.0
+    container_name: neo4j-dev
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=neo4j/dev_password
+      - NEO4J_dbms_memory_heap_max__size=2G
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*,gds.*
+    volumes:
+      - neo4j-data-dev:/data
+      - neo4j-logs-dev:/logs
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "dev_password", "RETURN 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-city-dev
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-dev
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data-dev:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-city-dev
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka-dev
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT_INTERNAL
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server=localhost:9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-city-dev
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper-dev
+    ports:
+      - "2181:2181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+      - ZOOKEEPER_MAX_CLIENT_CNXNS=60
+    healthcheck:
+      test: ["CMD", "echo", "ruok", "|", "nc", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-city-dev
+
+  postgres:
+    image: timescale/timescaledb-ha:pg14-latest
+    container_name: postgres-dev
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=stellio
+      - POSTGRES_PASSWORD=stellio_dev
+      - POSTGRES_DB=stellio
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stellio"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-city-dev
+
+  fuseki:
+    image: stain/jena-fuseki:latest
+    container_name: fuseki-dev
+    ports:
+      - "3030:3030"
+    environment:
+      - ADMIN_PASSWORD=fuseki_dev
+      - JVM_ARGS=-Xmx2g
+    volumes:
+      - fuseki-data-dev:/fuseki
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3030/$/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-city-dev
+
+volumes:
+  neo4j-data-dev:
+  neo4j-logs-dev:
+  redis-data-dev:
+  postgres-data-dev:
+  fuseki-data-dev:
+
+networks:
+  smart-city-dev:
+    driver: bridge
