@@ -1,0 +1,108 @@
+# Neo4j Sync Configuration
+# Synchronizes NGSI-LD entities from Stellio PostgreSQL to Neo4j graph database
+
+neo4j_sync:
+  # PostgreSQL connection (Stellio backend)
+  postgres:
+    host: "localhost"  # Use localhost when running outside Docker
+    port: 5432
+    database: "stellio_search"
+    user: "stellio"
+    password: "stellio_test"
+    table: "entity_payload"  # Stellio entity storage table
+  
+  # Neo4j connection
+  neo4j:
+    uri: "bolt://localhost:7687"  # Use localhost when running outside Docker
+    user: "neo4j"
+    password: "test12345"
+    database: "neo4j"
+    pool_size: 50
+    timeout: 30
+  
+  # Entity type to Neo4j node label mapping
+  entity_mapping:
+    Camera:
+      label: "Camera"
+      properties:
+        - "cameraNum"
+        - "address"
+        - "location"
+        - "imageSnapshot"
+        - "dateLastValueReported"
+      relationships:
+        - name: "isHostedBy"
+          target_type: "Platform"
+          neo4j_rel: "IS_HOSTED_BY"
+        - name: "observes"
+          target_type: "ObservableProperty"
+          neo4j_rel: "OBSERVES"
+    
+    Platform:
+      label: "Platform"
+      properties:
+        - "name"
+        - "description"
+    
+    ObservableProperty:
+      label: "ObservableProperty"
+      properties:
+        - "name"
+        - "description"
+    
+    CitizenObservation:
+      label: "CitizenReport"
+      properties:
+        - "category"
+        - "description"
+        - "status"
+        - "aiVerified"
+        - "aiConfidence"
+        - "dateObserved"
+        - "imageSnapshot"
+        - "location"
+      relationships:
+        - name: "reportedBy"
+          target_type: "User"
+          neo4j_rel: "REPORTED_BY"
+      geospatial: true  # Enable spatial indexing for location
+    
+    User:
+      label: "User"
+      properties:
+        - "userId"
+        - "userName"
+  
+  # Synchronization settings
+  sync_config:
+    # Sync mode: full (all entities) or incremental (only modified)
+    mode: "full"
+    
+    # Batch size for Neo4j transactions
+    batch_size: 100
+    
+    # Clear Neo4j before sync (danger: deletes all nodes!)
+    clear_before_sync: false
+    
+    # Create indexes on node properties
+    create_indexes: true
+    indexes:
+      - label: "Camera"
+        property: "id"
+      - label: "Platform"
+        property: "id"
+      - label: "ObservableProperty"
+        property: "id"
+      - label: "CitizenReport"
+        property: "id"
+      - label: "User"
+        property: "userId"
+    
+    # Create spatial index for geolocation
+    create_spatial_index: true
+    
+    # Retry configuration
+    retry:
+      max_attempts: 3
+      backoff_factor: 2
+      timeout: 10
