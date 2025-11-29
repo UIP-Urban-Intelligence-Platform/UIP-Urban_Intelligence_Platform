@@ -781,7 +781,8 @@ class NGSILDToRDFAgent:
         entities = self._load_entities(input_file)
         
         if not entities:
-            logger.warning("No entities to convert - empty input file")
+            # Empty entity files are expected when no new data is generated
+            logger.info("No entities to convert - empty input file")
             self.statistics.total_entities = 0
             self.statistics.successful = 0
             return self.statistics
@@ -877,9 +878,9 @@ class NGSILDToRDFAgent:
                 logger.error(f"Invalid input format in {input_file}")
                 entities = []
             
-            # Handle empty entity list (no error, just warning)
+            # Handle empty entity list (expected condition when no data is generated)
             if not entities:
-                logger.warning(f"Empty entity list in {input_file}")
+                logger.debug(f"Empty entity list in {input_file}")
             
             return entities
         
@@ -978,9 +979,17 @@ def main(config: Dict = None):
         # If called from orchestrator with config dict
         if config:
             input_file = config.get('input_file', 'data/validated_entities.json')
+            fallback_file = config.get('fallback_file', 'data/validated_entities.json')
             entity_type = config.get('entity_type', 'Camera')
             config_path = config.get('config_path', 'config/namespaces.yaml')
             output_dir = config.get('output_dir')  # Get output_dir from orchestrator
+            
+            # Check if primary input file exists, fallback if not
+            from pathlib import Path
+            if not Path(input_file).exists() and Path(fallback_file).exists():
+                logger.warning(f"Primary input file not found: {input_file}")
+                logger.info(f"Using fallback file: {fallback_file}")
+                input_file = fallback_file
             
             agent = NGSILDToRDFAgent(config_path=config_path)
             

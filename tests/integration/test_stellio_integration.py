@@ -4,14 +4,18 @@ Module: tests.integration.test_stellio_integration
 Author: Nguyen Viet Hoang 
 Created: 2025-11-24
 Version: 1.0.0
-
+License: MIT
 Description:
     Integration tests for Stellio Context Broker interactions,
     validating NGSI-LD entity operations (create, read, update, delete).
+    Tests full CRUD operations, temporal queries, and subscriptions.
 
 Requirements:
     - Docker container with Stellio running on localhost:8080
     - Use pytest marker: @pytest.mark.requires_docker
+
+Usage:
+    pytest tests/integration/test_stellio_integration.py -m requires_docker
 """
 
 import pytest

@@ -7,6 +7,10 @@
 #
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-25
+#Version: 1.0.0
+#License: MIT
+#Description:
+#Production environment setup script for the traffic monitoring system.
 set -e
 
 NAMESPACE=${NAMESPACE:-traffic-system}

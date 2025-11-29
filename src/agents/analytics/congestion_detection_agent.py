@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 """Congestion Detection Agent.
 
 Module: src.agents.analytics.congestion_detection_agent
-#Author: nguyễn Nhật Quang
-#Created: 2025-11-21
+Author: nguyễn Nhật Quang
+Created: 2025-11-21
 Version: 2.0.0
 License: MIT
 
@@ -334,11 +335,39 @@ class CongestionDetectionAgent:
             logger.warning('Stellio base URL not configured; HTTP calls may fail')
 
     def _build_camera_mapping(self) -> None:
-        """Build mapping from camera indices to real Camera entity IDs from Stellio PostgreSQL."""
+        """Build mapping from camera indices to real Camera entity IDs.
+        
+        Strategy:
+        1. Load cameras_enriched.json to get index -> code mapping
+        2. Query all Camera entities from PostgreSQL to get code -> entity_id mapping
+        3. Combine to create index -> entity_id mapping
+        """
         postgres_cfg = self.config.config.get('congestion_detection', {}).get('postgres')
         if not postgres_cfg:
             logger.warning("No PostgreSQL config found, camera mapping will be empty")
             return
+        
+        # Step 1: Load cameras_enriched.json to get index -> code mapping
+        camera_file = self.config.config.get('congestion_detection', {}).get('camera_enriched_file', 'data/cameras_enriched.json')
+        index_to_code = {}
+        
+        try:
+            if Path(camera_file).exists():
+                with open(camera_file, 'r', encoding='utf-8') as f:
+                    cameras_data = json.load(f)
+                    for camera in cameras_data:
+                        camera_index = int(camera.get('id', -1))
+                        camera_code = camera.get('code', '')
+                        if camera_index >= 0 and camera_code:
+                            index_to_code[camera_index] = camera_code
+                logger.info(f"Loaded {len(index_to_code)} camera index->code mappings from {camera_file}")
+            else:
+                logger.warning(f"Camera enriched file not found: {camera_file}")
+        except Exception as e:
+            logger.error(f"Failed to load camera enriched file: {e}")
+        
+        # Step 2: Query all Camera entities from PostgreSQL to get code -> entity_id mapping
+        code_to_entity_id = {}
         
         try:
             conn = psycopg2.connect(
@@ -350,32 +379,63 @@ class CongestionDetectionAgent:
                 cursor_factory=RealDictCursor
             )
             
+            # Query all Camera entities - entity_id contains the camera code
+            # Format: urn:ngsi-ld:Camera:TTH%20406 -> code is "TTH 406" (URL encoded)
             query = """
                 SELECT entity_id 
                 FROM entity_payload 
                 WHERE 'https://uri.etsi.org/ngsi-ld/default-context/Camera' = ANY(types)
-                ORDER BY created_at ASC
             """
             
             with conn.cursor() as cursor:
                 cursor.execute(query)
                 rows = cursor.fetchall()
-                self.camera_mapping = {idx: row['entity_id'] for idx, row in enumerate(rows)}
-                logger.info(f"Built camera mapping with {len(self.camera_mapping)} entries")
+                
+                # Extract camera code from entity_id and build mapping
+                from urllib.parse import unquote
+                for row in rows:
+                    entity_id = row['entity_id']
+                    # Extract code from entity_id: urn:ngsi-ld:Camera:TTH%20406 -> TTH 406
+                    if ':Camera:' in entity_id:
+                        encoded_code = entity_id.split(':Camera:')[-1]
+                        camera_code = unquote(encoded_code)
+                        code_to_entity_id[camera_code] = entity_id
+                
+                logger.info(f"Built code->entity_id mapping with {len(code_to_entity_id)} Camera entities from PostgreSQL")
             
             conn.close()
         except Exception as e:
-            logger.error(f"Failed to build camera mapping: {e}")
-            self.camera_mapping = {}
+            logger.error(f"Failed to query PostgreSQL for camera mapping: {e}")
+            code_to_entity_id = {}
+        
+        # Step 3: Combine mappings: index -> code -> entity_id
+        self.camera_mapping = {}
+        missing_codes = []
+        
+        for camera_index, camera_code in index_to_code.items():
+            if camera_code in code_to_entity_id:
+                self.camera_mapping[camera_index] = code_to_entity_id[camera_code]
+            else:
+                missing_codes.append((camera_index, camera_code))
+        
+        logger.info(f"Built camera index->entity_id mapping with {len(self.camera_mapping)} entries")
+        
+        if missing_codes:
+            logger.warning(f"Found {len(missing_codes)} cameras in enriched file but not in PostgreSQL:")
+            for idx, code in missing_codes[:10]:  # Log first 10
+                logger.warning(f"  - Camera index {idx} (code: {code}) not found in Stellio")
+            if len(missing_codes) > 10:
+                logger.warning(f"  ... and {len(missing_codes) - 10} more")
     
-    def _map_camera_id(self, camera_ref: str) -> str:
+    def _map_camera_id(self, camera_ref: str) -> Optional[str]:
         """Map index-based Camera ID to real Camera ID.
         
         Args:
             camera_ref: Camera reference like 'urn:ngsi-ld:Camera:0'
         
         Returns:
-            Real Camera ID like 'urn:ngsi-ld:Camera:TTH%20406' or original if not found
+            Real Camera ID like 'urn:ngsi-ld:Camera:TTH%20406' or None if not found in mapping
+            Returns None to signal that the camera should be skipped (not in Stellio)
         """
         if "Camera:" not in camera_ref:
             return camera_ref
@@ -385,11 +445,15 @@ class CongestionDetectionAgent:
             camera_index = int(camera_index_str)
             if camera_index in self.camera_mapping:
                 mapped_id = self.camera_mapping[camera_index]
-                logger.debug(f"Mapped Camera:{camera_index} -> {mapped_id}")
+                logger.debug(f"✓ Mapped Camera:{camera_index} -> {mapped_id}")
                 return mapped_id
             else:
-                logger.warning(f"Camera index {camera_index} not found in mapping (max: {len(self.camera_mapping)-1})")
+                # Camera not in mapping - it doesn't exist in Stellio
+                # Log as WARNING only once per camera during mapping build
+                logger.warning(f"Camera index {camera_index} not found in mapping - camera not in Stellio (total mapped: {len(self.camera_mapping)})")
+                return None  # Signal to skip this camera
         
+        # If not digit format, assume it's already a real ID
         return camera_ref
     
     def _build_patch_payload(self, congested: bool, observed_at: str) -> Dict[str, Any]:
@@ -501,6 +565,30 @@ class CongestionDetectionAgent:
                 payload = self._build_patch_payload(new_state, observed_at)
                 # Map camera_ref to real Camera ID
                 real_camera_id = self._map_camera_id(camera_ref)
+                
+                if real_camera_id is None:
+                    # Camera not in Stellio - skip PATCH but still update local state for consistency
+                    logger.info(f"Skipping PATCH for {camera_ref} (not in Stellio), but updating local state")
+                    
+                    # Update local state even though we can't PATCH
+                    prev = self.state_store.get(camera_ref)
+                    if new_state:
+                        fb = prev.get('first_breach_ts') or observed_at
+                        self.state_store.update(camera_ref, True, fb, observed_at)
+                    else:
+                        self.state_store.update(camera_ref, False, None, observed_at)
+                    
+                    # Record result as skipped
+                    results.append({
+                        'camera': camera_ref,
+                        'updated': True,
+                        'success': False,
+                        'status_code': None,
+                        'error': 'Camera not found in Stellio mapping',
+                        'reason': 'skipped_no_mapping'
+                    })
+                    continue
+                
                 to_update.append((real_camera_id, payload, entity, new_state, camera_ref))
             else:
                 # If no update needed, we may still need to update first_breach_ts or reset it

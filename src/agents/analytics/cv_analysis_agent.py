@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Computer Vision Analysis Agent
 
@@ -57,6 +58,7 @@ References:
 import asyncio
 import json
 import logging
+import os
 import time
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
@@ -70,6 +72,13 @@ import yaml
 from PIL import Image
 import io
 
+# MongoDB integration (optional)
+try:
+    from src.utils.mongodb_helper import get_mongodb_helper
+    MONGODB_AVAILABLE = True
+except ImportError:
+    MONGODB_AVAILABLE = False
+    get_mongodb_helper = None
 
 # Configure logging
 logging.basicConfig(
@@ -203,6 +212,56 @@ class CVConfig:
     def get_image_config(self) -> Dict[str, Any]:
         """Get image processing configuration"""
         return self.config.get('cv_analysis', {}).get('image', {})
+    
+    # Citizen verification configuration
+    @property
+    def citizen_verification_enabled(self) -> bool:
+        """Check if citizen verification is enabled"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('enabled', False)
+    
+    @property
+    def citizen_verification_poll_interval(self) -> int:
+        """Get citizen verification poll interval in seconds"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('poll_interval', 30)
+    
+    @property
+    def citizen_verification_stellio_url(self) -> str:
+        """Get Stellio URL for citizen verification - prioritizes STELLIO_URL env var"""
+        # Priority: ENV > config file > default
+        env_url = os.environ.get('STELLIO_URL')
+        if env_url:
+            return env_url
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('stellio_url', 'http://localhost:8080')
+    
+    @property
+    def citizen_verification_query(self) -> str:
+        """Get Stellio query for unverified reports"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('query', 'type=CitizenObservation&q=aiVerified==false')
+    
+    @property
+    def citizen_verification_max_batch(self) -> int:
+        """Get max reports per batch"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('max_reports_per_batch', 10)
+    
+    @property
+    def citizen_verification_rules(self) -> Dict[str, Any]:
+        """Get verification rules per report type"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('verification_rules', {})
+    
+    @property
+    def citizen_verification_scoring(self) -> Dict[str, float]:
+        """Get scoring algorithm weights"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('scoring', {})
+    
+    @property
+    def citizen_verification_update_patch_stellio(self) -> bool:
+        """Check if PATCH to Stellio is enabled"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('update', {}).get('patch_stellio', True)
+    
+    @property
+    def citizen_verification_update_set_verified_status(self) -> bool:
+        """Check if status update is enabled"""
+        return self.config.get('cv_analysis', {}).get('citizen_verification', {}).get('update', {}).get('set_verified_status', True)
 
 
 class YOLOv8Detector:
@@ -833,7 +892,8 @@ class ImageDownloader:
                 )
                 
             except aiohttp.ClientError as e:
-                logger.warning(f"{log_prefix} Connection error: {type(e).__name__}: {e}")
+                # Network errors are expected and handled by retry logic
+                logger.debug(f"{log_prefix} Connection error: {type(e).__name__}: {e}")
                 
             except Exception as e:
                 logger.error(f"{log_prefix} Unexpected error: {type(e).__name__}: {e}")
@@ -1073,6 +1133,7 @@ class CVAnalysisAgent:
             config_path: Path to configuration file
         """
         self.config_loader = CVConfig(config_path)
+        self.config = self.config_loader  # Alias for backward compatibility
         
         # Get full cv_analysis config for ImageDownloader
         cv_analysis_config = self.config_loader.config.get('cv_analysis', {})
@@ -1108,6 +1169,16 @@ class CVAnalysisAgent:
         else:
             self.accident_detector = None
             logger.info("ℹ️ Accident detection disabled in config")
+        
+        # MongoDB helper (optional, non-blocking)
+        self._mongodb_helper = None
+        if MONGODB_AVAILABLE:
+            try:
+                self._mongodb_helper = get_mongodb_helper()
+                if self._mongodb_helper and self._mongodb_helper.enabled:
+                    logger.info("✅ MongoDB publishing enabled for CV agent")
+            except Exception as e:
+                logger.debug(f"MongoDB initialization failed (non-critical): {e}")
     
     def analyze_image(self, camera_id: str, image: Image.Image, image_url: str = "") -> ImageAnalysisResult:
         """
@@ -1284,6 +1355,266 @@ class CVAnalysisAgent:
             json.dump(entities, f, indent=2, ensure_ascii=False)
         
         logger.info(f"Saved {len(entities)} observations to {output_file}")
+        
+        # Optionally publish to MongoDB (non-blocking)
+        if self._mongodb_helper and self._mongodb_helper.enabled and entities:
+            try:
+                success, failed = self._mongodb_helper.insert_entities_batch(entities)
+                if success > 0:
+                    logger.info(f"✅ Published {success} ItemFlowObserved entities to MongoDB")
+                if failed > 0:
+                    logger.warning(f"⚠️ Failed to publish {failed} entities to MongoDB")
+            except Exception as e:
+                logger.warning(f"MongoDB publishing failed (non-critical): {e}")
+    
+    async def process_citizen_reports(self) -> int:
+        """
+        AI Verification Loop for Citizen Reports.
+        
+        Queries Stellio for unverified CitizenObservation entities (aiVerified=false),
+        downloads images, runs YOLOv8 detection, compares AI results vs user reports,
+        and PATCHES Stellio with verification results.
+        
+        This function is designed to run periodically (e.g., every 30 seconds) as a
+        background task, separate from camera processing.
+        
+        Returns:
+            Number of reports processed
+        
+        Flow:
+            1. Query Stellio for type=CitizenObservation&q=aiVerified==false
+            2. Download image from imageSnapshot property
+            3. Run YOLOv8 object detection
+            4. For accident reports: Also run AccidentDetector
+            5. Compare AI detections vs user reportType using verification rules
+            6. Calculate confidence score (0.0-1.0)
+            7. PATCH Stellio with:
+               - aiVerified: true
+               - aiConfidence: 0.X
+               - status: "verified" or "rejected"
+               - aiMetadata: {detections, vehicle_count, etc.}
+        """
+        if not self.config.citizen_verification_enabled:
+            logger.debug("Citizen verification disabled in config")
+            return 0
+        
+        logger.info("🔍 Starting citizen report verification cycle")
+        
+        try:
+            import requests
+            from urllib.parse import quote
+            
+            # Step 1: Query Stellio for unverified reports
+            stellio_url = self.config.citizen_verification_stellio_url
+            query = self.config.citizen_verification_query
+            max_batch = self.config.citizen_verification_max_batch
+            
+            url = f"{stellio_url}/ngsi-ld/v1/entities?{query}&limit={max_batch}"
+            
+            response = requests.get(
+                url,
+                headers={'Accept': 'application/ld+json'},
+                timeout=30
+            )
+            
+            if response.status_code != 200:
+                logger.warning(f"Stellio query failed: {response.status_code}")
+                return 0
+            
+            reports = response.json()
+            
+            if not reports:
+                logger.debug("No unverified citizen reports found")
+                return 0
+            
+            logger.info(f"📋 Found {len(reports)} unverified reports")
+            
+            # Step 2: Process each report
+            verified_count = 0
+            
+            for report in reports:
+                try:
+                    entity_id = report['id']
+                    report_type = report.get('category', {}).get('value', 'other')
+                    image_url = report.get('imageSnapshot', {}).get('value')
+                    
+                    if not image_url:
+                        logger.warning(f"Report {entity_id} has no image, skipping")
+                        continue
+                    
+                    logger.info(f"🔎 Verifying {entity_id} (type: {report_type})")
+                    
+                    # Step 3: Download or load image
+                    # Support both HTTP URLs and local file:// URLs for testing
+                    if image_url.startswith('file://'):
+                        # Local file path
+                        local_path = image_url.replace('file://', '').replace('/', os.sep)
+                        if not os.path.exists(local_path):
+                            logger.warning(f"Local image file not found: {local_path}")
+                            continue
+                        image = Image.open(local_path)
+                    else:
+                        # HTTP(S) URL - download from remote server
+                        async with aiohttp.ClientSession() as session:
+                            async with session.get(image_url, timeout=30) as img_response:
+                                if img_response.status != 200:
+                                    logger.warning(f"Failed to download image: {img_response.status}")
+                                    continue
+                                
+                                image_bytes = await img_response.read()
+                                image = Image.open(io.BytesIO(image_bytes))
+                    
+                    # Step 4: Run YOLOv8 detection (synchronous method)
+                    result = self.analyze_image(
+                        camera_id=entity_id,
+                        image_url=image_url,
+                        image=image
+                    )
+                    
+                    if result.status != DetectionStatus.SUCCESS:
+                        logger.warning(f"Detection failed for {entity_id}: {result.error_message}")
+                        continue
+                    
+                    # Step 5: Get verification rules for this report type
+                    rules = self.config.citizen_verification_rules.get(
+                        report_type,
+                        self.config.citizen_verification_rules.get('other', {})
+                    )
+                    
+                    verification_strategy = rules.get('verification_strategy', 'ai')
+                    
+                    if verification_strategy == 'manual':
+                        logger.info(f"Report type '{report_type}' requires manual verification, skipping")
+                        continue
+                    
+                    # Step 6: Calculate verification score
+                    required_objects = rules.get('required_objects', [])
+                    min_count = rules.get('min_count', 0)
+                    use_accident_model = rules.get('use_accident_model', False)
+                    
+                    # Count detected objects matching required classes
+                    detected_classes = [d.class_name for d in result.detections]
+                    matching_objects = [obj for obj in detected_classes if obj in required_objects]
+                    object_match_score = 1.0 if len(matching_objects) > 0 else 0.0
+                    
+                    # Check vehicle count threshold
+                    count_match_score = 1.0 if result.vehicle_count >= min_count else 0.0
+                    
+                    # Average detection confidence
+                    avg_confidence = (
+                        sum(d.confidence for d in result.detections) / len(result.detections)
+                        if result.detections else 0.0
+                    )
+                    
+                    # Special handling for accident reports
+                    accident_score = 0.0
+                    accident_detected = False
+                    
+                    if use_accident_model and self.accident_detector:
+                        # Check metadata for accident detection results
+                        if result.metadata and 'accidents' in result.metadata:
+                            accidents = result.metadata['accidents']
+                            if accidents:
+                                accident_detected = True
+                                accident_score = max(a['confidence'] for a in accidents)
+                                logger.info(f"🚨 Accident model detected accident: confidence={accident_score:.2f}")
+                    
+                    # Calculate weighted confidence score
+                    if use_accident_model and self.accident_detector:
+                        # For accident reports, prioritize accident model
+                        confidence = (
+                            accident_score * 0.7 +  # Accident detection is primary
+                            object_match_score * 0.2 +
+                            avg_confidence * 0.1
+                        )
+                    else:
+                        # Standard scoring from config
+                        weights = self.config.citizen_verification_scoring
+                        confidence = (
+                            object_match_score * weights.get('object_match_weight', 0.6) +
+                            count_match_score * weights.get('count_match_weight', 0.3) +
+                            avg_confidence * weights.get('confidence_weight', 0.1)
+                        )
+                    
+                    # Determine verification status
+                    threshold = rules.get('confidence_threshold', 0.5)
+                    is_verified = confidence >= threshold
+                    status = "verified" if is_verified else "rejected"
+                    
+                    logger.info(
+                        f"{'✅' if is_verified else '❌'} Verification result: "
+                        f"confidence={confidence:.2f}, status={status}"
+                    )
+                    
+                    # Step 7: Build AI metadata
+                    ai_metadata = {
+                        'vehicle_count': result.vehicle_count,
+                        'person_count': result.person_count,
+                        'detected_classes': list(set(detected_classes)),
+                        'matching_objects': matching_objects,
+                        'avg_detection_confidence': avg_confidence,
+                        'verification_timestamp': datetime.utcnow().isoformat() + 'Z',
+                        'processing_time': result.processing_time
+                    }
+                    
+                    if use_accident_model and accident_detected:
+                        ai_metadata['accident_detected'] = True
+                        ai_metadata['accident_confidence'] = accident_score
+                    
+                    # Step 8: PATCH Stellio entity
+                    if self.config.citizen_verification_update_patch_stellio:
+                        patch_data = {
+                            "@context": [
+                                "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+                            ],
+                            "aiVerified": {
+                                "type": "Property",
+                                "value": True
+                            },
+                            "aiConfidence": {
+                                "type": "Property",
+                                "value": round(confidence, 3)
+                            },
+                            "aiMetadata": {
+                                "type": "Property",
+                                "value": ai_metadata
+                            }
+                        }
+                        
+                        if self.config.citizen_verification_update_set_verified_status:
+                            patch_data["status"] = {
+                                "type": "Property",
+                                "value": status
+                            }
+                        
+                        patch_url = f"{stellio_url}/ngsi-ld/v1/entities/{quote(entity_id, safe='')}/attrs"
+                        
+                        patch_response = requests.patch(
+                            patch_url,
+                            json=patch_data,
+                            headers={'Content-Type': 'application/ld+json'},
+                            timeout=30
+                        )
+                        
+                        if patch_response.status_code in [200, 204]:
+                            logger.info(f"✅ Updated {entity_id} in Stellio")
+                            verified_count += 1
+                        else:
+                            logger.error(
+                                f"❌ Failed to PATCH Stellio: {patch_response.status_code} "
+                                f"{patch_response.text}"
+                            )
+                
+                except Exception as e:
+                    logger.error(f"Error processing report {entity_id}: {e}", exc_info=True)
+                    continue
+            
+            logger.info(f"✅ Verified {verified_count}/{len(reports)} citizen reports")
+            return verified_count
+        
+        except Exception as e:
+            logger.error(f"Citizen verification cycle failed: {e}", exc_info=True)
+            return 0
     
     async def run(self, input_file: str, output_file: Optional[str] = None) -> List[Dict[str, Any]]:
         """

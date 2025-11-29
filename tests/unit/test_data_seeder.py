@@ -1,7 +1,17 @@
-"""
-Unit Tests for Data Seeder - PRODUCTION READY
+#!/usr/bin/env python3
+"""Data Seeder Unit Test Suite.
+Module: tests.unit.test_data_seeder
 Author: nguyễn Nhật Quang
 Created: 2025-11-21
+Version: 1.0.0
+License: MIT
+
+Description:
+    Production-ready unit tests for data seeding functionality.
+    Tests sample data generation, entity creation, and batch operations.
+
+Usage:
+    pytest tests/unit/test_data_seeder.py
 """
 
 import pytest

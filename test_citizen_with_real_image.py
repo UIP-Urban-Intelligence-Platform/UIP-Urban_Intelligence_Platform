@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 """Test Citizen Ingestion API với hình ảnh thực tế từ local file
+Module: test_citizen_with_real_image
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+Description:
+    Tests the Citizen Ingestion API by sending a test report with a real image
+    encoded as a base64 data URL. Verifies end-to-end processing including
+    background enrichment and storage in Stellio Context Broker.
+Usage:
+    python tests/test_citizen_with_real_image.py
 """
 
 import requests

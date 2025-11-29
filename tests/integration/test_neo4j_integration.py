@@ -1,7 +1,16 @@
 """Integration Tests for Neo4j - PRODUCTION READY
-
+Module: tests.integration.test_neo4j_integration
 Author: Nguyễn Nhật Quang
 Created: 2025-11-22
+Version: 1.0.0
+License: MIT
+Description:
+    Production-ready integration tests for Neo4j graph database.
+    Tests graph operations, Cypher queries, and relationship management.
+    Requires Docker container for Neo4j.
+
+Usage:
+    pytest tests/integration/test_neo4j_integration.py -m requires_docker
 """
 
 import pytest

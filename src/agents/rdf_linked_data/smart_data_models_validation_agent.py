@@ -567,7 +567,32 @@ class SmartDataModelsValidationAgent:
             raise FileNotFoundError(f"Source file not found: {source_file}")
         
         with open(source_path, 'r', encoding='utf-8') as f:
-            entities = json.load(f)
+            data = json.load(f)
+        
+        # CRITICAL FIX: Handle both list and dict formats
+        entities = []
+        
+        if isinstance(data, list):
+            # Direct list of entities
+            entities = data
+        elif isinstance(data, dict):
+            # Try common keys for entity lists
+            entity_keys = ['entities', 'data', 'patterns', 'cameras', 'observations', 'results']
+            for key in entity_keys:
+                if key in data:
+                    value = data[key]
+                    if isinstance(value, list):
+                        entities = value
+                        self.logger.info(f"Extracted {len(entities)} entities from key '{key}'")
+                        break
+            
+            # If no entity list found, check if dict itself looks like entity metadata
+            if not entities:
+                # This is a metadata/status dict, not entity data
+                self.logger.warning(
+                    f"No entity list found in {source_file}. "
+                    f"File appears to be metadata only (keys: {list(data.keys())})"
+                )
         
         self.logger.info(f"Loaded {len(entities)} entities from {source_file}")
         return entities

@@ -1,13 +1,18 @@
-"""Unit Tests for Image Refresh Agent.
+#!/usr/bin/env python3
+"""Image Refresh Agent Unit Test Suite.
 
 Module: tests.unit.test_image_refresh_agent
 Author: Nguyen Viet Hoang
 Created: 2025-11-22
 Version: 1.0.0
+License: MIT
 
 Description:
     Unit tests for ImageRefreshAgent functionality including URL parsing,
     timestamp generation, and HTTP verification.
+
+Usage:
+    pytest tests/unit/test_image_refresh_agent.py
 """
 
 import pytest

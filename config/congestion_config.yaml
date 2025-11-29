@@ -24,6 +24,9 @@ congestion_detection:
     user: "stellio"
     password: "stellio_test"
   
+  # Camera enriched file for index->code mapping
+  camera_enriched_file: "data/cameras_enriched.json"
+  
   alert:
     enabled: true
     notify_on_change: true  # only when false→true
@@ -42,3 +45,4 @@ congestion_detection:
     format: "json"
     pretty_print: true
     include_timestamp: true
+

@@ -3,6 +3,9 @@
 Module: src.core
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
 
 Description:
     Core utilities, configuration management, and shared components

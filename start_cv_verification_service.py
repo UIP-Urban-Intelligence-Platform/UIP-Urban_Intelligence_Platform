@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """
 CV Agent Citizen Verification Background Service
-
-Chạy như một daemon để liên tục verify citizen reports từ Stellio.
-Poll Stellio mỗi 30 giây để tìm reports chưa được verify (aiVerified=false).
+Module: start_cv_verification_service
 Author: nguyễn Nhật Quang
 Created: 2025-11-23
+Version: 1.0.0
+License: MIT
+Description:
+Chạy như một daemon để liên tục verify citizen reports từ Stellio.
+Poll Stellio mỗi 30 giây để tìm reports chưa được verify (aiVerified=false).
+
 Usage:
     python start_cv_verification_service.py
 """

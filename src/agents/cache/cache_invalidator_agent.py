@@ -4,6 +4,12 @@ Cache Invalidation Agent
 Intelligently invalidates cache entries when source data changes.
 Implements event-driven cache invalidation and dependency tracking.
 
+Module: src.agents.cache.cache_invalidator_agent
+Authors: Nguyen Viet Hoang
+Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+
 INVALIDATION STRATEGIES:
 - Time-based: TTL expiration
 - Event-based: Invalidate on data change
@@ -12,8 +18,7 @@ INVALIDATION STRATEGIES:
 
 
 """
-#Authors: Nguyen Viet Hoang
-#Created: 2025-11-25
+
 
 try:
     import redis

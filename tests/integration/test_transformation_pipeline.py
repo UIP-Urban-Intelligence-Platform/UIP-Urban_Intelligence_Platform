@@ -1,6 +1,16 @@
 """Integration Tests for Transformation Pipeline - PRODUCTION READY
+Module: tests.integration.test_transformation_pipeline
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-23
+Version: 1.0.0
+License: MIT
+
+Description:
+    Production-ready integration tests for data transformation pipeline.
+    Tests raw data to NGSI-LD conversion, enrichment, and validation.
+
+Usage:
+    pytest tests/integration/test_transformation_pipeline.py
 """
 
 import pytest

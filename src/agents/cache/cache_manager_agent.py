@@ -3,7 +3,11 @@ Cache Manager Agent
 
 Manages distributed caching with Redis backend for improved performance.
 Implements caching strategies, TTL management, and cache warming.
-
+Module: src.agents.cache.cache_manager_agent
+Authors: Nguyen Viet Hoang
+Created: 2025-11-25
+Version: 1.0.0
+License: MIT
 CACHE STRATEGIES:
 - Write-through: Update cache immediately on write
 - Write-behind: Async cache updates
@@ -12,8 +16,7 @@ CACHE STRATEGIES:
 REAL PRODUCTION IMPLEMENTATION - Full Redis client with connection pooling
 """
 
-#Authors: Nguyen Viet Hoang
-#Created: 2025-11-25
+
 
 import logging
 from typing import Dict, Any, Optional

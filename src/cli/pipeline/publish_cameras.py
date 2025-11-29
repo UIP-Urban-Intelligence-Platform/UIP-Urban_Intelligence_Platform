@@ -5,7 +5,7 @@ Module: src.cli.pipeline.publish_cameras
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-250
 Version: 1.0.0
-
+License: MIT
 Description:
     Publishes camera entities from cameras_updated.json to Stellio Context Broker
     using NGSI-LD REST API with verified application/ld+json content type.

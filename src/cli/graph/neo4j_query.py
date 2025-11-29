@@ -1,11 +1,18 @@
 """
 Neo4j Query CLI
-
-Command-line Neo4j graph queries.
-
-FULL PRODUCTION IMPLEMENTATION - Real Cypher queries
+Module: src.cli.graph.neo4j_query
 Author: nguyễn Nhật Quang
 Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+Description:
+Command-line Neo4j graph queries.
+
+This CLI provides commands to query the Neo4j graph database for:
+- Nearby traffic cameras within a specified radius of given coordinates.
+- Locations with frequent accident patterns based on historical data.
+
+
 """
 
 import logging

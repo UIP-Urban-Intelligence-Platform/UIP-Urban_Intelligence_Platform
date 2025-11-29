@@ -1,7 +1,17 @@
-"""
-Unit Tests for SOSA Mapper - PRODUCTION READY
+#!/usr/bin/env python3
+"""SOSA Mapper Unit Test Suite.
+Module: tests.unit.test_sosa_mapper
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-23
+Version: 1.0.0
+License: MIT
+
+Description:
+    Production-ready unit tests for SOSA/SSN RDF mapping functionality.
+    Tests observation mapping, sensor modeling, and property serialization.
+
+Usage:
+    pytest tests/unit/test_sosa_mapper.py
 """
 
 import pytest

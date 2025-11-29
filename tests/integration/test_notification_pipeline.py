@@ -1,7 +1,15 @@
 """Integration Tests for Notification Pipeline - PRODUCTION READY
+Module: tests.integration.test_notification_pipeline
 Author: nguyễn Nhật Quang
 Created: 2025-11-23
+Version: 1.0.0
+License: MIT
+Description:
+    Production-ready integration tests for notification delivery pipeline.
+    Tests email, webhook, and message queue notification channels.
 
+Usage:
+    pytest tests/integration/test_notification_pipeline.py
 
 """
 

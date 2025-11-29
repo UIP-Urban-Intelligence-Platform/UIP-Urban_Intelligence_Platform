@@ -85,7 +85,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Add project root to Python path
-project_root = Path(__file__).parent
+project_root = Path(__file__).parent.parent  # Go up one level since orchestrator.py is now in src/
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
@@ -645,6 +645,11 @@ class WorkflowOrchestrator:
             seed_config = self.config.get('seed_data', {})
             
             for phase_index, phase_config in enumerate(phases):
+                # Skip disabled phases
+                if not phase_config.get('enabled', True):
+                    logger.info(f"Skipping disabled phase: {phase_config.get('name')}")
+                    continue
+                
                 phase_result = self.phase_manager.execute_phase(phase_config)
                 phase_results.append(phase_result)
                 

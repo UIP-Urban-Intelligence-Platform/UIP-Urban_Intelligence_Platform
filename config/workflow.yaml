@@ -10,7 +10,7 @@
 # Set enabled: false to use real data from actual processing
 # NOTE: Seeding happens BEFORE validation agents run, so it seeds accidents.json, patterns.json, etc.
 seed_data:
-  enabled: true  # Set to true to seed mock data, false to use real data
+  enabled: false  # Set to true to seed mock data, false to use real data
   files:
     # Seed source files (before validation)
     - path: "data/accidents.json"
@@ -103,6 +103,123 @@ workflow:
       outputs:
         - "data/validated_entities.json"
     
+    # Phase 3.5: LOD Linkset Enrichment (OPTIMAL POSITION - Before Publishing)
+    - name: "LOD Linkset Enrichment"
+      description: "Enrich entities with external LOD Cloud linksets (DBpedia, Wikidata, GeoNames) - OLP 2025 compliance"
+      parallel: false
+      enabled: false  # DISABLED by default - enable to add external linksets
+      agents:
+        # Enrich validated entities with owl:sameAs links to external LOD datasets
+        - name: "lod_linkset_enrichment_agent"
+          module: "src.agents.rdf_linked_data.lod_linkset_enrichment_agent"
+          enabled: true  # DISABLED by default - 100% non-invasive
+          required: false  # Optional - won't break workflow if disabled
+          timeout: 180
+          config:
+            # Input: Validated NGSI-LD entities (from Phase 3)
+            input_file: "data/validated_entities.json"
+            
+            # Output: Same entities + owl:sameAs relationships
+            output_file: "data/enriched_entities.json"
+            
+            # Linkset mapping configuration
+            linkset_mappings: "config/lod_linkset_mappings.yaml"
+            
+            # Enable/disable specific LOD sources
+            enable_geonames: true    # Geographic linksets
+            enable_dbpedia: true     # DBpedia linksets
+            enable_wikidata: true    # Wikidata linksets (enabled)
+            
+            # GeoNames API configuration
+            geonames_username: "${GEONAMES_USERNAME:demo}"  # Override with env var
+            geonames_radius_km: 10
+            
+            # Performance settings
+            cache_enabled: true
+            max_workers: 5
+            batch_size: 50
+          
+          description: |
+            LOD Cloud Linkset Enrichment Agent (OLP 2025 Competition Requirement)
+            
+            ⚠️ OPTIMAL POSITION: Phase 3.5 (Between Validation and Publishing)
+            
+            Why this position?
+            - ✅ Entities are validated (Phase 3) → clean, correct data
+            - ✅ Linksets added BEFORE publishing (Phase 4) → Stellio gets enriched data
+            - ✅ RDF conversion (Phase 4) includes owl:sameAs → Fuseki has linksets
+            - ✅ All downstream phases use enriched data
+            
+            Wrong positions:
+            - ❌ Before validation → may add linksets to invalid entities
+            - ❌ After publishing → Stellio/RDF don't have linksets
+            
+            Purpose:
+            - Adds owl:sameAs relationships to external LOD Cloud datasets
+            - Required for LOD Cloud Level 5 compliance
+            - Connects project data to DBpedia, Wikidata, GeoNames
+            
+            Process:
+            1. Read validated NGSI-LD entities from Phase 3
+            2. Extract location (coordinates), name, address from entities
+            3. Query GeoNames API for nearest place (city/town)
+            4. Query DBpedia Lookup API for matching resources
+            5. Query Wikidata Search API for matching items
+            6. Add owl:sameAs relationships to entity (preserves original structure)
+            7. Update @context to include OWL vocabulary
+            8. Write enriched entities to output file
+            9. Phase 4 (Publishing) will use enriched_entities.json as input
+            
+            Non-invasive Design:
+            - Does NOT modify existing entity properties
+            - Only ADDS new owl:sameAs relationships
+            - Preserves original NGSI-LD structure
+            - Optional workflow phase (disabled by default)
+            - Can be enabled/disabled without code changes
+            
+            Example Output:
+            {
+              "id": "urn:ngsi-ld:Camera:cam001",
+              "type": "Camera",
+              "cameraName": {"type": "Property", "value": "Cam Hoan Kiem"},
+              "location": {"type": "GeoProperty", "value": {...}},
+              "sameAs": [
+                {
+                  "type": "Relationship",
+                  "object": "http://sws.geonames.org/1581130/",
+                  "datasetId": {"type": "Property", "value": "geonames"}
+                },
+                {
+                  "type": "Relationship",
+                  "object": "http://dbpedia.org/resource/Hanoi",
+                  "datasetId": {"type": "Property", "value": "dbpedia"}
+                }
+              ],
+              "@context": [
+                "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+                "http://www.w3.org/2002/07/owl#"
+              ]
+            }
+            
+            Competition Requirement:
+            - OLP 2025 Theme: "Ứng dụng dữ liệu mở liên kết phục vụ chuyển đổi số"
+            - Requirement: "Có liên kết (linkset) tới ít nhất một bộ dữ liệu khác trong LOD Cloud"
+            - LOD Cloud Level 5: Linked Data with external cross-dataset references
+            - Hub datasets: DBpedia, Wikidata, GeoNames (connection points)
+            - Standard: W3C OWL (owl:sameAs) for identity linking
+            
+            Usage:
+            1. Enable phase: Set enabled: true above
+            2. Enable agent: Set enabled: true in agent config
+            3. Configure: Edit config/lod_linkset_mappings.yaml
+            4. Set GeoNames username: export GEONAMES_USERNAME=your_username
+            5. Run workflow: python orchestrator.py
+            
+            Note: Disabled by default to preserve existing functionality
+      
+      outputs:
+        - "data/enriched_entities.json"
+    
     # Phase 4: Data Publishing (parallel execution)
     - name: "Publishing"
       description: "Publish validated data to Stellio and convert to RDF"
@@ -114,7 +231,10 @@ workflow:
           required: true
           timeout: 120
           config:
-            input_file: "data/validated_entities.json"
+            # ⚠️ IMPORTANT: Use enriched_entities.json if Phase 3.5 is enabled
+            # Otherwise falls back to validated_entities.json
+            input_file: "data/enriched_entities.json"
+            fallback_file: "data/validated_entities.json"
         
         - name: "ngsi_ld_to_rdf_agent"
           module: "src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent"
@@ -122,7 +242,10 @@ workflow:
           required: true
           timeout: 60
           config:
-            input_file: "data/validated_entities.json"
+            # ⚠️ IMPORTANT: Use enriched_entities.json if Phase 3.5 is enabled
+            # This ensures RDF includes owl:sameAs linksets
+            input_file: "data/enriched_entities.json"
+            fallback_file: "data/validated_entities.json"
             output_dir: "data/rdf"
       
       outputs:

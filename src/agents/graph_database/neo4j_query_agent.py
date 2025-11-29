@@ -3,7 +3,11 @@ Neo4j Query Agent for Graph Analytics
 
 Executes graph queries on Neo4j for relationship discovery,
 path finding, and network analysis.
-
+Module: src.agents.graph_database.neo4j_query_agent
+Authors: Nguyen Viet Hoang
+created: 2025-11-25
+Version: 1.0.0
+License: MIT
 QUERY CAPABILITIES:
 - Find related entities (cameras near accident)
 - Path finding (shortest path between cameras)

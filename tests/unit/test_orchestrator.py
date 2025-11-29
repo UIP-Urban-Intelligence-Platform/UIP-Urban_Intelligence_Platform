@@ -1,7 +1,16 @@
-"""
-Unit Tests for Orchestrator - PRODUCTION READY
+#!/usr/bin/env python3
+"""Orchestrator Unit Test Suite.
+Module: tests.unit.test_orchestrator
 Author: nguyễn Nhật Quang
 Created: 2025-11-21
+License: MIT
+
+Description:
+    Production-ready unit tests for orchestrator functionality.
+    Tests agent execution, dependency resolution, and workflow coordination.
+
+Usage:
+    pytest tests/unit/test_orchestrator.py
 """
 
 import pytest

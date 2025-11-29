@@ -1,7 +1,18 @@
-"""
-Unit Tests for Alert Dispatcher - PRODUCTION READY
+#!/usr/bin/env python3
+"""Alert Dispatcher Unit Test Suite.
+
+Module: tests.unit.test_alert_dispatcher
 Author: nguyễn Nhật Quang
 Created: 2025-11-23
+Version: 1.0.0
+License: MIT
+
+Description:
+    Production-ready unit tests for alert dispatching functionality.
+    Tests multi-channel delivery (email, SMS, webhook) and error handling.
+
+Usage:
+    pytest tests/unit/test_alert_dispatcher.py
 """
 
 import pytest

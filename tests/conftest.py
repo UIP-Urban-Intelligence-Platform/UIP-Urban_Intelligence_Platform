@@ -1,13 +1,24 @@
+#!/usr/bin/env python3
 """Pytest Configuration and Shared Fixtures.
 
 Module: tests.conftest
 Author: nguyễn Nhật Quang
 Created: 2025-11-21
 Version: 1.0.0
+License: MIT
 
 Description:
     Shared pytest fixtures and configuration for unit and integration tests.
     Provides common test utilities, fixtures for config loading, and test data.
+    
+    Fixtures include:
+    - Configuration loaders for YAML files
+    - Mock data generators for NGSI-LD entities
+    - Database connection fixtures
+    - API client fixtures
+
+Usage:
+    Automatically loaded by pytest for all test modules.
 """
 
 import pytest

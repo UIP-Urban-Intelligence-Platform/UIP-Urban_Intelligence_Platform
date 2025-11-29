@@ -4,8 +4,13 @@
 #
 # Checks health of all services using real HTTP requests.
 #
+#Module: Health Check
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-25
+#Version: 1.0.0
+#License: MIT
+#Description:
+#Health check script for the traffic monitoring system.
 set +e  # Don't exit on error, collect all results
 
 STELLIO_URL=${STELLIO_URL:-http://localhost:8080}

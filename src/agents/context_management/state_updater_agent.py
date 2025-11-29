@@ -2,8 +2,8 @@
 """State Updater Agent - Real-Time Entity State Updates.
 
 Module: src.agents.context_management.state_updater_agent
-Author:     Nguyen Viet Hoang
-Created:  2025-11-23
+Author: Nguyen Viet Hoang
+Created: 2025-11-23
 Version: 2.0.0
 License: MIT
 

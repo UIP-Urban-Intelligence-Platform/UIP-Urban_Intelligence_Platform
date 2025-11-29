@@ -50,6 +50,14 @@ namespaces:
   # PROV-O (Provenance Ontology)
   prov: "http://www.w3.org/ns/prov#"
   
+  # External LOD Cloud Datasets (for linksets)
+  # Required for OLP 2025 competition compliance
+  dbpedia: "http://dbpedia.org/resource/"
+  dbpedia-owl: "http://dbpedia.org/ontology/"
+  wikidata: "http://www.wikidata.org/entity/"
+  wikidata-prop: "http://www.wikidata.org/prop/direct/"
+  geonames: "http://sws.geonames.org/"
+  
   # Additional Smart Data Models contexts
   # (Can be extended for any domain)
   building: "https://smartdatamodels.org/dataModel.Building/"

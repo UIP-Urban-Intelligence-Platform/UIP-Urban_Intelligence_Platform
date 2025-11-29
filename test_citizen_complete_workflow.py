@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
-
+Module: test_citizen_complete_workflow
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+Description:
 Test COMPLETE Citizen Workflow với AI Verification
 
 Workflow:
@@ -11,6 +14,8 @@ Workflow:
 3. Save to Stellio (aiVerified=false, aiConfidence=0.0)
 4. CV Agent verify image với YOLOv8
 5. Update Stellio (aiVerified=true, aiConfidence=0.X)
+Usage:
+    python tests/test_citizen_complete_workflow.py
 """
 
 import sys

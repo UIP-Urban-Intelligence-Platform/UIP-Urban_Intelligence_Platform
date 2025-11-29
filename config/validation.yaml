@@ -13,21 +13,21 @@ lod_criteria:
     check_type: "license"
     required_fields: []
     validation_logic: "Always true for public data (assumed CC-BY or ODbL)"
-
+    
   star_2:
     name: "Machine Readable"
     description: "Available as machine-readable structured data (e.g., Excel instead of image scan)"
     check_type: "structure"
     required_fields: ["id", "type"]
     validation_logic: "Valid JSON structure with id and type fields"
-
+    
   star_3:
     name: "Open Format"
     description: "Available in non-proprietary format (e.g., CSV instead of Excel)"
     check_type: "format"
     required_fields: ["@context"]
     validation_logic: "JSON-LD format with @context field"
-
+    
   star_4:
     name: "URI Identifiers"
     description: "Use URIs to denote things, so people can point at your stuff"
@@ -35,7 +35,7 @@ lod_criteria:
     required_fields: ["id"]
     validation_logic: "id field starts with 'urn:' or 'http://' or 'https://'"
     uri_prefixes: ["urn:", "http://", "https://"]
-
+    
   star_5:
     name: "Linked Data"
     description: "Link your data to other data to provide context"
@@ -51,17 +51,17 @@ schema_sources:
     url: "https://raw.githubusercontent.com/smart-data-models/dataModel.Device/master/Camera/schema.json"
     local_cache: "schemas/camera_schema.json"
     entity_type: "Camera"
-
+    
   observation:
     url: "https://raw.githubusercontent.com/smart-data-models/dataModel.Environment/master/Observation/schema.json"
     local_cache: "schemas/observation_schema.json"
     entity_type: "Observation"
-
+    
   platform:
     url: "https://raw.githubusercontent.com/smart-data-models/dataModel.Device/master/Device/schema.json"
     local_cache: "schemas/platform_schema.json"
     entity_type: "Platform"
-
+    
   observable_property:
     # Generic property schema
     local_cache: "schemas/observable_property_schema.json"
@@ -74,13 +74,13 @@ validation:
     - "id"
     - "type"
     - "@context"
-
+  
   # Optional fields that improve quality
   recommended_fields:
     - "dateCreated"
     - "dateModified"
     - "description"
-
+  
   # @context validation
   context_validation:
     required_contexts:
@@ -88,11 +88,11 @@ validation:
     recommended_contexts:
       - "https://www.w3.org/ns/sosa/"
       - "https://raw.githubusercontent.com/smart-data-models/dataModel.Device/master/context.jsonld"
-
+  
   # Property type validation
   property_types:
     allowed: ["Property", "GeoProperty", "Relationship"]
-
+    
   # URI validation
   uri_validation:
     id_patterns:
@@ -103,7 +103,7 @@ validation:
       - "^urn:ngsi-ld:"
       - "^http://"
       - "^https://"
-
+  
   # Data type validation
   data_types:
     string_fields: ["name", "description"]
@@ -117,8 +117,8 @@ report:
   detailed_errors: true
   include_warnings: true
   lod_distribution: true
-  entity_level_details: false # Set to true for per-entity LOD scores in report
-
+  entity_level_details: false  # Set to true for per-entity LOD scores in report
+  
 # Output Configuration
 output:
   source_file: "data/sosa_enhanced_entities.json"
@@ -130,7 +130,7 @@ output:
 # Processing Configuration
 processing:
   batch_size: 100
-  fail_on_error: false # Continue validation even if some entities fail
-  skip_schema_download: false # Set to true to use cached schemas only
+  fail_on_error: false  # Continue validation even if some entities fail
+  skip_schema_download: false  # Set to true to use cached schemas only
   schema_cache_dir: "schemas/"
-  strict_mode: false # If true, warnings become errors
+  strict_mode: false  # If true, warnings become errors

@@ -1,7 +1,17 @@
 #!/usr/bin/env python
 """Test refDevice extraction logic.
+Module: test_refdevice_extraction
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+
+Description:
+    Tests extraction of refDevice relationships from NGSI-LD JSON-LD payloads.
+    Validates proper handling of Relationship type and hasObject properties.
+
+Usage:
+    python tests/test_refdevice_extraction.py
 """
 
 payload = {

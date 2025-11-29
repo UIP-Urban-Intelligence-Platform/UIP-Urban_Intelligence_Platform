@@ -1,6 +1,6 @@
 """Builder Layer - Multi-Agent Traffic Management System.
 
-Module: src
+Module: tests.integration
 Author: Nguyễn Nhật Quang
 Created: 2025-11-23
 Version: 2.3.0

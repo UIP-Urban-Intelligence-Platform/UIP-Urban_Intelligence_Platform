@@ -66,6 +66,22 @@ from collections import defaultdict
 
 import yaml
 
+# MongoDB integration (optional)
+try:
+    from src.utils.mongodb_helper import get_mongodb_helper
+    MONGODB_AVAILABLE = True
+except ImportError:
+    MONGODB_AVAILABLE = False
+    get_mongodb_helper = None
+
+# MongoDB integration (optional)
+try:
+    from src.utils.mongodb_helper import get_mongodb_helper
+    MONGODB_AVAILABLE = True
+except ImportError:
+    MONGODB_AVAILABLE = False
+    get_mongodb_helper = None
+
 
 class TransformationEngine:
     """
@@ -274,6 +290,20 @@ class NGSILDTransformerAgent:
             'validation_errors': 0,
             'processing_time': 0.0
         }
+        
+        # MongoDB helper (optional, non-blocking)
+        self._mongodb_helper = None
+        if MONGODB_AVAILABLE:
+            try:
+                self._mongodb_helper = get_mongodb_helper()
+                if self._mongodb_helper and self._mongodb_helper.enabled:
+                    self.logger.info("✅ MongoDB publishing enabled")
+                else:
+                    self.logger.debug("MongoDB publishing disabled in config")
+            except Exception as e:
+                self.logger.warning(f"MongoDB initialization failed (non-critical): {e}")
+        else:
+            self.logger.debug("MongoDB not available (pymongo not installed)")
     
     def _load_config(self) -> Dict[str, Any]:
         """
@@ -869,6 +899,17 @@ class NGSILDTransformerAgent:
             json.dump(ngsi_entities, f, ensure_ascii=False, indent=indent)
         
         self.logger.info(f"Saved {len(ngsi_entities)} NGSI-LD entities to {output_path}")
+        
+        # Optionally publish to MongoDB (non-blocking, failures won't stop workflow)
+        if self._mongodb_helper and self._mongodb_helper.enabled and ngsi_entities:
+            try:
+                success, failed = self._mongodb_helper.insert_entities_batch(ngsi_entities)
+                if success > 0:
+                    self.logger.info(f"✅ Published {success} entities to MongoDB")
+                if failed > 0:
+                    self.logger.warning(f"⚠️ Failed to publish {failed} entities to MongoDB")
+            except Exception as e:
+                self.logger.warning(f"MongoDB publishing failed (non-critical): {e}")
     
     def log_statistics(self) -> None:
         """Log transformation statistics."""

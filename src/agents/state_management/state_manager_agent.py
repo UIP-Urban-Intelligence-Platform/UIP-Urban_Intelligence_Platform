@@ -1,6 +1,11 @@
 """
 Centralized State Management Agent
-
+Module: src.agents.state_management.state_manager_agent
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-24
+Version: 1.0.0
+License: MIT
+Description:
 This agent provides a unified interface for managing application state across
 all agents and services. It maintains state consistency, handles concurrent updates,
 and provides state snapshots for recovery.
@@ -13,8 +18,7 @@ ARCHITECTURE:
 - Automatic state persistence and recovery
 
 REAL IMPLEMENTATION - Full Redis integration, disabled by default for safety
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-24
+
 """
 
 import logging

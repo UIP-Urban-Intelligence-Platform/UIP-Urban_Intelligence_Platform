@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-20
->>>>>>> main
 # Domain-Agnostic Data Sources Configuration
 # This configuration supports ANY LOD domain (healthcare, geography, commerce, etc.)
 # Add new domains by adding new sections without code changes
@@ -26,7 +23,7 @@ cameras:
 external_apis:
   openweathermap:
     base_url: "https://api.openweathermap.org/data/2.5/weather"
-    api_key: "5d43c8c74f6a4b9f3cfdc3aaf1e5a015"
+    api_key: "bb5a19eeffa9cba1aa96c813d4674f26"
     rate_limit: 10  # ✅ FIXED: Giảm từ 60 → 10 requests per minute
     timeout: 10  # ✅ FIXED: Tăng từ 5s → 10s
     cache_ttl: 600  # seconds (10 minutes)
@@ -37,7 +34,7 @@ external_apis:
   air_quality:
     source: "openweathermap"  # Primary: OpenWeatherMap Air Pollution API
     base_url: "https://api.openweathermap.org/data/2.5/air_pollution"
-    api_key: "5d43c8c74f6a4b9f3cfdc3aaf1e5a015"
+    api_key: "bb5a19eeffa9cba1aa96c813d4674f26"
     rate_limit: 10  # requests per minute
     timeout: 10  # seconds
     cache_ttl: 600  # seconds (10 minutes)

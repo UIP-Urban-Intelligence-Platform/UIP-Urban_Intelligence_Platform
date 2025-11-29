@@ -1,252 +1,903 @@
-# Builder Layer End - Linked Open Data Pipeline System
+<p align="center">
+  <img src="assets/images/logo.png" alt="Builder Layer End Logo" width="200" height="200">
+</p>
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests](https://github.com/your-org/builder-layer-end/workflows/Tests/badge.svg)](https://github.com/your-org/builder-layer-end/actions)
-[![codecov](https://codecov.io/gh/your-org/builder-layer-end/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/builder-layer-end)
+<h1 align="center">Builder Layer End</h1>
 
-A professional, production-ready **Linked Open Data (LOD)** pipeline system for real-time traffic monitoring in Ho Chi Minh City. The system processes traffic camera data, performs computer vision analysis, and publishes standardized NGSI-LD entities enriched with SOSA/SSN ontologies to semantic triple stores.
+<p align="center">
+  <strong>Multi-Agent Linked Open Data Pipeline for Smart Traffic Management</strong>
+</p>
 
-## 🌟 Key Features
+<p align="center">
+  <a href="https://github.com/NguyenNhatquang522004/builder-layer-end/actions/workflows/test.yml">
+    <img src="https://github.com/NguyenNhatquang522004/builder-layer-end/actions/workflows/test.yml/badge.svg" alt="Tests">
+  </a>
+  <a href="https://github.com/NguyenNhatquang522004/builder-layer-end/actions/workflows/lint.yml">
+    <img src="https://github.com/NguyenNhatquang522004/builder-layer-end/actions/workflows/lint.yml/badge.svg" alt="Lint">
+  </a>
+  <a href="https://codecov.io/gh/NguyenNhatquang522004/builder-layer-end">
+    <img src="https://codecov.io/gh/NguyenNhatquang522004/builder-layer-end/branch/main/graph/badge.svg" alt="codecov">
+  </a>
+  <a href="https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  </a>
+</p>
 
-### Architecture Principles
+<p align="center">
+  <a href="https://www.python.org/downloads/">
+    <img src="https://img.shields.io/badge/Python-3.9%2B-blue.svg" alt="Python 3.9+">
+  </a>
+  <a href="https://nodejs.org/">
+    <img src="https://img.shields.io/badge/Node.js-18%2B-green.svg" alt="Node.js 18+">
+  </a>
+  <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/TypeScript-5.0%2B-blue.svg" alt="TypeScript 5.0+">
+  </a>
+  <a href="https://github.com/psf/black">
+    <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
+  </a>
+</p>
 
-- **Domain-Agnostic Design**: Configurable multi-agent system adaptable to various LOD domains
-- **100% Config-Driven**: All endpoints, mappings, and transformations defined in YAML configuration files
-- **Production-Ready**: Comprehensive error handling, retry logic, graceful shutdown, and monitoring
-- **Scalable Architecture**: Async I/O, batch processing, connection pooling, and horizontal scaling support
-- **Standards-Compliant**: Full support for NGSI-LD, SOSA/SSN, RDF, and ETSI Smart Data Models
-- **Computer Vision Integration**: YOLOv8-powered vehicle detection and traffic analysis
-- **Semantic Web Stack**: RDF triple stores, SPARQL queries, and linked data publishing
+<p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-one-command-run">One Command</a> •
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-contributing">Contributing</a>
+</p>
 
-## 📋 Table of Contents
+---
 
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [Configuration](#configuration)
-- [Agent System](#agent-system)
-- [Development](#development)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [API Documentation](#api-documentation)
-- [Architecture](#architecture)
-- [Contributing](#contributing)
-- [License](#license)
+## ⚡ One Command Run
 
-## 🚀 Installation
+```powershell
+# Windows PowerShell - Just run everything with ONE command!
+.\justrun.ps1 dev
+```
+
+```bash
+# Linux/macOS
+./justrun.sh dev
+```
+
+**That's it!** This single command will:
+1. ✅ Auto-detect prerequisites (Python, Node.js, Docker)
+2. ✅ Auto-install all dependencies if needed
+3. ✅ Copy environment files (`.env.example` → `.env`)
+4. ✅ Create required directories (`logs/`, `data/`, etc.)
+5. ✅ Start Docker infrastructure (12 services)
+6. ✅ Wait for databases to be healthy
+7. ✅ Launch Python Orchestrator + Citizen API (port 8001)
+8. ✅ Start TypeScript Backend API (port 5000)
+9. ✅ Start React Frontend (port 5173)
+
+**First time setup?** The script handles everything automatically!
+
+| Command | Description |
+|---------|-------------|
+| `.\justrun.ps1 dev` | 🚀 Start everything (auto-setup if needed) |
+| `.\justrun.ps1 setup` | 📦 Install all dependencies only |
+| `.\justrun.ps1 prod` | 🐳 Start with Docker (production) |
+| `.\justrun.ps1 stop` | ⏹️ Stop all services |
+| `.\justrun.ps1 status` | 📊 Check status of all services |
+| `.\justrun.ps1 test` | 🧪 Run all tests |
+| `.\justrun.ps1 clean` | 🧹 Clean and reset |
+
+### Access Points (after `.\justrun.ps1 dev`)
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| **Frontend** (React) | http://localhost:5173 | - |
+| **Backend** (Express) | http://localhost:5000 | - |
+| **Citizen API** (FastAPI) | http://localhost:8001/docs | - |
+| Stellio Context Broker | http://localhost:8080 | - |
+| Neo4j Browser | http://localhost:7474 | `neo4j` / `test12345` |
+| Apache Jena Fuseki | http://localhost:3030 | `admin` / `test_admin` |
+
+---
+
+## 📖 Overview
+
+**Builder Layer End** is a production-ready, multi-agent system for processing real-time traffic data in Ho Chi Minh City and publishing it as **Linked Open Data (LOD)**. The system integrates computer vision (YOLOv8), semantic web technologies (RDF, NGSI-LD, SOSA/SSN), and modern microservices architecture.
+
+### Why Builder Layer End?
+
+- 🚀 **Production-Ready**: Battle-tested with comprehensive error handling, retry logic, and graceful shutdown
+- 🔧 **Config-Driven**: 100% YAML-configurable — no code changes needed for new domains
+- 🌐 **Standards-Compliant**: Full support for ETSI NGSI-LD, W3C SOSA/SSN, and Smart Data Models
+- 📊 **Full Stack**: Python backend + React/TypeScript frontend + Docusaurus documentation
+- 🐳 **Cloud-Native**: Docker Compose orchestration with 12 integrated services
+
+---
+
+## ✨ Features
+
+### 🤖 Multi-Agent System (38 Python Agents + 3 TypeScript Agents)
+
+| Category | Count | Agents |
+|----------|-------|--------|
+| **Data Collection** | 2 | image_refresh, external_data_collector |
+| **Ingestion** | 1 | citizen_ingestion |
+| **Analytics** | 4 | cv_analysis, congestion_detection, accident_detection, pattern_recognition |
+| **Transformation** | 2 | ngsi_ld_transformer, sosa_ssn_mapper |
+| **Context Management** | 4 | entity_publisher, state_updater, temporal_data_manager, stellio_state_query |
+| **RDF & Linked Data** | 5 | ngsi_ld_to_rdf, triplestore_loader, lod_linkset_enrichment, content_negotiation, smart_data_models_validation |
+| **State Management** | 4 | state_manager, accident_state_manager, congestion_state_manager, temporal_state_tracker |
+| **Monitoring** | 3 | health_check, data_quality_validator, performance_monitor |
+| **Notification** | 5 | alert_dispatcher, incident_report_generator, subscription_manager, email_notification, webhook_notification |
+| **Graph Database** | 2 | neo4j_query, neo4j_sync |
+| **Cache** | 2 | cache_manager, cache_invalidator |
+| **Integration** | 3 | api_gateway, cache_manager, neo4j_sync |
+| **Kafka** | 1 | kafka_entity_publisher |
+| **TypeScript AI** | 3 | TrafficMaestroAgent, GraphInvestigatorAgent, EcoTwinAgent |
+
+### 🔬 Technology Stack
+
+| Layer | Technologies |
+|-------|--------------|
+| **Backend** | Python 3.9+, FastAPI, AsyncIO, APScheduler, YOLOv8 |
+| **Frontend** | React 18, TypeScript, Vite, TailwindCSS, Zustand |
+| **Databases** | PostgreSQL/TimescaleDB, Neo4j 5.12, MongoDB 7.0, Redis 7 |
+| **Semantic Web** | Apache Jena Fuseki, Stellio Context Broker, RDF/SPARQL |
+| **Messaging** | Apache Kafka (KRaft), WebSocket, Socket.IO |
+| **DevOps** | Docker Compose (12 services), GitHub Actions, Prometheus, Grafana |
+| **Documentation** | Docusaurus 3.0, OpenAPI/Swagger |
+
+### 🌍 Semantic Web Standards
+
+- **NGSI-LD**: ETSI CIM standard for context information management
+- **SOSA/SSN**: W3C ontologies for sensor observations
+- **Smart Data Models**: TM Forum/FIWARE standardized data models
+- **LOD Cloud**: Integration with GeoNames, DBpedia, Wikidata
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Python 3.9 or higher**
-- **pip** package manager
-- **Virtual environment** (recommended)
-- **Docker & Docker Compose** (for containerized deployment)
-- **Git** for version control
+- **Python** 3.9 or higher
+- **Node.js** 18 or higher
+- **Docker** & Docker Compose
+- **Git**
 
-### Development Setup
+### Option 1: Docker Compose (Recommended)
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/builder-layer-end.git
-cd Builder-Layer-End
+# Clone repository
+git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
+cd builder-layer-end
 
-# Create virtual environment
-python -m venv .venv
-
-# Activate virtual environment
-# On Windows:
-.venv\Scripts\activate
-# On Linux/Mac:
-source .venv/bin/activate
-
-# Install package in editable mode with development dependencies
-pip install -e .
-pip install -r requirements/dev.txt
-
-# Copy environment template and configure
+# Copy environment configuration
 cp .env.example .env
-# Edit .env with your configuration
 
-# Install pre-commit hooks for code quality
-pre-commit install
-```
-
-### Production Setup
-
-```bash
-# Install production dependencies only
-pip install -r requirements/prod.txt
-
-# Configure environment variables
-cp .env.example .env
-# Edit .env with production settings
-```
-
-## 🎯 Quick Start
-
-### Running the System
-
-#### 1. Start Infrastructure Services (Docker Compose)
-
-```bash
-# Start all required services (Stellio, Neo4j, Fuseki, Kafka, Redis)
+# Start all services
 docker-compose up -d
 
-# Check services are running
+# Check services status
 docker-compose ps
 ```
 
-#### 2. Run the Orchestrator
+**Access Points:**
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| Frontend (React) | http://localhost:5173 | - |
+| Backend (Express) | http://localhost:5000 | - |
+| Citizen API (FastAPI) | http://localhost:8001 | - |
+| API Docs (Swagger) | http://localhost:8001/docs | - |
+| Stellio Context Broker | http://localhost:8080 | - |
+| Neo4j Browser | http://localhost:7474 | neo4j / test12345 |
+| Fuseki SPARQL | http://localhost:3030 | admin / test_admin |
+
+### Option 2: Local Development
 
 ```bash
-# Run all phases of the pipeline
-python orchestrator.py
+# Clone repository
+git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
+cd builder-layer-end
 
-# Or use the console script (if installed with pip install -e .)
-builder-orchestrator
+# Create Python virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements/base.txt
+pip install -r requirements/dev.txt
+
+# Copy environment configuration
+cp .env.example .env
+
+# Run the unified system
+python main.py
 ```
 
-#### 3. Access Services
-
-- **API Gateway**: http://localhost:8000/api/v1
-- **Stellio Context Broker**: http://localhost:8080
-- **Neo4j Browser**: http://localhost:7474 (user: neo4j, password: from .env)
-- **Fuseki SPARQL**: http://localhost:3030
-- **Grafana Dashboard**: http://localhost:3001
-
-### Running Individual Agents
+### Running Options
 
 ```bash
-# Image refresh (data collection)
-python -m src.agents.data_collection.image_refresh_agent
+# Full system (API + Orchestrator every 60 minutes)
+python main.py
 
-# CV analysis (vehicle detection)
-python -m src.agents.analytics.cv_analysis_agent
+# Custom orchestrator interval (30 minutes)
+python main.py --orchestrator-interval 30
 
-# Entity publisher (NGSI-LD)
-python -m src.agents.context_management.entity_publisher_agent
+# Run orchestrator immediately on startup
+python main.py --run-orchestrator-now
+
+# API only (no orchestrator)
+python main.py --no-orchestrator
+
+# Orchestrator only (no API)
+python main.py --no-api
+
+# Run specific workflow phase
+python orchestrator.py --phase transformation
+
+# Dry run (validate without execution)
+python orchestrator.py --dry-run
 ```
+
+---
 
 ## 📁 Project Structure
 
 ```
-Builder-Layer-End/
-├── src/                          # Source code (importable package)
-│   ├── __init__.py
-│   ├── agents/                   # Multi-agent system (20+ specialized agents)
-│   │   ├── __init__.py
-│   │   ├── data_collection/      # Data ingestion agents
-│   │   │   ├── image_refresh_agent.py
-│   │   │   └── external_data_agent.py
-│   │   ├── analytics/            # Computer vision & analysis
-│   │   │   ├── cv_analysis_agent.py
-│   │   │   ├── congestion_agent.py
-│   │   │   ├── accident_agent.py
-│   │   │   └── pattern_recognition_agent.py
-│   │   ├── transformation/       # Data transformation
-│   │   │   ├── ngsi_ld_mapper.py
-│   │   │   └── sosa_ssn_mapper.py
-│   │   ├── rdf_linked_data/      # RDF & semantic web
-│   │   │   ├── ngsi_ld_to_rdf_agent.py
-│   │   │   ├── triplestore_agent.py
-│   │   │   ├── validation_agent.py
-│   │   │   └── content_negotiation_agent.py
-│   │   ├── context_management/   # NGSI-LD context management
-│   │   │   ├── entity_publisher_agent.py
-│   │   │   ├── state_updater_agent.py
-│   │   │   ├── temporal_manager_agent.py
-│   │   │   └── stellio_query_agent.py
-│   │   ├── integration/          # External integrations
-│   │   │   ├── api_gateway_agent.py
-│   │   │   ├── neo4j_sync_agent.py
-│   │   │   └── cache_manager_agent.py
-│   │   ├── monitoring/           # System monitoring
-│   │   │   ├── health_check_agent.py
-│   │   │   ├── data_quality_agent.py
-│   │   │   └── performance_monitor_agent.py
-│   │   └── notification/         # Alerts & notifications
-│   │       ├── alert_dispatcher_agent.py
-│   │       ├── subscription_agent.py
-│   │       └── incident_report_agent.py
-│   └── core/                     # Core utilities
-│       ├── __init__.py
-│       ├── data_seeder.py
-│       ├── config_loader.py
-│       ├── logger.py
-│       └── utils.py
-├── config/                       # YAML configuration files
-│   ├── workflow.yaml             # Multi-phase orchestration
-│   ├── agents.yaml               # Agent-specific configs
-│   ├── data_sources.yaml         # External API endpoints
-│   ├── ngsi_ld_mappings.yaml     # Entity type mappings
-│   ├── sosa_mappings.yaml        # SOSA/SSN property mappings
-│   ├── validation.yaml           # Schema validation rules
-│   └── ...
-├── data/                         # Runtime data storage
-│   ├── cache/images/             # Cached traffic images
-│   ├── rdf/                      # RDF serializations
-│   └── reports/                  # Generated reports
-├── requirements/                 # Dependency management
-│   ├── base.txt                  # Production dependencies
-│   ├── dev.txt                   # Development tools
-│   ├── test.txt                  # Testing frameworks
-│   └── prod.txt                  # Production-specific
-├── docs/                         # Documentation
-│   ├── architecture/             # Architecture diagrams & docs
-│   │   └── ARCHITECTURE.md
-│   ├── api/                      # API documentation
-│   │   └── API.md
-│   ├── reports/                  # Analysis reports
-│   └── guides/                   # User guides
-├── scripts/                      # Utility scripts
-│   ├── utilities/                # General utilities
-│   ├── monitoring/               # Monitoring scripts
-│   ├── testing/                  # Testing helpers
-│   ├── docker/                   # Docker utilities
-│   ├── database/                 # Database scripts
-│   └── pipeline/                 # Pipeline tools
-├── assets/                       # Static assets
-│   ├── images/                   # Images & icons
-│   └── models/                   # ML models (YOLOv8)
-├── templates/                    # HTML templates
-│   ├── incident_report.html
-│   └── entity.html
-├── tests/                        # Test suite
-│   ├── unit/                     # Unit tests
-│   ├── integration/              # Integration tests
-│   └── conftest.py               # Pytest configuration
-├── .github/                      # GitHub Actions CI/CD
-│   └── workflows/
-│       ├── test.yml              # Automated testing
-│       ├── lint.yml              # Code quality checks
-│       └── deploy.yml            # Deployment pipeline
-├── orchestrator.py               # Main entry point
-├── setup.py                      # Package installation
-├── pyproject.toml                # Modern Python project config
-├── .env.example                  # Environment variable template
-├── .pre-commit-config.yaml       # Pre-commit hooks
-├── docker-compose.yml            # Docker services
-├── Dockerfile                    # Container image
-├── pytest.ini                    # Pytest configuration
-├── README.md                     # This file
-└── LICENSE                       # MIT License
+builder-layer-end/
+│
+├── 📂 src/                              # Python source code
+│   ├── agents/                          # Multi-agent system (38 agents in 12 categories)
+│   │   ├── analytics/                   # CV analysis, congestion, accidents (4)
+│   │   ├── cache/                       # Cache management (2)
+│   │   ├── context_management/          # Entity publishing, state (4)
+│   │   ├── data_collection/             # Image refresh, external data (2)
+│   │   ├── graph_database/              # Neo4j query, sync (2)
+│   │   ├── ingestion/                   # Citizen report ingestion (1)
+│   │   ├── integration/                 # API gateway, Neo4j sync (3)
+│   │   ├── monitoring/                  # Health checks, data quality (3)
+│   │   ├── notification/                # Alerts, webhooks, email (5)
+│   │   ├── rdf_linked_data/             # RDF conversion, triplestore (5)
+│   │   ├── state_management/            # State tracking (4)
+│   │   ├── transformation/              # NGSI-LD, SOSA/SSN mapping (2)
+│   │   └── kafka_entity_publisher_agent.py  # Kafka streaming (1)
+│   ├── core/                            # Core utilities
+│   │   ├── config_loader.py             # Configuration management
+│   │   ├── data_seeder.py               # Data seeding utilities
+│   │   ├── logger.py                    # Logging configuration
+│   │   └── utils.py                     # Common utilities
+│   ├── cli/                             # Command-line interface tools
+│   │   ├── cache/                       # Cache CLI commands
+│   │   ├── graph/                       # Graph database CLI
+│   │   ├── monitoring/                  # Monitoring CLI
+│   │   ├── pipeline/                    # Pipeline management CLI
+│   │   └── rdf/                         # RDF processing CLI
+│   ├── utils/                           # Helper utilities
+│   │   └── mongodb_helper.py            # MongoDB helper functions
+│   └── orchestrator.py                  # Workflow orchestrator
+│
+├── 📂 apps/                             # Web applications
+│   ├── shared/                          # Shared code between apps
+│   │   ├── configs/                     # Shared configurations
+│   │   └── types/                       # Shared TypeScript types
+│   └── traffic-web-app/                 # Main traffic web application
+│       ├── backend/                     # Express.js + TypeScript API
+│       │                                # (3 AI agents, 12 routes, 7 services)
+│       ├── frontend/                    # React + Vite + TailwindCSS
+│       │                                # (2 pages, 30+ components)
+│       └── docs/                        # Web app documentation
+│
+├── 📂 config/                           # YAML configuration files (31 files)
+│   ├── workflow.yaml                    # Orchestrator workflow definition
+│   ├── agents.yaml                      # Agent-specific configurations
+│   ├── ngsi_ld_mappings.yaml            # NGSI-LD entity mappings
+│   ├── sosa_mappings.yaml               # SOSA/SSN ontology mappings
+│   ├── stellio.yaml                     # Stellio Context Broker config
+│   ├── fuseki.yaml                      # Apache Jena Fuseki config
+│   ├── neo4j_sync.yaml                  # Neo4j synchronization config
+│   ├── mongodb_config.yaml              # MongoDB configuration
+│   ├── kafka_config.yaml                # Apache Kafka config
+│   └── ...                              # 22 more configuration files
+│
+├── 📂 tests/                            # Test suite
+│   ├── unit/                            # Unit tests
+│   ├── integration/                     # Integration tests
+│   ├── ingestion/                       # Ingestion tests
+│   └── conftest.py                      # Pytest fixtures & configuration
+│
+├── 📂 scripts/                          # Utility scripts
+│   ├── database/                        # Database initialization scripts
+│   ├── monitoring/                      # Monitoring setup scripts
+│   ├── pipeline/                        # Pipeline utilities
+│   ├── python/                          # Python utility scripts
+│   ├── node/                            # Node.js utility scripts
+│   ├── utilities/                       # General utilities
+│   ├── deploy.sh                        # Deployment script
+│   ├── rollback.sh                      # Rollback script
+│   └── health_check.sh                  # Health check script
+│
+├── 📂 docs/                             # Documentation (Docusaurus 3.0)
+│   ├── api/                             # API documentation
+│   ├── architecture/                    # Architecture guides
+│   ├── workflows/                       # Workflow documentation
+│   ├── data-access/                     # Data access guides
+│   ├── web-application/                 # Web app documentation
+│   ├── python-orchestrator/             # Orchestrator documentation
+│   ├── competition/                     # Competition materials
+│   ├── src/                             # Docusaurus source
+│   ├── docusaurus.config.ts             # Docusaurus configuration
+│   ├── sidebars.ts                      # Documentation sidebar
+│   └── package.json                     # Docs dependencies
+│
+├── 📂 .github/                          # GitHub configurations
+│   ├── workflows/                       # CI/CD pipelines (9 workflows)
+│   │   ├── test.yml                     # Unit & integration tests
+│   │   ├── lint.yml                     # Code linting
+│   │   ├── codeql.yml                   # Security analysis
+│   │   ├── deploy.yml                   # Deployment pipeline
+│   │   ├── release.yml                  # Release automation
+│   │   ├── integration-tests.yml        # Integration testing
+│   │   ├── dependency-review.yml        # Dependency review
+│   │   ├── auto-label.yml               # Auto labeling
+│   │   └── stale.yml                    # Stale issue management
+│   ├── ISSUE_TEMPLATE/                  # Issue templates
+│   ├── CODEOWNERS                       # Code ownership
+│   ├── CONTRIBUTING.md                  # Contribution guidelines
+│   ├── SECURITY.md                      # Security policy
+│   ├── SUPPORT.md                       # Support information
+│   ├── FUNDING.yml                      # Funding information
+│   ├── dependabot.yml                   # Dependabot configuration
+│   ├── labeler.yml                      # Label configuration
+│   └── pull_request_template.md         # PR template
+│
+├── 📂 requirements/                     # Python dependencies
+│   ├── base.txt                         # Base dependencies
+│   ├── dev.txt                          # Development dependencies
+│   ├── prod.txt                         # Production dependencies
+│   ├── test.txt                         # Testing dependencies
+│   └── citizen_science_deps.txt         # Citizen science features
+│
+├── 📂 docker/                           # Docker configurations
+│   ├── docker-compose.dev.yml           # Development Docker Compose
+│   ├── Dockerfile.test                  # Test container
+│   ├── Dockerfile.test.optimized        # Optimized test container
+│   └── reference/                       # Reference configurations
+│
+├── 📂 data/                             # Data files & cache
+│   ├── cache/                           # Cached data
+│   ├── rdf/                             # RDF exports
+│   ├── rdf_accidents/                   # Accident RDF data
+│   ├── rdf_observations/                # Observation RDF data
+│   ├── rdf_patterns/                    # Pattern RDF data
+│   ├── rdf_updates/                     # Update RDF data
+│   ├── reports/                         # Generated reports
+│   └── *.json                           # JSON data files
+│
+├── 📂 assets/                           # Static assets
+│   ├── models/                          # AI/ML models (YOLOv8)
+│   └── images/                          # Image assets
+│
+├── 📂 examples/                         # Example files
+│   └── NGSI_LD_STRUCTURE_EXAMPLES.py    # NGSI-LD structure examples
+│
+├── 📂 guides/                           # User guides
+│   ├── QUICKSTART.md                    # Quick start guide
+│   ├── DATA_ACCESS_GUIDE.md             # Data access guide
+│   ├── SEED_DATA_GUIDE.md               # Seed data guide
+│   ├── DOCKER_SCRIPTS_GUIDE.md          # Docker scripts guide
+│   └── GUIDE_NEO4J_LOD_USAGE.md         # Neo4j LOD usage guide
+│
+├── 📂 templates/                        # HTML templates
+│   ├── entity.html                      # Entity template
+│   ├── incident_report.html             # Incident report template
+│   └── incident_web.html                # Web incident template
+│
+├── 📂 logs/                             # Application logs
+├── 📂 reports/                          # Generated reports
+├── 📂 runs/                             # Execution runs data
+├── 📂 test_data/                        # Test data files
+├── 📂 test_output/                      # Test output files
+│
+├── 📄 main.py                           # Unified entry point
+├── 📄 orchestrator.py                   # Orchestrator CLI
+├── 📄 justrun.ps1                       # Windows one-command runner
+├── 📄 docker-compose.yml                # Docker services (12 containers)
+├── 📄 Dockerfile                        # Application container
+├── 📄 pyproject.toml                    # Python project configuration (PEP 518)
+├── 📄 setup.py                          # Python package setup
+├── 📄 pytest.ini                        # Pytest configuration
+├── 📄 MANIFEST.in                       # Package manifest
+├── 📄 Makefile                          # Build automation
+├── 📄 .env.example                      # Environment template
+├── 📄 .gitignore                        # Git ignore rules
+├── 📄 .gitattributes                    # Git attributes
+├── 📄 .dockerignore                     # Docker ignore rules
+├── 📄 .pre-commit-config.yaml           # Pre-commit hooks
+├── 📄 LICENSE                           # MIT License
+├── 📄 JUSTRUN.md                        # One-command documentation
+├── 📄 EXECUTION_ORDER.md                # Execution order guide
+└── 📄 README.md                         # Project documentation
 ```
 
-**Purpose**: Refresh time-sensitive URLs by updating timestamps and verifying accessibility.
+---
 
-**Features**:
-- ✅ URL parsing and parameter extraction
-- ✅ Timestamp generation (milliseconds)
-- ✅ URL reconstruction with fresh timestamps
-- ✅ Async HTTP HEAD verification
-- ✅ Batch processing (configurable batch size)
-- ✅ Retry logic with exponential backoff
-- ✅ Graceful shutdown (SIGTERM/SIGINT)
-- ✅ Comprehensive error handling
-- ✅ Statistics tracking and logging
+## 🏗️ Architecture
 
+### System Overview
+
+> **38 Python Agents** | **3 TypeScript AI Agents** | **12 Docker Services** | **7 Backend Services** | **12 API Routes**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              BUILDER LAYER END                                       │
+│                    Multi-Agent Linked Open Data Pipeline                            │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                     │
+│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐      │
+│   │   CLIENT    │────▶│   BACKEND   │────▶│ ORCHESTRATOR│────▶│   STORAGE   │      │
+│   │   LAYER     │     │   LAYER     │     │   LAYER     │     │   LAYER     │      │
+│   └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘      │
+│                                                                                     │
+│   React Frontend      Express.js API      38 Python Agents    6 Databases          │
+│   Port: 3000          Port: 3001          FastAPI: 8001       Kafka: 9092          │
+│                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Complete System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                                  🌐 CLIENT LAYER                                         │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  ┌────────────────────────────────────┐    ┌────────────────────────────────────┐      │
+│  │     🖥️ React Frontend (Port 3000)   │    │     📱 External Clients             │      │
+│  │     Vite + TailwindCSS + Zustand   │    │     Mobile & Third-Party Apps      │      │
+│  │                                    │    │                                    │      │
+│  │  Pages:                            │    │  Protocols:                        │      │
+│  │  ├── Dashboard.tsx                 │    │  ├── REST API Consumers            │      │
+│  │  └── LandingPage.tsx               │    │  ├── WebSocket Clients             │      │
+│  │                                    │    │  └── SPARQL Clients                │      │
+│  │  Components (30+):                 │    │                                    │      │
+│  │  ├── TrafficMap                    │    │                                    │      │
+│  │  ├── AnalyticsDashboard            │    │                                    │      │
+│  │  ├── CitizenReportForm             │    │                                    │      │
+│  │  ├── RoutePlanner                  │    │                                    │      │
+│  │  ├── agents/ (3 components)        │    │                                    │      │
+│  │  └── landing/ (8 components)       │    │                                    │      │
+│  └─────────────────┬──────────────────┘    └─────────────────┬──────────────────┘      │
+│                    │ HTTP/WebSocket                          │                         │
+└────────────────────┼─────────────────────────────────────────┼─────────────────────────┘
+                     │                                         │
+                     ▼                                         ▼
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                          🔀 API GATEWAY LAYER (Port 3001)                                │
+│                          Express.js + TypeScript Backend                                │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  ┌─────────────────────────────────────┐  ┌─────────────────────────────────────┐      │
+│  │     📡 Routes (12 endpoints)         │  │     ⚙️ Services (7 services)         │      │
+│  │                                     │  │                                     │      │
+│  │  /api/accidents    /api/agents      │  │  stellioService.ts                  │      │
+│  │  /api/airQuality   /api/analytics   │  │  neo4jService.ts                    │      │
+│  │  /api/cameras      /api/correlation │  │  fusekiService.ts                   │      │
+│  │  /api/geocoding    /api/historical  │  │  postgresService.ts                 │      │
+│  │  /api/multiAgent   /api/patterns    │  │  websocketService.ts                │      │
+│  │  /api/routing      /api/weather     │  │  dataAggregator.ts                  │      │
+│  │                                     │  │  genericNgsiService.ts              │      │
+│  └─────────────────────────────────────┘  └─────────────────────────────────────┘      │
+│                                                                                         │
+│  ┌──────────────────────────────────────────────────────────────────────────────┐      │
+│  │                      🤖 TypeScript AI Agents (3 agents)                       │      │
+│  │                                                                              │      │
+│  │  ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐       │      │
+│  │  │ TrafficMaestroAgent│ │GraphInvestigator   │ │ EcoTwinAgent       │       │      │
+│  │  │                    │ │Agent               │ │                    │       │      │
+│  │  │ Real-time traffic  │ │ Graph analysis &   │ │ Environmental      │       │      │
+│  │  │ orchestration      │ │ pattern discovery  │ │ impact modeling    │       │      │
+│  │  └────────────────────┘ └────────────────────┘ └────────────────────┘       │      │
+│  └──────────────────────────────────────────────────────────────────────────────┘      │
+│                                         │                                              │
+└─────────────────────────────────────────┼──────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                          🐍 PYTHON ORCHESTRATOR LAYER                                    │
+│                          main.py + orchestrator.py                                      │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐       │
+│  │                    📡 Citizen Ingestion API (Port 8001)                      │       │
+│  │                    FastAPI + Uvicorn + YOLOv8                               │       │
+│  │                                                                             │       │
+│  │  Endpoints:                           Features:                             │       │
+│  │  POST /api/v1/citizen-reports         • Image upload with geolocation      │       │
+│  │  GET  /api/v1/citizen-reports         • CV verification (YOLOv8)           │       │
+│  │  GET  /api/v1/citizen-reports/{id}    • Category classification            │       │
+│  │  GET  /docs (OpenAPI/Swagger)         • Real-time validation               │       │
+│  └─────────────────────────────────────────────────────────────────────────────┘       │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐       │
+│  │                    ⏱️ Scheduled Orchestrator (APScheduler)                   │       │
+│  │                    Interval: every 60 minutes (configurable)                │       │
+│  │                                                                             │       │
+│  │  Phase 1: Data Collection      ──▶  Gather from cameras, APIs, citizens    │       │
+│  │  Phase 2: Analytics & CV       ──▶  YOLOv8 detection, pattern analysis     │       │
+│  │  Phase 3: Transformation       ──▶  NGSI-LD mapping, SOSA/SSN enrichment   │       │
+│  │  Phase 4: Context Management   ──▶  Stellio publishing, state updates      │       │
+│  │  Phase 5: RDF & LOD Publishing ──▶  Triplestore, LOD Cloud linksets        │       │
+│  └─────────────────────────────────────────────────────────────────────────────┘       │
+│                                         │                                              │
+└─────────────────────────────────────────┼──────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                          🤖 MULTI-AGENT SYSTEM (38 Python Agents)                        │
+│                          src/agents/ — 12 Categories                                    │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
+│  │ 📥 DATA COLLECTION   │ │ 📤 INGESTION         │ │ 🔬 ANALYTICS          │            │
+│  │ (2 agents)           │ │ (1 agent)            │ │ (4 agents)           │            │
+│  │                      │ │                      │ │                      │            │
+│  │ • image_refresh      │ │ • citizen_ingestion  │ │ • cv_analysis        │            │
+│  │ • external_data      │ │                      │ │ • congestion_detect  │            │
+│  │   _collector         │ │                      │ │ • accident_detect    │            │
+│  │                      │ │                      │ │ • pattern_recognition│            │
+│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
+│                                                                                         │
+│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
+│  │ 🔄 TRANSFORMATION    │ │ 📤 CONTEXT MGMT      │ │ 🔗 RDF & LINKED DATA │            │
+│  │ (2 agents)           │ │ (4 agents)           │ │ (5 agents)           │            │
+│  │                      │ │                      │ │                      │            │
+│  │ • ngsi_ld_           │ │ • entity_publisher   │ │ • ngsi_ld_to_rdf     │            │
+│  │   transformer        │ │ • state_updater      │ │ • triplestore_loader │            │
+│  │ • sosa_ssn_mapper    │ │ • temporal_data_mgr  │ │ • lod_linkset_enrich │            │
+│  │                      │ │ • stellio_state_query│ │ • content_negotiation│            │
+│  │                      │ │                      │ │ • smart_data_valid   │            │
+│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
+│                                                                                         │
+│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
+│  │ 💾 STATE MANAGEMENT  │ │ 📊 MONITORING        │ │ 🔔 NOTIFICATION      │            │
+│  │ (4 agents)           │ │ (3 agents)           │ │ (5 agents)           │            │
+│  │                      │ │                      │ │                      │            │
+│  │ • state_manager      │ │ • health_check       │ │ • alert_dispatcher   │            │
+│  │ • accident_state_mgr │ │ • data_quality_valid │ │ • incident_report_gen│            │
+│  │ • congestion_state   │ │ • performance_monitor│ │ • subscription_mgr   │            │
+│  │ • temporal_tracker   │ │                      │ │ • email_notification │            │
+│  │                      │ │                      │ │ • webhook_notification│           │
+│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
+│                                                                                         │
+│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
+│  │ 🗄️ GRAPH DATABASE    │ │ 💨 CACHE             │ │ 🔌 INTEGRATION       │            │
+│  │ (2 agents)           │ │ (2 agents)           │ │ (3 agents)           │            │
+│  │                      │ │                      │ │                      │            │
+│  │ • neo4j_query        │ │ • cache_manager      │ │ • api_gateway        │            │
+│  │ • neo4j_sync         │ │ • cache_invalidator  │ │ • cache_manager      │            │
+│  │                      │ │                      │ │ • neo4j_sync         │            │
+│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐       │
+│  │ 📨 KAFKA PUBLISHER (1 agent) — kafka_entity_publisher_agent.py              │       │
+│  │ Real-time entity streaming to Apache Kafka topics                           │       │
+│  └─────────────────────────────────────────────────────────────────────────────┘       │
+│                                         │                                              │
+└─────────────────────────────────────────┼──────────────────────────────────────────────┘
+                                            │
+┌───────────────────────────────────────────┼─────────────────────────────────────────────┐
+│                                           ▼                                             │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │                        📨 MESSAGE QUEUE LAYER                                     │  │
+│  ├────────────────────────────────────┬─────────────────────────────────────────────┤  │
+│  │                                    │                                              │  │
+│  │   ┌────────────────────────────────┴────────────────────────────────┐            │  │
+│  │   │                    Apache Kafka (Port 9092)                      │            │  │
+│  │   │                    KRaft Mode (No Zookeeper)                     │            │  │
+│  │   │                                                                  │            │  │
+│  │   │   Topics:                                                        │            │  │
+│  │   │   • cim.entity.TrafficObservation                               │            │  │
+│  │   │   • cim.entity.TrafficCamera                                    │            │  │
+│  │   │   • cim.entity.AccidentEvent                                    │            │  │
+│  │   │   • cim.entity.CongestionLevel                                  │            │  │
+│  │   │   • cim.entity.CitizenReport                                    │            │  │
+│  │   └──────────────────────────────────────────────────────────────────┘            │  │
+│  │                                                                                   │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+│                                           │                                             │
+└───────────────────────────────────────────┼─────────────────────────────────────────────┘
+                                            │
+┌───────────────────────────────────────────┼─────────────────────────────────────────────┐
+│                                           ▼                                             │
+│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
+│  │                         🗄️ DATA STORAGE LAYER                                     │  │
+│  ├──────────────────────────────────────────────────────────────────────────────────┤  │
+│  │                                                                                   │  │
+│  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐                │  │
+│  │  │ 🌐 Stellio       │  │ 🔷 Neo4j         │  │ 🔺 Fuseki        │                │  │
+│  │  │ Context Broker   │  │ Graph Database   │  │ Triplestore      │                │  │
+│  │  │ (Port 8080)      │  │ (Port 7474/7687) │  │ (Port 3030)      │                │  │
+│  │  │                  │  │                  │  │                  │                │  │
+│  │  │ • NGSI-LD API    │  │ • Cypher Queries │  │ • SPARQL Queries │                │  │
+│  │  │ • Entity CRUD    │  │ • Graph Traversal│  │ • RDF Storage    │                │  │
+│  │  │ • Subscriptions  │  │ • Path Finding   │  │ • Turtle/N3/JSON │                │  │
+│  │  │ • Temporal API   │  │ • APOC Plugins   │  │ • Content Neg.   │                │  │
+│  │  │                  │  │                  │  │                  │                │  │
+│  │  │ Services:        │  │                  │  │ Datasets:        │                │  │
+│  │  │ • api-gateway    │  │                  │  │ • /traffic       │                │  │
+│  │  │ • search-service │  │                  │  │ • /observations  │                │  │
+│  │  │ • subscription   │  │                  │  │                  │                │  │
+│  │  └──────────────────┘  └──────────────────┘  └──────────────────┘                │  │
+│  │                                                                                   │  │
+│  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐                │  │
+│  │  │ 🐘 PostgreSQL    │  │ 🍃 MongoDB       │  │ 🔴 Redis         │                │  │
+│  │  │ + TimescaleDB    │  │ Document Store   │  │ Cache Layer      │                │  │
+│  │  │ (Port 5432)      │  │ (Port 27017)     │  │ (Port 6379)      │                │  │
+│  │  │                  │  │                  │  │                  │                │  │
+│  │  │ • Stellio Backend│  │ • NGSI-LD Docs   │  │ • Session Cache  │                │  │
+│  │  │ • Time-series    │  │ • Citizen Reports│  │ • Query Cache    │                │  │
+│  │  │ • PostGIS (Geo)  │  │ • Raw JSON Store │  │ • Rate Limiting  │                │  │
+│  │  │ • Hypertables    │  │                  │  │ • Pub/Sub        │                │  │
+│  │  └──────────────────┘  └──────────────────┘  └──────────────────┘                │  │
+│  │                                                                                   │  │
+│  └──────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                              🌍 EXTERNAL INTEGRATIONS                                    │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐   │
+│  │ 📷 Traffic      │  │ 🌤️ Weather APIs  │  │ 🌐 LOD Cloud    │  │ 🤖 AI/ML        │   │
+│  │ Camera APIs     │  │                 │  │ Linksets        │  │ Services        │   │
+│  │                 │  │                 │  │                 │  │                 │   │
+│  │ • HCMC Camera   │  │ • OpenWeather   │  │ • GeoNames      │  │ • YOLOv8        │   │
+│  │   Network       │  │ • OpenAQ        │  │ • DBpedia       │  │ • Google Gemini │   │
+│  │ • RTSP Streams  │  │ • AirVisual     │  │ • Wikidata      │  │   (Optional)    │   │
+│  │                 │  │                 │  │ • Schema.org    │  │                 │   │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  └─────────────────┘   │
+│                                                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Data Flow Pipeline
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                              📊 DATA FLOW PIPELINE                                       │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+
+Phase 1: DATA COLLECTION
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│ 📷 Traffic  │    │ 🌤️ Weather  │    │ 💨 Air      │    │ 👤 Citizen  │
+│ Cameras     │    │ APIs        │    │ Quality     │    │ Reports     │
+│ (722 feeds) │    │             │    │             │    │ (Mobile)    │
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │                  │
+       └──────────────────┴──────────────────┴──────────────────┘
+                                   │
+                                   ▼
+Phase 2: ANALYTICS & COMPUTER VISION
+┌─────────────────────────────────────────────────────────────────┐
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
+│  │ 🚗 YOLOv8   │  │ 🚦 Congestion│  │ 🚨 Accident │             │
+│  │ Detection   │  │ Analysis    │  │ Detection   │             │
+│  │             │  │             │  │             │             │
+│  │ • Vehicles  │  │ • Speed     │  │ • Collision │             │
+│  │ • Counting  │  │ • Density   │  │ • Severity  │             │
+│  │ • Types     │  │ • Patterns  │  │ • Location  │             │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
+│         └────────────────┴────────────────┘                    │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │
+                              ▼
+Phase 3: SEMANTIC TRANSFORMATION
+┌─────────────────────────────────────────────────────────────────┐
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                 NGSI-LD Transformer                      │   │
+│  │                                                          │   │
+│  │   Raw Data → Smart Data Models → NGSI-LD Entities       │   │
+│  │                                                          │   │
+│  │   Entity Types:                                          │   │
+│  │   • TrafficObservation    • WeatherObserved             │   │
+│  │   • TrafficCamera         • AirQualityObserved          │   │
+│  │   • AccidentEvent         • CitizenReport               │   │
+│  │   • CongestionLevel       • TrafficPattern              │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                              │                                  │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                  SOSA/SSN Enrichment                     │   │
+│  │                                                          │   │
+│  │   NGSI-LD Entities → W3C SOSA/SSN Ontology Mapping      │   │
+│  │                                                          │   │
+│  │   • sosa:Observation      • ssn:Sensor                  │   │
+│  │   • sosa:FeatureOfInterest• sosa:ObservableProperty     │   │
+│  │   • sosa:Result           • sosa:Procedure              │   │
+│  └─────────────────────────────────────────────────────────┘   │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │
+                              ▼
+Phase 4: CONTEXT MANAGEMENT & PUBLISHING
+┌─────────────────────────────────────────────────────────────────┐
+│         ┌───────────────────┴───────────────────┐               │
+│         ▼                                       ▼               │
+│  ┌─────────────────┐                    ┌─────────────────┐    │
+│  │ Stellio Context │                    │ MongoDB Storage │    │
+│  │ Broker          │                    │                 │    │
+│  │                 │                    │ • Raw entities  │    │
+│  │ • Entity CRUD   │                    │ • Audit logs    │    │
+│  │ • Subscriptions │                    │ • Citizen data  │    │
+│  │ • Temporal API  │                    │                 │    │
+│  └────────┬────────┘                    └─────────────────┘    │
+│           │                                                     │
+│           ▼                                                     │
+│  ┌─────────────────┐                                           │
+│  │ Kafka Topics    │                                           │
+│  │                 │                                           │
+│  │ cim.entity.*   │ ◄─── Real-time event streaming            │
+│  └─────────────────┘                                           │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │
+                              ▼
+Phase 5: RDF & LINKED OPEN DATA
+┌─────────────────────────────────────────────────────────────────┐
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │                   RDF Conversion                         │   │
+│  │                                                          │   │
+│  │   NGSI-LD → RDF Serializations:                         │   │
+│  │   • Turtle (.ttl)    • N-Triples (.nt)                  │   │
+│  │   • RDF/XML (.rdf)   • JSON-LD (.jsonld)                │   │
+│  └─────────────────────────────────────────────────────────┘   │
+│                              │                                  │
+│         ┌────────────────────┼────────────────────┐            │
+│         ▼                    ▼                    ▼            │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐      │
+│  │ Fuseki      │     │ Neo4j       │     │ LOD Cloud   │      │
+│  │ Triplestore │     │ Graph DB    │     │ Linksets    │      │
+│  │             │     │             │     │             │      │
+│  │ • SPARQL    │     │ • Cypher    │     │ • GeoNames  │      │
+│  │ • RDF Store │     │ • Graph Viz │     │ • DBpedia   │      │
+│  │ • Reasoning │     │ • Analytics │     │ • Wikidata  │      │
+│  └─────────────┘     └─────────────┘     └─────────────┘      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Technology Stack Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                              🛠️ TECHNOLOGY STACK                                         │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  FRONTEND                    BACKEND                      INFRASTRUCTURE               │
+│  ─────────                   ────────                     ──────────────               │
+│  ┌─────────────┐            ┌─────────────┐              ┌─────────────┐               │
+│  │ React 18    │            │ Python 3.11 │              │ Docker      │               │
+│  │ TypeScript  │            │ FastAPI     │              │ Compose     │               │
+│  │ Vite        │            │ AsyncIO     │              │             │               │
+│  │ TailwindCSS │            │ APScheduler │              │ 10+ Services│               │
+│  │ Zustand     │            │             │              │             │               │
+│  │ React-Leaflet│           │ Express.js  │              │             │               │
+│  │ Recharts    │            │ TypeScript  │              │             │               │
+│  └─────────────┘            └─────────────┘              └─────────────┘               │
+│                                                                                         │
+│  DATABASES                   SEMANTIC WEB                 AI/ML                        │
+│  ─────────                   ────────────                 ─────                        │
+│  ┌─────────────┐            ┌─────────────┐              ┌─────────────┐               │
+│  │ PostgreSQL  │            │ Stellio     │              │ YOLOv8      │               │
+│  │ TimescaleDB │            │ NGSI-LD     │              │ Ultralytics │               │
+│  │ Neo4j 5.x   │            │             │              │             │               │
+│  │ MongoDB 7.0 │            │ Fuseki      │              │ OpenCV      │               │
+│  │ Redis 7     │            │ SPARQL/RDF  │              │ NumPy       │               │
+│  │             │            │             │              │ Pillow      │               │
+│  │             │            │ SOSA/SSN    │              │             │               │
+│  └─────────────┘            └─────────────┘              └─────────────┘               │
+│                                                                                         │
+│  MESSAGING                   DEVOPS                       STANDARDS                    │
+│  ─────────                   ──────                       ─────────                    │
+│  ┌─────────────┐            ┌─────────────┐              ┌─────────────┐               │
+│  │ Kafka       │            │ GitHub      │              │ NGSI-LD     │               │
+│  │ KRaft Mode  │            │ Actions     │              │ ETSI CIM    │               │
+│  │             │            │ (9 workflows)│             │             │               │
+│  │ WebSocket   │            │             │              │ SOSA/SSN    │               │
+│  │ Socket.IO   │            │ Prometheus  │              │ W3C         │               │
+│  │             │            │ Grafana     │              │             │               │
+│  │             │            │             │              │ Smart Data  │               │
+│  │             │            │ Codecov     │              │ Models      │               │
+│  └─────────────┘            └─────────────┘              └─────────────┘               │
+│                                                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Docker Services Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                           🐳 DOCKER COMPOSE SERVICES (12 Containers)                     │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                          STELLIO CONTEXT BROKER CLUSTER                          │   │
+│  │                                                                                  │   │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │   │
+│  │  │ stellio-api-    │  │ search-service  │  │ subscription-   │                  │   │
+│  │  │ gateway :8080   │  │ :8083           │  │ service         │                  │   │
+│  │  │                 │  │                 │  │                 │                  │   │
+│  │  │ NGSI-LD REST API│  │ Entity Search   │  │ Notifications   │                  │   │
+│  │  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘                  │   │
+│  │           └───────────────────┬┴───────────────────┘                            │   │
+│  │                               ▼                                                 │   │
+│  │           ┌─────────────────────────────────────────┐                          │   │
+│  │           │        postgres :5432                    │                          │   │
+│  │           │        TimescaleDB + PostGIS             │                          │   │
+│  │           └─────────────────────────────────────────┘                          │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                              DATA STORES & MESSAGING                             │   │
+│  │                                                                                  │   │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │   │
+│  │  │ neo4j 5.12.0    │  │ fuseki          │  │ mongodb 7.0     │                  │   │
+│  │  │ :7474 :7687     │  │ :3030           │  │ :27017          │                  │   │
+│  │  │                 │  │                 │  │                 │                  │   │
+│  │  │ Graph Database  │  │ RDF Triplestore │  │ Document Store  │                  │   │
+│  │  │ Cypher + APOC   │  │ SPARQL Endpoint │  │ NGSI-LD Docs    │                  │   │
+│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │   │
+│  │                                                                                  │   │
+│  │  ┌─────────────────┐  ┌─────────────────┐                                       │   │
+│  │  │ redis 7-alpine  │  │ kafka           │                                       │   │
+│  │  │ :6379           │  │ :9092           │                                       │   │
+│  │  │                 │  │                 │                                       │   │
+│  │  │ Cache + Pub/Sub │  │ KRaft Mode      │                                       │   │
+│  │  └─────────────────┘  └─────────────────┘                                       │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
+│  │                              APPLICATION SERVICES                                │   │
+│  │                                                                                  │   │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │   │
+│  │  │ backend         │  │ frontend        │  │ cv-verification │                  │   │
+│  │  │ :3001           │  │ :3000           │  │ -service        │                  │   │
+│  │  │                 │  │                 │  │                 │                  │   │
+│  │  │ Express.js API  │  │ React + Vite    │  │ YOLOv8 CV API   │                  │   │
+│  │  │ TypeScript      │  │ TailwindCSS     │  │ FastAPI         │                  │   │
+│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │   │
+│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                         │
+│  Network: test-network (bridge mode)                                                   │
+│  Volumes: neo4j_data, fuseki_data, mongodb_data, postgres_data, redis_data, kafka_data │
+│                                                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Agent Categories Summary
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                              📊 AGENT DISTRIBUTION (38 Total)                            │
+├─────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                         │
+│   Category             │ Count │ Location                                              │
+│   ─────────────────────┼───────┼───────────────────────────────────────────────────── │
+│   Data Collection      │   2   │ src/agents/data_collection/                          │
+│   Ingestion            │   1   │ src/agents/ingestion/                                │
+│   Analytics            │   4   │ src/agents/analytics/                                │
+│   Transformation       │   2   │ src/agents/transformation/                           │
+│   Context Management   │   4   │ src/agents/context_management/                       │
+│   RDF & Linked Data    │   5   │ src/agents/rdf_linked_data/                          │
+│   State Management     │   4   │ src/agents/state_management/                         │
+│   Monitoring           │   3   │ src/agents/monitoring/                               │
+│   Notification         │   5   │ src/agents/notification/                             │
+│   Graph Database       │   2   │ src/agents/graph_database/                           │
+│   Cache                │   2   │ src/agents/cache/                                    │
+│   Integration          │   3   │ src/agents/integration/                              │
+│   Kafka Publisher      │   1   │ src/agents/kafka_entity_publisher_agent.py           │
+│   ─────────────────────┼───────┼───────────────────────────────────────────────────── │
+│   TOTAL                │  38   │                                                       │
+│                                                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
 
 ## ⚙️ Configuration
 
@@ -255,192 +906,73 @@ Builder-Layer-End/
 Copy `.env.example` to `.env` and configure:
 
 ```bash
-# Python Configuration
-PYTHONPATH=.
-
 # Application Settings
-ENVIRONMENT=development
-LOG_LEVEL=INFO
-LOG_FORMAT=json
+ENVIRONMENT=development          # development | staging | production
+LOG_LEVEL=INFO                   # DEBUG | INFO | WARNING | ERROR
 
-# Data Directories
-DATA_DIR=./data
-CONFIG_DIR=./config
-LOGS_DIR=./logs
-ASSETS_DIR=./assets
+# Orchestrator Configuration
+ORCHESTRATOR_INTERVAL=60         # Minutes between runs
+WORKFLOW_CONFIG=config/workflow.yaml
 
-# Stellio Context Broker
+# Data Stores
 STELLIO_URL=http://localhost:8080
-STELLIO_API_KEY=your-api-key-here
-STELLIO_TENANT=default
-
-# Neo4j Graph Database
 NEO4J_URL=bolt://localhost:7687
 NEO4J_USER=neo4j
-NEO4J_PASSWORD=your-password
-NEO4J_DATABASE=neo4j
-
-# Apache Jena Fuseki
+NEO4J_PASSWORD=your_password
 FUSEKI_URL=http://localhost:3030
-FUSEKI_DATASET=traffic
-FUSEKI_USER=admin
-FUSEKI_PASSWORD=admin
+MONGODB_URI=mongodb://localhost:27017
 
-# YOLOv8 Configuration
-YOLO_MODEL=yolov8n.pt
-YOLO_DEVICE=cpu
-YOLO_CONFIDENCE=0.5
-YOLO_MAX_VEHICLES=100
+# Message Queue
+KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+
+# Computer Vision
+YOLO_MODEL=assets/models/yolov8x.pt
+YOLO_DEVICE=cpu                  # cpu | cuda
+YOLO_CONFIDENCE=0.25
 
 # External APIs
-OPENWEATHERMAP_API_KEY=your-api-key
-OPENAQ_API_KEY=your-api-key
-
-# Monitoring
-SENTRY_DSN=https://your-sentry-dsn
-PROMETHEUS_PORT=9090
-METRICS_ENABLED=true
-
-# Feature Flags
-ENABLE_SEEDING=true
-ENABLE_CACHING=true
-ENABLE_ASYNC_PROCESSING=true
+OPENWEATHERMAP_API_KEY=your_key
+GEONAMES_USERNAME=your_username
 ```
 
-See `.env.example` for complete configuration options (90+ variables across 9 sections).
+### Workflow Configuration
 
-### YAML Configuration
-
-#### Workflow Configuration (`config/workflow.yaml`)
-
-Defines the multi-phase pipeline:
+Define orchestration phases in `config/workflow.yaml`:
 
 ```yaml
+workflow:
+  name: "Traffic LOD Pipeline"
+  version: "1.0.0"
+
 phases:
-  - name: "Data Collection"
-    description: "Collect raw data from external sources"
+  - name: data_collection
     parallel: true
     agents:
-      - module: "src.agents.data_collection.image_refresh_agent"
+      - module: src.agents.data_collection.image_refresh_agent
         enabled: true
-      - module: "src.agents.data_collection.external_data_agent"
+      - module: src.agents.data_collection.external_data_collector_agent
         enabled: true
 
-  - name: "Analysis & Transformation"
-    description: "Analyze data and transform to NGSI-LD"
+  - name: analytics
     parallel: false
     agents:
-      - module: "src.agents.analytics.cv_analysis_agent"
+      - module: src.agents.analytics.cv_analysis_agent
         enabled: true
-      - module: "src.agents.transformation.ngsi_ld_mapper"
-        enabled: true
+        config:
+          model: yolov8x.pt
+          confidence: 0.25
+
+  - name: transformation
+    agents:
+      - module: src.agents.transformation.ngsi_ld_transformer_agent
+      - module: src.agents.transformation.sosa_ssn_mapper_agent
 ```
 
-#### Data Sources (`config/data_sources.yaml`)
-
-Configure external data sources:
-
-```yaml
-cameras:
-  source_file: "data/cameras_raw.json"
-  output_file: "data/cameras_updated.json"
-  refresh_interval: 30
-  batch_size: 50
-  url_template: "https://api.example.com/cameras"
-```
-
-#### NGSI-LD Mappings (`config/ngsi_ld_mappings.yaml`)
-
-Define entity type mappings:
-
-```yaml
-entity_types:
-  TrafficCamera:
-    properties:
-      - name
-      - location
-      - status
-      - vehicleCount
-    relationships:
-      - hasObservation
-```
-
-## 🧪 Development
-
-### Code Quality Tools
-
-The project uses comprehensive code quality automation:
-
-```bash
-# Format code with Black
-black src/ tests/ --line-length=100
-
-# Sort imports with isort
-isort src/ tests/ --profile=black
-
-# Lint with flake8
-flake8 src/ tests/ --max-line-length=100
-
-# Type check with mypy
-mypy src/ --ignore-missing-imports
-
-# Security scan with bandit
-bandit -r src/ -ll
-
-# Check docstring coverage
-interrogate src/ --fail-under=50 -vv
-```
-
-### Pre-commit Hooks
-
-Automatically run quality checks before commits:
-
-```bash
-# Install pre-commit hooks
-pre-commit install
-
-# Run hooks manually
-pre-commit run --all-files
-```
-
-Configured hooks:
-- **black**: Code formatting
-- **isort**: Import sorting
-- **flake8**: Linting
-- **mypy**: Type checking
-- **bandit**: Security scanning
-- **interrogate**: Docstring coverage
-- **detect-secrets**: Secret detection
-
-### Development Workflow
-
-1. **Create feature branch**:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-
-2. **Make changes** and test:
-   ```bash
-   pytest tests/ -v --cov=src
-   ```
-
-3. **Run quality checks**:
-   ```bash
-   pre-commit run --all-files
-   ```
-
-4. **Commit and push**:
-   ```bash
-   git add .
-   git commit -m "feat: add new feature"
-   git push origin feature/your-feature-name
-   ```
-
-5. **Create Pull Request** - CI/CD will run automated tests and quality checks
+---
 
 ## 🧪 Testing
 
-### Running Tests
+### Run Tests
 
 ```bash
 # Run all tests
@@ -449,538 +981,181 @@ pytest
 # Run with coverage
 pytest --cov=src --cov-report=html --cov-report=term-missing
 
-# Run specific test file
-pytest tests/unit/test_image_refresh_agent.py -v
-
-# Run tests matching pattern
-pytest -k "test_validation" -v
+# Run specific test category
+pytest tests/unit/ -v
+pytest tests/integration/ -v
 
 # Run tests in parallel
 pytest -n auto
-```
 
-### Test Structure
-
-```
-tests/
-├── unit/                    # Unit tests for individual components
-│   ├── test_agents/
-│   │   ├── test_image_refresh_agent.py
-│   │   ├── test_cv_analysis_agent.py
-│   │   └── ...
-│   └── test_core/
-│       ├── test_config_loader.py
-│       └── test_utils.py
-├── integration/             # Integration tests
-│   ├── test_workflow.py
-│   ├── test_stellio_integration.py
-│   └── test_neo4j_integration.py
-└── conftest.py             # Pytest fixtures and configuration
-```
-
-### Writing Tests
-
-```python
-import pytest
-from src.agents.data_collection.image_refresh_agent import ImageRefreshAgent
-
-@pytest.fixture
-def agent():
-    return ImageRefreshAgent(config_path="config/test_config.yaml")
-
-def test_refresh_urls(agent):
-    result = agent.refresh_urls(["https://example.com/image.jpg"])
-    assert result["success"] > 0
-    assert result["failed"] == 0
-```
-
-### Continuous Integration
-
-GitHub Actions automatically runs:
-- **Tests** on Python 3.9, 3.10, 3.11 (matrix strategy)
-- **Code quality checks** (black, flake8, mypy, bandit)
-- **Coverage reporting** to Codecov
-- **Security scanning**
-
-See `.github/workflows/` for CI/CD configurations.
-
-## 🚀 Deployment
-
-### Docker Deployment
-
-#### Build and Run
-
-```bash
-# Build Docker image
-docker build -t builder-layer-end:latest .
-
-# Run container
-docker run -d \
-  --name builder-layer-end \
-  --env-file .env \
-  -p 8000:8000 \
-  -v $(pwd)/data:/app/data \
-  -v $(pwd)/logs:/app/logs \
-  builder-layer-end:latest
-```
-
-#### Docker Compose (Recommended)
-
-```bash
-# Start all services (app + dependencies)
-docker-compose up -d
-
-# View logs
-docker-compose logs -f builder-layer-end
-
-# Stop services
-docker-compose down
-
-# Rebuild and restart
-docker-compose up -d --build
-```
-
-### Production Deployment
-
-#### Using Gunicorn + Uvicorn
-
-```bash
-# Install production dependencies
-pip install -r requirements/prod.txt
-
-# Run with Gunicorn
-gunicorn src.agents.integration.api_gateway_agent:app \
-  --workers 4 \
-  --worker-class uvicorn.workers.UvicornWorker \
-  --bind 0.0.0.0:8000 \
-  --timeout 120 \
-  --graceful-timeout 30
-```
-
-#### Environment Configuration
-
-Production `.env` settings:
-
-```bash
-ENVIRONMENT=production
-LOG_LEVEL=WARNING
-LOG_FORMAT=json
-
-# Enable monitoring
-SENTRY_DSN=https://your-production-sentry-dsn
-PROMETHEUS_PORT=9090
-METRICS_ENABLED=true
-
-# Performance tuning
-MAX_WORKERS=8
-BATCH_SIZE=100
-REQUEST_TIMEOUT=30
-RETRY_MAX_ATTEMPTS=3
-
-# Security
-SECRET_KEY=your-secure-random-key
-API_KEY_HEADER=X-API-Key
-CORS_ORIGINS=https://your-domain.com
-```
-
-### Health Checks
-
-```bash
-# Check system health
-curl http://localhost:8000/health
-
-# Check Prometheus metrics
-curl http://localhost:9090/metrics
-```
-
-## 📚 API Documentation
-
-Complete API documentation is available in [docs/api/API.md](docs/api/API.md).
-
-### Quick API Examples
-
-#### Get All Entities
-
-```bash
-curl -H "X-API-Key: your-api-key" \
-  "http://localhost:8000/api/v1/entities?type=TrafficCamera&limit=50"
-```
-
-#### Query Temporal Data
-
-```bash
-curl -H "X-API-Key: your-api-key" \
-  "http://localhost:8000/api/v1/temporal/entities?type=TrafficObservation&timerel=between&timeAt=2025-06-10T08:00:00Z&endTimeAt=2025-06-10T12:00:00Z"
-```
-
-#### SPARQL Query
-
-```bash
-curl -X POST \
-  -H "Content-Type: application/sparql-query" \
-  -H "Accept: application/sparql-results+json" \
-  -d "PREFIX sosa: <http://www.w3.org/ns/sosa/> SELECT * WHERE { ?s a sosa:Observation } LIMIT 10" \
-  http://localhost:8000/api/v1/sparql/query
-```
-
-## 🏗️ Architecture
-
-Comprehensive architecture documentation is available in [docs/architecture/ARCHITECTURE.md](docs/architecture/ARCHITECTURE.md).
-
-### System Overview
-
-```
-┌─────────────────────────────────────┐
-│        Orchestrator Layer           │
-│  (Multi-phase workflow control)     │
-└──────────────┬──────────────────────┘
-               │
-    ┌──────────┼──────────┐
-    ▼          ▼          ▼
-┌─────────┐ ┌──────┐ ┌─────────┐
-│  Data   │ │Analytics│ │Integration│
-│Collection│ │ Layer │ │  Layer  │
-└─────────┘ └──────┘ └─────────┘
-               │
-    ┌──────────┼──────────┐
-    ▼          ▼          ▼
-┌────────┐ ┌────────┐ ┌────────┐
-│Stellio │ │ Neo4j  │ │ Fuseki │
-│Context │ │ Graph  │ │ Triple │
-│ Broker │ │   DB   │ │  Store │
-└────────┘ └────────┘ └────────┘
-```
-
-### Key Technologies
-
-- **NGSI-LD**: ETSI standard for context information management
-- **SOSA/SSN**: W3C ontologies for sensor observations
-- **YOLOv8**: Computer vision for vehicle detection
-- **Apache Jena Fuseki**: SPARQL-enabled RDF triple store
-- **Neo4j**: Graph database for entity relationships
-- **Stellio**: NGSI-LD Context Broker
-- **Kafka**: Event streaming platform
-- **Redis**: High-performance caching
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these guidelines:
-
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Install development dependencies: `pip install -r requirements/dev.txt`
-4. Install pre-commit hooks: `pre-commit install`
-5. Make your changes
-6. Run tests: `pytest --cov=src`
-7. Run quality checks: `pre-commit run --all-files`
-8. Commit changes: `git commit -m "feat: add amazing feature"`
-9. Push to branch: `git push origin feature/amazing-feature`
-10. Open a Pull Request
-
-### Code Style
-
-- **Python**: Follow PEP 8, use Black formatting (line-length: 100)
-- **Imports**: Sort with isort (profile: black)
-- **Type Hints**: Use type annotations for function signatures
-- **Docstrings**: Google-style docstrings for all public functions/classes
-- **Tests**: Write tests for all new features (target: 80%+ coverage)
-
-### Commit Messages
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation changes
-- `style:` Code style changes (formatting)
-- `refactor:` Code refactoring
-- `test:` Adding or updating tests
-- `chore:` Maintenance tasks
-
-### Pull Request Process
-
-1. Ensure all tests pass
-2. Update documentation if needed
-3. Add entry to CHANGELOG.md
-4. Request review from maintainers
-5. Address review feedback
-6. Squash commits before merge
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **ETSI NGSI-LD**: Context Information Management specification
-- **W3C SOSA/SSN**: Sensor observation ontologies
-- **Ultralytics YOLOv8**: Computer vision framework
-- **Apache Jena**: Semantic web framework
-- **Stellio Context Broker**: NGSI-LD implementation
-
-## 📞 Support
-
-- **Documentation**: [docs/](docs/)
-- **Issues**: [GitHub Issues](https://github.com/your-org/builder-layer-end/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/builder-layer-end/discussions)
-- **Email**: support@example.com
-
-## 🗺️ Roadmap
-
-### Version 1.0 (Current)
-- ✅ Multi-agent system architecture
-- ✅ NGSI-LD entity management
-- ✅ YOLOv8 computer vision integration
-- ✅ RDF triple store publishing
-- ✅ Docker deployment
-- ✅ CI/CD pipelines
-
-### Version 1.1 (Q3 2025)
-- 🔜 Real-time streaming analytics
-- 🔜 Advanced traffic prediction
-- 🔜 Mobile application integration
-- 🔜 Public API with rate limiting
-
-### Version 2.0 (Q4 2025)
-- 🔜 Federated learning for privacy-preserving analytics
-- 🔜 Edge computing for camera-side processing
-- 🔜 Knowledge graph reasoning
-- 🔜 Semantic query optimization
-
----
-
-**Built with ❤️ for the Semantic Web and Linked Open Data community**
-
-- **Alert Dispatcher Agent**: Dispatch alerts based on conditions
-- **Incident Report Generator Agent**: Generate incident reports
-
-### Monitoring Agents 🔜
-
-- **Health Check Agent**: Monitor agent and service health
-- **Data Quality Validator Agent**: Validate data quality metrics
-- **Performance Monitor Agent**: Track performance metrics
-
-### Integration Agents 🔜
-
-- **API Gateway Agent**: Expose unified API interface
-- **Cache Manager Agent**: Manage distributed caching
-
-## ⚙️ Configuration
-
-### Configuration Files
-
-- `config/data_sources.yaml`: Data source endpoints (domain-agnostic)
-- `config/stellio.yaml`: Stellio Context Broker configuration
-- `config/fuseki.yaml`: Apache Jena Fuseki triplestore configuration
-- `config/agents.yaml`: Agent-specific settings
-
-### Environment Variables
-
-Create `.env` file (optional):
-
-```bash
-LOG_LEVEL=INFO
-MAX_WORKERS=10
-STELLIO_URL=http://localhost:8080
-FUSEKI_URL=http://localhost:3030
-```
-
-## 🧪 Testing
-
-### Run All Tests
-
-```bash
-pytest tests/ -v --cov=agents --cov-report=term-missing
-```
-
-### Run Specific Agent Tests
-
-```bash
-# Image Refresh Agent tests
-pytest tests/data_collection/test_image_refresh_agent.py -v --cov=agents/data_collection/image_refresh_agent --cov-report=term-missing
+# Run with specific markers
+pytest -m "not slow"
 ```
 
 ### Test Coverage Goals
 
-- **Target**: 100% code coverage for all agents
-- **Current**: Image Refresh Agent - 100% coverage ✅
-
-### Performance Benchmarks
-
-Image Refresh Agent:
-- ✅ Process 722 cameras in < 5 seconds
-- ✅ Memory usage < 100MB
-- ✅ No memory leaks after 1000 iterations
-
-## 🏗️ Architecture
-
-### Design Patterns
-
-1. **Config-Driven Architecture**: All domain logic in YAML configuration
-2. **Async I/O**: Non-blocking operations with aiohttp and asyncio
-3. **Batch Processing**: Configurable batch sizes for optimal performance
-4. **Retry Pattern**: Exponential backoff for transient failures
-5. **Circuit Breaker**: Prevent cascading failures
-6. **Observer Pattern**: Event-driven agent communication
-
-### Data Flow
-
-```
-┌─────────────────────────────────────────────┐
-│          Configuration Layer                │
-│  (YAML files - domain definitions)          │
-└──────────────────┬──────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────┐
-│          Data Collection Layer              │
-│  - Image Refresh Agent                      │
-│  - External Data Collector Agent            │
-└──────────────────┬──────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────┐
-│         Transformation Layer                │
-│  - NGSI-LD Transformer                      │
-│  - SOSA/SSN Mapper                          │
-└──────────────────┬──────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────┐
-│          Analytics Layer                    │
-│  - CV Analysis, Pattern Recognition         │
-└──────────────────┬──────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────┐
-│       Context Management Layer              │
-│  - Stellio Context Broker Integration       │
-└──────────────────┬──────────────────────────┘
-                   ↓
-┌─────────────────────────────────────────────┐
-│       RDF & Linked Data Layer               │
-│  - RDF Generation, Triplestore Loading      │
-└─────────────────────────────────────────────┘
-```
-
-### Technology Stack
-
-- **Python 3.9+**: Core language
-- **aiohttp**: Async HTTP client
-- **PyYAML**: Configuration management
-- **pytest**: Testing framework
-- **Stellio**: NGSI-LD Context Broker
-- **Apache Jena Fuseki**: RDF Triplestore
-
-## 📊 Project Structure
-
-```
-Builder-Layer-End/
-├── config/                      # Configuration files (YAML)
-│   ├── data_sources.yaml       # Data source endpoints (domain-agnostic)
-│   ├── stellio.yaml            # Context broker config
-│   ├── fuseki.yaml             # Triplestore config
-│   └── agents.yaml             # Agent settings
-├── agents/                      # Agent implementations
-│   ├── data_collection/        # Data collection agents
-│   │   ├── image_refresh_agent.py ✅
-│   │   └── external_data_collector_agent.py
-│   ├── transformation/         # Data transformation agents
-│   ├── analytics/              # Analytics agents
-│   ├── context_management/     # Context management agents
-│   ├── rdf_linked_data/        # RDF and linked data agents
-│   ├── notification/           # Notification agents
-│   ├── monitoring/             # Monitoring agents
-│   └── integration/            # Integration agents
-├── shared/                      # Shared utilities
-│   ├── config_loader.py        # Config loading utilities
-│   ├── logger.py               # Logging utilities
-│   └── utils.py                # Common utilities
-├── tests/                       # Test suite (mirrors agents/)
-│   └── data_collection/
-│       └── test_image_refresh_agent.py ✅
-├── data/                        # Data files
-│   ├── cameras_raw.json        # Source data
-│   └── cameras_updated.json    # Processed data
-├── docker-compose.yml          # Docker orchestration
-├── requirements.txt            # Python dependencies
-└── README.md                   # This file
-```
-
-## 🔧 Development
-
-### Code Quality
-
-```bash
-# Format code with black
-black agents/ tests/ shared/
-
-# Lint with flake8
-flake8 agents/ tests/ shared/
-
-# Type checking with mypy
-mypy agents/ shared/
-```
-
-### Adding a New Domain
-
-1. **No code changes required!**
-2. Add domain configuration to `config/data_sources.yaml`:
-
-```yaml
-your_new_domain:
-  source_file: "data/your_domain_raw.json"
-  output_file: "data/your_domain_updated.json"
-  refresh_interval: 60
-  batch_size: 100
-  url_template: "https://your-api.example.com/endpoint"
-  params:
-    - param1
-    - param2
-    - timestamp
-```
-
-3. Run the agent:
-```bash
-python agents/data_collection/image_refresh_agent.py --domain your_new_domain --mode once
-```
-
-### Adding a New Agent
-
-1. Create agent file in appropriate category folder
-2. Implement required interfaces
-3. Add configuration to `config/agents.yaml`
-4. Write comprehensive tests
-5. Update README with agent documentation
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. **Code Quality**: All code must pass black, flake8, mypy checks
-2. **Testing**: Achieve 100% test coverage for new code
-3. **Documentation**: Update README and docstrings
-4. **Domain-Agnostic**: Ensure no domain-specific logic in code
-5. **Config-Driven**: All domain logic goes in YAML configuration
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📧 Contact
-
-For questions, issues, or contributions, please open an issue on GitHub.
-
-## 🙏 Acknowledgments
-
-- NGSI-LD specification by ETSI
-- SOSA/SSN ontology by W3C
-- Smart Data Models initiative by TM Forum and FIWARE
-- Apache Jena Fuseki project
-- Stellio Context Broker by EGM
+| Component | Target | Current |
+|-----------|--------|---------|
+| Core modules | 90% | ✅ |
+| Agents | 80% | ✅ |
+| Integration | 70% | ✅ |
 
 ---
 
-**Status**: 🚧 Active Development
+## 📚 Documentation
 
-**Last Updated**: November 1, 2025
+### Available Documentation
 
-**Version**: 0.1.0
+| Resource | Description | Link |
+|----------|-------------|------|
+| **API Reference** | OpenAPI/Swagger documentation | [docs/api/](docs/api/) |
+| **Architecture Guide** | System design & data flow | [docs/architecture/](docs/architecture/) |
+| **Configuration Guide** | YAML configuration reference | [docs/data-access/](docs/data-access/) |
+| **Contributing Guide** | Development workflow | [CONTRIBUTING.md](.github/CONTRIBUTING.md) |
+| **Security Policy** | Vulnerability reporting | [SECURITY.md](.github/SECURITY.md) |
+| **Changelog** | Version history | [docs/CHANGELOG.md](docs/CHANGELOG.md) |
+
+### Build Documentation Site
+
+```bash
+cd docs
+npm install
+npm run start    # Development server
+npm run build    # Production build
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](.github/CONTRIBUTING.md) for details.
+
+### Development Workflow
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
+3. **Install** dev dependencies: `pip install -r requirements/dev.txt`
+4. **Install** pre-commit hooks: `pre-commit install`
+5. **Make** your changes
+6. **Test** your changes: `pytest --cov=src`
+7. **Lint** your code: `pre-commit run --all-files`
+8. **Commit** your changes: `git commit -m "feat: add amazing feature"`
+9. **Push** to the branch: `git push origin feature/amazing-feature`
+10. **Open** a Pull Request
+
+### Commit Convention
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add new feature
+fix: bug fix
+docs: documentation changes
+style: formatting changes
+refactor: code refactoring
+test: adding tests
+chore: maintenance tasks
+```
+
+### Code Style
+
+- **Python**: Black formatter, 100 character line length
+- **TypeScript**: ESLint + Prettier
+- **Commits**: Conventional Commits
+- **Docs**: Google-style docstrings
+
+---
+
+## 🛡️ Security
+
+Please see our [Security Policy](.github/SECURITY.md) for reporting vulnerabilities.
+
+### Security Features
+
+- 🔐 API key authentication
+- 🔒 CORS configuration
+- 🛡️ Input validation
+- 📝 Audit logging
+- 🔑 Secret management via environment variables
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2025 NguyenNhatquang522004
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software...
+```
+
+---
+
+## 🙏 Acknowledgments
+
+### Standards & Specifications
+
+- [ETSI NGSI-LD](https://www.etsi.org/deliver/etsi_gs/CIM/001_099/009/01.04.01_60/gs_cim009v010401p.pdf) — Context Information Management
+- [W3C SOSA/SSN](https://www.w3.org/TR/vocab-ssn/) — Sensor Observation Ontologies
+- [Smart Data Models](https://smartdatamodels.org/) — TM Forum & FIWARE
+
+### Open Source Projects
+
+- [Stellio Context Broker](https://github.com/stellio-hub/stellio-context-broker) — NGSI-LD implementation
+- [Apache Jena](https://jena.apache.org/) — Semantic Web framework
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) — Computer Vision
+- [FastAPI](https://fastapi.tiangolo.com/) — Modern Python web framework
+
+---
+
+## 📞 Support
+
+- 📖 **Documentation**: [docs/](docs/)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/NguyenNhatquang522004/builder-layer-end/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/NguyenNhatquang522004/builder-layer-end/discussions)
+- 📧 **Email**: nguyennhatquang522004@gmail.com
+
+---
+
+## 🗺️ Roadmap
+
+### v1.0.0 (Current) ✅
+
+- [x] Multi-agent system architecture (37 agents)
+- [x] NGSI-LD entity management
+- [x] YOLOv8 computer vision integration
+- [x] RDF triple store publishing
+- [x] Docker Compose deployment
+- [x] CI/CD pipelines (9 workflows)
+- [x] Docusaurus documentation site
+
+### v1.1.0 (Q1 2026)
+
+- [ ] Real-time streaming analytics
+- [ ] Advanced traffic prediction (ML)
+- [ ] Mobile application
+- [ ] Public API with rate limiting
+
+### v2.0.0 (Q2 2026)
+
+- [ ] Federated learning
+- [ ] Edge computing support
+- [ ] Knowledge graph reasoning
+- [ ] Multi-city deployment
+
+---
+
+<p align="center">
+  <strong>Built with ❤️ for the Semantic Web and Linked Open Data community</strong>
+</p>
+
+<p align="center">
+  <a href="#-overview">Back to top</a>
+</p>

@@ -1,6 +1,14 @@
 """Integration Tests for Cache - PRODUCTION READY
 Author: nguyễn Nhật Quang
 Created: 2025-11-25
+License: MIT
+Description:
+    Production-ready integration tests for Redis cache functionality.
+    Validates cache operations, data persistence, and error handling.
+    Requires Docker container for Redis.
+
+Usage:
+    pytest tests/integration/test_cache_integration.py -m requires_docker
 """
 
 import pytest

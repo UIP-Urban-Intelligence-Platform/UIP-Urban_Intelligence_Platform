@@ -1,6 +1,11 @@
 """
 Temporal State Tracking Agent
-
+Module: src.agents.state_management.temporal_state_tracker_agent
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-24
+Version: 1.0.0
+License: MIT
+Description:
 This agent tracks state changes over time, maintaining historical records
 for temporal queries, trend analysis, and state recovery.
 
@@ -10,8 +15,7 @@ FEATURES:
 - State change event logging
 - Historical trend analysis
 - State diff computation between timestamps
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-24
+
 """
 
 try:

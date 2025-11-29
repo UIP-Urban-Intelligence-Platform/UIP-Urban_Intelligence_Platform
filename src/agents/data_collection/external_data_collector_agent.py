@@ -857,7 +857,7 @@ class ExternalDataCollectorAgent:
             return []
         
         # ✅ CRITICAL FIX: Lấy batch_size từ external_apis config
-        batch_size = self.config.get('external_apis', {}).get('batch_size', 5)
+        batch_size = self.config.get('external_apis', {}).get('batch_size', 10)
         all_enriched = []
         
         # ✅ CRITICAL FIX: Giảm concurrent connections

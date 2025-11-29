@@ -45,9 +45,9 @@ accident_detection:
   # Severity Classification Thresholds
   # Based on weighted confidence scores from detection methods
   severity_thresholds:
-    minor: 0.3      # Low confidence: possible incident (0.3-0.6)
-    moderate: 0.6   # Medium confidence: likely accident (0.6-0.9)
-    severe: 0.9     # High confidence: confirmed accident (0.9+)
+    minor: 0.55     # Low confidence: possible incident (0.55-0.75) - INCREASED to reduce false positives
+    moderate: 0.75  # Medium confidence: likely accident (0.75-0.90) - INCREASED for better precision
+    severe: 0.90    # High confidence: confirmed accident (0.90+)
   
   # False Positive Filtering Configuration
   filtering:

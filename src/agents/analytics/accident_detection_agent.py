@@ -64,6 +64,14 @@ from typing import Any, Dict, List, Optional, Tuple
 import requests
 import yaml
 
+# MongoDB integration (optional)
+try:
+    from src.utils.mongodb_helper import get_mongodb_helper
+    MONGODB_AVAILABLE = True
+except ImportError:
+    MONGODB_AVAILABLE = False
+    get_mongodb_helper = None
+
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -528,6 +536,16 @@ class AccidentDetectionAgent:
         
         # Observation buffers per camera
         self.observations_buffer: Dict[str, deque] = defaultdict(lambda: deque(maxlen=50))
+        
+        # MongoDB helper (optional)
+        self._mongodb_helper = None
+        if MONGODB_AVAILABLE:
+            try:
+                self._mongodb_helper = get_mongodb_helper()
+                if self._mongodb_helper and self._mongodb_helper.enabled:
+                    logger.info("✅ MongoDB publishing enabled for accident detection")
+            except Exception as e:
+                logger.debug(f"MongoDB init failed (non-critical): {e}")
 
         if not self.create_endpoint:
             raise ValueError('Stellio create_endpoint is required in config')
@@ -687,6 +705,14 @@ class AccidentDetectionAgent:
                         })
 
                         if success:
+                            # Optionally publish to MongoDB (non-blocking)
+                            if self._mongodb_helper and self._mongodb_helper.enabled:
+                                try:
+                                    if self._mongodb_helper.insert_entity(entity):
+                                        logger.info(f"✅ Published RoadAccident to MongoDB: {entity['id']}")
+                                except Exception as e:
+                                    logger.warning(f"MongoDB publish failed (non-critical): {e}")
+                            
                             # Generate alert if configured
                             severity = entity.get('severity', {}).get('value')
                             if self._should_generate_alert(severity):
@@ -707,6 +733,14 @@ class AccidentDetectionAgent:
                     })
 
                     if success:
+                        # Optionally publish to MongoDB (non-blocking)
+                        if self._mongodb_helper and self._mongodb_helper.enabled:
+                            try:
+                                if self._mongodb_helper.insert_entity(entity):
+                                    logger.info(f"✅ Published RoadAccident to MongoDB: {entity['id']}")
+                            except Exception as e:
+                                logger.warning(f"MongoDB publish failed (non-critical): {e}")
+                        
                         severity = entity.get('severity', {}).get('value')
                         if self._should_generate_alert(severity):
                             self._alert(cam, entity)

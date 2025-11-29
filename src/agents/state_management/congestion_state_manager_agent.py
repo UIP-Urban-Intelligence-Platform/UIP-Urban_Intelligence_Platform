@@ -1,6 +1,11 @@
 """
 Congestion State Tracking and Zone Management Agent
-
+Module: src.agents.state_management.congestion_state_manager_agent
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+Description: 
 Manages traffic congestion states across road segments and zones,
 tracking congestion levels, duration, and automatic alert generation.
 
@@ -10,8 +15,7 @@ CONGESTION LEVELS:
 - MODERATE: 50-70% capacity
 - HEAVY: 70-90% capacity
 - SEVERE: > 90% capacity
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-25
+
 
 """
 

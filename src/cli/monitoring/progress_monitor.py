@@ -4,7 +4,7 @@ Module: src.cli.monitoring.progress_monitor
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
-
+License: MIT
 Description:
     Real-time monitoring script for orchestrator.py pipeline progress.
     Tracks observations, validation reports, and RDF generation.

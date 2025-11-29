@@ -1,8 +1,14 @@
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-25
+#Version: 1.0.0
+#License: MIT
+#Description:
+#Development environment Docker Compose for the traffic monitoring system.
+
 version: '3.8'
 
 # Production-ready Docker Compose for Development Environment
-#Author: nguyễn Nhật Quang
-#Created: 2025-11-25
+
 services:
   orchestrator:
     build:

@@ -1001,7 +1001,8 @@ class EntityPublisherAgent:
         entities = self._load_entities(input_file)
         
         if not entities:
-            logger.warning("No entities to publish")
+            # Empty entity files are expected when no new data is generated
+            logger.info("No entities to publish - empty input file")
             return self._generate_empty_report()
         
         logger.info(f"Loaded {len(entities)} entities to publish")
@@ -1156,8 +1157,16 @@ def main(config: Dict = None):
         # If called from orchestrator with config dict
         if config:
             input_file = config.get('input_file', 'data/validated_entities.json')
+            fallback_file = config.get('fallback_file', 'data/validated_entities.json')
             output_report = config.get('output_report', 'data/publish_report.json')
             config_path = config.get('config_path', 'config/stellio.yaml')
+            
+            # Check if primary input file exists, fallback if not
+            from pathlib import Path
+            if not Path(input_file).exists() and Path(fallback_file).exists():
+                logger.warning(f"Primary input file not found: {input_file}")
+                logger.info(f"Using fallback file: {fallback_file}")
+                input_file = fallback_file
             
             agent = EntityPublisherAgent(config_path=config_path)
             report = agent.publish(input_file=input_file, output_report=output_report)

@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 """Pattern Recognition Agent - Time-Series Analysis & Forecasting.
 
 Module: src.agents.analytics.pattern_recognition_agent
-#Author: nguyễn Nhật Quang
-#Created: 2025-11-21
+Author: nguyễn Nhật Quang
+Created: 2025-11-21
 Version: 2.0.0
 License: MIT
 
@@ -950,7 +951,8 @@ class PatternRecognitionAgent:
             }
         
         if not data:
-            self.logger.warning(f"No data found for camera {camera_id} in window {time_window}")
+            # CRITICAL FIX: Change to DEBUG level - this is expected when no historical data exists yet
+            self.logger.debug(f"No data found for camera {camera_id} in window {time_window}")
             return {
                 'status': 'no_data',
                 'reason': 'No observations found in time window',

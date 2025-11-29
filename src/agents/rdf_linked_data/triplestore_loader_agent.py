@@ -511,13 +511,15 @@ class FusekiClient:
                             logger.info(f"  Graph: {graph_uri}")
                         return True
                     else:
-                        logger.warning(f"Upload attempt {attempt + 1} failed: {response.status_code} - {response.text}")
+                        # HTTP errors are expected and handled by retry logic
+                        logger.debug(f"Upload attempt {attempt + 1} failed: {response.status_code} - {response.text}")
                         
                         if attempt < self.retry_attempts - 1:
                             time.sleep(self.retry_delay)
                         
                 except requests.RequestException as e:
-                    logger.warning(f"Upload attempt {attempt + 1} failed: {e}")
+                    # Network errors are expected and handled by retry logic
+                    logger.debug(f"Upload attempt {attempt + 1} failed: {e}")
                     if attempt < self.retry_attempts - 1:
                         time.sleep(self.retry_delay)
             

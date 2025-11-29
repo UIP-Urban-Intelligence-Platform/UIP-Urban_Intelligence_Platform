@@ -1,6 +1,11 @@
 """
 Accident State Lifecycle Management Agent
-
+Module: src.agents.state_management.accident_state_manager_agent
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-24
+Version: 1.0.0
+License: MIT
+Description:
 Manages the complete lifecycle of traffic accident entities from detection
 through resolution, including state transitions, severity tracking, and
 automatic escalation.
@@ -13,8 +18,7 @@ STATE LIFECYCLE:
 5. RESOLVED -> Accident cleared
 6. ARCHIVED -> Historical record
 
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-24
+
 """
 
 import logging

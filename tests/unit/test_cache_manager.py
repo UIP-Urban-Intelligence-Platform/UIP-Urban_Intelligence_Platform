@@ -1,7 +1,18 @@
-"""
-Unit Tests for Cache Manager - PRODUCTION READY
+#!/usr/bin/env python3
+"""Cache Manager Unit Test Suite.
+
+Module: tests.unit.test_cache_manager
 Author: nguyễn Nhật Quang
 Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+
+Description:
+    Production-ready unit tests for cache manager operations.
+    Tests caching strategies, TTL, invalidation, and error recovery.
+
+Usage:
+    pytest tests/unit/test_cache_manager.py
 """
 
 import pytest

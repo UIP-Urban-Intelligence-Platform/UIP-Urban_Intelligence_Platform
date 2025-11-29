@@ -1,11 +1,20 @@
 """
 Cache Manager CLI
-
-Command-line interface for cache operations (clear, stats, warm).
-
-FULL PRODUCTION IMPLEMENTATION - Real Redis operations
+Module: src.cli.cache.cache_manager
 Author: nguyễn Nhật Quang
 Created: 2025-11-25
+Version: 1.0.0
+License: MIT
+Description:
+    Command-line interface for cache operations (clear, stats, warm).
+
+    Features:
+    - Clear cache entries by pattern or entirely
+    - Display cache statistics (hit rate, memory usage, key count)
+    - Warm cache with frequently accessed data
+    Uses Redis as the backend cache store.
+
+
 """
 
 import logging

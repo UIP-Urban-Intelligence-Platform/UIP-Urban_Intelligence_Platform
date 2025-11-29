@@ -13,7 +13,7 @@ observation_type: "sosa:Observation"
 # This is domain-specific and should be configured per use case
 observable_property:
   type: "ObservableProperty"
-  domain_type: "TrafficFlow" # Change this for different domains (AirQuality, Temperature, etc.)
+  domain_type: "TrafficFlow"  # Change this for different domains (AirQuality, Temperature, etc.)
   uri_prefix: "urn:ngsi-ld:ObservableProperty:"
   properties:
     name: "Traffic Flow Monitoring"
@@ -55,22 +55,22 @@ relationships:
     target_type: "ObservableProperty"
     description: "Links sensor to what it observes"
     required: true
-
+    
   isHostedBy:
     type: "Relationship"
     property_name: "sosa:isHostedBy"
     target_type: "Platform"
     description: "Links sensor to hosting platform"
     required: true
-
+    
   madeObservation:
     type: "Relationship"
     property_name: "sosa:madeObservation"
     target_type: "Observation"
     description: "Links sensor to observations it has made"
-    dynamic: true # Created dynamically based on actual observations
-    required: true # CRITICAL: Initialize empty array, populate during analytics
-    initialize_empty: true # Initialize as empty array [] on Camera creation
+    dynamic: true  # Created dynamically based on actual observations
+    required: true  # CRITICAL: Initialize empty array, populate during analytics
+    initialize_empty: true  # Initialize as empty array [] on Camera creation
 
 # SOSA/SSN Context URLs
 sosa_context: "https://www.w3.org/ns/sosa/"
@@ -104,7 +104,7 @@ output:
   output_file: "data/sosa_enhanced_entities.json"
   pretty_print: true
   validate_output: true
-  include_generated_entities: true # Include ObservableProperty and Platform entities
+  include_generated_entities: true  # Include ObservableProperty and Platform entities
 
 # Validation rules
 validation:

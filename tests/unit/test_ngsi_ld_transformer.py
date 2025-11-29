@@ -1,7 +1,17 @@
-"""
+#!/usr/bin/env python3
+"""NGSI-LD Transformer Unit Test Suite.
 Unit Tests for NGSI-LD Transformer - PRODUCTION READY
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-23
+Version: 1.0.0
+License: MIT
+
+Description:
+    Production-ready unit tests for NGSI-LD transformation functionality.
+    Tests observation to NGSI-LD conversion, property handling, and validation.
+
+Usage:
+    pytest tests/unit/test_ngsi_ld_transformer.py
 """
 
 import pytest

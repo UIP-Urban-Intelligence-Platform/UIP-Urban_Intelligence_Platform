@@ -22,3 +22,4 @@ try:
     from .cache_invalidator_agent import CacheInvalidatorAgent
 except ImportError:
     pass
+

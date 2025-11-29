@@ -1,7 +1,16 @@
 """Integration Tests for Kafka - PRODUCTION READY
-
+Module: tests.integration.test_kafka_integration
 Author: Nguyễn Nhật Quang
 Created: 2025-11-22
+Version: 1.0.0
+License: MIT
+Description:
+    Production-ready integration tests for Apache Kafka messaging.
+    Tests message production, consumption, and topic management.
+    Requires Docker container for Kafka.
+
+Usage:
+    pytest tests/integration/test_kafka_integration.py -m requires_docker
 
 """
 

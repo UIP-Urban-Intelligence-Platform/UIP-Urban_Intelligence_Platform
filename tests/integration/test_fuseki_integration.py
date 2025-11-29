@@ -1,7 +1,16 @@
 """Integration Tests for Fuseki - PRODUCTION READY
-
+Module: tests.integration.test_fuseki_integration
 Author: Nguyễn Nhật Quang
 Created: 2025-11-22
+Version: 1.0.0
+License: MIT
+Description:
+    Production-ready integration tests for Apache Jena Fuseki SPARQL endpoint.
+    Tests RDF triple storage, SPARQL queries, and graph operations.
+    Requires Docker container for Fuseki.
+
+Usage:
+    pytest tests/integration/test_fuseki_integration.py -m requires_docker
 """
 
 import pytest

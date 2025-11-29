@@ -3,7 +3,11 @@ Neo4j Graph Database Synchronization Agent
 
 Synchronizes traffic entities and relationships to Neo4j graph database
 for advanced relationship queries and graph-based analytics.
-
+Module: src.agents.graph_database.neo4j_sync_agent
+Authors: Nguyen Viet Hoang
+created: 2025-11-25
+Version: 1.0.0
+License: MIT
 GRAPH SCHEMA:
 - Nodes: Camera, Observation, Accident, Congestion, Pattern
 - Relationships: OBSERVES, DETECTS, CAUSES, CORRELATES_WITH
@@ -11,7 +15,7 @@ GRAPH SCHEMA:
 
 """
 #Authors: Nguyen Viet Hoang
-#Created: 2025-11-25
+\
 
 try:
     from neo4j import GraphDatabase, Driver

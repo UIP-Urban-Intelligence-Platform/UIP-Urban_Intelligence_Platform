@@ -31,6 +31,57 @@ cv_analysis:
       enabled: true                  # Enable accident alerts
       min_confidence: 0.5            # Minimum confidence to trigger alert
   
+  # Citizen Report Verification Configuration
+  citizen_verification:
+    enabled: true                    # Enable AI verification of citizen reports
+    poll_interval: 30                # Query Stellio every 30 seconds for unverified reports
+    stellio_url: "http://localhost:8080"
+    query: "type=CitizenObservation&q=aiVerified==false"  # Query for unverified reports
+    max_reports_per_batch: 10        # Process max 10 reports per poll
+    
+    # Verification rules per report type
+    verification_rules:
+      traffic_jam:
+        required_objects: ["car", "bus", "truck", "motorcycle"]  # At least one vehicle type
+        min_count: 5                 # Minimum 5 vehicles to confirm traffic jam
+        confidence_threshold: 0.3    # Lower confidence OK for dense traffic
+        
+      accident:
+        required_objects: ["car", "truck", "bus", "motorcycle"]  # Vehicles involved
+        min_count: 1                 # At least 1 vehicle visible
+        use_accident_model: true     # Use specialized accident detection model
+        confidence_threshold: 0.4    # Match accident model threshold
+        
+      flood:
+        required_objects: []         # No specific object detection (visual analysis only)
+        min_count: 0
+        confidence_threshold: 0.0
+        verification_strategy: "manual"  # Require manual verification
+        
+      road_damage:
+        required_objects: []         # No specific object detection
+        min_count: 0
+        confidence_threshold: 0.0
+        verification_strategy: "manual"  # Require manual verification
+        
+      other:
+        required_objects: []         # Generic category
+        min_count: 0
+        confidence_threshold: 0.0
+        verification_strategy: "manual"  # Default to manual verification
+    
+    # Scoring algorithm
+    scoring:
+      object_match_weight: 0.6       # Weight for detecting expected objects
+      count_match_weight: 0.3        # Weight for vehicle count matching threshold
+      confidence_weight: 0.1         # Weight for detection confidence
+      
+    # Update behavior
+    update:
+      patch_stellio: true            # PATCH entities with verification results
+      set_verified_status: true      # Update status to "verified" or "rejected"
+      include_ai_metadata: true      # Include AI detection details in metadata
+  
   # Vehicle classification (COCO dataset classes)
   vehicle_classes:
     - car          # Class ID: 2

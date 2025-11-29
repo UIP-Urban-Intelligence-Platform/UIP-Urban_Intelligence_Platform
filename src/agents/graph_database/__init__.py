@@ -1,12 +1,15 @@
 """
 Graph Database Agents Package
-
+Module: src.agents.graph_database
+Authors: Nguyen Viet Hoang
+Created: 2025-11-25
+Version: 1.0.0
+License: MIT
 Neo4j integration agents for graph-based traffic analysis and relationship queries.
 
 """
 
-#Authors: Nguyen Viet Hoang
-#Created: 2025-11-25
+
 
 __version__ = "1.0.0"
 __all__ = [
