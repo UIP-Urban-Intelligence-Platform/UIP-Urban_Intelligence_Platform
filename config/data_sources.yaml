@@ -26,7 +26,9 @@ cameras:
 external_apis:
   openweathermap:
     base_url: "https://api.openweathermap.org/data/2.5/weather"
-    api_key: "bb5a19eeffa9cba1aa96c813d4674f26"
+    # API key loaded from environment variable OPENWEATHERMAP_API_KEY
+    # See .env.example for configuration
+    api_key: "${OPENWEATHERMAP_API_KEY}"
     rate_limit: 10  # ✅ FIXED: Giảm từ 60 → 10 requests per minute
     timeout: 10  # ✅ FIXED: Tăng từ 5s → 10s
     cache_ttl: 600  # seconds (10 minutes)
@@ -37,7 +39,9 @@ external_apis:
   air_quality:
     source: "openweathermap"  # Primary: OpenWeatherMap Air Pollution API
     base_url: "https://api.openweathermap.org/data/2.5/air_pollution"
-    api_key: "bb5a19eeffa9cba1aa96c813d4674f26"
+    # API key loaded from environment variable OPENWEATHERMAP_API_KEY
+    # See .env.example for configuration
+    api_key: "${OPENWEATHERMAP_API_KEY}"
     rate_limit: 10  # requests per minute
     timeout: 10  # seconds
     cache_ttl: 600  # seconds (10 minutes)
@@ -47,7 +51,9 @@ external_apis:
   openaq:
     # Fallback: OpenAQ v3 (but limited sensor coverage in Vietnam)
     base_url: "https://api.openaq.org/v3/"
-    api_key: "1268dbec69a5c8dd637f4a0616a7338d1f320ae966721abdc18e94a2b20b0675"
+    # API key loaded from environment variable OPENAQ_API_KEY
+    # See .env.example for configuration
+    api_key: "${OPENAQ_API_KEY}"
     rate_limit: 10  # requests per minute
     timeout: 10  # seconds
     cache_ttl: 600  # seconds (10 minutes)

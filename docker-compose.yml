@@ -238,6 +238,57 @@ services:
       - test-network
 
   # ==========================================================================
+  # PYTHON BACKEND (Citizen API + Orchestrator)
+  # ==========================================================================
+  
+  python-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-backend
+    command: python main.py --run-orchestrator-now
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    depends_on:
+      stellio-api-gateway:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      fuseki:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+      - STELLIO_URL=http://stellio-api-gateway:8080
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=test12345
+      - FUSEKI_URL=http://fuseki:3030
+      - FUSEKI_DATASET=traffic-cameras
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=test_redis_pass
+      - MONGODB_URI=mongodb://admin:mongodb_test_pass@mongodb:27017
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./assets:/app/assets
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - test-network
+
+  # ==========================================================================
   # CV VERIFICATION SERVICE (Background Service)
   # ==========================================================================
   
@@ -260,10 +311,11 @@ services:
       - ./logs:/app/logs
       - ./assets:/app/assets  # YOLOv8 models
     healthcheck:
-      test: ["CMD", "pgrep", "-f", "start_cv_verification_service.py"]
+      test: ["CMD-SHELL", "python -c \"import os; exit(0 if os.path.exists('/app/logs/cv_verification_service.log') else 1)\" || curl -sf http://stellio-api-gateway:8080/ngsi-ld/v1/entityTypes > /dev/null"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 5
+      start_period: 60s
     networks:
       - test-network
 

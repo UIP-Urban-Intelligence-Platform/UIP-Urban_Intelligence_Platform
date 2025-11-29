@@ -295,6 +295,13 @@ class ExternalDataCollectorAgent:
         """
         Load and validate configuration from YAML file.
         
+        API keys are loaded from environment variables with fallback to config file.
+        Environment variables take precedence for security (avoid hardcoded secrets).
+        
+        Environment Variables:
+            - OPENWEATHERMAP_API_KEY: OpenWeatherMap API key
+            - OPENAQ_API_KEY: OpenAQ API key
+        
         Returns:
             Configuration dictionary
             
@@ -322,7 +329,59 @@ class ExternalDataCollectorAgent:
             if field not in config:
                 raise ValueError(f"Missing required field in config: {field}")
         
+        # Load API keys from environment variables (priority over config file)
+        self._resolve_api_keys(config)
+        
         return config
+    
+    def _resolve_api_keys(self, config: Dict[str, Any]) -> None:
+        """
+        Resolve API keys from environment variables.
+        
+        Priority: Environment Variable > Config File
+        This ensures secrets are not hardcoded in configuration files.
+        
+        Args:
+            config: Configuration dictionary to update with resolved API keys
+        """
+        import os
+        
+        # OpenWeatherMap API key (used for weather and air_quality)
+        owm_env_key = os.getenv('OPENWEATHERMAP_API_KEY')
+        if owm_env_key:
+            if 'openweathermap' in config:
+                config['openweathermap']['api_key'] = owm_env_key
+            if 'air_quality' in config:
+                config['air_quality']['api_key'] = owm_env_key
+            logging.getLogger(__name__).info(
+                "API keys loaded from environment variable OPENWEATHERMAP_API_KEY"
+            )
+        else:
+            # Check if config has placeholder value
+            if 'openweathermap' in config:
+                key = config['openweathermap'].get('api_key', '')
+                if key.startswith('${') and key.endswith('}'):
+                    logging.getLogger(__name__).warning(
+                        "OPENWEATHERMAP_API_KEY not set in environment. "
+                        "Weather/AirQuality API may not work."
+                    )
+        
+        # OpenAQ API key
+        openaq_env_key = os.getenv('OPENAQ_API_KEY')
+        if openaq_env_key:
+            if 'openaq' in config:
+                config['openaq']['api_key'] = openaq_env_key
+            logging.getLogger(__name__).info(
+                "API key loaded from environment variable OPENAQ_API_KEY"
+            )
+        else:
+            # Check if config has placeholder value
+            if 'openaq' in config:
+                key = config['openaq'].get('api_key', '')
+                if key.startswith('${') and key.endswith('}'):
+                    logging.getLogger(__name__).debug(
+                        "OPENAQ_API_KEY not set (OpenAQ is disabled by default)"
+                    )
     
     def _setup_logging(self) -> logging.Logger:
         """

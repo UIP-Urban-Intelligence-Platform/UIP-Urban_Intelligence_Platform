@@ -2,6 +2,7 @@
 # Multi-stage build for optimized image size
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-24
+#Version: 1.0.0
 # Stage 1: Builder
 FROM python:3.11-slim as builder
 
@@ -65,7 +66,9 @@ COPY --from=builder /wheels /wheels
 COPY --chown=appuser:appuser src/ ./src/
 COPY --chown=appuser:appuser config/ ./config/
 COPY --chown=appuser:appuser templates/ ./templates/
-COPY --chown=appuser:appuser orchestrator.py setup.py pyproject.toml start_cv_verification_service.py ./
+COPY --chown=appuser:appuser orchestrator.py main.py setup.py pyproject.toml ./
+COPY --chown=appuser:appuser scripts/start_cv_verification_service.py ./
+COPY --chown=appuser:appuser data/ ./data/
 
 # Copy assets (models)
 COPY --chown=appuser:appuser assets/ ./assets/
@@ -77,11 +80,13 @@ RUN pip install --no-cache-dir /wheels/*.whl && rm -rf /wheels
 USER appuser
 
 # Expose ports
-EXPOSE 8000 9090
+# 8001: Citizen Ingestion API (FastAPI)
+# 9090: Prometheus Metrics (optional)
+EXPOSE 8001 9090
 
-# Health check
+# Health check - targets Citizen API root endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:8001/ || exit 1
 
-# Default command
-CMD ["python", "orchestrator.py"]
+# Default command - run main.py which starts Citizen API + Orchestrator
+CMD ["python", "main.py", "--run-orchestrator-now"]
