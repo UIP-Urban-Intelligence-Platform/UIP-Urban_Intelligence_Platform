@@ -765,13 +765,42 @@ class WorkflowOrchestrator:
 
 def main():
     """Main entry point"""
+    import argparse
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description='LOD Pipeline Workflow Orchestrator',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        '--config',
+        type=str,
+        default='config/workflow.yaml',
+        help='Path to workflow configuration file (default: config/workflow.yaml)'
+    )
+    parser.add_argument(
+        '--domain',
+        type=str,
+        default='traffic',
+        help='Domain to process (default: traffic)'
+    )
+    parser.add_argument(
+        '--mode',
+        type=str,
+        choices=['once', 'continuous'],
+        default='once',
+        help='Execution mode: once or continuous (default: once)'
+    )
+    
+    args = parser.parse_args()
+    
     # Fix for Windows asyncio event loop issue (Python 3.8-3.10)
     # Prevents "RuntimeError: Event loop is closed" warning
     if sys.platform == 'win32':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     
     try:
-        orchestrator = WorkflowOrchestrator()
+        orchestrator = WorkflowOrchestrator(config_path=args.config)
         report = orchestrator.run()
         
         # Print summary

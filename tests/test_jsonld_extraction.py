@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Test JSON-LD value extraction.
-Module: test_jsonld_extraction
+Module:  tests.test_jsonld_extraction.py
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0

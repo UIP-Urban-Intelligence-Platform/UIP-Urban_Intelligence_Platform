@@ -19,7 +19,7 @@
     <img src="https://codecov.io/gh/NguyenNhatquang522004/builder-layer-end/branch/main/graph/badge.svg" alt="codecov">
   </a>
   <a href="https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+    <img src="https://img.shields.io/badge/License-MIT%20%2F%20AGPL--3.0-blue.svg" alt="License: MIT / AGPL-3.0">
   </a>
 </p>
 
@@ -1082,10 +1082,34 @@ Please see our [Security Policy](.github/SECURITY.md) for reporting vulnerabilit
 
 ## 📜 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is dual-licensed under the **MIT License** and **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+### Why Dual Licensing?
+
+This project uses **YOLOv8 (Ultralytics)** for computer vision capabilities, which is licensed under **AGPL-3.0**. To comply with AGPL-3.0 requirements while also providing flexibility for commercial use, we offer dual licensing:
+
+| License | File | Use Case |
+|---------|------|----------|
+| **MIT** | [LICENSE](LICENSE) | Permissive license for most project components |
+| **AGPL-3.0** | [LICENSE-AGPL-3.0](LICENSE-AGPL-3.0) | Required for computer vision features using YOLOv8 |
+
+### License Summary
+
+- **MIT License**: Covers all original code in this project
+- **AGPL-3.0**: Applies when using computer vision features (YOLOv8/Ultralytics)
+
+### Important Notes
+
+1. If you use this software **without** the computer vision features, the **MIT License** applies
+2. If you use this software **with** the computer vision features (YOLOv8), the **AGPL-3.0** applies, which requires:
+   - Making your source code available
+   - Including the AGPL-3.0 license
+   - Providing access to source code for network users
+
+For commercial use of YOLOv8 without AGPL-3.0 obligations, please obtain an [Ultralytics Enterprise License](https://ultralytics.com/license).
 
 ```
-MIT License
+MIT License (LICENSE)
 
 Copyright (c) 2025 NguyenNhatquang522004
 
@@ -1094,6 +1118,15 @@ of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software...
+```
+
+```
+GNU Affero General Public License v3.0 (LICENSE-AGPL-3.0)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version...
 ```
 
 ---

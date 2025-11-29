@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """
 CV Agent Citizen Verification Background Service
-Module: start_cv_verification_service
+Module: scripts.start_cv_verification_service.py
 Author: nguyễn Nhật Quang
 Created: 2025-11-23
 Version: 1.0.0
-License: MIT
+License: AGPL-3.0 (uses ultralytics/YOLOv8)
+See LICENSE-AGPL-3.0 for full license text.
 Description:
 Chạy như một daemon để liên tục verify citizen reports từ Stellio.
 Poll Stellio mỗi 30 giây để tìm reports chưa được verify (aiVerified=false).
 
 Usage:
-    python start_cv_verification_service.py
+    python scripts/start_cv_verification_service.py
 """
 
 import sys

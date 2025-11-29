@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Module: test_citizen_complete_workflow
+Module: tests.test_citizen_complete_workflow.py
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0

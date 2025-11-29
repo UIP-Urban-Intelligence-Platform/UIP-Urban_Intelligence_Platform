@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """Test refDevice extraction logic.
-Module: test_refdevice_extraction
+Module: tests.test_refdevice_extraction.py
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0

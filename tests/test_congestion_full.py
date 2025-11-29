@@ -1,5 +1,5 @@
 """Full debug congestion detection process
-Module: test_congestion_full
+Module: tests.test_congestion_full.py
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0

@@ -18,7 +18,16 @@ Module: src.agents.analytics.cv_analysis_agent
 Author: nguyễn Nhật Quang
 Created: 2025-11-21
 Version: 1.0.0
-License: MIT
+License: AGPL-3.0 (due to ultralytics/YOLOv8 dependency)
+
+IMPORTANT LICENSE NOTICE:
+    This module uses ultralytics (YOLOv8) which is licensed under AGPL-3.0.
+    If you use this module, the AGPL-3.0 license applies to your derivative work.
+    See LICENSE-AGPL-3.0 for full license text.
+    
+    For commercial use without AGPL-3.0 obligations, obtain an Ultralytics 
+    Enterprise License: https://ultralytics.com/license
+
 
 Dependencies:
     - ultralytics>=8.0: YOLOv8 object detection

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Test script for Citizen Ingestion Agent API.
-Module: test_citizen_api
+Module:  tests.test_citizen_api.py
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
@@ -11,7 +11,7 @@ This script tests the citizen report submission endpoint with real API keys
 from data_sources.yaml configuration.
 
 Usage:
-    python test_citizen_api.py
+    python tests/test_citizen_api.py
     
 
 """

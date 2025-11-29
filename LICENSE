@@ -19,3 +19,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+================================================================================
+                        DUAL LICENSE NOTICE
+================================================================================
+
+This project is dual-licensed under MIT and AGPL-3.0:
+
+1. MIT License (this file) - Applies to most of the codebase
+
+2. AGPL-3.0 License (LICENSE-AGPL-3.0) - Applies to computer vision modules
+   that use ultralytics (YOLOv8)
+
+Files/modules under AGPL-3.0:
+- src/agents/analytics/cv_analysis_agent.py
+- scripts/start_cv_verification_service.py
+- scripts/run_citizen_verification.py
+- scripts/test_accident_detection.py
+- Any file that imports from the above modules
+
+If you use the computer vision features (YOLOv8), your derivative work must
+comply with AGPL-3.0 requirements (source code disclosure, etc.).
+
+For commercial use without AGPL-3.0 obligations, obtain an Ultralytics 
+Enterprise License: https://ultralytics.com/license

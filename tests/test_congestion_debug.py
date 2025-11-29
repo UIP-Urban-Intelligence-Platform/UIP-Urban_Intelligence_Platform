@@ -1,5 +1,5 @@
 """Debug congestion detection
-Module: test_congestion_debug
+Module: tests.test_congestion_debug.py
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0

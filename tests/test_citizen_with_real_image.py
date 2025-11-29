@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Test Citizen Ingestion API với hình ảnh thực tế từ local file
-Module: test_citizen_with_real_image
+Module: tests.test_citizen_with_real_image.py
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0

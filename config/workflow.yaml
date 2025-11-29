@@ -40,8 +40,11 @@ workflow:
           enabled: true
           required: true  # Required to process cameras
           timeout: 180
-          input_file: "data/cameras_raw.json"
-          output_file: "data/cameras_updated.json"
+          config:
+            config_path: "config/data_sources.yaml"
+            domain: "cameras"
+            input_file: "data/cameras_raw.json"
+            output_file: "data/cameras_updated.json"
         
         # 2. Second: Enrich cameras with external data (weather, air quality)
         - name: "external_data_collector_agent"

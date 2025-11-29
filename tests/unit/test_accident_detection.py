@@ -4,13 +4,15 @@ Module: tests.unit.test_accident_detection
 Author: nguyễn Nhật Quang
 Created: 2025-11-21
 Version: 1.0.0
-License: MIT
+License: AGPL-3.0 (uses ultralytics/YOLOv8)
 Description:
     Production-ready unit tests for accident detection agent logic.
     Tests detection algorithms, pattern recognition, and alert generation.
 
 Usage:
     pytest tests/unit/test_accident_detection.py
+
+See LICENSE-AGPL-3.0 for full license text.
 """
 
 import pytest
