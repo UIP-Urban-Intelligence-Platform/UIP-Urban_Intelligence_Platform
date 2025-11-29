@@ -1,0 +1,309 @@
+/**
+ * Custom CSS for HCMC Traffic Monitoring System Documentation
+ */
+
+:root {
+    /* Primary Colors - Traffic Theme */
+    --ifm-color-primary: #2563eb;
+    --ifm-color-primary-dark: #1d4ed8;
+    --ifm-color-primary-darker: #1e40af;
+    --ifm-color-primary-darkest: #1e3a8a;
+    --ifm-color-primary-light: #3b82f6;
+    --ifm-color-primary-lighter: #60a5fa;
+    --ifm-color-primary-lightest: #93c5fd;
+
+    /* Accent Colors */
+    --ifm-color-success: #10b981;
+    --ifm-color-warning: #f59e0b;
+    --ifm-color-danger: #ef4444;
+    --ifm-color-info: #06b6d4;
+
+    /* Code Block */
+    --ifm-code-font-size: 95%;
+    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+    /* Font */
+    --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+    --ifm-font-family-monospace: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+    --ifm-color-primary: #3b82f6;
+    --ifm-color-primary-dark: #2563eb;
+    --ifm-color-primary-darker: #1d4ed8;
+    --ifm-color-primary-darkest: #1e40af;
+    --ifm-color-primary-light: #60a5fa;
+    --ifm-color-primary-lighter: #93c5fd;
+    --ifm-color-primary-lightest: #bfdbfe;
+    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Typography */
+body {
+    font-family: var(--ifm-font-family-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+}
+
+/* Code blocks */
+code {
+    font-family: var(--ifm-font-family-monospace);
+    font-size: 0.9em;
+    padding: 0.15em 0.3em;
+    border-radius: 0.25rem;
+    background-color: rgba(175, 184, 193, 0.2);
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Admonitions (Note, Warning, etc.) */
+.admonition {
+    border-left: 4px solid;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.admonition-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Traffic-themed badges */
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    font-size: 0.85em;
+    font-weight: 600;
+    border-radius: 0.25rem;
+}
+
+.badge-success {
+    background-color: var(--ifm-color-success);
+    color: white;
+}
+
+.badge-warning {
+    background-color: var(--ifm-color-warning);
+    color: white;
+}
+
+.badge-danger {
+    background-color: var(--ifm-color-danger);
+    color: white;
+}
+
+/* Custom traffic status indicators */
+.status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.5em;
+}
+
+.status-active {
+    background-color: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+.status-inactive {
+    background-color: #6b7280;
+}
+
+.status-error {
+    background-color: #ef4444;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+}
+
+/* API Method badges */
+.api-method {
+    display: inline-block;
+    padding: 0.2em 0.6em;
+    font-size: 0.8em;
+    font-weight: 700;
+    font-family: var(--ifm-font-family-monospace);
+    border-radius: 0.25rem;
+    margin-right: 0.5em;
+}
+
+.api-method-get {
+    background-color: #06b6d4;
+    color: white;
+}
+
+.api-method-post {
+    background-color: #10b981;
+    color: white;
+}
+
+.api-method-put {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.api-method-delete {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar__title {
+    font-weight: 700;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+}
+
+.footer__title {
+    color: white;
+    font-weight: 700;
+}
+
+.footer__link-item {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer__link-item:hover {
+    color: white;
+}
+
+/* Table of Contents */
+.table-of-contents__link--active {
+    font-weight: 600;
+    color: var(--ifm-color-primary);
+    border-left: 2px solid var(--ifm-color-primary);
+}
+
+/* Mermaid diagrams */
+.mermaid {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+/* Responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+/* Cards for feature showcase */
+.feature-card {
+    border: 1px solid var(--ifm-color-emphasis-300);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Stat cards */
+.stat-card {
+    background: linear-gradient(135deg, var(--ifm-color-primary-lighter), var(--ifm-color-primary));
+    color: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.stat-card p {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--ifm-background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--ifm-color-emphasis-300);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ifm-color-emphasis-400);
+}
+
+/* Hero section */
+.hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.hero__title {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.hero__subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+}
+
+/* Animations */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Print styles */
+@media print {
+
+    .navbar,
+    .footer,
+    .table-of-contents,
+    .pagination-nav {
+        display: none;
+    }
+}
