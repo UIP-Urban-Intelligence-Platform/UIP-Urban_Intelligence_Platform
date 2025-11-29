@@ -2,6 +2,8 @@
 # Domain-agnostic configuration for generating incident reports from NGSI-LD entities
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-22
+#Version: 1.0.0
+# Description: Configuration file for incident report generator
 incident_report_generator:
   # Trigger configuration - what entities trigger report generation
   triggers:

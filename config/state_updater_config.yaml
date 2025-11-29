@@ -1,7 +1,10 @@
 # State Updater Agent Configuration
 # Domain-agnostic real-time entity state updater
 # Processes events from multiple sources and updates Stellio Context Broker
-
+# Author: Nguyen Viet Hoang
+# Created: 2025-11-25
+# Version: 1.0.0
+# Description: Configuration file for state updater agent
 state_updater:
   # Event Sources Configuration
   # Supports multiple event source types for maximum flexibility

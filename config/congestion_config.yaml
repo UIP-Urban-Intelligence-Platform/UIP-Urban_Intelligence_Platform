@@ -1,5 +1,7 @@
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-21
+#Version: 1.0.0
+# Description: Configuration file for congestion detection agent
 congestion_detection:
   thresholds:
     occupancy: 0.7

@@ -1,8 +1,10 @@
 # Subscription Manager Agent Configuration
 # Domain-agnostic NGSI-LD subscription definitions
-# Version: 1.0.0
+
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-22
+# Version: 1.0.0
+# Description: Configuration file for subscription manager agent
 subscription_manager:
   # Stellio Subscription API Configuration
   stellio:

@@ -3,6 +3,9 @@
 # Supports multiple detection methods with configurable thresholds
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-21
+#Version: 1.0.0
+# Description: Configuration file for accident detection agent
+
 accident_detection:
   # Detection Methods - Enable/disable and configure thresholds
   # Each method contributes to overall accident confidence score

@@ -3,6 +3,8 @@
 # Handles storage, retention, aggregation, and archival of time-series observations
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-24
+#Version: 1.0.0
+# Description: Configuration file for temporal data manager agent
 temporal_data_manager:
   # Stellio Temporal API Configuration
   stellio:

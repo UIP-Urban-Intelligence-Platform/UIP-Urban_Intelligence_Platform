@@ -3,6 +3,9 @@
 # All cache policies, warming strategies, and invalidation rules defined here
 #author: Nguyen Viet Hoang
 #created: 2025-11-25
+#Version: 1.0.0
+# Description: Configuration file for cache manager agent
+
 cache_manager:
   # Redis connection settings
   redis:

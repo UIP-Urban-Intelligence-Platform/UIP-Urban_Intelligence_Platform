@@ -3,6 +3,9 @@
 # Time-Series Analysis, Pattern Detection, and Forecasting
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-21
+#Version: 1.0.0
+# Description: Configuration file for pattern recognition agent
+
 pattern_recognition:
   # Neo4j Graph Database Connection
   neo4j:

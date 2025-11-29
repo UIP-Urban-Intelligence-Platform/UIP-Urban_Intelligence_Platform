@@ -2,7 +2,8 @@
 # Defines test scenarios, expected outcomes, and verification rules
 #Author Nguyen Viet Hoang 
 #Created: 2025-11-24
-
+#Version: 1.0.0
+# Description: Configuration file for integration tests of the entire pipeline
 integration_tests:
   # Test timeout settings
   timeouts:

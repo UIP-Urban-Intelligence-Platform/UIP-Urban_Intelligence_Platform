@@ -2,6 +2,8 @@
 # Domain-agnostic time-series analysis framework
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-21
+#Version: 1.0.0
+# Description: Configuration file for pattern recognition agent
 pattern_recognition:
   # Neo4j Connection
   neo4j:

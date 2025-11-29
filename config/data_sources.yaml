@@ -1,5 +1,8 @@
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-20
+#Version: 1.0.0
+# Description: Configuration file for domain-agnostic data sources
+
 # Domain-Agnostic Data Sources Configuration
 # This configuration supports ANY LOD domain (healthcare, geography, commerce, etc.)
 # Add new domains by adding new sections without code changes

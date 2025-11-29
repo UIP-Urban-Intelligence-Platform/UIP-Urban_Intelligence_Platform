@@ -3,7 +3,8 @@
 # Works with ANY LOD domain by changing these mappings
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-22
-
+#Version: 1.0.0
+# Description: Configuration file for NGSI-LD entity mappings
 # Entity Type Configuration
 entity_type: "Camera"
 uri_prefix: "urn:ngsi-ld:Camera:"
