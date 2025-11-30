@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 /**
  * @module test-connections
