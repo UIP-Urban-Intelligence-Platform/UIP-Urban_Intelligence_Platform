@@ -1,4 +1,11 @@
+
 /**
+ * @module test-traffic-maestro-google-search
+* @author Nguyễn Nhật Quang 
+* @created 2025-11-26
+* @modified 2025-11-26
+* @version 2.0.0
+* @license MIT 
  * Test Google Custom Search integration in TrafficMaestroAgent
  * 
  * This script tests the new searchHCMCEvents() method

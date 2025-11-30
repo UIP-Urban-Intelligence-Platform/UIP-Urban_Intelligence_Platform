@@ -1,0 +1,707 @@
+# YAML Configuration for All NGSI-LD Entities
+# This file defines ALL endpoints, field mappings, and transformations
+# Adding new domains requires ONLY editing this config file
+# Module: apps.traffic-web-app.backend.config.entities
+# Author: Nguyễn Nhật Quang
+# Created: 2025-11-26
+# Version: 3.0.0
+# License: MIT
+# Description:
+# This file defines ALL NGSI-LD entities, their endpoints, field mappings, and transformations
+
+
+version: "1.0"
+stellioBaseUrl: "http://localhost:8080/ngsi-ld/v1/entities"
+
+# Domain Entity Configurations
+entities:
+  # Camera Entity
+  Camera:
+    entityType: "Camera"
+    endpoint: "/api/cameras"
+    description: "Traffic monitoring cameras"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      name:
+        ngsiPath: "name.value"
+        type: "string"
+        required: true
+      status:
+        ngsiPath: "status.value"
+        type: "string"
+        enum: ["active", "inactive", "maintenance"]
+        default: "active"
+      type:
+        ngsiPath: "cameraType.value"
+        type: "string"
+        enum: ["traffic", "security", "weather"]
+        default: "traffic"
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: true
+        transform: "coordinatesToLatLng"
+      address:
+        ngsiPath: "address.value"
+        type: "string"
+        required: false
+      installDate:
+        ngsiPath: "installDate.value"
+        type: "datetime"
+        required: false
+    filters:
+      - name: "status"
+        field: "status"
+        operator: "equals"
+      - name: "type"
+        field: "type"
+        operator: "equals"
+      - name: "bbox"
+        fields: ["minLat", "maxLat", "minLng", "maxLng"]
+        operator: "boundingBox"
+        targetField: "location"
+      - name: "limit"
+        operator: "limit"
+        default: 100
+        max: 1000
+
+  # Weather Observed Entity
+  WeatherObserved:
+    entityType: "WeatherObserved"
+    endpoint: "/api/weather"
+    description: "Weather observations from sensors"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      cameraId:
+        ngsiPath: "refDevice.object"
+        alternativePaths:
+          - "refDevice.value"
+          - "refDevice"
+        type: "string"
+        required: true
+        default: "unknown"
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: true
+        transform: "coordinatesToLatLng"
+        fallback: "cameraLocation"
+      temperature:
+        ngsiPath: "temperature.value"
+        type: "number"
+        required: true
+        unit: "celsius"
+      humidity:
+        ngsiPath: "humidity.value"
+        type: "number"
+        required: true
+        unit: "percent"
+        validate: "range:0-100"
+      precipitation:
+        ngsiPath: "precipitation.value"
+        type: "number"
+        required: true
+        unit: "mm"
+        default: 0
+      windSpeed:
+        ngsiPath: "windSpeed.value"
+        type: "number"
+        required: true
+        unit: "km/h"
+      windDirection:
+        ngsiPath: "windDirection.value"
+        type: "string"
+        required: true
+        enum: ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+      weatherType:
+        ngsiPath: "weatherType.value"
+        type: "string"
+        required: true
+        enum: ["Clear", "Cloudy", "Rainy", "Stormy", "Foggy"]
+      pressure:
+        ngsiPath: "atmosphericPressure.value"
+        type: "number"
+        required: false
+        unit: "hPa"
+      visibility:
+        ngsiPath: "visibility.value"
+        type: "number"
+        required: false
+        unit: "meters"
+      dateObserved:
+        ngsiPath: "dateObserved.value"
+        type: "datetime"
+        required: true
+    filters:
+      - name: "cameraId"
+        field: "cameraId"
+        operator: "equals"
+      - name: "limit"
+        operator: "limit"
+        default: 100
+        max: 1000
+    joins:
+      - entity: "Camera"
+        localField: "cameraId"
+        foreignField: "id"
+        mergeFields: ["location"]
+
+  # Air Quality Observed Entity
+  AirQualityObserved:
+    entityType: "AirQualityObserved"
+    endpoint: "/api/air-quality"
+    description: "Air quality measurements"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      cameraId:
+        ngsiPath: "refDevice.object"
+        alternativePaths:
+          - "refDevice.value"
+          - "refDevice"
+        type: "string"
+        required: true
+        default: "unknown"
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: true
+        transform: "coordinatesToLatLng"
+        fallback: "cameraLocation"
+      aqi:
+        ngsiPath: "aqi.value"
+        type: "number"
+        required: true
+        default: 50
+        validate: "range:0-500"
+      pm25:
+        ngsiPath: "pm25.value"
+        type: "number"
+        required: true
+        unit: "μg/m³"
+      pm10:
+        ngsiPath: "pm10.value"
+        type: "number"
+        required: true
+        unit: "μg/m³"
+      no2:
+        ngsiPath: "no2.value"
+        type: "number"
+        required: true
+        unit: "μg/m³"
+      o3:
+        ngsiPath: "o3.value"
+        type: "number"
+        required: true
+        unit: "μg/m³"
+      co:
+        ngsiPath: "co.value"
+        type: "number"
+        required: true
+        unit: "mg/m³"
+      so2:
+        ngsiPath: "so2.value"
+        type: "number"
+        required: true
+        unit: "μg/m³"
+      level:
+        type: "computed"
+        computation: "aqiLevel"
+        dependsOn: ["aqi"]
+      colorCode:
+        type: "computed"
+        computation: "aqiColorCode"
+        dependsOn: ["level"]
+      dateObserved:
+        ngsiPath: "dateObserved.value"
+        type: "datetime"
+        required: true
+    filters:
+      - name: "level"
+        field: "level"
+        operator: "equals"
+        enum: ["good", "moderate", "unhealthy_sensitive", "unhealthy", "very_unhealthy", "hazardous"]
+      - name: "minAqi"
+        field: "aqi"
+        operator: "greaterThanOrEqual"
+        validate: "nonNegative"
+      - name: "limit"
+        operator: "limit"
+        default: 100
+        max: 1000
+    joins:
+      - entity: "Camera"
+        localField: "cameraId"
+        foreignField: "id"
+        mergeFields: ["location"]
+    computations:
+      aqiLevel:
+        type: "categorical"
+        rules:
+          - condition: "value <= 50"
+            result: "good"
+          - condition: "value <= 100"
+            result: "moderate"
+          - condition: "value <= 150"
+            result: "unhealthy_sensitive"
+          - condition: "value <= 200"
+            result: "unhealthy"
+          - condition: "value <= 300"
+            result: "very_unhealthy"
+          - condition: "value > 300"
+            result: "hazardous"
+      aqiColorCode:
+        type: "mapping"
+        map:
+          good: "#00e400"
+          moderate: "#ffff00"
+          unhealthy_sensitive: "#ff7e00"
+          unhealthy: "#ff0000"
+          very_unhealthy: "#8f3f97"
+          hazardous: "#7e0023"
+
+  # Road Accident Entity
+  RoadAccident:
+    entityType: "RoadAccident"
+    endpoint: "/api/accidents"
+    description: "Road accident incidents"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: true
+        transform: "coordinatesToLatLng"
+      dateDetected:
+        ngsiPath: "dateDetected.value"
+        type: "datetime"
+        required: true
+      accidentType:
+        ngsiPath: "accidentType.value"
+        type: "string"
+        required: true
+        enum: ["collision", "pedestrian", "vehicle_breakdown", "debris", "other"]
+      severity:
+        ngsiPath: "severity.value"
+        type: "string"
+        required: true
+        enum: ["severe", "moderate", "minor"]
+        default: "moderate"
+      affectedCamera:
+        ngsiPath: "refDevice.object"
+        alternativePaths:
+          - "refDevice.value"
+          - "refDevice"
+        type: "string"
+        required: false
+      vehicleCount:
+        ngsiPath: "vehicleCount.value"
+        type: "number"
+        required: false
+        default: 0
+      speedVariance:
+        ngsiPath: "speedVariance.value"
+        type: "number"
+        required: false
+        unit: "km/h"
+      confidence:
+        ngsiPath: "confidence.value"
+        type: "number"
+        required: false
+        default: 0.5
+        validate: "range:0-1"
+      description:
+        ngsiPath: "description.value"
+        type: "string"
+        required: false
+    filters:
+      - name: "hours"
+        field: "dateDetected"
+        operator: "timeRange"
+        unit: "hours"
+      - name: "severity"
+        field: "severity"
+        operator: "equals"
+        enum: ["severe", "moderate", "minor"]
+      - name: "cameraId"
+        field: "affectedCamera"
+        operator: "equals"
+      - name: "limit"
+        operator: "limit"
+        default: 100
+        max: 1000
+      - name: "page"
+        operator: "pagination"
+        default: 1
+    sorting:
+      default:
+        field: "dateDetected"
+        order: "desc"
+
+  # Traffic Pattern Entity
+  TrafficPattern:
+    entityType: "TrafficPattern"
+    endpoint: "/api/patterns"
+    description: "Traffic flow patterns"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      name:
+        ngsiPath: "name.value"
+        type: "string"
+        required: true
+      patternType:
+        ngsiPath: "patternType.value"
+        type: "string"
+        required: true
+        enum: ["rush_hour", "normal", "off_peak"]
+      timeRange:
+        ngsiPath: "timeRange.value"
+        type: "timeRange"
+        required: true
+        transform: "parseTimeRange"
+      daysOfWeek:
+        ngsiPath: "daysOfWeek.value"
+        type: "array"
+        required: true
+        itemType: "string"
+        enum: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+      avgVehicleCount:
+        ngsiPath: "avgVehicleCount.value"
+        type: "number"
+        required: true
+      peakVehicleCount:
+        ngsiPath: "peakVehicleCount.value"
+        type: "number"
+        required: true
+      avgSpeed:
+        ngsiPath: "avgSpeed.value"
+        type: "number"
+        required: true
+        unit: "km/h"
+      congestionLevel:
+        ngsiPath: "congestionLevel.value"
+        type: "string"
+        required: true
+        enum: ["high", "medium", "low"]
+      confidence:
+        ngsiPath: "confidence.value"
+        type: "number"
+        required: false
+        default: 0.8
+        validate: "range:0-1"
+      affectedCameras:
+        ngsiPath: "affectedCameras.value"
+        type: "array"
+        required: true
+        itemType: "string"
+      geometry:
+        type: "computed"
+        computation: "patternGeometry"
+        dependsOn: ["affectedCameras"]
+    filters:
+      - name: "congestion"
+        field: "congestionLevel"
+        operator: "equals"
+        enum: ["high", "medium", "low"]
+      - name: "type"
+        field: "patternType"
+        operator: "equals"
+        enum: ["rush_hour", "normal", "off_peak"]
+      - name: "currentTime"
+        field: "timeRange"
+        operator: "timeInRange"
+        value: "now"
+      - name: "limit"
+        operator: "limit"
+        default: 100
+        max: 1000
+    computations:
+      patternGeometry:
+        type: "geoJson"
+        method: "convexHullFromCameras"
+        parameters:
+          cameraIds: "affectedCameras"
+          bufferDistance: 100
+
+# Analytics Endpoint Configurations
+analytics:
+  pollutants:
+    endpoint: "/api/airquality/pollutants"
+    description: "Detailed pollutant data by camera location"
+    sourceEntity: "AirQualityObserved"
+    filters:
+      - name: "pollutant"
+        type: "array"
+        values: ["pm25", "pm10", "no2", "o3", "co", "so2"]
+        operator: "selectFields"
+    transformation: "pollutantsByLocation"
+
+  humidityZones:
+    endpoint: "/api/weather/humidity-zones"
+    description: "Humidity data aggregated into spatial zones"
+    sourceEntity: "WeatherObserved"
+    aggregation:
+      method: "spatialClustering"
+      field: "humidity"
+      clusterCount: 10
+      algorithm: "kmeans"
+    transformation: "zonesToGeoJson"
+
+  accidentFrequency:
+    endpoint: "/api/analytics/accident-frequency"
+    description: "Accident count by hour/day for last 30 days"
+    sourceEntity: "RoadAccident"
+    timeRange: "30days"
+    aggregation:
+      method: "timeBuckets"
+      buckets: ["hour", "dayOfWeek"]
+      countField: "id"
+    transformation: "frequencyData"
+
+  vehicleHeatmap:
+    endpoint: "/api/patterns/vehicle-heatmap"
+    description: "Average vehicle count formatted for heatmap"
+    sourceEntity: "TrafficPattern"
+    aggregation:
+      method: "temporalGrid"
+      field: "avgVehicleCount"
+      dimensions: ["location", "hour"]
+    transformation: "heatmapData"
+
+  speedZones:
+    endpoint: "/api/patterns/speed-zones"
+    description: "Pattern areas colored by average speed"
+    sourceEntity: "TrafficPattern"
+    categorization:
+      field: "avgSpeed"
+      categories:
+        slow:
+          range: [0, 20]
+          color: "#ff0000"
+        medium:
+          range: [20, 50]
+          color: "#ffff00"
+        fast:
+          range: [50, 999]
+          color: "#00ff00"
+    transformation: "speedZonesToGeoJson"
+
+  districtsUI:
+    endpoint: "/api/cameras/districts-ui"
+    description: "District dropdown options with camera counts"
+    sourceEntity: "Camera"
+    aggregation:
+      method: "groupBy"
+      field: "district"
+      computeFields:
+        cameraCount: "count"
+        bounds: "boundingBox"
+    transformation: "districtOptions"
+
+  historicalAqi:
+    endpoint: "/api/historical/aqi"
+    description: "Historical AQI trends via SPARQL from Fuseki"
+    sourceEntity: "AirQualityObserved"
+    dataSource: "fuseki"
+    timeRange: "7days"
+    sparqlQuery: |
+      PREFIX ngsi-ld: <https://uri.etsi.org/ngsi-ld/>
+      PREFIX traffic: <http://traffic.hcmc.vn/ontology#>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      
+      SELECT ?timestamp ?camera ?aqi ?pm25 ?pm10 ?no2 ?o3
+      WHERE {
+        GRAPH ?g {
+          ?obs a traffic:AirQualityObserved ;
+               traffic:dateObserved ?timestamp ;
+               traffic:refDevice ?camera ;
+               traffic:aqi ?aqi ;
+               traffic:pm25 ?pm25 ;
+               traffic:pm10 ?pm10 ;
+               traffic:no2 ?no2 ;
+               traffic:o3 ?o3 .
+          FILTER(?timestamp > "{{startDate}}"^^xsd:dateTime)
+        }
+      }
+      ORDER BY ?timestamp
+    transformation: "timeSeriesFormat"
+    aggregation:
+      groupBy: ["hour", "day"]
+      method: "average"
+
+  accidentHotspots:
+    endpoint: "/api/analytics/hotspots"
+    description: "Accident hotspot cameras with risk analysis"
+    sourceEntity: "RoadAccident"
+    minAccidentThreshold: 3
+    aggregation:
+      method: "groupBy"
+      field: "affectedCamera"
+      computeFields:
+        accidentCount: "count"
+        severityBreakdown: "countBy:severity"
+        mostCommonType: "mode:accidentType"
+        timePattern: "timeDistribution:dateDetected"
+        riskScore: "calculated"
+    joins:
+      - entity: "Camera"
+        localField: "affectedCamera"
+        foreignField: "id"
+        mergeFields: ["name", "location"]
+    sorting:
+      field: "riskScore"
+      order: "desc"
+    transformation: "hotspotAnalysis"
+
+  accidentPatternCorrelation:
+    endpoint: "/api/correlations/accident-pattern"
+    description: "Correlate accidents with traffic patterns"
+    sourceEntity: "RoadAccident"
+    sourceEntities:
+      - "RoadAccident"
+      - "TrafficPattern"
+    correlation:
+      matchFields:
+        - field: "affectedCamera"
+          patternField: "affectedCameras"
+          operator: "contains"
+        - field: "dateDetected"
+          patternField: "timeRange"
+          operator: "withinTimeRange"
+        - field: "dateDetected"
+          patternField: "daysOfWeek"
+          operator: "matchesDayOfWeek"
+    metrics:
+      - name: "congestionCorrelation"
+        calculation: "percentageWhere:congestionLevel=high"
+      - name: "avgVehicleCount"
+        calculation: "average:avgVehicleCount"
+      - name: "dangerousPatterns"
+        calculation: "groupBy:patternType,orderBy:accidentCount"
+    transformation: "correlationAnalysis"
+
+# WebSocket Configuration
+websocket:
+  port: 8081
+  updateInterval: 30000  # 30 seconds
+  heartbeatInterval: 10000  # 10 seconds
+  changeDetection:
+    enabled: true
+    compareField: "dateModified"
+    pollInterval: 30000
+  alerts:
+    severeAccident:
+      type: "accident_alert"
+      condition: "severity=severe"
+      priority: "high"
+    highAqi:
+      type: "aqi_warning"
+      condition: "aqi>150"
+      priority: "medium"
+  eventTypes:
+    camera: "camera_update"
+    weather: "weather_update"
+    airQuality: "aqi_update"
+    accident: "new_accident"
+    pattern: "pattern_change"
+
+# Transformation Definitions
+transformations:
+  coordinatesToLatLng:
+    description: "Convert GeoJSON coordinates [lng, lat] to {lat, lng}"
+    input: "array"
+    output: "object"
+    logic: "swap and destructure"
+
+  parseTimeRange:
+    description: "Parse time range string to {start, end}"
+    input: "string"
+    output: "object"
+    format: "HH:MM-HH:MM"
+
+  convexHullFromCameras:
+    description: "Calculate convex hull polygon from camera locations"
+    input: "array of camera IDs"
+    output: "GeoJSON Polygon"
+    algorithm: "Graham scan"
+
+  pollutantsByLocation:
+    description: "Group pollutants by camera location"
+    input: "AirQualityObserved entities"
+    output: "array of {location, pollutants}"
+
+  zonesToGeoJson:
+    description: "Convert spatial clusters to GeoJSON features"
+    input: "cluster data"
+    output: "GeoJSON FeatureCollection"
+
+  frequencyData:
+    description: "Format time bucket counts for charts"
+    input: "aggregated counts"
+    output: "{hour: [], count: [], dayOfWeek: []}"
+
+  heatmapData:
+    description: "Format data for heatmap visualization"
+    input: "temporal grid"
+    output: "array of {lat, lng, value, hour}"
+
+  speedZonesToGeoJson:
+    description: "Convert speed patterns to colored GeoJSON"
+    input: "TrafficPattern entities with categories"
+    output: "GeoJSON FeatureCollection with style properties"
+
+  districtOptions:
+    description: "Format districts for UI dropdown"
+    input: "grouped camera data"
+    output: "{districts: [{id, name, cameraCount, bounds}]}"
+
+  timeSeriesFormat:
+    description: "Format SPARQL results to time-series arrays"
+    input: "SPARQL query results"
+    output: "{cameraId: [...], timestamps: [...], aqi: [...], pm25: [...]}"
+
+  hotspotAnalysis:
+    description: "Calculate accident hotspot risk scores"
+    input: "grouped accident data with camera info"
+    output: "array of {cameraId, cameraName, location, accidentCount, severityBreakdown, mostCommonType, riskScore}"
+
+  correlationAnalysis:
+    description: "Correlate accidents with traffic patterns"
+    input: "accidents and patterns data"
+    output: "{totalAccidents, accidentsWithPatterns, correlationRate, byPattern: [...], insights: string}"
+
+# Validation Rules
+validationRules:
+  range:
+    description: "Validate number is within range"
+    parameters: ["min", "max"]
+    
+  nonNegative:
+    description: "Validate number is >= 0"
+    
+  enum:
+    description: "Validate value is in allowed list"
+    parameters: ["allowedValues"]
+    
+  datetime:
+    description: "Validate ISO 8601 datetime string"
+    
+  geopoint:
+    description: "Validate lat/lng coordinates"
+    rules:
+      lat: "range:-90-90"
+      lng: "range:-180-180"

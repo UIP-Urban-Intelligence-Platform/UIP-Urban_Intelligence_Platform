@@ -1,4 +1,11 @@
 /**
+ * @module test-eventbrite-endpoint
+    * @author Nguyễn Nhật Quang 
+    * @created 2025-11-26
+    * @modified 2025-11-26
+    * @version 2.0.0
+    * @license MIT 
+    * @description
  * Test script for Eventbrite API integration
  * Verifies that the Eventbrite API is properly configured and working
  */

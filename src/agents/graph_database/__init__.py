@@ -5,6 +5,7 @@ Authors: Nguyen Viet Hoang
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
+Description:
 Neo4j integration agents for graph-based traffic analysis and relationship queries.
 
 """

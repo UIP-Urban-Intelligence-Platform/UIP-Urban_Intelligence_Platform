@@ -1,4 +1,11 @@
+
 /**
+ * @module test-connections
+* @author Nguyễn Nhật Quang 
+* @created 2025-11-26
+* @modified 2025-11-26
+* @version 2.0.0
+* @license MIT 
  * Test script for Weather API endpoint
  * 
  * Tests:

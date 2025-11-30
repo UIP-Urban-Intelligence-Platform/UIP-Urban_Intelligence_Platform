@@ -1,0 +1,249 @@
+# ============================================================
+# GraphRAG Investigator Agent Configuration
+# ============================================================
+# 
+# 100% DOMAIN-AGNOSTIC & CONFIG-DRIVEN ARCHITECTURE
+# 
+# This configuration file controls ALL aspects of the agent:
+# - Vision API prompts and detection rules
+# - Search API query templates and domains
+# - LLM synthesis prompts and response teams
+# - Neo4j graph queries
+# - ffmpeg stream capture settings
+#
+# TO ADD NEW DOMAIN: Simply modify this YAML file, NO code changes needed
+# ============================================================
+
+# ============================================================
+# VISION ANALYSIS CONFIGURATION
+# ============================================================
+# Module: apps.traffic-web-app.backend.config.agents.graph-investigator
+# Author: Nguyễn Nhật Quang
+# Created: 2025-11-26
+# Version: 3.0.0
+# License: MIT
+# Description:
+# This section configures the Vision API analysis for traffic incident detection.
+vision:
+  enabled: true
+  model: "gemini-2.0-flash-exp"
+  maxTokens: 500
+  temperature: 0.3
+  
+  # Detection priorities with keywords and severity ranges
+  detectionPriorities:
+    - hazard: "fire"
+      keywords: ["fire", "smoke", "flames", "burning"]
+      severityRange: [9, 10]
+      
+    - hazard: "flood"
+      keywords: ["flood", "water", "submerged", "inundation"]
+      severityRange: [7, 9]
+      
+    - hazard: "debris"
+      keywords: ["tree", "debris", "obstruction", "fallen"]
+      severityRange: [5, 8]
+      
+    - hazard: "collision"
+      keywords: ["collision", "crash", "turnover", "overturned", "damage"]
+      severityRange: [6, 9]
+      
+    - hazard: "blockage"
+      keywords: ["blocked", "impassable", "closed", "barricade"]
+      severityRange: [5, 7]
+  
+  # Severity scale descriptions
+  severityScale:
+    "0-2": "Clear road, no issues"
+    "3-4": "Minor obstruction, traffic flowing"
+    "5-6": "Moderate blockage, slow traffic"
+    "7-8": "Major incident, road partially blocked"
+    "9-10": "Critical emergency, road completely blocked"
+  
+  # System prompt for vision analysis (fully customizable)
+  systemPrompt: |
+    You are a traffic incident analysis expert. Analyze traffic camera images to detect hazards and assess severity.
+    
+    DETECTION PRIORITIES:
+    1. Fire/Smoke - Immediate danger (severity 9-10)
+    2. Flooding - Road impassable (severity 7-9)
+    3. Fallen trees/debris - Obstruction (severity 5-8)
+    4. Vehicle turnover - Major accident (severity 6-9)
+    5. Collision damage - Accident severity (severity 4-8)
+    6. Road blockage - Traffic impact (severity 3-7)
+    
+    OUTPUT FORMAT (JSON):
+    {
+      "description": "Detailed scene description",
+      "visualSeverity": <0-10>,
+      "detectedHazards": ["hazard1", "hazard2"],
+      "confidence": <0-1>
+    }
+    
+    SEVERITY SCALE:
+    0-2: Clear road, no issues
+    3-4: Minor obstruction, traffic flowing
+    5-6: Moderate blockage, slow traffic
+    7-8: Major incident, road partially blocked
+    9-10: Critical emergency, road completely blocked
+
+# ============================================================
+# EXTERNAL SEARCH CONFIGURATION
+# ============================================================
+search:
+  enabled: true
+  depth: "advanced"  # Options: basic, advanced
+  maxResults: 5
+  
+  # Include specific news/social media domains
+  includeDomains:
+    - "news.google.com"
+    - "twitter.com"
+    - "facebook.com"
+    - "vnexpress.net"
+    - "tuoitre.vn"
+    - "thanhnien.vn"
+    - "dantri.com.vn"
+  
+  # Query template with placeholders: {location}, {date}
+  queryTemplate: 'traffic accident incident "{location}" {date} OR events near "{location}" today OR road closure fire flood tree fall'
+
+# ============================================================
+# SYNTHESIS CONFIGURATION
+# ============================================================
+synthesis:
+  llmModel: "gemini-2.0-flash-exp"
+  maxTokens: 800
+  temperature: 0.4
+  
+  # Response teams with trigger keywords
+  responseTeams:
+    - name: "Police"
+      triggers: ["accident", "collision", "traffic", "vehicle", "crash"]
+      
+    - name: "Fire Department"
+      triggers: ["fire", "smoke", "flames", "burning", "hazmat", "explosion"]
+      
+    - name: "Medical/Ambulance"
+      triggers: ["injury", "casualties", "injured", "medical", "emergency", "hurt"]
+      
+    - name: "Cleanup Crew"
+      triggers: ["debris", "tree", "obstruction", "fallen", "cleanup", "removal"]
+      
+    - name: "Flood Response"
+      triggers: ["flood", "water", "drainage", "submerged", "inundation"]
+      
+    - name: "Utility Company"
+      triggers: ["power", "electric", "electricity", "gas", "utility", "line", "cable"]
+      
+    - name: "Traffic Control"
+      triggers: ["congestion", "jam", "blockage", "traffic", "detour"]
+  
+  # Priority rules (evaluated in order, first match wins)
+  priorityRules:
+    - condition: "visualSeverity >= 9 OR severity === \"severe\""
+      priority: "critical"
+      
+    - condition: "visualSeverity >= 7 OR severity === \"moderate\""
+      priority: "high"
+      
+    - condition: "visualSeverity >= 5"
+      priority: "medium"
+      
+    - condition: "visualSeverity < 5"
+      priority: "low"
+  
+  # System prompt for LLM synthesis
+  systemPrompt: |
+    You are an expert incident analyst. Analyze accident data from multiple sources and provide actionable recommendations.
+    
+    RESPONSE TEAMS:
+    - Police: Standard accidents, traffic control
+    - Fire Department: Fire, smoke, hazmat, explosions
+    - Medical/Ambulance: Injuries, casualties, medical emergencies
+    - Cleanup Crew: Debris, fallen trees, non-emergency obstructions
+    - Flood Response: Water accumulation, drainage issues, flooding
+    - Utility Company: Downed power lines, gas leaks, utility issues
+    - Traffic Control: Congestion management, detours, flow optimization
+    
+    OUTPUT JSON FORMAT:
+    {
+      "rootCause": "Brief analysis combining all sources",
+      "combinedSeverity": "low|medium|high|critical",
+      "additionalHazards": ["hazard1", "hazard2"],
+      "recommendation": {
+        "responseTeams": ["team1", "team2"],
+        "priority": "low|medium|high|critical",
+        "estimatedResponseTime": "5-10 minutes",
+        "specialEquipment": ["equipment1", "equipment2"]
+      }
+    }
+
+# ============================================================
+# NEO4J GRAPH QUERIES (Cypher)
+# ============================================================
+neo4j:
+  maxResults: 10
+  
+  # Query to find nearby entities (uses $accidentId parameter)
+  nearbyEntityQuery: |
+    MATCH (a:Accident {id: $accidentId})
+    OPTIONAL MATCH (a)-[:AFFECTED_CAMERA]->(c:Camera)
+    OPTIONAL MATCH (c)-[r:NEAR_BY]-(nearby)
+    WHERE nearby IS NOT NULL
+    RETURN 
+      nearby.id as id,
+      labels(nearby)[0] as type,
+      nearby.name as name,
+      r.distance as distance,
+      properties(nearby) as properties
+    ORDER BY r.distance ASC
+    LIMIT 10
+  
+  # Query to get relationship types
+  relationshipQuery: |
+    MATCH (a:Accident {id: $accidentId})-[r]->(target)
+    RETURN DISTINCT type(r) as relType, labels(target)[0] as targetType
+
+# ============================================================
+# FFMPEG STREAM CAPTURE SETTINGS
+# ============================================================
+ffmpeg:
+  enabled: true
+  timeout: 30000  # milliseconds
+  
+  # ffmpeg arguments for snapshot capture
+  # Full command: ffmpeg -i <streamUrl> <args>
+  args:
+    - "-frames:v 1"       # Capture 1 frame
+    - "-f image2pipe"     # Output to pipe
+    - "-c:v mjpeg"        # JPEG codec
+    - "-"                 # Output to stdout
+
+# ============================================================
+# DOMAIN-SPECIFIC EXTENSIONS (Examples)
+# ============================================================
+# 
+# To add new domains, simply add new sections here:
+#
+# healthcare:
+#   vision:
+#     detectionPriorities:
+#       - hazard: "biohazard"
+#         keywords: ["blood", "contamination", "spill"]
+#         severityRange: [8, 10]
+#   synthesis:
+#     responseTeams:
+#       - name: "Hazmat Team"
+#         triggers: ["biohazard", "contamination"]
+#
+# warehouse:
+#   vision:
+#     detectionPriorities:
+#       - hazard: "spillage"
+#         keywords: ["spill", "leak", "chemical"]
+#         severityRange: [6, 9]
+#   synthesis:
+#     responseTeams:
+#       - name: "Safety Team"
+#         triggers: ["spill", "leak"]

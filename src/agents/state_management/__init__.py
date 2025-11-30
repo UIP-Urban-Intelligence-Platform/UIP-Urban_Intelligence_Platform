@@ -1,10 +1,14 @@
 """
 State Management Agents Package
-
-This package contains agents responsible for centralized state management,
-temporal tracking, and lifecycle management of traffic entities.
+Module: src.agents.state_management
 Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-23
+Version: 1.0.0
+License: MIT
+Description:
+This package contains agents responsible for centralized state management,
+temporal tracking, and lifecycle management of traffic entities.
+
 
 """
 

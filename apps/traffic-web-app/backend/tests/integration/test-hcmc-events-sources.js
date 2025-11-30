@@ -1,4 +1,11 @@
+
 /**
+ * @module Test-hcmc-events-sources
+* @author Nguyễn Nhật Quang 
+* @created 2025-11-26
+* @modified 2025-11-26
+* @version 2.0.0
+* @license MIT 
  * Test sources for Ho Chi Minh City Events
  * Try to find concerts, festivals, and other events in HCMC
  */

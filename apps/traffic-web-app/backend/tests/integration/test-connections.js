@@ -1,6 +1,14 @@
-#!/usr/bin/env node
 
 /**
+ * @module test-connections
+ * @author Nguyễn Nhật Quang 
+ * @created 2025-11-26
+ * @modified 2025-11-26
+ * @version 2.0.0
+ * @license MIT 
+ * @description
+ * 
+ *  
  * Connection Test Script
  * Tests all data source connections independently
  */

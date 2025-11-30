@@ -1,3 +1,10 @@
+# =========================================
+# Module: check-health.ps1
+#Author: Nguyễn Nhật Quang
+# Created: 2025-11-26
+# Modified: 2025-11-26
+# Version: 2.0.0
+# License: MIT
 # Backend Health Check Script
 # Kiểm tra backend có đang chạy không
 

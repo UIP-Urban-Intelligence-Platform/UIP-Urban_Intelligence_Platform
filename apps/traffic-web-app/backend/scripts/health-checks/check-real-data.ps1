@@ -1,4 +1,15 @@
+
 #!/usr/bin/env pwsh
+# =========================================
+# Module: check-real-data.ps1
+#Author: Nguyễn Nhật Quang
+# Created: 2025-11-26
+# Modified: 2025-11-26
+# Version: 2.0.0
+# License: MIT
+# Real Data Health Check Script
+# Kiểm tra dữ liệu thực trong cơ sở dữ liệu
+
 Write-Host "`n╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
 Write-Host "║         CHECKING REAL DATA IN DATABASES                   ║" -ForegroundColor Cyan
 Write-Host "╚════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan

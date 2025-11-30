@@ -1,0 +1,324 @@
+# Eco-Twin Simulator Agent Configuration
+# Domain-agnostic configuration for environmental health monitoring
+# Module: apps.traffic-web-app.backend.config.agents.eco-twin
+# Author: Nguyễn Nhật Quang
+# Created: 2025-11-26
+# Version: 3.0.0
+# License: MIT
+# Description:
+# This configuration file sets up the Eco-Twin Simulator Agent for
+airQuality:
+  enabled: true
+  stellioEntityType: AirQualityObserved
+  
+  # AQI breakpoints (US EPA standard)
+  aqiBreakpoints:
+    - category: Good
+      min: 0
+      max: 50
+      healthImpact: "Air quality is satisfactory, and air pollution poses little or no risk"
+      color: "#00e400"
+    
+    - category: Moderate
+      min: 51
+      max: 100
+      healthImpact: "Air quality is acceptable. However, there may be a risk for some people"
+      color: "#ffff00"
+    
+    - category: Unhealthy for Sensitive Groups
+      min: 101
+      max: 150
+      healthImpact: "Members of sensitive groups may experience health effects"
+      color: "#ff7e00"
+    
+    - category: Unhealthy
+      min: 151
+      max: 200
+      healthImpact: "Some members of the general public may experience health effects"
+      color: "#ff0000"
+    
+    - category: Very Unhealthy
+      min: 201
+      max: 300
+      healthImpact: "Health alert: The risk of health effects is increased for everyone"
+      color: "#8f3f97"
+    
+    - category: Hazardous
+      min: 301
+      max: 500
+      healthImpact: "Health warning of emergency conditions: everyone is more likely to be affected"
+      color: "#7e0023"
+
+# Weather forecast configuration
+weather:
+  enabled: true
+  provider: openweathermap           # openweathermap | weatherapi | visualcrossing
+  apiUrl: https://api.openweathermap.org/data/3.0
+  apiKeyEnv: OPENWEATHERMAP_API_KEY
+  forecastHours: 4                   # How many hours ahead to forecast
+
+# Dispersion simulation settings
+simulation:
+  enabled: true
+  timeStep: 15                       # Minutes between prediction steps
+  maxHoursAhead: 2                   # Maximum forecast horizon
+  
+  # Dispersion model parameters
+  dispersionModel:
+    # Rain washout effect
+    rainWashoutFactor: 0.08          # PM2.5 reduction per mm/h of rain (8% per mm/h)
+    rainWashoutThreshold: 5          # Minimum rain (mm/h) to trigger washout
+    
+    # Wind dispersion effect
+    windDispersionFactor: 0.05       # PM2.5 reduction per m/s of wind (5% per m/s)
+    windDispersionThreshold: 5       # Minimum wind speed (m/s) to trigger dispersion
+    
+    # Natural decay
+    baselineDecay: 0.05              # Hourly decay rate (5% per hour)
+  
+  # Advanced parameters (optional)
+  advanced:
+    # Temperature inversion effects
+    temperatureInversion:
+      enabled: false
+      thresholdDelta: -2             # Temperature drop (°C) indicating inversion
+      concentrationMultiplier: 1.5   # Pollution trapping effect
+    
+    # Traffic patterns
+    trafficPatterns:
+      enabled: false
+      rushHourMultiplier: 1.3        # Pollution increase during rush hours
+      rushHours:
+        - start: "07:00"
+          end: "09:00"
+        - start: "17:00"
+          end: "19:00"
+
+# AI advice generation
+ai:
+  enabled: true
+  provider: google                   # google | openai | anthropic | local
+  model: gemini-2.0-flash-exp        # gemini-2.0-flash-exp | gemini-1.5-flash | gpt-4o
+  apiKeyEnv: GEMINI_API_KEY
+  maxTokens: 200
+  temperature: 0.7
+  
+  # System prompt template ({language} will be replaced)
+  systemPrompt: |
+    You are a friendly environmental health advisor in Vietnam.
+    
+    Your role:
+    - Generate empathetic, actionable advice in {language} language
+    - Be conversational and warm, not robotic or clinical
+    - Use culturally appropriate emojis (Vietnamese audience loves ☕🌧️🌤️😷)
+    - Keep advice under 3 sentences
+    - Focus on immediate actions user can take
+    
+    Context awareness:
+    - Consider Vietnamese lifestyle (motorbike culture, outdoor cafes, street food)
+    - Reference local landmarks if relevant
+    - Acknowledge monsoon season, tropical weather patterns
+    
+    Tone examples:
+    ✅ "Trời sắp mưa to rồi, bụi sẽ giảm bớt đấy! Bạn nên ghé quán cafe trú mưa 30 phút, vừa đỡ ướt vừa hít thở không khí sạch hơn nhé! 🌧️☕"
+    ❌ "Air quality will improve due to precipitation. Recommend waiting 30 minutes indoors."
+
+# User profile management
+userProfiles:
+  enabled: true
+  
+  # Default profile when none specified
+  defaultProfile:
+    activityType: commute            # commute | exercise | outdoor_work | leisure
+    transportMode: motorbike         # motorbike | bicycle | walking | car | bus
+    language: vi                     # vi | en
+    sensitivityLevel: medium         # low | medium | high
+  
+  # Sensitivity multipliers for risk calculation
+  sensitivityMultipliers:
+    low: 0.8                         # General healthy adults
+    medium: 1.0                      # Default
+    high: 1.3                        # Elderly, children, pre-existing conditions
+  
+  # Health condition profiles
+  healthConditions:
+    - name: asthma
+      description: "Asthma or respiratory conditions"
+      riskMultiplier: 1.5
+      recommendations:
+        - "Keep rescue inhaler accessible"
+        - "Use indoor air purifier"
+        - "Avoid outdoor exercise when AQI > 100"
+    
+    - name: heart_disease
+      description: "Cardiovascular conditions"
+      riskMultiplier: 1.4
+      recommendations:
+        - "Monitor heart rate during outdoor activities"
+        - "Consult doctor if experiencing chest discomfort"
+    
+    - name: elderly
+      description: "Age 65 and above"
+      riskMultiplier: 1.3
+      recommendations:
+        - "Limit outdoor exposure during high pollution"
+        - "Stay hydrated"
+    
+    - name: pregnant
+      description: "Pregnancy"
+      riskMultiplier: 1.4
+      recommendations:
+        - "Minimize exposure to traffic pollution"
+        - "Use N95 mask in polluted areas"
+    
+    - name: children
+      description: "Children under 12"
+      riskMultiplier: 1.3
+      recommendations:
+        - "Reduce outdoor playtime when AQI > 100"
+        - "Keep windows closed during high pollution"
+
+# Publishing configuration
+publishing:
+  enabled: true
+  stellioEntityType: EnvironmentalForecast
+  updateIntervalMinutes: 15          # How often to publish new forecasts
+  retentionHours: 6                  # How long forecasts remain valid
+  
+  # Notification triggers
+  notifications:
+    enabled: true
+    triggers:
+      - condition: "aqi_increase > 50"
+        message: "Cảnh báo: Chất lượng không khí đang xấu đi nhanh chóng!"
+      
+      - condition: "aqi > 150"
+        message: "Khuyến cáo: Hạn chế ra ngoài, đeo khẩu trang N95"
+      
+      - condition: "rain_coming_soon"
+        message: "Tin tốt: Mưa sắp đến, không khí sẽ sạch hơn!"
+
+# Domain-specific extensions
+domains:
+  # Example 1: Urban commuter profile
+  urbanCommuter:
+    enabled: true
+    targetAudience: "Motorbike riders in HCMC"
+    adviceTemplates:
+      - condition: "aqi >= 150 AND rain_in_30min"
+        advice: "Trời sắp mưa to rồi, bụi sẽ giảm bớt đấy! Bạn nên ghé quán cafe trú mưa 30 phút, vừa đỡ ướt vừa hít thở không khí sạch hơn nhé! 🌧️☕"
+      
+      - condition: "aqi >= 150 AND NO rain"
+        advice: "Không khí đang ô nhiễm nặng (AQI {aqi}). Nếu phải đi đường, nhớ đeo khẩu trang N95 và đóng kín kính mũ bảo hiểm nhé! 😷🏍️"
+      
+      - condition: "aqi < 100 AND previously_high"
+        advice: "Không khí đã sạch hơn nhiều rồi! Đây là lúc tốt để đi dạo, tập thể dục ngoài trời đấy! 🌤️🚴"
+  
+  # Example 2: Healthcare facility monitoring
+  healthcare:
+    enabled: false
+    targetAudience: "Hospitals, clinics with vulnerable patients"
+    adviceTemplates:
+      - condition: "aqi >= 150"
+        advice: "Alert: Poor air quality. Advise patients to stay indoors. Enable HEPA filtration in patient wards."
+      
+      - condition: "aqi >= 200"
+        advice: "Critical: Very poor air quality. Postpone non-urgent outdoor patient transfers. Monitor respiratory patients closely."
+  
+  # Example 3: School outdoor activity management
+  education:
+    enabled: false
+    targetAudience: "Schools, kindergartens"
+    adviceTemplates:
+      - condition: "aqi >= 100"
+        advice: "Moderate air quality. Limit outdoor PE classes. Move activities to covered gymnasium."
+      
+      - condition: "aqi >= 150"
+        advice: "Unhealthy air quality. Cancel all outdoor activities. Keep students indoors with air purification."
+      
+      - condition: "aqi < 50 AND sunny"
+        advice: "Excellent air quality! Perfect day for outdoor field trips and sports activities. ☀️"
+
+# Integration settings
+integration:
+  # WebSocket broadcasting
+  websocket:
+    enabled: true
+    broadcastChannel: environment.forecast
+    updateIntervalSeconds: 60
+  
+  # Mobile app push notifications
+  pushNotifications:
+    enabled: false
+    providers:
+      - name: firebase
+        apiKeyEnv: FIREBASE_API_KEY
+      - name: onesignal
+        apiKeyEnv: ONESIGNAL_API_KEY
+  
+  # Social media auto-posting
+  socialMedia:
+    enabled: false
+    platforms:
+      - name: twitter
+        apiKeyEnv: TWITTER_API_KEY
+        template: "📢 Air Quality Update: AQI is {aqi} ({category}). {short_advice}"
+      
+      - name: facebook
+        apiKeyEnv: FACEBOOK_API_KEY
+        template: "{advice}\n\n#AirQuality #HCMC #Environment"
+
+# Monitoring and logging
+monitoring:
+  enabled: true
+  logLevel: info                     # debug | info | warn | error
+  
+  metrics:
+    - name: predictions_generated
+      type: counter
+    
+    - name: ai_advice_latency
+      type: histogram
+    
+    - name: aqi_forecast_accuracy
+      type: gauge
+      description: "Accuracy of AQI predictions vs actual"
+    
+    - name: user_engagement
+      type: counter
+      description: "Number of users viewing forecasts"
+  
+  alerts:
+    - condition: "ai_api_failures > 5"
+      action: "email_ops_team"
+      severity: high
+    
+    - condition: "forecast_accuracy < 0.7"
+      action: "alert_data_science_team"
+      severity: medium
+
+# Machine learning enhancements (future)
+machineLearning:
+  enabled: false
+  
+  models:
+    # Historical pattern learning
+    - name: aqi_predictor
+      type: lstm
+      features:
+        - historical_aqi
+        - weather_conditions
+        - time_of_day
+        - day_of_week
+        - traffic_density
+      target: future_aqi
+      horizon: 2_hours
+    
+    # Personalization model
+    - name: advice_personalizer
+      type: collaborative_filtering
+      features:
+        - user_profile
+        - historical_engagement
+        - feedback_ratings
+      target: optimal_advice_style

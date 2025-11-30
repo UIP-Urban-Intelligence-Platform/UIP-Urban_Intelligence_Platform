@@ -1,0 +1,252 @@
+# Traffic Maestro Agent Configuration
+# Domain-agnostic configuration for predictive traffic event orchestration
+# Module: apps.traffic-web-app.backend.config.agents.traffic-maestro
+# Author: Nguyễn Nhật Quang
+# Created: 2025-11-26
+# Version: 3.0.0
+# License: MIT
+# Description:
+# This configuration file sets up the Traffic Maestro Agent for
+events:
+  enabled: true
+  
+  # External event data sources
+  sources:
+    - name: ticketmaster
+      apiUrl: https://app.ticketmaster.com/discovery/v2
+      apiKeyEnv: TICKETMASTER_API_KEY
+      enabled: true
+    
+    - name: google-calendar
+      apiUrl: https://www.googleapis.com/calendar/v3
+      apiKeyEnv: GOOGLE_CALENDAR_API_KEY
+      enabled: true
+    
+    - name: google-search
+      apiUrl: https://www.googleapis.com/customsearch/v1
+      apiKeyEnv: GOOGLE_SEARCH_API_KEY
+      searchEngineIdEnv: GOOGLE_SEARCH_ENGINE_ID
+      enabled: true
+  
+  # Event filtering criteria
+  filterCriteria:
+    minAttendees: 1000              # Only consider events with 1000+ attendees
+    maxDistanceKm: 1.0              # Search radius around event venue (km)
+    lookAheadHours: 168             # How far ahead to search for events (7 days)
+  
+  # Event categories to monitor
+  categories:
+    - Sports
+    - Music
+    - Arts & Theatre
+    - Family
+    - Film
+    - Conferences
+    - Festivals
+
+# External routing API configuration
+routing:
+  enabled: true
+  provider: mapbox                  # mapbox | google | here
+  apiUrl: https://api.mapbox.com/directions/v5
+  apiKeyEnv: MAPBOX_API_KEY
+  profile: driving-traffic          # Mapbox profile: driving-traffic | driving | cycling | walking
+
+# Congestion prediction settings
+prediction:
+  # Risk score thresholds (0-100 scale)
+  surgeRiskThresholds:
+    critical: 80                    # Score ≥80: Critical intervention needed
+    high: 60                        # Score ≥60: High priority actions
+    moderate: 40                    # Score ≥40: Moderate monitoring
+  
+  timeWindowMinutes: 30             # Peak risk window before/after event end
+  
+  # Congestion level multipliers for risk calculation
+  congestionMultipliers:
+    low: 0.25
+    medium: 0.50
+    high: 0.75
+    severe: 1.00
+  
+  # Event category impact weights (0-10 scale)
+  categoryImpacts:
+    Sports: 10                      # Highest impact (stadiums, simultaneous exit)
+    Music: 8                        # High impact (concerts, festivals)
+    Conferences: 6                  # Moderate impact (gradual dispersal)
+    Arts & Theatre: 5               # Lower impact (staggered exits)
+    Film: 3                         # Low impact (smaller venues)
+    Festivals: 9                    # Very high impact (outdoor, large crowds)
+    Family: 6                       # Moderate impact (theme parks, shows)
+
+# Action plan configuration
+actions:
+  # Pre-emptive green wave for critical congestion
+  greenWave:
+    enabled: true
+    minRiskScore: 80
+    phasingAdjustmentPercent: 15    # Reduce red light time by 15%
+    targetIntersections: 5          # Number of intersections to coordinate
+    durationMinutes: 20             # How long to maintain adjusted phasing
+  
+  # Alternative route activation
+  detour:
+    enabled: true
+    minRiskScore: 60
+    maxAlternativeRoutes: 3         # Number of alternative routes to suggest
+    signageUpdateDelay: 5           # Minutes to update digital signage
+    mobileAppNotification: true     # Push notifications to navigation apps
+  
+  # Public traffic alerts
+  alert:
+    enabled: true
+    minRiskScore: 40
+    channels:
+      - mobile_app                  # Push to traffic apps
+      - social_media                # Twitter/Facebook alerts
+      - digital_signage             # Variable message signs (VMS)
+      - radio                       # Radio traffic updates
+    advanceNoticeMinutes: 30        # How early to send alerts
+  
+  # Traffic officer deployment
+  deployment:
+    enabled: false
+    minRiskScore: 70
+    officersPerLocation: 2          # Officers to deploy at each hotspot
+    equipmentRequired:
+      - traffic_cones
+      - reflective_vests
+      - handheld_radios
+
+# Integration settings
+integration:
+  # WebSocket for real-time updates
+  websocket:
+    enabled: true
+    broadcastChannel: traffic.maestro.events
+    updateIntervalSeconds: 60       # How often to broadcast predictions
+  
+  # Neo4j for relationship queries
+  neo4j:
+    enabled: true
+    queries:
+      # Find traffic lights near event venue
+      nearbyTrafficLights: |
+        MATCH (v:Venue {id: $venueId})-[:NEAR]->(tl:TrafficLight)
+        WHERE distance(v.location, tl.location) < $maxDistance
+        RETURN tl.id, tl.location, tl.currentPhase
+        ORDER BY distance(v.location, tl.location) ASC
+        LIMIT 10
+      
+      # Find alternative routes
+      alternativeRoutes: |
+        MATCH path = (origin:Location)-[:ROAD*1..5]->(dest:Location)
+        WHERE origin.id = $originId AND dest.id = $destId
+        AND NONE(node IN nodes(path) WHERE node.congestionLevel = 'severe')
+        RETURN path, length(path) AS hops
+        ORDER BY hops ASC
+        LIMIT 3
+
+# Domain-specific extensions (examples)
+domains:
+  # Example 1: Sports events configuration
+  sports:
+    enabled: true
+    venues:
+      - name: "Thống Nhất Stadium"
+        location:
+          lat: 10.7860
+          lng: 106.6960
+        capacity: 15000
+        peakExitTime: 20              # Minutes to fully clear venue
+        historicalData:
+          avgCongestionDuration: 45   # Historical average (minutes)
+          peakDayOfWeek: "Saturday"
+      
+      - name: "Phan Đình Phùng Stadium"
+        location:
+          lat: 10.7632
+          lng: 106.6820
+        capacity: 5000
+        peakExitTime: 15
+  
+  # Example 2: Concert halls configuration
+  concerts:
+    enabled: true
+    venues:
+      - name: "Hoa Binh Theatre"
+        location:
+          lat: 10.7720
+          lng: 106.7000
+        capacity: 3000
+        peakExitTime: 12
+        parkingCapacity: 200
+        publicTransportNearby: true   # Reduces congestion risk
+  
+  # Example 3: Conference centers
+  conferences:
+    enabled: true
+    venues:
+      - name: "SECC - Saigon Exhibition and Convention Center"
+        location:
+          lat: 10.7290
+          lng: 106.7210
+        capacity: 8000
+        peakExitTime: 30              # Slower dispersal (business attire, networking)
+        vipExitRoutes:                # Separate routes for VIP attendees
+          - route_id: "vip_01"
+            targetCameras: ["cam_secc_north", "cam_secc_vip_gate"]
+
+# Machine learning settings (future enhancement)
+machineLearning:
+  enabled: false
+  models:
+    # Predict event impact based on historical data
+    - name: event_impact_predictor
+      type: regression
+      features:
+        - attendeeCount
+        - eventCategory
+        - dayOfWeek
+        - timeOfDay
+        - weatherCondition
+        - historicalCongestion
+      target: surgeRiskScore
+    
+    # Optimize traffic light phasing
+    - name: green_wave_optimizer
+      type: reinforcement_learning
+      stateSpace:
+        - currentCongestion
+        - predictedCongestion
+        - adjacentIntersections
+      actionSpace:
+        - increasePhaseDuration
+        - decreasePhaseDuration
+        - noChange
+      rewardFunction: congestionReduction
+
+# Logging and monitoring
+monitoring:
+  enabled: true
+  logLevel: info                    # debug | info | warn | error
+  metrics:
+    - name: events_monitored
+      type: counter
+    - name: risk_score_distribution
+      type: histogram
+    - name: action_plans_generated
+      type: counter
+    - name: api_latency
+      type: gauge
+  
+  alerts:
+    # Alert when API calls fail repeatedly
+    - condition: api_failure_rate > 0.1
+      action: email_ops_team
+      severity: high
+    
+    # Alert when critical events detected
+    - condition: risk_score >= 90
+      action: sms_traffic_manager
+      severity: critical
