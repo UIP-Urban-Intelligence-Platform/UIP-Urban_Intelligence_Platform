@@ -2,7 +2,7 @@
 # Domain-agnostic multi-channel notification system
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-22
-# Version: 1.0.0
+#Version: 1.0.0
 # Description: Configuration file for alert dispatcher agent
 alert_dispatcher:
   # HTTP Server Configuration

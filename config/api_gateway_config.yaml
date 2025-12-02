@@ -1,0 +1,432 @@
+# API GATEWAY AGENT CONFIGURATION
+# Domain-agnostic API gateway with authentication, rate limiting, routing, and caching
+#Module: API Gateway Agent
+#Author: nguyễn Nhật Quang
+#Created: 2025-11-29
+#Version: 1.0.0
+# Description: Configuration file for API gateway agent
+
+api_gateway:
+  # Server configuration
+  server:
+    host: "0.0.0.0"
+    port: 8000
+    workers: 4
+    reload: false
+    access_log: true
+    timeout: 30  # seconds
+    max_request_size: 10485760  # 10MB
+  
+  # Authentication configuration
+  authentication:
+    enabled: true
+    methods:
+      # API Key authentication
+      - type: "api_key"
+        header: "X-API-Key"
+        enabled: true
+        keys:
+          - key: "dev-key-123"
+            owner: "development"
+            description: "Development API key"
+            rate_limit: 1000  # requests per minute
+            enabled: true
+          
+          - key: "prod-key-456"
+            owner: "production"
+            description: "Production API key"
+            rate_limit: 5000
+            enabled: true
+          
+          - key: "test-key-789"
+            owner: "testing"
+            description: "Testing API key"
+            rate_limit: 100
+            enabled: true
+      
+      # JWT authentication
+      - type: "jwt"
+        enabled: true
+        secret: "${JWT_SECRET:-default-secret-change-in-production}"
+        algorithm: "HS256"
+        issuer: "api-gateway"
+        audience: "multi-agent-system"
+        token_header: "Authorization"
+        token_prefix: "Bearer"
+        expiration: 3600  # 1 hour
+        verify_exp: true
+        verify_nbf: true
+        verify_iat: true
+  
+  # Rate limiting configuration
+  rate_limiting:
+    enabled: true
+    algorithm: "token_bucket"  # token_bucket, fixed_window, sliding_window
+    default_limit: 100  # requests per minute
+    burst_size: 20  # allow burst beyond limit
+    storage: "redis"  # redis, memory
+    redis_url: "${REDIS_URL:-redis://localhost:6379}"
+    redis_db: 0
+    redis_key_prefix: "api_gateway:rate_limit:"
+    cleanup_interval: 300  # cleanup expired keys every 5 minutes
+    
+    # Per-endpoint rate limits (override defaults)
+    endpoint_limits:
+      - path: "/ngsi-ld/entities"
+        method: "POST"
+        limit: 50  # more restrictive for write operations
+      
+      - path: "/ngsi-ld/entities/*"
+        method: "DELETE"
+        limit: 20  # very restrictive for deletes
+      
+      - path: "/sparql"
+        method: "POST"
+        limit: 200  # allow more SPARQL queries
+  
+  # Routing configuration
+  routes:
+    # NGSI-LD API routes to Stellio context broker
+    - name: "ngsi_ld_entities"
+      path: "/ngsi-ld/entities"
+      path_type: "prefix"  # prefix, exact, regex
+      backend: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/entities"
+      methods: ["GET", "POST"]
+      auth_required: true
+      timeout: 30
+      retry:
+        enabled: true
+        max_attempts: 3
+        backoff_factor: 2
+      cache:
+        enabled: true  # ✅ ENABLED - Entity query cache active
+      headers:
+        add:
+          X-Forwarded-For: "${client_ip}"
+          X-Gateway-Version: "1.0.0"
+        remove:
+          - X-Internal-Secret
+    
+    - name: "ngsi_ld_entity_operations"
+      path: "/ngsi-ld/entities/*"
+      path_type: "prefix"
+      backend: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/entities"
+      methods: ["GET", "PATCH", "DELETE"]
+      auth_required: true
+      timeout: 30
+      cache:
+        enabled: true  # ✅ ENABLED - Entity operations cache active
+    
+    - name: "ngsi_ld_subscriptions"
+      path: "/ngsi-ld/subscriptions"
+      path_type: "prefix"
+      backend: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/subscriptions"
+      methods: ["GET", "POST", "PATCH", "DELETE"]
+      auth_required: true
+      timeout: 30
+      cache:
+        enabled: false
+    
+    - name: "ngsi_ld_temporal"
+      path: "/ngsi-ld/temporal/entities"
+      path_type: "prefix"
+      backend: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/temporal/entities"
+      methods: ["GET", "POST"]
+      auth_required: true
+      timeout: 60  # longer timeout for temporal queries
+      cache:
+        enabled: true
+        ttl: 300  # 5 minutes
+        vary_by:
+          - query_params
+          - headers: ["Accept"]
+    
+    # SPARQL endpoint routes to Apache Jena Fuseki
+    - name: "sparql_query"
+      path: "/sparql"
+      path_type: "exact"
+      backend: "${FUSEKI_URL:-http://localhost:3030}/traffic-cameras/sparql"
+      methods: ["GET", "POST"]
+      auth_required: false  # public read access
+      timeout: 60
+      cache:
+        enabled: true
+        ttl: 300  # 5 minutes
+        vary_by:
+          - query_params
+          - body
+        key_prefix: "sparql:"
+        compress: true
+    
+    - name: "sparql_update"
+      path: "/sparql/update"
+      path_type: "exact"
+      backend: "${FUSEKI_URL:-http://localhost:3030}/traffic-cameras/update"
+      methods: ["POST"]
+      auth_required: true  # write operations require auth
+      timeout: 30
+      cache:
+        enabled: false
+    
+    # Health check routes
+    - name: "health_check"
+      path: "/health"
+      path_type: "exact"
+      backend: "${HEALTH_AGENT_URL:-http://localhost:9090}/health"
+      methods: ["GET"]
+      auth_required: false
+      timeout: 5
+      cache:
+        enabled: true
+        ttl: 10  # 10 seconds
+    
+    - name: "health_detailed"
+      path: "/health/detailed"
+      path_type: "exact"
+      backend: "${HEALTH_AGENT_URL:-http://localhost:9090}/health/detailed"
+      methods: ["GET"]
+      auth_required: true
+      timeout: 10
+      cache:
+        enabled: false
+    
+    # Performance metrics route
+    - name: "metrics"
+      path: "/metrics"
+      path_type: "exact"
+      backend: "${PERFORMANCE_MONITOR_URL:-http://localhost:9091}/metrics"
+      methods: ["GET"]
+      auth_required: false  # Prometheus scraping
+      timeout: 10
+      cache:
+        enabled: false
+    
+    # API Gateway status (internal)
+    - name: "gateway_status"
+      path: "/gateway/status"
+      path_type: "exact"
+      backend: "internal"  # handled by gateway itself
+      methods: ["GET"]
+      auth_required: true
+      cache:
+        enabled: false
+  
+  # CORS configuration
+  cors:
+    enabled: true
+    allowed_origins:
+      - "*"  # for development; restrict in production
+    allowed_methods:
+      - "GET"
+      - "POST"
+      - "PATCH"
+      - "DELETE"
+      - "OPTIONS"
+    allowed_headers:
+      - "*"
+    expose_headers:
+      - "X-RateLimit-Limit"
+      - "X-RateLimit-Remaining"
+      - "X-RateLimit-Reset"
+      - "X-Cache-Status"
+    allow_credentials: true
+    max_age: 3600  # preflight cache duration
+  
+  # Response caching configuration
+  caching:
+    enabled: true
+    default_ttl: 300  # 5 minutes
+    max_ttl: 3600  # 1 hour
+    storage: "redis"  # redis, memory
+    redis_url: "${REDIS_URL:-redis://localhost:6379}"
+    redis_db: 1
+    redis_key_prefix: "api_gateway:cache:"
+    compression:
+      enabled: true
+      min_size: 1024  # compress responses >= 1KB
+      algorithm: "gzip"
+      level: 6  # compression level 1-9
+    
+    # Cache invalidation rules
+    invalidation:
+      - method: "POST"
+        pattern: "/ngsi-ld/entities"
+        invalidate_patterns:
+          - "/ngsi-ld/entities*"
+          - "/sparql*"
+      
+      - method: "PATCH"
+        pattern: "/ngsi-ld/entities/*"
+        invalidate_patterns:
+          - "/ngsi-ld/entities*"
+          - "/sparql*"
+      
+      - method: "DELETE"
+        pattern: "/ngsi-ld/entities/*"
+        invalidate_patterns:
+          - "/ngsi-ld/entities*"
+          - "/sparql*"
+  
+  # Request/Response transformation
+  transformation:
+    request:
+      # Add default headers
+      add_headers:
+        X-Gateway-Version: "1.0.0"
+        X-Request-ID: "${request_id}"
+      
+      # Remove sensitive headers
+      remove_headers:
+        - "X-Internal-Token"
+        - "X-Debug-Mode"
+      
+      # Body transformation (optional)
+      body:
+        enabled: false
+    
+    response:
+      # Add response headers
+      add_headers:
+        X-Gateway-Version: "1.0.0"
+        X-Response-Time: "${response_time_ms}ms"
+        X-Cache-Status: "${cache_status}"
+      
+      # Compression
+      compression:
+        enabled: true
+        min_size: 1024
+        algorithms:
+          - "gzip"
+          - "deflate"
+          - "br"  # brotli
+      
+      # Body transformation (optional)
+      body:
+        enabled: false
+
+  # Logging configuration
+  logging:
+    level: "${LOG_LEVEL:-INFO}"
+    format: "json"  # json, text
+    output: "file"  # file, stdout, both
+    file:
+      path: "logs/api_gateway.log"
+      max_bytes: 10485760  # 10MB
+      backup_count: 5
+      rotate: true
+    
+    # Request logging
+    request:
+      enabled: true
+      include_headers: false
+      include_body: false
+      exclude_paths:
+        - "/health"
+        - "/metrics"
+    
+    # Response logging
+    response:
+      enabled: true
+      include_headers: false
+      include_body: false
+      log_errors_only: false
+    
+    # Access log format
+    access_log:
+      enabled: true
+      format: '{client_ip} - "{method} {path}" {status_code} {response_time_ms}ms {response_size} "{user_agent}" api_key={api_key_owner}'
+  
+  # Security configuration
+  security:
+    # Request size limits
+    max_request_size: 10485760  # 10MB
+    max_header_size: 8192  # 8KB
+    
+    # Request validation
+    validation:
+      enabled: true
+      strict_content_type: false
+      allowed_content_types:
+        - "application/json"
+        - "application/ld+json"
+        - "application/sparql-query"
+        - "application/x-www-form-urlencoded"
+    
+    # Security headers
+    headers:
+      X-Content-Type-Options: "nosniff"
+      X-Frame-Options: "DENY"
+      X-XSS-Protection: "1; mode=block"
+      Strict-Transport-Security: "max-age=31536000; includeSubDomains"
+      Content-Security-Policy: "default-src 'self'"
+    
+    # IP filtering (optional)
+    ip_filtering:
+      enabled: false
+      whitelist: []
+      blacklist: []
+  
+  # Circuit breaker configuration
+  circuit_breaker:
+    enabled: true
+    failure_threshold: 5  # failures before opening circuit
+    recovery_timeout: 60  # seconds before attempting recovery
+    half_open_requests: 3  # test requests in half-open state
+    
+    # Per-backend configuration
+    backends:
+      - backend: "${STELLIO_URL:-http://localhost:8080}"
+        failure_threshold: 10
+        recovery_timeout: 30
+      
+      - backend: "${FUSEKI_URL:-http://localhost:3030}"
+        failure_threshold: 5
+        recovery_timeout: 60
+  
+  # OpenAPI documentation
+  openapi:
+    enabled: true
+    title: "Multi-Agent System API Gateway"
+    version: "1.0.0"
+    description: "Domain-agnostic API gateway for multi-agent linked data system"
+    contact:
+      name: "API Gateway Team"
+      email: "gateway@example.com"
+    license:
+      name: "Apache 2.0"
+      url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+    servers:
+      - url: "http://localhost:8000"
+        description: "Development server"
+      - url: "https://api.example.com"
+        description: "Production server"
+    tags:
+      - name: "NGSI-LD"
+        description: "Context broker operations"
+      - name: "SPARQL"
+        description: "SPARQL query operations"
+      - name: "Health"
+        description: "Health check operations"
+      - name: "Gateway"
+        description: "Gateway management"
+
+# Monitoring integration
+monitoring:
+  prometheus:
+    enabled: true
+    port: 9092
+    path: "/gateway/metrics"
+    include_metrics:
+      - request_count
+      - request_duration
+      - response_size
+      - error_count
+      - rate_limit_exceeded
+      - cache_hit_rate
+      - backend_response_time
+      - active_connections
+  
+  performance:
+    enabled: true
+    agent_name: "api_gateway"
+    collection_interval: 30

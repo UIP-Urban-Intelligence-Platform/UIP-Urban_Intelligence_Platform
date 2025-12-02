@@ -79,8 +79,9 @@ accident_detection:
     duplicate_threshold: 0.8  # Similarity threshold for duplicates
   
   # Stellio Context Broker Configuration
+  # All connection values are read from environment variables (.env file)
   stellio:
-    base_url: "http://localhost:8080"
+    base_url: "${STELLIO_URL:-http://localhost:8080}"
     tenant: "urn:ngsi-ld:tenant:default"
     
     # Entity creation endpoint (required by agent)
@@ -128,7 +129,7 @@ accident_detection:
         enabled: true
       
       - type: "webhook"
-        url: "http://localhost:9000/alerts"
+        url: "${ALERT_WEBHOOK_URL:-http://localhost:9000/alerts}"
         enabled: true  # ✅ ENABLED - Webhook alerts now active
         headers:
           Authorization: "Bearer ${ALERT_TOKEN}"
