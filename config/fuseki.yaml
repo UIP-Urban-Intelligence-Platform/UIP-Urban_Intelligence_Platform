@@ -4,23 +4,22 @@
 
 fuseki:
   # Base URL for Fuseki server
-  # Can be overridden with environment variable: FUSEKI_BASE_URL
-  base_url: "http://localhost:3030"
+  # Read from environment variable: FUSEKI_URL
+  base_url: "${FUSEKI_URL:-http://localhost:3030}"
   
   # Default dataset name
-  # Can be overridden with environment variable: FUSEKI_DATASET
-  dataset: "lod-dataset"
+  # Read from environment variable: FUSEKI_DATASET
+  dataset: "${FUSEKI_DATASET:-lod-dataset}"
   
   # Authentication credentials
   auth:
     # Username for Fuseki admin
-    # Can be overridden with environment variable: FUSEKI_USERNAME
-    username: "admin"
+    # Read from environment variable: FUSEKI_USER
+    username: "${FUSEKI_USER:-admin}"
     
     # Password for Fuseki admin
-    # MUST be set via environment variable: FUSEKI_PASSWORD
-    # Never hardcode passwords in config files
-    password: "test_admin"  # For testing only - use env var in production
+    # Read from environment variable: FUSEKI_PASSWORD
+    password: "${FUSEKI_PASSWORD:-test_admin}"
   
   # Fuseki REST API endpoints (relative to dataset)
   endpoints:

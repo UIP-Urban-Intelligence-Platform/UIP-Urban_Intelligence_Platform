@@ -7,19 +7,19 @@
 neo4j_sync:
   # PostgreSQL connection (Stellio backend)
   postgres:
-    host: "localhost"  # Use localhost when running outside Docker
-    port: 5432
-    database: "stellio_search"
-    user: "stellio"
-    password: "stellio_test"
+    host: "${POSTGRES_HOST:-localhost}"  # Use localhost when running outside Docker
+    port: ${POSTGRES_PORT:-5432}
+    database: "${POSTGRES_DATABASE:-stellio_search}"
+    user: "${POSTGRES_USER:-stellio}"
+    password: "${POSTGRES_PASSWORD:-stellio_test}"
     table: "entity_payload"  # Stellio entity storage table
   
   # Neo4j connection
   neo4j:
-    uri: "bolt://localhost:7687"  # Use localhost when running outside Docker
-    user: "neo4j"
-    password: "test12345"
-    database: "neo4j"
+    uri: "${NEO4J_URL:-bolt://localhost:7687}"  # Use localhost when running outside Docker
+    user: "${NEO4J_USER:-neo4j}"
+    password: "${NEO4J_PASSWORD:-test12345}"
+    database: "${NEO4J_DATABASE:-neo4j}"
     pool_size: 50
     timeout: 30
   

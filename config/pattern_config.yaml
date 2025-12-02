@@ -116,7 +116,7 @@ pattern_recognition:
   
   # Stellio Context Broker
   stellio:
-    base_url: "http://stellio:8080"
+    base_url: "${STELLIO_URL:-http://localhost:8080}"
     create_endpoint: "/ngsi-ld/v1/entities"
     update_endpoint: "/ngsi-ld/v1/entities/{entity_id}/attrs"
     batch_create: true

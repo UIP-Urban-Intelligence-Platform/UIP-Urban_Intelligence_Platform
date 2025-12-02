@@ -10,8 +10,8 @@
 # Description: Configuration file for Stellio Context Broker
 stellio:
   # Base URL of Stellio Context Broker instance
-  # Can be overridden with environment variable: STELLIO_BASE_URL
-  base_url: "http://localhost:8080"
+  # Read from environment variable: STELLIO_URL
+  base_url: "${STELLIO_URL:-http://localhost:8080}"
   
   # NGSI-LD API version
   api_version: "ngsi-ld/v1"

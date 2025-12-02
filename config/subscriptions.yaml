@@ -7,8 +7,9 @@
 # Description: Configuration file for subscription manager agent
 subscription_manager:
   # Stellio Subscription API Configuration
+  # All connection values are read from environment variables (.env file)
   stellio:
-    base_url: "http://localhost:8080"
+    base_url: "${STELLIO_URL:-http://localhost:8080}"
     timeout: 10
     max_retries: 3
     retry_backoff_factor: 2

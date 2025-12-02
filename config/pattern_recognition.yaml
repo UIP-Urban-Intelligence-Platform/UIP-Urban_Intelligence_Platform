@@ -8,12 +8,13 @@
 
 pattern_recognition:
   # Neo4j Graph Database Connection
+  # All connection values are read from environment variables (.env file)
   neo4j:
-    uri: "bolt://localhost:7687"
-    database: "neo4j"
+    uri: "${NEO4J_URL:-bolt://localhost:7687}"
+    database: "${NEO4J_DATABASE:-neo4j}"
     auth:
-      username: "neo4j"
-      password: "your_password_here"
+      username: "${NEO4J_USER:-neo4j}"
+      password: "${NEO4J_PASSWORD:-test12345}"
     # Connection pool settings
     max_connection_lifetime: 3600  # seconds
     max_connection_pool_size: 50
@@ -211,7 +212,7 @@ pattern_recognition:
   
   # Stellio Context Broker Configuration
   stellio:
-    base_url: "http://localhost:8080"
+    base_url: "${STELLIO_URL:-http://localhost:8080}"
     tenant: "urn:ngsi-ld:tenant:default"
     
     # API endpoints

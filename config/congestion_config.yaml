@@ -13,18 +13,19 @@ congestion_detection:
     min_duration: 0  # seconds (0 = immediate detection for demo/testing)
   
   stellio:
-    base_url: "http://localhost:8080"
+    base_url: "${STELLIO_URL:-http://localhost:8080}"
     update_endpoint: "/ngsi-ld/v1/entities/{id}/attrs"
     batch_updates: true
     max_workers: 4
     
   # PostgreSQL connection for camera ID mapping
+  # All values are read from environment variables (.env file)
   postgres:
-    host: "localhost"
-    port: 5432
-    database: "stellio_search"
-    user: "stellio"
-    password: "stellio_test"
+    host: "${POSTGRES_HOST:-localhost}"
+    port: ${POSTGRES_PORT:-5432}
+    database: "${POSTGRES_DATABASE:-stellio_search}"
+    user: "${POSTGRES_USER:-stellio}"
+    password: "${POSTGRES_PASSWORD:-stellio_test}"
   
   # Camera enriched file for index->code mapping
   camera_enriched_file: "data/cameras_enriched.json"
@@ -47,4 +48,3 @@ congestion_detection:
     format: "json"
     pretty_print: true
     include_timestamp: true
-

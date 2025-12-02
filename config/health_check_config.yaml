@@ -16,7 +16,7 @@ health_check:
     - name: "stellio_api"
       type: "http"
       enabled: true
-      url: "http://localhost:8080/ngsi-ld/v1/entities"
+      url: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/v1/entities"
       method: "GET"
       timeout: 5
       expected_status: 200
@@ -28,7 +28,7 @@ health_check:
     - name: "stellio_health"
       type: "http"
       enabled: true
-      url: "http://localhost:8080/actuator/health"
+      url: "${STELLIO_URL:-http://localhost:8080}/actuator/health"
       method: "GET"
       timeout: 5
       expected_status: 200
@@ -39,8 +39,8 @@ health_check:
     - name: "neo4j_connectivity"
       type: "tcp"
       enabled: true
-      host: "localhost"
-      port: 7687
+      host: "${NEO4J_HOST:-localhost}"
+      port: ${NEO4J_PORT:-7687}
       timeout: 5
       critical: true
       description: "Neo4j database connectivity (bolt protocol)"
@@ -48,9 +48,9 @@ health_check:
     - name: "neo4j_query"
       type: "cypher"
       enabled: true
-      uri: "bolt://localhost:7687"
-      username: "neo4j"
-      password: "${NEO4J_PASSWORD}"
+      uri: "${NEO4J_URL:-bolt://localhost:7687}"
+      username: "${NEO4J_USER:-neo4j}"
+      password: "${NEO4J_PASSWORD:-test12345}"
       database: "traffic"
       query: "MATCH (c:Camera) RETURN count(c) as camera_count LIMIT 1"
       timeout: 10
@@ -62,7 +62,7 @@ health_check:
     - name: "fuseki_http"
       type: "http"
       enabled: true
-      url: "http://localhost:3030/$/ping"
+      url: "${FUSEKI_URL:-http://localhost:3030}/$/ping"
       method: "GET"
       timeout: 5
       expected_status: 200
@@ -72,7 +72,7 @@ health_check:
     - name: "fuseki_sparql"
       type: "sparql"
       enabled: true
-      url: "http://localhost:3030/traffic-cameras/sparql"
+      url: "${FUSEKI_URL:-http://localhost:3030}/${FUSEKI_DATASET:-traffic-cameras}/sparql"
       query: |
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         ASK { ?s rdf:type ?o }
@@ -83,7 +83,7 @@ health_check:
     - name: "fuseki_update"
       type: "http"
       enabled: true
-      url: "http://localhost:3030/traffic-cameras/update"
+      url: "${FUSEKI_URL:-http://localhost:3030}/${FUSEKI_DATASET:-traffic-cameras}/update"
       method: "POST"
       timeout: 5
       expected_status: [200, 405]  # 405 if updates disabled
@@ -94,8 +94,8 @@ health_check:
     - name: "kafka_broker"
       type: "tcp"
       enabled: true
-      host: "localhost"
-      port: 9092
+      host: "${KAFKA_HOST:-localhost}"
+      port: ${KAFKA_PORT:-9092}
       timeout: 5
       critical: true
       description: "Kafka broker connectivity"
@@ -103,7 +103,7 @@ health_check:
     - name: "kafka_topics"
       type: "kafka"
       enabled: true
-      bootstrap_servers: "localhost:9092"
+      bootstrap_servers: "${KAFKA_BOOTSTRAP_SERVERS:-localhost:9092}"
       timeout: 10
       check: "list_topics"
       expected_topics: ["camera-observations", "traffic-incidents"]
@@ -114,7 +114,7 @@ health_check:
     - name: "alert_dispatcher"
       type: "http"
       enabled: true
-      url: "http://localhost:8080/health"
+      url: "${ALERT_DISPATCHER_URL:-http://localhost:8080}/health"
       method: "GET"
       timeout: 5
       expected_status: 200
@@ -125,7 +125,7 @@ health_check:
     - name: "report_generator"
       type: "http"
       enabled: true
-      url: "http://localhost:8081/health"
+      url: "${REPORT_GENERATOR_URL:-http://localhost:8081}/health"
       method: "GET"
       timeout: 5
       expected_status: 200
@@ -137,10 +137,10 @@ health_check:
     - name: "cameras_online_count"
       type: "cypher_count"
       enabled: true
-      uri: "bolt://localhost:7687"
-      username: "neo4j"
-      password: "${NEO4J_PASSWORD}"
-      database: "traffic"
+      uri: "${NEO4J_URL:-bolt://localhost:7687}"
+      username: "${NEO4J_USER:-neo4j}"
+      password: "${NEO4J_PASSWORD:-test12345}"
+      database: "${NEO4J_DATABASE:-traffic}"
       query: |
         MATCH (c:Camera)
         WHERE c.status = 'online'
@@ -155,10 +155,10 @@ health_check:
     - name: "recent_observations"
       type: "cypher_age"
       enabled: true
-      uri: "bolt://localhost:7687"
-      username: "neo4j"
-      password: "${NEO4J_PASSWORD}"
-      database: "traffic"
+      uri: "${NEO4J_URL:-bolt://localhost:7687}"
+      username: "${NEO4J_USER:-neo4j}"
+      password: "${NEO4J_PASSWORD:-test12345}"
+      database: "${NEO4J_DATABASE:-traffic}"
       query: |
         MATCH (o:Observation)
         RETURN o.observedAt as timestamp
@@ -175,10 +175,10 @@ health_check:
     - name: "valid_image_urls"
       type: "cypher_validation"
       enabled: true
-      uri: "bolt://localhost:7687"
-      username: "neo4j"
-      password: "${NEO4J_PASSWORD}"
-      database: "traffic"
+      uri: "${NEO4J_URL:-bolt://localhost:7687}"
+      username: "${NEO4J_USER:-neo4j}"
+      password: "${NEO4J_PASSWORD:-test12345}"
+      database: "${NEO4J_DATABASE:-traffic}"
       query: |
         MATCH (c:Camera)
         WHERE c.imageUrl IS NOT NULL
@@ -191,10 +191,10 @@ health_check:
     - name: "incident_processing_lag"
       type: "cypher_age"
       enabled: true
-      uri: "bolt://localhost:7687"
-      username: "neo4j"
-      password: "${NEO4J_PASSWORD}"
-      database: "traffic"
+      uri: "${NEO4J_URL:-bolt://localhost:7687}"
+      username: "${NEO4J_USER:-neo4j}"
+      password: "${NEO4J_PASSWORD:-test12345}"
+      database: "${NEO4J_DATABASE:-traffic}"
       query: |
         MATCH (i:RoadAccident)
         WHERE i.processed = false
@@ -212,7 +212,7 @@ health_check:
     - name: "stellio_entity_count"
       type: "http_json"
       enabled: true
-      url: "http://localhost:8080/ngsi-ld/v1/entities?type=Camera&count=true"
+      url: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/v1/entities?type=Camera&count=true"
       method: "GET"
       headers:
         Accept: "application/ld+json"
@@ -226,7 +226,7 @@ health_check:
     - name: "sparql_triple_count"
       type: "sparql_count"
       enabled: true
-      url: "http://localhost:3030/traffic-cameras/sparql"
+      url: "${FUSEKI_URL:-http://localhost:3030}/${FUSEKI_DATASET:-traffic-cameras}/sparql"
       query: |
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         SELECT (COUNT(*) as ?count)
@@ -241,7 +241,7 @@ health_check:
     - name: "stellio_response_time"
       type: "http_timing"
       enabled: true
-      url: "http://localhost:8080/ngsi-ld/v1/entities?type=Camera&limit=10"
+      url: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/v1/entities?type=Camera&limit=10"
       method: "GET"
       timeout: 10
       threshold:
@@ -253,10 +253,10 @@ health_check:
     - name: "neo4j_query_time"
       type: "cypher_timing"
       enabled: true
-      uri: "bolt://localhost:7687"
-      username: "neo4j"
-      password: "${NEO4J_PASSWORD}"
-      database: "traffic"
+      uri: "${NEO4J_URL:-bolt://localhost:7687}"
+      username: "${NEO4J_USER:-neo4j}"
+      password: "${NEO4J_PASSWORD:-test12345}"
+      database: "${NEO4J_DATABASE:-traffic}"
       query: "MATCH (c:Camera) RETURN c LIMIT 100"
       threshold:
         max: 1000  # milliseconds
@@ -267,7 +267,7 @@ health_check:
     - name: "sparql_query_time"
       type: "sparql_timing"
       enabled: true
-      url: "http://localhost:3030/traffic-cameras/sparql"
+      url: "${FUSEKI_URL:-http://localhost:3030}/${FUSEKI_DATASET:-traffic-cameras}/sparql"
       query: |
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         SELECT ?s ?p ?o
@@ -320,7 +320,7 @@ health_check:
       # Webhook to Alert Dispatcher
       - type: "webhook"
         enabled: true
-        url: "http://localhost:8080/api/alerts"
+        url: "${ALERT_WEBHOOK_URL:-http://localhost:8080}/api/alerts"
         method: "POST"
         headers:
           Content-Type: "application/json"

@@ -271,7 +271,7 @@ workflow:
             input_file: "data/cameras_enriched.json"  # FIXED: Use enriched cameras with location data
             output_file: "data/observations.json"
             batch_size: 10
-            model: "yolov8n.pt"
+            model: "yolox_s.pt"
             confidence_threshold: 0.25
             device: "cpu"
         
@@ -589,22 +589,22 @@ workflow:
     # Endpoints to check
     endpoints:
       - name: "Stellio Context Broker"
-        url: "http://localhost:8080/health"
+        url: "${STELLIO_URL:-http://localhost:8080}/health"
         required: false
         method: "GET"
       
       - name: "Neo4j Graph Database"
-        url: "http://localhost:7474"
+        url: "${NEO4J_WEB_URL:-http://localhost:7474}"
         required: false
         method: "GET"
       
       - name: "Apache Jena Fuseki"
-        url: "http://localhost:3030/$/ping"
+        url: "${FUSEKI_URL:-http://localhost:3030}/$/ping"
         required: false
         method: "GET"
       
       - name: "Kong API Gateway"
-        url: "http://localhost:8000/status"
+        url: "${API_GATEWAY_URL:-http://localhost:8000}/status"
         required: false
         method: "GET"
   

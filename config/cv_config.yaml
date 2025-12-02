@@ -5,22 +5,23 @@
 #Version: 1.0.0
 # Description: Configuration file for CV analysis agent
 cv_analysis:
-  # Model configuration
+  # Model configuration - YOLOX (Apache-2.0 License by Megvii)
   model:
-    type: "yolov8"
-    weights: "yolov8x.pt"  # YOLOv8 XLarge for maximum accuracy in dense traffic (n/s/m/l/x available)
+    type: "yolox"
+    model_name: "yolox-x"           # YOLOX variant: yolox-nano, yolox-tiny, yolox-s, yolox-m, yolox-l, yolox-x
+    weights: "assets/models/yolox_x.pth"  # YOLOX-S weights (COCO pre-trained)
     confidence: 0.1       # Very low threshold for dense traffic with many small vehicles (0.0-1.0)
     iou_threshold: 0.45    # IoU threshold for NMS
     device: "cpu"          # Device: "cpu" or "cuda" for GPU acceleration
     max_det: 300           # Maximum detections per image
   
-  # Accident Detection Configuration (YOLO-based)
+  # Accident Detection Configuration (DETR-based from HuggingFace)
+  # Model: hilmantm/detr-traffic-accident-detection (Apache-2.0 License)
   accident_detection:
     enabled: true                    # Enable CV-based accident detection
     model:
-      weights: "assets/models/yolov8_accident.pt"  # Trained accident detection model (3200+ images, 25 epochs)
+      model_name: "hilmantm/detr-traffic-accident-detection"  # HuggingFace DETR model
       confidence: 0.4                # Confidence threshold for accident detection (0.0-1.0)
-      iou_threshold: 0.45            # IoU threshold for NMS
       device: "cpu"                  # Device: "cpu" or "cuda"
       max_det: 10                    # Maximum accident detections per image
     # Accident severity estimation based on detection confidence
@@ -34,10 +35,11 @@ cv_analysis:
       min_confidence: 0.5            # Minimum confidence to trigger alert
   
   # Citizen Report Verification Configuration
+  # All connection values are read from environment variables (.env file)
   citizen_verification:
     enabled: true                    # Enable AI verification of citizen reports
     poll_interval: 30                # Query Stellio every 30 seconds for unverified reports
-    stellio_url: "http://localhost:8080"
+    stellio_url: "${STELLIO_URL:-http://localhost:8080}"
     query: "type=CitizenObservation&q=aiVerified==false"  # Query for unverified reports
     max_reports_per_batch: 10        # Process max 10 reports per poll
     
@@ -158,7 +160,7 @@ cv_analysis:
   
   # Image processing
   image:
-    resize_width: 640               # Resize width for inference (YOLOv8 default)
+    resize_width: 640               # Resize width for inference (YOLOX default)
     resize_height: 640              # Resize height for inference
     max_file_size_mb: 10            # Maximum image file size
     supported_formats:
@@ -236,7 +238,7 @@ domains:
       intensity_threshold: 0.6
       occupancy_max_vehicles: 100  # Max people
 
-# COCO class mapping (YOLOv8 reference)
+# COCO class mapping (YOLOX reference)
 # This is for documentation - actual detection uses class IDs
 coco_classes:
   0: person
