@@ -1,0 +1,626 @@
+﻿{
+    "value":  [
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:15a4e431-10ac-4406-9c72-f6d614eaf957",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  2.06,
+                                                           "temperature":  27.98
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:381290e4-e9f1-4476-b7af-d16b47cf5a0c",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  3.09,
+                                                           "temperature":  27.99
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:3dd3c36a-05ba-4b7f-a110-231ed19624c3",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  2.06,
+                                                           "temperature":  27.98
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:42aced9e-1669-4681-9bf1-4e26a31177d2",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  2.06,
+                                                           "temperature":  27.98
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:70e34679-daa7-47f2-a33c-3fae0ff0f12f",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  2.06,
+                                                           "temperature":  27.98
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:b1e19144-c866-4b31-a15f-ef396a5352ca",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  2.06,
+                                                           "temperature":  27.98
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:b544051f-5618-4c96-ae51-1aa21a27b44c",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  3.09,
+                                                           "temperature":  27.99
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:cf3d143e-ffec-4c79-9602-08fc871ad698",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  2.06,
+                                                           "temperature":  27.98
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  },
+                  {
+                      "id":  "urn:ngsi-ld:CitizenObservation:fbcdee91-29df-4c9d-a67f-5ed5b5ad2f0e",
+                      "type":  "CitizenObservation",
+                      "status":  {
+                                     "type":  "Property",
+                                     "value":  "pending_verification"
+                                 },
+                      "location":  {
+                                       "type":  "GeoProperty",
+                                       "value":  {
+                                                     "type":  "Point",
+                                                     "coordinates":  [
+                                                                         106.691,
+                                                                         10.791
+                                                                     ]
+                                                 }
+                                   },
+                      "ngsi-ld:description":  {
+                                                  "type":  "Property",
+                                                  "value":  "Heavy congestion at intersection"
+                                              },
+                      "category":  {
+                                       "type":  "Property",
+                                       "value":  "traffic_jam"
+                                   },
+                      "aiVerified":  {
+                                         "type":  "Property",
+                                         "value":  false
+                                     },
+                      "reportedBy":  {
+                                         "type":  "Relationship",
+                                         "object":  "urn:ngsi-ld:User:user_test_001"
+                                     },
+                      "aiConfidence":  {
+                                           "type":  "Property",
+                                           "value":  0.0
+                                       },
+                      "dateObserved":  {
+                                           "type":  "Property",
+                                           "value":  "2025-11-22T10:30:00Z"
+                                       },
+                      "imageSnapshot":  {
+                                            "type":  "Property",
+                                            "value":  "https://example.com/test_image.jpg"
+                                        },
+                      "weatherContext":  {
+                                             "type":  "Property",
+                                             "value":  {
+                                                           "humidity":  69,
+                                                           "pressure":  1009,
+                                                           "condition":  "clear sky",
+                                                           "windSpeed":  2.06,
+                                                           "temperature":  27.98
+                                                       },
+                                             "observedAt":  "2025-11-22T10:30:00Z"
+                                         },
+                      "airQualityContext":  {
+                                                "type":  "Property",
+                                                "value":  {
+                                                              "o3":  68.3,
+                                                              "aqi":  150,
+                                                              "no2":  42.1,
+                                                              "pm10":  58.7,
+                                                              "pm25":  35.2
+                                                          },
+                                                "observedAt":  "2025-11-22T10:30:00Z"
+                                            },
+                      "@context":  "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context-v1.8.jsonld"
+                  }
+              ],
+    "Count":  9
+}
