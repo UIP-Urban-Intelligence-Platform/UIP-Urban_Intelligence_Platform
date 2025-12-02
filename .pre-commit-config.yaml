@@ -12,7 +12,7 @@ repos:
         name: Trim trailing whitespace
       - id: end-of-file-fixer
         name: Fix end of files
-      - id: check-yaml
+      - id: check-yaml  
         name: Check YAML syntax
         args: ['--unsafe']  # Allow custom YAML tags
       - id: check-json
