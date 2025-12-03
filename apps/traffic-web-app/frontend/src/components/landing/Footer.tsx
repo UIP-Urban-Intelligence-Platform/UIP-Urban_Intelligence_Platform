@@ -257,7 +257,7 @@ export default function Footer() {
                     transition={{ duration: 0.5, delay: 0.5 }}
                     className="mt-8 flex flex-wrap justify-center gap-4"
                 >
-                    {['NGSI-LD', 'SOSA/SSN', 'Stellio v2.26.1', 'Neo4j v5.13', 'Apache Jena Fuseki', 'GPT-4o', 'YOLOv8', '5-Star LOD'].map((tech, index) => (
+                    {['NGSI-LD', 'SOSA/SSN', 'Stellio v2.26.1', 'Neo4j v5.13', 'Apache Jena Fuseki', 'GPT-4o', 'YOLOX', '5-Star LOD'].map((tech, index) => (
                         <span
                             key={index}
                             className="px-3 py-1 bg-white/10 backdrop-blur-sm border border-white/10 rounded-full text-xs font-medium text-blue-200"

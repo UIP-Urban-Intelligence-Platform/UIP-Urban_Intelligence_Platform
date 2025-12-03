@@ -60,8 +60,10 @@ class CacheInvalidatorAgent:
         
         if self.enabled and REDIS_AVAILABLE:
             try:
-                redis_host = self.config.get("redis_host", "localhost")
-                redis_port = self.config.get("redis_port", 6379)
+                import os
+                # Priority: environment variables > config > defaults
+                redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
+                redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
                 
                 self._redis_client = redis.Redis(
                     host=redis_host,

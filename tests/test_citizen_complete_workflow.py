@@ -5,15 +5,18 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
-Description:
-Test COMPLETE Citizen Workflow với AI Verification
 
-Workflow:
-1. Send citizen report → Citizen API
-2. Background enrichment (Weather + AQ)
-3. Save to Stellio (aiVerified=false, aiConfidence=0.0)
-4. CV Agent verify image với YOLOv8
-5. Update Stellio (aiVerified=true, aiConfidence=0.X)
+Description:
+    End-to-end integration test for the complete citizen observation workflow with
+    AI-powered image verification using YOLOX.
+    
+    Workflow Steps:
+    1. Send citizen report → Citizen API
+    2. Background enrichment (Weather + Air Quality)
+    3. Save to Stellio (aiVerified=false, aiConfidence=0.0)
+    4. CV Agent verifies image with YOLOX/DETR
+    5. Update Stellio (aiVerified=true, aiConfidence=0.X)
+
 Usage:
     python tests/test_citizen_complete_workflow.py
 """
@@ -43,7 +46,7 @@ def send_citizen_report():
     report = {
         "userId": f"user_ai_test_{datetime.now().strftime('%H%M%S')}",
         "reportType": "accident",
-        "description": "Tai nạn giao thông - Test AI verification với YOLOv8",
+        "description": "Tai nạn giao thông - Test AI verification với YOLOX",
         "latitude": 10.7769,
         "longitude": 106.7009,
         "imageUrl": r"D:\\olp\\Builder-Layer-End\\data\\cache\\images\\0a4a8e14ac85d9b23831aeca35c27576.jpg"
@@ -114,7 +117,7 @@ def run_cv_agent_verification():
     print("🤖 Starting CV Agent citizen verification...")
     print("   - Query unverified reports (aiVerified=false)")
     print("   - Download image từ imageSnapshot")
-    print("   - Run YOLOv8 object detection")
+    print("   - Run YOLOX object detection")
     print("   - Calculate confidence score")
     print("   - PATCH Stellio với kết quả")
     
@@ -273,7 +276,7 @@ def explain_workflow():
     print("    Định kỳ mỗi 30s CV Agent chạy:")
     print("    - Query: type=CitizenObservation&q=aiVerified==false")
     print("    - Download image từ imageSnapshot URL")
-    print("    - Run YOLOv8 object detection")
+    print("    - Run YOLOX object detection")
     print("    - Nếu reportType=accident → Run AccidentDetector")
     print("    - Calculate confidence score (0.0-1.0)")
     print()

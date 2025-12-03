@@ -5,6 +5,8 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-24
 Version: 1.0.0
 License: MIT
+
+
 Description:
 Manages the complete lifecycle of traffic accident entities from detection
 through resolution, including state transitions, severity tracking, and

@@ -1,13 +1,14 @@
 """
 Neo4j Query Agent for Graph Analytics
-
-Executes graph queries on Neo4j for relationship discovery,
-path finding, and network analysis.
 Module: src.agents.graph_database.neo4j_query_agent
 Authors: Nguyen Viet Hoang
 created: 2025-11-25
 Version: 1.0.0
 License: MIT
+
+Executes graph queries on Neo4j for relationship discovery,
+path finding, and network analysis.
+
 QUERY CAPABILITIES:
 - Find related entities (cameras near accident)
 - Path finding (shortest path between cameras)
@@ -41,13 +42,14 @@ class Neo4jQueryAgent:
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize Neo4j query agent."""
+        import os
         self.config = config or {}
         self.enabled = self.config.get("enabled", False)
         
-        # Neo4j connection config
-        neo4j_uri = self.config.get("neo4j_uri", "bolt://localhost:7687")
-        neo4j_user = self.config.get("neo4j_user", "neo4j")
-        neo4j_password = self.config.get("neo4j_password", "password")
+        # Neo4j connection config - Priority: environment variables > config > defaults
+        neo4j_uri = os.environ.get("NEO4J_URL") or self.config.get("neo4j_uri", "bolt://localhost:7687")
+        neo4j_user = os.environ.get("NEO4J_USER") or self.config.get("neo4j_user", "neo4j")
+        neo4j_password = os.environ.get("NEO4J_PASSWORD") or self.config.get("neo4j_password", "password")
         max_pool_size = self.config.get("max_connection_pool_size", 50)
         
         # Initialize driver if enabled and available

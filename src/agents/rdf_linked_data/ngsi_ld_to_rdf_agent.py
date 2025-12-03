@@ -1,5 +1,10 @@
 """
 NGSI-LD to RDF Conversion Agent
+Module: src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent
+Author: Nguyen Viet Hoang
+Created: 2025-11-24
+Version: 1.0.0
+License: MIT
 
 Domain-agnostic conversion of NGSI-LD JSON-LD entities to RDF triples with support
 for multiple serialization formats and comprehensive namespace management.
@@ -13,8 +18,8 @@ Core Capabilities:
 - RDF syntax validation and error reporting
 
 Module: src.agents.rdf_linked_data.ngsi_ld_to_rdf_agent
-Author: Nguyen Viet Hoang
-Created: 2025-11-24
+Author: Builder Layer LOD System
+Created: 2024-09-20
 Version: 1.0.0
 License: MIT
 

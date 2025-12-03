@@ -1,6 +1,13 @@
 """
 Shared Utility Functions Module
 
+Module: src.core.utils
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
 Common utility functions used across all agents and services in the system.
 Provides helpers for ID generation, data formatting, file I/O, and validation.
 
@@ -12,11 +19,7 @@ Core Utilities:
 - Hash generation for data integrity
 - Retry decorators for external service calls
 
-Module: src.core.utils
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-20
-Version: 1.0.0
-License: MIT
+
 
 Examples:
     >>> from src.core.utils import generate_entity_id, format_timestamp
@@ -32,6 +35,8 @@ Examples:
 
 import hashlib
 import json
+import os
+import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -349,3 +354,34 @@ def retry_with_backoff(max_retries: int = 3, backoff_base: float = 2.0):
 
 # Import asyncio for retry decorator
 import asyncio
+
+# Re-export expand_env_var from config_loader for backward compatibility
+from src.core.config_loader import expand_env_var
+
+
+def expand_config_env_vars(config: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Recursively expand all environment variables in a config dictionary.
+    
+    This function processes an entire config dict, expanding any ${VAR:-default}
+    syntax found in string values.
+    
+    Args:
+        config: Configuration dictionary with potential env var syntax
+        
+    Returns:
+        New config dict with all env vars expanded
+        
+    Example:
+        >>> config = {
+        ...     'database': {
+        ...         'host': '${DB_HOST:-localhost}',
+        ...         'port': '${DB_PORT:-5432}',
+        ...         'name': 'mydb'
+        ...     }
+        ... }
+        >>> expanded = expand_config_env_vars(config)
+        >>> expanded['database']['host']
+        'localhost'  # If DB_HOST not set
+    """
+    return expand_env_var(config)

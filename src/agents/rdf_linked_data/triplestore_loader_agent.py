@@ -66,6 +66,8 @@ import yaml
 from rdflib import Graph, URIRef
 from rdflib.plugins.parsers import notation3, ntriples
 
+from src.core.config_loader import expand_env_var
+
 
 # Configure logging
 logging.basicConfig(
@@ -120,6 +122,9 @@ class ConfigLoader:
             
             with open(config_path, 'r', encoding='utf-8') as f:
                 config = yaml.safe_load(f)
+            
+            # Expand environment variables using centralized helper
+            config = expand_env_var(config)
             
             # Override with environment variables
             self._apply_env_overrides(config)

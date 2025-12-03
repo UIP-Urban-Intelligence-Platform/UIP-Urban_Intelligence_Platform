@@ -77,6 +77,9 @@ from datetime import datetime, timedelta
 from collections import defaultdict, deque
 import statistics
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 # System monitoring
 import psutil
 
@@ -112,7 +115,8 @@ class PerformanceMonitorConfig:
         """
         self.config_path = config_path
         self.config = self._load_config()
-        self._expand_env_vars()
+        # Use centralized expand_env_var for ${VAR:-default} syntax support
+        self.config = expand_env_var(self.config)
         self.logger = self._setup_logging()
     
     def _load_config(self) -> Dict[str, Any]:
@@ -130,32 +134,6 @@ class PerformanceMonitorConfig:
             raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
         except yaml.YAMLError as e:
             raise ValueError(f"Invalid YAML configuration: {e}")
-    
-    def _expand_env_vars(self):
-        """Expand environment variables in configuration values."""
-        def expand_value(value):
-            if isinstance(value, str):
-                # Replace ${VAR_NAME} or ${VAR_NAME:-default}
-                import re
-                pattern = r'\$\{([^}:]+)(?::[-]?([^}]*))?\}'
-                
-                def replacer(match):
-                    var_name = match.group(1)
-                    default_val = match.group(2) if match.group(2) is not None else ""
-                    return os.environ.get(var_name, default_val)
-                
-                return re.sub(pattern, replacer, value)
-            
-            elif isinstance(value, dict):
-                return {k: expand_value(v) for k, v in value.items()}
-            
-            elif isinstance(value, list):
-                return [expand_value(item) for item in value]
-            
-            else:
-                return value
-        
-        self.config = expand_value(self.config)
     
     def _setup_logging(self) -> logging.Logger:
         """Setup logging configuration."""
@@ -564,9 +542,11 @@ class Neo4jMetricsCollector:
     def _connect(self):
         """Establish Neo4j connection."""
         try:
-            uri = self.neo4j_config.get('uri', 'bolt://localhost:7687')
-            user = self.neo4j_config.get('user', 'neo4j')
-            password = self.neo4j_config.get('password', 'password')
+            import os
+            # Priority: environment variables > config > defaults
+            uri = os.environ.get("NEO4J_URL") or self.neo4j_config.get('uri', 'bolt://localhost:7687')
+            user = os.environ.get("NEO4J_USER") or self.neo4j_config.get('user', 'neo4j')
+            password = os.environ.get("NEO4J_PASSWORD") or self.neo4j_config.get('password', 'password')
             
             pool_config = self.neo4j_config.get('connection_pool', {})
             

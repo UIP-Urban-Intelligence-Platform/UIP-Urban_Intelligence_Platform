@@ -19,7 +19,7 @@
     <img src="https://codecov.io/gh/NguyenNhatquang522004/builder-layer-end/branch/main/graph/badge.svg" alt="codecov">
   </a>
   <a href="https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT%20%2F%20AGPL--3.0-blue.svg" alt="License: MIT / AGPL-3.0">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
   </a>
 </p>
 
@@ -98,7 +98,7 @@
 
 ## 📖 Overview
 
-**Builder Layer End** is a production-ready, multi-agent system for processing real-time traffic data in Ho Chi Minh City and publishing it as **Linked Open Data (LOD)**. The system integrates computer vision (YOLOv8), semantic web technologies (RDF, NGSI-LD, SOSA/SSN), and modern microservices architecture.
+**Builder Layer End** is a production-ready, multi-agent system for processing real-time traffic data in Ho Chi Minh City and publishing it as **Linked Open Data (LOD)**. The system integrates computer vision (YOLOX + DETR), semantic web technologies (RDF, NGSI-LD, SOSA/SSN), and modern microservices architecture.
 
 ### Why Builder Layer End?
 
@@ -135,7 +135,7 @@
 
 | Layer | Technologies |
 |-------|--------------|
-| **Backend** | Python 3.9+, FastAPI, AsyncIO, APScheduler, YOLOv8 |
+| **Backend** | Python 3.9+, FastAPI, AsyncIO, APScheduler, YOLOX, DETR |
 | **Frontend** | React 18, TypeScript, Vite, TailwindCSS, Zustand |
 | **Databases** | PostgreSQL/TimescaleDB, Neo4j 5.12, MongoDB 7.0, Redis 7 |
 | **Semantic Web** | Apache Jena Fuseki, Stellio Context Broker, RDF/SPARQL |
@@ -372,7 +372,7 @@ builder-layer-end/
 │   └── *.json                           # JSON data files
 │
 ├── 📂 assets/                           # Static assets
-│   ├── models/                          # AI/ML models (YOLOv8)
+│   ├── models/                          # AI/ML models (YOLOX, DETR)
 │   └── images/                          # Image assets
 │
 ├── 📂 examples/                         # Example files
@@ -507,11 +507,11 @@ builder-layer-end/
 │                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────────────────┐       │
 │  │                    📡 Citizen Ingestion API (Port 8001)                      │       │
-│  │                    FastAPI + Uvicorn + YOLOv8                               │       │
+│  │                    FastAPI + Uvicorn + YOLOX + DETR                        │       │
 │  │                                                                             │       │
 │  │  Endpoints:                           Features:                             │       │
 │  │  POST /api/v1/citizen-reports         • Image upload with geolocation      │       │
-│  │  GET  /api/v1/citizen-reports         • CV verification (YOLOv8)           │       │
+│  │  GET  /api/v1/citizen-reports         • CV verification (YOLOX/DETR)       │       │
 │  │  GET  /api/v1/citizen-reports/{id}    • Category classification            │       │
 │  │  GET  /docs (OpenAPI/Swagger)         • Real-time validation               │       │
 │  └─────────────────────────────────────────────────────────────────────────────┘       │
@@ -521,7 +521,7 @@ builder-layer-end/
 │  │                    Interval: every 60 minutes (configurable)                │       │
 │  │                                                                             │       │
 │  │  Phase 1: Data Collection      ──▶  Gather from cameras, APIs, citizens    │       │
-│  │  Phase 2: Analytics & CV       ──▶  YOLOv8 detection, pattern analysis     │       │
+│  │  Phase 2: Analytics & CV       ──▶  YOLOX/DETR detection, pattern analysis  │       │
 │  │  Phase 3: Transformation       ──▶  NGSI-LD mapping, SOSA/SSN enrichment   │       │
 │  │  Phase 4: Context Management   ──▶  Stellio publishing, state updates      │       │
 │  │  Phase 5: RDF & LOD Publishing ──▶  Triplestore, LOD Cloud linksets        │       │
@@ -650,10 +650,10 @@ builder-layer-end/
 │  │ 📷 Traffic      │  │ 🌤️ Weather APIs  │  │ 🌐 LOD Cloud    │  │ 🤖 AI/ML        │   │
 │  │ Camera APIs     │  │                 │  │ Linksets        │  │ Services        │   │
 │  │                 │  │                 │  │                 │  │                 │   │
-│  │ • HCMC Camera   │  │ • OpenWeather   │  │ • GeoNames      │  │ • YOLOv8        │   │
-│  │   Network       │  │ • OpenAQ        │  │ • DBpedia       │  │ • Google Gemini │   │
-│  │ • RTSP Streams  │  │ • AirVisual     │  │ • Wikidata      │  │   (Optional)    │   │
-│  │                 │  │                 │  │ • Schema.org    │  │                 │   │
+│  │ • HCMC Camera   │  │ • OpenWeather   │  │ • GeoNames      │  │ • YOLOX         │   │
+│  │   Network       │  │ • OpenAQ        │  │ • DBpedia       │  │ • DETR (HF)     │   │
+│  │ • RTSP Streams  │  │ • AirVisual     │  │ • Wikidata      │  │ • Google Gemini │   │
+│  │                 │  │                 │  │ • Schema.org    │  │   (Optional)    │   │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘  └─────────────────┘   │
 │                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
@@ -679,12 +679,13 @@ Phase 1: DATA COLLECTION
 Phase 2: ANALYTICS & COMPUTER VISION
 ┌─────────────────────────────────────────────────────────────────┐
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │ 🚗 YOLOv8   │  │ 🚦 Congestion│  │ 🚨 Accident │             │
+│  │ 🚗 YOLOX    │  │ 🚦 Congestion│  │ 🚨 Accident │             │
 │  │ Detection   │  │ Analysis    │  │ Detection   │             │
-│  │             │  │             │  │             │             │
-│  │ • Vehicles  │  │ • Speed     │  │ • Collision │             │
-│  │ • Counting  │  │ • Density   │  │ • Severity  │             │
-│  │ • Types     │  │ • Patterns  │  │ • Location  │             │
+│  │ (DETR for   │  │             │  │ (DETR)      │             │
+│  │ accidents)  │  │ • Speed     │  │ • Collision │             │
+│  │ • Vehicles  │  │ • Density   │  │ • Severity  │             │
+│  │ • Counting  │  │ • Patterns  │  │ • Location  │             │
+│  │ • Types     │  │             │  │             │             │
 │  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
 │         └────────────────┴────────────────┘                    │
 └─────────────────────────────┬───────────────────────────────────┘
@@ -783,13 +784,13 @@ Phase 5: RDF & LINKED OPEN DATA
 │  DATABASES                   SEMANTIC WEB                 AI/ML                        │
 │  ─────────                   ────────────                 ─────                        │
 │  ┌─────────────┐            ┌─────────────┐              ┌─────────────┐               │
-│  │ PostgreSQL  │            │ Stellio     │              │ YOLOv8      │               │
-│  │ TimescaleDB │            │ NGSI-LD     │              │ Ultralytics │               │
+│  │ PostgreSQL  │            │ Stellio     │              │ YOLOX       │               │
+│  │ TimescaleDB │            │ NGSI-LD     │              │ (Apache-2.0)│               │
 │  │ Neo4j 5.x   │            │             │              │             │               │
-│  │ MongoDB 7.0 │            │ Fuseki      │              │ OpenCV      │               │
-│  │ Redis 7     │            │ SPARQL/RDF  │              │ NumPy       │               │
-│  │             │            │             │              │ Pillow      │               │
-│  │             │            │ SOSA/SSN    │              │             │               │
+│  │ MongoDB 7.0 │            │ Fuseki      │              │ DETR        │               │
+│  │ Redis 7     │            │ SPARQL/RDF  │              │ (HuggingFace)│              │
+│  │             │            │             │              │ OpenCV      │               │
+│  │             │            │ SOSA/SSN    │              │ PyTorch     │               │
 │  └─────────────┘            └─────────────┘              └─────────────┘               │
 │                                                                                         │
 │  MESSAGING                   DEVOPS                       STANDARDS                    │
@@ -858,7 +859,7 @@ Phase 5: RDF & LINKED OPEN DATA
 │  │  │ backend         │  │ frontend        │  │ cv-verification │                  │   │
 │  │  │ :3001           │  │ :3000           │  │ -service        │                  │   │
 │  │  │                 │  │                 │  │                 │                  │   │
-│  │  │ Express.js API  │  │ React + Vite    │  │ YOLOv8 CV API   │                  │   │
+│  │  │ Express.js API  │  │ React + Vite    │  │ YOLOX/DETR API  │                  │   │
 │  │  │ TypeScript      │  │ TailwindCSS     │  │ FastAPI         │                  │   │
 │  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │   │
 │  └─────────────────────────────────────────────────────────────────────────────────┘   │
@@ -925,10 +926,11 @@ MONGODB_URI=mongodb://localhost:27017
 # Message Queue
 KAFKA_BOOTSTRAP_SERVERS=localhost:9092
 
-# Computer Vision
-YOLO_MODEL=assets/models/yolov8x.pt
-YOLO_DEVICE=cpu                  # cpu | cuda
-YOLO_CONFIDENCE=0.25
+# Computer Vision (YOLOX + DETR)
+YOLOX_MODEL=assets/models/yolox_s.pth
+YOLOX_DEVICE=cpu                  # cpu | cuda
+YOLOX_CONFIDENCE=0.25
+# DETR accident model is auto-downloaded from HuggingFace
 
 # External APIs
 OPENWEATHERMAP_API_KEY=your_key
@@ -942,7 +944,7 @@ Define orchestration phases in `config/workflow.yaml`:
 ```yaml
 workflow:
   name: "Traffic LOD Pipeline"
-  version: "1.0.0"
+  version: "2.0.0"
 
 phases:
   - name: data_collection
@@ -959,8 +961,9 @@ phases:
       - module: src.agents.analytics.cv_analysis_agent
         enabled: true
         config:
-          model: yolov8x.pt
+          model: yolox_s.pth         # YOLOX model
           confidence: 0.25
+          accident_model: hilmantm/detr-traffic-accident-detection  # DETR from HuggingFace
 
   - name: transformation
     agents:
@@ -1082,51 +1085,66 @@ Please see our [Security Policy](.github/SECURITY.md) for reporting vulnerabilit
 
 ## 📜 License
 
-This project is dual-licensed under the **MIT License** and **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+This project is licensed under the **MIT License**.
 
-### Why Dual Licensing?
+### Why MIT License?
 
-This project uses **YOLOv8 (Ultralytics)** for computer vision capabilities, which is licensed under **AGPL-3.0**. To comply with AGPL-3.0 requirements while also providing flexibility for commercial use, we offer dual licensing:
+This project uses **MIT-compatible** computer vision libraries:
+- **YOLOX** (Apache-2.0 by Megvii) — Object detection for vehicles and pedestrians
+- **DETR** (Apache-2.0) — Accident detection via HuggingFace Transformers
+- **PyTorch** (BSD-style) — Deep learning framework
 
-| License | File | Use Case |
-|---------|------|----------|
-| **MIT** | [LICENSE](LICENSE) | Permissive license for most project components |
-| **AGPL-3.0** | [LICENSE-AGPL-3.0](LICENSE-AGPL-3.0) | Required for computer vision features using YOLOv8 |
+All dependencies use permissive licenses (MIT, Apache-2.0, BSD) that are compatible with MIT licensing.
+
+| License | File | Description |
+|---------|------|-------------|
+| **MIT** | [LICENSE](LICENSE) | Main project license with third-party attribution |
+| **N/A** | [COPYING](COPYING) | Licensing information and third-party notices |
+
+### License Documentation
+
+| Document | Description |
+|----------|-------------|
+| [LICENSE](LICENSE) | MIT license with third-party attribution |
+| [COPYING](COPYING) | Detailed licensing information |
+| [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) | Complete list of 120+ third-party dependencies and their licenses |
 
 ### License Summary
 
-- **MIT License**: Covers all original code in this project
-- **AGPL-3.0**: Applies when using computer vision features (YOLOv8/Ultralytics)
+The **MIT License** covers all code in this project. You are free to:
+- ✅ Use commercially
+- ✅ Modify and distribute
+- ✅ Sublicense
+- ✅ Use in proprietary software
 
-### Important Notes
+### Third-Party Licenses
 
-1. If you use this software **without** the computer vision features, the **MIT License** applies
-2. If you use this software **with** the computer vision features (YOLOv8), the **AGPL-3.0** applies, which requires:
-   - Making your source code available
-   - Including the AGPL-3.0 license
-   - Providing access to source code for network users
-
-For commercial use of YOLOv8 without AGPL-3.0 obligations, please obtain an [Ultralytics Enterprise License](https://ultralytics.com/license).
+| Component | License | Use Case |
+|-----------|---------|----------|
+| YOLOX | Apache-2.0 | Vehicle/pedestrian detection |
+| DETR (HuggingFace) | Apache-2.0 | Accident detection |
+| PyTorch | BSD-style | Deep learning framework |
+| FastAPI | MIT | Web framework |
+| RDFLib | BSD-3-Clause | RDF/Linked Data processing |
 
 ```
-MIT License (LICENSE)
+MIT License
 
-Copyright (c) 2025 NguyenNhatquang522004
+Copyright (c) 2024-2025 Traffic LOD Pipeline Project Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software...
-```
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-```
-GNU Affero General Public License v3.0 (LICENSE-AGPL-3.0)
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version...
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 ```
 
 ---
@@ -1143,7 +1161,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 - [Stellio Context Broker](https://github.com/stellio-hub/stellio-context-broker) — NGSI-LD implementation
 - [Apache Jena](https://jena.apache.org/) — Semantic Web framework
-- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) — Computer Vision
+- [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) — Object Detection (Apache-2.0)
+- [HuggingFace Transformers](https://github.com/huggingface/transformers) — DETR Accident Detection
 - [FastAPI](https://fastapi.tiangolo.com/) — Modern Python web framework
 
 ---
@@ -1159,17 +1178,28 @@ the Free Software Foundation, either version 3 of the License, or
 
 ## 🗺️ Roadmap
 
-### v1.0.0 (Current) ✅
+### v1.0.0 (Legacy) ✅
 
 - [x] Multi-agent system architecture (37 agents)
 - [x] NGSI-LD entity management
-- [x] YOLOv8 computer vision integration
+- [x] YOLOX computer vision integration (Apache-2.0)
 - [x] RDF triple store publishing
 - [x] Docker Compose deployment
 - [x] CI/CD pipelines (9 workflows)
 - [x] Docusaurus documentation site
 
-### v1.1.0 (Q1 2026)
+### v2.0.0 (Current - MIT License) ✅
+
+- [x] Multi-agent system architecture (38 agents)
+- [x] **YOLOX** object detection (Apache-2.0 by Megvii)
+- [x] **DETR** accident detection via HuggingFace (Apache-2.0)
+- [x] Full MIT license compatibility
+- [x] All dependencies use permissive licenses
+- [x] NGSI-LD entity management
+- [x] RDF triple store publishing
+- [x] Docker Compose deployment
+
+### v2.1.0 (Q1 2026)
 
 - [ ] Real-time streaming analytics
 - [ ] Advanced traffic prediction (ML)

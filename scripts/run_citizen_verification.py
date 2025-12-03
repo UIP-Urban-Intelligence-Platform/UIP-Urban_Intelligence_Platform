@@ -8,9 +8,11 @@ Created: 2025-11-28
 Modified: 2025-11-28
 Version: 1.0.0
 License: MIT
+SPDX-License-Identifier: MIT
 
-License: AGPL-3.0 (uses ultralytics/YOLOv8)
-See LICENSE-AGPL-3.0 for full license text.
+Computer Vision Stack:
+    - YOLOX (Apache-2.0) - Vehicle detection
+    - DETR (Apache-2.0) - Accident detection
 """
 
 import asyncio

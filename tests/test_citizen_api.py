@@ -5,15 +5,14 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
-Description:
 
-This script tests the citizen report submission endpoint with real API keys
-from data_sources.yaml configuration.
+Description:
+    Tests the citizen report submission endpoint with real API keys from
+    data_sources.yaml configuration. Validates API response format, status codes,
+    and data persistence to Stellio context broker.
 
 Usage:
     python tests/test_citizen_api.py
-    
-
 """
 
 import requests

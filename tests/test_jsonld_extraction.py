@@ -5,13 +5,14 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
+
 Description:
-    Tests extraction of values from NGSI-LD JSON-LD payloads.
-    Validates proper handling of Property type and hasValue properties.
+    Tests extraction of values from NGSI-LD JSON-LD formatted data structures.
+    Validates proper handling of Property, GeoProperty, and Relationship types.
+
 Usage:
     python tests/test_jsonld_extraction.py
 """
-
 
 # Sample vehicleCount from PostgreSQL
 vehicleCount_data = [{

@@ -20,7 +20,7 @@ Computer Vision Stack:
 from .cv_analysis_agent import (
     CVAnalysisAgent,
     CVConfig,
-    YOLOv8Detector,
+    YOLOXDetector,
     ImageDownloader,
     MetricsCalculator,
     NGSILDEntityGenerator,
@@ -33,7 +33,7 @@ from .cv_analysis_agent import (
 __all__ = [
     'CVAnalysisAgent',
     'CVConfig',
-    'YOLOv8Detector',
+    'YOLOXDetector',
     'ImageDownloader',
     'MetricsCalculator',
     'NGSILDEntityGenerator',

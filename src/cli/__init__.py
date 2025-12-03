@@ -18,4 +18,4 @@ License:
 """
 
 __version__ = "1.0.0"
-__author__ = "Builder Layer Team"
+__author__ = "Nguyen Dinh Anh Tuan"

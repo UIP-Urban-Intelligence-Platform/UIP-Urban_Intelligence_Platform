@@ -16,7 +16,7 @@ Usage:
 import pytest
 import asyncio
 from unittest.mock import Mock, AsyncMock
-from src.orchestrator import Orchestrator
+from orchestrator import Orchestrator
 
 
 class TestOrchestrator:

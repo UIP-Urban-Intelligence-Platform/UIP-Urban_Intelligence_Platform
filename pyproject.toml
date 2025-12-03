@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "builder-layer-end"
-version = "1.0.0"
+version = "2.0.0"
 description = "Multi-Agent Linked Open Data Pipeline for Traffic Management"
 readme = "README.md"
 requires-python = ">=3.9"
-license = {text = "MIT AND AGPL-3.0-or-later"}
+license = {text = "MIT"}
 authors = [
     {name = "LOD Pipeline Team", email = "team@example.com"}
 ]
@@ -22,7 +22,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "License :: OSI Approved :: MIT License",
-    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
     "Operating System :: OS Independent",
 ]
 

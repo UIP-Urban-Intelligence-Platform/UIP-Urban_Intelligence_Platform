@@ -7,7 +7,7 @@
 # License: MIT
 # Description:
 # This configuration file sets up the Eco-Twin Simulator Agent for
-airQuality:
+aairQuality:
   enabled: true
   stellioEntityType: AirQualityObserved
   

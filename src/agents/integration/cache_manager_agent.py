@@ -76,6 +76,8 @@ from enum import Enum
 
 import yaml
 
+from src.core.config_loader import expand_env_var
+
 try:
     import redis.asyncio as aioredis
     from redis.asyncio import Redis, ConnectionPool
@@ -300,7 +302,6 @@ class CacheManagerConfig:
         """
         self.config_path = Path(config_path)
         self.config = self._load_config()
-        self._expand_env_vars(self.config)
         self._setup_logging()
         self.logger = logging.getLogger(__name__)
     
@@ -315,43 +316,10 @@ class CacheManagerConfig:
         if 'cache_manager' not in config:
             raise ValueError("Invalid configuration: 'cache_manager' section not found")
         
-        return config['cache_manager']
-    
-    def _expand_env_vars(self, obj: Any) -> None:
-        """Recursively expand environment variables in configuration"""
-        import os
+        # Expand environment variables using centralized helper
+        config = expand_env_var(config)
         
-        if isinstance(obj, dict):
-            for key, value in obj.items():
-                if isinstance(value, str):
-                    # Match ${VAR_NAME:-default} or ${VAR_NAME}
-                    pattern = r'\$\{([^}:]+)(?::[-]?([^}]*))?\}'
-                    matches = re.finditer(pattern, value)
-                    
-                    for match in matches:
-                        var_name = match.group(1)
-                        default_value = match.group(2) if match.group(2) is not None else ""
-                        env_value = os.environ.get(var_name, default_value)
-                        value = value.replace(match.group(0), env_value)
-                    
-                    obj[key] = value
-                elif isinstance(value, (dict, list)):
-                    self._expand_env_vars(value)
-        elif isinstance(obj, list):
-            for i, item in enumerate(obj):
-                if isinstance(item, str):
-                    pattern = r'\$\{([^}:]+)(?::[-]?([^}]*))?\}'
-                    matches = re.finditer(pattern, item)
-                    
-                    for match in matches:
-                        var_name = match.group(1)
-                        default_value = match.group(2) if match.group(2) is not None else ""
-                        env_value = os.environ.get(var_name, default_value)
-                        item = item.replace(match.group(0), env_value)
-                    
-                    obj[i] = item
-                elif isinstance(item, (dict, list)):
-                    self._expand_env_vars(item)
+        return config['cache_manager']
     
     def _setup_logging(self) -> None:
         """Configure logging with rotating file handler"""
@@ -828,14 +796,16 @@ class CacheManagerAgent:
     
     async def _connect_redis(self) -> None:
         """Connect to Redis"""
+        import os
         redis_config = self.config.get_redis_config()
         
+        # Priority: environment variables > config > defaults
         # Create connection pool
         self.redis_pool = ConnectionPool(
-            host=redis_config.get('host', 'localhost'),
-            port=redis_config.get('port', 6379),
+            host=os.environ.get("REDIS_HOST") or redis_config.get('host', 'localhost'),
+            port=int(os.environ.get("REDIS_PORT") or redis_config.get('port', 6379)),
             db=redis_config.get('db', 0),
-            password=redis_config.get('password') or None,
+            password=os.environ.get("REDIS_PASSWORD") or redis_config.get('password') or None,
             max_connections=redis_config.get('max_connections', 50),
             socket_timeout=redis_config.get('socket_timeout', 5),
             socket_connect_timeout=redis_config.get('socket_connect_timeout', 5),

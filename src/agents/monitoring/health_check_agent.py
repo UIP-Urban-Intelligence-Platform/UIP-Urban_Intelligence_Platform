@@ -79,6 +79,8 @@ from flask import Flask, jsonify, request
 # HTTP requests
 import requests
 
+from src.core.config_loader import expand_env_var
+
 # Prometheus client
 try:
     from prometheus_client import Counter, Gauge, Histogram, generate_latest, REGISTRY
@@ -125,27 +127,10 @@ class HealthCheckConfig:
         with open(self.config_path, 'r') as f:
             config = yaml.safe_load(f)
         
-        # Expand environment variables
-        config = self._expand_env_vars(config)
+        # Expand environment variables using centralized helper
+        config = expand_env_var(config)
         
         return config
-    
-    def _expand_env_vars(self, obj: Any) -> Any:
-        """Recursively expand environment variables in config."""
-        if isinstance(obj, dict):
-            return {k: self._expand_env_vars(v) for k, v in obj.items()}
-        elif isinstance(obj, list):
-            return [self._expand_env_vars(item) for item in obj]
-        elif isinstance(obj, str):
-            # Replace ${VAR} with environment variable
-            pattern = r'\$\{([^}]+)\}'
-            matches = re.findall(pattern, obj)
-            for match in matches:
-                env_value = os.getenv(match, '')
-                obj = obj.replace(f'${{{match}}}', env_value)
-            return obj
-        else:
-            return obj
     
     def get_checks(self) -> List[Dict[str, Any]]:
         """Get service availability checks."""

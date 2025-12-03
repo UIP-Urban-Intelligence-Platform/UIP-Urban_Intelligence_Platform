@@ -65,7 +65,7 @@ const technologies = [
         icon: Brain,
         items: [
             { name: 'OpenAI GPT-4o', version: 'Vision+Text', description: 'Multimodal AI analysis', color: 'green' },
-            { name: 'YOLOv8', version: 'Latest', description: 'Computer vision object detection', color: 'emerald' },
+            { name: 'YOLOX', version: 'Latest', description: 'Computer vision object detection', color: 'emerald' },
         ],
         gradient: 'from-green-500 to-emerald-500',
     },

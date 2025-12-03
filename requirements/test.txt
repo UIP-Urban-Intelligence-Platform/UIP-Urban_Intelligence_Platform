@@ -1,0 +1,21 @@
+# Testing Dependencies
+# Testing frameworks and utilities
+
+-r base.txt
+
+# Testing framework
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+pytest-xdist>=3.5.0  # Parallel test execution
+pytest-timeout>=2.2.0  # Test timeouts
+
+# Test utilities
+faker>=20.0.0  # Generate fake data for tests
+factory-boy>=3.3.0  # Test fixtures
+responses>=0.24.0  # Mock HTTP responses
+freezegun>=1.4.0  # Mock datetime
+
+# Coverage
+coverage[toml]>=7.3.0

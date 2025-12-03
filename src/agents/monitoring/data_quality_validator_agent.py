@@ -55,6 +55,9 @@ from urllib.parse import urlparse, urlunparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -86,11 +89,12 @@ class DataQualityConfig:
             with open(self.config_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             
-            # Expand environment variables
-            content = self._expand_env_vars(content)
-            
             # Parse YAML
             config = yaml.safe_load(content)
+            
+            # Expand environment variables like ${VAR:-default}
+            config = expand_env_var(config)
+            
             logger.info(f"Loaded configuration from {self.config_path}")
             return config
         except FileNotFoundError:
@@ -99,16 +103,6 @@ class DataQualityConfig:
         except yaml.YAMLError as e:
             logger.error(f"Failed to parse YAML configuration: {e}")
             raise
-    
-    def _expand_env_vars(self, content: str) -> str:
-        """Expand ${VAR_NAME} environment variables in configuration."""
-        pattern = r'\$\{([^}]+)\}'
-        
-        def replace_env_var(match):
-            var_name = match.group(1)
-            return os.environ.get(var_name, match.group(0))
-        
-        return re.sub(pattern, replace_env_var, content)
     
     def _validate_config(self):
         """Validate configuration structure and required fields."""

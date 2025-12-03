@@ -1,0 +1,62 @@
+# Citizen Science Feature - Additional Dependencies
+# Add these to your main requirements file or install separately
+
+# ============================================================================
+# FastAPI Web Framework
+# ============================================================================
+fastapi>=0.104.0          # Modern web framework for building APIs
+uvicorn[standard]>=0.24.0 # ASGI server for production deployment
+python-multipart>=0.0.6   # Required for file upload support (future enhancement)
+
+# ============================================================================
+# Async HTTP Client
+# ============================================================================
+aiohttp>=3.9.0            # Async HTTP client for Weather/AQ API calls
+aioresponses>=0.7.0       # Mocking library for aiohttp (testing only)
+
+# ============================================================================
+# Data Validation
+# ============================================================================
+pydantic>=2.0.0           # Data validation using Python type hints (included with FastAPI)
+
+# ============================================================================
+# Testing (if not already in main requirements)
+# ============================================================================
+pytest>=7.4.0             # Testing framework
+pytest-asyncio>=0.21.0    # Async test support for pytest
+httpx>=0.24.0             # Async HTTP client for FastAPI testing
+
+# ============================================================================
+# Optional: Environment Variables Management
+# ============================================================================
+python-dotenv>=1.0.0      # Load environment variables from .env file
+
+# ============================================================================
+# Installation Instructions
+# ============================================================================
+# 
+# Option 1: Install all at once
+# pip install fastapi uvicorn[standard] aiohttp python-multipart pytest-asyncio httpx aioresponses python-dotenv
+# 
+# Option 2: Use virtual environment (recommended)
+# .venv/Scripts/Activate.ps1                    # Windows PowerShell
+# pip install -r requirements/citizen_science.txt
+# 
+# Option 3: Install from this file
+# pip install -r requirements/citizen_science_deps.txt
+# 
+# ============================================================================
+# Environment Variables
+# ============================================================================
+# 
+# Create a .env file in project root with:
+# 
+# # OpenWeatherMap API (https://openweathermap.org/api)
+# OPENWEATHERMAP_API_KEY=your_api_key_here
+# 
+# # OpenAQ API (https://openaq.org/)
+# OPENAQ_API_KEY=your_api_key_here
+# 
+# If not provided, mock data will be used for development.
+# 
+# ============================================================================

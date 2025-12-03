@@ -41,7 +41,12 @@ import express, { Request, Response } from 'express';
 import axios, { AxiosInstance } from 'axios';
 import http from 'http';
 import https from 'https';
-import * as turf from '@turf/turf';
+// Turf.js modules (all MIT licensed) - using individual packages to avoid AGPL dependencies
+import { point as turfPoint, lineString as turfLineString, featureCollection as turfFeatureCollection } from '@turf/helpers';
+import turfDistance from '@turf/distance';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import lineIntersect from '@turf/line-intersect';
+import voronoi from '@turf/voronoi';
 import NodeCache from 'node-cache';
 import { Camera, AirQuality, Weather, Accident, TrafficPattern } from '../types';
 import { genericNgsiService } from '../services/genericNgsiService';
@@ -230,9 +235,9 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
     }
 
     // Create points collection for Voronoi
-    const points = turf.featureCollection(
+    const points = turfFeatureCollection(
       cameras.map((camera: Camera) =>
-        turf.point(
+        turfPoint(
           [camera.location.lng, camera.location.lat],
           { cameraId: camera.id }
         )
@@ -247,7 +252,7 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
       HCMC_BOUNDS.maxLat
     ];
 
-    const voronoiPolygons = turf.voronoi(points as GeoJSON.FeatureCollection<GeoJSON.Point>, { bbox });
+    const voronoiPolygons = voronoi(points as GeoJSON.FeatureCollection<GeoJSON.Point>, { bbox });
 
     if (!voronoiPolygons || !voronoiPolygons.features) {
       throw new Error('Failed to generate Voronoi polygons');
@@ -272,9 +277,9 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
 
       // Find nearest AQI station
       const nearestAQI = airQualityData.reduce((nearest: { aqi: AirQuality; distance: number } | null, aqi: AirQuality) => {
-        const distance = turf.distance(
-          turf.point([camera.location.lng, camera.location.lat]),
-          turf.point([aqi.location.lng, aqi.location.lat])
+        const distance = turfDistance(
+          turfPoint([camera.location.lng, camera.location.lat]),
+          turfPoint([aqi.location.lng, aqi.location.lat])
         );
         if (!nearest || distance < nearest.distance) {
           return { aqi, distance };
@@ -284,9 +289,9 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
 
       // Find nearest weather
       const nearestWeather = weatherData.reduce((nearest: { weather: Weather; distance: number } | null, weather: Weather) => {
-        const distance = turf.distance(
-          turf.point([camera.location.lng, camera.location.lat]),
-          turf.point([weather.location.lng, weather.location.lat])
+        const distance = turfDistance(
+          turfPoint([camera.location.lng, camera.location.lat]),
+          turfPoint([weather.location.lng, weather.location.lat])
         );
         if (!nearest || distance < nearest.distance) {
           return { weather, distance };
@@ -296,18 +301,18 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
 
       // Count accidents within zone
       const accidentCount = accidentsData.filter((accident: Accident) => {
-        const point = turf.point([accident.location.longitude, accident.location.latitude]);
-        return turf.booleanPointInPolygon(point, feature.geometry as GeoJSON.Polygon);
+        const point = turfPoint([accident.location.longitude, accident.location.latitude]);
+        return booleanPointInPolygon(point, feature.geometry as GeoJSON.Polygon);
       }).length;
 
       // Find dominant traffic pattern
       const zonePatterns = patternsData.filter((pattern: TrafficPattern) => {
         if (!pattern.location) return false;
-        const startPoint = turf.point([
+        const startPoint = turfPoint([
           pattern.location.startPoint.longitude,
           pattern.location.startPoint.latitude
         ]);
-        return turf.booleanPointInPolygon(startPoint, feature.geometry as GeoJSON.Polygon);
+        return booleanPointInPolygon(startPoint, feature.geometry as GeoJSON.Polygon);
       });
 
       const congestionLevel = zonePatterns.length > 0
@@ -374,12 +379,12 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
  * Calculate AQI score for a route
  */
 function calculateAQIScore(route: OSRMRoute, zones: VoronoiZone[]): number {
-  const routeLine = turf.lineString(route.geometry.coordinates);
+  const routeLine = turfLineString(route.geometry.coordinates);
   const intersectedZones: { zone: VoronoiZone; intersections: number }[] = [];
 
   zones.forEach(zone => {
     try {
-      const intersection = turf.lineIntersect(routeLine, zone.geometry);
+      const intersection = lineIntersect(routeLine, zone.geometry);
       if (intersection.features.length > 0) {
         // Weight by number of intersections as proxy for zone traversal
         intersectedZones.push({
@@ -416,12 +421,12 @@ function calculateAQIScore(route: OSRMRoute, zones: VoronoiZone[]): number {
  * Calculate weather score for a route
  */
 function calculateWeatherScore(route: OSRMRoute, zones: VoronoiZone[]): number {
-  const routeLine = turf.lineString(route.geometry.coordinates);
+  const routeLine = turfLineString(route.geometry.coordinates);
   const intersectedZones: VoronoiZone[] = [];
 
   zones.forEach(zone => {
     try {
-      const intersection = turf.lineIntersect(routeLine, zone.geometry);
+      const intersection = lineIntersect(routeLine, zone.geometry);
       if (intersection.features.length > 0) {
         intersectedZones.push(zone);
       }
@@ -458,13 +463,13 @@ function calculateWeatherScore(route: OSRMRoute, zones: VoronoiZone[]): number {
  * Calculate accident score for a route
  */
 function calculateAccidentScore(route: OSRMRoute, zones: VoronoiZone[]): number {
-  const routeLine = turf.lineString(route.geometry.coordinates);
+  const routeLine = turfLineString(route.geometry.coordinates);
   let totalAccidents = 0;
   let zonesCount = 0;
 
   zones.forEach(zone => {
     try {
-      const intersection = turf.lineIntersect(routeLine, zone.geometry);
+      const intersection = lineIntersect(routeLine, zone.geometry);
       if (intersection.features.length > 0) {
         totalAccidents += zone.properties.accidentCount;
         zonesCount++;
@@ -491,12 +496,12 @@ function calculateAccidentScore(route: OSRMRoute, zones: VoronoiZone[]): number 
  * Calculate traffic score for a route
  */
 function calculateTrafficScore(route: OSRMRoute, zones: VoronoiZone[]): number {
-  const routeLine = turf.lineString(route.geometry.coordinates);
+  const routeLine = turfLineString(route.geometry.coordinates);
   const congestionLevels: string[] = [];
 
   zones.forEach(zone => {
     try {
-      const intersection = turf.lineIntersect(routeLine, zone.geometry);
+      const intersection = lineIntersect(routeLine, zone.geometry);
       if (intersection.features.length > 0) {
         congestionLevels.push(zone.properties.congestion);
       }
@@ -532,7 +537,7 @@ function calculateTrafficScore(route: OSRMRoute, zones: VoronoiZone[]): number {
  */
 function generateWarnings(scores: RouteScore, zones: VoronoiZone[], route: OSRMRoute): string[] {
   const warnings: string[] = [];
-  const routeLine = turf.lineString(route.geometry.coordinates);
+  const routeLine = turfLineString(route.geometry.coordinates);
 
   // High AQI warning
   if (scores.aqiScore > 70) {
@@ -557,7 +562,7 @@ function generateWarnings(scores: RouteScore, zones: VoronoiZone[], route: OSRMR
   // Check for specific high-risk zones
   zones.forEach(zone => {
     try {
-      const intersection = turf.lineIntersect(routeLine, zone.geometry);
+      const intersection = lineIntersect(routeLine, zone.geometry);
       if (intersection.features.length > 0) {
         if (zone.properties.aqi > 150) {
           warnings.push(`Unhealthy AQI (${zone.properties.aqi}) near camera ${zone.properties.cameraId}`);
@@ -767,3 +772,5 @@ router.delete('/cache', (_req: Request, res: Response): void => {
 });
 
 export default router;
+
+

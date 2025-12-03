@@ -1,13 +1,14 @@
 """
 Cache Manager Agent
-
-Manages distributed caching with Redis backend for improved performance.
-Implements caching strategies, TTL management, and cache warming.
 Module: src.agents.cache.cache_manager_agent
 Authors: Nguyen Viet Hoang
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
+
+Manages distributed caching with Redis backend for improved performance.
+Implements caching strategies, TTL management, and cache warming.
+
 CACHE STRATEGIES:
 - Write-through: Update cache immediately on write
 - Write-behind: Async cache updates
@@ -46,12 +47,14 @@ class CacheManagerAgent:
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize cache manager with Redis connection pool."""
+        import os
         self.config = config or {}
         self.enabled = self.config.get("enabled", False)  # Disabled by default
-        self._redis_host = self.config.get("redis_host", "localhost")
-        self._redis_port = self.config.get("redis_port", 6379)
+        # Priority: environment variables > config > defaults
+        self._redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
+        self._redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
         self._redis_db = self.config.get("redis_db", 1)  # Use DB 1 for cache
-        self._redis_password = self.config.get("redis_password")
+        self._redis_password = os.environ.get("REDIS_PASSWORD") or self.config.get("redis_password")
         self._default_ttl = self.config.get("default_ttl", 3600)
         
         # In-memory fallback cache

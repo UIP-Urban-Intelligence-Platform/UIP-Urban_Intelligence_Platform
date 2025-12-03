@@ -8,8 +8,8 @@ synchronizing the results across the LOD (Linked Open Data) infrastructure.
 
 Module: run_cv_and_sync
 Project: Builder-Layer-End - Traffic LOD Pipeline
-Author: LOD Pipeline Team
-Created: 2024-11-30
+Author: Nguyễn Nhật Quang 
+Created: 2025-12-01
 Version: 2.0.0
 License: MIT
 

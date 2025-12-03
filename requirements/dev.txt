@@ -1,0 +1,26 @@
+# Development Dependencies
+# Tools for code quality, linting, and development
+
+-r base.txt
+-r test.txt
+
+# Code formatters
+black>=23.11.0
+isort>=5.12.0
+
+# Linters
+flake8>=6.1.0
+pylint>=3.0.2
+
+# Type checking
+mypy>=1.7.1
+types-PyYAML>=6.0.12.12
+types-aiofiles>=23.2.0.0
+types-requests>=2.31.0
+
+# Pre-commit hooks
+pre-commit>=3.5.0
+
+# Development utilities
+ipython>=8.17.0
+ipdb>=0.13.13

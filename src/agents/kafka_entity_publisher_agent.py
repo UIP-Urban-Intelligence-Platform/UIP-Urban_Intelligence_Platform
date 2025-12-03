@@ -1,6 +1,13 @@
 """
 Kafka Entity Publisher Agent
 
+Module: src.agents.kafka_entity_publisher_agent
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-26
+Version: 1.0.0
+License: MIT
+
+Description:
 Publishes NGSI-LD entities directly to Kafka topics for consumption by Stellio Context Broker.
 Bypasses the API Gateway by publishing to the internal Kafka topic used by Stellio's search service.
 
@@ -12,8 +19,7 @@ Core Functionality:
 - Support for entity creation, update, and deletion operations
 
 Module: src.agents.kafka_entity_publisher_agent
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-26
+Author: Builder Layer Integration Team
 Version: 1.0.0
 License: MIT
 
@@ -79,9 +85,11 @@ class KafkaEntityPublisherAgent:
                 - kafka_bootstrap_servers: Kafka broker address (e.g., 'localhost:9092')
                 - kafka_topic: Kafka topic for entity events (default: 'cim.entity._CatchAll')
         """
+        import os
         self.config = config
-        self.kafka_servers = config.get('kafka_bootstrap_servers', 'localhost:9092')
-        self.kafka_topic = config.get('kafka_topic', 'cim.entity._CatchAll')
+        # Priority: environment variables > config > defaults
+        self.kafka_servers = os.environ.get("KAFKA_BOOTSTRAP_SERVERS") or config.get('kafka_bootstrap_servers', 'localhost:9092')
+        self.kafka_topic = os.environ.get("KAFKA_TOPIC") or config.get('kafka_topic', 'cim.entity._CatchAll')
         self.producer = None
         
     def connect(self):

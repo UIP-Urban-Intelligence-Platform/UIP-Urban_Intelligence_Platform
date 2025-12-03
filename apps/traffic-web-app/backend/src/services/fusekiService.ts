@@ -84,7 +84,7 @@ export class FusekiService {
                  traffic:timestamp ?timestamp .
       }
       ORDER BY DESC(?timestamp)
-      LIMIT 1000
+      LIMIT 100
     `;
 
     try {

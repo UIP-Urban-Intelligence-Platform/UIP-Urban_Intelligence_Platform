@@ -1,0 +1,70 @@
+# Base Production Dependencies
+# Core libraries required for runtime
+
+# Async HTTP client
+aiohttp>=3.9.1,<4.0.0
+aiosignal>=1.3.1
+frozenlist>=1.4.0
+multidict>=6.0.4
+yarl>=1.9.3
+
+# HTTP clients
+httpx>=0.24.0
+requests>=2.31.0
+
+# YAML configuration
+PyYAML>=6.0.1
+
+# Logging and monitoring
+python-json-logger>=2.0.7
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# RDF and Semantic Web
+rdflib>=7.0.0
+
+# FastAPI and Web Server (for Content Negotiation Agent)
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+jinja2>=3.1.2
+
+# Image Processing (for CV Analysis Agent)
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Object Detection - MIT/Apache-2.0 compatible
+# YOLOX for vehicle detection (Apache-2.0 by Megvii)
+# Note: YOLOX is not on PyPI, install from GitHub:
+#   pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git
+# yolox>=0.3.0  # Installed from GitHub, not PyPI
+
+# HuggingFace Transformers for DETR accident detection (Apache-2.0)
+# Model: hilmantm/detr-traffic-accident-detection
+transformers>=4.35.0
+
+# PyTorch (BSD-style license)
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Database Drivers
+psycopg2-binary>=2.9.0  # PostgreSQL
+neo4j>=5.0.0  # Neo4j Graph Database
+pymongo>=4.6.0  # MongoDB driver for NGSI-LD entity storage
+
+# Message Queue
+kafka-python>=2.0.2
+
+# Job Scheduling (for Orchestrator in main.py)
+apscheduler>=3.10.0
+
+# PDF Generation (for Incident Reports)
+reportlab>=4.0.0
+weasyprint>=60.0
+
+# Email
+# smtp library is built-in, no external dependency needed

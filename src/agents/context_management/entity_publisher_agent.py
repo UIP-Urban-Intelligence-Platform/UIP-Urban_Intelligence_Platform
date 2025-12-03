@@ -61,6 +61,8 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
+from src.core.config_loader import expand_env_var
+
 
 # Configure logging
 logging.basicConfig(
@@ -154,6 +156,9 @@ class ConfigLoader:
         except yaml.YAMLError as e:
             raise yaml.YAMLError(f"Invalid YAML in configuration file: {e}")
         
+        # Expand environment variables in config
+        self.config = expand_env_var(self.config)
+        
         if not self.config or 'stellio' not in self.config:
             raise ValueError("Configuration file must contain 'stellio' section")
         
@@ -171,7 +176,7 @@ class ConfigLoader:
         Apply environment variable overrides to configuration.
         
         Supports:
-        - STELLIO_BASE_URL
+        - STELLIO_URL (primary) or STELLIO_BASE_URL (fallback)
         - STELLIO_AUTH_TOKEN
         - STELLIO_BATCH_SIZE
         - STELLIO_TIMEOUT
@@ -179,10 +184,13 @@ class ConfigLoader:
         """
         stellio_config = self.config['stellio']
         
-        # Base URL override
-        if 'STELLIO_BASE_URL' in os.environ:
+        # Base URL override - check STELLIO_URL first, then STELLIO_BASE_URL
+        if 'STELLIO_URL' in os.environ:
+            stellio_config['base_url'] = os.environ['STELLIO_URL']
+            logger.info(f"Base URL overridden from STELLIO_URL: {stellio_config['base_url']}")
+        elif 'STELLIO_BASE_URL' in os.environ:
             stellio_config['base_url'] = os.environ['STELLIO_BASE_URL']
-            logger.info(f"Base URL overridden from environment: {stellio_config['base_url']}")
+            logger.info(f"Base URL overridden from STELLIO_BASE_URL: {stellio_config['base_url']}")
         
         # Auth token override
         if 'STELLIO_AUTH_TOKEN' in os.environ:

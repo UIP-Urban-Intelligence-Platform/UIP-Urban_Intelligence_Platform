@@ -18,19 +18,21 @@ import React, { useState, useEffect, useMemo } from 'react';
  * @license MIT
  * 
  * @license
- * SPDX-License-Identifier: MIT OR AGPL-3.0-only
- * 
+ * SPDX-License-Identifier: MIT
+ *
  * This file is part of HCMC Traffic Monitoring System.
- * 
- * Licensed under either:
- * - MIT License (see LICENSE-MIT)
- * - GNU Affero General Public License v3.0 (see LICENSE-AGPL)
- * 
- * You may choose either license at your option.
- * 
+ *
+ * Licensed under MIT License (see LICENSE).
+ *
  * @see {@link https://github.com/your-org/hcmc-traffic|GitHub Repository}
  * @see {@link https://hcmc-traffic.docs.io|Documentation}
  */
+
+import React, { useState, useEffect, useMemo } from 'react';
+
+// =====================================================
+// TYPE DEFINITIONS
+// =====================================================
 
 interface ExternalEvent {
     id: string;

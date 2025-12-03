@@ -5,6 +5,8 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-24
 Version: 1.0.0
 License: MIT
+
+
 Description:
 This agent tracks state changes over time, maintaining historical records
 for temporal queries, trend analysis, and state recovery.
@@ -63,8 +65,10 @@ class TemporalStateTrackerAgent:
         
         if self.enabled and REDIS_TIMESERIES_AVAILABLE:
             try:
-                redis_host = self.config.get("redis_host", "localhost")
-                redis_port = self.config.get("redis_port", 6379)
+                import os
+                # Priority: environment variables > config > defaults
+                redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
+                redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
                 
                 self._redis_client = redis.Redis(
                     host=redis_host,

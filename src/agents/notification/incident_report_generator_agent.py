@@ -67,6 +67,8 @@ import yaml
 from flask import Flask, jsonify, request, send_file
 from jinja2 import Template, Environment, FileSystemLoader
 
+from src.core.config_loader import expand_env_var
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -102,30 +104,12 @@ class IncidentReportConfig:
         with open(self.config_path, 'r') as f:
             self.config = yaml.safe_load(f)
         
+        # Expand environment variables in config using centralized helper
+        self.config = expand_env_var(self.config)
+        
         self.report_config = self.config.get('incident_report_generator', {})
         
-        # Expand environment variables
-        self._expand_env_vars(self.report_config)
-        
         logger.info(f"Loaded configuration from {config_path}")
-    
-    def _expand_env_vars(self, config: Dict[str, Any]):
-        """
-        Recursively expand environment variables in configuration.
-        
-        Args:
-            config: Configuration dictionary
-        """
-        for key, value in config.items():
-            if isinstance(value, str) and value.startswith('${') and value.endswith('}'):
-                env_var = value[2:-1]
-                config[key] = os.getenv(env_var, value)
-            elif isinstance(value, dict):
-                self._expand_env_vars(value)
-            elif isinstance(value, list):
-                for i, item in enumerate(value):
-                    if isinstance(item, dict):
-                        self._expand_env_vars(item)
     
     def get_triggers(self) -> List[Dict[str, Any]]:
         """Get trigger configuration."""
@@ -172,9 +156,10 @@ class Neo4jQueryExecutor:
             config: Neo4j configuration
         """
         self.enabled = config.get('enabled', False)
-        self.uri = config.get('uri', 'bolt://localhost:7687')
-        self.username = config.get('username', 'neo4j')
-        self.password = config.get('password', 'password')
+        # Priority: environment variables > config > defaults
+        self.uri = os.environ.get("NEO4J_URL") or config.get('uri', 'bolt://localhost:7687')
+        self.username = os.environ.get("NEO4J_USER") or config.get('username', 'neo4j')
+        self.password = os.environ.get("NEO4J_PASSWORD") or config.get('password', 'password')
         self.database = config.get('database', 'neo4j')
         self.queries = config.get('queries', {})
         
@@ -258,10 +243,10 @@ class ReportDataCollector:
         neo4j_config = self.data_sources.get('neo4j', {})
         self.neo4j = Neo4jQueryExecutor(neo4j_config)
         
-        # Stellio configuration
+        # Stellio configuration - Priority: environment variables > config > defaults
         self.stellio_config = self.data_sources.get('stellio', {})
         self.stellio_enabled = self.stellio_config.get('enabled', False)
-        self.stellio_base_url = self.stellio_config.get('base_url', 'http://localhost:8080')
+        self.stellio_base_url = os.environ.get("STELLIO_URL") or self.stellio_config.get('base_url', 'http://localhost:8080')
     
     def collect_incident_data(self, accident_id: str, entity_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -973,11 +958,12 @@ class NotificationSender:
         
         # Send email
         try:
-            smtp_host = self.email_config.get('smtp_host', 'localhost')
-            smtp_port = self.email_config.get('smtp_port', 25)
+            # Priority: environment variables > config > defaults
+            smtp_host = os.environ.get("SMTP_HOST") or self.email_config.get('smtp_host', 'localhost')
+            smtp_port = int(os.environ.get("SMTP_PORT") or self.email_config.get('smtp_port', 25))
             use_tls = self.email_config.get('use_tls', False)
-            username = self.email_config.get('username', '')
-            password = self.email_config.get('password', '')
+            username = os.environ.get("SMTP_USERNAME") or self.email_config.get('username', '')
+            password = os.environ.get("SMTP_PASSWORD") or self.email_config.get('password', '')
             
             with smtplib.SMTP(smtp_host, smtp_port) as server:
                 if use_tls:

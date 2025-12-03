@@ -1,13 +1,14 @@
 """
 Email Notification Handler
-
-Sends email notifications for traffic alerts, incident reports,
-and system notifications using SMTP.
 Module: src.agents.notification.email_notification_handler
 Author: nguyễn Nhật Quang
 Created: 2025-11-23
 Version: 1.0.0
 License: MIT
+
+Sends email notifications for traffic alerts, incident reports,
+and system notifications using SMTP.
+
 FEATURES:
 - HTML email templates with styling
 - Attachment support (incident reports, PDFs)

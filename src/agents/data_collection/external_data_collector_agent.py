@@ -62,6 +62,9 @@ import aiohttp
 import yaml
 from async_lru import alru_cache
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 
 class RateLimitExceeded(Exception):
     """Custom exception for API rate limit (429) errors requiring extended delay."""
@@ -317,6 +320,9 @@ class ExternalDataCollectorAgent:
                 full_config = yaml.safe_load(f)
         except yaml.YAMLError as e:
             raise ValueError(f"Invalid YAML in config file: {e}")
+        
+        # Expand environment variables like ${API_KEY}
+        full_config = expand_env_var(full_config)
         
         if 'external_apis' not in full_config:
             raise ValueError("Missing 'external_apis' section in config")

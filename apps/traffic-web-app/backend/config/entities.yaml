@@ -11,7 +11,7 @@
 
 
 version: "1.0"
-stellioBaseUrl: "http://localhost:8080/ngsi-ld/v1/entities"
+stellioBaseUrl: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/v1/entities"
 
 # Domain Entity Configurations
 entities:

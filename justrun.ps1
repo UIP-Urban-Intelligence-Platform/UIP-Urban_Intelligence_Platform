@@ -206,9 +206,61 @@ function Install-Dependencies {
     Write-Host ""
     
     # ============================================================================
-    # Step 5: Setup Node.js Dependencies
+    # Step 5: Install YOLOX and Download ML Models
     # ============================================================================
-    WriteInfo "[5/6] Setting up Node.js dependencies..."
+    WriteInfo "[5/8] Installing YOLOX and downloading ML models..."
+    
+    # Install YOLOX from GitHub (not available on PyPI)
+    WriteInfo "       Installing YOLOX from GitHub (Apache-2.0 license)..."
+    $yoloxInstalled = pip show yolox 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>&1 | Out-Null
+        WriteSuccess "       OK: YOLOX installed"
+    }
+    else {
+        WriteSuccess "       OK: YOLOX already installed"
+    }
+    
+    # Create models directory if not exists
+    if (-not (Test-Path "assets\models")) {
+        New-Item -ItemType Directory -Path "assets\models" -Force | Out-Null
+        WriteSuccess "       Created: assets/models/"
+    }
+    
+    # Download YOLOX weights if not exists
+    if (-not (Test-Path "assets\models\yolox_x.pth")) {
+        WriteInfo "       Downloading YOLOX-X weights (794MB)..."
+        WriteInfo "       This may take a few minutes..."
+        python scripts/download_yolox_weights.py --model yolox-x 2>&1 | Out-Null
+        if (Test-Path "assets\models\yolox_x.pth") {
+            WriteSuccess "       OK: YOLOX-X weights downloaded"
+        }
+        else {
+            WriteWarn "       WARN: YOLOX weights download may have failed"
+            WriteInfo "       Run manually: python scripts/download_yolox_weights.py --model yolox-x"
+        }
+    }
+    else {
+        WriteSuccess "       OK: YOLOX-X weights already exist"
+    }
+    
+    # Download DETR accident detection model if not exists
+    $detrModelPath = "$env:USERPROFILE\.cache\huggingface\hub\models--hilmantm--detr-traffic-accident-detection"
+    if (-not (Test-Path $detrModelPath)) {
+        WriteInfo "       Downloading DETR accident detection model..."
+        python scripts/download_accident_model.py 2>&1 | Out-Null
+        WriteSuccess "       OK: DETR model downloaded"
+    }
+    else {
+        WriteSuccess "       OK: DETR model already cached"
+    }
+    
+    Write-Host ""
+    
+    # ============================================================================
+    # Step 6: Setup Node.js Dependencies
+    # ============================================================================
+    WriteInfo "[6/8] Setting up Node.js dependencies..."
     
     Push-Location "apps\traffic-web-app"
     
@@ -228,9 +280,9 @@ function Install-Dependencies {
     Write-Host ""
     
     # ============================================================================
-    # Step 6: Pull Docker Images (background)
+    # Step 7: Pull Docker Images
     # ============================================================================
-    WriteInfo "[6/6] Pulling Docker images (this may take a few minutes)..."
+    WriteInfo "[7/8] Pulling Docker images (this may take a few minutes)..."
     WriteInfo "       Images: Neo4j, Fuseki, MongoDB, Redis, PostgreSQL, Kafka, Stellio"
     
     $images = @(
@@ -250,6 +302,40 @@ function Install-Dependencies {
         Write-Host -NoNewline "       Pulling $shortName..."
         docker pull $image -q 2>&1 | Out-Null
         WriteSuccess " OK"
+    }
+    
+    Write-Host ""
+    
+    # ============================================================================
+    # Step 8: Verify Installation
+    # ============================================================================
+    WriteInfo "[8/8] Verifying installation..."
+    
+    # Verify YOLOX
+    $yoloxCheck = python -c "import yolox; print('OK')" 2>&1
+    if ($yoloxCheck -eq "OK") {
+        WriteSuccess "       OK: YOLOX module verified"
+    }
+    else {
+        WriteWarn "       WARN: YOLOX module not found - CV will use mock detector"
+    }
+    
+    # Verify YOLOX weights
+    if (Test-Path "assets\models\yolox_x.pth") {
+        $weightsSize = (Get-Item "assets\models\yolox_x.pth").Length / 1MB
+        WriteSuccess "       OK: YOLOX weights verified ($([math]::Round($weightsSize, 1)) MB)"
+    }
+    else {
+        WriteWarn "       WARN: YOLOX weights not found - CV will use mock detector"
+    }
+    
+    # Verify transformers for DETR
+    $transformersCheck = python -c "import transformers; print('OK')" 2>&1
+    if ($transformersCheck -eq "OK") {
+        WriteSuccess "       OK: Transformers (DETR) verified"
+    }
+    else {
+        WriteWarn "       WARN: Transformers not found - accident detection disabled"
     }
     
     Write-Host ""
@@ -285,12 +371,28 @@ function Start-Dev {
         $needsSetup = $true
     }
     
+    # Check for ML models
+    if (-not (Test-Path "assets\models\yolox_x.pth")) {
+        WriteWarn "YOLOX model weights not found."
+        $needsSetup = $true
+    }
+    
     if ($needsSetup) {
         WriteWarn ""
         WriteWarn "First time setup detected. Running installation..."
         WriteWarn ""
         Install-Dependencies
         Write-Host ""
+    }
+    else {
+        # Even if setup is not needed, ensure YOLOX is installed from GitHub
+        & .\.venv\Scripts\Activate.ps1
+        $yoloxCheck = pip show yolox 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            WriteInfo "Installing YOLOX from GitHub..."
+            pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>&1 | Out-Null
+            WriteSuccess "YOLOX installed"
+        }
     }
     
     # Create logs directory if missing
@@ -485,7 +587,7 @@ function Start-Prod {
     # ============================================================================
     # Auto-setup: Always run to ensure everything is ready
     # ============================================================================
-    WriteInfo "[0/6] Preparing environment..."
+    WriteInfo "[0/7] Preparing environment..."
     
     # Create ALL required directories
     $directories = @(
@@ -495,6 +597,7 @@ function Start-Prod {
         "data/rdf", 
         "reports", 
         "test_output",
+        "assets/models",
         "apps/traffic-web-app/backend/logs"
     )
     foreach ($dir in $directories) {
@@ -502,6 +605,51 @@ function Start-Prod {
             New-Item -ItemType Directory -Path $dir -Force | Out-Null
             WriteSuccess "       Created: $dir/"
         }
+    }
+    
+    # Setup Python venv if not exists (needed for downloading models)
+    if (-not (Test-Path ".venv")) {
+        WriteInfo "       Creating Python virtual environment..."
+        python -m venv .venv
+    }
+    
+    # Activate Python venv
+    & .\.venv\Scripts\Activate.ps1
+    
+    # Install YOLOX if not installed
+    $yoloxCheck = pip show yolox 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        WriteInfo "       Installing YOLOX from GitHub..."
+        pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>&1 | Out-Null
+        WriteSuccess "       OK: YOLOX installed"
+    }
+    
+    # Download YOLOX weights if not exists
+    if (-not (Test-Path "assets\models\yolox_x.pth")) {
+        WriteInfo "       Downloading YOLOX-X weights (794MB)..."
+        WriteInfo "       This may take a few minutes..."
+        pip install -r requirements/base.txt -q 2>&1 | Out-Null
+        python scripts/download_yolox_weights.py --model yolox-x 2>&1 | Out-Null
+        if (Test-Path "assets\models\yolox_x.pth") {
+            WriteSuccess "       OK: YOLOX-X weights downloaded"
+        }
+        else {
+            WriteWarn "       WARN: YOLOX weights download failed - CV will use mock detector"
+        }
+    }
+    else {
+        WriteSuccess "       OK: YOLOX-X weights already exist"
+    }
+    
+    # Download DETR model if not cached
+    $detrModelPath = "$env:USERPROFILE\.cache\huggingface\hub\models--hilmantm--detr-traffic-accident-detection"
+    if (-not (Test-Path $detrModelPath)) {
+        WriteInfo "       Downloading DETR accident detection model..."
+        python scripts/download_accident_model.py 2>&1 | Out-Null
+        WriteSuccess "       OK: DETR model downloaded"
+    }
+    else {
+        WriteSuccess "       OK: DETR model already cached"
     }
     
     # Setup .env files (always check, even if already exists)
@@ -515,7 +663,8 @@ function Start-Prod {
         if (Test-Path "apps\traffic-web-app\backend\.env.example") {
             Copy-Item "apps\traffic-web-app\backend\.env.example" $backendEnv
             WriteSuccess "       Created: backend/.env"
-        } else {
+        }
+        else {
             # Create production .env if no example exists
             @"
 PORT=3001
@@ -559,7 +708,7 @@ VITE_WS_URL=ws://localhost:3001
     # ============================================================================
     # Step 1: Check Docker is running
     # ============================================================================
-    WriteInfo "[1/6] Checking Docker..."
+    WriteInfo "[1/7] Checking Docker..."
     $dockerInfo = docker info 2>&1
     if ($LASTEXITCODE -ne 0) {
         WriteErr "ERROR: Docker is not running!"
@@ -572,7 +721,7 @@ VITE_WS_URL=ws://localhost:3001
     # ============================================================================
     # Step 2: Pull ALL Docker Images (ensures 100% offline ready)
     # ============================================================================
-    WriteInfo "[2/6] Pulling Docker images (ensuring all images are available)..."
+    WriteInfo "[2/7] Pulling Docker images (ensuring all images are available)..."
     WriteInfo "      This may take a few minutes on first run..."
     
     $images = @(
@@ -596,7 +745,8 @@ VITE_WS_URL=ws://localhost:3001
         docker pull $image -q 2>&1 | Out-Null
         if ($LASTEXITCODE -eq 0) {
             WriteSuccess " OK"
-        } else {
+        }
+        else {
             WriteWarn " (already exists or network issue)"
         }
     }
@@ -606,7 +756,7 @@ VITE_WS_URL=ws://localhost:3001
     # ============================================================================
     # Step 3: Build Application Docker Images
     # ============================================================================
-    WriteInfo "[3/6] Building application Docker images..."
+    WriteInfo "[3/7] Building application Docker images..."
     WriteInfo "      Building: Python Backend, TypeScript Backend, React Frontend"
     
     docker-compose build --parallel 2>&1 | Out-Null
@@ -621,7 +771,7 @@ VITE_WS_URL=ws://localhost:3001
     # ============================================================================
     # Step 4: Start Infrastructure Services
     # ============================================================================
-    WriteInfo "[4/6] Starting infrastructure services..."
+    WriteInfo "[4/7] Starting infrastructure services..."
     WriteInfo "      Services: Neo4j, Fuseki, Redis, MongoDB, PostgreSQL, Kafka"
     
     docker-compose up -d neo4j fuseki redis mongodb postgres kafka 2>&1 | Out-Null
@@ -668,7 +818,7 @@ VITE_WS_URL=ws://localhost:3001
     # ============================================================================
     # Step 5: Start Stellio Context Broker
     # ============================================================================
-    WriteInfo "[5/6] Starting Stellio Context Broker..."
+    WriteInfo "[5/7] Starting Stellio Context Broker..."
     
     docker-compose up -d stellio-api-gateway search-service subscription-service 2>&1 | Out-Null
     
@@ -700,7 +850,7 @@ VITE_WS_URL=ws://localhost:3001
     # ============================================================================
     # Step 6: Start Application Services
     # ============================================================================
-    WriteInfo "[6/6] Starting application services..."
+    WriteInfo "[6/7] Starting application services..."
     WriteInfo "      - Python Backend (Citizen API + Orchestrator) on port 8001"
     WriteInfo "      - TypeScript Backend (Express.js API) on port 3001"
     WriteInfo "      - React Frontend on port 3000"
@@ -768,6 +918,29 @@ VITE_WS_URL=ws://localhost:3001
             Start-Sleep -Seconds 2
             $waited += 2
         }
+    }
+    
+    Write-Host ""
+    
+    # ============================================================================
+    # Step 7: Verify ML Models
+    # ============================================================================
+    WriteInfo "[7/7] Verifying ML models availability..."
+    
+    if (Test-Path "assets\models\yolox_x.pth") {
+        $weightsSize = (Get-Item "assets\models\yolox_x.pth").Length / 1MB
+        WriteSuccess "       OK: YOLOX-X weights ($([math]::Round($weightsSize, 1)) MB)"
+    }
+    else {
+        WriteWarn "       WARN: YOLOX weights not found - CV uses mock detector"
+    }
+    
+    $detrModelPath = "$env:USERPROFILE\.cache\huggingface\hub\models--hilmantm--detr-traffic-accident-detection"
+    if (Test-Path $detrModelPath) {
+        WriteSuccess "       OK: DETR accident detection model cached"
+    }
+    else {
+        WriteWarn "       WARN: DETR model not cached - will download on first use"
     }
     
     Write-Host ""

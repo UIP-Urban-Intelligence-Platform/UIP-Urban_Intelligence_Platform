@@ -55,8 +55,8 @@ import requests
 import yaml
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import psycopg2
-from psycopg2.extras import RealDictCursor
+
+from src.core.config_loader import expand_env_var
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -94,6 +94,10 @@ class CongestionConfig:
             raise FileNotFoundError(f"Configuration file not found: {self.path}")
         with open(self.path, 'r', encoding='utf-8') as f:
             self.config = yaml.safe_load(f) or {}
+        
+        # Expand environment variables in config values
+        self.config = expand_env_var(self.config)
+        
         logger.info(f"Loaded congestion config from {self.path}")
 
     def validate(self) -> None:
@@ -370,12 +374,19 @@ class CongestionDetectionAgent:
         code_to_entity_id = {}
         
         try:
+            # Expand env vars from config values, then override with direct env vars
+            pg_host = os.environ.get('POSTGRES_HOST') or expand_env_var(postgres_cfg.get('host', 'localhost'))
+            pg_port = int(os.environ.get('POSTGRES_PORT') or expand_env_var(postgres_cfg.get('port', 5432)))
+            pg_database = os.environ.get('POSTGRES_DATABASE') or expand_env_var(postgres_cfg.get('database', 'stellio_search'))
+            pg_user = os.environ.get('POSTGRES_USER') or expand_env_var(postgres_cfg.get('user', 'stellio'))
+            pg_password = os.environ.get('POSTGRES_PASSWORD') or expand_env_var(postgres_cfg.get('password', 'stellio_password'))
+            
             conn = psycopg2.connect(
-                host=postgres_cfg.get('host', 'localhost'),
-                port=postgres_cfg.get('port', 5432),
-                database=postgres_cfg.get('database', 'stellio_search'),
-                user=postgres_cfg.get('user', 'stellio'),
-                password=postgres_cfg.get('password', 'stellio_password'),
+                host=pg_host,
+                port=pg_port,
+                database=pg_database,
+                user=pg_user,
+                password=pg_password,
                 cursor_factory=RealDictCursor
             )
             

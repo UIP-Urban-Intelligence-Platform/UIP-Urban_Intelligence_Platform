@@ -1,12 +1,14 @@
 """
 Webhook Notification Handler
-
-Delivers notifications to external systems via HTTP webhooks.
-Supports custom payloads, retry logic, and circuit breaker pattern.
+Module: src.agents.notification.webhook_notification_handler
 Author: nguyễn Nhật Quang
 Created: 2025-11-23
 Version: 1.0.0
 License: MIT
+
+Delivers notifications to external systems via HTTP webhooks.
+Supports custom payloads, retry logic, and circuit breaker pattern.
+
 FEATURES:
 - Async webhook delivery (non-blocking)
 - Retry with exponential backoff

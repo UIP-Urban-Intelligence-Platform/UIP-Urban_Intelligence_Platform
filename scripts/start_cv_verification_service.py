@@ -5,11 +5,17 @@ Module: scripts.start_cv_verification_service.py
 Author: nguyễn Nhật Quang
 Created: 2025-11-23
 Version: 1.0.0
-License: AGPL-3.0 (uses ultralytics/YOLOv8)
-See LICENSE-AGPL-3.0 for full license text.
+License: MIT
+SPDX-License-Identifier: MIT
+
+
 Description:
 Chạy như một daemon để liên tục verify citizen reports từ Stellio.
 Poll Stellio mỗi 30 giây để tìm reports chưa được verify (aiVerified=false).
+
+Computer Vision Stack:
+    - YOLOX (Apache-2.0) - Vehicle detection
+    - DETR (Apache-2.0) - Accident detection
 
 Usage:
     python scripts/start_cv_verification_service.py
@@ -20,11 +26,25 @@ import time
 import asyncio
 import yaml
 import logging
+import os
 from pathlib import Path
 from datetime import datetime
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent))
+# Detect project root - in Docker it's /app, locally it's parent of scripts folder
+script_dir = Path(__file__).parent
+if script_dir.name == 'scripts':
+    # Running from local scripts/ folder
+    project_root = script_dir.parent
+else:
+    # Running from Docker container where script is copied to /app
+    project_root = script_dir
+    
+# Also check PYTHONPATH from environment
+env_path = os.environ.get('PYTHONPATH', '')
+if env_path and Path(env_path).exists():
+    project_root = Path(env_path)
+
+sys.path.insert(0, str(project_root))
 
 from src.agents.analytics.cv_analysis_agent import CVAnalysisAgent
 
@@ -89,7 +109,7 @@ def main():
     """Main entry point"""
     
     # Load CV config
-    config_path = Path(__file__).parent / 'config' / 'cv_config.yaml'
+    config_path = project_root / 'config' / 'cv_config.yaml'
     
     logger.info("📋 Loading CV config...")
     with open(config_path, 'r', encoding='utf-8') as f:

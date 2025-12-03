@@ -66,6 +66,9 @@ from urllib.parse import urljoin
 import requests
 import yaml
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 # Optional dependencies
 try:
     from neo4j import GraphDatabase
@@ -111,6 +114,9 @@ class TemporalConfig:
         
         with open(config_path, 'r', encoding='utf-8') as f:
             self.config = yaml.safe_load(f)
+        
+        # Expand environment variables like ${VAR:-default}
+        self.config = expand_env_var(self.config)
         
         if not self.config or 'temporal_data_manager' not in self.config:
             raise ValueError("Invalid configuration: 'temporal_data_manager' section not found")

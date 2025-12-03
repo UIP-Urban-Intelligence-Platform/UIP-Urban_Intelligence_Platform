@@ -5,10 +5,11 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
+
 Description:
-    Tests the Citizen Ingestion API by sending a test report with a real image
-    encoded as a base64 data URL. Verifies end-to-end processing including
-    background enrichment and storage in Stellio Context Broker.
+    Tests the Citizen Ingestion API with real image files from the local filesystem.
+    Validates image upload, base64 encoding, and proper handling of binary data.
+
 Usage:
     python tests/test_citizen_with_real_image.py
 """
@@ -72,7 +73,7 @@ def send_test_report_with_image(image_url):
     report_data = {
         "userId": f"user_test_real_image_{datetime.now().strftime('%H%M%S')}",
         "reportType": "accident",
-        "description": f"Tai nạn giao thông tại {location['name']} - Test với hình ảnh thực từ YOLOv8 accident detection",
+        "description": f"Tai nạn giao thông tại {location['name']} - Test với hình ảnh thực từ YOLOX/DETR detection",
         "latitude": location["lat"],
         "longitude": location["lon"],
         "imageUrl": image_url

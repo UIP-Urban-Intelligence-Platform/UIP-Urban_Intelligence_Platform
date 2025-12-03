@@ -87,7 +87,7 @@ export class PostgresService {
         FROM traffic_metrics
         WHERE measurement_time >= NOW() - INTERVAL '1 hour'
         ORDER BY measurement_time DESC
-        LIMIT 1000
+        LIMIT 100
       `);
 
       return result.rows;

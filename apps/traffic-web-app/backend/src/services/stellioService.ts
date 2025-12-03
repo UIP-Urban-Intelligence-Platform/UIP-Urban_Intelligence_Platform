@@ -144,30 +144,82 @@ export class StellioService {
   }
 
   /**
+   * Fetch ALL entities of a given type using offset-based pagination
+   * Stellio has a hard limit of 100 entities per request, so we fetch in batches
+   * 
+   * @param entityType - NGSI-LD entity type (e.g., 'Camera', 'WeatherObserved')
+   * @param options - Additional options like 'keyValues' for simplified response
+   * @returns Promise<any[]> - All entities of the specified type
+   */
+  private async fetchAllPaginated(
+    entityType: string,
+    options: string = 'keyValues'
+  ): Promise<any[]> {
+    const allEntities: any[] = [];
+    const batchSize = 100; // Stellio max limit is 100
+    let offset = 0;
+    let hasMore = true;
+    let batchCount = 0;
+
+    logger.debug(`Starting paginated fetch for ${entityType} with batchSize=${batchSize}`);
+
+    while (hasMore) {
+      try {
+        const response = await this.client.get('/entities', {
+          params: {
+            type: entityType,
+            limit: batchSize,
+            offset: offset,
+            options: options
+          }
+        });
+
+        const batch = Array.isArray(response.data) ? response.data : [response.data];
+        allEntities.push(...batch);
+        batchCount++;
+
+        logger.debug(`Fetched batch ${batchCount} for ${entityType}: ${batch.length} entities (offset=${offset}, total=${allEntities.length})`);
+
+        // If we got fewer than batchSize entities, we've reached the end
+        hasMore = batch.length === batchSize;
+        offset += batchSize;
+
+        // Safety check: prevent infinite loops (max 1000 batches = 100,000 entities)
+        if (batchCount > 1000) {
+          logger.warn(`Pagination safety limit reached for ${entityType} at ${allEntities.length} entities`);
+          break;
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          // No more entities - this is OK
+          logger.debug(`No more ${entityType} entities at offset ${offset}`);
+          hasMore = false;
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    logger.info(`✅ Pagination complete for ${entityType}: ${allEntities.length} total entities in ${batchCount} batches`);
+    return allEntities;
+  }
+
+  /**
    * Fetch cameras from Stellio NGSI-LD Context Broker
    * Queries: GET /entities?type=Camera with pagination
    * Transforms NGSI-LD response to flat structure
    * Supports filtering by status, type, and bounding box
-   * Now fetches ALL cameras using pagination (default limit 1000 per page)
+   * Uses offset-based pagination to fetch ALL cameras (Stellio max limit is 100)
    */
   async getCameras(queryParams?: CameraQueryParams): Promise<Camera[]> {
     return this.retryRequest(async () => {
       try {
-        const limit = queryParams?.limit || 1000;
+        logger.debug(`Fetching ALL cameras from Stellio with params:`, queryParams);
 
-        logger.debug(`Fetching cameras from Stellio with params:`, queryParams);
-
-        const response = await this.client.get('/entities', {
-          params: {
-            type: 'Camera',
-            limit: limit,
-            options: 'keyValues'
-          }
-        });
-
-        const entities = response.data;
+        // Use pagination to fetch ALL cameras
+        const entities = await this.fetchAllPaginated('Camera', 'keyValues');
         const cameraArray = Array.isArray(entities) ? entities : [entities];
-        logger.info(`Fetched ${cameraArray.length} cameras from Stellio`);
+        logger.info(`Fetched ${cameraArray.length} cameras from Stellio (paginated)`);
 
         // Transform NGSI-LD entities to flat structure
         let cameras = this.transformCameras(cameraArray);
@@ -281,26 +333,17 @@ export class StellioService {
   /**
    * Fetch weather data from Stellio with camera join
    * Queries WeatherObserved entities and joins with camera location via refDevice
-   * Now fetches ALL weather data using pagination (default limit 1000 per page)
+   * Uses offset-based pagination to fetch ALL weather data (Stellio max limit is 100)
    */
   async getWeatherData(queryParams?: WeatherQueryParams): Promise<Weather[]> {
     return this.retryRequest(async () => {
       try {
-        const limit = queryParams?.limit || 1000;
+        logger.debug(`Fetching ALL weather data from Stellio with params:`, queryParams);
 
-        logger.debug(`Fetching weather data from Stellio with params:`, queryParams);
-
-        const response = await this.client.get('/entities', {
-          params: {
-            type: 'WeatherObserved',
-            limit: limit,
-            options: 'keyValues'
-          }
-        });
-
-        const entities = response.data;
+        // Use pagination to fetch ALL weather observations
+        const entities = await this.fetchAllPaginated('WeatherObserved', 'keyValues');
         const weatherArray = Array.isArray(entities) ? entities : [entities];
-        logger.info(`Fetched ${weatherArray.length} weather observations from Stellio`);
+        logger.info(`Fetched ${weatherArray.length} weather observations from Stellio (paginated)`);
 
         // Transform NGSI-LD entities to Weather objects
         let weatherData = await this.transformWeatherData(weatherArray);
@@ -328,26 +371,17 @@ export class StellioService {
   /**
    * Fetch air quality data from Stellio with camera join
    * Queries AirQualityObserved entities and joins with camera location via refDevice
-   * Now fetches ALL air quality data using pagination (default limit 1000 per page)
+   * Uses offset-based pagination to fetch ALL air quality data (Stellio max limit is 100)
    */
   async getAirQualityData(queryParams?: AirQualityQueryParams): Promise<AirQuality[]> {
     return this.retryRequest(async () => {
       try {
-        const limit = queryParams?.limit || 1000;
+        logger.debug(`Fetching ALL air quality data from Stellio with params:`, queryParams);
 
-        logger.debug(`Fetching air quality data from Stellio with params:`, queryParams);
-
-        const response = await this.client.get('/entities', {
-          params: {
-            type: 'AirQualityObserved',
-            limit: limit,
-            options: 'keyValues'
-          }
-        });
-
-        const entities = response.data;
+        // Use pagination to fetch ALL air quality observations
+        const entities = await this.fetchAllPaginated('AirQualityObserved', 'keyValues');
         const airQualityArray = Array.isArray(entities) ? entities : [entities];
-        logger.info(`Fetched ${airQualityArray.length} air quality observations from Stellio`);
+        logger.info(`Fetched ${airQualityArray.length} air quality observations from Stellio (paginated)`);
 
         // Transform NGSI-LD entities to AirQuality objects
         let airQualityData = await this.transformAirQualityData(airQualityArray);
@@ -824,22 +858,16 @@ export class StellioService {
    * Queries: GET /entities?type=TrafficFlowPattern with pagination
    * Transforms NGSI-LD response to TrafficPattern format
    * Derives locations from affected cameras
-   * Now fetches ALL patterns using pagination (default limit 1000)
+   * Uses offset-based pagination to fetch ALL patterns (Stellio max limit is 100)
    */
   async getTrafficFlowPatterns(): Promise<TrafficPattern[]> {
     return this.retryRequest(async () => {
       try {
-        logger.debug('Fetching TrafficFlowPatterns from Stellio');
+        logger.debug('Fetching ALL TrafficFlowPatterns from Stellio');
 
-        const response = await this.client.get('/entities', {
-          params: {
-            type: 'TrafficFlowPattern',
-            limit: 1000
-          }
-        });
-
-        const entities = response.data;
-        logger.debug(`Fetched ${entities.length} TrafficFlowPattern entities from Stellio`);
+        // Use pagination to fetch ALL traffic flow patterns
+        const entities = await this.fetchAllPaginated('TrafficFlowPattern', 'keyValues');
+        logger.debug(`Fetched ${entities.length} TrafficFlowPattern entities from Stellio (paginated)`);
 
         // Get all cameras to map locations
         const cameras = await this.getCameras();

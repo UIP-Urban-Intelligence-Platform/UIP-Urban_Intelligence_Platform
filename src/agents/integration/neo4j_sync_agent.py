@@ -77,7 +77,9 @@ import yaml
 from psycopg2.extras import RealDictCursor
 
 # Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+
+from src.core.config_loader import expand_env_var
 
 # Neo4j driver (required dependency)
 try:
@@ -119,6 +121,9 @@ class Neo4jSyncConfig:
         
         with open(self.config_path, 'r', encoding='utf-8') as f:
             self.config = yaml.safe_load(f)
+        
+        # Expand environment variables in config values
+        self.config = expand_env_var(self.config)
         
         self._validate()
         logger.info(f"Loaded Neo4j sync config from {config_path}")

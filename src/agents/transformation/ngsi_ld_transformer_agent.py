@@ -1,6 +1,11 @@
 """
 NGSI-LD Transformer Agent - Domain-Agnostic Entity Transformation
 
+Module: src.agents.transformation.ngsi_ld_transformer_agent
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-22
+Version: 1.0.0
+License: MIT
 Transforms raw data into NGSI-LD format compliant with ETSI CIM NGSI-LD specifications.
 Features domain-agnostic, config-driven architecture for flexible entity mapping.
 
@@ -13,8 +18,8 @@ Core Capabilities:
 - Handles temporal properties and multi-attribute entities
 
 Module: src.agents.transformation.ngsi_ld_transformer_agent
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-22
+Author: Builder Layer LOD System
+Created: 2024-09-15
 Version: 1.0.0
 License: MIT
 
@@ -65,6 +70,9 @@ from typing import Dict, List, Any, Optional, Callable
 from collections import defaultdict
 
 import yaml
+
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
 
 # MongoDB integration (optional)
 try:
@@ -324,6 +332,9 @@ class NGSILDTransformerAgent:
                 config = yaml.safe_load(f)
         except yaml.YAMLError as e:
             raise ValueError(f"Invalid YAML in config file: {e}")
+        
+        # Expand environment variables like ${VAR:-default}
+        config = expand_env_var(config)
         
         # Validate required config sections
         required_sections = ['entity_type', 'uri_prefix', 'id_field', 'property_mappings']

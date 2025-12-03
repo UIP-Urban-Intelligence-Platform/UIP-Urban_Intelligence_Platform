@@ -127,12 +127,13 @@ python orchestrator.py
 
 Check `config/workflow.yaml` for pipeline configuration.
 
-**Q: How do I customize YOLO detection?**
+**Q: How do I customize YOLOX detection?**
 
 A: Edit `config/cv_config.yaml`:
 ```yaml
 cv_detection:
-  model: yolov8n.pt
+  model_type: yolox
+  weights: assets/models/yolox_x.pth
   confidence: 0.5
   classes: [0, 1, 2, 3, 5, 7]  # person, bicycle, car, motorcycle, bus, truck
 ```
@@ -156,7 +157,7 @@ A:
 A:
 - Check resource usage: `docker stats`
 - Increase worker threads in config
-- Consider upgrading to YOLOv8s/m for better performance
+- Consider upgrading to YOLOX-S/M for better performance
 - Enable batch processing in config
 
 **Q: Where are the logs stored?**
@@ -182,12 +183,12 @@ A: Set in `.env`:
 LOG_LEVEL=DEBUG
 ```
 
-**Q: Can I use a different YOLO model?**
+**Q: Can I use a different YOLOX model?**
 
 A: Yes, edit `config/cv_config.yaml`:
 ```yaml
 cv_detection:
-  model: yolov8m.pt  # or yolov8s.pt, yolov8l.pt, yolov8x.pt
+  model: yolox_m.pth  # or yolox_s.pth, yolox_l.pth, yolox_x.pth
 ```
 
 ### Performance
@@ -195,18 +196,27 @@ cv_detection:
 **Q: How can I improve performance?**
 
 A:
-- Use GPU for YOLO detection (requires CUDA)
+- Use GPU for YOLOX detection (requires CUDA)
 - Increase parallel workers in config
-- Use faster YOLO model (yolov8s/m)
+- Use faster YOLOX model (yolox_s/m)
 - Enable batch processing
 - Increase Docker resource limits
+
+**Q: Can I use a different detection model?**
+
+A: Yes, edit `config/cv_config.yaml`:
+```yaml
+cv_detection:
+  model_type: yolox
+  weights: assets/models/yolox_m.pth  # or yolox_s.pth, yolox_l.pth, yolox_x.pth
+```
 
 **Q: What's the expected processing time?**
 
 A: For 722 cameras:
-- With YOLOv8n (CPU): ~15-30 minutes
-- With YOLOv8n (GPU): ~5-10 minutes
-- Without YOLO: ~2-5 minutes
+- With YOLOX (CPU): ~15-30 minutes
+- With YOLOX (GPU): ~5-10 minutes
+- Without detection: ~2-5 minutes
 
 ## 📖 Additional Resources
 

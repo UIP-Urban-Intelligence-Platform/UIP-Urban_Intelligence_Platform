@@ -4,13 +4,15 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
+
 Description:
-    Tests individual congestion detection logic using CongestionDetectionAgent.
-    Loads observations from a JSON file and evaluates congestion detection step-by-step.
+    Debug script for congestion detection agent.
+    Tests individual components and data flow to troubleshoot issues.
+
 Usage:
     python tests/test_congestion_debug.py
-    
 """
+
 from src.agents.analytics.congestion_detection_agent import CongestionDetectionAgent
 import json
 

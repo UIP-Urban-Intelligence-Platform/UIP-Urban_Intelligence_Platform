@@ -70,6 +70,9 @@ from jinja2 import Environment, FileSystemLoader, Template, TemplateNotFound
 from rdflib import Graph, Namespace, URIRef, Literal
 from rdflib.namespace import RDF, RDFS, XSD
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 
 # ============================================================================
 # ENUMS AND DATA CLASSES
@@ -506,7 +509,6 @@ class ContentNegotiationConfig:
         """
         self.config_path = Path(config_path)
         self.config = self._load_config()
-        self._expand_env_vars()
         self._setup_logging()
         
         self.logger = logging.getLogger(__name__)
@@ -521,36 +523,14 @@ class ContentNegotiationConfig:
             if 'content_negotiation' not in config:
                 raise ValueError("Missing 'content_negotiation' root key in config")
             
+            # Expand environment variables like ${VAR:-default}
+            config = expand_env_var(config)
             return config['content_negotiation']
             
         except FileNotFoundError:
             raise FileNotFoundError(f"Config file not found: {self.config_path}")
         except yaml.YAMLError as e:
             raise ValueError(f"Invalid YAML in config: {e}")
-    
-    def _expand_env_vars(self):
-        """Expand environment variables in config"""
-        
-        def expand(obj):
-            """Recursively expand ${VAR:-default} patterns"""
-            if isinstance(obj, dict):
-                return {k: expand(v) for k, v in obj.items()}
-            elif isinstance(obj, list):
-                return [expand(item) for item in obj]
-            elif isinstance(obj, str):
-                # Match ${VAR_NAME:-default_value} or ${VAR_NAME}
-                pattern = r'\$\{([^}:]+)(?::[-]?([^}]*))?\}'
-                
-                def replace(match):
-                    var_name = match.group(1)
-                    default_value = match.group(2) if match.group(2) is not None else ''
-                    return os.environ.get(var_name, default_value)
-                
-                return re.sub(pattern, replace, obj)
-            else:
-                return obj
-        
-        self.config = expand(self.config)
     
     def _setup_logging(self):
         """Setup logging from config"""

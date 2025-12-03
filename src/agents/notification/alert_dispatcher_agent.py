@@ -1,6 +1,10 @@
 """
 Multi-Channel Alert Dispatcher Agent
-
+Module: src.agents.notification.alert_dispatcher_agent
+Author: nguyễn Nhật Quang
+Created: 2025-11-22
+Version: 1.0.0
+License: MIT
 Domain-agnostic notification system that receives NGSI-LD subscription webhooks
 from Stellio Context Broker and dispatches alerts via multiple communication channels.
 
@@ -14,8 +18,8 @@ Core Capabilities:
 - Delivery tracking, statistics, and audit logging
 
 Module: src.agents.notification.alert_dispatcher_agent
-Author: nguyễn Nhật Quang
-Created: 2025-11-22
+Author: Builder Layer Development Team
+Created: 2024-10-05
 Version: 1.0.0
 License: MIT
 
@@ -78,6 +82,9 @@ import requests
 import yaml
 from flask import Flask, request, jsonify
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 
 # Configure logging
 logging.basicConfig(
@@ -111,33 +118,15 @@ class AlertDispatcherConfig:
         if not self.config_path.exists():
             raise FileNotFoundError(f"Configuration file not found: {config_path}")
         
-        with open(self.config_path, 'r') as f:
+        with open(self.config_path, 'r', encoding='utf-8') as f:
             self.config = yaml.safe_load(f)
+        
+        # Expand environment variables like ${VAR:-default} using centralized helper
+        self.config = expand_env_var(self.config)
         
         self.alert_dispatcher = self.config.get('alert_dispatcher', {})
         
-        # Expand environment variables
-        self._expand_env_vars(self.alert_dispatcher)
-        
         logger.info(f"Loaded configuration from {config_path}")
-    
-    def _expand_env_vars(self, config: Dict[str, Any]):
-        """
-        Recursively expand environment variables in configuration.
-        
-        Args:
-            config: Configuration dictionary
-        """
-        for key, value in config.items():
-            if isinstance(value, str) and value.startswith('${') and value.endswith('}'):
-                env_var = value[2:-1]
-                config[key] = os.getenv(env_var, value)
-            elif isinstance(value, dict):
-                self._expand_env_vars(value)
-            elif isinstance(value, list):
-                for i, item in enumerate(value):
-                    if isinstance(item, dict):
-                        self._expand_env_vars(item)
     
     def get_server_config(self) -> Dict[str, Any]:
         """Get server configuration."""

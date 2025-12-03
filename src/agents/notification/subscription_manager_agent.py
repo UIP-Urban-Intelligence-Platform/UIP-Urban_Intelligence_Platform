@@ -47,6 +47,9 @@ from urllib.parse import urljoin
 import requests
 import yaml
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 
 # Configure logging
 logging.basicConfig(
@@ -82,6 +85,9 @@ class SubscriptionConfig:
         
         with open(self.config_path, 'r') as f:
             self.config = yaml.safe_load(f)
+        
+        # Expand environment variables like ${STELLIO_URL:-default}
+        self.config = expand_env_var(self.config)
         
         self.subscription_manager = self.config.get('subscription_manager', {})
         
@@ -128,11 +134,12 @@ class SubscriptionManager:
         Args:
             config_path: Path to YAML configuration file
         """
+        import os
         self.config = SubscriptionConfig(config_path)
         
-        # Load Stellio configuration
+        # Load Stellio configuration - Priority: environment variables > config > defaults
         stellio_config = self.config.get_stellio_config()
-        self.base_url = stellio_config.get('base_url', 'http://localhost:8080')
+        self.base_url = os.environ.get("STELLIO_URL") or stellio_config.get('base_url', 'http://localhost:8080')
         self.timeout = stellio_config.get('timeout', 10)
         self.max_retries = stellio_config.get('max_retries', 3)
         self.retry_backoff_factor = stellio_config.get('retry_backoff_factor', 2)

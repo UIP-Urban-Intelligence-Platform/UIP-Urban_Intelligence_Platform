@@ -68,6 +68,8 @@ from urllib.parse import urljoin
 import requests
 import yaml
 
+from src.core.config_loader import expand_env_var
+
 # Optional dependencies
 try:
     from kafka import KafkaConsumer
@@ -125,6 +127,9 @@ class StateUpdaterConfig:
         
         with open(config_path, 'r', encoding='utf-8') as f:
             self.config = yaml.safe_load(f)
+        
+        # Expand environment variables in config
+        self.config = expand_env_var(self.config)
         
         if not self.config or 'state_updater' not in self.config:
             raise ValueError("Invalid configuration: 'state_updater' section not found")

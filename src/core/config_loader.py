@@ -1,6 +1,13 @@
 """
 Centralized Configuration Loader Utility
 
+Module: src.core.config_loader
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
 Provides unified YAML configuration loading, validation, and management
 for all agents and services in the LOD pipeline system.
 
@@ -11,11 +18,6 @@ Core Features:
 - Type-safe configuration access with default values
 - Validation of required fields and data types
 
-Module: src.core.config_loader
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-20
-Version: 1.0.0
-License: MIT
 
 Dependencies:
     - PyYAML>=6.0: YAML file parsing
@@ -45,6 +47,8 @@ Error Handling:
 """
 
 import logging
+import os
+import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -52,6 +56,78 @@ import yaml
 
 
 logger = logging.getLogger(__name__)
+
+
+def expand_env_var(value: Any) -> Any:
+    """
+    Expand environment variable syntax in a config value.
+    
+    Supports formats:
+    - ${VAR_NAME} - Returns env var value or empty string
+    - ${VAR_NAME:-default} - Returns env var value or default if not set
+    - ${VAR_NAME:=default} - Same as above, alternative syntax
+    
+    Args:
+        value: Value that may contain env var syntax
+        
+    Returns:
+        Expanded value with env vars replaced
+        
+    Example:
+        >>> os.environ['DB_HOST'] = 'production.db.com'
+        >>> expand_env_var('${DB_HOST:-localhost}')
+        'production.db.com'
+        >>> expand_env_var('${UNDEFINED_VAR:-default_value}')
+        'default_value'
+    """
+    if value is None:
+        return None
+    
+    # Handle dict recursively
+    if isinstance(value, dict):
+        return {k: expand_env_var(v) for k, v in value.items()}
+    
+    # Handle list recursively
+    if isinstance(value, list):
+        return [expand_env_var(item) for item in value]
+    
+    # Only process strings
+    if not isinstance(value, str):
+        return value
+    
+    # Pattern: ${VAR_NAME} or ${VAR_NAME:-default} or ${VAR_NAME:=default}
+    pattern = r'\$\{([A-Za-z_][A-Za-z0-9_]*)(?:(:[-=])([^}]*))?\}'
+    
+    def replace_env_var(match):
+        var_name = match.group(1)
+        has_default = match.group(2) is not None
+        default_value = match.group(3) if has_default else ''
+        
+        env_value = os.environ.get(var_name)
+        
+        if env_value is not None:
+            return env_value
+        elif has_default:
+            return default_value
+        else:
+            return ''
+    
+    result = re.sub(pattern, replace_env_var, value)
+    
+    # Try to convert numeric strings back to numbers
+    if result != value:  # Only if substitution happened
+        try:
+            # Check if it's an integer
+            if result.isdigit() or (result.startswith('-') and result[1:].isdigit()):
+                return int(result)
+            # Check if it's a float
+            float_val = float(result)
+            if '.' in result:
+                return float_val
+        except (ValueError, AttributeError):
+            pass
+    
+    return result
 
 
 class ConfigurationError(Exception):
@@ -112,6 +188,9 @@ class ConfigLoader:
         
         if config_data is None:
             raise ConfigurationError(f"Configuration file is empty: {config_path}")
+        
+        # Expand environment variables in config values
+        config_data = expand_env_var(config_data)
         
         # Extract domain if specified
         if domain:

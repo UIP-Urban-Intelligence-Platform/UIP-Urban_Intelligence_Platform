@@ -4,6 +4,7 @@ Author: Nguyễn Nhật Quang
 Created: 2025-11-22
 Version: 1.0.0
 License: MIT
+
 Description:
     Production-ready integration tests for Apache Jena Fuseki SPARQL endpoint.
     Tests RDF triple storage, SPARQL queries, and graph operations.

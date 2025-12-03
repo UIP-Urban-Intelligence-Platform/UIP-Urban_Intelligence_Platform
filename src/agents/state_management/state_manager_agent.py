@@ -5,6 +5,8 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-24
 Version: 1.0.0
 License: MIT
+
+
 Description:
 This agent provides a unified interface for managing application state across
 all agents and services. It maintains state consistency, handles concurrent updates,
@@ -18,7 +20,6 @@ ARCHITECTURE:
 - Automatic state persistence and recovery
 
 REAL IMPLEMENTATION - Full Redis integration, disabled by default for safety
-
 """
 
 import logging
@@ -67,10 +68,12 @@ class StateManagerAgent:
         
         if self.enabled and REDIS_AVAILABLE:
             try:
-                redis_host = self.config.get("redis_host", "localhost")
-                redis_port = self.config.get("redis_port", 6379)
+                import os
+                # Priority: environment variables > config > defaults
+                redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
+                redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
                 redis_db = self.config.get("redis_db", 0)
-                redis_password = self.config.get("redis_password")
+                redis_password = os.environ.get("REDIS_PASSWORD") or self.config.get("redis_password")
                 
                 # Create connection pool for better performance
                 pool = ConnectionPool(

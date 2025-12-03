@@ -4,15 +4,14 @@ Authors: Nguyen Viet Hoang
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
+
 Description:
     Production-ready integration tests for RDF generation pipeline.
     Tests NGSI-LD to RDF conversion, triple generation, and graph serialization.
 
 Usage:
     pytest tests/integration/test_rdf_pipeline.py
-
 """
-
 
 import pytest
 from rdflib import Graph, Namespace, Literal, URIRef

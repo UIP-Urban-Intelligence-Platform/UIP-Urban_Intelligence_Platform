@@ -4,13 +4,11 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
-Description:
-    Tests the full congestion detection process using CongestionDetectionAgent.
-    Loads observations from a JSON file, processes them, and outputs congestion events.
-Usage:
-    python tests/test_congestion_full.py
-"""
 
+Description:
+    End-to-end test for congestion detection agent processing.
+    Tests the complete flow from observation file to congestion state updates.
+"""
 
 from src.agents.analytics.congestion_detection_agent import CongestionDetectionAgent
 import json

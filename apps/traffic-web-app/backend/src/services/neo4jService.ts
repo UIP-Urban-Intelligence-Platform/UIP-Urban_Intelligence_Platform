@@ -61,7 +61,7 @@ export class Neo4jService {
         MATCH (a:Accident)
         RETURN a
         ORDER BY a.timestamp DESC
-        LIMIT 1000
+        LIMIT 100
       `);
 
       const accidents = result.records.map(record => {

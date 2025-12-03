@@ -5,6 +5,8 @@ Author: Nguyen Dinh Anh Tuan
 Created: 2025-11-25
 Version: 1.0.0
 License: MIT
+
+
 Description: 
 Manages traffic congestion states across road segments and zones,
 tracking congestion levels, duration, and automatic alert generation.

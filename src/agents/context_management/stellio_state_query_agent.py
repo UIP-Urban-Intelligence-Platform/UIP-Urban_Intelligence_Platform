@@ -50,6 +50,8 @@ from typing import Dict, List, Optional, Any
 from datetime import datetime
 import yaml
 
+from src.core.config_loader import expand_env_var
+
 
 # Configure logging
 logging.basicConfig(
@@ -74,9 +76,9 @@ class StellioStateQueryAgent:
         self.config_path = config_path
         self.config = self._load_config()
         
-        # Get Stellio configuration
+        # Get Stellio configuration - Priority: environment variables > config > defaults
         stellio_config = self.config.get('stellio', {})
-        self.base_url = stellio_config.get('base_url', 'http://localhost:8080')
+        self.base_url = os.environ.get("STELLIO_URL") or stellio_config.get('base_url', 'http://localhost:8080')
         self.query_endpoint = stellio_config.get('query_endpoint', '/ngsi-ld/v1/entities')
         self.timeout = stellio_config.get('timeout', 30)
         
@@ -95,6 +97,9 @@ class StellioStateQueryAgent:
             
             with open(self.config_path, 'r', encoding='utf-8') as f:
                 config = yaml.safe_load(f)
+            
+            # Expand environment variables in config
+            config = expand_env_var(config)
             
             logger.info(f"Loaded configuration from: {self.config_path}")
             return config

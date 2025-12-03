@@ -1,6 +1,12 @@
 """
 SOSA/SSN Semantic Mapper Agent
 
+Module: src.agents.transformation.sosa_ssn_mapper_agent
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-22
+Version: 1.0.0
+License: MIT
+
 Enhances NGSI-LD entities with W3C SOSA/SSN ontology properties for semantic
 interoperability in sensor observation systems. Domain-agnostic implementation
 via configuration-driven mapping rules.
@@ -19,8 +25,8 @@ Core Features:
 - Merges @context arrays with SOSA/SSN semantic contexts
 
 Module: src.agents.transformation.sosa_ssn_mapper_agent
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-22
+Author: Builder Layer LOD System
+Created: 2024-09-25
 Version: 1.0.0
 License: MIT
 

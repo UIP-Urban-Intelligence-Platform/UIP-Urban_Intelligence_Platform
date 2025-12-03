@@ -117,15 +117,16 @@ class PatternConfig:
     def _load_config(self) -> Dict[str, Any]:
         """Load YAML configuration file."""
         try:
+            # Import expand_env_var helper for ${VAR:-default} syntax support
+            from src.core.config_loader import expand_env_var
+            
             with open(self.config_path, 'r', encoding='utf-8') as f:
                 config = yaml.safe_load(f)
             
-            # Environment variable substitution
-            config_str = json.dumps(config)
-            for key, value in os.environ.items():
-                config_str = config_str.replace(f"${{{key}}}", value)
+            # Use centralized expand_env_var for proper ${VAR:-default} syntax support
+            config = expand_env_var(config)
             
-            return json.loads(config_str)
+            return config
         except FileNotFoundError:
             raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
         except yaml.YAMLError as e:
@@ -195,9 +196,15 @@ class Neo4jConnector:
             raise ImportError("neo4j package required - install with: pip install neo4j")
         
         self.config = config
-        self.uri = config['uri']
-        self.auth = (config['auth']['username'], config['auth']['password'])
-        self.database = config.get('database', 'neo4j')
+        
+        # Read from environment variables first, fallback to config file
+        self.uri = os.environ.get('NEO4J_URL') or config.get('uri', 'bolt://localhost:7687')
+        
+        neo4j_user = os.environ.get('NEO4J_USER') or config.get('auth', {}).get('username', 'neo4j')
+        neo4j_password = os.environ.get('NEO4J_PASSWORD') or config.get('auth', {}).get('password', '')
+        self.auth = (neo4j_user, neo4j_password)
+        
+        self.database = os.environ.get('NEO4J_DATABASE') or config.get('database', 'neo4j')
         
         self.driver: Optional[Driver] = None
         self._connect()
@@ -246,13 +253,14 @@ class Neo4jConnector:
         # Build Cypher query dynamically based on metrics
         metric_return = ", ".join([f"o.{m}" for m in metrics])
         
+        # Use createdAt as the timestamp field (observedAt may not exist in Neo4j sync)
         query = f"""
         MATCH (c:Camera {{id: $camera_id}})
               -[:HAS_OBSERVATION]->(o:Observation)
-        WHERE o.observedAt >= $start_time
-          AND o.observedAt <= $end_time
-        RETURN o.observedAt AS timestamp, {metric_return}
-        ORDER BY o.observedAt
+        WHERE o.createdAt >= $start_time
+          AND o.createdAt <= $end_time
+        RETURN o.createdAt AS timestamp, {metric_return}
+        ORDER BY o.createdAt
         """
         
         with self.driver.session(database=self.database) as session:
@@ -983,9 +991,10 @@ class PatternRecognitionAgent:
         results['rush_hours'] = rush_hours
         
         # Anomalies
-        if patterns_config.get('anomaly_detection', {}).get('enabled', True):
-            anomaly_threshold = patterns_config['anomaly_detection']['threshold']
-            min_samples = patterns_config['anomaly_detection']['min_samples']
+        anomaly_config = patterns_config.get('anomaly_detection', {})
+        if anomaly_config.get('enabled', True):
+            anomaly_threshold = anomaly_config.get('z_score_threshold', anomaly_config.get('threshold', 2.5))
+            min_samples = anomaly_config.get('min_samples', 30)
             anomalies = detector.detect_anomalies('intensity', anomaly_threshold, min_samples)
             results['anomalies'] = anomalies
         
@@ -1030,10 +1039,7 @@ class PatternRecognitionAgent:
         entity_id = f"{id_prefix}{camera_short}-{pattern_type}-{timestamp_str}"
         
         entity = {
-            '@context': [
-                'https://raw.githubusercontent.com/smart-data-models/dataModel.Transportation/master/context.jsonld',
-                'https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld'
-            ],
+            '@context': 'https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld',
             'id': entity_id,
             'type': entity_config['type'],
             'patternType': {
@@ -1098,7 +1104,10 @@ class PatternRecognitionAgent:
             True if successful, False otherwise
         """
         stellio_config = self.config.get_stellio_config()
-        url = f"{stellio_config['base_url']}{stellio_config['create_endpoint']}"
+        # Config has endpoints.create_entity, not create_endpoint
+        endpoints = stellio_config.get('endpoints', {})
+        create_endpoint = endpoints.get('create_entity', '/ngsi-ld/v1/entities')
+        url = f"{stellio_config['base_url']}{create_endpoint}"
         
         try:
             response = self.session.post(url, json=entity, timeout=30)

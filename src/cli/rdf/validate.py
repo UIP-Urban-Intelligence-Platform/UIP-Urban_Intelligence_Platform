@@ -1,6 +1,12 @@
 """
 RDF Validation CLI
 
+Module: src.cli.rdf.validate
+Author: Nguyen Viet Hoang 
+Created: 2025-11-26
+Version: 1.0.0
+License: MIT
+
 Validate RDF data against SHACL shapes or Smart Data Models.
 
 FULL PRODUCTION IMPLEMENTATION - Real pyshacl validation

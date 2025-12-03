@@ -68,6 +68,9 @@ from datetime import datetime
 from typing import Optional, Dict, Any, List
 from pathlib import Path
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 # FastAPI & Uvicorn
 try:
     from fastapi import FastAPI, BackgroundTasks, HTTPException, status
@@ -114,6 +117,8 @@ def load_api_config() -> Dict[str, Any]:
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
             config = yaml.safe_load(f)
+            # Expand environment variables like ${API_KEY}
+            config = expand_env_var(config)
             return config.get('external_apis', {})
     except Exception as e:
         logger.error(f"Failed to load data_sources.yaml: {e}")
@@ -359,7 +364,9 @@ class NGSILDTransformer:
     """Transform CitizenReport + Enrichment Data to NGSI-LD entity."""
     
     def __init__(self, stellio_base_url: str = "http://localhost:8080"):
-        self.stellio_base_url = stellio_base_url
+        import os
+        # Priority: environment variables > parameter > defaults
+        self.stellio_base_url = os.environ.get("STELLIO_URL") or stellio_base_url
         self.session = requests.Session()
         self.session.headers.update({
             'Content-Type': 'application/ld+json',

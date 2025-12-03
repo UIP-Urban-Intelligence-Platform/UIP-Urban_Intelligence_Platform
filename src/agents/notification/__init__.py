@@ -4,6 +4,7 @@
 Module: src.agents.notification
 Author: nguyễn Nhật Quang
 Created: 2025-11-22
+Version: 1.0.0
 License: MIT
 
 Description:

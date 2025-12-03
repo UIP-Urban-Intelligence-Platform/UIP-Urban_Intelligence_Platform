@@ -62,6 +62,8 @@ from typing import Dict, List, Any, Optional, Tuple
 
 import yaml
 
+from src.core.config_loader import expand_env_var
+
 try:
     from pymongo import MongoClient, ASCENDING, DESCENDING, GEOSPHERE
     from pymongo.errors import (
@@ -113,6 +115,10 @@ class MongoDBHelper:
         try:
             with open(self.config_path, 'r', encoding='utf-8') as f:
                 config = yaml.safe_load(f)
+            
+            # Expand environment variables in config values
+            config = expand_env_var(config)
+            
             logger.info(f"Loaded MongoDB config from {self.config_path}")
             return config
         except Exception as e:

@@ -24,11 +24,11 @@ services:
     volumes:
       - neo4j_test_data:/data
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:7474 || exit 1"]
-      interval: 10s
-      timeout: 10s
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p test12345 'RETURN 1' > /dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 15s
       retries: 20
-      start_period: 60s  # Neo4j needs time to start and install APOC plugin
+      start_period: 120s  # Neo4j needs time to start, install APOC plugin, and initialize
     networks:
       - test-network
 
@@ -137,11 +137,11 @@ services:
     volumes:
       - kafka_test_data:/tmp/kraft-combined-logs
     healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 15
-      start_period: 45s  # Kafka KRaft mode needs time to initialize
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 15s
+      retries: 20
+      start_period: 90s  # Kafka KRaft mode needs more time to fully initialize
     networks:
       - test-network
 
@@ -309,7 +309,7 @@ services:
     volumes:
       - ./config:/app/config
       - ./logs:/app/logs
-      - ./assets:/app/assets  # YOLOv8 models
+      - ./assets:/app/assets  # YOLOX models
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import os; exit(0 if os.path.exists('/app/logs/cv_verification_service.log') else 1)\" || curl -sf http://stellio-api-gateway:8080/ngsi-ld/v1/entityTypes > /dev/null"]
       interval: 30s

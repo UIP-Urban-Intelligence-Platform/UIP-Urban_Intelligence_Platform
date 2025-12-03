@@ -1,6 +1,13 @@
 """
 Data Seeder for Workflow Testing
 
+Module: src.core.data_seeder
+Author: Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
 Generates mock NGSI-LD entities for testing workflow phases without requiring
 real data sources. Supports configurable entity generation for cameras, accidents,
 patterns, and observations.
@@ -12,11 +19,7 @@ Core Features:
 - Support for temporal and geospatial properties
 - Batch generation for performance testing
 
-Module: src.core.data_seeder
-Author: Nguyen Dinh Anh Tuan
-Created: 2025-11-20
-Version: 1.0.0
-License: MIT
+
 
 Configuration:
     Enable via workflow.yaml:

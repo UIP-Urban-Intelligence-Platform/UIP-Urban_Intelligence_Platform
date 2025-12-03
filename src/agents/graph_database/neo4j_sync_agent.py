@@ -14,8 +14,6 @@ GRAPH SCHEMA:
 
 
 """
-#Authors: Nguyen Viet Hoang
-\
 
 try:
     from neo4j import GraphDatabase, Driver
@@ -44,11 +42,13 @@ class Neo4jSyncAgent:
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize Neo4j sync agent with real driver connection."""
+        import os
         self.config = config or {}
         self.enabled = self.config.get("enabled", False)
-        self._uri = self.config.get("neo4j_uri", "bolt://localhost:7687")
-        self._username = self.config.get("username", "neo4j")
-        self._password = self.config.get("password", "password")
+        # Priority: environment variables > config > defaults
+        self._uri = os.environ.get("NEO4J_URL") or self.config.get("neo4j_uri", "bolt://localhost:7687")
+        self._username = os.environ.get("NEO4J_USER") or self.config.get("username", "neo4j")
+        self._password = os.environ.get("NEO4J_PASSWORD") or self.config.get("password", "password")
         
         # Neo4j driver instance
         self._driver: Optional['Driver'] = None

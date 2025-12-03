@@ -70,9 +70,9 @@ const features = [
     {
         icon: Eye,
         title: 'Computer Vision',
-        description: 'YOLOv8-powered vehicle detection, accident detection, congestion analysis với AI verification',
+        description: 'YOLOX-powered vehicle detection, accident detection, congestion analysis với AI verification',
         gradient: 'from-orange-500 to-red-500',
-        stats: 'YOLOv8',
+        stats: 'YOLOX',
     },
     {
         icon: GitBranch,

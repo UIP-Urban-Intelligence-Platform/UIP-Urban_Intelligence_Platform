@@ -75,6 +75,9 @@ from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.background import BackgroundTask
 
+# Import centralized environment variable expansion helper
+from src.core.config_loader import expand_env_var
+
 
 class AuthMethod(Enum):
     """Authentication method types"""
@@ -174,12 +177,10 @@ class APIGatewayConfig:
         """Load and parse YAML configuration with environment variable expansion"""
         try:
             with open(self.config_path, 'r') as f:
-                config_str = f.read()
+                config = yaml.safe_load(f)
             
-            # Expand environment variables
-            config_str = self._expand_env_vars(config_str)
-            
-            config = yaml.safe_load(config_str)
+            # Expand environment variables like ${VAR:-default}
+            config = expand_env_var(config)
             
             # Validate required sections
             required_sections = ['api_gateway']
@@ -193,17 +194,6 @@ class APIGatewayConfig:
             raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
         except yaml.YAMLError as e:
             raise ValueError(f"Invalid YAML configuration: {e}")
-    
-    def _expand_env_vars(self, config_str: str) -> str:
-        """Expand environment variables in configuration string"""
-        pattern = r'\$\{([^}:]+)(?::[-]?([^}]*))?\}'
-        
-        def replace_env_var(match):
-            var_name = match.group(1)
-            default_value = match.group(2) if match.group(2) is not None else ''
-            return os.environ.get(var_name, default_value)
-        
-        return re.sub(pattern, replace_env_var, config_str)
     
     def _setup_logging(self):
         """Setup logging configuration"""
@@ -326,7 +316,9 @@ class TokenBucketRateLimiter:
         if self.storage == 'redis':
             try:
                 import redis
-                redis_url = config.get('redis_url', 'redis://localhost:6379')
+                import os
+                # Priority: environment variables > config > defaults
+                redis_url = os.environ.get("REDIS_URL") or config.get('redis_url', 'redis://localhost:6379')
                 redis_db = config.get('redis_db', 0)
                 self.redis_client = redis.from_url(redis_url, db=redis_db, decode_responses=True)
                 self.redis_key_prefix = config.get('redis_key_prefix', 'api_gateway:rate_limit:')
@@ -512,7 +504,9 @@ class ResponseCache:
         if self.storage == 'redis':
             try:
                 import redis
-                redis_url = config.get('redis_url', 'redis://localhost:6379')
+                import os
+                # Priority: environment variables > config > defaults
+                redis_url = os.environ.get("REDIS_URL") or config.get('redis_url', 'redis://localhost:6379')
                 redis_db = config.get('redis_db', 1)
                 self.redis_client = redis.from_url(redis_url, db=redis_db)
                 self.redis_key_prefix = config.get('redis_key_prefix', 'api_gateway:cache:')
