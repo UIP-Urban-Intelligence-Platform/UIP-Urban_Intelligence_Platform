@@ -1,6 +1,6 @@
 # 📖 Glossary
 
-Technical terms and definitions used in Builder Layer End.
+Technical terms and definitions used in UIP - Urban Intelligence Platform.
 
 ---
 

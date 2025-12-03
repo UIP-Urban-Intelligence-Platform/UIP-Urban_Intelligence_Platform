@@ -1,6 +1,6 @@
 # ❓ Frequently Asked Questions
 
-Common questions and answers about Builder Layer End.
+Common questions and answers about UIP - Urban Intelligence Platform.
 
 ---
 
@@ -19,9 +19,9 @@ Common questions and answers about Builder Layer End.
 
 ## 🌐 General
 
-### What is Builder Layer End?
+### What is UIP - Urban Intelligence Platform?
 
-Builder Layer End is a Multi-Agent Linked Open Data (LOD) Pipeline for Smart Traffic Management. It transforms raw traffic data (cameras, sensors, weather, air quality) into semantic web formats (RDF, NGSI-LD) and publishes them as Linked Open Data.
+UIP - Urban Intelligence Platform is a Multi-Agent Linked Open Data (LOD) Pipeline for Smart Traffic Management. It transforms raw traffic data (cameras, sensors, weather, air quality) into semantic web formats (RDF, NGSI-LD) and publishes them as Linked Open Data.
 
 ### What are the main features?
 
@@ -42,7 +42,7 @@ Builder Layer End is a Multi-Agent Linked Open Data (LOD) Pipeline for Smart Tra
 
 ### Is this production-ready?
 
-Yes, Builder Layer End is designed for production use. However, you should:
+Yes, UIP - Urban Intelligence Platform is designed for production use. However, you should:
 - Configure proper authentication
 - Set up monitoring and logging
 - Review security settings
@@ -70,8 +70,8 @@ Yes, Builder Layer End is designed for production use. However, you should:
 winget install Docker.DockerDesktop
 
 # Clone repository
-git clone https://github.com/your-org/Builder-Layer-End.git
-cd Builder-Layer-End
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 
 # Start services
 docker-compose up -d
@@ -84,8 +84,8 @@ docker-compose up -d
 curl -fsSL https://get.docker.com | sh
 
 # Clone repository
-git clone https://github.com/your-org/Builder-Layer-End.git
-cd Builder-Layer-End
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 
 # Start services
 docker-compose up -d
@@ -451,7 +451,7 @@ docker system prune -a --volumes
 - **GitHub Issues**: For bugs and feature requests
 - **GitHub Discussions**: For questions
 - **Wiki**: For documentation
-- **Stack Overflow**: Tag with `builder-layer-end`
+- **Stack Overflow**: Tag with `uip-urban-intelligence`
 
 ---
 

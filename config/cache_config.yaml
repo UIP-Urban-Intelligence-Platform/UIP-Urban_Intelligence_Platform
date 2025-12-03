@@ -1,9 +1,11 @@
 # Cache Manager Agent Configuration
 # Domain-agnostic caching layer with Redis backend
 # All cache policies, warming strategies, and invalidation rules defined here
+#Module: Cache Manager Agent
 #author: Nguyen Viet Hoang
 #created: 2025-11-25
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for cache manager agent
 
 cache_manager:

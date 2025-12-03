@@ -1,7 +1,11 @@
 # Apache Jena Fuseki Triplestore Configuration
 # 100% DOMAIN-AGNOSTIC - Works with ANY LOD domain (healthcare, geography, commerce, etc.)
 # ALL endpoint configurations are here - NO hardcoded URLs in Python code
-
+#Module: Fuseki Triplestore Loader
+#Author: Nguyễn Việt Hoàng
+#Created: 2025-11-24
+#Version: 1.0.0
+#License: MIT
 fuseki:
   # Base URL for Fuseki server
   # Read from environment variable: FUSEKI_URL

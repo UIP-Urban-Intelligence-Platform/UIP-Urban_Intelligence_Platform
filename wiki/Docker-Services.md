@@ -1,12 +1,12 @@
 # 🐳 Docker Services
 
-Complete Docker infrastructure documentation for Builder Layer End.
+Complete Docker infrastructure documentation for UIP - Urban Intelligence Platform.
 
 ---
 
 ## 📊 Overview
 
-Builder Layer End uses Docker Compose to orchestrate 12+ services:
+UIP - Urban Intelligence Platform uses Docker Compose to orchestrate 12+ services:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐

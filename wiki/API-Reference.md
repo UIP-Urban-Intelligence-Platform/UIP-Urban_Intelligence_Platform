@@ -1,12 +1,12 @@
 # 🔌 API Reference
 
-Complete API documentation for Builder Layer End services.
+Complete API documentation for UIP - Urban Intelligence Platform services.
 
 ---
 
 ## 📊 Overview
 
-Builder Layer End exposes multiple API services:
+UIP - Urban Intelligence Platform exposes multiple API services:
 
 | Service | Port | Base URL | Description |
 |---------|------|----------|-------------|

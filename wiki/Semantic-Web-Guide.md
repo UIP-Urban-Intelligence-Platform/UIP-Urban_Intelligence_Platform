@@ -1,12 +1,12 @@
 # 🌐 Semantic Web Guide
 
-Understanding the Semantic Web technologies in Builder Layer End.
+Understanding the Semantic Web technologies in UIP - Urban Intelligence Platform.
 
 ---
 
 ## 📊 Overview
 
-Builder Layer End implements a comprehensive Semantic Web stack:
+UIP - Urban Intelligence Platform implements a comprehensive Semantic Web stack:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐

@@ -1,6 +1,6 @@
 # ⚙️ Configuration Guide
 
-Complete configuration reference for Builder Layer End.
+Complete configuration reference for UIP - Urban Intelligence Platform.
 
 ---
 

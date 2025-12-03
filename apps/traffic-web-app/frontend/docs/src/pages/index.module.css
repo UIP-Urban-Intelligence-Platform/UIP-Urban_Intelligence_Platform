@@ -1,6 +1,13 @@
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ *
+ * 
+ * @file        index.module.css
+ * @description CSS Module for the main index page of the Traffic Web Application documentation site
+ * @authors     Nguyen Nhat Quang, 
+ * @version     2.0.0
+ * @license     MIT
+ * @copyright   Copyright (c) 2024-2025 Builder Layer End Contributors
+ * @see         https://github.com/NguyenNhatquang522004/Builder-Layer-End
  */
 
 .heroBanner {

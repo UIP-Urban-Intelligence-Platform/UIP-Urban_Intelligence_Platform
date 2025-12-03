@@ -1,8 +1,10 @@
 # Neo4j Sync Configuration
 # Synchronizes NGSI-LD entities from Stellio PostgreSQL to Neo4j graph database
+# Module: Neo4j Synchronization Agent
 # Author: Nguyen Viet Hoang
 # Created: 2025-11-25
 # Version: 1.0.0
+#License: MIT
 # Description: Configuration file for Neo4j synchronization agent
 neo4j_sync:
   # PostgreSQL connection (Stellio backend)

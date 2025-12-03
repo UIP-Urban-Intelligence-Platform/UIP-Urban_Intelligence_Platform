@@ -37,7 +37,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn",
-    author_email="nguyennhatquang522004@gmail.com",
+    author_email="nguyennhatquang522004@gmail.com , nguyenviethoang@gmail.com , nguyendinhanhtuan@gmail.com",
     url="https://github.com/your-org/builder-layer-end",
     
     # Package configuration

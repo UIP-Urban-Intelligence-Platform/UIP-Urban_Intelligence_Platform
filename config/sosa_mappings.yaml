@@ -1,8 +1,10 @@
 # SOSA/SSN Ontology Mapping Configuration
 # 100% Domain-Agnostic - Works with ANY LOD domain
+#Module: SOSA/SSN Ontology Mapper
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-22
 # Version: 2.0.0 - Updated to support Camera (Sensor) + WeatherObserved/AirQualityObserved (Observation)
+#License: MIT
 # Description: Configuration file for mapping NGSI-LD entities to SOSA/SSN ontology
 # Sensor type configuration (for Camera entities)
 sensor_type: "sosa:Sensor"

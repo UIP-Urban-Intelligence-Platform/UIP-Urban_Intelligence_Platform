@@ -5,6 +5,7 @@
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-29
 #Version: 1.0.0
+#License: MIT
 # Purpose:
 #   Enable automatic enrichment of entities with owl:sameAs relationships
 #   to DBpedia, Wikidata, and GeoNames for LOD Cloud compliance

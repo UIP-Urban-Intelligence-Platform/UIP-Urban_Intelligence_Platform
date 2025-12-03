@@ -1,9 +1,11 @@
 # Content Negotiation Agent Configuration
 # Implements LOD best practices for content negotiation
 # Domain-agnostic, config-driven HTTP server
+#Module: Content Negotiation Agent
 #Author: Nguyễn Việt Hoàng
 #Created: 2025-11-22
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for content negotiation agent
 content_negotiation:
   server:

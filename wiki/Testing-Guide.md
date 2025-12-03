@@ -1,12 +1,12 @@
 # 🧪 Testing Guide
 
-Complete testing documentation for Builder Layer End.
+Complete testing documentation for UIP - Urban Intelligence Platform.
 
 ---
 
 ## 📊 Overview
 
-Builder Layer End uses a comprehensive testing strategy:
+UIP - Urban Intelligence Platform uses a comprehensive testing strategy:
 
 | Test Type | Framework | Location | Purpose |
 |-----------|-----------|----------|---------|

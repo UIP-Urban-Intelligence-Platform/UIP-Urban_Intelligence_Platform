@@ -1,8 +1,10 @@
 # Smart Data Models Validation Configuration
 # 100% Domain-Agnostic - Works with ANY LOD domain
+#Module: NGSI-LD Entity Validator
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-23
 # Version: 1.0.0
+#License: MIT
 # Description: Configuration file for validating NGSI-LD entities against Smart Data Models and LOD criteria
 # LOD (Linked Open Data) 5-Star Rating Criteria
 # Based on Tim Berners-Lee's 5-star deployment scheme

@@ -1,6 +1,6 @@
 # 📥 Installation
 
-This guide covers all installation methods for Builder Layer End.
+This guide covers all installation methods for UIP - Urban Intelligence Platform.
 
 ---
 
@@ -33,15 +33,15 @@ This guide covers all installation methods for Builder Layer End.
 
 ```powershell
 # Windows PowerShell
-git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
-cd builder-layer-end
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 .\justrun.ps1 dev
 ```
 
 ```bash
 # Linux / macOS
-git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
-cd builder-layer-end
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 chmod +x justrun.sh
 ./justrun.sh dev
 ```
@@ -61,8 +61,8 @@ This single command will:
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
-cd builder-layer-end
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 
 # View available targets
 make help
@@ -107,8 +107,8 @@ make prod
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
-cd builder-layer-end
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 
 # Copy environment
 cp .env.example .env
@@ -130,8 +130,8 @@ docker-compose down
 #### Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
-cd builder-layer-end
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 ```
 
 #### Step 2: Python Environment

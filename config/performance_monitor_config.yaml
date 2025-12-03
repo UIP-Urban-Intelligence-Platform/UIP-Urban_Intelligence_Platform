@@ -4,9 +4,11 @@
 # Purpose: Define metrics collection, Prometheus export, and alerting rules
 # Architecture: 100% domain-agnostic, config-driven monitoring system
 # ==============================================================================
+# Module: Performance Monitor Agent
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-25
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for performance monitoring agent
 performance_monitor:
   # Collection interval in seconds

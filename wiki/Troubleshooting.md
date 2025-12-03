@@ -492,7 +492,7 @@ python scripts/diagnostics.py > diagnostics.txt
 
 ### Report Issues
 
-1. Check existing issues: [GitHub Issues](https://github.com/your-org/builder-layer-end/issues)
+1. Check existing issues: [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
 2. Search FAQ: [[FAQ]]
 3. Create new issue with:
    - Environment (OS, Docker version, Python version)

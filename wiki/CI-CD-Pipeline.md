@@ -6,7 +6,7 @@ Continuous Integration and Continuous Deployment with GitHub Actions.
 
 ## 📊 Overview
 
-Builder Layer End uses **10 GitHub Actions workflows** for automation:
+UIP - Urban Intelligence Platform uses **10 GitHub Actions workflows** for automation:
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
@@ -308,7 +308,7 @@ jobs:
       - name: Create release archive
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          tar -czvf builder-layer-end-$VERSION.tar.gz \
+          tar -czvf uip-urban-intelligence-$VERSION.tar.gz \
             --exclude='.git' \
             --exclude='node_modules' \
             --exclude='__pycache__' \
@@ -329,7 +329,7 @@ jobs:
           files: |
             dist/*.whl
             dist/*.tar.gz
-            builder-layer-end-*.tar.gz
+            uip-urban-intelligence-*.tar.gz
           draft: false
           prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
 ```
@@ -477,10 +477,10 @@ Configure these secrets in GitHub repository settings:
 Add these to your README:
 
 ```markdown
-![Tests](https://github.com/your-org/Builder-Layer-End/workflows/Tests/badge.svg)
-![Lint](https://github.com/your-org/Builder-Layer-End/workflows/Lint/badge.svg)
-![CodeQL](https://github.com/your-org/Builder-Layer-End/workflows/CodeQL/badge.svg)
-[![codecov](https://codecov.io/gh/your-org/Builder-Layer-End/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/Builder-Layer-End)
+![Tests](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/workflows/Tests/badge.svg)
+![Lint](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/workflows/Lint/badge.svg)
+![CodeQL](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/workflows/CodeQL/badge.svg)
+[![codecov](https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/branch/main/graph/badge.svg)](https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform)
 ```
 
 ---

@@ -1,7 +1,14 @@
 /**
- * Custom CSS for HCMC Traffic Monitoring System Documentation
+ *
+ * 
+ * @file        custom.css
+ * @description Custom CSS for the Builder Layer End documentation site
+ * @authors     Nguyen Nhat Quang, 
+ * @version     2.0.0
+ * @license     MIT
+ * @copyright   Copyright (c) 2024-2025 Builder Layer End Contributors
+ * @see         https://github.com/NguyenNhatquang522004/Builder-Layer-End
  */
-
 :root {
     /* Primary Colors - Traffic Theme */
     --ifm-color-primary: #2563eb;

@@ -1,8 +1,10 @@
 # Integration Test Configuration
 # Defines test scenarios, expected outcomes, and verification rules
+# Module: Integration Test Suite
 #Author Nguyen Viet Hoang 
 #Created: 2025-11-24
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for integration tests of the entire pipeline
 integration_tests:
   # Test timeout settings

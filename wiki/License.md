@@ -1,6 +1,6 @@
 # 📜 License
 
-Builder Layer End is released under the MIT License.
+UIP - Urban Intelligence Platform is released under the MIT License.
 
 ---
 
@@ -9,7 +9,7 @@ Builder Layer End is released under the MIT License.
 ```
 MIT License
 
-Copyright (c) 2024 Builder Layer End Contributors
+Copyright (c) 2024 UIP - Urban Intelligence Platform Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -62,7 +62,7 @@ SOFTWARE.
 
 ## 🔗 Third-Party Licenses
 
-Builder Layer End uses the following open-source components:
+UIP - Urban Intelligence Platform uses the following open-source components:
 
 ### Python Dependencies
 
@@ -108,17 +108,17 @@ Builder Layer End uses the following open-source components:
 
 ## 📝 Attribution
 
-When using Builder Layer End, we appreciate attribution in the following format:
+When using UIP - Urban Intelligence Platform, we appreciate attribution in the following format:
 
 ```
-Built with Builder Layer End
-https://github.com/your-org/Builder-Layer-End
+Built with UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
 ```
 
 Or in documentation:
 
 ```markdown
-This project uses [Builder Layer End](https://github.com/your-org/Builder-Layer-End), 
+This project uses [UIP - Urban Intelligence Platform](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform), 
 a Multi-Agent Linked Open Data Pipeline for Smart Traffic Management.
 ```
 

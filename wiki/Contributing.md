@@ -1,6 +1,6 @@
 # 🤝 Contributing Guide
 
-Thank you for your interest in contributing to Builder Layer End!
+Thank you for your interest in contributing to UIP - Urban Intelligence Platform!
 
 ---
 
@@ -50,11 +50,11 @@ We pledge to make participation in our project a harassment-free experience for 
 
 ```bash
 # Fork the repository on GitHub, then:
-git clone https://github.com/YOUR-USERNAME/Builder-Layer-End.git
-cd Builder-Layer-End
+git clone https://github.com/<YOUR-USERNAME>/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 
 # Add upstream remote
-git remote add upstream https://github.com/ORIGINAL-OWNER/Builder-Layer-End.git
+git remote add upstream https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
 ```
 
 ### Development Setup

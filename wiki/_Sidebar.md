@@ -1,6 +1,6 @@
-<!-- Builder Layer End Wiki Sidebar -->
+<!-- UIP - Urban Intelligence Platform Wiki Sidebar -->
 
-**📚 Builder Layer End Wiki**
+**📚 UIP - Urban Intelligence Platform Wiki**
 
 ---
 
@@ -74,10 +74,10 @@
 ---
 
 ### 🔗 External Links
-* [GitHub Repository](https://github.com/your-org/Builder-Layer-End)
-* [Issue Tracker](https://github.com/your-org/Builder-Layer-End/issues)
-* [Discussions](https://github.com/your-org/Builder-Layer-End/discussions)
-* [Releases](https://github.com/your-org/Builder-Layer-End/releases)
+* [GitHub Repository](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform)
+* [Issue Tracker](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+* [Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions)
+* [Releases](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases)
 
 ---
 

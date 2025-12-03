@@ -1,6 +1,6 @@
 # 🤖 Multi-Agent System
 
-Builder Layer End employs a sophisticated multi-agent architecture with **41 specialized agents** (38 Python + 3 TypeScript) organized into 14 functional categories.
+UIP - Urban Intelligence Platform employs a sophisticated multi-agent architecture with **41 specialized agents** (38 Python + 3 TypeScript) organized into 14 functional categories.
 
 ---
 

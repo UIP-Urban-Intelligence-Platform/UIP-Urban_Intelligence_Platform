@@ -1,9 +1,11 @@
 # Pattern Recognition Agent Configuration
 # 100% DOMAIN-AGNOSTIC: Works with ANY temporal data via configuration
 # Time-Series Analysis, Pattern Detection, and Forecasting
+#Module: Pattern Recognition Agent
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-21
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for pattern recognition agent
 
 pattern_recognition:

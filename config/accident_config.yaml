@@ -1,9 +1,11 @@
 # Accident Detection Agent Configuration
 #  DOMAIN-AGNOSTIC: Anomaly detection framework for ANY traffic data
 # Supports multiple detection methods with configurable thresholds
+#Module: Accident Detection Agent
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-21
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for accident detection agent
 
 accident_detection:

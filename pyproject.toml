@@ -10,7 +10,14 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
-    {name = "LOD Pipeline Team", email = "team@example.com"}
+    {name = "Nguyen Nhat Quang", email = "NguyenNhatquang522004@gmail.com"},
+     {name = "Nguyen Viet Hoang" ,email = "nguyenviethoang@example.com"},
+    {name = "Nguyen Dinh Anh Tuan" ,email = "nguyendinhanhtuan@example.com"}
+]
+maintainers = [
+    {name = "Nguyen Nhat Quang", email = "nguyenNhatquang522004@gmail.com"},
+    {name = "Nguyen Viet Hoang" ,email = "nguyenviethoang@example.com"},
+    {name = "Nguyen Dinh Anh Tuan" ,email = "nguyendinhanhtuan@example.com"}
 ]
 keywords = ["linked-data", "open-data", "ngsi-ld", "rdf", "semantic-web", "multi-agent", "traffic"]
 classifiers = [

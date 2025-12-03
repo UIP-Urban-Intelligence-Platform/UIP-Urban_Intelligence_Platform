@@ -4,9 +4,11 @@
 # This configuration supports ANY LOD domain (healthcare, geography, commerce, IoT, etc.)
 # without requiring code changes. All endpoint URLs, authentication, batching, and retry
 # logic are defined here.
+# Module: Stellio Context Broker Configuration
 # Author: Nguyen Viet Hoang
 # Created: 2025-11-25
 # Version: 1.0.0
+#License: MIT
 # Description: Configuration file for Stellio Context Broker
 stellio:
   # Base URL of Stellio Context Broker instance

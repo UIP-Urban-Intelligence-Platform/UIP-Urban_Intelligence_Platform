@@ -1,6 +1,8 @@
+#Module: RDF Namespace and Output Configuration
 #Author: Nguyen Dinh Anh Tuan
 #Created: 2025-11-20
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for RDF namespace mappings and output formats
 # RDF Namespace Configuration
 # 100% Domain-Agnostic Configuration for NGSI-LD to RDF Conversion

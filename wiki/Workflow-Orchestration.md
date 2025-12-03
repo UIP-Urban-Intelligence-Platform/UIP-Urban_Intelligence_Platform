@@ -1,16 +1,16 @@
 # 🔄 Workflow Orchestration
 
-Complete guide to the 9-phase workflow system in Builder Layer End.
+Complete guide to the 9-phase workflow system in UIP - Urban Intelligence Platform.
 
 ---
 
 ## 📊 Overview
 
-Builder Layer End uses a sophisticated 9-phase workflow to process traffic data from raw ingestion to LOD publication. The workflow is orchestrated by `orchestrator.py` and configured via `config/workflow.yaml`.
+UIP - Urban Intelligence Platform uses a sophisticated 9-phase workflow to process traffic data from raw ingestion to LOD publication. The workflow is orchestrated by `orchestrator.py` and configured via `config/workflow.yaml`.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         Builder Layer End Workflow                          │
+│                   UIP - Urban Intelligence Platform Workflow                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  Phase 1      Phase 2       Phase 3        Phase 4        Phase 5          │

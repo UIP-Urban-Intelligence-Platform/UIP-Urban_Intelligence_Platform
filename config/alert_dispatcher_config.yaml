@@ -1,8 +1,10 @@
 # Alert Dispatcher Agent Configuration
 # Domain-agnostic multi-channel notification system
+#Module: Alert Dispatcher Agent
 #Author: nguyễn Nhật Quang
 #Created: 2025-11-22
 #Version: 1.0.0
+#License: MIT
 # Description: Configuration file for alert dispatcher agent
 alert_dispatcher:
   # HTTP Server Configuration

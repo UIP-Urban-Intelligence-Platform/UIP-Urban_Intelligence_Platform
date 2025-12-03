@@ -1,6 +1,6 @@
 # 🔧 Technology Stack
 
-Complete list of technologies, frameworks, and tools used in Builder Layer End.
+Complete list of technologies, frameworks, and tools used in UIP - Urban Intelligence Platform.
 
 ---
 

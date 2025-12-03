@@ -1,7 +1,7 @@
-# 🏠 Builder Layer End - Wiki
+# 🏠 UIP - Urban Intelligence Platform Wiki
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/NguyenNhatquang522004/builder-layer-end/main/assets/images/logo.png" alt="Builder Layer End Logo" width="150">
+  <img src="https://raw.githubusercontent.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/main/assets/images/logo.png" alt="UIP Logo" width="150">
 </p>
 
 <p align="center">
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/LICENSE">
+  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
   </a>
   <img src="https://img.shields.io/badge/Python-3.9%2B-blue.svg" alt="Python 3.9+">
@@ -71,7 +71,7 @@
 
 ## 🎯 Project Overview
 
-**Builder Layer End** is a production-ready, multi-agent system for processing real-time traffic data in Ho Chi Minh City and publishing it as **Linked Open Data (LOD)**.
+**UIP - Urban Intelligence Platform** is a production-ready, multi-agent system for processing real-time traffic data in Ho Chi Minh City and publishing it as **Linked Open Data (LOD)**.
 
 ### Key Features
 
@@ -88,20 +88,20 @@
 
 | Resource | Link |
 |----------|------|
-| 📖 README | [README.md](https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/README.md) |
-| 📋 CHANGELOG | [CHANGELOG.md](https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/CHANGELOG.md) |
-| 🤝 Contributing | [CONTRIBUTING.md](https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/.github/CONTRIBUTING.md) |
-| 🔒 Security | [SECURITY.md](https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/.github/SECURITY.md) |
-| 💬 Support | [SUPPORT.md](https://github.com/NguyenNhatquang522004/builder-layer-end/blob/main/.github/SUPPORT.md) |
+| 📖 README | [README.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/README.md) |
+| 📋 CHANGELOG | [CHANGELOG.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/CHANGELOG.md) |
+| 🤝 Contributing | [CONTRIBUTING.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/.github/CONTRIBUTING.md) |
+| 🔒 Security | [SECURITY.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/.github/SECURITY.md) |
+| 💬 Support | [SUPPORT.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/.github/SUPPORT.md) |
 
 ---
 
 ## 📞 Community & Support
 
-- **GitHub Discussions**: [Ask questions](https://github.com/NguyenNhatquang522004/builder-layer-end/discussions)
-- **GitHub Issues**: [Report bugs](https://github.com/NguyenNhatquang522004/builder-layer-end/issues)
-- **Mailing List**: builder-layer-end@googlegroups.com
-- **Discord**: [Join our server](https://discord.gg/builder-layer-end)
+- **GitHub Discussions**: [Ask questions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions)
+- **GitHub Issues**: [Report bugs](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+- **Mailing List**: uip-urban-intelligence@googlegroups.com
+- **Discord**: [Join our server](https://discord.gg/uip-urban-intelligence)
 
 ---
 

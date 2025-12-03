@@ -1,6 +1,6 @@
 # 🚀 Quick Start
 
-Get Builder Layer End running in 5 minutes.
+Get UIP - Urban Intelligence Platform running in 5 minutes.
 
 ---
 
@@ -34,8 +34,8 @@ This single command will:
 ### Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/your-org/Builder-Layer-End.git
-cd Builder-Layer-End
+git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 ```
 
 ### Step 2: Start Docker Services
@@ -203,7 +203,7 @@ ports:
 ### Need help?
 
 - Check [[FAQ]]
-- Open a [GitHub Issue](https://github.com/your-org/Builder-Layer-End/issues)
+- Open a [GitHub Issue](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
 
 ---
 
