@@ -1,6 +1,10 @@
 # Test Enhanced Agents Script
 # Tests all 3 agents with API key rotation
-
+#Module: tests.integration.test-agents
+#Author: Nguyễn Nhật Quang
+#Created: 2025-11-26
+#Version: 1.0.0
+#License: MIT
 Write-Host ""
 Write-Host "╔════════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
 Write-Host "║           ENHANCED AGENTS TEST RUNNER - API Key Rotation Test            ║" -ForegroundColor Cyan

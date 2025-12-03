@@ -2,7 +2,11 @@
 
 /**
  * Camera Endpoint Manual Test Script
- * 
+ * Module: tests.integration.test-camera-endpoint
+ * Author: Nguyễn Nhật Quang
+ * Created: 2025-11-26
+ * Version: 1.0.0
+ * License: MIT
  * This script tests the Camera API endpoint with various query parameters
  * Run: node test-camera-endpoint.js
  */

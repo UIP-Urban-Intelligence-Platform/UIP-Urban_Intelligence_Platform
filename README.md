@@ -212,6 +212,57 @@ cp .env.example .env
 python main.py
 ```
 
+### Option 3: Building From Source (GNU Make)
+
+This project supports standard GNU Make targets for building and installing:
+
+```bash
+# Clone repository
+git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
+cd builder-layer-end
+
+# View all available targets
+make help
+
+# Build the Python package
+make            # or: make all
+
+# Build and install the package
+make install
+
+# Run tests
+make check      # or: make test
+
+# Clean build artifacts
+make clean
+
+# Clean everything (including venv, node_modules)
+make distclean
+
+# Uninstall the package
+make uninstall
+```
+
+**GNU Make Standard Targets:**
+
+| Target | Description |
+|--------|-------------|
+| `make` / `make all` | Build the Python package (creates dist/) |
+| `make install` | Build and install the package |
+| `make uninstall` | Uninstall the package |
+| `make check` | Run all tests |
+| `make clean` | Remove build artifacts |
+| `make distclean` | Remove all generated files |
+
+**Project-Specific Targets:**
+
+| Target | Description |
+|--------|-------------|
+| `make setup` | Install all dependencies (Python + Node.js) |
+| `make dev` | Run all services in development mode |
+| `make prod` | Run all services with Docker Compose |
+| `make stop` | Stop all running services |
+
 ### Running Options
 
 ```bash
@@ -1169,9 +1220,18 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ## 📞 Support
 
+### Community Channels
+
+| Channel | Description | Link |
+|---------|-------------|------|
+| 📧 **Mailing List** | Announcements & discussions | [builder-layer-end@googlegroups.com](https://groups.google.com/g/builder-layer-end) |
+| 💬 **Discord** | Real-time chat & support | [Join Discord](https://discord.gg/builder-layer-end) |
+| 💬 **Discussions** | Q&A & community | [GitHub Discussions](https://github.com/NguyenNhatquang522004/builder-layer-end/discussions) |
+
+### Other Resources
+
 - 📖 **Documentation**: [docs/](docs/)
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/NguyenNhatquang522004/builder-layer-end/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/NguyenNhatquang522004/builder-layer-end/discussions)
 - 📧 **Email**: nguyennhatquang522004@gmail.com
 
 ---

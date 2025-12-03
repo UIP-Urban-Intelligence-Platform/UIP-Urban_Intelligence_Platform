@@ -1,6 +1,10 @@
 /**
  * Test script for Air Quality API endpoint
- * 
+ *Module: tests.integration.test-airquality-endpoint
+ * Author: Nguyễn Nhật Quang
+ * Created: 2025-11-26
+ * Version: 1.0.0
+ * License: MIT
  * Tests:
  * - Basic data retrieval
  * - AQI level filtering

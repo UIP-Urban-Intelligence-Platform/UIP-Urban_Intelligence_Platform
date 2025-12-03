@@ -1,6 +1,10 @@
 /**
  * Combined Test Runner for All Endpoints
- * 
+ * Module: tests.integration.test-all-endpoints
+ * Author: Nguyễn Nhật Quang
+ * Created: 2025-11-26
+ * Version: 1.0.0
+ * License: MIT
  * Executes test suites for:
  * - Camera API
  * - Weather API

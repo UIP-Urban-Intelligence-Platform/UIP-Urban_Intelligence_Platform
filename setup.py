@@ -36,8 +36,8 @@ setup(
     description="Multi-Agent Linked Open Data Pipeline for Traffic Management",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="LOD Pipeline Team",
-    author_email="team@example.com",
+    author="Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn",
+    author_email="nguyennhatquang522004@gmail.com",
     url="https://github.com/your-org/builder-layer-end",
     
     # Package configuration

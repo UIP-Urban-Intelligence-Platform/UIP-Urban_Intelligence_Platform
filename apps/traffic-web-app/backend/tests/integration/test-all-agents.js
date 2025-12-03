@@ -1,5 +1,10 @@
 /**
  * Comprehensive Test Suite for All Agents
+ * Module: tests.integration.test-agents-all
+ * Author: Nguyễn Nhật Quang
+ * Created: 2025-11-26
+ * Version: 1.0.0
+ * License: MIT
  * Tests the 3 main agents as real users would interact with them
  */
 

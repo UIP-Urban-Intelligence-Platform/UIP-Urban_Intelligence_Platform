@@ -15,26 +15,97 @@
 #modified 2025-11-27
 #version 2.0.0
 #license MIT
-.PHONY: help setup dev prod stop clean docker-build docker-up docker-down install-python install-node
+.PHONY: all install uninstall build clean distclean check help
+.PHONY: setup dev prod stop docker-build docker-up docker-down install-python install-node
 
-# Default target
+# ============================================================================
+# GNU MAKE STANDARD TARGETS
+# ============================================================================
+
+# Default target - build the project
+all: build
+	@echo "✅ Build complete!"
+
+# Build the Python package
+build:
+	@echo "🔨 Building Python package..."
+	@if exist .venv ( \
+		.venv\Scripts\python -m pip install --upgrade pip setuptools wheel && \
+		.venv\Scripts\python -m build \
+	) else ( \
+		python -m pip install --upgrade pip setuptools wheel && \
+		python -m build \
+	)
+	@echo "✅ Package built in dist/"
+
+# Install the package (GNU Make standard target)
+install: build
+	@echo "📦 Installing builder-layer-end..."
+	@if exist .venv ( \
+		.venv\Scripts\pip install . \
+	) else ( \
+		pip install . \
+	)
+	@echo "✅ Package installed successfully!"
+	@echo ""
+	@echo "Usage: builder-orchestrator"
+
+# Uninstall the package
+uninstall:
+	@echo "🗑️ Uninstalling builder-layer-end..."
+	@if exist .venv ( \
+		.venv\Scripts\pip uninstall -y builder-layer-end \
+	) else ( \
+		pip uninstall -y builder-layer-end \
+	)
+	@echo "✅ Package uninstalled"
+
+# Run tests (GNU Make standard: check)
+check: test
+	@echo "✅ All checks passed"
+
+# Remove build artifacts (GNU Make standard: clean)
+# Note: This target removes only build artifacts, not dependencies
+
+# Remove all generated files including dependencies
+distclean: clean
+	@echo "🧹 Removing all generated files..."
+	@if exist .venv rmdir /s /q .venv
+	@if exist apps\traffic-web-app\backend\node_modules rmdir /s /q apps\traffic-web-app\backend\node_modules
+	@if exist apps\traffic-web-app\frontend\node_modules rmdir /s /q apps\traffic-web-app\frontend\node_modules
+	@echo "✅ All generated files removed"
+
+# ============================================================================
+# HELP
+# ============================================================================
+
 help:
 	@echo "╔════════════════════════════════════════════════════════════════╗"
-	@echo "║  Builder Layer End - One Command Setup                        ║"
+	@echo "║  Builder Layer End - GNU Make Build System                    ║"
 	@echo "╚════════════════════════════════════════════════════════════════╝"
 	@echo ""
-	@echo "Available commands:"
+	@echo "GNU Make Standard Targets:"
+	@echo "  make            - Build the project (default)"
+	@echo "  make all        - Build everything"
+	@echo "  make install    - Build and install the package"
+	@echo "  make uninstall  - Uninstall the package"
+	@echo "  make clean      - Remove build artifacts"
+	@echo "  make distclean  - Remove all generated files"
+	@echo "  make check      - Run all tests"
+	@echo ""
+	@echo "Project-Specific Targets:"
 	@echo "  make setup      - Install all dependencies (Python + Node.js)"
 	@echo "  make dev        - Run all services in development mode"
 	@echo "  make prod       - Run all services with Docker Compose"
 	@echo "  make stop       - Stop all running services"
-	@echo "  make clean      - Clean all build artifacts and containers"
-	@echo "  make test       - Run all tests"
+	@echo "  make logs       - View Docker Compose logs"
+	@echo "  make health     - Check service health"
 	@echo ""
 	@echo "Quick Start:"
 	@echo "  1. make setup   (first time only)"
-	@echo "  2. make dev     (for development)"
-	@echo "  3. make prod    (for production)"
+	@echo "  2. make         (build the package)"
+	@echo "  3. make install (install the package)"
+	@echo "  4. make dev     (for development)"
 	@echo ""
 
 # ============================================================================
@@ -123,12 +194,18 @@ stop:
 
 clean: stop
 	@echo "🧹 Cleaning build artifacts and containers..."
-	@docker-compose down -v --remove-orphans
+	@docker-compose down -v --remove-orphans 2>nul || echo "No Docker services"
+	@if exist dist rmdir /s /q dist
+	@if exist build rmdir /s /q build
+	@if exist *.egg-info rmdir /s /q *.egg-info
+	@if exist src\*.egg-info rmdir /s /q src\*.egg-info
+	@for /d %%i in (*.egg-info) do rmdir /s /q "%%i" 2>nul
 	@if exist htmlcov rmdir /s /q htmlcov
 	@if exist .pytest_cache rmdir /s /q .pytest_cache
 	@if exist coverage.xml del coverage.xml
 	@if exist apps\traffic-web-app\backend\dist rmdir /s /q apps\traffic-web-app\backend\dist
 	@if exist apps\traffic-web-app\frontend\dist rmdir /s /q apps\traffic-web-app\frontend\dist
+	@for /r %%d in (__pycache__) do @if exist "%%d" rmdir /s /q "%%d" 2>nul
 	@echo "✅ Cleanup complete"
 
 logs:

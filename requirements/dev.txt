@@ -4,6 +4,11 @@
 -r base.txt
 -r test.txt
 
+# Build tools (for GNU Make targets)
+build>=1.0.0
+wheel>=0.42.0
+setuptools>=69.0.0
+
 # Code formatters
 black>=23.11.0
 isort>=5.12.0

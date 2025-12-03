@@ -26,7 +26,7 @@ If you've found a bug, please:
    - Error logs
    - Environment details
 
-[Create Bug Report](https://github.com/your-org/builder-layer-end/issues/new?template=bug_report.yml)
+[Create Bug Report](https://github.com/NguyenNhatquang522004/builder-layer-end/issues/new?template=bug_report.yml)
 
 ## 💡 Feature Requests
 
@@ -36,18 +36,38 @@ Have an idea for a new feature?
 2. **Use the [Feature Request template](.github/ISSUE_TEMPLATE/feature_request.yml)**
 3. **Describe your use case clearly**
 
-[Request Feature](https://github.com/your-org/builder-layer-end/issues/new?template=feature_request.yml)
+[Request Feature](https://github.com/NguyenNhatquang522004/builder-layer-end/issues/new?template=feature_request.yml)
 
 ## 💬 Getting Help
 
+### Community Channels
+
+Join our community to get help and connect with other users:
+
+| Channel | Description | Link |
+|---------|-------------|------|
+| 📧 **Mailing List** | Announcements & discussions | [builder-layer-end@googlegroups.com](https://groups.google.com/g/builder-layer-end) |
+| 💬 **Discord** | Real-time chat & support | [Join Discord](https://discord.gg/builder-layer-end) |
+| 💬 **GitHub Discussions** | Q&A & community discussions | [GitHub Discussions](https://github.com/NguyenNhatquang522004/builder-layer-end/discussions) |
+
 ### GitHub Discussions
 
-For questions and general discussion, use [GitHub Discussions](https://github.com/your-org/builder-layer-end/discussions):
+For questions and general discussion, use [GitHub Discussions](https://github.com/NguyenNhatquang522004/builder-layer-end/discussions):
 
 - **Q&A**: Ask questions
 - **Ideas**: Share and discuss ideas
 - **Show and Tell**: Share your projects using Builder Layer End
 - **General**: General discussion
+
+### Mailing List
+
+Subscribe to our mailing list to receive:
+- 📢 Release announcements
+- 🔔 Important updates
+- 📝 Community newsletters
+- 💡 Tips and best practices
+
+**Subscribe**: [builder-layer-end@googlegroups.com](https://groups.google.com/g/builder-layer-end)
 
 ### Community Support
 
@@ -62,16 +82,16 @@ For questions and general discussion, use [GitHub Discussions](https://github.co
 Please report security issues privately:
 
 1. **Email**: security@your-domain.com
-2. **GitHub Security Advisory**: [Create Security Advisory](https://github.com/your-org/builder-layer-end/security/advisories/new)
+2. **GitHub Security Advisory**: [Create Security Advisory](https://github.com/NguyenNhatquang522004/builder-layer-end/security/advisories/new)
 
 See [SECURITY.md](SECURITY.md) for more information.
 
 ## 📞 Contact
 
-- **General Questions**: Use [GitHub Discussions](https://github.com/your-org/builder-layer-end/discussions)
-- **Bug Reports**: [GitHub Issues](https://github.com/your-org/builder-layer-end/issues)
-- **Security**: security@your-domain.com
-- **Commercial Support**: contact@your-domain.com
+- **General Questions**: Use [GitHub Discussions](https://github.com/NguyenNhatquang522004/builder-layer-end/discussions)
+- **Bug Reports**: [GitHub Issues](https://github.com/NguyenNhatquang522004/builder-layer-end/issues)
+- **Mailing List**: [builder-layer-end@googlegroups.com](https://groups.google.com/g/builder-layer-end)
+- **Email**: nguyennhatquang522004@gmail.com
 
 ## ❓ FAQ
 

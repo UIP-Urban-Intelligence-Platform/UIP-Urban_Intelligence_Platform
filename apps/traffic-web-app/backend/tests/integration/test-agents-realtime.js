@@ -1,6 +1,17 @@
 /**
+ *  Module: tests.integration.test-agents-realtime
+ * Author: Nguyễn Nhật Quang
+ * Created: 2025-11-26
+ * Version: 1.0.0
+ * License: MIT
+ * Description:
  * Real-time Test Script for Agents
  * Tests GraphInvestigatorAgent and TrafficMaestroAgent with actual data
+ * Usage: node test-agents-realtime.js
+ * 
+ * To validate agent behavior with real-time data, simulating live scenarios
+ * and ensuring accurate responses.
+ *
  */
 
 const axios = require('axios');

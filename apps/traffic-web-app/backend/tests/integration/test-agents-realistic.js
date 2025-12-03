@@ -1,5 +1,17 @@
 /**
- * 
+ * Module: tests.integration.test-agents-realistic
+ * Author: Nguyễn Nhật Quang
+ * Created: 2025-11-26
+ * Version: 1.0.0
+ * License: MIT
+ * Description:
+ * This test suite runs agents with realistic mock data to demonstrate actual use cases
+ * Usage: node test-agents-realistic.js
+ * Purpose:
+ * To validate agent behavior with realistic mock data, simulating actual use cases
+ * Dependencies:
+ * - TrafficMaestroAgent
+ * - EcoTwinAgent
  * Realistic Agent Test Suite
  * Tests agents with realistic mock data to demonstrate actual use cases
  */

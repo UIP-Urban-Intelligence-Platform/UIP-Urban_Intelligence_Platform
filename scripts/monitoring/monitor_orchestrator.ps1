@@ -1,6 +1,10 @@
 # Monitor Orchestrator Progress in Real-Time
 # Shows phases, agents, and skipping warnings
-
+#Module: scripts.monitoring.monitor-orchestrator
+#Author:Nguyễn Nhật Quang
+#Created: 2025-11-26
+#Version: 1.0.0
+#License: MIT
 param(
     [int]$RefreshSeconds = 5,
     [int]$MaxIterations = 60
