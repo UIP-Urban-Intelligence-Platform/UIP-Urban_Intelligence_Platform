@@ -17,7 +17,7 @@ License: MIT
 Description:
     Shared pytest fixtures and configuration for unit and integration tests.
     Provides common test utilities, fixtures for config loading, and test data.
-    
+
     Fixtures include:
     - Configuration loaders for YAML files
     - Mock data generators for NGSI-LD entities
@@ -28,10 +28,11 @@ Usage:
     Automatically loaded by pytest for all test modules.
 """
 
+from pathlib import Path
+from typing import Any, Dict
+
 import pytest
 import yaml
-from pathlib import Path
-from typing import Dict, Any
 
 
 @pytest.fixture(scope="session")
@@ -66,24 +67,13 @@ def sample_ngsi_ld_entity() -> Dict[str, Any]:
     return {
         "id": "urn:ngsi-ld:TrafficCamera:TEST001",
         "type": "TrafficCamera",
-        "name": {
-            "type": "Property",
-            "value": "Test Camera"
-        },
+        "name": {"type": "Property", "value": "Test Camera"},
         "location": {
             "type": "GeoProperty",
-            "value": {
-                "type": "Point",
-                "coordinates": [106.700981, 10.775264]
-            }
+            "value": {"type": "Point", "coordinates": [106.700981, 10.775264]},
         },
-        "status": {
-            "type": "Property",
-            "value": "active"
-        },
-        "@context": [
-            "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
-        ]
+        "status": {"type": "Property", "value": "active"},
+        "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
     }
 
 
@@ -93,12 +83,9 @@ def sample_camera_data() -> Dict[str, Any]:
     return {
         "id": "CAM001",
         "name": "Camera Nguyen Hue",
-        "location": {
-            "lat": 10.775264,
-            "lon": 106.700981
-        },
+        "location": {"lat": 10.775264, "lon": 106.700981},
         "image_url": "https://example.com/camera/CAM001/image.jpg",
-        "status": "active"
+        "status": "active",
     }
 
 
@@ -107,9 +94,7 @@ def mock_stellio_response():
     """Mock Stellio Context Broker response."""
     return {
         "status_code": 201,
-        "headers": {
-            "Location": "urn:ngsi-ld:TrafficCamera:TEST001"
-        }
+        "headers": {"Location": "urn:ngsi-ld:TrafficCamera:TEST001"},
     }
 
 
@@ -117,27 +102,25 @@ def mock_stellio_response():
 def mock_fuseki_response():
     """Mock Apache Jena Fuseki SPARQL response."""
     return {
-        "head": {
-            "vars": ["subject", "predicate", "object"]
-        },
+        "head": {"vars": ["subject", "predicate", "object"]},
         "results": {
             "bindings": [
                 {
                     "subject": {
                         "type": "uri",
-                        "value": "http://example.org/camera/CAM001"
+                        "value": "http://example.org/camera/CAM001",
                     },
                     "predicate": {
                         "type": "uri",
-                        "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+                        "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
                     },
                     "object": {
                         "type": "uri",
-                        "value": "http://www.w3.org/ns/sosa/Platform"
-                    }
+                        "value": "http://www.w3.org/ns/sosa/Platform",
+                    },
                 }
             ]
-        }
+        },
     }
 
 
@@ -148,11 +131,7 @@ def mock_neo4j_response():
         "results": [
             {
                 "columns": ["id", "name", "type"],
-                "data": [
-                    {
-                        "row": ["CAM001", "Camera Nguyen Hue", "TrafficCamera"]
-                    }
-                ]
+                "data": [{"row": ["CAM001", "Camera Nguyen Hue", "TrafficCamera"]}],
             }
         ]
     }
@@ -161,15 +140,11 @@ def mock_neo4j_response():
 # Markers for different test types
 def pytest_configure(config):
     """Configure custom pytest markers."""
-    config.addinivalue_line(
-        "markers", "unit: Unit tests for individual components"
-    )
+    config.addinivalue_line("markers", "unit: Unit tests for individual components")
     config.addinivalue_line(
         "markers", "integration: Integration tests requiring external services"
     )
-    config.addinivalue_line(
-        "markers", "slow: Slow running tests"
-    )
+    config.addinivalue_line("markers", "slow: Slow running tests")
     config.addinivalue_line(
         "markers", "requires_docker: Tests requiring Docker services"
     )

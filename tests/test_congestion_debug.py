@@ -22,11 +22,12 @@ Usage:
     python tests/test_congestion_debug.py
 """
 
-from src.agents.analytics.congestion_detection_agent import CongestionDetectionAgent
 import json
 
+from src.agents.analytics.congestion_detection_agent import CongestionDetectionAgent
+
 agent = CongestionDetectionAgent()
-obs = json.load(open('data/observations.json'))
+obs = json.load(open("data/observations.json"))
 
 print(f"Total observations: {len(obs)}\n")
 
@@ -34,7 +35,7 @@ print(f"Total observations: {len(obs)}\n")
 for i, sample in enumerate(obs[:5]):
     print(f"=== Observation {i} ===")
     print(f"ID: {sample.get('id')}")
-    
+
     try:
         should_update, new_state, reason, observed_at = agent.detector.evaluate(sample)
         print(f"  should_update: {should_update}")
@@ -44,5 +45,6 @@ for i, sample in enumerate(obs[:5]):
     except Exception as e:
         print(f"  ERROR: {e}")
         import traceback
+
         traceback.print_exc()
     print()

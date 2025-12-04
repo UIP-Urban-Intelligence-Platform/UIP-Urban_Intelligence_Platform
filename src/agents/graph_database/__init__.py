@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 try:
-    from .neo4j_sync_agent import Neo4jSyncAgent
     from .neo4j_query_agent import Neo4jQueryAgent
+    from .neo4j_sync_agent import Neo4jSyncAgent
 except ImportError:
     pass

@@ -1,0 +1,66 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# Flake8 Configuration
+
+[flake8]
+max-line-length = 127
+max-complexity = 35
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    build,
+    dist,
+    *.egg-info,
+    .eggs,
+    .tox,
+    .mypy_cache,
+    .pytest_cache
+
+# Ignore specific error codes
+ignore =
+    # E203: whitespace before ':' (conflicts with Black)
+    E203,
+    # E402: module level import not at top of file (sometimes needed)
+    E402,
+    # W503: line break before binary operator (conflicts with Black)
+    W503,
+    # W504: line break after binary operator
+    W504,
+    # E501: line too long (handled by Black)
+    E501,
+    # F401: imported but unused (sometimes intentional for re-exports)
+    F401,
+    # F541: f-string is missing placeholders (minor issue)
+    F541,
+    # F841: local variable is assigned to but never used (minor issue)
+    F841,
+    # E712: comparison to True/False (sometimes needed for JSON values)
+    E712,
+    # E721: do not compare types (sometimes needed)
+    E721,
+    # E722: do not use bare 'except' (we have error handling)
+    E722,
+    # F402: import shadowed by loop variable (sometimes intentional)
+    F402,
+    # F811: redefinition of unused import (conditional imports)
+    F811
+
+# Per-file ignores
+per-file-ignores =
+    # Allow unused imports in __init__.py (re-exports)
+    **/__init__.py: F401
+    # Allow complexity in core modules
+    src/orchestrator.py: C901
+    src/agents/analytics/*.py: C901
+    src/agents/monitoring/*.py: C901
+    src/agents/rdf_linked_data/*.py: C901
+    src/core/*.py: C901
+
+# Statistics
+statistics = True
+count = True
+show-source = True

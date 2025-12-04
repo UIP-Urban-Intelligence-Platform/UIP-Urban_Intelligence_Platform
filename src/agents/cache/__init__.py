@@ -26,7 +26,7 @@ __all__ = [
 ]
 
 try:
-    from .cache_manager_agent import CacheManagerAgent
     from .cache_invalidator_agent import CacheInvalidatorAgent
+    from .cache_manager_agent import CacheManagerAgent
 except ImportError:
     pass

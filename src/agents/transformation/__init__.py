@@ -18,4 +18,3 @@ Description:
     Data transformation agents for NGSI-LD conversion and SOSA/SSN
     ontology mapping.
 """
-

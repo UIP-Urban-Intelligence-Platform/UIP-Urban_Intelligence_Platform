@@ -19,12 +19,13 @@ Description:
     Full production implementation with real pyshacl validation.
 """
 
-import logging
 import argparse
+import logging
 
 try:
-    from rdflib import Graph
     from pyshacl import validate
+    from rdflib import Graph
+
     PYSHACL_AVAILABLE = True
 except ImportError:
     PYSHACL_AVAILABLE = False
@@ -38,14 +39,14 @@ def validate_rdf(input_file: str, shapes_file: str = None):
     if not PYSHACL_AVAILABLE:
         print("ERROR: pyshacl library not available")
         return
-    
+
     try:
         # Load data graph
         print(f"Loading data from {input_file}...")
         data_graph = Graph()
         data_graph.parse(input_file, format="turtle")
         print(f"✓ Loaded {len(data_graph)} triples")
-        
+
         # Load shapes graph if provided
         shapes_graph = None
         if shapes_file:
@@ -53,18 +54,18 @@ def validate_rdf(input_file: str, shapes_file: str = None):
             shapes_graph = Graph()
             shapes_graph.parse(shapes_file, format="turtle")
             print(f"✓ Loaded {len(shapes_graph)} shape triples")
-        
+
         # Run validation
         print("\nRunning SHACL validation...")
         conforms, results_graph, results_text = validate(
             data_graph,
             shacl_graph=shapes_graph,
-            inference='rdfs',
+            inference="rdfs",
             abort_on_first=False,
             meta_shacl=False,
-            advanced=True
+            advanced=True,
         )
-        
+
         # Report results
         print("\n" + "=" * 60)
         if conforms:
@@ -74,20 +75,22 @@ def validate_rdf(input_file: str, shapes_file: str = None):
             print("✗ VALIDATION FAILED")
             print("\nValidation Report:")
             print(results_text)
-            
+
             # Count violations
-            violations = results_graph.query("""
+            violations = results_graph.query(
+                """
                 PREFIX sh: <http://www.w3.org/ns/shacl#>
                 SELECT (COUNT(?result) as ?count)
                 WHERE { ?result a sh:ValidationResult }
-            """)
+            """
+            )
             for row in violations:
                 count = row[0]
                 print(f"\nTotal violations: {count}")
         print("=" * 60)
-        
+
         return conforms
-        
+
     except FileNotFoundError as e:
         print(f"ERROR: File not found - {e}")
         return False
@@ -98,12 +101,14 @@ def validate_rdf(input_file: str, shapes_file: str = None):
 
 def main():
     """Main CLI entry point."""
-    parser = argparse.ArgumentParser(description="RDF SHACL validation - Production Ready")
+    parser = argparse.ArgumentParser(
+        description="RDF SHACL validation - Production Ready"
+    )
     parser.add_argument("input_file", help="RDF file to validate (Turtle format)")
     parser.add_argument("--shapes", help="SHACL shapes file (Turtle format)")
-    
+
     args = parser.parse_args()
-    
+
     conforms = validate_rdf(args.input_file, args.shapes)
     exit(0 if conforms else 1)
 

@@ -27,25 +27,25 @@ Computer Vision Stack:
 from .cv_analysis_agent import (
     CVAnalysisAgent,
     CVConfig,
-    YOLOXDetector,
+    Detection,
+    DetectionStatus,
+    ImageAnalysisResult,
     ImageDownloader,
     MetricsCalculator,
     NGSILDEntityGenerator,
-    Detection,
-    ImageAnalysisResult,
     TrafficMetrics,
-    DetectionStatus
+    YOLOXDetector,
 )
 
 __all__ = [
-    'CVAnalysisAgent',
-    'CVConfig',
-    'YOLOXDetector',
-    'ImageDownloader',
-    'MetricsCalculator',
-    'NGSILDEntityGenerator',
-    'Detection',
-    'ImageAnalysisResult',
-    'TrafficMetrics',
-    'DetectionStatus'
+    "CVAnalysisAgent",
+    "CVConfig",
+    "YOLOXDetector",
+    "ImageDownloader",
+    "MetricsCalculator",
+    "NGSILDEntityGenerator",
+    "Detection",
+    "ImageAnalysisResult",
+    "TrafficMetrics",
+    "DetectionStatus",
 ]
