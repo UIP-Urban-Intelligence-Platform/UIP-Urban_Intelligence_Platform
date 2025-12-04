@@ -11,6 +11,10 @@
       {
         "ts": "2025-11-19T12:28:36.429124Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:36.429124Z",
+        "congested": false
       }
     ]
   },
@@ -19,6 +23,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:41.773029Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:41.773029Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:41.773029Z",
         "congested": false
@@ -41,6 +49,10 @@
       {
         "ts": "2025-11-19T12:28:42.125633Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:42.125633Z",
+        "congested": false
       }
     ]
   },
@@ -49,6 +61,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:42.830738Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:42.830738Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:42.830738Z",
         "congested": false
@@ -71,6 +87,10 @@
       {
         "ts": "2025-11-19T12:28:43.327393Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:43.327393Z",
+        "congested": false
       }
     ]
   },
@@ -79,6 +99,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:43.623014Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:43.623014Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:43.623014Z",
         "congested": false
@@ -101,6 +125,10 @@
       {
         "ts": "2025-11-19T12:28:43.996001Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:43.996001Z",
+        "congested": false
       }
     ]
   },
@@ -109,6 +137,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:44.604229Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:44.604229Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:44.604229Z",
         "congested": false
@@ -131,6 +163,10 @@
       {
         "ts": "2025-11-19T12:28:45.172252Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:45.172252Z",
+        "congested": false
       }
     ]
   },
@@ -139,6 +175,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:45.839508Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:45.839508Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:45.839508Z",
         "congested": false
@@ -161,6 +201,10 @@
       {
         "ts": "2025-11-19T12:28:46.247120Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:46.247120Z",
+        "congested": false
       }
     ]
   },
@@ -169,6 +213,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:46.467639Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:46.467639Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:46.467639Z",
         "congested": false
@@ -191,6 +239,10 @@
       {
         "ts": "2025-11-19T12:28:46.761981Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:46.761981Z",
+        "congested": false
       }
     ]
   },
@@ -199,6 +251,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:47.028054Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:47.028054Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:47.028054Z",
         "congested": false
@@ -221,6 +277,10 @@
       {
         "ts": "2025-11-19T12:28:47.289404Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:47.289404Z",
+        "congested": false
       }
     ]
   },
@@ -229,6 +289,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:47.579675Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:47.579675Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:47.579675Z",
         "congested": false
@@ -251,6 +315,10 @@
       {
         "ts": "2025-11-19T12:28:48.058347Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:48.058347Z",
+        "congested": false
       }
     ]
   },
@@ -259,6 +327,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:48.304493Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:48.304493Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:48.304493Z",
         "congested": false
@@ -281,6 +353,10 @@
       {
         "ts": "2025-11-19T12:28:48.766148Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:48.766148Z",
+        "congested": false
       }
     ]
   },
@@ -289,6 +365,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:49.300662Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:49.300662Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:49.300662Z",
         "congested": false
@@ -311,6 +391,10 @@
       {
         "ts": "2025-11-19T12:28:49.835571Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:49.835571Z",
+        "congested": false
       }
     ]
   },
@@ -319,6 +403,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:50.162434Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:50.162434Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:50.162434Z",
         "congested": false
@@ -341,6 +429,10 @@
       {
         "ts": "2025-11-19T12:28:50.438291Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:50.438291Z",
+        "congested": false
       }
     ]
   },
@@ -349,6 +441,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:50.632031Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:50.632031Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:50.632031Z",
         "congested": false
@@ -371,6 +467,10 @@
       {
         "ts": "2025-11-19T12:28:51.069235Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:51.069235Z",
+        "congested": false
       }
     ]
   },
@@ -379,6 +479,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:51.396681Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:51.396681Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:51.396681Z",
         "congested": false
@@ -401,6 +505,10 @@
       {
         "ts": "2025-11-19T12:28:51.970238Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:51.970238Z",
+        "congested": false
       }
     ]
   },
@@ -409,6 +517,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:52.467006Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:52.467006Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:52.467006Z",
         "congested": false
@@ -431,6 +543,10 @@
       {
         "ts": "2025-11-19T12:28:52.722377Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:52.722377Z",
+        "congested": false
       }
     ]
   },
@@ -439,6 +555,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:52.987802Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:52.987802Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:52.987802Z",
         "congested": false
@@ -461,6 +581,10 @@
       {
         "ts": "2025-11-19T12:28:53.254912Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:53.254912Z",
+        "congested": false
       }
     ]
   },
@@ -469,6 +593,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:53.731162Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:53.731162Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:53.731162Z",
         "congested": false
@@ -491,6 +619,10 @@
       {
         "ts": "2025-11-19T12:28:53.948701Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:53.948701Z",
+        "congested": false
       }
     ]
   },
@@ -499,6 +631,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:54.144645Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:54.144645Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:54.144645Z",
         "congested": false
@@ -521,6 +657,10 @@
       {
         "ts": "2025-11-19T12:28:54.790223Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:54.790223Z",
+        "congested": false
       }
     ]
   },
@@ -529,6 +669,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:55.349216Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:55.349216Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:55.349216Z",
         "congested": false
@@ -551,6 +695,10 @@
       {
         "ts": "2025-11-19T12:28:55.841496Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:55.841496Z",
+        "congested": false
       }
     ]
   },
@@ -559,6 +707,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:56.311640Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:56.311640Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:56.311640Z",
         "congested": false
@@ -581,6 +733,10 @@
       {
         "ts": "2025-11-19T12:28:56.563652Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:56.563652Z",
+        "congested": false
       }
     ]
   },
@@ -589,6 +745,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:57.021400Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:57.021400Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:57.021400Z",
         "congested": false
@@ -611,6 +771,10 @@
       {
         "ts": "2025-11-19T12:28:57.250975Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:57.250975Z",
+        "congested": false
       }
     ]
   },
@@ -619,6 +783,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:57.540098Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:57.540098Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:57.540098Z",
         "congested": false
@@ -641,6 +809,10 @@
       {
         "ts": "2025-11-19T12:28:58.694506Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:58.694506Z",
+        "congested": false
       }
     ]
   },
@@ -649,6 +821,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:58.928229Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:58.928229Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:58.928229Z",
         "congested": false
@@ -671,6 +847,10 @@
       {
         "ts": "2025-11-19T12:28:59.409345Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:59.409345Z",
+        "congested": false
       }
     ]
   },
@@ -679,6 +859,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:28:59.741671Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:28:59.741671Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:28:59.741671Z",
         "congested": false
@@ -701,6 +885,10 @@
       {
         "ts": "2025-11-19T12:28:59.949695Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:28:59.949695Z",
+        "congested": false
       }
     ]
   },
@@ -709,6 +897,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:00.329848Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:00.329848Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:00.329848Z",
         "congested": false
@@ -731,6 +923,10 @@
       {
         "ts": "2025-11-19T12:29:00.745136Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:00.745136Z",
+        "congested": false
       }
     ]
   },
@@ -739,6 +935,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:01.295808Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:01.295808Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:01.295808Z",
         "congested": false
@@ -761,6 +961,10 @@
       {
         "ts": "2025-11-19T12:29:01.637015Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:01.637015Z",
+        "congested": false
       }
     ]
   },
@@ -769,6 +973,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:01.861721Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:01.861721Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:01.861721Z",
         "congested": false
@@ -791,6 +999,10 @@
       {
         "ts": "2025-11-19T12:29:02.065425Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:02.065425Z",
+        "congested": false
       }
     ]
   },
@@ -799,6 +1011,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:02.338121Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:02.338121Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:02.338121Z",
         "congested": false
@@ -821,6 +1037,10 @@
       {
         "ts": "2025-11-19T12:29:02.790114Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:02.790114Z",
+        "congested": false
       }
     ]
   },
@@ -829,6 +1049,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:03.249007Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:03.249007Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:03.249007Z",
         "congested": false
@@ -851,6 +1075,10 @@
       {
         "ts": "2025-11-19T12:29:03.450631Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:03.450631Z",
+        "congested": false
       }
     ]
   },
@@ -859,6 +1087,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:03.914573Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:03.914573Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:03.914573Z",
         "congested": false
@@ -881,6 +1113,10 @@
       {
         "ts": "2025-11-19T12:29:04.128069Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:04.128069Z",
+        "congested": false
       }
     ]
   },
@@ -889,6 +1125,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:04.620014Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:04.620014Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:04.620014Z",
         "congested": false
@@ -911,6 +1151,10 @@
       {
         "ts": "2025-11-19T12:29:04.897079Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:04.897079Z",
+        "congested": false
       }
     ]
   },
@@ -919,6 +1163,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:05.117473Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:05.117473Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:05.117473Z",
         "congested": false
@@ -941,6 +1189,10 @@
       {
         "ts": "2025-11-19T12:29:05.346581Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:05.346581Z",
+        "congested": false
       }
     ]
   },
@@ -949,6 +1201,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:05.633339Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:05.633339Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:05.633339Z",
         "congested": false
@@ -971,6 +1227,10 @@
       {
         "ts": "2025-11-19T12:29:05.824594Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:05.824594Z",
+        "congested": false
       }
     ]
   },
@@ -979,6 +1239,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:06.034360Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:06.034360Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:06.034360Z",
         "congested": false
@@ -1001,6 +1265,10 @@
       {
         "ts": "2025-11-19T12:29:06.326311Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:06.326311Z",
+        "congested": false
       }
     ]
   },
@@ -1009,6 +1277,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:06.832368Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:06.832368Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:06.832368Z",
         "congested": false
@@ -1031,6 +1303,10 @@
       {
         "ts": "2025-11-19T12:29:07.059346Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:07.059346Z",
+        "congested": false
       }
     ]
   },
@@ -1039,6 +1315,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:07.473498Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:07.473498Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:07.473498Z",
         "congested": false
@@ -1061,6 +1341,10 @@
       {
         "ts": "2025-11-19T12:29:07.744516Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:07.744516Z",
+        "congested": false
       }
     ]
   },
@@ -1069,6 +1353,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:07.992011Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:07.992011Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:07.992011Z",
         "congested": false
@@ -1091,6 +1379,10 @@
       {
         "ts": "2025-11-19T12:29:08.215826Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:08.215826Z",
+        "congested": false
       }
     ]
   },
@@ -1099,6 +1391,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:08.542757Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:08.542757Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:08.542757Z",
         "congested": false
@@ -1121,6 +1417,10 @@
       {
         "ts": "2025-11-19T12:29:08.728538Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:08.728538Z",
+        "congested": false
       }
     ]
   },
@@ -1129,6 +1429,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:08.928784Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:08.928784Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:08.928784Z",
         "congested": false
@@ -1151,6 +1455,10 @@
       {
         "ts": "2025-11-19T12:29:09.150432Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:09.150432Z",
+        "congested": false
       }
     ]
   },
@@ -1159,6 +1467,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:09.714910Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:09.714910Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:09.714910Z",
         "congested": false
@@ -1181,6 +1493,10 @@
       {
         "ts": "2025-11-19T12:29:09.960961Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:09.960961Z",
+        "congested": false
       }
     ]
   },
@@ -1189,6 +1505,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:10.468175Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:10.468175Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:10.468175Z",
         "congested": false
@@ -1211,6 +1531,10 @@
       {
         "ts": "2025-11-19T12:29:10.724908Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:10.724908Z",
+        "congested": false
       }
     ]
   },
@@ -1219,6 +1543,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:11.067969Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:11.067969Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:11.067969Z",
         "congested": false
@@ -1241,6 +1569,10 @@
       {
         "ts": "2025-11-19T12:29:12.734199Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:12.734199Z",
+        "congested": false
       }
     ]
   },
@@ -1249,6 +1581,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:13.028262Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:13.028262Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:13.028262Z",
         "congested": false
@@ -1271,6 +1607,10 @@
       {
         "ts": "2025-11-19T12:29:13.306781Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:13.306781Z",
+        "congested": false
       }
     ]
   },
@@ -1279,6 +1619,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:13.600557Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:13.600557Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:13.600557Z",
         "congested": false
@@ -1301,6 +1645,10 @@
       {
         "ts": "2025-11-19T12:29:14.165865Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:14.165865Z",
+        "congested": false
       }
     ]
   },
@@ -1309,6 +1657,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:14.589988Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:14.589988Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:14.589988Z",
         "congested": false
@@ -1331,6 +1683,10 @@
       {
         "ts": "2025-11-19T12:29:15.052743Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:15.052743Z",
+        "congested": false
       }
     ]
   },
@@ -1339,6 +1695,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:15.358942Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:15.358942Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:15.358942Z",
         "congested": false
@@ -1361,6 +1721,10 @@
       {
         "ts": "2025-11-19T12:29:15.665476Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:15.665476Z",
+        "congested": false
       }
     ]
   },
@@ -1369,6 +1733,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:16.045411Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:16.045411Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:16.045411Z",
         "congested": false
@@ -1391,6 +1759,10 @@
       {
         "ts": "2025-11-19T12:29:16.347540Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:16.347540Z",
+        "congested": false
       }
     ]
   },
@@ -1399,6 +1771,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:16.709351Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:16.709351Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:16.709351Z",
         "congested": false
@@ -1421,6 +1797,10 @@
       {
         "ts": "2025-11-19T12:29:17.316850Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:17.316850Z",
+        "congested": false
       }
     ]
   },
@@ -1429,6 +1809,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:17.591385Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:17.591385Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:17.591385Z",
         "congested": false
@@ -1451,6 +1835,10 @@
       {
         "ts": "2025-11-19T12:29:17.832875Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:17.832875Z",
+        "congested": false
       }
     ]
   },
@@ -1459,6 +1847,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:18.524149Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:18.524149Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:18.524149Z",
         "congested": false
@@ -1481,6 +1873,10 @@
       {
         "ts": "2025-11-19T12:29:19.014394Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:19.014394Z",
+        "congested": false
       }
     ]
   },
@@ -1489,6 +1885,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:19.384692Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:19.384692Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:19.384692Z",
         "congested": false
@@ -1511,6 +1911,10 @@
       {
         "ts": "2025-11-19T12:29:19.672116Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:19.672116Z",
+        "congested": false
       }
     ]
   },
@@ -1519,6 +1923,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:20.229672Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:20.229672Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:20.229672Z",
         "congested": false
@@ -1541,6 +1949,10 @@
       {
         "ts": "2025-11-19T12:29:20.869853Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:20.869853Z",
+        "congested": false
       }
     ]
   },
@@ -1549,6 +1961,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:21.892592Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:21.892592Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:21.892592Z",
         "congested": false
@@ -1571,6 +1987,10 @@
       {
         "ts": "2025-11-19T12:29:22.133499Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:22.133499Z",
+        "congested": false
       }
     ]
   },
@@ -1579,6 +1999,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:22.641357Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:22.641357Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:22.641357Z",
         "congested": false
@@ -1601,6 +2025,10 @@
       {
         "ts": "2025-11-19T12:29:23.202048Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:23.202048Z",
+        "congested": false
       }
     ]
   },
@@ -1609,6 +2037,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:23.487351Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:23.487351Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:23.487351Z",
         "congested": false
@@ -1631,6 +2063,10 @@
       {
         "ts": "2025-11-19T12:29:23.886816Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:23.886816Z",
+        "congested": false
       }
     ]
   },
@@ -1639,6 +2075,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:24.188048Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:24.188048Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:24.188048Z",
         "congested": false
@@ -1661,6 +2101,10 @@
       {
         "ts": "2025-11-19T12:29:24.623482Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:24.623482Z",
+        "congested": false
       }
     ]
   },
@@ -1669,6 +2113,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:24.971402Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:24.971402Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:24.971402Z",
         "congested": false
@@ -1691,6 +2139,10 @@
       {
         "ts": "2025-11-19T12:29:25.182738Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:25.182738Z",
+        "congested": false
       }
     ]
   },
@@ -1699,6 +2151,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:25.413065Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:25.413065Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:25.413065Z",
         "congested": false
@@ -1721,6 +2177,10 @@
       {
         "ts": "2025-11-19T12:29:25.868092Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:25.868092Z",
+        "congested": false
       }
     ]
   },
@@ -1729,6 +2189,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:26.370860Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:26.370860Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:26.370860Z",
         "congested": false
@@ -1751,6 +2215,10 @@
       {
         "ts": "2025-11-19T12:29:26.701796Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:26.701796Z",
+        "congested": false
       }
     ]
   },
@@ -1759,6 +2227,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:26.907740Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:26.907740Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:26.907740Z",
         "congested": false
@@ -1781,6 +2253,10 @@
       {
         "ts": "2025-11-19T12:29:27.101859Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:27.101859Z",
+        "congested": false
       }
     ]
   },
@@ -1789,6 +2265,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:27.292422Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:27.292422Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:27.292422Z",
         "congested": false
@@ -1811,6 +2291,10 @@
       {
         "ts": "2025-11-19T12:29:27.518887Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:27.518887Z",
+        "congested": false
       }
     ]
   },
@@ -1819,6 +2303,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:27.722228Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:27.722228Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:27.722228Z",
         "congested": false
@@ -1841,6 +2329,10 @@
       {
         "ts": "2025-11-19T12:29:27.995838Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:27.995838Z",
+        "congested": false
       }
     ]
   },
@@ -1849,6 +2341,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:28.284572Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:28.284572Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:28.284572Z",
         "congested": false
@@ -1871,6 +2367,10 @@
       {
         "ts": "2025-11-19T12:29:28.571535Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:28.571535Z",
+        "congested": false
       }
     ]
   },
@@ -1879,6 +2379,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:28.999398Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:28.999398Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:28.999398Z",
         "congested": false
@@ -1901,6 +2405,10 @@
       {
         "ts": "2025-11-19T12:29:29.463394Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:29.463394Z",
+        "congested": false
       }
     ]
   },
@@ -1909,6 +2417,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:29.965702Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:29.965702Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:29.965702Z",
         "congested": false
@@ -1931,6 +2443,10 @@
       {
         "ts": "2025-11-19T12:29:30.371662Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:30.371662Z",
+        "congested": false
       }
     ]
   },
@@ -1939,6 +2455,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:30.713104Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:30.713104Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:30.713104Z",
         "congested": false
@@ -1961,6 +2481,10 @@
       {
         "ts": "2025-11-19T12:29:31.017501Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:31.017501Z",
+        "congested": false
       }
     ]
   },
@@ -1969,6 +2493,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:31.422016Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:31.422016Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:31.422016Z",
         "congested": false
@@ -1991,6 +2519,10 @@
       {
         "ts": "2025-11-19T12:29:31.708780Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:31.708780Z",
+        "congested": false
       }
     ]
   },
@@ -1999,6 +2531,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:32.288861Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:32.288861Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:32.288861Z",
         "congested": false
@@ -2021,6 +2557,10 @@
       {
         "ts": "2025-11-19T12:29:32.510658Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:32.510658Z",
+        "congested": false
       }
     ]
   },
@@ -2029,6 +2569,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:32.707852Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:32.707852Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:32.707852Z",
         "congested": false
@@ -2051,6 +2595,10 @@
       {
         "ts": "2025-11-19T12:29:32.814376Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:32.814376Z",
+        "congested": false
       }
     ]
   },
@@ -2059,6 +2607,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:33.033358Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:33.033358Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:33.033358Z",
         "congested": false
@@ -2081,6 +2633,10 @@
       {
         "ts": "2025-11-19T12:29:33.229048Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:33.229048Z",
+        "congested": false
       }
     ]
   },
@@ -2089,6 +2645,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:33.459869Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:33.459869Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:33.459869Z",
         "congested": false
@@ -2111,6 +2671,10 @@
       {
         "ts": "2025-11-19T12:29:33.760013Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:33.760013Z",
+        "congested": false
       }
     ]
   },
@@ -2119,6 +2683,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:33.974686Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:33.974686Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:33.974686Z",
         "congested": false
@@ -2141,6 +2709,10 @@
       {
         "ts": "2025-11-19T12:29:34.719294Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:34.719294Z",
+        "congested": false
       }
     ]
   },
@@ -2149,6 +2721,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:35.047910Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:35.047910Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:35.047910Z",
         "congested": false
@@ -2171,6 +2747,10 @@
       {
         "ts": "2025-11-19T12:29:35.282589Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:35.282589Z",
+        "congested": false
       }
     ]
   },
@@ -2179,6 +2759,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:35.515105Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:35.515105Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:35.515105Z",
         "congested": false
@@ -2201,6 +2785,10 @@
       {
         "ts": "2025-11-19T12:29:35.733446Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:35.733446Z",
+        "congested": false
       }
     ]
   },
@@ -2209,6 +2797,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:35.962116Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:35.962116Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:35.962116Z",
         "congested": false
@@ -2231,6 +2823,10 @@
       {
         "ts": "2025-11-19T12:29:36.247690Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:36.247690Z",
+        "congested": false
       }
     ]
   },
@@ -2239,6 +2835,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:36.812731Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:36.812731Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:36.812731Z",
         "congested": false
@@ -2261,6 +2861,10 @@
       {
         "ts": "2025-11-19T12:29:37.411167Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:37.411167Z",
+        "congested": false
       }
     ]
   },
@@ -2269,6 +2873,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:37.725831Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:37.725831Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:37.725831Z",
         "congested": false
@@ -2291,6 +2899,10 @@
       {
         "ts": "2025-11-19T12:29:38.532747Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:38.532747Z",
+        "congested": false
       }
     ]
   },
@@ -2299,6 +2911,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:38.867866Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:38.867866Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:38.867866Z",
         "congested": false
@@ -2321,6 +2937,10 @@
       {
         "ts": "2025-11-19T12:29:39.109805Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:39.109805Z",
+        "congested": false
       }
     ]
   },
@@ -2329,6 +2949,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:39.548313Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:39.548313Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:39.548313Z",
         "congested": false
@@ -2351,6 +2975,10 @@
       {
         "ts": "2025-11-19T12:29:39.923584Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:39.923584Z",
+        "congested": false
       }
     ]
   },
@@ -2359,6 +2987,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:40.230323Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:40.230323Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:40.230323Z",
         "congested": false
@@ -2381,6 +3013,10 @@
       {
         "ts": "2025-11-19T12:29:40.447478Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:40.447478Z",
+        "congested": false
       }
     ]
   },
@@ -2389,6 +3025,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:40.638244Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:40.638244Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:40.638244Z",
         "congested": false
@@ -2411,6 +3051,10 @@
       {
         "ts": "2025-11-19T12:29:40.847128Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:40.847128Z",
+        "congested": false
       }
     ]
   },
@@ -2419,6 +3063,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:41.098537Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:41.098537Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:41.098537Z",
         "congested": false
@@ -2441,6 +3089,10 @@
       {
         "ts": "2025-11-19T12:29:41.691562Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:41.691562Z",
+        "congested": false
       }
     ]
   },
@@ -2449,6 +3101,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:42.298093Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:42.298093Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:42.298093Z",
         "congested": false
@@ -2471,6 +3127,10 @@
       {
         "ts": "2025-11-19T12:29:42.532678Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:42.532678Z",
+        "congested": false
       }
     ]
   },
@@ -2479,6 +3139,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:42.734594Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:42.734594Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:42.734594Z",
         "congested": false
@@ -2501,6 +3165,10 @@
       {
         "ts": "2025-11-19T12:29:43.026851Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:43.026851Z",
+        "congested": false
       }
     ]
   },
@@ -2509,6 +3177,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:43.222731Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:43.222731Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:43.222731Z",
         "congested": false
@@ -2531,6 +3203,10 @@
       {
         "ts": "2025-11-19T12:29:43.459174Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:43.459174Z",
+        "congested": false
       }
     ]
   },
@@ -2539,6 +3215,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:43.693487Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:43.693487Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:43.693487Z",
         "congested": false
@@ -2561,6 +3241,10 @@
       {
         "ts": "2025-11-19T12:29:43.924955Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:43.924955Z",
+        "congested": false
       }
     ]
   },
@@ -2569,6 +3253,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:44.138971Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:44.138971Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:44.138971Z",
         "congested": false
@@ -2591,6 +3279,10 @@
       {
         "ts": "2025-11-19T12:29:44.495524Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:44.495524Z",
+        "congested": false
       }
     ]
   },
@@ -2599,6 +3291,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:44.876364Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:44.876364Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:44.876364Z",
         "congested": false
@@ -2621,6 +3317,10 @@
       {
         "ts": "2025-11-19T12:29:45.220339Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:45.220339Z",
+        "congested": false
       }
     ]
   },
@@ -2629,6 +3329,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:45.416929Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:45.416929Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:45.416929Z",
         "congested": false
@@ -2651,6 +3355,10 @@
       {
         "ts": "2025-11-19T12:29:45.939782Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:45.939782Z",
+        "congested": false
       }
     ]
   },
@@ -2659,6 +3367,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:46.232913Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:46.232913Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:46.232913Z",
         "congested": false
@@ -2681,6 +3393,10 @@
       {
         "ts": "2025-11-19T12:29:46.535794Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:46.535794Z",
+        "congested": false
       }
     ]
   },
@@ -2689,6 +3405,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:46.825722Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:46.825722Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:46.825722Z",
         "congested": false
@@ -2711,6 +3431,10 @@
       {
         "ts": "2025-11-19T12:29:47.401266Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:47.401266Z",
+        "congested": false
       }
     ]
   },
@@ -2719,6 +3443,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:47.599554Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:47.599554Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:47.599554Z",
         "congested": false
@@ -2741,6 +3469,10 @@
       {
         "ts": "2025-11-19T12:29:47.812162Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:47.812162Z",
+        "congested": false
       }
     ]
   },
@@ -2749,6 +3481,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:48.021392Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:48.021392Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:48.021392Z",
         "congested": false
@@ -2771,6 +3507,10 @@
       {
         "ts": "2025-11-19T12:29:48.280231Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:48.280231Z",
+        "congested": false
       }
     ]
   },
@@ -2779,6 +3519,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:48.722114Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:48.722114Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:48.722114Z",
         "congested": false
@@ -2801,6 +3545,10 @@
       {
         "ts": "2025-11-19T12:29:49.016163Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:49.016163Z",
+        "congested": false
       }
     ]
   },
@@ -2809,6 +3557,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:49.410150Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:49.410150Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:49.410150Z",
         "congested": false
@@ -2831,6 +3583,10 @@
       {
         "ts": "2025-11-19T12:29:49.818674Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:49.818674Z",
+        "congested": false
       }
     ]
   },
@@ -2839,6 +3595,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:50.183046Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:50.183046Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:50.183046Z",
         "congested": false
@@ -2861,6 +3621,10 @@
       {
         "ts": "2025-11-19T12:29:50.461150Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:50.461150Z",
+        "congested": false
       }
     ]
   },
@@ -2869,6 +3633,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:50.736248Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:50.736248Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:50.736248Z",
         "congested": false
@@ -2891,6 +3659,10 @@
       {
         "ts": "2025-11-19T12:29:51.025107Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:51.025107Z",
+        "congested": false
       }
     ]
   },
@@ -2899,6 +3671,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:51.371500Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:51.371500Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:51.371500Z",
         "congested": false
@@ -2921,6 +3697,10 @@
       {
         "ts": "2025-11-19T12:29:52.156934Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:52.156934Z",
+        "congested": false
       }
     ]
   },
@@ -2929,6 +3709,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:52.539622Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:52.539622Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:52.539622Z",
         "congested": false
@@ -2951,6 +3735,10 @@
       {
         "ts": "2025-11-19T12:29:53.150796Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:53.150796Z",
+        "congested": false
       }
     ]
   },
@@ -2959,6 +3747,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:53.684372Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:53.684372Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:53.684372Z",
         "congested": false
@@ -2981,6 +3773,10 @@
       {
         "ts": "2025-11-19T12:29:54.073402Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:54.073402Z",
+        "congested": false
       }
     ]
   },
@@ -2989,6 +3785,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:54.543003Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:54.543003Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:54.543003Z",
         "congested": false
@@ -3011,6 +3811,10 @@
       {
         "ts": "2025-11-19T12:29:55.030686Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:55.030686Z",
+        "congested": false
       }
     ]
   },
@@ -3019,6 +3823,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:55.371957Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:55.371957Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:55.371957Z",
         "congested": false
@@ -3041,6 +3849,10 @@
       {
         "ts": "2025-11-19T12:29:55.852901Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:55.852901Z",
+        "congested": false
       }
     ]
   },
@@ -3049,6 +3861,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:56.178726Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:56.178726Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:56.178726Z",
         "congested": false
@@ -3071,6 +3887,10 @@
       {
         "ts": "2025-11-19T12:29:56.506636Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:56.506636Z",
+        "congested": false
       }
     ]
   },
@@ -3079,6 +3899,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:56.765587Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:56.765587Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:56.765587Z",
         "congested": false
@@ -3101,6 +3925,10 @@
       {
         "ts": "2025-11-19T12:29:57.308223Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:57.308223Z",
+        "congested": false
       }
     ]
   },
@@ -3109,6 +3937,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:57.622580Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:57.622580Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:57.622580Z",
         "congested": false
@@ -3131,6 +3963,10 @@
       {
         "ts": "2025-11-19T12:29:57.974989Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:57.974989Z",
+        "congested": false
       }
     ]
   },
@@ -3139,6 +3975,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:58.412252Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:58.412252Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:58.412252Z",
         "congested": false
@@ -3161,6 +4001,10 @@
       {
         "ts": "2025-11-19T12:29:58.731585Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:58.731585Z",
+        "congested": false
       }
     ]
   },
@@ -3169,6 +4013,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:59.091688Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:59.091688Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:59.091688Z",
         "congested": false
@@ -3191,6 +4039,10 @@
       {
         "ts": "2025-11-19T12:29:59.363236Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:59.363236Z",
+        "congested": false
       }
     ]
   },
@@ -3199,6 +4051,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:29:59.718269Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:29:59.718269Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:29:59.718269Z",
         "congested": false
@@ -3221,6 +4077,10 @@
       {
         "ts": "2025-11-19T12:29:59.993984Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:29:59.993984Z",
+        "congested": false
       }
     ]
   },
@@ -3229,6 +4089,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:00.474319Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:00.474319Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:00.474319Z",
         "congested": false
@@ -3251,6 +4115,10 @@
       {
         "ts": "2025-11-19T12:30:00.889240Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:00.889240Z",
+        "congested": false
       }
     ]
   },
@@ -3259,6 +4127,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:01.261742Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:01.261742Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:01.261742Z",
         "congested": false
@@ -3281,6 +4153,10 @@
       {
         "ts": "2025-11-19T12:30:01.643471Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:01.643471Z",
+        "congested": false
       }
     ]
   },
@@ -3289,6 +4165,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:02.080986Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:02.080986Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:02.080986Z",
         "congested": false
@@ -3311,6 +4191,10 @@
       {
         "ts": "2025-11-19T12:30:02.693451Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:02.693451Z",
+        "congested": false
       }
     ]
   },
@@ -3319,6 +4203,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:03.136454Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:03.136454Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:03.136454Z",
         "congested": false
@@ -3341,6 +4229,10 @@
       {
         "ts": "2025-11-19T12:30:03.709287Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:03.709287Z",
+        "congested": false
       }
     ]
   },
@@ -3349,6 +4241,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:04.144065Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:04.144065Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:04.144065Z",
         "congested": false
@@ -3371,6 +4267,10 @@
       {
         "ts": "2025-11-19T12:30:04.815729Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:04.815729Z",
+        "congested": false
       }
     ]
   },
@@ -3379,6 +4279,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:05.115020Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:05.115020Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:05.115020Z",
         "congested": false
@@ -3401,6 +4305,10 @@
       {
         "ts": "2025-11-19T12:30:05.384618Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:05.384618Z",
+        "congested": false
       }
     ]
   },
@@ -3409,6 +4317,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:05.649754Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:05.649754Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:05.649754Z",
         "congested": false
@@ -3431,6 +4343,10 @@
       {
         "ts": "2025-11-19T12:30:06.488449Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:06.488449Z",
+        "congested": false
       }
     ]
   },
@@ -3439,6 +4355,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:06.988642Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:06.988642Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:06.988642Z",
         "congested": false
@@ -3461,6 +4381,10 @@
       {
         "ts": "2025-11-19T12:30:07.307127Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:07.307127Z",
+        "congested": false
       }
     ]
   },
@@ -3469,6 +4393,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:07.522716Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:07.522716Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:07.522716Z",
         "congested": false
@@ -3491,6 +4419,10 @@
       {
         "ts": "2025-11-19T12:30:07.731180Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:07.731180Z",
+        "congested": false
       }
     ]
   },
@@ -3499,6 +4431,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:07.958109Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:07.958109Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:07.958109Z",
         "congested": false
@@ -3521,6 +4457,10 @@
       {
         "ts": "2025-11-19T12:30:08.182491Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:08.182491Z",
+        "congested": false
       }
     ]
   },
@@ -3529,6 +4469,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:08.400842Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:08.400842Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:08.400842Z",
         "congested": false
@@ -3551,6 +4495,10 @@
       {
         "ts": "2025-11-19T12:30:08.662030Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:08.662030Z",
+        "congested": false
       }
     ]
   },
@@ -3559,6 +4507,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:08.949979Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:08.949979Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:08.949979Z",
         "congested": false
@@ -3581,6 +4533,10 @@
       {
         "ts": "2025-11-19T12:30:09.152695Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:09.152695Z",
+        "congested": false
       }
     ]
   },
@@ -3589,6 +4545,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:09.490482Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:09.490482Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:09.490482Z",
         "congested": false
@@ -3611,6 +4571,10 @@
       {
         "ts": "2025-11-19T12:30:09.860350Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:09.860350Z",
+        "congested": false
       }
     ]
   },
@@ -3619,6 +4583,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:10.075655Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:10.075655Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:10.075655Z",
         "congested": false
@@ -3641,6 +4609,10 @@
       {
         "ts": "2025-11-19T12:30:10.300755Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:10.300755Z",
+        "congested": false
       }
     ]
   },
@@ -3649,6 +4621,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:10.521326Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:10.521326Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:10.521326Z",
         "congested": false
@@ -3671,6 +4647,10 @@
       {
         "ts": "2025-11-19T12:30:10.743470Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:10.743470Z",
+        "congested": false
       }
     ]
   },
@@ -3679,6 +4659,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:10.943891Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:10.943891Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:10.943891Z",
         "congested": false
@@ -3701,6 +4685,10 @@
       {
         "ts": "2025-11-19T12:30:11.144309Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:11.144309Z",
+        "congested": false
       }
     ]
   },
@@ -3709,6 +4697,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:11.363081Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:11.363081Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:11.363081Z",
         "congested": false
@@ -3731,6 +4723,10 @@
       {
         "ts": "2025-11-19T12:30:11.639759Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:11.639759Z",
+        "congested": false
       }
     ]
   },
@@ -3739,6 +4735,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:11.894884Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:11.894884Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:11.894884Z",
         "congested": false
@@ -3761,6 +4761,10 @@
       {
         "ts": "2025-11-19T12:30:12.368774Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:12.368774Z",
+        "congested": false
       }
     ]
   },
@@ -3769,6 +4773,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:12.607871Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:12.607871Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:12.607871Z",
         "congested": false
@@ -3791,6 +4799,10 @@
       {
         "ts": "2025-11-19T12:30:13.066909Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:13.066909Z",
+        "congested": false
       }
     ]
   },
@@ -3799,6 +4811,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:13.535240Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:13.535240Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:13.535240Z",
         "congested": false
@@ -3821,6 +4837,10 @@
       {
         "ts": "2025-11-19T12:30:13.815493Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:13.815493Z",
+        "congested": false
       }
     ]
   },
@@ -3829,6 +4849,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:14.338769Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:14.338769Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:14.338769Z",
         "congested": false
@@ -3851,6 +4875,10 @@
       {
         "ts": "2025-11-19T12:30:14.813017Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:14.813017Z",
+        "congested": false
       }
     ]
   },
@@ -3859,6 +4887,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:15.086798Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:15.086798Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:15.086798Z",
         "congested": false
@@ -3881,6 +4913,10 @@
       {
         "ts": "2025-11-19T12:30:15.281133Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:15.281133Z",
+        "congested": false
       }
     ]
   },
@@ -3889,6 +4925,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:15.545591Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:15.545591Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:15.545591Z",
         "congested": false
@@ -3911,6 +4951,10 @@
       {
         "ts": "2025-11-19T12:30:15.873437Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:15.873437Z",
+        "congested": false
       }
     ]
   },
@@ -3919,6 +4963,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:16.225049Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:16.225049Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:16.225049Z",
         "congested": false
@@ -3941,6 +4989,10 @@
       {
         "ts": "2025-11-19T12:30:16.469154Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:16.469154Z",
+        "congested": false
       }
     ]
   },
@@ -3949,6 +5001,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:16.720133Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:16.720133Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:16.720133Z",
         "congested": false
@@ -3971,6 +5027,10 @@
       {
         "ts": "2025-11-19T12:30:17.028670Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:17.028670Z",
+        "congested": false
       }
     ]
   },
@@ -3979,6 +5039,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:17.357092Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:17.357092Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:17.357092Z",
         "congested": false
@@ -4001,6 +5065,10 @@
       {
         "ts": "2025-11-19T12:30:17.648456Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:17.648456Z",
+        "congested": false
       }
     ]
   },
@@ -4009,6 +5077,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:17.949440Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:17.949440Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:17.949440Z",
         "congested": false
@@ -4031,6 +5103,10 @@
       {
         "ts": "2025-11-19T12:30:18.479579Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:18.479579Z",
+        "congested": false
       }
     ]
   },
@@ -4039,6 +5115,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:18.714573Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:18.714573Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:18.714573Z",
         "congested": false
@@ -4061,6 +5141,10 @@
       {
         "ts": "2025-11-19T12:30:18.959041Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:18.959041Z",
+        "congested": false
       }
     ]
   },
@@ -4069,6 +5153,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:19.423825Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:19.423825Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:19.423825Z",
         "congested": false
@@ -4091,6 +5179,10 @@
       {
         "ts": "2025-11-19T12:30:19.743458Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:19.743458Z",
+        "congested": false
       }
     ]
   },
@@ -4099,6 +5191,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:20.297437Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:20.297437Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:20.297437Z",
         "congested": false
@@ -4121,6 +5217,10 @@
       {
         "ts": "2025-11-19T12:30:20.546479Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:20.546479Z",
+        "congested": false
       }
     ]
   },
@@ -4129,6 +5229,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:21.187584Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:21.187584Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:21.187584Z",
         "congested": false
@@ -4151,6 +5255,10 @@
       {
         "ts": "2025-11-19T12:30:21.508594Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:21.508594Z",
+        "congested": false
       }
     ]
   },
@@ -4159,6 +5267,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:22.002468Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:22.002468Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:22.002468Z",
         "congested": false
@@ -4181,6 +5293,10 @@
       {
         "ts": "2025-11-19T12:30:22.255572Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:22.255572Z",
+        "congested": false
       }
     ]
   },
@@ -4189,6 +5305,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:22.474041Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:22.474041Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:22.474041Z",
         "congested": false
@@ -4211,6 +5331,10 @@
       {
         "ts": "2025-11-19T12:30:22.714636Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:22.714636Z",
+        "congested": false
       }
     ]
   },
@@ -4219,6 +5343,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:22.966977Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:22.966977Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:22.966977Z",
         "congested": false
@@ -4241,6 +5369,10 @@
       {
         "ts": "2025-11-19T12:30:23.173460Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:23.173460Z",
+        "congested": false
       }
     ]
   },
@@ -4249,6 +5381,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:23.738504Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:23.738504Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:23.738504Z",
         "congested": false
@@ -4271,6 +5407,10 @@
       {
         "ts": "2025-11-19T12:30:24.075891Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:24.075891Z",
+        "congested": false
       }
     ]
   },
@@ -4279,6 +5419,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:24.400824Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:24.400824Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:24.400824Z",
         "congested": false
@@ -4301,6 +5445,10 @@
       {
         "ts": "2025-11-19T12:30:24.973958Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:24.973958Z",
+        "congested": false
       }
     ]
   },
@@ -4309,6 +5457,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:25.319934Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:25.319934Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:25.319934Z",
         "congested": false
@@ -4331,6 +5483,10 @@
       {
         "ts": "2025-11-19T12:30:26.217320Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:26.217320Z",
+        "congested": false
       }
     ]
   },
@@ -4339,6 +5495,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:26.611633Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:26.611633Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:26.611633Z",
         "congested": false
@@ -4361,6 +5521,10 @@
       {
         "ts": "2025-11-19T12:30:26.864059Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:26.864059Z",
+        "congested": false
       }
     ]
   },
@@ -4369,6 +5533,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:27.151311Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:27.151311Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:27.151311Z",
         "congested": false
@@ -4391,6 +5559,10 @@
       {
         "ts": "2025-11-19T12:30:27.576987Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:27.576987Z",
+        "congested": false
       }
     ]
   },
@@ -4399,6 +5571,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:28.079120Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:28.079120Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:28.079120Z",
         "congested": false
@@ -4421,6 +5597,10 @@
       {
         "ts": "2025-11-19T12:30:28.322920Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:28.322920Z",
+        "congested": false
       }
     ]
   },
@@ -4429,6 +5609,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:28.788123Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:28.788123Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:28.788123Z",
         "congested": false
@@ -4451,6 +5635,10 @@
       {
         "ts": "2025-11-19T12:30:29.334830Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:29.334830Z",
+        "congested": false
       }
     ]
   },
@@ -4459,6 +5647,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:29.614675Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:29.614675Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:29.614675Z",
         "congested": false
@@ -4481,6 +5673,10 @@
       {
         "ts": "2025-11-19T12:30:29.874580Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:29.874580Z",
+        "congested": false
       }
     ]
   },
@@ -4489,6 +5685,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:30.127974Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:30.127974Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:30.127974Z",
         "congested": false
@@ -4511,6 +5711,10 @@
       {
         "ts": "2025-11-19T12:30:30.678201Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:30.678201Z",
+        "congested": false
       }
     ]
   },
@@ -4519,6 +5723,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:30.922971Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:30.922971Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:30.922971Z",
         "congested": false
@@ -4541,6 +5749,10 @@
       {
         "ts": "2025-11-19T12:30:31.283618Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:31.283618Z",
+        "congested": false
       }
     ]
   },
@@ -4549,6 +5761,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:31.567004Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:31.567004Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:31.567004Z",
         "congested": false
@@ -4571,6 +5787,10 @@
       {
         "ts": "2025-11-19T12:30:31.785578Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:31.785578Z",
+        "congested": false
       }
     ]
   },
@@ -4579,6 +5799,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:31.993264Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:31.993264Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:31.993264Z",
         "congested": false
@@ -4601,6 +5825,10 @@
       {
         "ts": "2025-11-19T12:30:32.193473Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:32.193473Z",
+        "congested": false
       }
     ]
   },
@@ -4609,6 +5837,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:32.416818Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:32.416818Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:32.416818Z",
         "congested": false
@@ -4631,6 +5863,10 @@
       {
         "ts": "2025-11-19T12:30:32.703889Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:32.703889Z",
+        "congested": false
       }
     ]
   },
@@ -4639,6 +5875,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:32.970273Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:32.970273Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:32.970273Z",
         "congested": false
@@ -4661,6 +5901,10 @@
       {
         "ts": "2025-11-19T12:30:33.392502Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:33.392502Z",
+        "congested": false
       }
     ]
   },
@@ -4669,6 +5913,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:33.732198Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:33.732198Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:33.732198Z",
         "congested": false
@@ -4691,6 +5939,10 @@
       {
         "ts": "2025-11-19T12:30:34.044910Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:34.044910Z",
+        "congested": false
       }
     ]
   },
@@ -4699,6 +5951,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:34.790418Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:34.790418Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:34.790418Z",
         "congested": false
@@ -4721,6 +5977,10 @@
       {
         "ts": "2025-11-19T12:30:35.153279Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:35.153279Z",
+        "congested": false
       }
     ]
   },
@@ -4729,6 +5989,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:35.706783Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:35.706783Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:35.706783Z",
         "congested": false
@@ -4751,6 +6015,10 @@
       {
         "ts": "2025-11-19T12:30:36.454964Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:36.454964Z",
+        "congested": false
       }
     ]
   },
@@ -4759,6 +6027,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:36.943264Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:36.943264Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:36.943264Z",
         "congested": false
@@ -4781,6 +6053,10 @@
       {
         "ts": "2025-11-19T12:30:37.261822Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:37.261822Z",
+        "congested": false
       }
     ]
   },
@@ -4789,6 +6065,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:37.584703Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:37.584703Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:37.584703Z",
         "congested": false
@@ -4811,6 +6091,10 @@
       {
         "ts": "2025-11-19T12:30:38.143157Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:38.143157Z",
+        "congested": false
       }
     ]
   },
@@ -4819,6 +6103,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:38.845397Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:38.845397Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:38.845397Z",
         "congested": false
@@ -4841,6 +6129,10 @@
       {
         "ts": "2025-11-19T12:30:39.266224Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:39.266224Z",
+        "congested": false
       }
     ]
   },
@@ -4849,6 +6141,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:40.105777Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:40.105777Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:40.105777Z",
         "congested": false
@@ -4871,6 +6167,10 @@
       {
         "ts": "2025-11-19T12:30:40.909735Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:40.909735Z",
+        "congested": false
       }
     ]
   },
@@ -4879,6 +6179,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:41.399676Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:41.399676Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:41.399676Z",
         "congested": false
@@ -4901,6 +6205,10 @@
       {
         "ts": "2025-11-19T12:30:41.823665Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:41.823665Z",
+        "congested": false
       }
     ]
   },
@@ -4909,6 +6217,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:42.114041Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:42.114041Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:42.114041Z",
         "congested": false
@@ -4931,6 +6243,10 @@
       {
         "ts": "2025-11-19T12:30:42.387008Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:42.387008Z",
+        "congested": false
       }
     ]
   },
@@ -4939,6 +6255,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:42.612657Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:42.612657Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:42.612657Z",
         "congested": false
@@ -4961,6 +6281,10 @@
       {
         "ts": "2025-11-19T12:30:42.909976Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:42.909976Z",
+        "congested": false
       }
     ]
   },
@@ -4969,6 +6293,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:43.190734Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:43.190734Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:43.190734Z",
         "congested": false
@@ -4991,6 +6319,10 @@
       {
         "ts": "2025-11-19T12:30:43.506504Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:43.506504Z",
+        "congested": false
       }
     ]
   },
@@ -4999,6 +6331,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:44.018923Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:44.018923Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:44.018923Z",
         "congested": false
@@ -5021,6 +6357,10 @@
       {
         "ts": "2025-11-19T12:30:44.336845Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:44.336845Z",
+        "congested": false
       }
     ]
   },
@@ -5029,6 +6369,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:44.602799Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:44.602799Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:44.602799Z",
         "congested": false
@@ -5051,6 +6395,10 @@
       {
         "ts": "2025-11-19T12:30:45.104010Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:45.104010Z",
+        "congested": false
       }
     ]
   },
@@ -5059,6 +6407,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:45.538776Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:45.538776Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:45.538776Z",
         "congested": false
@@ -5081,6 +6433,10 @@
       {
         "ts": "2025-11-19T12:30:45.797811Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:45.797811Z",
+        "congested": false
       }
     ]
   },
@@ -5089,6 +6445,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:46.009050Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:46.009050Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:46.009050Z",
         "congested": false
@@ -5111,6 +6471,10 @@
       {
         "ts": "2025-11-19T12:30:46.247728Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:46.247728Z",
+        "congested": false
       }
     ]
   },
@@ -5119,6 +6483,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:46.744098Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:46.744098Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:46.744098Z",
         "congested": false
@@ -5141,6 +6509,10 @@
       {
         "ts": "2025-11-19T12:30:47.255232Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:47.255232Z",
+        "congested": false
       }
     ]
   },
@@ -5149,6 +6521,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:47.532189Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:47.532189Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:47.532189Z",
         "congested": false
@@ -5171,6 +6547,10 @@
       {
         "ts": "2025-11-19T12:30:48.007801Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:48.007801Z",
+        "congested": false
       }
     ]
   },
@@ -5179,6 +6559,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:48.737661Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:48.737661Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:48.737661Z",
         "congested": false
@@ -5201,6 +6585,10 @@
       {
         "ts": "2025-11-19T12:30:49.030739Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:49.030739Z",
+        "congested": false
       }
     ]
   },
@@ -5209,6 +6597,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:49.532043Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:49.532043Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:49.532043Z",
         "congested": false
@@ -5231,6 +6623,10 @@
       {
         "ts": "2025-11-19T12:30:49.938574Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:49.938574Z",
+        "congested": false
       }
     ]
   },
@@ -5239,6 +6635,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:50.190403Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:50.190403Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:50.190403Z",
         "congested": false
@@ -5261,6 +6661,10 @@
       {
         "ts": "2025-11-19T12:30:50.350222Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:50.350222Z",
+        "congested": false
       }
     ]
   },
@@ -5269,6 +6673,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:50.598544Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:50.598544Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:50.598544Z",
         "congested": false
@@ -5291,6 +6699,10 @@
       {
         "ts": "2025-11-19T12:30:50.950004Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:50.950004Z",
+        "congested": false
       }
     ]
   },
@@ -5299,6 +6711,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:51.404638Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:51.404638Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:51.404638Z",
         "congested": false
@@ -5321,6 +6737,10 @@
       {
         "ts": "2025-11-19T12:30:51.918276Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:51.918276Z",
+        "congested": false
       }
     ]
   },
@@ -5329,6 +6749,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:52.457415Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:52.457415Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:52.457415Z",
         "congested": false
@@ -5351,6 +6775,10 @@
       {
         "ts": "2025-11-19T12:30:52.784463Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:52.784463Z",
+        "congested": false
       }
     ]
   },
@@ -5359,6 +6787,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:53.290573Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:53.290573Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:53.290573Z",
         "congested": false
@@ -5381,6 +6813,10 @@
       {
         "ts": "2025-11-19T12:30:53.504665Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:53.504665Z",
+        "congested": false
       }
     ]
   },
@@ -5389,6 +6825,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:53.996849Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:53.996849Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:53.996849Z",
         "congested": false
@@ -5411,6 +6851,10 @@
       {
         "ts": "2025-11-19T12:30:54.379110Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:54.379110Z",
+        "congested": false
       }
     ]
   },
@@ -5419,6 +6863,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:54.624704Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:54.624704Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:54.624704Z",
         "congested": false
@@ -5441,6 +6889,10 @@
       {
         "ts": "2025-11-19T12:30:54.903257Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:54.903257Z",
+        "congested": false
       }
     ]
   },
@@ -5449,6 +6901,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:55.085979Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:55.085979Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:55.085979Z",
         "congested": false
@@ -5471,6 +6927,10 @@
       {
         "ts": "2025-11-19T12:30:55.301743Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:55.301743Z",
+        "congested": false
       }
     ]
   },
@@ -5479,6 +6939,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:55.560462Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:55.560462Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:55.560462Z",
         "congested": false
@@ -5501,6 +6965,10 @@
       {
         "ts": "2025-11-19T12:30:55.754755Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:55.754755Z",
+        "congested": false
       }
     ]
   },
@@ -5509,6 +6977,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:56.066780Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:56.066780Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:56.066780Z",
         "congested": false
@@ -5531,6 +7003,10 @@
       {
         "ts": "2025-11-19T12:30:56.368789Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:56.368789Z",
+        "congested": false
       }
     ]
   },
@@ -5539,6 +7015,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:57.333696Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:57.333696Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:57.333696Z",
         "congested": false
@@ -5561,6 +7041,10 @@
       {
         "ts": "2025-11-19T12:30:57.611280Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:57.611280Z",
+        "congested": false
       }
     ]
   },
@@ -5569,6 +7053,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:57.867778Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:57.867778Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:57.867778Z",
         "congested": false
@@ -5591,6 +7079,10 @@
       {
         "ts": "2025-11-19T12:30:58.122648Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:58.122648Z",
+        "congested": false
       }
     ]
   },
@@ -5599,6 +7091,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:58.604521Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:58.604521Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:58.604521Z",
         "congested": false
@@ -5621,6 +7117,10 @@
       {
         "ts": "2025-11-19T12:30:58.862596Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:58.862596Z",
+        "congested": false
       }
     ]
   },
@@ -5629,6 +7129,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:59.321899Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:59.321899Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:59.321899Z",
         "congested": false
@@ -5651,6 +7155,10 @@
       {
         "ts": "2025-11-19T12:30:59.557679Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:30:59.557679Z",
+        "congested": false
       }
     ]
   },
@@ -5659,6 +7167,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:30:59.856005Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:30:59.856005Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:30:59.856005Z",
         "congested": false
@@ -5681,6 +7193,10 @@
       {
         "ts": "2025-11-19T12:31:00.068641Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:00.068641Z",
+        "congested": false
       }
     ]
   },
@@ -5689,6 +7205,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:00.256313Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:00.256313Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:00.256313Z",
         "congested": false
@@ -5711,6 +7231,10 @@
       {
         "ts": "2025-11-19T12:31:00.452906Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:00.452906Z",
+        "congested": false
       }
     ]
   },
@@ -5719,6 +7243,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:00.630358Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:00.630358Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:00.630358Z",
         "congested": false
@@ -5741,6 +7269,10 @@
       {
         "ts": "2025-11-19T12:31:00.825353Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:00.825353Z",
+        "congested": false
       }
     ]
   },
@@ -5749,6 +7281,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:01.334498Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:01.334498Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:01.334498Z",
         "congested": false
@@ -5771,6 +7307,10 @@
       {
         "ts": "2025-11-19T12:31:01.585481Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:01.585481Z",
+        "congested": false
       }
     ]
   },
@@ -5779,6 +7319,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:02.908900Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:02.908900Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:02.908900Z",
         "congested": false
@@ -5801,6 +7345,10 @@
       {
         "ts": "2025-11-19T12:31:04.088348Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:04.088348Z",
+        "congested": false
       }
     ]
   },
@@ -5809,6 +7357,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:05.027246Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:05.027246Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:05.027246Z",
         "congested": false
@@ -5831,6 +7383,10 @@
       {
         "ts": "2025-11-19T12:31:05.430220Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:05.430220Z",
+        "congested": false
       }
     ]
   },
@@ -5839,6 +7395,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:05.705054Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:05.705054Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:05.705054Z",
         "congested": false
@@ -5861,6 +7421,10 @@
       {
         "ts": "2025-11-19T12:31:05.981367Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:05.981367Z",
+        "congested": false
       }
     ]
   },
@@ -5869,6 +7433,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:06.217631Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:06.217631Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:06.217631Z",
         "congested": false
@@ -5891,6 +7459,10 @@
       {
         "ts": "2025-11-19T12:31:06.413466Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:06.413466Z",
+        "congested": false
       }
     ]
   },
@@ -5899,6 +7471,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:06.588762Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:06.588762Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:06.588762Z",
         "congested": false
@@ -5921,6 +7497,10 @@
       {
         "ts": "2025-11-19T12:31:06.779642Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:06.779642Z",
+        "congested": false
       }
     ]
   },
@@ -5929,6 +7509,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:07.239518Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:07.239518Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:07.239518Z",
         "congested": false
@@ -5951,6 +7535,10 @@
       {
         "ts": "2025-11-19T12:31:07.517926Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:07.517926Z",
+        "congested": false
       }
     ]
   },
@@ -5959,6 +7547,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:07.963551Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:07.963551Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:07.963551Z",
         "congested": false
@@ -5981,6 +7573,10 @@
       {
         "ts": "2025-11-19T12:31:08.432503Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:08.432503Z",
+        "congested": false
       }
     ]
   },
@@ -5989,6 +7585,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:08.650595Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:08.650595Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:08.650595Z",
         "congested": false
@@ -6011,6 +7611,10 @@
       {
         "ts": "2025-11-19T12:31:08.884105Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:08.884105Z",
+        "congested": false
       }
     ]
   },
@@ -6019,6 +7623,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:09.140689Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:09.140689Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:09.140689Z",
         "congested": false
@@ -6041,6 +7649,10 @@
       {
         "ts": "2025-11-19T12:31:09.401979Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:09.401979Z",
+        "congested": false
       }
     ]
   },
@@ -6049,6 +7661,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:09.661837Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:09.661837Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:09.661837Z",
         "congested": false
@@ -6071,6 +7687,10 @@
       {
         "ts": "2025-11-19T12:31:10.160442Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:10.160442Z",
+        "congested": false
       }
     ]
   },
@@ -6079,6 +7699,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:10.653386Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:10.653386Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:10.653386Z",
         "congested": false
@@ -6101,6 +7725,10 @@
       {
         "ts": "2025-11-19T12:31:11.156275Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:11.156275Z",
+        "congested": false
       }
     ]
   },
@@ -6109,6 +7737,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:11.466916Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:11.466916Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:11.466916Z",
         "congested": false
@@ -6131,6 +7763,10 @@
       {
         "ts": "2025-11-19T12:31:11.716862Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:11.716862Z",
+        "congested": false
       }
     ]
   },
@@ -6139,6 +7775,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:11.964982Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:11.964982Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:11.964982Z",
         "congested": false
@@ -6161,6 +7801,10 @@
       {
         "ts": "2025-11-19T12:31:12.152558Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:12.152558Z",
+        "congested": false
       }
     ]
   },
@@ -6169,6 +7813,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:12.353079Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:12.353079Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:12.353079Z",
         "congested": false
@@ -6191,6 +7839,10 @@
       {
         "ts": "2025-11-19T12:31:12.605278Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:12.605278Z",
+        "congested": false
       }
     ]
   },
@@ -6199,6 +7851,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:12.805060Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:12.805060Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:12.805060Z",
         "congested": false
@@ -6221,6 +7877,10 @@
       {
         "ts": "2025-11-19T12:31:13.002944Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:13.002944Z",
+        "congested": false
       }
     ]
   },
@@ -6229,6 +7889,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:13.216731Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:13.216731Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:13.216731Z",
         "congested": false
@@ -6251,6 +7915,10 @@
       {
         "ts": "2025-11-19T12:31:13.446147Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:13.446147Z",
+        "congested": false
       }
     ]
   },
@@ -6259,6 +7927,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:13.662518Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:13.662518Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:13.662518Z",
         "congested": false
@@ -6281,6 +7953,10 @@
       {
         "ts": "2025-11-19T12:31:14.997024Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:14.997024Z",
+        "congested": false
       }
     ]
   },
@@ -6289,6 +7965,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:16.270127Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:16.270127Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:16.270127Z",
         "congested": false
@@ -6311,6 +7991,10 @@
       {
         "ts": "2025-11-19T12:31:18.324147Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:18.324147Z",
+        "congested": false
       }
     ]
   },
@@ -6319,6 +8003,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:20.141476Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:20.141476Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:20.141476Z",
         "congested": false
@@ -6341,6 +8029,10 @@
       {
         "ts": "2025-11-19T12:31:20.825064Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:20.825064Z",
+        "congested": false
       }
     ]
   },
@@ -6349,6 +8041,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:31:23.616172Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:31:23.616172Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:31:23.616172Z",
         "congested": false
@@ -6371,6 +8067,10 @@
       {
         "ts": "2025-11-19T12:31:34.857810Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:31:34.857810Z",
+        "congested": false
       }
     ]
   },
@@ -6379,6 +8079,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:32:15.228896Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:32:15.228896Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:32:15.228896Z",
         "congested": false
@@ -6401,6 +8105,10 @@
       {
         "ts": "2025-11-19T12:35:25.556065Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:25.556065Z",
+        "congested": false
       }
     ]
   },
@@ -6409,6 +8117,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:26.641400Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:26.641400Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:26.641400Z",
         "congested": false
@@ -6431,6 +8143,10 @@
       {
         "ts": "2025-11-19T12:35:27.307660Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:27.307660Z",
+        "congested": false
       }
     ]
   },
@@ -6439,6 +8155,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:27.527960Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:27.527960Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:27.527960Z",
         "congested": false
@@ -6461,6 +8181,10 @@
       {
         "ts": "2025-11-19T12:35:27.717995Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:27.717995Z",
+        "congested": false
       }
     ]
   },
@@ -6469,6 +8193,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:27.922050Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:27.922050Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:27.922050Z",
         "congested": false
@@ -6491,6 +8219,10 @@
       {
         "ts": "2025-11-19T12:35:28.127780Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:28.127780Z",
+        "congested": false
       }
     ]
   },
@@ -6499,6 +8231,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:28.330410Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:28.330410Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:28.330410Z",
         "congested": false
@@ -6521,6 +8257,10 @@
       {
         "ts": "2025-11-19T12:35:28.536803Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:28.536803Z",
+        "congested": false
       }
     ]
   },
@@ -6529,6 +8269,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:28.776993Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:28.776993Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:28.776993Z",
         "congested": false
@@ -6551,6 +8295,10 @@
       {
         "ts": "2025-11-19T12:35:28.959027Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:28.959027Z",
+        "congested": false
       }
     ]
   },
@@ -6559,6 +8307,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:29.158850Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:29.158850Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:29.158850Z",
         "congested": false
@@ -6581,6 +8333,10 @@
       {
         "ts": "2025-11-19T12:35:29.454014Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:29.454014Z",
+        "congested": false
       }
     ]
   },
@@ -6589,6 +8345,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:29.704617Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:29.704617Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:29.704617Z",
         "congested": false
@@ -6611,6 +8371,10 @@
       {
         "ts": "2025-11-19T12:35:30.004601Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:30.004601Z",
+        "congested": false
       }
     ]
   },
@@ -6619,6 +8383,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:30.271575Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:30.271575Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:30.271575Z",
         "congested": false
@@ -6641,6 +8409,10 @@
       {
         "ts": "2025-11-19T12:35:30.519881Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:30.519881Z",
+        "congested": false
       }
     ]
   },
@@ -6649,6 +8421,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:30.767187Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:30.767187Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:30.767187Z",
         "congested": false
@@ -6671,6 +8447,10 @@
       {
         "ts": "2025-11-19T12:35:31.010122Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:31.010122Z",
+        "congested": false
       }
     ]
   },
@@ -6679,6 +8459,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:31.272986Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:31.272986Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:31.272986Z",
         "congested": false
@@ -6701,6 +8485,10 @@
       {
         "ts": "2025-11-19T12:35:31.483108Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:31.483108Z",
+        "congested": false
       }
     ]
   },
@@ -6709,6 +8497,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:31.703329Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:31.703329Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:31.703329Z",
         "congested": false
@@ -6731,6 +8523,10 @@
       {
         "ts": "2025-11-19T12:35:31.899042Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:31.899042Z",
+        "congested": false
       }
     ]
   },
@@ -6739,6 +8535,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:32.058351Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:32.058351Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:32.058351Z",
         "congested": false
@@ -6761,6 +8561,10 @@
       {
         "ts": "2025-11-19T12:35:32.277601Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:32.277601Z",
+        "congested": false
       }
     ]
   },
@@ -6769,6 +8573,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:32.476920Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:32.476920Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:32.476920Z",
         "congested": false
@@ -6791,6 +8599,10 @@
       {
         "ts": "2025-11-19T12:35:32.710960Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:32.710960Z",
+        "congested": false
       }
     ]
   },
@@ -6799,6 +8611,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:32.915756Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:32.915756Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:32.915756Z",
         "congested": false
@@ -6821,6 +8637,10 @@
       {
         "ts": "2025-11-19T12:35:33.115547Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:33.115547Z",
+        "congested": false
       }
     ]
   },
@@ -6829,6 +8649,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:33.347428Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:33.347428Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:33.347428Z",
         "congested": false
@@ -6851,6 +8675,10 @@
       {
         "ts": "2025-11-19T12:35:33.582119Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:33.582119Z",
+        "congested": false
       }
     ]
   },
@@ -6859,6 +8687,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:33.813767Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:33.813767Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:33.813767Z",
         "congested": false
@@ -6881,6 +8713,10 @@
       {
         "ts": "2025-11-19T12:35:34.012035Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:34.012035Z",
+        "congested": false
       }
     ]
   },
@@ -6889,6 +8725,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:34.211129Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:34.211129Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:34.211129Z",
         "congested": false
@@ -6911,6 +8751,10 @@
       {
         "ts": "2025-11-19T12:35:34.455203Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:34.455203Z",
+        "congested": false
       }
     ]
   },
@@ -6919,6 +8763,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:34.584943Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:34.584943Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:34.584943Z",
         "congested": false
@@ -6941,6 +8789,10 @@
       {
         "ts": "2025-11-19T12:35:34.801668Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:34.801668Z",
+        "congested": false
       }
     ]
   },
@@ -6949,6 +8801,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:35.004149Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:35.004149Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:35.004149Z",
         "congested": false
@@ -6971,6 +8827,10 @@
       {
         "ts": "2025-11-19T12:35:35.274275Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:35.274275Z",
+        "congested": false
       }
     ]
   },
@@ -6979,6 +8839,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:35.492049Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:35.492049Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:35.492049Z",
         "congested": false
@@ -7001,6 +8865,10 @@
       {
         "ts": "2025-11-19T12:35:35.707550Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:35.707550Z",
+        "congested": false
       }
     ]
   },
@@ -7009,6 +8877,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:35.948845Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:35.948845Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:35.948845Z",
         "congested": false
@@ -7031,6 +8903,10 @@
       {
         "ts": "2025-11-19T12:35:36.323448Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:36.323448Z",
+        "congested": false
       }
     ]
   },
@@ -7039,6 +8915,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:38.247176Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:38.247176Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:38.247176Z",
         "congested": false
@@ -7061,6 +8941,10 @@
       {
         "ts": "2025-11-19T12:35:38.536711Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:38.536711Z",
+        "congested": false
       }
     ]
   },
@@ -7069,6 +8953,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:38.771691Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:38.771691Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:38.771691Z",
         "congested": false
@@ -7091,6 +8979,10 @@
       {
         "ts": "2025-11-19T12:35:38.971412Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:38.971412Z",
+        "congested": false
       }
     ]
   },
@@ -7099,6 +8991,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:39.198179Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:39.198179Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:39.198179Z",
         "congested": false
@@ -7121,6 +9017,10 @@
       {
         "ts": "2025-11-19T12:35:39.509349Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:39.509349Z",
+        "congested": false
       }
     ]
   },
@@ -7129,6 +9029,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:39.735711Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:39.735711Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:39.735711Z",
         "congested": false
@@ -7151,6 +9055,10 @@
       {
         "ts": "2025-11-19T12:35:39.995431Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:39.995431Z",
+        "congested": false
       }
     ]
   },
@@ -7159,6 +9067,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:40.272052Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:40.272052Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:40.272052Z",
         "congested": false
@@ -7181,6 +9093,10 @@
       {
         "ts": "2025-11-19T12:35:40.451147Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:40.451147Z",
+        "congested": false
       }
     ]
   },
@@ -7189,6 +9105,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:40.635133Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:40.635133Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:40.635133Z",
         "congested": false
@@ -7211,6 +9131,10 @@
       {
         "ts": "2025-11-19T12:35:40.816815Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:40.816815Z",
+        "congested": false
       }
     ]
   },
@@ -7219,6 +9143,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:41.016974Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:41.016974Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:41.016974Z",
         "congested": false
@@ -7241,6 +9169,10 @@
       {
         "ts": "2025-11-19T12:35:41.345351Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:41.345351Z",
+        "congested": false
       }
     ]
   },
@@ -7249,6 +9181,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:41.561247Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:41.561247Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:41.561247Z",
         "congested": false
@@ -7271,6 +9207,10 @@
       {
         "ts": "2025-11-19T12:35:41.746710Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:41.746710Z",
+        "congested": false
       }
     ]
   },
@@ -7279,6 +9219,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:41.923714Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:41.923714Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:41.923714Z",
         "congested": false
@@ -7301,6 +9245,10 @@
       {
         "ts": "2025-11-19T12:35:42.126362Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:42.126362Z",
+        "congested": false
       }
     ]
   },
@@ -7309,6 +9257,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:42.359211Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:42.359211Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:42.359211Z",
         "congested": false
@@ -7331,6 +9283,10 @@
       {
         "ts": "2025-11-19T12:35:42.641095Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:42.641095Z",
+        "congested": false
       }
     ]
   },
@@ -7339,6 +9295,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:42.925841Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:42.925841Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:42.925841Z",
         "congested": false
@@ -7361,6 +9321,10 @@
       {
         "ts": "2025-11-19T12:35:43.173857Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:43.173857Z",
+        "congested": false
       }
     ]
   },
@@ -7369,6 +9333,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:43.428315Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:43.428315Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:43.428315Z",
         "congested": false
@@ -7391,6 +9359,10 @@
       {
         "ts": "2025-11-19T12:35:43.676129Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:43.676129Z",
+        "congested": false
       }
     ]
   },
@@ -7399,6 +9371,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:43.921679Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:43.921679Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:43.921679Z",
         "congested": false
@@ -7421,6 +9397,10 @@
       {
         "ts": "2025-11-19T12:35:44.161757Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:44.161757Z",
+        "congested": false
       }
     ]
   },
@@ -7429,6 +9409,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:44.409004Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:44.409004Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:44.409004Z",
         "congested": false
@@ -7451,6 +9435,10 @@
       {
         "ts": "2025-11-19T12:35:44.709937Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:44.709937Z",
+        "congested": false
       }
     ]
   },
@@ -7459,6 +9447,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:44.904742Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:44.904742Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:44.904742Z",
         "congested": false
@@ -7481,6 +9473,10 @@
       {
         "ts": "2025-11-19T12:35:45.123965Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:45.123965Z",
+        "congested": false
       }
     ]
   },
@@ -7489,6 +9485,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:45.299908Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:45.299908Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:45.299908Z",
         "congested": false
@@ -7511,6 +9511,10 @@
       {
         "ts": "2025-11-19T12:35:45.511058Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:45.511058Z",
+        "congested": false
       }
     ]
   },
@@ -7519,6 +9523,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:45.726514Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:45.726514Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:45.726514Z",
         "congested": false
@@ -7541,6 +9549,10 @@
       {
         "ts": "2025-11-19T12:35:45.930441Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:45.930441Z",
+        "congested": false
       }
     ]
   },
@@ -7549,6 +9561,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:46.145586Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:46.145586Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:46.145586Z",
         "congested": false
@@ -7571,6 +9587,10 @@
       {
         "ts": "2025-11-19T12:35:46.320986Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:46.320986Z",
+        "congested": false
       }
     ]
   },
@@ -7579,6 +9599,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:46.515603Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:46.515603Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:46.515603Z",
         "congested": false
@@ -7601,6 +9625,10 @@
       {
         "ts": "2025-11-19T12:35:46.704805Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:46.704805Z",
+        "congested": false
       }
     ]
   },
@@ -7609,6 +9637,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:47.108172Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:47.108172Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:47.108172Z",
         "congested": false
@@ -7631,6 +9663,10 @@
       {
         "ts": "2025-11-19T12:35:47.382723Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:47.382723Z",
+        "congested": false
       }
     ]
   },
@@ -7639,6 +9675,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:47.576674Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:47.576674Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:47.576674Z",
         "congested": false
@@ -7661,6 +9701,10 @@
       {
         "ts": "2025-11-19T12:35:47.829349Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:47.829349Z",
+        "congested": false
       }
     ]
   },
@@ -7669,6 +9713,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:48.011728Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:48.011728Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:48.011728Z",
         "congested": false
@@ -7691,6 +9739,10 @@
       {
         "ts": "2025-11-19T12:35:48.193530Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:48.193530Z",
+        "congested": false
       }
     ]
   },
@@ -7699,6 +9751,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:48.400399Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:48.400399Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:48.400399Z",
         "congested": false
@@ -7721,6 +9777,10 @@
       {
         "ts": "2025-11-19T12:35:48.616226Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:48.616226Z",
+        "congested": false
       }
     ]
   },
@@ -7729,6 +9789,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:48.849819Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:48.849819Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:48.849819Z",
         "congested": false
@@ -7751,6 +9815,10 @@
       {
         "ts": "2025-11-19T12:35:49.120719Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:49.120719Z",
+        "congested": false
       }
     ]
   },
@@ -7759,6 +9827,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:49.316003Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:49.316003Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:49.316003Z",
         "congested": false
@@ -7781,6 +9853,10 @@
       {
         "ts": "2025-11-19T12:35:49.517659Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:49.517659Z",
+        "congested": false
       }
     ]
   },
@@ -7789,6 +9865,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:49.736340Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:49.736340Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:49.736340Z",
         "congested": false
@@ -7811,6 +9891,10 @@
       {
         "ts": "2025-11-19T12:35:49.949168Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:49.949168Z",
+        "congested": false
       }
     ]
   },
@@ -7819,6 +9903,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:50.197395Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:50.197395Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:50.197395Z",
         "congested": false
@@ -7841,6 +9929,10 @@
       {
         "ts": "2025-11-19T12:35:50.375301Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:50.375301Z",
+        "congested": false
       }
     ]
   },
@@ -7849,6 +9941,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:50.571584Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:50.571584Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:50.571584Z",
         "congested": false
@@ -7871,6 +9967,10 @@
       {
         "ts": "2025-11-19T12:35:50.775959Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:50.775959Z",
+        "congested": false
       }
     ]
   },
@@ -7879,6 +9979,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:50.971690Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:50.971690Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:50.971690Z",
         "congested": false
@@ -7901,6 +10005,10 @@
       {
         "ts": "2025-11-19T12:35:51.215963Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:51.215963Z",
+        "congested": false
       }
     ]
   },
@@ -7909,6 +10017,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:51.412338Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:51.412338Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:51.412338Z",
         "congested": false
@@ -7931,6 +10043,10 @@
       {
         "ts": "2025-11-19T12:35:51.620067Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:51.620067Z",
+        "congested": false
       }
     ]
   },
@@ -7939,6 +10055,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:51.812212Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:51.812212Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:51.812212Z",
         "congested": false
@@ -7961,6 +10081,10 @@
       {
         "ts": "2025-11-19T12:35:52.025466Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:52.025466Z",
+        "congested": false
       }
     ]
   },
@@ -7969,6 +10093,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:52.201064Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:52.201064Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:52.201064Z",
         "congested": false
@@ -7991,6 +10119,10 @@
       {
         "ts": "2025-11-19T12:35:52.393831Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:52.393831Z",
+        "congested": false
       }
     ]
   },
@@ -7999,6 +10131,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:52.637629Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:52.637629Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:52.637629Z",
         "congested": false
@@ -8021,6 +10157,10 @@
       {
         "ts": "2025-11-19T12:35:52.911545Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:52.911545Z",
+        "congested": false
       }
     ]
   },
@@ -8029,6 +10169,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:53.185461Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:53.185461Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:53.185461Z",
         "congested": false
@@ -8051,6 +10195,10 @@
       {
         "ts": "2025-11-19T12:35:53.559174Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:53.559174Z",
+        "congested": false
       }
     ]
   },
@@ -8059,6 +10207,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:53.775492Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:53.775492Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:53.775492Z",
         "congested": false
@@ -8081,6 +10233,10 @@
       {
         "ts": "2025-11-19T12:35:53.966240Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:53.966240Z",
+        "congested": false
       }
     ]
   },
@@ -8089,6 +10245,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:54.126256Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:54.126256Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:54.126256Z",
         "congested": false
@@ -8111,6 +10271,10 @@
       {
         "ts": "2025-11-19T12:35:54.319815Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:54.319815Z",
+        "congested": false
       }
     ]
   },
@@ -8119,6 +10283,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:54.517621Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:54.517621Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:54.517621Z",
         "congested": false
@@ -8141,6 +10309,10 @@
       {
         "ts": "2025-11-19T12:35:54.700022Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:54.700022Z",
+        "congested": false
       }
     ]
   },
@@ -8149,6 +10321,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:54.897452Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:54.897452Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:54.897452Z",
         "congested": false
@@ -8171,6 +10347,10 @@
       {
         "ts": "2025-11-19T12:35:55.192455Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:55.192455Z",
+        "congested": false
       }
     ]
   },
@@ -8179,6 +10359,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:55.443264Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:55.443264Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:55.443264Z",
         "congested": false
@@ -8201,6 +10385,10 @@
       {
         "ts": "2025-11-19T12:35:55.743062Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:55.743062Z",
+        "congested": false
       }
     ]
   },
@@ -8209,6 +10397,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:56.017731Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:56.017731Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:56.017731Z",
         "congested": false
@@ -8231,6 +10423,10 @@
       {
         "ts": "2025-11-19T12:35:56.311809Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:56.311809Z",
+        "congested": false
       }
     ]
   },
@@ -8239,6 +10435,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:56.539152Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:56.539152Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:56.539152Z",
         "congested": false
@@ -8261,6 +10461,10 @@
       {
         "ts": "2025-11-19T12:35:56.871631Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:56.871631Z",
+        "congested": false
       }
     ]
   },
@@ -8269,6 +10473,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:57.159343Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:57.159343Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:57.159343Z",
         "congested": false
@@ -8291,6 +10499,10 @@
       {
         "ts": "2025-11-19T12:35:57.443710Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:57.443710Z",
+        "congested": false
       }
     ]
   },
@@ -8299,6 +10511,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:57.716034Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:57.716034Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:57.716034Z",
         "congested": false
@@ -8321,6 +10537,10 @@
       {
         "ts": "2025-11-19T12:35:58.125755Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:58.125755Z",
+        "congested": false
       }
     ]
   },
@@ -8329,6 +10549,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:58.412810Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:58.412810Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:58.412810Z",
         "congested": false
@@ -8351,6 +10575,10 @@
       {
         "ts": "2025-11-19T12:35:58.639466Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:58.639466Z",
+        "congested": false
       }
     ]
   },
@@ -8359,6 +10587,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:58.911617Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:58.911617Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:58.911617Z",
         "congested": false
@@ -8381,6 +10613,10 @@
       {
         "ts": "2025-11-19T12:35:59.198843Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:59.198843Z",
+        "congested": false
       }
     ]
   },
@@ -8389,6 +10625,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:59.431365Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:59.431365Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:59.431365Z",
         "congested": false
@@ -8411,6 +10651,10 @@
       {
         "ts": "2025-11-19T12:35:59.628082Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:35:59.628082Z",
+        "congested": false
       }
     ]
   },
@@ -8419,6 +10663,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:35:59.830467Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:35:59.830467Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:35:59.830467Z",
         "congested": false
@@ -8441,6 +10689,10 @@
       {
         "ts": "2025-11-19T12:36:00.195775Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:00.195775Z",
+        "congested": false
       }
     ]
   },
@@ -8449,6 +10701,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:00.432733Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:00.432733Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:00.432733Z",
         "congested": false
@@ -8471,6 +10727,10 @@
       {
         "ts": "2025-11-19T12:36:00.631453Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:00.631453Z",
+        "congested": false
       }
     ]
   },
@@ -8479,6 +10739,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:00.822666Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:00.822666Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:00.822666Z",
         "congested": false
@@ -8501,6 +10765,10 @@
       {
         "ts": "2025-11-19T12:36:01.016875Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:01.016875Z",
+        "congested": false
       }
     ]
   },
@@ -8509,6 +10777,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:01.300480Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:01.300480Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:01.300480Z",
         "congested": false
@@ -8531,6 +10803,10 @@
       {
         "ts": "2025-11-19T12:36:01.536001Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:01.536001Z",
+        "congested": false
       }
     ]
   },
@@ -8539,6 +10815,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:01.720081Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:01.720081Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:01.720081Z",
         "congested": false
@@ -8561,6 +10841,10 @@
       {
         "ts": "2025-11-19T12:36:02.012497Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:02.012497Z",
+        "congested": false
       }
     ]
   },
@@ -8569,6 +10853,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:02.224863Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:02.224863Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:02.224863Z",
         "congested": false
@@ -8591,6 +10879,10 @@
       {
         "ts": "2025-11-19T12:36:02.644560Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:02.644560Z",
+        "congested": false
       }
     ]
   },
@@ -8599,6 +10891,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:02.954175Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:02.954175Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:02.954175Z",
         "congested": false
@@ -8621,6 +10917,10 @@
       {
         "ts": "2025-11-19T12:36:03.273478Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:03.273478Z",
+        "congested": false
       }
     ]
   },
@@ -8629,6 +10929,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:03.610326Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:03.610326Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:03.610326Z",
         "congested": false
@@ -8651,6 +10955,10 @@
       {
         "ts": "2025-11-19T12:36:04.229665Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:04.229665Z",
+        "congested": false
       }
     ]
   },
@@ -8659,6 +10967,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:04.563188Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:04.563188Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:04.563188Z",
         "congested": false
@@ -8681,6 +10993,10 @@
       {
         "ts": "2025-11-19T12:36:04.877063Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:04.877063Z",
+        "congested": false
       }
     ]
   },
@@ -8689,6 +11005,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:05.513270Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:05.513270Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:05.513270Z",
         "congested": false
@@ -8711,6 +11031,10 @@
       {
         "ts": "2025-11-19T12:36:05.800645Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:05.800645Z",
+        "congested": false
       }
     ]
   },
@@ -8719,6 +11043,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:06.334921Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:06.334921Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:06.334921Z",
         "congested": false
@@ -8741,6 +11069,10 @@
       {
         "ts": "2025-11-19T12:36:06.995170Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:06.995170Z",
+        "congested": false
       }
     ]
   },
@@ -8749,6 +11081,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:07.706890Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:07.706890Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:07.706890Z",
         "congested": false
@@ -8771,6 +11107,10 @@
       {
         "ts": "2025-11-19T12:36:08.085035Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:08.085035Z",
+        "congested": false
       }
     ]
   },
@@ -8779,6 +11119,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:08.431986Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:08.431986Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:08.431986Z",
         "congested": false
@@ -8801,6 +11145,10 @@
       {
         "ts": "2025-11-19T12:36:08.675406Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:08.675406Z",
+        "congested": false
       }
     ]
   },
@@ -8809,6 +11157,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:08.931963Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:08.931963Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:08.931963Z",
         "congested": false
@@ -8831,6 +11183,10 @@
       {
         "ts": "2025-11-19T12:36:09.279487Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:09.279487Z",
+        "congested": false
       }
     ]
   },
@@ -8839,6 +11195,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:09.490526Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:09.490526Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:09.490526Z",
         "congested": false
@@ -8861,6 +11221,10 @@
       {
         "ts": "2025-11-19T12:36:09.825288Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:09.825288Z",
+        "congested": false
       }
     ]
   },
@@ -8869,6 +11233,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:10.088134Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:10.088134Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:10.088134Z",
         "congested": false
@@ -8891,6 +11259,10 @@
       {
         "ts": "2025-11-19T12:36:10.431017Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:10.431017Z",
+        "congested": false
       }
     ]
   },
@@ -8899,6 +11271,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:10.663743Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:10.663743Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:10.663743Z",
         "congested": false
@@ -8921,6 +11297,10 @@
       {
         "ts": "2025-11-19T12:36:11.067086Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:11.067086Z",
+        "congested": false
       }
     ]
   },
@@ -8929,6 +11309,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:11.545895Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:11.545895Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:11.545895Z",
         "congested": false
@@ -8951,6 +11335,10 @@
       {
         "ts": "2025-11-19T12:36:12.053892Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:12.053892Z",
+        "congested": false
       }
     ]
   },
@@ -8959,6 +11347,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:12.314875Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:12.314875Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:12.314875Z",
         "congested": false
@@ -8981,6 +11373,10 @@
       {
         "ts": "2025-11-19T12:36:12.575966Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:12.575966Z",
+        "congested": false
       }
     ]
   },
@@ -8989,6 +11385,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:12.775813Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:12.775813Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:12.775813Z",
         "congested": false
@@ -9011,6 +11411,10 @@
       {
         "ts": "2025-11-19T12:36:13.001077Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:13.001077Z",
+        "congested": false
       }
     ]
   },
@@ -9019,6 +11423,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:13.262811Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:13.262811Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:13.262811Z",
         "congested": false
@@ -9041,6 +11449,10 @@
       {
         "ts": "2025-11-19T12:36:13.538492Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:13.538492Z",
+        "congested": false
       }
     ]
   },
@@ -9049,6 +11461,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:13.780114Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:13.780114Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:13.780114Z",
         "congested": false
@@ -9071,6 +11487,10 @@
       {
         "ts": "2025-11-19T12:36:13.983827Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:13.983827Z",
+        "congested": false
       }
     ]
   },
@@ -9079,6 +11499,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:14.195288Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:14.195288Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:14.195288Z",
         "congested": false
@@ -9101,6 +11525,10 @@
       {
         "ts": "2025-11-19T12:36:14.399734Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:14.399734Z",
+        "congested": false
       }
     ]
   },
@@ -9109,6 +11537,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:14.586730Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:14.586730Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:14.586730Z",
         "congested": false
@@ -9131,6 +11563,10 @@
       {
         "ts": "2025-11-19T12:36:14.794879Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:14.794879Z",
+        "congested": false
       }
     ]
   },
@@ -9139,6 +11575,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:14.975188Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:14.975188Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:14.975188Z",
         "congested": false
@@ -9161,6 +11601,10 @@
       {
         "ts": "2025-11-19T12:36:15.367462Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:15.367462Z",
+        "congested": false
       }
     ]
   },
@@ -9169,6 +11613,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:15.618658Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:15.618658Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:15.618658Z",
         "congested": false
@@ -9191,6 +11639,10 @@
       {
         "ts": "2025-11-19T12:36:16.029761Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:16.029761Z",
+        "congested": false
       }
     ]
   },
@@ -9199,6 +11651,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:16.501124Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:16.501124Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:16.501124Z",
         "congested": false
@@ -9221,6 +11677,10 @@
       {
         "ts": "2025-11-19T12:36:16.842811Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:16.842811Z",
+        "congested": false
       }
     ]
   },
@@ -9229,6 +11689,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:17.165964Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:17.165964Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:17.165964Z",
         "congested": false
@@ -9251,6 +11715,10 @@
       {
         "ts": "2025-11-19T12:36:17.443809Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:17.443809Z",
+        "congested": false
       }
     ]
   },
@@ -9259,6 +11727,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:17.662567Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:17.662567Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:17.662567Z",
         "congested": false
@@ -9281,6 +11753,10 @@
       {
         "ts": "2025-11-19T12:36:17.914699Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:17.914699Z",
+        "congested": false
       }
     ]
   },
@@ -9289,6 +11765,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:18.192709Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:18.192709Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:18.192709Z",
         "congested": false
@@ -9311,6 +11791,10 @@
       {
         "ts": "2025-11-19T12:36:18.590622Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:18.590622Z",
+        "congested": false
       }
     ]
   },
@@ -9319,6 +11803,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:19.052401Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:19.052401Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:19.052401Z",
         "congested": false
@@ -9341,6 +11829,10 @@
       {
         "ts": "2025-11-19T12:36:19.251884Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:19.251884Z",
+        "congested": false
       }
     ]
   },
@@ -9349,6 +11841,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:19.580185Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:19.580185Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:19.580185Z",
         "congested": false
@@ -9371,6 +11867,10 @@
       {
         "ts": "2025-11-19T12:36:19.883925Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:19.883925Z",
+        "congested": false
       }
     ]
   },
@@ -9379,6 +11879,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:20.387904Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:20.387904Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:20.387904Z",
         "congested": false
@@ -9401,6 +11905,10 @@
       {
         "ts": "2025-11-19T12:36:20.697302Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:20.697302Z",
+        "congested": false
       }
     ]
   },
@@ -9409,6 +11917,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:21.022593Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:21.022593Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:21.022593Z",
         "congested": false
@@ -9431,6 +11943,10 @@
       {
         "ts": "2025-11-19T12:36:21.630164Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:21.630164Z",
+        "congested": false
       }
     ]
   },
@@ -9439,6 +11955,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:21.947705Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:21.947705Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:21.947705Z",
         "congested": false
@@ -9461,6 +11981,10 @@
       {
         "ts": "2025-11-19T12:36:22.181473Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:22.181473Z",
+        "congested": false
       }
     ]
   },
@@ -9469,6 +11993,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:22.601439Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:22.601439Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:22.601439Z",
         "congested": false
@@ -9491,6 +12019,10 @@
       {
         "ts": "2025-11-19T12:36:22.964250Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:22.964250Z",
+        "congested": false
       }
     ]
   },
@@ -9499,6 +12031,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:23.301428Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:23.301428Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:23.301428Z",
         "congested": false
@@ -9521,6 +12057,10 @@
       {
         "ts": "2025-11-19T12:36:23.588898Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:23.588898Z",
+        "congested": false
       }
     ]
   },
@@ -9529,6 +12069,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:24.054838Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:24.054838Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:24.054838Z",
         "congested": false
@@ -9551,6 +12095,10 @@
       {
         "ts": "2025-11-19T12:36:24.329388Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:24.329388Z",
+        "congested": false
       }
     ]
   },
@@ -9559,6 +12107,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:24.662381Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:24.662381Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:24.662381Z",
         "congested": false
@@ -9581,6 +12133,10 @@
       {
         "ts": "2025-11-19T12:36:25.126358Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:25.126358Z",
+        "congested": false
       }
     ]
   },
@@ -9589,6 +12145,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:25.452305Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:25.452305Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:25.452305Z",
         "congested": false
@@ -9611,6 +12171,10 @@
       {
         "ts": "2025-11-19T12:36:25.733511Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:25.733511Z",
+        "congested": false
       }
     ]
   },
@@ -9619,6 +12183,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:26.176884Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:26.176884Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:26.176884Z",
         "congested": false
@@ -9641,6 +12209,10 @@
       {
         "ts": "2025-11-19T12:36:26.946145Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:26.946145Z",
+        "congested": false
       }
     ]
   },
@@ -9649,6 +12221,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:27.339888Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:27.339888Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:27.339888Z",
         "congested": false
@@ -9671,6 +12247,10 @@
       {
         "ts": "2025-11-19T12:36:27.578968Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:27.578968Z",
+        "congested": false
       }
     ]
   },
@@ -9679,6 +12259,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:27.803898Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:27.803898Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:27.803898Z",
         "congested": false
@@ -9701,6 +12285,10 @@
       {
         "ts": "2025-11-19T12:36:27.986572Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:27.986572Z",
+        "congested": false
       }
     ]
   },
@@ -9709,6 +12297,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:28.323622Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:28.323622Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:28.323622Z",
         "congested": false
@@ -9731,6 +12323,10 @@
       {
         "ts": "2025-11-19T12:36:28.553177Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:28.553177Z",
+        "congested": false
       }
     ]
   },
@@ -9739,6 +12335,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:28.754564Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:28.754564Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:28.754564Z",
         "congested": false
@@ -9761,6 +12361,10 @@
       {
         "ts": "2025-11-19T12:36:29.013108Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:29.013108Z",
+        "congested": false
       }
     ]
   },
@@ -9769,6 +12373,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:29.258610Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:29.258610Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:29.258610Z",
         "congested": false
@@ -9791,6 +12399,10 @@
       {
         "ts": "2025-11-19T12:36:29.475345Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:29.475345Z",
+        "congested": false
       }
     ]
   },
@@ -9799,6 +12411,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:29.720608Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:29.720608Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:29.720608Z",
         "congested": false
@@ -9821,6 +12437,10 @@
       {
         "ts": "2025-11-19T12:36:29.925786Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:29.925786Z",
+        "congested": false
       }
     ]
   },
@@ -9829,6 +12449,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:30.156184Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:30.156184Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:30.156184Z",
         "congested": false
@@ -9851,6 +12475,10 @@
       {
         "ts": "2025-11-19T12:36:30.342750Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:30.342750Z",
+        "congested": false
       }
     ]
   },
@@ -9859,6 +12487,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:30.539752Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:30.539752Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:30.539752Z",
         "congested": false
@@ -9881,6 +12513,10 @@
       {
         "ts": "2025-11-19T12:36:30.804138Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:30.804138Z",
+        "congested": false
       }
     ]
   },
@@ -9889,6 +12525,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:31.281905Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:31.281905Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:31.281905Z",
         "congested": false
@@ -9911,6 +12551,10 @@
       {
         "ts": "2025-11-19T12:36:31.873939Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:31.873939Z",
+        "congested": false
       }
     ]
   },
@@ -9919,6 +12563,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:32.107877Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:32.107877Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:32.107877Z",
         "congested": false
@@ -9941,6 +12589,10 @@
       {
         "ts": "2025-11-19T12:36:32.305826Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:32.305826Z",
+        "congested": false
       }
     ]
   },
@@ -9949,6 +12601,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:32.504927Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:32.504927Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:32.504927Z",
         "congested": false
@@ -9971,6 +12627,10 @@
       {
         "ts": "2025-11-19T12:36:32.690310Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:32.690310Z",
+        "congested": false
       }
     ]
   },
@@ -9979,6 +12639,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:32.952727Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:32.952727Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:32.952727Z",
         "congested": false
@@ -10001,6 +12665,10 @@
       {
         "ts": "2025-11-19T12:36:33.168756Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:33.168756Z",
+        "congested": false
       }
     ]
   },
@@ -10009,6 +12677,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:33.405735Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:33.405735Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:33.405735Z",
         "congested": false
@@ -10031,6 +12703,10 @@
       {
         "ts": "2025-11-19T12:36:33.602904Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:33.602904Z",
+        "congested": false
       }
     ]
   },
@@ -10039,6 +12715,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:33.817273Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:33.817273Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:33.817273Z",
         "congested": false
@@ -10061,6 +12741,10 @@
       {
         "ts": "2025-11-19T12:36:34.032257Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:34.032257Z",
+        "congested": false
       }
     ]
   },
@@ -10069,6 +12753,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:34.255140Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:34.255140Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:34.255140Z",
         "congested": false
@@ -10091,6 +12779,10 @@
       {
         "ts": "2025-11-19T12:36:34.700088Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:34.700088Z",
+        "congested": false
       }
     ]
   },
@@ -10099,6 +12791,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:34.987347Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:34.987347Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:34.987347Z",
         "congested": false
@@ -10121,6 +12817,10 @@
       {
         "ts": "2025-11-19T12:36:35.419416Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:35.419416Z",
+        "congested": false
       }
     ]
   },
@@ -10129,6 +12829,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:35.788690Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:35.788690Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:35.788690Z",
         "congested": false
@@ -10151,6 +12855,10 @@
       {
         "ts": "2025-11-19T12:36:36.333216Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:36.333216Z",
+        "congested": false
       }
     ]
   },
@@ -10159,6 +12867,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:36.885503Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:36.885503Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:36.885503Z",
         "congested": false
@@ -10181,6 +12893,10 @@
       {
         "ts": "2025-11-19T12:36:37.250863Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:37.250863Z",
+        "congested": false
       }
     ]
   },
@@ -10189,6 +12905,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:37.596974Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:37.596974Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:37.596974Z",
         "congested": false
@@ -10211,6 +12931,10 @@
       {
         "ts": "2025-11-19T12:36:37.925927Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:37.925927Z",
+        "congested": false
       }
     ]
   },
@@ -10219,6 +12943,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:38.380059Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:38.380059Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:38.380059Z",
         "congested": false
@@ -10241,6 +12969,10 @@
       {
         "ts": "2025-11-19T12:36:38.608613Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:38.608613Z",
+        "congested": false
       }
     ]
   },
@@ -10249,6 +12981,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:38.827397Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:38.827397Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:38.827397Z",
         "congested": false
@@ -10271,6 +13007,10 @@
       {
         "ts": "2025-11-19T12:36:39.128992Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:39.128992Z",
+        "congested": false
       }
     ]
   },
@@ -10279,6 +13019,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:39.333407Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:39.333407Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:39.333407Z",
         "congested": false
@@ -10301,6 +13045,10 @@
       {
         "ts": "2025-11-19T12:36:39.580941Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:39.580941Z",
+        "congested": false
       }
     ]
   },
@@ -10309,6 +13057,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:39.816834Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:39.816834Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:39.816834Z",
         "congested": false
@@ -10331,6 +13083,10 @@
       {
         "ts": "2025-11-19T12:36:40.112253Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:40.112253Z",
+        "congested": false
       }
     ]
   },
@@ -10339,6 +13095,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:40.570662Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:40.570662Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:40.570662Z",
         "congested": false
@@ -10361,6 +13121,10 @@
       {
         "ts": "2025-11-19T12:36:40.844021Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:40.844021Z",
+        "congested": false
       }
     ]
   },
@@ -10369,6 +13133,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:41.244521Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:41.244521Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:41.244521Z",
         "congested": false
@@ -10391,6 +13159,10 @@
       {
         "ts": "2025-11-19T12:36:41.677199Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:41.677199Z",
+        "congested": false
       }
     ]
   },
@@ -10399,6 +13171,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:42.044473Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:42.044473Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:42.044473Z",
         "congested": false
@@ -10421,6 +13197,10 @@
       {
         "ts": "2025-11-19T12:36:42.338389Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:42.338389Z",
+        "congested": false
       }
     ]
   },
@@ -10429,6 +13209,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:42.596888Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:42.596888Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:42.596888Z",
         "congested": false
@@ -10451,6 +13235,10 @@
       {
         "ts": "2025-11-19T12:36:42.832805Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:42.832805Z",
+        "congested": false
       }
     ]
   },
@@ -10459,6 +13247,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:43.064923Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:43.064923Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:43.064923Z",
         "congested": false
@@ -10481,6 +13273,10 @@
       {
         "ts": "2025-11-19T12:36:43.258673Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:43.258673Z",
+        "congested": false
       }
     ]
   },
@@ -10496,6 +13292,10 @@
       {
         "ts": "2025-11-19T12:36:43.462719Z",
         "congested": false
+      },
+      {
+        "ts": "2025-11-19T12:36:43.462719Z",
+        "congested": false
       }
     ]
   },
@@ -10504,6 +13304,10 @@
     "first_breach_ts": null,
     "last_update_ts": "2025-11-19T12:36:43.666874Z",
     "history": [
+      {
+        "ts": "2025-11-19T12:36:43.666874Z",
+        "congested": false
+      },
       {
         "ts": "2025-11-19T12:36:43.666874Z",
         "congested": false

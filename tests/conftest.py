@@ -28,11 +28,32 @@ Usage:
     Automatically loaded by pytest for all test modules.
 """
 
+import asyncio
 from pathlib import Path
 from typing import Any, Dict
 
 import pytest
 import yaml
+
+
+# Python 3.9 compatibility: ensure event loop exists for asyncio.Event()
+@pytest.fixture(scope="session", autouse=True)
+def setup_event_loop_for_session():
+    """
+    Ensure event loop exists for Python 3.9 compatibility.
+
+    In Python 3.9, asyncio.Event() requires a running event loop.
+    This fixture creates one at session scope to ensure all tests
+    that instantiate classes using asyncio.Event() can work properly.
+    """
+    try:
+        # Python 3.10+ way - avoid deprecation warning
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        # No running loop - create new one (Python 3.9 compatible)
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+    yield loop
 
 
 @pytest.fixture(scope="session")

@@ -23,6 +23,8 @@ Usage:
     pytest tests/integration/test_cache_integration.py -m requires_docker
 """
 
+import os
+
 import pytest
 
 # Skip if redis is not available (CI environment without Docker)
@@ -34,10 +36,14 @@ except ImportError:
     REDIS_AVAILABLE = False
     redis = None
 
+# Check if running in CI environment
+IN_CI = os.environ.get("CI", "false").lower() == "true"
+
 
 @pytest.mark.integration
 @pytest.mark.requires_docker
 @pytest.mark.skipif(not REDIS_AVAILABLE, reason="redis package not available")
+@pytest.mark.skipif(IN_CI, reason="Redis not available in CI environment")
 class TestCacheIntegration:
     """Test Redis cache integration."""
 
