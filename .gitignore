@@ -55,12 +55,22 @@ coverage.xml
 htmlcov/
 
 # Data files (keep structure, ignore content)
-data/cameras_updated.json
-data/*_updated.json
 data/temp/
 data/cache/
-data/rdf/
 data/reports/
+
+# Generated RDF data directories (ignore all subdirectories)
+data/rdf/
+data/rdf_observations/
+data/rdf_updates/
+data/rdf_accidents/
+data/rdf_patterns/
+
+# Keep all JSON files in data/ root directory
+# (cameras_raw.json, validated_entities.json, observations.json, etc.)
+
+# Allow .gitkeep files to preserve structure
+!data/**/.gitkeep
 
 # Environment variables
 .env

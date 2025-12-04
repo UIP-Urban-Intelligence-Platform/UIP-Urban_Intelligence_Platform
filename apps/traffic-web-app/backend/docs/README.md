@@ -1,6 +1,6 @@
 /**
  * @module docs/README
- * @author AI Assistant
+ * @author UIP Team (Nguyen Nhat Quang, Nguyen Viet Hoang, Nguyen Dinh Anh Tuan)
  * @created 2025-11-27
  * @modified 2025-11-27
  * @version 1.0.0

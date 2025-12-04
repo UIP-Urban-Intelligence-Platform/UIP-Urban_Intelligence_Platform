@@ -1,5 +1,3 @@
-import React, { useState, useEffect, useMemo } from 'react';
-
 /**
  * @fileoverview PredictiveTimeline Component - Traffic Prediction Visualization
  * @module apps/traffic-web-app/frontend/src/components/agents/PredictiveTimeline

@@ -1235,5 +1235,5 @@ The system demonstrates **full compliance with NGSI-LD specifications** and prov
 
 **Generated**: 2024-12-20  
 **Version**: 1.0.0  
-**Author**: GitHub Copilot AI Assistant  
+**Author**: UIP Team (Nguyen Nhat Quang, Nguyen Viet Hoang, Nguyen Dinh Anh Tuan)  
 **License**: MIT

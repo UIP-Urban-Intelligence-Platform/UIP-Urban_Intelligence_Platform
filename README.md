@@ -39,11 +39,24 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions">
+    <img src="https://img.shields.io/badge/GitHub-Discussions-blue?logo=github" alt="Discussions">
+  </a>
+  <a href="https://groups.google.com/g/uip-platform">
+    <img src="https://img.shields.io/badge/Mailing%20List-Google%20Groups-red?logo=google" alt="Mailing List">
+  </a>
+  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki">
+    <img src="https://img.shields.io/badge/Wiki-Documentation-green?logo=gitbook" alt="Wiki">
+  </a>
+</p>
+
+<p align="center">
   <a href="#-features">Features</a> •
   <a href="#-one-command-run">One Command</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-architecture">Architecture</a> •
   <a href="#-team">Team</a> •
+  <a href="#-community">Community</a> •
   <a href="#-contributing">Contributing</a>
 </p>
 
@@ -1115,6 +1128,36 @@ npm install
 npm run start    # Development server
 npm run build    # Production build
 ```
+
+---
+
+## 💬 Community
+
+Join our community to get help, share ideas, and connect with other users:
+
+| Channel | Description | Link |
+|---------|-------------|------|
+| 💬 **GitHub Discussions** | Q&A, ideas, and general discussion | [Join Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions) |
+| 📧 **Mailing List** | Announcements & release notifications | [Google Groups](https://groups.google.com/g/uip-platform) |
+| 📖 **Wiki** | Comprehensive documentation | [GitHub Wiki](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki) |
+| 🐛 **Issues** | Bug reports & feature requests | [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues) |
+
+### Discussion Categories
+
+- **📣 Announcements**: Official project announcements (maintainers only)
+- **❓ Q&A**: Ask questions and get help from the community
+- **💡 Ideas**: Share and discuss new feature ideas
+- **🎉 Show and Tell**: Share your projects built with UIP
+- **📋 RFCs**: Request for Comments on major changes
+
+### Mailing List
+
+Subscribe to receive:
+- 📢 Release announcements
+- 🔔 Important updates
+- 📝 Monthly newsletters
+
+**Subscribe**: Send email to [uip-platform+subscribe@googlegroups.com](mailto:uip-platform+subscribe@googlegroups.com)
 
 ---
 

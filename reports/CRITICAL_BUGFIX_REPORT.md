@@ -320,7 +320,7 @@ not available in the database: Camera
 
 ---
 
-**Fix Author**: AI Assistant  
+**Fix Author**: UIP Team  
 **Review Status**: Ready for Testing  
 **Rollback Plan**: Revert lines 668-671 to original `except Exception` if issues occur  
 **Deployment Risk**: LOW - Isolated change, syntax validated, behavior well-defined

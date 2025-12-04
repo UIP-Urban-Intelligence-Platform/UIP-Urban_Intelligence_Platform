@@ -252,6 +252,6 @@ The agents successfully showcase the **Agentic AI** architecture:
 - **User-centric:** Generates actionable insights for end users
 
 **Test Date:** November 23, 2025  
-**Tester:** AI Assistant  
+**Tester:** UIP Team  
 **Test Script:** `test-agents-realistic.js`  
 **Results File:** `test-results.txt`
