@@ -285,7 +285,7 @@ class CongestionDetector:
         # Determine new congested state considering min_duration and previous state
         prev_state = self.state_store.get(camera_ref)
         prev_congested = bool(prev_state.get("congested", False))
-        _first_breach_ts = prev_state.get("first_breach_ts")  # noqa: F841
+        first_breach_ts = prev_state.get("first_breach_ts")
 
         reason = (
             f"occ={occupancy}, speed={avg_speed}, int={intensity}, logic={self.logic}"

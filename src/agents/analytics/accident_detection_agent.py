@@ -918,16 +918,16 @@ class AccidentDetectionAgent:
         # Check max alerts per hour
         max_per_hour = int(self.filtering.get("max_alerts_per_hour", 10))
         hour_start = state.get("hour_start")
-        _alert_count = state.get("alert_count_hour", 0)  # noqa: F841
+        alert_count = state.get("alert_count_hour", 0)
 
         try:
             current_time = parse_iso(now_iso())
             if hour_start:
                 hour_start_dt = parse_iso(hour_start)
                 if (current_time - hour_start_dt).total_seconds() >= 3600:
-                    # Reset hourly counter
-                    _alert_count = 0  # noqa: F841
-                elif _alert_count >= max_per_hour:
+                    # Reset hourly counter - variable used for comparison below
+                    alert_count = 0  # noqa: F841
+                elif alert_count >= max_per_hour:
                     return False
         except Exception:
             pass  # Ignore timestamp parsing errors - allow alert
