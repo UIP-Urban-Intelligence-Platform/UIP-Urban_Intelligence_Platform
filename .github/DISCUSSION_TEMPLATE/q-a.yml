@@ -1,0 +1,67 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Discussion Template: Q&A
+#
+# Module: .github/DISCUSSION_TEMPLATE/q-a.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
+title: "[Q&A] "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🙏 Questions & Answers
+        
+        Thanks for asking! Please provide as much detail as possible to help us assist you.
+        
+        **Before asking:**
+        - 📚 Check our [Documentation](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki)
+        - 🔍 Search existing [Q&A discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions/categories/q-a)
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What would you like to know?
+      placeholder: Describe your question clearly and concisely
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What are you trying to achieve?
+      placeholder: |
+        - What feature are you using?
+        - What's your use case?
+        - What have you tried so far?
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Your system details (if relevant)
+      placeholder: |
+        - OS: Windows 11 / macOS / Ubuntu 22.04
+        - Python: 3.11
+        - Docker: 24.0
+        - UIP version: 2.0.0
+    validations:
+      required: false
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Code or Configuration
+      description: Share relevant code or configuration
+      render: python
+    validations:
+      required: false

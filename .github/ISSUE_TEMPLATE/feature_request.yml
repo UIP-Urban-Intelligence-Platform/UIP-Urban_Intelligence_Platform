@@ -1,3 +1,13 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Issue Template: Feature Request
+#
+# Module: .github/ISSUE_TEMPLATE/feature_request.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
 name: Feature Request
 description: Suggest a new feature or enhancement
 title: "[FEATURE] "

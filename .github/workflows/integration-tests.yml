@@ -1,7 +1,14 @@
-# Integration Tests CI/CD Workflow
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Actions Workflow: Integration Tests
 # Automated testing pipeline for complete system integration
-#Author: nguyễn Nhật Quang
-#Created: 2025-11-21
+#
+# Module: .github/workflows/integration-tests.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
 name: Integration Tests
 
 on:

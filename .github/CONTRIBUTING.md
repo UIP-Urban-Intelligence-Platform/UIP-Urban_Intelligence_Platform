@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 Nguyen Nhat Quang
+
+UIP - Urban Intelligence Platform
+Contribution Guidelines
+
+Module: .github/CONTRIBUTING.md
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Version: 1.0.0
+-->
+
 # Contributing to UIP - Urban Intelligence Platform
 
 Thank you for your interest in contributing to UIP - Urban Intelligence Platform! This document provides guidelines and instructions for contributing to this project.

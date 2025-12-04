@@ -1,0 +1,176 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Discussion Template: Release Announcements
+#
+# Module: .github/DISCUSSION_TEMPLATE/release-announcement.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
+title: "[Release] v"
+labels:
+  - announcement
+  - release
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📦 Release Announcement
+        
+        Use this template to announce new releases to the community.
+        
+        **This category is for maintainers only.**
+        
+        ---
+        
+        For release notification channels:
+        - 📧 **Mailing List**: uip-urban-intelligence@googlegroups.com
+        - 💬 **Discord**: #announcements channel
+        - 🔔 **GitHub Watch**: Releases only
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The version being released
+      placeholder: "2.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: release-type
+    attributes:
+      label: Release Type
+      options:
+        - Major Release (x.0.0) - Breaking changes
+        - Minor Release (0.x.0) - New features
+        - Patch Release (0.0.x) - Bug fixes
+        - Pre-release (alpha/beta/rc)
+        - Security Release
+    validations:
+      required: true
+
+  - type: textarea
+    id: highlights
+    attributes:
+      label: Release Highlights
+      description: Key highlights of this release
+      placeholder: |
+        ## 🚀 Highlights
+        
+        - ✨ **New Feature 1**: Description
+        - ✨ **New Feature 2**: Description
+        - 🐛 **Bug Fix**: Description
+        - ⚡ **Performance**: Description
+    validations:
+      required: true
+
+  - type: textarea
+    id: breaking-changes
+    attributes:
+      label: Breaking Changes
+      description: Any breaking changes that users need to be aware of
+      placeholder: |
+        ## ⚠️ Breaking Changes
+        
+        - Change 1: Migration steps...
+        - Change 2: Migration steps...
+        
+        **Migration Guide**: docs/migration/v2.0.0.md
+    validations:
+      required: false
+
+  - type: textarea
+    id: changelog
+    attributes:
+      label: Changelog Summary
+      description: Summary of changes (full changelog in docs/CHANGELOG.md)
+      placeholder: |
+        ### Added
+        - Feature 1
+        - Feature 2
+        
+        ### Changed
+        - Change 1
+        
+        ### Fixed
+        - Bug fix 1
+        
+        ### Removed
+        - Deprecated feature 1
+    validations:
+      required: true
+
+  - type: textarea
+    id: installation
+    attributes:
+      label: Installation / Upgrade
+      description: How to install or upgrade to this version
+      value: |
+        ### Fresh Installation
+        
+        ```bash
+        git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
+        cd builder-layer-end
+        git checkout v{VERSION}
+        ./justrun.ps1 dev  # Windows
+        ./justrun.sh dev   # Linux/macOS
+        ```
+        
+        ### Upgrade from Previous Version
+        
+        ```bash
+        git fetch origin
+        git checkout v{VERSION}
+        pip install -r requirements/base.txt
+        ```
+        
+        ### Docker
+        
+        ```bash
+        docker pull ghcr.io/nguyennhatquang522004/builder-layer-end:v{VERSION}
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: download-links
+    attributes:
+      label: Download Links
+      description: Links to download the release
+      placeholder: |
+        - 📦 **Source (tar.gz)**: [builder-layer-end-2.0.0.tar.gz](https://github.com/NguyenNhatquang522004/builder-layer-end/releases/download/v2.0.0/builder-layer-end-2.0.0.tar.gz)
+        - 📦 **Source (zip)**: [builder-layer-end-2.0.0.zip](https://github.com/NguyenNhatquang522004/builder-layer-end/releases/download/v2.0.0/builder-layer-end-2.0.0.zip)
+        - 🐳 **Docker**: `ghcr.io/nguyennhatquang522004/builder-layer-end:v2.0.0`
+        - 🐍 **PyPI**: `pip install builder-layer-end==2.0.0`
+    validations:
+      required: false
+
+  - type: textarea
+    id: acknowledgments
+    attributes:
+      label: Acknowledgments
+      description: Thank contributors and sponsors
+      placeholder: |
+        ## 🙏 Thank You
+        
+        Thanks to all contributors who made this release possible:
+        - @contributor1 - Feature X
+        - @contributor2 - Bug fixes
+        
+        Special thanks to our sponsors and the community!
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: notification-checklist
+    attributes:
+      label: Notification Checklist
+      description: Ensure all channels are notified
+      options:
+        - label: GitHub Release created
+        - label: Mailing list announcement sent
+        - label: Discord announcement posted
+        - label: Social media announcement (if applicable)
+        - label: Documentation updated

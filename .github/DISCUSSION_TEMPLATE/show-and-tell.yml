@@ -1,0 +1,81 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Discussion Template: Show and Tell
+#
+# Module: .github/DISCUSSION_TEMPLATE/show-and-tell.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
+title: "[Show & Tell] "
+labels:
+  - showcase
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🙌 Show and Tell
+        
+        Share what you've built with UIP - Urban Intelligence Platform! 
+        
+        We love seeing how the community uses this project.
+
+  - type: input
+    id: project-name
+    attributes:
+      label: Project Name
+      description: What's your project called?
+      placeholder: "My Awesome Traffic Analysis System"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Tell us about your project
+      placeholder: |
+        ## What does it do?
+        
+        Describe your project...
+        
+        ## How does it use Builder Layer End?
+        
+        Which features/agents do you use?
+    validations:
+      required: true
+
+  - type: input
+    id: demo-link
+    attributes:
+      label: Demo / Repository Link
+      description: Link to demo, repository, or documentation
+      placeholder: "https://github.com/your-username/your-project"
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Videos
+      description: Share visuals of your project
+      placeholder: Drag and drop images here or paste links
+    validations:
+      required: false
+
+  - type: textarea
+    id: lessons
+    attributes:
+      label: Lessons Learned
+      description: What did you learn? Any tips for others?
+    validations:
+      required: false
+
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback for the Project
+      description: Any suggestions based on your experience?
+    validations:
+      required: false

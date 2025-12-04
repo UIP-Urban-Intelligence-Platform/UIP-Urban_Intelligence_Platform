@@ -1,0 +1,86 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 Nguyen Nhat Quang
+
+UIP - Urban Intelligence Platform
+Release History and User-Visible Changes
+
+Module: NEWS
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Version: 2.0.0
+Repository: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+-->
+
+NEWS -- History of user-visible changes
+
+See also the CHANGELOG at docs/CHANGELOG.md for detailed technical changes.
+
+* Version 2.0.0 (December 2025)
+
+  ** Highlights
+
+    - Multi-agent system now includes 38 Python agents and 3 TypeScript AI agents
+    - Full MIT license compatibility with all dependencies
+    - YOLOX object detection (Apache-2.0 by Megvii) for vehicles and pedestrians
+    - DETR accident detection via HuggingFace Transformers (Apache-2.0)
+    - Production-ready Docker Compose deployment with 12 services
+    - Comprehensive documentation with Docusaurus 3.0
+
+  ** New Features
+
+    - Citizen Science API for public traffic reporting (FastAPI on port 8001)
+    - TypeScript AI Agents: TrafficMaestroAgent, GraphInvestigatorAgent, EcoTwinAgent
+    - React 18 frontend with real-time traffic visualization
+    - Apache Kafka integration for event streaming (KRaft mode)
+    - LOD Cloud linksets integration (GeoNames, DBpedia, Wikidata)
+
+  ** Breaking Changes
+
+    - Import paths changed from `agents.*` to `src.agents.*`
+    - Configuration structure updated in workflow.yaml
+    - Environment variables expanded - review .env.example
+
+  ** Upgrade Notes
+
+    See RELEASE_GUIDE.md for detailed upgrade instructions.
+
+* Version 1.0.0 (November 2025)
+
+  ** Initial Release
+
+    - Multi-agent system with 20+ specialized agents
+    - NGSI-LD entity management and publishing
+    - YOLOX computer vision integration
+    - RDF triple store publishing with Apache Jena Fuseki
+    - Neo4j graph database synchronization
+    - Stellio Context Broker integration
+    - Docker and Docker Compose deployment support
+    - YAML-based configuration system
+
+  ** Infrastructure
+
+    - Stellio Context Broker for NGSI-LD temporal storage
+    - Neo4j for graph database relationships
+    - Apache Jena Fuseki for SPARQL queries
+    - Apache Kafka for message queuing
+    - Redis for caching
+    - Prometheus for metrics
+
+* Version 0.1.0 (June 2025)
+
+  ** Initial Prototype
+
+    - Basic agent structure
+    - NGSI-LD entity creation
+    - Simple workflow orchestration
+
+-------------------------------------------------------------------------------
+
+Release Announcement Channels:
+- Mailing List: uip-urban-intelligence@googlegroups.com
+- GitHub Discussions: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions
+- GitHub Releases: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases
+
+Subscribe to receive release notifications:
+1. GitHub: Watch → Custom → Releases
+2. Mailing List: Send email to uip-urban-intelligence+subscribe@googlegroups.com

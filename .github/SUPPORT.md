@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 Nguyen Nhat Quang
+
+UIP - Urban Intelligence Platform
+Support Documentation
+
+Module: .github/SUPPORT.md
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Version: 1.0.0
+-->
+
 ## Support for UIP - Urban Intelligence Platform
 
 Thank you for using UIP - Urban Intelligence Platform! This document provides information on how to get help and support.

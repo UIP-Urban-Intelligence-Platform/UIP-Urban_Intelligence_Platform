@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Discussion Template: Announcements
+#
+# Module: .github/DISCUSSION_TEMPLATE/announcements.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
+title: "[Announcement] "
+labels:
+  - announcement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📢 Official Announcements
+        
+        This category is reserved for official project announcements by maintainers.
+        
+        For general discussions, please use other categories.
+
+  - type: input
+    id: version
+    attributes:
+      label: Related Version
+      description: If this announcement is related to a specific version
+      placeholder: "v2.0.0"
+    validations:
+      required: false
+
+  - type: textarea
+    id: announcement
+    attributes:
+      label: Announcement
+      description: The announcement content
+      placeholder: |
+        ## What's New
+        
+        Describe the announcement...
+        
+        ## Impact
+        
+        Who is affected and how...
+        
+        ## Action Required
+        
+        What users need to do...
+    validations:
+      required: true
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Related Links
+      description: Any related documentation, issues, or PRs
+      placeholder: |
+        - Release Notes: #123
+        - Documentation: docs/...
+    validations:
+      required: false

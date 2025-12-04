@@ -1,0 +1,83 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Discussion Template: Ideas
+#
+# Module: .github/DISCUSSION_TEMPLATE/ideas.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
+title: "[Idea] "
+labels:
+  - enhancement
+  - idea
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💡 Ideas & Feature Suggestions
+        
+        Share your ideas for improving UIP - Urban Intelligence Platform!
+        
+        **Before posting:**
+        - 🔍 Search [existing ideas](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions/categories/ideas)
+        - 📋 Check the [roadmap](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/projects)
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea Description
+      description: Describe your idea clearly
+      placeholder: |
+        ## Summary
+        A brief description of the idea...
+        
+        ## Motivation
+        Why would this be useful?
+        
+        ## Proposed Solution
+        How could this work?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which area does this idea relate to?
+      options:
+        - Core Pipeline
+        - Agents
+        - Web Application
+        - Documentation
+        - DevOps/CI-CD
+        - API
+        - Performance
+        - Testing
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What alternatives have you considered?
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context, mockups, or examples
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to help implement this idea

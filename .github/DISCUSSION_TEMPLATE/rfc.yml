@@ -1,0 +1,141 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Discussion Template: RFC (Request for Comments)
+#
+# Module: .github/DISCUSSION_TEMPLATE/rfc.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
+title: "[RFC] "
+labels:
+  - rfc
+  - discussion
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📋 Request for Comments (RFC)
+        
+        RFCs are used to propose significant changes to UIP - Urban Intelligence Platform.
+        
+        **Process:**
+        1. Create RFC discussion
+        2. Community feedback period (2-4 weeks)
+        3. Core team review
+        4. Decision and implementation
+        
+        **For minor changes, use [Ideas](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions/categories/ideas) instead.**
+
+  - type: input
+    id: rfc-title
+    attributes:
+      label: RFC Title
+      description: A concise title for this proposal
+      placeholder: "Add Support for Custom Agent Plugins"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: rfc-type
+    attributes:
+      label: RFC Type
+      options:
+        - Feature - New capability
+        - Enhancement - Improve existing feature
+        - Architecture - System design change
+        - Process - Development process change
+        - Deprecation - Remove feature
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One paragraph explanation of the proposal
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: |
+        Why are we doing this? What problems does it solve?
+        What use cases does it support?
+    validations:
+      required: true
+
+  - type: textarea
+    id: detailed-design
+    attributes:
+      label: Detailed Design
+      description: |
+        Technical details of the proposal:
+        - API changes
+        - Configuration changes
+        - New components
+        - Migration path
+      placeholder: |
+        ## API Design
+        
+        ```python
+        # Example code
+        ```
+        
+        ## Configuration
+        
+        ```yaml
+        # Example config
+        ```
+        
+        ## Migration
+        
+        Steps for existing users...
+    validations:
+      required: true
+
+  - type: textarea
+    id: drawbacks
+    attributes:
+      label: Drawbacks
+      description: Why should we NOT do this?
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: What other designs have been considered?
+    validations:
+      required: false
+
+  - type: textarea
+    id: adoption
+    attributes:
+      label: Adoption Strategy
+      description: |
+        How will existing users adopt this change?
+        Is it backwards compatible?
+    validations:
+      required: false
+
+  - type: textarea
+    id: unresolved
+    attributes:
+      label: Unresolved Questions
+      description: What parts of the design need further discussion?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched for existing RFCs on this topic
+        - label: I have considered backwards compatibility
+        - label: I am willing to help implement this RFC

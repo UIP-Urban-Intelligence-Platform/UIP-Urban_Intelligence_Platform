@@ -44,9 +44,11 @@ while ($iteration -lt $MaxIterations) {
         $latestAgent | ForEach-Object {
             if ($_.Line -match "completed") {
                 Write-Host $_.Line -ForegroundColor Green
-            } elseif ($_.Line -match "failed") {
+            }
+            elseif ($_.Line -match "failed") {
                 Write-Host $_.Line -ForegroundColor Red
-            } else {
+            }
+            else {
                 Write-Host $_.Line -ForegroundColor Cyan
             }
         }
@@ -58,7 +60,8 @@ while ($iteration -lt $MaxIterations) {
             $warnings | ForEach-Object {
                 Write-Host $_.Line -ForegroundColor Magenta
             }
-        } else {
+        }
+        else {
             Write-Host "✅ No skipping warnings detected!" -ForegroundColor Green
         }
         
@@ -90,23 +93,25 @@ while ($iteration -lt $MaxIterations) {
         # File Creation Status
         Write-Host "`n━━━ OUTPUT FILES STATUS ━━━" -ForegroundColor Yellow
         $files = @(
-            @{Name="observations.json"; Path="data/observations.json"},
-            @{Name="accidents.json"; Path="data/accidents.json"},
-            @{Name="congestion.json"; Path="data/congestion.json"},
-            @{Name="patterns.json"; Path="data/patterns.json"},
-            @{Name="cameras_enriched.json"; Path="data/cameras_enriched.json"}
+            @{Name = "observations.json"; Path = "data/observations.json" },
+            @{Name = "accidents.json"; Path = "data/accidents.json" },
+            @{Name = "congestion.json"; Path = "data/congestion.json" },
+            @{Name = "patterns.json"; Path = "data/patterns.json" },
+            @{Name = "cameras_enriched.json"; Path = "data/cameras_enriched.json" }
         )
         
         foreach ($file in $files) {
             if (Test-Path $file.Path) {
                 $size = (Get-Item $file.Path).Length
                 Write-Host "  ✅ $($file.Name) - $size bytes" -ForegroundColor Green
-            } else {
+            }
+            else {
                 Write-Host "  ❌ $($file.Name) - NOT CREATED YET" -ForegroundColor Red
             }
         }
         
-    } else {
+    }
+    else {
         Write-Host "⏳ Waiting for log file..." -ForegroundColor Yellow
     }
     

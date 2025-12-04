@@ -50,7 +50,8 @@ $exitCode = $LASTEXITCODE
 Write-Host ""
 if ($exitCode -eq 0) {
     Write-Host "Pipeline completed successfully!" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "Pipeline failed with exit code: $exitCode" -ForegroundColor Red
 }
 

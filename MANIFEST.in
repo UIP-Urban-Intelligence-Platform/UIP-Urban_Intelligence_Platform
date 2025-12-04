@@ -10,8 +10,12 @@
 
 include README.md
 include LICENSE
+include COPYING
+include NEWS
+include AUTHORS
 include CHANGELOG.md
 include CONTRIBUTING.md
+include DISCUSSIONS.md
 include pyproject.toml
 include setup.py
 include .env.example

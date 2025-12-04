@@ -1,0 +1,185 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Nguyen Nhat Quang
+#
+# UIP - Urban Intelligence Platform
+# GitHub Actions Workflow: Release
+#
+# Module: .github/workflows/release.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  PYTHON_VERSION: '3.11'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Extract release notes
+        id: extract-notes
+        run: |
+          # Extract version from tag
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          
+          # Extract release notes from CHANGELOG.md
+          if [ -f CHANGELOG.md ]; then
+            awk "/## \[$VERSION\]/,/## \[/{if (/## \[/ && !/## \[$VERSION\]/) exit; print}" CHANGELOG.md > release_notes.md
+          else
+            echo "Release $VERSION" > release_notes.md
+          fi
+
+      - name: Build Python package
+        run: |
+          python -m build
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: release_notes.md
+          draft: false
+          prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
+          files: |
+            dist/*.tar.gz
+            dist/*.whl
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to PyPI
+        if: ${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          python -m twine upload dist/* --skip-existing || echo "Package already exists on PyPI"
+
+  build-docker:
+    name: Build and Push Docker Images
+    runs-on: ubuntu-latest
+    needs: create-release
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest,enable=${{ !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc') }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  notify:
+    name: Notify Release
+    runs-on: ubuntu-latest
+    needs: [create-release, build-docker]
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Extract version
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Send notification
+        if: success()
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          echo "Release v$VERSION published successfully!"
+          echo ""
+          echo "📢 Release Announcement Checklist:"
+          echo "  ✅ GitHub Release created"
+          echo "  ✅ Docker image pushed to ghcr.io"
+          echo "  ⏳ Manual: Send mailing list announcement to builder-layer-end@googlegroups.com"
+          echo "  ⏳ Manual: Post to GitHub Discussions (Announcements category)"
+          echo "  ⏳ Manual: Update NEWS file if not already done"
+          echo ""
+          echo "📧 Mailing List Announcement Template:"
+          echo "  Subject: [ANN] Builder Layer End v$VERSION Released"
+          echo "  See: docs/RELEASE_ANNOUNCEMENT_TEMPLATE.md"
+          # Add Slack/Discord/Email notification here if needed
+
+      - name: Create Discussion Announcement
+        if: success() && !contains(github.ref, 'alpha') && !contains(github.ref, 'beta') && !contains(github.ref, 'rc')
+        uses: abirber/github-create-discussion-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          category-name: "Announcements"
+          title: "🚀 Release v${{ steps.version.outputs.version }}"
+          body: |
+            ## Builder Layer End v${{ steps.version.outputs.version }} Released!
+            
+            We are excited to announce the release of Builder Layer End v${{ steps.version.outputs.version }}.
+            
+            ### 📥 Download
+            
+            - **GitHub Release**: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
+            - **Docker**: `docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}`
+            
+            ### 📋 Changelog
+            
+            See the [full changelog](https://github.com/${{ github.repository }}/blob/main/docs/CHANGELOG.md).
+            
+            ### 📧 Mailing List
+            
+            Subscribe to [builder-layer-end@googlegroups.com](https://groups.google.com/g/builder-layer-end) for future announcements.
+            
+            ---
+            
+            Thank you for using Builder Layer End! 🙏
+        continue-on-error: true

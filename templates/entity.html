@@ -19,6 +19,7 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="author" content="Nguyen Nhat Quang">
     <meta name="date" content="2025-12-01">
@@ -35,7 +36,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
@@ -43,7 +44,7 @@
             background-color: #f5f5f5;
             padding: 20px;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -52,30 +53,30 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         header {
             border-bottom: 3px solid #007bff;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
-        
+
         h1 {
             color: #007bff;
             font-size: 2em;
             margin-bottom: 10px;
         }
-        
+
         .entity-id {
             color: #666;
             font-size: 0.9em;
             font-family: 'Courier New', monospace;
             word-break: break-all;
         }
-        
+
         .properties {
             margin: 30px 0;
         }
-        
+
         h2 {
             color: #333;
             font-size: 1.5em;
@@ -83,63 +84,63 @@
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
-        
+
         dl {
             display: grid;
             grid-template-columns: auto 1fr;
             gap: 15px 20px;
         }
-        
+
         dt {
             font-weight: 600;
             color: #555;
         }
-        
+
         dd {
             color: #333;
             word-break: break-word;
         }
-        
+
         .value-object {
             background-color: #f8f9fa;
             padding: 10px;
             border-radius: 4px;
             border-left: 3px solid #007bff;
         }
-        
+
         .value-type {
             font-size: 0.85em;
             color: #666;
             font-style: italic;
         }
-        
+
         .coordinates {
             font-family: 'Courier New', monospace;
         }
-        
+
         footer {
             margin-top: 40px;
             padding-top: 20px;
             border-top: 2px solid #eee;
         }
-        
+
         .formats {
             background-color: #f8f9fa;
             padding: 20px;
             border-radius: 4px;
         }
-        
+
         .formats h3 {
             margin-bottom: 15px;
             color: #333;
         }
-        
+
         .format-links {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
         }
-        
+
         .format-link {
             display: inline-block;
             padding: 10px 20px;
@@ -149,52 +150,53 @@
             border-radius: 4px;
             transition: background-color 0.3s;
         }
-        
+
         .format-link:hover {
             background-color: #0056b3;
         }
-        
+
         .metadata {
             margin-top: 20px;
             font-size: 0.9em;
             color: #666;
         }
-        
+
         .timestamp {
             font-family: 'Courier New', monospace;
         }
-        
+
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
-            
+
             .container {
                 padding: 20px;
             }
-            
+
             dl {
                 grid-template-columns: 1fr;
                 gap: 10px;
             }
-            
+
             dt {
                 margin-top: 15px;
             }
-            
+
             .format-links {
                 flex-direction: column;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>{{ entity.type }}: {{ entity.get('cameraName', {}).get('value', 'Unknown') }}</h1>
             <p class="entity-id">ID: {{ entity.id }}</p>
         </header>
-        
+
         <main>
             <section class="properties">
                 <h2>Properties</h2>
@@ -210,7 +212,7 @@
                         </div>
                     </dd>
                     {% endif %}
-                    
+
                     {% if entity.get('location') %}
                     <dt>Location:</dt>
                     <dd>
@@ -226,7 +228,7 @@
                         </div>
                     </dd>
                     {% endif %}
-                    
+
                     {% if entity.get('cameraType') %}
                     <dt>Camera Type:</dt>
                     <dd>
@@ -238,7 +240,7 @@
                         </div>
                     </dd>
                     {% endif %}
-                    
+
                     {% if entity.get('status') %}
                     <dt>Status:</dt>
                     <dd>
@@ -252,7 +254,7 @@
                         </div>
                     </dd>
                     {% endif %}
-                    
+
                     {% if entity.get('imageURL') %}
                     <dt>Image URL:</dt>
                     <dd>
@@ -261,7 +263,7 @@
                         </div>
                     </dd>
                     {% endif %}
-                    
+
                     {% if entity.get('streamURL') %}
                     <dt>Stream URL:</dt>
                     <dd>
@@ -270,31 +272,32 @@
                         </div>
                     </dd>
                     {% endif %}
-                    
+
                     {% for key, value in entity.items() %}
-                        {% if key not in ['id', 'type', '@context', 'cameraName', 'location', 'cameraType', 'status', 'imageURL', 'streamURL'] %}
-                        <dt>{{ key }}:</dt>
-                        <dd>
-                            <div class="value-object">
-                                {% if value is mapping %}
-                                    {% if value.get('value') is not none %}
-                                        {{ value.value }}
-                                    {% else %}
-                                        {{ value }}
-                                    {% endif %}
-                                    {% if value.get('type') %}
-                                    <div class="value-type">Type: {{ value.type }}</div>
-                                    {% endif %}
-                                {% else %}
-                                    {{ value }}
-                                {% endif %}
-                            </div>
-                        </dd>
-                        {% endif %}
+                    {% if key not in ['id', 'type', '@context', 'cameraName', 'location', 'cameraType', 'status',
+                    'imageURL', 'streamURL'] %}
+                    <dt>{{ key }}:</dt>
+                    <dd>
+                        <div class="value-object">
+                            {% if value is mapping %}
+                            {% if value.get('value') is not none %}
+                            {{ value.value }}
+                            {% else %}
+                            {{ value }}
+                            {% endif %}
+                            {% if value.get('type') %}
+                            <div class="value-type">Type: {{ value.type }}</div>
+                            {% endif %}
+                            {% else %}
+                            {{ value }}
+                            {% endif %}
+                        </div>
+                    </dd>
+                    {% endif %}
                     {% endfor %}
                 </dl>
             </section>
-            
+
             {% if entity.get('@context') %}
             <section class="metadata">
                 <h2>Metadata</h2>
@@ -305,9 +308,9 @@
                         <a href="{{ entity['@context'] }}" target="_blank">{{ entity['@context'] }}</a>
                         {% elif entity['@context'] is sequence %}
                         {% for ctx in entity['@context'] %}
-                            {% if ctx is string %}
-                            <a href="{{ ctx }}" target="_blank">{{ ctx }}</a>{% if not loop.last %}, {% endif %}
-                            {% endif %}
+                        {% if ctx is string %}
+                        <a href="{{ ctx }}" target="_blank">{{ ctx }}</a>{% if not loop.last %}, {% endif %}
+                        {% endif %}
                         {% endfor %}
                         {% endif %}
                     </dd>
@@ -315,7 +318,7 @@
             </section>
             {% endif %}
         </main>
-        
+
         <footer>
             <div class="formats">
                 <h3>Available Formats</h3>
@@ -328,7 +331,7 @@
                     {% endfor %}
                 </div>
             </div>
-            
+
             <div class="metadata">
                 <p>
                     <strong>{{ site_name }}</strong> - Version {{ version }}<br>
@@ -338,4 +341,5 @@
         </footer>
     </div>
 </body>
+
 </html>
