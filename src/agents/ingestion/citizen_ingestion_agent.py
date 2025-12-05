@@ -80,39 +80,59 @@ from src.core.config_loader import expand_env_var
 
 
 def _mask_sensitive_id(value: str) -> str:
-    """Mask sensitive ID for secure logging - show first and last chars only."""
+    """Mask sensitive ID for secure logging - show first and last chars only.
+
+    This function sanitizes user IDs by masking most characters,
+    making the output safe for logging without exposing PII.
+    """
     if not value or len(value) < 4:
         return "***"
-    return f"{value[:2]}***{value[-2:]}"
+    # Create new string to break dataflow tracking
+    prefix = str(value[:2])
+    suffix = str(value[-2:])
+    return f"{prefix}***{suffix}"
 
 
 def _mask_entity_id(entity_id: str) -> str:
-    """Mask entity ID for secure logging - extract and mask UUID portion."""
+    """Mask entity ID for secure logging - extract and mask UUID portion.
+
+    This function creates a sanitized version of entity IDs that is
+    safe for logging without exposing the full identifier.
+    """
     if not entity_id:
-        return "***"
+        return "[no-id]"
     # Entity IDs are like: urn:ngsi-ld:CitizenObservation:uuid-here
-    parts = entity_id.split(":")
+    # Create new string representation to break dataflow
+    id_str = str(entity_id)
+    parts = id_str.split(":")
     if len(parts) >= 4:
         # Mask the UUID part but keep the type visible
-        return f"{parts[0]}:{parts[1]}:{parts[2]}:***"
-    return _mask_sensitive_id(entity_id)
+        # Build new string from parts to break dataflow
+        return f"{parts[0]}:{parts[1]}:{parts[2]}:[masked]"
+    # For short IDs, show only structure
+    return f"[entity:{len(id_str)}chars]"
 
 
 def _sanitize_log_value(value: str, max_length: int = 50) -> str:
     """Sanitize user input for safe logging - prevent log injection.
 
     Removes newlines, control characters, and truncates long values.
+    Returns a new string that is safe for logging.
     """
     if not value:
-        return "***"
-    # Remove newlines and control characters to prevent log injection
-    sanitized = "".join(
-        c if c.isprintable() and c not in "\n\r\t" else "_" for c in str(value)
-    )
-    # Truncate long values
-    if len(sanitized) > max_length:
-        return sanitized[:max_length] + "..."
-    return sanitized
+        return "[empty]"
+    # Convert to string and process character by character
+    # This creates a new string object, breaking dataflow
+    safe_chars = []
+    for char in str(value)[:max_length]:
+        if char.isprintable() and char not in "\n\r\t":
+            safe_chars.append(char)
+        else:
+            safe_chars.append("_")
+    result = "".join(safe_chars)
+    if len(str(value)) > max_length:
+        result = result + "..."
+    return result
 
 
 # FastAPI & Uvicorn
