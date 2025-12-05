@@ -47,7 +47,7 @@ The following individuals are the original creators and primary authors of this 
 This project was developed as part of academic research in Smart City and Linked Open Data technologies.
 
 **Institution**: University/College (if applicable)
-**Year**: 2024-2025
+**Year**: 2025
 
 ---
 
@@ -62,4 +62,4 @@ For project inquiries, please contact the lead developer:
 
 All authors have agreed to license their contributions under the [MIT License](LICENSE).
 
-Copyright (c) 2024-2025 UIP - Urban Intelligence Platform Authors
+Copyright (c) 2025 UIP - Urban Intelligence Platform Authors

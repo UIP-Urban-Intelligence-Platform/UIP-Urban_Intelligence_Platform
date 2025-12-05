@@ -62729,7 +62729,7 @@
     }
   },
   {
-    "id": "urn:ngsi-ld:WeatherObserved:IDICO-QL1%2024-20251123213132",
+    "id": "urn:ngsi-ld:WeatherObserved:IDICO-QL1%20251123213132",
     "type": [
       "WeatherObserved",
       "sosa:Observation"
@@ -62794,7 +62794,7 @@
     }
   },
   {
-    "id": "urn:ngsi-ld:AirQualityObserved:IDICO-QL1%2024-20251123213132",
+    "id": "urn:ngsi-ld:AirQualityObserved:IDICO-QL1%20251123213132",
     "type": [
       "AirQualityObserved",
       "sosa:Observation"

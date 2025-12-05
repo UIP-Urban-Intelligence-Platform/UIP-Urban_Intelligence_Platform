@@ -3,7 +3,7 @@
 """Real-time Traffic Data Generator Pipeline.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
+Copyright (c) 2025 UIP Team. All rights reserved.
 https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
@@ -30,7 +30,7 @@ Description:
     6. Accident Detection Agent - Detects potential traffic accidents (DETR)
     7. Pattern Recognition Agent - Identifies temporal traffic patterns
 
-    Copyright (c) 2024-2025 Traffic LOD Pipeline Project Contributors
+    Copyright (c) 2025 Traffic LOD Pipeline Project Contributors
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -91,7 +91,7 @@ See Also:
     - config/workflow.yaml: Complete workflow configuration
     - docs/architecture/agents.md: Agent documentation
 
-Copyright (c) 2024-2025 Traffic LOD Pipeline Project Contributors.
+Copyright (c) 2025 Traffic LOD Pipeline Project Contributors.
 This file is licensed under MIT. See LICENSE in the project root.
 """
 

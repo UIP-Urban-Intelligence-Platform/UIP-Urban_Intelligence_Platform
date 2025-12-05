@@ -3,7 +3,7 @@
 """Entity Publisher Agent - NGSI-LD Publication to Stellio Context Broker.
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 

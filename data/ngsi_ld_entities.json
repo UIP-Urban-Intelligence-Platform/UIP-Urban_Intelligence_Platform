@@ -55536,7 +55536,7 @@
     }
   },
   {
-    "id": "urn:ngsi-ld:WeatherObserved:IDICO-QL1%2024-20251123213132",
+    "id": "urn:ngsi-ld:WeatherObserved:IDICO-QL1%20251123213132",
     "type": "WeatherObserved",
     "@context": [
       "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
@@ -55596,7 +55596,7 @@
     }
   },
   {
-    "id": "urn:ngsi-ld:AirQualityObserved:IDICO-QL1%2024-20251123213132",
+    "id": "urn:ngsi-ld:AirQualityObserved:IDICO-QL1%20251123213132",
     "type": "AirQualityObserved",
     "@context": [
       "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",

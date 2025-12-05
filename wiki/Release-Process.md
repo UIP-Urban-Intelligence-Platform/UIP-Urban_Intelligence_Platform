@@ -1,6 +1,6 @@
 <!--
 SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
+Copyright (c) 2025 UIP Team
 
 UIP - Urban Intelligence Platform
 Release Process Guide
