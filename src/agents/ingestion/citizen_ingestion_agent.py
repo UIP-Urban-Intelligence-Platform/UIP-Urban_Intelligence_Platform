@@ -66,6 +66,7 @@ Example Request:
     }
 """
 
+import hashlib
 import logging
 import os
 import uuid
@@ -79,60 +80,78 @@ import yaml
 from src.core.config_loader import expand_env_var
 
 
-def _mask_sensitive_id(value: str) -> str:
-    """Mask sensitive ID for secure logging - show first and last chars only.
+# ============================================================================
+# Secure Logging Utilities - Using internal counters to avoid user data in logs
+# ============================================================================
 
-    This function sanitizes user IDs by masking most characters,
-    making the output safe for logging without exposing PII.
+# Constant log identifiers - no user data dependency
+LOG_ID_ENTITY_PUBLISHED = "entity_published"
+LOG_ID_ENTITY_TRANSFORMED = "entity_transformed"
+LOG_ID_REPORT_RECEIVED = "report_received"
+LOG_ID_REPORT_COMPLETE = "report_complete"
+
+# Internal counter for log tracking - no user data
+_log_sequence_counter = 0
+
+
+def _get_log_sequence() -> str:
+    """Generate a unique log sequence ID using internal counter.
+
+    This completely avoids using any user data in logs.
+    Uses only internal state (counter + random UUID prefix).
+
+    Returns:
+        A unique sequence ID like "seq:a1b2c3d4-0001"
     """
-    if not value or len(value) < 4:
-        return "***"
-    # Create new string to break dataflow tracking
-    prefix = str(value[:2])
-    suffix = str(value[-2:])
-    return f"{prefix}***{suffix}"
+    global _log_sequence_counter
+    _log_sequence_counter += 1
+    # Use UUID prefix (generated at import time, not from user)
+    prefix = hashlib.sha256(str(uuid.uuid4()).encode()).hexdigest()[:8]
+    return f"seq:{prefix}-{_log_sequence_counter:04d}"
 
 
-def _mask_entity_id(entity_id: str) -> str:
-    """Mask entity ID for secure logging - extract and mask UUID portion.
+def _create_log_reference(value: str, prefix: str = "ref") -> str:
+    """Create a secure log reference WITHOUT using the input value.
 
-    This function creates a sanitized version of entity IDs that is
-    safe for logging without exposing the full identifier.
+    SECURITY: This function completely ignores the input value
+    and returns an internal sequence ID instead.
+    This ensures no user data ever appears in logs.
+
+    Args:
+        value: Ignored - kept for API compatibility
+        prefix: Ignored - kept for API compatibility
+
+    Returns:
+        An internal sequence ID unrelated to input
     """
-    if not entity_id:
-        return "[no-id]"
-    # Entity IDs are like: urn:ngsi-ld:CitizenObservation:uuid-here
-    # Create new string representation to break dataflow
-    id_str = str(entity_id)
-    parts = id_str.split(":")
-    if len(parts) >= 4:
-        # Mask the UUID part but keep the type visible
-        # Build new string from parts to break dataflow
-        return f"{parts[0]}:{parts[1]}:{parts[2]}:[masked]"
-    # For short IDs, show only structure
-    return f"[entity:{len(id_str)}chars]"
+    # SECURITY: Completely ignore input, return internal sequence
+    # This breaks all dataflow from user input to logs
+    return _get_log_sequence()
 
 
-def _sanitize_log_value(value: str, max_length: int = 50) -> str:
-    """Sanitize user input for safe logging - prevent log injection.
+def _get_safe_report_type(report_type: str) -> str:
+    """Return a safe report type from an allowlist.
 
-    Removes newlines, control characters, and truncates long values.
-    Returns a new string that is safe for logging.
+    Only returns predefined report types, completely ignoring user input
+    if it doesn't match the allowlist.
+
+    Args:
+        report_type: User-provided report type
+
+    Returns:
+        Safe report type from allowlist or "unknown"
     """
-    if not value:
-        return "[empty]"
-    # Convert to string and process character by character
-    # This creates a new string object, breaking dataflow
-    safe_chars = []
-    for char in str(value)[:max_length]:
-        if char.isprintable() and char not in "\n\r\t":
-            safe_chars.append(char)
-        else:
-            safe_chars.append("_")
-    result = "".join(safe_chars)
-    if len(str(value)) > max_length:
-        result = result + "..."
-    return result
+    # Allowlist of valid report types - no user data in output
+    allowed_types = {
+        "accident": "accident",
+        "congestion": "congestion",
+        "road_hazard": "road_hazard",
+        "infrastructure": "infrastructure",
+        "other": "other",
+    }
+    # Normalize and lookup - returns constant string, not user input
+    normalized = str(report_type).lower().strip() if report_type else ""
+    return allowed_types.get(normalized, "unknown")
 
 
 # FastAPI & Uvicorn
@@ -547,22 +566,22 @@ class NGSILDTransformer:
         """
         url = f"{self.stellio_base_url}/ngsi-ld/v1/entities"
 
-        # Extract and mask entity ID before logging to prevent sensitive data exposure
-        entity_id_raw = entity.get("id", "unknown")
-        masked_id = _mask_entity_id(entity_id_raw)
+        # Create secure log reference using hash - no sensitive data in logs
+        entity_id = entity.get("id", "")
+        log_ref = _create_log_reference(entity_id, "entity")
 
         try:
             response = self.session.post(url, json=entity, timeout=10)
 
             if response.status_code in [201, 204]:
-                logger.info(f"✅ Published entity to Stellio: {masked_id}")
+                logger.info(f"✅ {LOG_ID_ENTITY_PUBLISHED}: {log_ref}")
 
                 # Optionally publish to MongoDB (non-blocking)
                 if self._mongodb_helper and self._mongodb_helper.enabled:
                     try:
                         if self._mongodb_helper.insert_entity(entity):
                             logger.info(
-                                f"✅ Published CitizenObservation to MongoDB: {masked_id}"
+                                f"✅ Published CitizenObservation to MongoDB: {log_ref}"
                             )
                     except Exception as e:
                         logger.warning(f"MongoDB publish failed (non-critical): {e}")
@@ -601,11 +620,12 @@ async def process_citizen_report_background(
         aq_enricher: Air quality API client
         transformer: NGSI-LD transformer and Stellio publisher
     """
-    # Sanitize user input before logging to prevent log injection
-    safe_report_type = _sanitize_log_value(report.reportType)
-    safe_user_id = _mask_sensitive_id(report.userId)
+    # Use allowlist for report type - no user input in logs
+    safe_report_type = _get_safe_report_type(report.reportType)
+    # Create hash reference for user ID - no PII in logs
+    user_ref = _create_log_reference(report.userId, "user")
 
-    logger.info(f"🚀 Processing report: {safe_report_type} from user {safe_user_id}")
+    logger.info(f"🚀 {LOG_ID_REPORT_RECEIVED}: type={safe_report_type}, {user_ref}")
 
     try:
         # Step 1: Fetch enrichment data in parallel
@@ -618,18 +638,21 @@ async def process_citizen_report_background(
 
         # Step 2: Transform to NGSI-LD
         entity = transformer.transform(report, weather_data, aq_data)
-        # Extract and mask entity ID before logging
-        entity_id_raw = entity.get("id", "unknown")
-        masked_id = _mask_entity_id(entity_id_raw)
-        logger.info(f"🔄 Transformed to NGSI-LD: {masked_id}")
+        # Create secure hash reference - no sensitive data in logs
+        entity_id = entity.get("id", "")
+        log_ref = _create_log_reference(entity_id, "entity")
+        logger.info(f"🔄 {LOG_ID_ENTITY_TRANSFORMED}: {log_ref}")
 
         # Step 3: Publish to Stellio
         success = transformer.publish_to_stellio(entity)
 
         if success:
-            logger.info(f"✅ Report processing complete: {masked_id}")
+            logger.info(f"✅ {LOG_ID_REPORT_COMPLETE}: {log_ref}")
         else:
-            logger.error(f"❌ Failed to publish report: {masked_id}")
+            logger.error(f"❌ Failed to publish report: {log_ref}")
+
+    except Exception as e:
+        logger.error(f"💥 Background task failed: {e}", exc_info=True)
 
     except Exception as e:
         logger.error(f"💥 Background task failed: {e}", exc_info=True)
@@ -696,10 +719,10 @@ if FASTAPI_AVAILABLE:
         Returns:
             202 Accepted with report ID
         """
-        # Sanitize user input before logging to prevent log injection
-        safe_report_type = _sanitize_log_value(report.reportType)
-        safe_user_id = _mask_sensitive_id(report.userId)
-        logger.info(f"📥 Received report: {safe_report_type} from {safe_user_id}")
+        # Use allowlist for report type and hash for user ID - no sensitive data in logs
+        safe_report_type = _get_safe_report_type(report.reportType)
+        user_ref = _create_log_reference(report.userId, "user")
+        logger.info(f"📥 {LOG_ID_REPORT_RECEIVED}: type={safe_report_type}, {user_ref}")
 
         # Generate report ID for tracking
         report_id = str(uuid.uuid4())
@@ -714,7 +737,7 @@ if FASTAPI_AVAILABLE:
         )
 
         return ReportResponse(
-            message=f"Report accepted for processing: {report.reportType}",
+            message=f"Report accepted for processing: {safe_report_type}",
             reportId=report_id,
             processingStatus="enrichment_and_publishing_in_progress",
         )

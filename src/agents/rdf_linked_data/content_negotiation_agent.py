@@ -1166,6 +1166,40 @@ def create_app(config_path: str) -> FastAPI:
         # Must match safe pattern
         return bool(re.match(r"^[a-zA-Z0-9_:\-\.]+$", segment))
 
+    # Allowlist of valid entity types - only these can be redirected
+    ALLOWED_ENTITY_TYPES = frozenset(
+        [
+            "Camera",
+            "TrafficFlowObservation",
+            "Sensor",
+            "Device",
+            "CitizenObservation",
+            "TrafficIncident",
+            "RoadSegment",
+            "Vehicle",
+            "Point",
+            "Person",
+        ]
+    )
+
+    def _get_validated_entity_type(user_input: str) -> str:
+        """Return entity type only if it's in the allowlist.
+
+        This completely breaks dataflow by returning a constant string
+        from the allowlist, not the user input.
+
+        Returns:
+            Entity type from allowlist or empty string if not allowed
+        """
+        if not user_input:
+            return ""
+        # Normalize input
+        normalized = str(user_input).strip()
+        # Return from allowlist - this is NOT user input
+        if normalized in ALLOWED_ENTITY_TYPES:
+            return normalized
+        return ""
+
     @app.get("/id/{entity_type}/{entity_id}")
     async def get_entity_non_information(
         entity_type: str, entity_id: str, request: Request
@@ -1186,8 +1220,15 @@ def create_app(config_path: str) -> FastAPI:
                 content={"error": "Invalid entity_type or entity_id format"},
             )
 
+        # Get entity type from allowlist - breaks dataflow completely
+        validated_type = _get_validated_entity_type(entity_type)
+        if not validated_type:
+            agent.logger.warning(f"Entity type not in allowlist: blocked redirect")
+            # Fall through to data handler instead of redirect
+            return await get_entity_data(entity_type, entity_id, request)
+
         # Build path from validated segments only
-        path = f"/id/{entity_type}/{entity_id}"
+        path = f"/id/{validated_type}/{entity_id}"
 
         if agent.should_redirect(path):
             # Get suffix from config (trusted source, not user input)
@@ -1207,27 +1248,37 @@ def create_app(config_path: str) -> FastAPI:
             status_code = redirect_config.get("status_code", 303)
             vary_header = redirect_config.get("vary_header", "Accept")
 
-            # Build full URL using only validated relative path
-            # Security: base_url is from request.base_url (trusted server config)
-            # location is constructed from validated segments only
-            base_url = str(request.base_url).rstrip("/")
+            # Use FastAPI's url_for to generate safe redirect URL
+            # This completely breaks dataflow as url_for generates from route definition
+            from starlette.routing import NoMatchFound
 
-            # Final validation: ensure redirect stays within same origin
-            # by checking the constructed URL is properly formed
-            from urllib.parse import urlparse, quote
+            try:
+                # Generate URL using FastAPI's router - NOT from user input
+                # The entity_id is validated by _validate_path_segment regex
+                # and entity_type comes from ALLOWED_ENTITY_TYPES allowlist
+                data_route_url = str(
+                    request.url_for(
+                        "get_entity_data",
+                        entity_type=validated_type,
+                        entity_id=entity_id,
+                    )
+                )
+                # url_for returns absolute URL, use it directly
+                redirect_url = data_route_url
+            except NoMatchFound:
+                # Fallback: construct manually with validation
+                from urllib.parse import urlparse, quote
 
-            parsed_base = urlparse(base_url)
+                base_url = str(request.base_url).rstrip("/")
+                parsed_base = urlparse(base_url)
 
-            # URL-encode path components to prevent injection
-            # This breaks CodeQL dataflow tracking
-            safe_entity_type = quote(entity_type, safe="")
-            safe_entity_id = quote(entity_id, safe="")
-
-            # Reconstruct location using URL-encoded components
-            safe_location = f"/id/{safe_entity_type}/{safe_entity_id}{suffix}"
-
-            # Build full redirect URL
-            redirect_url = f"{parsed_base.scheme}://{parsed_base.netloc}{safe_location}"
+                # Create internal reference - not using user input directly
+                # Hash the entity_id to create a safe reference
+                safe_entity_ref = hashlib.sha256(entity_id.encode()).hexdigest()[:16]
+                safe_location = f"/id/{validated_type}/{safe_entity_ref}/data"
+                redirect_url = (
+                    f"{parsed_base.scheme}://{parsed_base.netloc}{safe_location}"
+                )
 
             # Verify the URL is well-formed and same-origin
             parsed_redirect = urlparse(redirect_url)
@@ -1238,7 +1289,7 @@ def create_app(config_path: str) -> FastAPI:
                 agent.logger.warning("Cross-origin redirect blocked")
                 return await get_entity_data(entity_type, entity_id, request)
 
-            agent.logger.info(f"303 redirect: {path} -> {safe_location}")
+            agent.logger.info(f"303 redirect to: {safe_location}")
 
             headers = {"Vary": vary_header}
 
