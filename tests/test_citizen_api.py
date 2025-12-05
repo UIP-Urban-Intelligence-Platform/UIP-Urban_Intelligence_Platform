@@ -102,7 +102,7 @@ def check_server_health():
             print(f"Response: {response.json()}")
             return True
         return None
-    except:
+    except requests.RequestException:
         print("❌ Server is not running")
         return False
 

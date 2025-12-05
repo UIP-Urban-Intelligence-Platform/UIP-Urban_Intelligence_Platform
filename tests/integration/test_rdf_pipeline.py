@@ -47,7 +47,6 @@ class TestRDFPipeline:
         # Convert to RDF
         g = Graph()
         TRAFFIC = Namespace("http://example.org/traffic#")
-        NGSI = Namespace("https://uri.etsi.org/ngsi-ld/")
 
         camera_uri = URIRef(ngsi_ld_entity["id"])
         g.add((camera_uri, RDF.type, TRAFFIC.Camera))

@@ -36,6 +36,9 @@ except ImportError:
     redis = None  # type: ignore
     TimeSeries = None  # type: ignore
 
+# Reference for CodeQL - TimeSeries used conditionally when Redis available
+_TimeSeries = TimeSeries
+
 import logging
 from collections import defaultdict
 from datetime import datetime, timedelta

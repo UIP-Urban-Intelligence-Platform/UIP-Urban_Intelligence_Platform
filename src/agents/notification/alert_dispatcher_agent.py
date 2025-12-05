@@ -333,8 +333,8 @@ class WebSocketChannel(ChannelDelivery):
             }
 
             # In a real implementation, this would use Socket.IO or similar
-            # For now, we'll just log the broadcast
-            logger.info(f"Broadcasting WebSocket message: {message.get('alert_type')}")
+            # For now, log the broadcast with payload type
+            logger.info(f"Broadcasting WebSocket message: {payload['type']}")
 
             return True
 

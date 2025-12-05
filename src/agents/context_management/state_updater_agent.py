@@ -680,10 +680,9 @@ class EntityUpdater:
                 rule = self.update_rules[attr_name]
                 validation = rule.get("validation", {})
 
-                # Get attribute value
-                attr_value = event.updates[attr_name]
-                if isinstance(attr_value, dict):
-                    attr_value = attr_value.get("value")
+                # Get attribute value - extract from dict if needed
+                raw_attr = event.updates[attr_name]
+                attr_value = raw_attr.get("value") if isinstance(raw_attr, dict) else raw_attr
 
                 # Validate based on rules
                 for field, constraints in validation.items():

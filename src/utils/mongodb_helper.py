@@ -88,6 +88,9 @@ except ImportError:
     ASCENDING = DESCENDING = GEOSPHERE = None
     ConnectionFailure = DuplicateKeyError = BulkWriteError = PyMongoError = Exception
 
+# Reference for CodeQL - DESCENDING available for sorting when pymongo is installed
+_DESCENDING = DESCENDING
+
 logger = logging.getLogger(__name__)
 
 

@@ -32,6 +32,9 @@ except ImportError:
     GraphDatabase = None  # type: ignore
     Driver = None  # type: ignore
 
+# Reference for CodeQL - Driver type used for annotations when Neo4j available
+_Driver = Driver
+
 import logging
 from datetime import datetime
 from typing import Any, Dict, List, Optional
@@ -109,8 +112,8 @@ class Neo4jSyncAgent:
             logger.debug(f"Camera sync skipped (symbolic): {camera_data.get('id')}")
             return True
 
-        # Symbolic Cypher query (not executed)
-        cypher = f"""
+        # Symbolic Cypher query (for documentation - not executed in symbolic mode)
+        _cypher = f"""
         MERGE (c:Camera {{id: '{camera_data.get('id')}'}})
         SET c.name = '{camera_data.get('name', 'Unknown')}',
             c.location = point({{
@@ -119,7 +122,7 @@ class Neo4jSyncAgent:
             }}),
             c.updated_at = datetime('{datetime.now().isoformat()}')
         RETURN c
-        """
+        """  # noqa: F841
 
         logger.debug(f"Symbolic Neo4j sync: Camera {camera_data.get('id')}")
         return True
@@ -136,7 +139,8 @@ class Neo4jSyncAgent:
         camera_id = observation.get("camera_id")
         obs_id = observation.get("id")
 
-        cypher = f"""
+        # Symbolic Cypher query (for documentation - not executed in symbolic mode)
+        _cypher = f"""
         MATCH (c:Camera {{id: '{camera_id}'}})
         CREATE (o:Observation {{
             id: '{obs_id}',
@@ -145,7 +149,7 @@ class Neo4jSyncAgent:
         }})
         CREATE (c)-[:OBSERVES]->(o)
         RETURN o
-        """
+        """  # noqa: F841
 
         logger.debug(f"Symbolic Neo4j sync: Observation {obs_id}")
         return True
@@ -190,14 +194,15 @@ class Neo4jSyncAgent:
         if not self.enabled:
             return True
 
-        cypher = f"""
+        # Symbolic Cypher query (for documentation - not executed in symbolic mode)
+        _cypher = f"""
         MATCH (e1:{entity1_type} {{id: '{entity1_id}'}})
         MATCH (e2:{entity2_type} {{id: '{entity2_id}'}})
         MERGE (e1)-[r:{correlation_type}]->(e2)
         SET r.strength = {strength},
             r.created_at = datetime('{datetime.now().isoformat()}')
         RETURN r
-        """
+        """  # noqa: F841
 
         logger.debug(
             f"Symbolic correlation: {entity1_id} -{correlation_type}-> {entity2_id}"

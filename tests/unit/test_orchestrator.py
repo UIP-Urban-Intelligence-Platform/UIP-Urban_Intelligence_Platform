@@ -33,8 +33,11 @@ try:
 
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
-    WorkflowOrchestrator = None
+    WorkflowOrchestrator = None  # type: ignore
     ORCHESTRATOR_AVAILABLE = False
+
+# Reference to suppress unused import warning
+_WorkflowOrchestrator = WorkflowOrchestrator
 
 
 @pytest.mark.skipif(

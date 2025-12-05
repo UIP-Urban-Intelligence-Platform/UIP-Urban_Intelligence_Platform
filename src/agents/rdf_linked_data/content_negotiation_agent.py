@@ -456,7 +456,7 @@ class HTMLRenderer:
             try:
                 dt = datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
                 return dt.strftime("%Y-%m-%d %H:%M:%S UTC")
-            except:
+            except (ValueError, AttributeError):
                 return dt_str
 
         self.env.filters["format_coordinates"] = format_coordinates
@@ -934,17 +934,21 @@ class ContentNegotiationAgent:
                 if format_config.mime_type == "text/turtle":
                     # Return as-is
                     return turtle_data, format_config.get_content_type()
-                else:
-                    # Parse Turtle and convert
+                elif format_config.mime_type == "application/ld+json":
+                    # Parse Turtle and convert to JSON-LD
                     graph = Graph()
                     graph.parse(data=turtle_data, format="turtle")
-
-                    if format_config.mime_type == "application/ld+json":
-                        json_ld_data = self.converter.graph_to_jsonld(graph)
-                        return json_ld_data, format_config.get_content_type()
-                    elif format_config.mime_type == "application/rdf+xml":
-                        rdfxml_data = self.converter.graph_to_rdfxml(graph, base_url)
-                        return rdfxml_data, format_config.get_content_type()
+                    json_ld_data = self.converter.graph_to_jsonld(graph)
+                    return json_ld_data, format_config.get_content_type()
+                elif format_config.mime_type == "application/rdf+xml":
+                    # Parse Turtle and convert to RDF/XML
+                    graph = Graph()
+                    graph.parse(data=turtle_data, format="turtle")
+                    rdfxml_data = self.converter.graph_to_rdfxml(graph, base_url)
+                    return rdfxml_data, format_config.get_content_type()
+                else:
+                    # Unsupported format for fuseki source
+                    raise ValueError(f"Unsupported format for fuseki: {format_config.mime_type}")
 
             elif format_config.source == "convert":
                 # Fetch JSON-LD and convert
@@ -1138,7 +1142,6 @@ def create_app(config_path: str) -> FastAPI:
 
     def _validate_path_segment(segment: str) -> bool:
         """Validate URL path segment to prevent injection attacks."""
-        import re
         # Only allow alphanumeric, dash, underscore, colon (for URN-style IDs)
         # Disallow path traversal, query strings, fragments, protocols
         if not segment:

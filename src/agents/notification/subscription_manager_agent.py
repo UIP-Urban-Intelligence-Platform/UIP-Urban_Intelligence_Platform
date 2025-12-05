@@ -344,6 +344,10 @@ class SubscriptionManager:
                         self.stats["subscriptions_failed"] += 1
                         return None
 
+            # All retries exhausted without success
+            self.stats["subscriptions_failed"] += 1
+            return None
+
         except Exception as e:
             logger.error(f"Error creating subscription: {e}")
             self.stats["subscriptions_failed"] += 1

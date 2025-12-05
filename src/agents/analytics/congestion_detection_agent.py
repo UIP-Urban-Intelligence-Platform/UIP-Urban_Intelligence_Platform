@@ -301,8 +301,7 @@ class CongestionDetector:
                 if self.min_duration == 0:
                     # Immediate congestion
                     return (True, True, reason + "; immediate", observed_at)
-                first_breach_ts = observed_at
-                # Not yet enough duration
+                # Timer start signal - actual storage happens in caller via state_store.update
                 return (False, False, reason + "; started_timer", observed_at)
             else:
                 # Calculate elapsed
@@ -471,9 +470,7 @@ class CongestionDetectionAgent:
             try:
                 asyncio.get_running_loop()
                 # If we're already in an async context, create task
-                import concurrent.futures
-
-                with concurrent.futures.ThreadPoolExecutor() as executor:
+                with ThreadPoolExecutor() as executor:
                     code_to_entity_id = executor.submit(
                         lambda: asyncio.run(_fetch_camera_entities())
                     ).result()
@@ -650,7 +647,7 @@ class CongestionDetectionAgent:
                 logger.error(f"Skipping entity due to evaluation error: {e}")
                 continue
             camera_ref = self.detector._get_camera_ref(entity)
-            _prev_state = self.state_store.get(camera_ref)  # noqa: F841
+            # Note: Previous state retrieved for potential future comparison/logging
 
             # If a first_breach_ts should be initialized or reset based on reasons
             if "started_timer" in (reason or ""):

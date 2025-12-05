@@ -233,7 +233,8 @@ class TestMongoDBPublisher(unittest.TestCase):
         ]
 
         # Should still succeed for valid entities
-        result = self.helper.insert_entities_batch(
+        # Note: Result indicates overall success, individual failures handled internally
+        _ = self.helper.insert_entities_batch(
             entities,
             collection_name=self.test_collection,
             ordered=False,  # Continue on error

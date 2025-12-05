@@ -644,9 +644,7 @@ async def main(config: Dict = None):
     # If called from orchestrator with config dict
     if config:
         try:
-            _input_file = config.get(
-                "input_file", "data/cameras_raw.json"
-            )  # noqa: F841
+            # Note: input_file from config is currently unused but kept for future use
             output_file = config.get("output_file", "data/cameras_updated.json")
             config_path = config.get("config_path", "config/data_sources.yaml")
             domain = config.get("domain", "cameras")

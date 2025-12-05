@@ -1394,7 +1394,8 @@ if __name__ == "__main__":
             # Keep running
             await asyncio.Event().wait()
         except KeyboardInterrupt:
-            pass
+            # Graceful shutdown on Ctrl+C
+            logging.info("Received shutdown signal")
         finally:
             await manager.stop()
 

@@ -408,18 +408,29 @@ async def test_process_citizen_reports_traffic_jam_verified():
     if not CV_AGENT_AVAILABLE:
         pytest.skip("CV Agent not available")
 
+    # Import required modules - skip test if not available
     try:
-        from pathlib import Path
-
-        import yaml
-        from PIL import Image
+        from pathlib import Path as PathLib
     except ImportError:
-        pytest.skip("PIL or yaml not available")
+        pytest.skip("pathlib not available")
+        return  # Explicit return to satisfy CodeQL
+
+    try:
+        import yaml as yaml_module
+    except ImportError:
+        pytest.skip("yaml not available")
+        return
+
+    try:
+        from PIL import Image as PILImage
+    except ImportError:
+        pytest.skip("PIL not available")
+        return
 
     # Load CV config
-    config_path = Path(__file__).parent.parent.parent / "config" / "cv_config.yaml"
+    config_path = PathLib(__file__).parent.parent.parent / "config" / "cv_config.yaml"
     with open(config_path, "r") as f:
-        cv_config_data = yaml.safe_load(f)
+        cv_config_data = yaml_module.safe_load(f)
 
     # Create config object with citizen_verification_enabled
     class MockConfig:
@@ -460,8 +471,8 @@ async def test_process_citizen_reports_traffic_jam_verified():
         mock_get.return_value.json.return_value = mock_reports
 
         # Mock image download
-        mock_image = Image.new("RGB", (640, 480), color="blue")
         import io
+        mock_image = PILImage.new("RGB", (640, 480), color="blue")
 
         img_bytes = io.BytesIO()
         mock_image.save(img_bytes, format="JPEG")
