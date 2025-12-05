@@ -1420,8 +1420,6 @@ def create_app(config_path: str) -> FastAPI:
         This endpoint is only accessible via server-generated tokens.
         """
         # Validate token format (only alphanumeric and URL-safe chars)
-        import re
-
         if not re.match(r"^[A-Za-z0-9_-]{16,32}$", ref_token):
             raise HTTPException(
                 status_code=400, detail="Invalid reference token format"
