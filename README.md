@@ -81,16 +81,16 @@ This project is developed and maintained by:
         <img src="https://github.com/JamesNguyen106.png" width="100px;" alt="Nguyễn Việt Hoàng"/><br />
         <sub><b>Nguyễn Việt Hoàng</b></sub>
       </a><br />
-      <sub>Full-Stack Developer</sub><br />
-      <sub>🎨 Frontend | 🔌 API | 📚 Docs</sub>
+      <sub>Backend Developer</sub><br />
+      <sub>🤖 Agents | 📊 Data | 🧪 Testing</sub>
     </td>
     <td align="center">
       <a href="https://github.com/NguyenDinhAnhTuan04">
         <img src="https://github.com/NguyenDinhAnhTuan04.png" width="100px;" alt="Nguyễn Đình Anh Tuấn"/><br />
         <sub><b>Nguyễn Đình Anh Tuấn</b></sub>
       </a><br />
-      <sub>Backend Developer</sub><br />
-      <sub>🤖 Agents | 📊 Data | 🧪 Testing</sub>
+      <sub>Full Stack Developer</sub><br />
+      <sub>🎨 Frontend | 🔌 API | 📚 Docs</sub>
     </td>
   </tr>
 </table>
