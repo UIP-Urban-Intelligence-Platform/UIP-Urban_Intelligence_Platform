@@ -118,4 +118,4 @@ Submit a pull request! All contributors who have their PRs merged will be added 
 
 *Last updated: December 2025*
 
-Copyright (c) 2024-2025 UIP - Urban Intelligence Platform Contributors
+Copyright (c) 2025 UIP - Urban Intelligence Platform Contributors

@@ -3,7 +3,7 @@
 """NGSI-LD Transformer Agent - Domain-Agnostic Entity Transformation.
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 

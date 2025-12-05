@@ -3,7 +3,7 @@
 """Neo4j Graph Database Synchronization Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
+Copyright (c) 2025 UIP Team. All rights reserved.
 https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
