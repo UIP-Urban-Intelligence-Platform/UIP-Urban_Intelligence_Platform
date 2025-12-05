@@ -1136,6 +1136,29 @@ def create_app(config_path: str) -> FastAPI:
         """Metrics endpoint"""
         return agent.get_statistics()
 
+    def _validate_path_segment(segment: str) -> bool:
+        """Validate URL path segment to prevent injection attacks."""
+        import re
+        # Only allow alphanumeric, dash, underscore, colon (for URN-style IDs)
+        # Disallow path traversal, query strings, fragments, protocols
+        if not segment:
+            return False
+        # Block dangerous patterns
+        dangerous_patterns = [
+            "..",  # Path traversal
+            "//",  # Protocol injection
+            "?",   # Query string
+            "#",   # Fragment
+            "%",   # URL encoding (could be used to bypass)
+            "\n", "\r",  # Header injection
+            "<", ">",    # XSS
+        ]
+        for pattern in dangerous_patterns:
+            if pattern in segment:
+                return False
+        # Must match safe pattern
+        return bool(re.match(r'^[a-zA-Z0-9_:\-\.]+$', segment))
+
     @app.get("/id/{entity_type}/{entity_id}")
     async def get_entity_non_information(
         entity_type: str, entity_id: str, request: Request
@@ -1144,15 +1167,29 @@ def create_app(config_path: str) -> FastAPI:
         Non-information resource endpoint.
         Returns 303 redirect to information resource.
         """
+        # Validate user input to prevent URL injection
+        if not _validate_path_segment(entity_type) or not _validate_path_segment(entity_id):
+            agent.logger.warning("Invalid entity_type or entity_id blocked")
+            from fastapi.responses import JSONResponse
+            return JSONResponse(
+                status_code=400,
+                content={"error": "Invalid entity_type or entity_id format"}
+            )
+
+        # Build path from validated segments only
         path = f"/id/{entity_type}/{entity_id}"
 
         if agent.should_redirect(path):
-            location = agent.get_redirect_location(path)
+            # Get suffix from config (trusted source, not user input)
+            redirect_config = agent.config.get_redirects_config()
+            suffix = redirect_config.get("information_resource_suffix", "/data")
+            
+            # Construct location from validated path + trusted suffix
+            location = f"{path}{suffix}"
 
-            # Validate redirect location to prevent open redirect vulnerability
-            # Only allow relative paths starting with /
-            if not location or not location.startswith("/"):
-                agent.logger.warning(f"Invalid redirect location blocked: {location}")
+            # Double-check: location must be relative path
+            if not location.startswith("/"):
+                agent.logger.warning("Invalid redirect location blocked")
                 return await get_entity_data(entity_type, entity_id, request)
 
             # Get redirect config

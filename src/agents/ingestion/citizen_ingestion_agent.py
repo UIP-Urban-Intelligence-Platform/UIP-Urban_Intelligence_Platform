@@ -98,6 +98,21 @@ def _mask_entity_id(entity_id: str) -> str:
     return _mask_sensitive_id(entity_id)
 
 
+def _sanitize_log_value(value: str, max_length: int = 50) -> str:
+    """Sanitize user input for safe logging - prevent log injection.
+    
+    Removes newlines, control characters, and truncates long values.
+    """
+    if not value:
+        return "***"
+    # Remove newlines and control characters to prevent log injection
+    sanitized = "".join(c if c.isprintable() and c not in "\n\r\t" else "_" for c in str(value))
+    # Truncate long values
+    if len(sanitized) > max_length:
+        return sanitized[:max_length] + "..."
+    return sanitized
+
+
 # FastAPI & Uvicorn
 try:
     import uvicorn
@@ -563,7 +578,7 @@ async def process_citizen_report_background(
         transformer: NGSI-LD transformer and Stellio publisher
     """
     logger.info(
-        f"🚀 Processing report: {report.reportType} from user {_mask_sensitive_id(report.userId)}"
+        f"🚀 Processing report: {_sanitize_log_value(report.reportType)} from user {_mask_sensitive_id(report.userId)}"
     )
 
     try:
@@ -574,7 +589,7 @@ async def process_citizen_report_background(
         )
 
         logger.info(
-            f"📊 Enrichment complete: Weather={weather_data.get('temperature')}°C, AQI={aq_data.get('aqi')}"
+            "📊 Enrichment complete: Weather and AQ data fetched successfully"
         )
 
         # Step 2: Transform to NGSI-LD
@@ -659,7 +674,7 @@ if FASTAPI_AVAILABLE:
             202 Accepted with report ID
         """
         logger.info(
-            f"📥 Received report: {report.reportType} from {_mask_sensitive_id(report.userId)}"
+            f"📥 Received report: {_sanitize_log_value(report.reportType)} from {_mask_sensitive_id(report.userId)}"
         )
 
         # Generate report ID for tracking
