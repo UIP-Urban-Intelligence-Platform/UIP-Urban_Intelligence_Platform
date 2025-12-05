@@ -16,6 +16,9 @@ frozenlist>=1.4.0
 multidict>=6.0.4
 yarl>=1.9.3
 
+# Async LRU Cache (MIT License)
+async-lru>=2.0.5
+
 # HTTP clients
 httpx>=0.24.0
 requests>=2.31.0
