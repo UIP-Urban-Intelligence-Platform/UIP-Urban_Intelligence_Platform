@@ -18,9 +18,9 @@ The following individuals are the original creators and primary authors of this 
   - CI/CD pipelines
   - Docker infrastructure
 
-### Nguyễn Việt Hoàng (Full-Stack Developer)
-- **GitHub**: [@JamesNguyen106](https://github.com/JamesNguyen106)
-- **Email**: viethoang01062004nt@gmail.com
+### Nguyễn Đình Anh Tuấn (Full-Stack Developer)
+- **GitHub**: [@NguyenDinhAnhTuan04](https://github.com/NguyenDinhAnhTuan04)
+- **Email**: nguyentuan834897@gmail.com
 - **Role**: Full-Stack Developer, Frontend Lead
 - **Contributions**:
   - Traffic Web Application (React/TypeScript)
@@ -29,9 +29,9 @@ The following individuals are the original creators and primary authors of this 
   - User interface design
   - Docusaurus documentation site
 
-### Nguyễn Đình Anh Tuấn (Backend Developer)
-- **GitHub**: [@NguyenDinhAnhTuan04](https://github.com/NguyenDinhAnhTuan04)
-- **Email**: nguyentuan834897@gmail.com
+### Nguyễn Việt Hoàng (Backend Developer)
+- **GitHub**: [@JamesNguyen106](https://github.com/JamesNguyen106)
+- **Email**: nguyenviethoang01062004nt@gmail.com
 - **Role**: Backend Developer, Data Engineer
 - **Contributions**:
   - Agent system development
