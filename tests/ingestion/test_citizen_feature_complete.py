@@ -419,7 +419,7 @@ async def test_process_citizen_reports_traffic_jam_verified():
     # Load CV config
     config_path = Path(__file__).parent.parent.parent / "config" / "cv_config.yaml"
     with open(config_path, "r") as f:
-        yaml.safe_load(f)
+        cv_config_data = yaml.safe_load(f)
 
     # Create config object with citizen_verification_enabled
     class MockConfig:
@@ -434,6 +434,9 @@ async def test_process_citizen_reports_traffic_jam_verified():
                 .get("traffic_jam", {})
                 .get("min_vehicles", 5)
             )
+
+    # Initialize MockConfig with loaded data (for future use)
+    _ = MockConfig(cv_config_data)
 
     # Mock Stellio query response
     mock_reports = [
@@ -522,7 +525,7 @@ async def test_process_citizen_reports_accident_with_accident_model():
     # Load CV config
     config_path = Path(__file__).parent.parent.parent / "config" / "cv_config.yaml"
     with open(config_path, "r") as f:
-        yaml.safe_load(f)
+        cv_config_data = yaml.safe_load(f)
 
     # Create MockConfig with required attributes
     class MockConfig:
@@ -535,6 +538,9 @@ async def test_process_citizen_reports_accident_with_accident_model():
             self.accident_detection_enabled = data.get("accident_detection", {}).get(
                 "enabled", True
             )
+
+    # Initialize MockConfig with loaded data (for future use)
+    _ = MockConfig(cv_config_data)
 
     mock_reports = [
         {
@@ -650,7 +656,7 @@ async def test_full_citizen_science_workflow():
     # Load CV config
     config_path = Path(__file__).parent.parent.parent / "config" / "cv_config.yaml"
     with open(config_path, "r") as f:
-        yaml.safe_load(f)
+        cv_config_data = yaml.safe_load(f)
 
     # Create MockConfig
     class MockConfig:
@@ -659,6 +665,9 @@ async def test_full_citizen_science_workflow():
                 "citizen_verification", {}
             ).get("enabled", True)
             self.stellio_base_url = "http://localhost:8080"
+
+    # Initialize MockConfig with loaded data (for future use)
+    _ = MockConfig(cv_config_data)
 
     # Step 1: Submit report
     app = citizen_ingestion_agent.app

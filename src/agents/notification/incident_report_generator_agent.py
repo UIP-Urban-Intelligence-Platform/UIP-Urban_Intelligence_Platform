@@ -71,7 +71,7 @@ matplotlib.use("Agg")  # Non-interactive backend
 import matplotlib.pyplot as plt
 import yaml
 from flask import Flask, jsonify, request, send_file
-from jinja2 import Environment, FileSystemLoader, Template, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from src.core.config_loader import expand_env_var
 
@@ -1041,15 +1041,18 @@ class NotificationSender:
             logger.warning("No email recipients configured")
             return
 
-        # Build subject
+        # Build subject - use Environment with autoescape for security
+        from jinja2 import Environment
+
+        safe_env = Environment(autoescape=True)
         subject_template = self.email_config.get(
             "subject_template", "Incident Report: {{report_id}}"
         )
-        subject = Template(subject_template).render(**report_data)
+        subject = safe_env.from_string(subject_template).render(**report_data)
 
-        # Build body
+        # Build body - use Environment with autoescape for security
         body_template = self.email_config.get("body_template", "")
-        body = Template(body_template).render(**report_data)
+        body = safe_env.from_string(body_template).render(**report_data)
 
         # Create message
         msg = MIMEMultipart()

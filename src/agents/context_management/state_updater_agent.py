@@ -82,12 +82,9 @@ try:
 except ImportError:
     KAFKA_AVAILABLE = False
 
-try:
-    pass
-
-    WEBSOCKET_AVAILABLE = True
-except ImportError:
-    WEBSOCKET_AVAILABLE = False
+# websockets import is optional and currently not used
+# Set availability flag for future use
+WEBSOCKET_AVAILABLE = False
 
 try:
     from flask import Flask, jsonify, request

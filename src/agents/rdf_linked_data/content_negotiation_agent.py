@@ -585,7 +585,8 @@ class ContentNegotiationConfig:
         file_handler.setFormatter(formatter)
         file_handler.setLevel(log_level)
 
-        # Console handler
+        # Console handler - initialize before conditional check
+        console_handler = None
         if log_config.get("console_output", True):
             console_handler = logging.StreamHandler()
             console_handler.setFormatter(formatter)
@@ -596,7 +597,7 @@ class ContentNegotiationConfig:
         root_logger.setLevel(log_level)
         root_logger.addHandler(file_handler)
 
-        if log_config.get("console_output", True):
+        if console_handler is not None:
             root_logger.addHandler(console_handler)
 
     def get_server_config(self) -> Dict[str, Any]:
@@ -1148,12 +1149,18 @@ def create_app(config_path: str) -> FastAPI:
         if agent.should_redirect(path):
             location = agent.get_redirect_location(path)
 
+            # Validate redirect location to prevent open redirect vulnerability
+            # Only allow relative paths starting with /
+            if not location or not location.startswith("/"):
+                agent.logger.warning(f"Invalid redirect location blocked: {location}")
+                return await get_entity_data(entity_type, entity_id, request)
+
             # Get redirect config
             redirect_config = agent.config.get_redirects_config()
             status_code = redirect_config.get("status_code", 303)
             vary_header = redirect_config.get("vary_header", "Accept")
 
-            # Build full URL
+            # Build full URL using only validated relative path
             base_url = str(request.base_url).rstrip("/")
             full_location = f"{base_url}{location}"
 

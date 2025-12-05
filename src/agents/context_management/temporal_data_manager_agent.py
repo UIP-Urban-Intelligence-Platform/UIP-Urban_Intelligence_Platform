@@ -76,12 +76,9 @@ import yaml
 from src.core.config_loader import expand_env_var
 
 # Optional dependencies
-try:
-    pass
-
-    NEO4J_AVAILABLE = True
-except ImportError:
-    NEO4J_AVAILABLE = False
+# neo4j import is optional and currently not used
+# Set availability flag for future use
+NEO4J_AVAILABLE = False
 
 
 # Configure logging

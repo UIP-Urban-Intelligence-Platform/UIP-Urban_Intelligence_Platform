@@ -86,6 +86,18 @@ def _mask_sensitive_id(value: str) -> str:
     return f"{value[:2]}***{value[-2:]}"
 
 
+def _mask_entity_id(entity_id: str) -> str:
+    """Mask entity ID for secure logging - extract and mask UUID portion."""
+    if not entity_id:
+        return "***"
+    # Entity IDs are like: urn:ngsi-ld:CitizenObservation:uuid-here
+    parts = entity_id.split(":")
+    if len(parts) >= 4:
+        # Mask the UUID part but keep the type visible
+        return f"{parts[0]}:{parts[1]}:{parts[2]}:***"
+    return _mask_sensitive_id(entity_id)
+
+
 # FastAPI & Uvicorn
 try:
     import uvicorn
@@ -255,7 +267,7 @@ class WeatherEnricher:
                     if response.status == 200:
                         data = await response.json()
                         logger.info(
-                            f"Weather API: Successfully fetched data for ({lat}, {lon})"
+                            "Weather API: Successfully fetched data for coordinates"
                         )
                         return {
                             "temperature": data["main"]["temp"],
@@ -347,9 +359,7 @@ class AirQualityEnricher:
                         return self._mock_air_quality_data()
 
                     location_id = data["results"][0]["id"]
-                    logger.info(
-                        f"AirQuality API: Found station {location_id} near ({lat}, {lon})"
-                    )
+                    logger.info("AirQuality API: Found nearby station for coordinates")
 
                 # Step 2: Get latest measurements
                 async with session.get(
@@ -504,14 +514,16 @@ class NGSILDTransformer:
             response = self.session.post(url, json=entity, timeout=10)
 
             if response.status_code in [201, 204]:
-                logger.info(f"✅ Published {entity['id']} to Stellio")
+                logger.info(
+                    f"✅ Published entity to Stellio: {_mask_entity_id(entity['id'])}"
+                )
 
                 # Optionally publish to MongoDB (non-blocking)
                 if self._mongodb_helper and self._mongodb_helper.enabled:
                     try:
                         if self._mongodb_helper.insert_entity(entity):
                             logger.info(
-                                f"✅ Published CitizenObservation to MongoDB: {entity['id']}"
+                                f"✅ Published CitizenObservation to MongoDB: {_mask_entity_id(entity['id'])}"
                             )
                     except Exception as e:
                         logger.warning(f"MongoDB publish failed (non-critical): {e}")
@@ -567,15 +579,19 @@ async def process_citizen_report_background(
 
         # Step 2: Transform to NGSI-LD
         entity = transformer.transform(report, weather_data, aq_data)
-        logger.info(f"🔄 Transformed to NGSI-LD: {entity['id']}")
+        logger.info(f"🔄 Transformed to NGSI-LD: {_mask_entity_id(entity['id'])}")
 
         # Step 3: Publish to Stellio
         success = transformer.publish_to_stellio(entity)
 
         if success:
-            logger.info(f"✅ Report processing complete: {entity['id']}")
+            logger.info(
+                f"✅ Report processing complete: {_mask_entity_id(entity['id'])}"
+            )
         else:
-            logger.error(f"❌ Failed to publish report: {entity['id']}")
+            logger.error(
+                f"❌ Failed to publish report: {_mask_entity_id(entity['id'])}"
+            )
 
     except Exception as e:
         logger.error(f"💥 Background task failed: {e}", exc_info=True)
