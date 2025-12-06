@@ -43,7 +43,7 @@ function WriteErr { param($msg) Write-Host $msg -ForegroundColor Red }
 function Show-Banner {
     Write-Host ""
     Write-Host "================================================================" -ForegroundColor Cyan
-    Write-Host "  Builder Layer End - Just Run System                          " -ForegroundColor Cyan
+    Write-Host "  UIP - Urban Intelligence Platform                            " -ForegroundColor Cyan
     Write-Host "  Multi-Agent Linked Open Data Pipeline                        " -ForegroundColor Cyan
     Write-Host "================================================================" -ForegroundColor Cyan
     Write-Host ""
@@ -1076,7 +1076,7 @@ function Stop-Services {
     # Stop Python processes (except system Python)
     WriteInfo "        Stopping Python processes..."
     Get-Process -Name python -ErrorAction SilentlyContinue | 
-    Where-Object { $_.Path -like "*Builder-Layer-End*" } | 
+    Where-Object { $_.Path -like "*UIP-Urban_Intelligence_Platform*" } | 
     Stop-Process -Force
     WriteSuccess "        OK: Python stopped"
     

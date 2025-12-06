@@ -145,12 +145,12 @@ jobs:
           echo "📢 Release Announcement Checklist:"
           echo "  ✅ GitHub Release created"
           echo "  ✅ Docker image pushed to ghcr.io"
-          echo "  ⏳ Manual: Send mailing list announcement to builder-layer-end@googlegroups.com"
+          echo "  ⏳ Manual: Send mailing list announcement to uip-urban-intelligence@googlegroups.com"
           echo "  ⏳ Manual: Post to GitHub Discussions (Announcements category)"
           echo "  ⏳ Manual: Update NEWS file if not already done"
           echo ""
           echo "📧 Mailing List Announcement Template:"
-          echo "  Subject: [ANN] Builder Layer End v$VERSION Released"
+          echo "  Subject: [ANN] UIP - Urban Intelligence Platform v$VERSION Released"
           echo "  See: docs/RELEASE_ANNOUNCEMENT_TEMPLATE.md"
           # Add Slack/Discord/Email notification here if needed
 
@@ -162,9 +162,9 @@ jobs:
           category-name: "Announcements"
           title: "🚀 Release v${{ steps.version.outputs.version }}"
           body: |
-            ## Builder Layer End v${{ steps.version.outputs.version }} Released!
+            ## UIP - Urban Intelligence Platform v${{ steps.version.outputs.version }} Released!
             
-            We are excited to announce the release of Builder Layer End v${{ steps.version.outputs.version }}.
+            We are excited to announce the release of UIP - Urban Intelligence Platform v${{ steps.version.outputs.version }}.
             
             ### 📥 Download
             
@@ -177,9 +177,9 @@ jobs:
             
             ### 📧 Mailing List
             
-            Subscribe to [builder-layer-end@googlegroups.com](https://groups.google.com/g/builder-layer-end) for future announcements.
+            Subscribe to [uip-urban-intelligence@googlegroups.com](https://groups.google.com/g/uip-urban-intelligence) for future announcements.
             
             ---
             
-            Thank you for using Builder Layer End! 🙏
+            Thank you for using UIP - Urban Intelligence Platform! 🙏
         continue-on-error: true

@@ -208,7 +208,7 @@ const DocsPage: React.FC = () => {
                     {/* Right side */}
                     <div className="flex items-center gap-2">
                         <a
-                            href="https://github.com/your-org/builder-layer-end"
+                            href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"

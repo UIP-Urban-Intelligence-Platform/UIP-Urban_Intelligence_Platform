@@ -21,8 +21,8 @@ const config: Config = {
     url: 'https://your-domain.com',
     baseUrl: '/',
 
-    organizationName: 'lod-pipeline-team',
-    projectName: 'builder-layer-end',
+    organizationName: 'NguyenNhatquang522004',
+    projectName: 'UIP-Urban_Intelligence_Platform',
 
     onBrokenLinks: 'warn',
     onBrokenMarkdownLinks: 'warn',
@@ -46,13 +46,13 @@ const config: Config = {
             {
                 docs: {
                     sidebarPath: './sidebars.ts',
-                    editUrl: 'https://github.com/your-org/builder-layer-end/tree/main/',
+                    editUrl: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/tree/main/',
                     showLastUpdateTime: true,
                     showLastUpdateAuthor: true,
                 },
                 blog: {
                     showReadingTime: true,
-                    editUrl: 'https://github.com/your-org/builder-layer-end/tree/main/',
+                    editUrl: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/tree/main/',
                 },
                 theme: {
                     customCss: './src/css/custom.css',
@@ -94,7 +94,7 @@ const config: Config = {
                     position: 'right',
                 },
                 {
-                    href: 'https://github.com/your-org/builder-layer-end',
+                    href: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform',
                     label: 'GitHub',
                     position: 'right',
                 },
@@ -146,12 +146,12 @@ const config: Config = {
                         },
                         {
                             label: 'GitHub',
-                            href: 'https://github.com/your-org/builder-layer-end',
+                            href: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform',
                         },
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} LOD Pipeline Team. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} UIP Team. Built with Docusaurus.`,
         },
         prism: {
             theme: prismThemes.github,

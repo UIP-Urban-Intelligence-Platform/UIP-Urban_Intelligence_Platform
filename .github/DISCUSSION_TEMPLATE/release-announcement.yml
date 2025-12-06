@@ -129,7 +129,7 @@ body:
         ### Docker
         
         ```bash
-        docker pull ghcr.io/nguyennhatquang522004/builder-layer-end:v{VERSION}
+        docker pull ghcr.io/nguyennhatquang522004/uip-urban-intelligence-platform:v{VERSION}
         ```
     validations:
       required: false
@@ -140,10 +140,10 @@ body:
       label: Download Links
       description: Links to download the release
       placeholder: |
-        - 📦 **Source (tar.gz)**: [builder-layer-end-2.0.0.tar.gz](https://github.com/NguyenNhatquang522004/builder-layer-end/releases/download/v2.0.0/builder-layer-end-2.0.0.tar.gz)
-        - 📦 **Source (zip)**: [builder-layer-end-2.0.0.zip](https://github.com/NguyenNhatquang522004/builder-layer-end/releases/download/v2.0.0/builder-layer-end-2.0.0.zip)
-        - 🐳 **Docker**: `ghcr.io/nguyennhatquang522004/builder-layer-end:v2.0.0`
-        - 🐍 **PyPI**: `pip install builder-layer-end==2.0.0`
+        - 📦 **Source (tar.gz)**: [uip-2.0.0.tar.gz](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases/download/v2.0.0/uip-2.0.0.tar.gz)
+        - 📦 **Source (zip)**: [uip-2.0.0.zip](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases/download/v2.0.0/uip-2.0.0.zip)
+        - 🐳 **Docker**: `ghcr.io/nguyennhatquang522004/uip-urban-intelligence-platform:v2.0.0`
+        - 🐍 **PyPI**: `pip install uip-urban-intelligence-platform==2.0.0`
     validations:
       required: false
 
