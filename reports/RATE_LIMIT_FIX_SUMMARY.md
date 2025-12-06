@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Rate limit fix summary.
+
+Module: reports/RATE_LIMIT_FIX_SUMMARY.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Rate Limit Fix Summary (HTTP 429 Handling)
 
 **Date**: November 12, 2025  

@@ -67,9 +67,7 @@ import yaml
 from src.core.config_loader import expand_env_var
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 
 ISO_FMT = "%Y-%m-%dT%H:%M:%SZ"
@@ -126,9 +124,7 @@ class CongestionConfig:
         # base_url may be required for real HTTP calls; prefer config value
         if "base_url" not in stellio and "STELLIO_BASE_URL" not in os.environ:
             # Not raising yet; we'll accept if environment set later
-            logger.warning(
-                "No 'stellio.base_url' in config and STELLIO_BASE_URL is not set; HTTP calls may fail"
-            )
+            logger.warning("No 'stellio.base_url' in config and STELLIO_BASE_URL is not set; HTTP calls may fail")
 
     def get_thresholds(self) -> Dict[str, float]:
         return self.config["congestion_detection"]["thresholds"]
@@ -287,9 +283,7 @@ class CongestionDetector:
         prev_congested = bool(prev_state.get("congested", False))
         first_breach_ts = prev_state.get("first_breach_ts")
 
-        reason = (
-            f"occ={occupancy}, speed={avg_speed}, int={intensity}, logic={self.logic}"
-        )
+        reason = f"occ={occupancy}, speed={avg_speed}, int={intensity}, logic={self.logic}"
 
         if breached:
             if prev_congested:
@@ -305,9 +299,7 @@ class CongestionDetector:
                 return (False, False, reason + "; started_timer", observed_at)
             else:
                 # Calculate elapsed
-                elapsed = (
-                    parse_iso(observed_at) - parse_iso(first_breach_ts)
-                ).total_seconds()
+                elapsed = (parse_iso(observed_at) - parse_iso(first_breach_ts)).total_seconds()
                 if elapsed >= self.min_duration:
                     # Now considered congested
                     return (True, True, reason + f"; elapsed={elapsed}", observed_at)
@@ -346,9 +338,7 @@ class CongestionDetectionAgent:
         self.state_store = StateStore(state_file)
         self.detector = CongestionDetector(self.config, self.state_store)
         stellio = self.config.get_stellio()
-        self.stellio_base = stellio.get("base_url") or os.environ.get(
-            "STELLIO_BASE_URL"
-        )
+        self.stellio_base = stellio.get("base_url") or os.environ.get("STELLIO_BASE_URL")
         self.update_endpoint = stellio.get("update_endpoint")
         self.batch_updates = bool(stellio.get("batch_updates", True))
         self.max_workers = int(stellio.get("max_workers", 4))
@@ -372,9 +362,7 @@ class CongestionDetectionAgent:
         2. Query all Camera entities from PostgreSQL to get code -> entity_id mapping
         3. Combine to create index -> entity_id mapping
         """
-        postgres_cfg = self.config.config.get("congestion_detection", {}).get(
-            "postgres"
-        )
+        postgres_cfg = self.config.config.get("congestion_detection", {}).get("postgres")
         if not postgres_cfg:
             logger.warning("No PostgreSQL config found, camera mapping will be empty")
             return
@@ -394,9 +382,7 @@ class CongestionDetectionAgent:
                         camera_code = camera.get("code", "")
                         if camera_index >= 0 and camera_code:
                             index_to_code[camera_index] = camera_code
-                logger.info(
-                    f"Loaded {len(index_to_code)} camera index->code mappings from {camera_file}"
-                )
+                logger.info(f"Loaded {len(index_to_code)} camera index->code mappings from {camera_file}")
             else:
                 logger.warning(f"Camera enriched file not found: {camera_file}")
         except Exception as e:
@@ -410,19 +396,12 @@ class CongestionDetectionAgent:
             mapping = {}
             try:
                 # Expand env vars from config values, then override with direct env vars
-                pg_host = os.environ.get("POSTGRES_HOST") or expand_env_var(
-                    postgres_cfg.get("host", "localhost")
-                )
-                pg_port = int(
-                    os.environ.get("POSTGRES_PORT")
-                    or expand_env_var(postgres_cfg.get("port", 5432))
-                )
+                pg_host = os.environ.get("POSTGRES_HOST") or expand_env_var(postgres_cfg.get("host", "localhost"))
+                pg_port = int(os.environ.get("POSTGRES_PORT") or expand_env_var(postgres_cfg.get("port", 5432)))
                 pg_database = os.environ.get("POSTGRES_DATABASE") or expand_env_var(
                     postgres_cfg.get("database", "stellio_search")
                 )
-                pg_user = os.environ.get("POSTGRES_USER") or expand_env_var(
-                    postgres_cfg.get("user", "stellio")
-                )
+                pg_user = os.environ.get("POSTGRES_USER") or expand_env_var(postgres_cfg.get("user", "stellio"))
                 pg_password = os.environ.get("POSTGRES_PASSWORD") or expand_env_var(
                     postgres_cfg.get("password", "stellio_password")
                 )
@@ -456,9 +435,7 @@ class CongestionDetectionAgent:
                         camera_code = unquote(encoded_code)
                         mapping[camera_code] = entity_id
 
-                logger.info(
-                    f"Built code->entity_id mapping with {len(mapping)} Camera entities from PostgreSQL"
-                )
+                logger.info(f"Built code->entity_id mapping with {len(mapping)} Camera entities from PostgreSQL")
 
                 await conn.close()
             except Exception as e:
@@ -471,9 +448,7 @@ class CongestionDetectionAgent:
                 asyncio.get_running_loop()
                 # If we're already in an async context, create task
                 with ThreadPoolExecutor() as executor:
-                    code_to_entity_id = executor.submit(
-                        lambda: asyncio.run(_fetch_camera_entities())
-                    ).result()
+                    code_to_entity_id = executor.submit(lambda: asyncio.run(_fetch_camera_entities())).result()
             except RuntimeError:
                 # No running loop, safe to use asyncio.run
                 code_to_entity_id = asyncio.run(_fetch_camera_entities())
@@ -491,18 +466,12 @@ class CongestionDetectionAgent:
             else:
                 missing_codes.append((camera_index, camera_code))
 
-        logger.info(
-            f"Built camera index->entity_id mapping with {len(self.camera_mapping)} entries"
-        )
+        logger.info(f"Built camera index->entity_id mapping with {len(self.camera_mapping)} entries")
 
         if missing_codes:
-            logger.warning(
-                f"Found {len(missing_codes)} cameras in enriched file but not in PostgreSQL:"
-            )
+            logger.warning(f"Found {len(missing_codes)} cameras in enriched file but not in PostgreSQL:")
             for idx, code in missing_codes[:10]:  # Log first 10
-                logger.warning(
-                    f"  - Camera index {idx} (code: {code}) not found in Stellio"
-                )
+                logger.warning(f"  - Camera index {idx} (code: {code}) not found in Stellio")
             if len(missing_codes) > 10:
                 logger.warning(f"  ... and {len(missing_codes) - 10} more")
 
@@ -547,9 +516,7 @@ class CongestionDetectionAgent:
             "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
         }
 
-    def _patch_entity(
-        self, entity_id: str, payload: Dict[str, Any]
-    ) -> Tuple[bool, Optional[int], Optional[str]]:
+    def _patch_entity(self, entity_id: str, payload: Dict[str, Any]) -> Tuple[bool, Optional[int], Optional[str]]:
         """Send PATCH to Stellio for entity attributes update."""
         url = None
         try:
@@ -560,9 +527,7 @@ class CongestionDetectionAgent:
 
             # Build full URL
             if self.stellio_base:
-                url = self.stellio_base.rstrip("/") + self.update_endpoint.format(
-                    id=encoded_id
-                )
+                url = self.stellio_base.rstrip("/") + self.update_endpoint.format(id=encoded_id)
             else:
                 url = self.update_endpoint.format(id=encoded_id)
             headers = {"Content-Type": "application/ld+json"}
@@ -574,11 +539,7 @@ class CongestionDetectionAgent:
             logger.error(f"Failed to PATCH {url}: {e}")
             return (
                 False,
-                (
-                    getattr(e, "response", None).status_code
-                    if hasattr(e, "response") and e.response is not None
-                    else None
-                ),
+                (getattr(e, "response", None).status_code if hasattr(e, "response") and e.response is not None else None),
                 str(e),
             )
 
@@ -634,15 +595,11 @@ class CongestionDetectionAgent:
             entities = []
 
         results: List[Dict[str, Any]] = []
-        to_update: List[Tuple[str, Dict[str, Any], Dict[str, Any], bool]] = (
-            []
-        )  # (camera_ref,payload,entity,new_state)
+        to_update: List[Tuple[str, Dict[str, Any], Dict[str, Any], bool]] = []  # (camera_ref,payload,entity,new_state)
 
         for entity in entities:
             try:
-                should_update, new_state, reason, observed_at = self.detector.evaluate(
-                    entity
-                )
+                should_update, new_state, reason, observed_at = self.detector.evaluate(entity)
             except Exception as e:
                 logger.error(f"Skipping entity due to evaluation error: {e}")
                 continue
@@ -671,9 +628,7 @@ class CongestionDetectionAgent:
 
                 if real_camera_id is None:
                     # Camera not in Stellio - skip PATCH but still update local state for consistency
-                    logger.info(
-                        f"Skipping PATCH for {camera_ref} (not in Stellio), but updating local state"
-                    )
+                    logger.info(f"Skipping PATCH for {camera_ref} (not in Stellio), but updating local state")
 
                     # Update local state even though we can't PATCH
                     prev = self.state_store.get(camera_ref)
@@ -696,19 +651,13 @@ class CongestionDetectionAgent:
                     )
                     continue
 
-                to_update.append(
-                    (real_camera_id, payload, entity, new_state, camera_ref)
-                )
+                to_update.append((real_camera_id, payload, entity, new_state, camera_ref))
             else:
                 # If no update needed, we may still need to update first_breach_ts or reset it
                 # Detector logic handles timer resets and returns no update; update state accordingly
                 # Update state store based on detector outputs
                 # If detector returned "timer_reset" or "no_breach" it implies first_breach_ts should be None
-                if (
-                    "timer_reset" in (reason or "")
-                    or "no_breach" in (reason or "")
-                    or "cleared" in (reason or "")
-                ):
+                if "timer_reset" in (reason or "") or "no_breach" in (reason or "") or "cleared" in (reason or ""):
                     # Reset timer and set congested False
                     self.state_store.update(camera_ref, False, None, observed_at)
                 results.append(
@@ -777,11 +726,7 @@ class CongestionDetectionAgent:
                             )
 
                         # Alert if notify_on_change and previous was False (only if PATCH successful)
-                        if (
-                            success
-                            and self.alert_cfg.get("enabled", False)
-                            and self.alert_cfg.get("notify_on_change", False)
-                        ):
+                        if success and self.alert_cfg.get("enabled", False) and self.alert_cfg.get("notify_on_change", False):
                             if not prev.get("congested", False) and new_st:
                                 self._alert(
                                     orig_cam,
@@ -794,9 +739,7 @@ class CongestionDetectionAgent:
             else:
                 # Sequential updates
                 for real_cam_id, payload, ent, new_st, orig_cam in to_update:
-                    success, status_code, error = self._patch_entity(
-                        real_cam_id, payload
-                    )
+                    success, status_code, error = self._patch_entity(real_cam_id, payload)
                     update_results.append(
                         {
                             "camera": orig_cam,
@@ -830,11 +773,7 @@ class CongestionDetectionAgent:
                         )
 
                     # Alert if notify_on_change and previous was False (only if PATCH successful)
-                    if (
-                        success
-                        and self.alert_cfg.get("enabled", False)
-                        and self.alert_cfg.get("notify_on_change", False)
-                    ):
+                    if success and self.alert_cfg.get("enabled", False) and self.alert_cfg.get("notify_on_change", False):
                         if not prev.get("congested", False) and new_st:
                             self._alert(
                                 orig_cam,
@@ -886,9 +825,7 @@ class CongestionDetectionAgent:
             with open(congestion_file, "w", encoding="utf-8") as f:
                 json.dump(congestion_events, f, indent=2, ensure_ascii=False)
 
-            logger.info(
-                f"✅ Saved {len(congestion_events)} congestion events to {congestion_file}"
-            )
+            logger.info(f"✅ Saved {len(congestion_events)} congestion events to {congestion_file}")
         except Exception as e:
             logger.error(f"Failed to write congestion file {congestion_file}: {e}")
         return results

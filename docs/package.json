@@ -2,6 +2,7 @@
     "name": "hcmc-traffic-monitoring-docs",
     "version": "1.0.0",
     "description": "Documentation for HCMC Traffic Monitoring System",
+    "license": "MIT",
     "private": true,
     "scripts": {
         "docusaurus": "docusaurus",

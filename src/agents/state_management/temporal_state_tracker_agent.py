@@ -78,16 +78,10 @@ class TemporalStateTrackerAgent:
                 import os
 
                 # Priority: environment variables > config > defaults
-                redis_host = os.environ.get("REDIS_HOST") or self.config.get(
-                    "redis_host", "localhost"
-                )
-                redis_port = int(
-                    os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379)
-                )
+                redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
+                redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
 
-                self._redis_client = redis.Redis(
-                    host=redis_host, port=redis_port, decode_responses=True
-                )
+                self._redis_client = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
 
                 # Check if RedisTimeSeries module is available
                 self._redis_client.ping()
@@ -161,9 +155,7 @@ class TemporalStateTrackerAgent:
 
         return None
 
-    def get_state_range(
-        self, key: str, start_time: datetime, end_time: datetime
-    ) -> List[Tuple[datetime, Any]]:
+    def get_state_range(self, key: str, start_time: datetime, end_time: datetime) -> List[Tuple[datetime, Any]]:
         """
         Retrieve all state changes within a time range.
 
@@ -178,15 +170,9 @@ class TemporalStateTrackerAgent:
         if not self.enabled or key not in self._history:
             return []
 
-        return [
-            (ts, value)
-            for ts, value in self._history[key]
-            if start_time <= ts <= end_time
-        ]
+        return [(ts, value) for ts, value in self._history[key] if start_time <= ts <= end_time]
 
-    def get_state_changes(
-        self, key: str, limit: int = 100
-    ) -> List[Tuple[datetime, Any]]:
+    def get_state_changes(self, key: str, limit: int = 100) -> List[Tuple[datetime, Any]]:
         """
         Get most recent state changes for a key.
 
@@ -202,9 +188,7 @@ class TemporalStateTrackerAgent:
 
         return self._history[key][-limit:]
 
-    def compute_state_diff(
-        self, key: str, timestamp1: datetime, timestamp2: datetime
-    ) -> Optional[Dict[str, Any]]:
+    def compute_state_diff(self, key: str, timestamp1: datetime, timestamp2: datetime) -> Optional[Dict[str, Any]]:
         """
         Compute difference between states at two timestamps.
 
@@ -273,9 +257,7 @@ class TemporalStateTrackerAgent:
 
         for key in list(self._history.keys()):
             # Filter out old records
-            self._history[key] = [
-                (ts, value) for ts, value in self._history[key] if ts >= cutoff_time
-            ]
+            self._history[key] = [(ts, value) for ts, value in self._history[key] if ts >= cutoff_time]
 
             # Remove key if no records remain
             if not self._history[key]:

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Backend API documentation.
+
+Module: apps/traffic-web-app/backend/README.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # HCMC Traffic Monitoring Backend API
 
 ![Status](https://img.shields.io/badge/status-production%20ready-brightgreen)

@@ -5,6 +5,18 @@ authors: nguyenviethoang
 tags: [docker, deployment, devops, uip]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Docker Deployment Guide.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2019-05-29-long-blog-post.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 Hướng dẫn chi tiết cách deploy toàn bộ UIP stack sử dụng Docker và Docker Compose. Bài viết này sẽ đi qua từng bước từ setup môi trường đến monitoring.
 
 <!-- truncate -->

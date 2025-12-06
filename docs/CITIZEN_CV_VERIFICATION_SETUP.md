@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Citizen Science API CV Verification setup guide.
+
+Module: docs/CITIZEN_CV_VERIFICATION_SETUP.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Citizen Science API - CV Verification Service Setup
 
 ## 🎯 Tổng quan

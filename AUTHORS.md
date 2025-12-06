@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+Module: AUTHORS.md
+Author: UIP Team
+Version: 2.0.0
+-->
+
 # Authors
 
 This file lists all the authors and original creators of the **UIP - Urban Intelligence Platform** project.

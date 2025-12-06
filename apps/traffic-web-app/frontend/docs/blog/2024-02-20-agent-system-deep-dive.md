@@ -5,6 +5,18 @@ authors: [nguyennhatquang]
 tags: [uip, architecture, agents, python, technical]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Agent System Deep Dive.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2024-02-20-agent-system-deep-dive.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Khám phá Agent System - Trái tim của UIP 💡
 
 Trong bài viết này, tôi sẽ chia sẻ chi tiết về **Agent System** - thành phần cốt lõi giúp UIP hoạt động mạnh mẽ và linh hoạt.

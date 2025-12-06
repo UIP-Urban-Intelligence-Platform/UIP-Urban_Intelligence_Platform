@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-12-05T19:18:08.889813Z",
+  "total_entities": 701,
+  "successful": 701,
+  "failed": 0,
+  "success_rate": 100.0,
+  "duration_seconds": 107.17,
+  "error_count": 0,
+  "throughput": 6.54
+}

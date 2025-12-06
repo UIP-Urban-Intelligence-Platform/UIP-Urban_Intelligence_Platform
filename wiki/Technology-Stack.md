@@ -1,3 +1,14 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+Module: wiki/Technology-Stack.md
+Author: UIP Team
+Version: 2.0.0
+-->
 # 🔧 Technology Stack
 
 Complete list of technologies, frameworks, and tools used in UIP - Urban Intelligence Platform.

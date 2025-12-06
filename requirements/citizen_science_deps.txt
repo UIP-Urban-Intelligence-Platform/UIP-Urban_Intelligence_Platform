@@ -1,3 +1,14 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+#
+# Module: requirements/citizen_science_deps.txt
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+# Description: Citizen Science Feature - Additional Dependencies
+#
 # Citizen Science Feature - Additional Dependencies
 # Add these to your main requirements file or install separately
 

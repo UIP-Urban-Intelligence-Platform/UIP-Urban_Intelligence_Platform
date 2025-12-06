@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Entity Publisher Agent report.
+
+Module: reports/ENTITY_PUBLISHER_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # ENTITY PUBLISHER AGENT - COMPREHENSIVE TEST REPORT
 
 **Agent:** Entity Publisher Agent (PROMPT 6)  

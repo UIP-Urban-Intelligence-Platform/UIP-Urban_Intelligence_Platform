@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Getting started documentation.
+
+Module: docs/docs/intro.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Getting Started with HCMC Traffic Monitoring System
 
 Welcome to the **HCMC Traffic Monitoring System** documentation! This is a comprehensive Linked Open Data (LOD) pipeline for real-time traffic management in Ho Chi Minh City.

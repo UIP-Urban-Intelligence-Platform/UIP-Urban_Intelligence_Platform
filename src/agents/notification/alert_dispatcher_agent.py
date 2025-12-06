@@ -88,9 +88,7 @@ from flask import Flask, jsonify, request
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -202,12 +200,8 @@ class RateLimiter:
             day_ago = now - timedelta(days=1)
 
             # Clean old entries
-            self.hourly_counts[user_id] = [
-                ts for ts in self.hourly_counts[user_id] if ts > hour_ago
-            ]
-            self.daily_counts[user_id] = [
-                ts for ts in self.daily_counts[user_id] if ts > day_ago
-            ]
+            self.hourly_counts[user_id] = [ts for ts in self.hourly_counts[user_id] if ts > hour_ago]
+            self.daily_counts[user_id] = [ts for ts in self.daily_counts[user_id] if ts > day_ago]
 
             # Check limits
             if len(self.hourly_counts[user_id]) >= self.max_per_user_per_hour:
@@ -398,9 +392,7 @@ class FCMChannel(ChannelDelivery):
                         return True
 
                     else:
-                        logger.error(
-                            f"FCM delivery failed: {response.status_code} - {response.text}"
-                        )
+                        logger.error(f"FCM delivery failed: {response.status_code} - {response.text}")
 
                         if attempt < self.max_retries - 1 and self.retry_enabled:
                             sleep_time = self.retry_backoff_factor**attempt
@@ -470,9 +462,7 @@ class EmailChannel(ChannelDelivery):
             # Send email with retry
             for attempt in range(self.max_retries):
                 try:
-                    with smtplib.SMTP(
-                        self.smtp_host, self.smtp_port, timeout=self.timeout
-                    ) as server:
+                    with smtplib.SMTP(self.smtp_host, self.smtp_port, timeout=self.timeout) as server:
                         if self.use_tls:
                             server.starttls()
 
@@ -548,9 +538,7 @@ class SMSChannel(ChannelDelivery):
                         return True
 
                     else:
-                        logger.error(
-                            f"SMS delivery failed: {response.status_code} - {response.text}"
-                        )
+                        logger.error(f"SMS delivery failed: {response.status_code} - {response.text}")
 
                         if attempt < self.max_retries - 1 and self.retry_enabled:
                             sleep_time = self.retry_backoff_factor**attempt
@@ -602,9 +590,7 @@ class AlertDispatcher:
         retry_config = self.config.get_retry_config()
 
         self.channels = {
-            "websocket": WebSocketChannel(
-                channels_config.get("websocket", {}), retry_config
-            ),
+            "websocket": WebSocketChannel(channels_config.get("websocket", {}), retry_config),
             "fcm": FCMChannel(channels_config.get("fcm", {}), retry_config),
             "email": EmailChannel(channels_config.get("email", {}), retry_config),
             "sms": SMSChannel(channels_config.get("sms", {}), retry_config),
@@ -664,9 +650,7 @@ class AlertDispatcher:
             return self.handle_webhook(alert_type, request)
 
         handler.__name__ = f"webhook_{alert_type}"
-        self.app.add_url_rule(
-            endpoint, f"webhook_{alert_type}", handler, methods=["POST"]
-        )
+        self.app.add_url_rule(endpoint, f"webhook_{alert_type}", handler, methods=["POST"])
         logger.info(f"Registered webhook endpoint: {endpoint} -> {alert_type}")
 
     def handle_webhook(self, alert_type: str, req) -> tuple:
@@ -690,9 +674,7 @@ class AlertDispatcher:
                 logger.error("Invalid notification payload")
                 return jsonify({"error": "Invalid payload"}), 400
 
-            logger.info(
-                f"Received {alert_type} notification: {notification.get('id', 'unknown')}"
-            )
+            logger.info(f"Received {alert_type} notification: {notification.get('id', 'unknown')}")
 
             # Extract variables for template
             variables = self._extract_variables(notification, alert_type)
@@ -713,9 +695,7 @@ class AlertDispatcher:
             # Avoid exposing internal error details to clients
             return jsonify({"error": "Internal processing error"}), 500
 
-    def _extract_variables(
-        self, notification: Dict[str, Any], alert_type: str
-    ) -> Dict[str, Any]:
+    def _extract_variables(self, notification: Dict[str, Any], alert_type: str) -> Dict[str, Any]:
         """
         Extract variables from notification for template rendering.
 
@@ -756,23 +736,17 @@ class AlertDispatcher:
             True if at least one channel succeeded, False otherwise
         """
         # Get routing rules
-        routing = self.routing_rules.get(
-            alert_type, self.routing_rules.get("generic", {})
-        )
+        routing = self.routing_rules.get(alert_type, self.routing_rules.get("generic", {}))
 
         channels = routing.get("channels", ["websocket"])
         priority = routing.get("priority", "medium")
 
-        logger.info(
-            f"Dispatching {alert_type} alert to channels: {channels} (priority: {priority})"
-        )
+        logger.info(f"Dispatching {alert_type} alert to channels: {channels} (priority: {priority})")
 
         # Render templates
         title = self.template_engine.render(alert_type, "title", variables)
         body = self.template_engine.render(alert_type, "body", variables)
-        email_subject = self.template_engine.render(
-            alert_type, "email_subject", variables
-        )
+        email_subject = self.template_engine.render(alert_type, "email_subject", variables)
         email_body = self.template_engine.render(alert_type, "email_body", variables)
         sms_body = self.template_engine.render(alert_type, "sms_body", variables)
 

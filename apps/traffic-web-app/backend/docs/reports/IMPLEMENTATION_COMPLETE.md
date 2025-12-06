@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+@module docs/reports/IMPLEMENTATION_COMPLETE
+@author UIP Team
+@version 1.0.0
+-->
+
 # 🎉 Implementation Complete: Weather & Air Quality Endpoints
 
 ## Summary

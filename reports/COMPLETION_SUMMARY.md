@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Pipeline completion summary.
+
+Module: reports/COMPLETION_SUMMARY.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # ✅ PIPELINE 100% COMPLETION SUMMARY
 
 **Date**: 2025-11-03  

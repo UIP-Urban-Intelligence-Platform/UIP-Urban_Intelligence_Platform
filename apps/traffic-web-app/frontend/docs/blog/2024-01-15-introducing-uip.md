@@ -6,6 +6,18 @@ tags: [uip, announcement, traffic-monitoring, smart-city]
 image: /img/uip-banner.png
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Introducing UIP.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2024-01-15-introducing-uip.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Chào mừng đến với UIP - Urban Intelligence Platform! 🎉
 
 Chúng tôi vô cùng hào hứng giới thiệu **UIP (Urban Intelligence Platform)** - một nền tảng thông minh toàn diện cho việc giám sát và phân tích giao thông đô thị tại TP. Hồ Chí Minh.

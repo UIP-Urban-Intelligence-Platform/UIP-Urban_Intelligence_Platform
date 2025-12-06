@@ -5,6 +5,18 @@ authors: [nguyendinhanhtuan]
 tags: [uip, frontend, react, typescript, leaflet, technical]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Frontend Architecture.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2024-04-05-frontend-architecture.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Xây dựng Dashboard Giao thông Real-time với React 18 ⚡
 
 Trong bài viết này, tôi sẽ chia sẻ về kiến trúc frontend của UIP - một ứng dụng React 18 hiện đại với real-time updates và interactive maps.

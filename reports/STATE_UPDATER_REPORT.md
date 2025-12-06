@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+State Updater Agent implementation report.
+
+Module: reports/STATE_UPDATER_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # State Updater Agent - Implementation Report
 
 ## Executive Summary

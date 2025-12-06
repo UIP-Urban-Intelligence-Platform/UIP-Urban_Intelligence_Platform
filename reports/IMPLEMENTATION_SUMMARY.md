@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Image Refresh Agent implementation summary.
+
+Module: reports/IMPLEMENTATION_SUMMARY.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Image Refresh Agent - Implementation Summary
 
 ## ✅ Implementation Checklist

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+System architecture overview documentation.
+
+Module: docs/docs/architecture/overview.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # System Architecture Overview
 
 This page provides a comprehensive view of the HCMC Traffic Monitoring System architecture.

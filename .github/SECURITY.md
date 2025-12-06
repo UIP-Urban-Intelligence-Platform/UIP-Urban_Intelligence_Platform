@@ -1,6 +1,6 @@
 <!--
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 Nguyen Nhat Quang
+Copyright (c) 2025 UIP Team. All rights reserved.
 
 UIP - Urban Intelligence Platform
 Security Policy

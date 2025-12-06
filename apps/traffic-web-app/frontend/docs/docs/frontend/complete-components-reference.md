@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Complete frontend components reference.
+
+Module: apps/traffic-web-app/frontend/docs/docs/frontend/complete-components-reference.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Complete Frontend Components Reference
 
 ## Overview

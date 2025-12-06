@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Agent API reference documentation.
+
+Module: docs/api/agents.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Agent API Reference - PRODUCTION READY
 
 ✅ **Complete API documentation for all production agents.**

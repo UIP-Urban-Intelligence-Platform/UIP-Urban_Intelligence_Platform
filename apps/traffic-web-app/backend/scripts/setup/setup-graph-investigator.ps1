@@ -1,5 +1,14 @@
-# GraphRAG Investigator Agent - Setup Script
-# Run this script to verify all dependencies are installed
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+#
+# Module: setup-graph-investigator.ps1
+# Author: Nguyen Nhat Quang
+# Created: 2025-11-26
+# Version: 1.0.0
+# Description: GraphRAG Investigator Agent - Setup Script
 
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "GraphRAG Investigator Agent - Setup" -ForegroundColor Cyan

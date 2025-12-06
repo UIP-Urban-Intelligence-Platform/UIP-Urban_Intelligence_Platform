@@ -39,9 +39,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-def get_redis_client(
-    host: str = "localhost", port: int = 6379, db: int = 1
-) -> Optional["redis.Redis"]:
+def get_redis_client(host: str = "localhost", port: int = 6379, db: int = 1) -> Optional["redis.Redis"]:
     """Get Redis client connection."""
     if not REDIS_AVAILABLE:
         print("ERROR: Redis client not available")
@@ -56,9 +54,7 @@ def get_redis_client(
         return None
 
 
-def cache_clear(
-    pattern: Optional[str] = None, host: str = "localhost", port: int = 6379
-):
+def cache_clear(pattern: Optional[str] = None, host: str = "localhost", port: int = 6379):
     """Clear cache entries matching pattern."""
     client = get_redis_client(host, port)
     if not client:
@@ -146,12 +142,8 @@ def cache_warm(host: str = "localhost", port: int = 6379):
 
 def main():
     """Main CLI entry point."""
-    parser = argparse.ArgumentParser(
-        description="Cache management CLI - Production Ready"
-    )
-    parser.add_argument(
-        "command", choices=["clear", "stats", "warm"], help="Command to execute"
-    )
+    parser = argparse.ArgumentParser(description="Cache management CLI - Production Ready")
+    parser.add_argument("command", choices=["clear", "stats", "warm"], help="Command to execute")
     parser.add_argument("--pattern", help="Cache key pattern for clear command")
     parser.add_argument("--host", default="localhost", help="Redis host")
     parser.add_argument("--port", type=int, default=6379, help="Redis port")

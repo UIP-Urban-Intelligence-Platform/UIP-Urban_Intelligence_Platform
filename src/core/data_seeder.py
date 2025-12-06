@@ -158,9 +158,7 @@ class DataSeeder:
                     "type": "Relationship",
                     "object": f"urn:ngsi-ld:Camera:{i}",
                 },
-                "@context": [
-                    "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
-                ],
+                "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
             }
             entities.append(entity)
 
@@ -201,9 +199,7 @@ class DataSeeder:
                     "value": f"Mock traffic pattern #{i} for testing purposes",
                 },
                 "observationCount": {"type": "Property", "value": 100 + (i * 50)},
-                "@context": [
-                    "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
-                ],
+                "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
             }
             entities.append(entity)
 
@@ -236,9 +232,7 @@ class DataSeeder:
                     "type": "Property",
                     "value": f"Mock camera update #{i} for testing purposes",
                 },
-                "@context": [
-                    "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
-                ],
+                "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
             }
             entities.append(entity)
 

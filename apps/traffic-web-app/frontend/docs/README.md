@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Docusaurus documentation main README.
+
+Module: apps/traffic-web-app/frontend/docs/README.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # UIP - Urban Intelligence Platform - Documentation
 
 This directory contains the complete Docusaurus documentation for the UIP project.

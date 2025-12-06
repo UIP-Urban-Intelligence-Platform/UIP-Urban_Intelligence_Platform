@@ -323,10 +323,7 @@ class NGSILDValidator:
             if isinstance(value, dict) and "type" in value:
                 prop_type = value["type"]
                 if prop_type not in allowed_types:
-                    self.errors.append(
-                        f"Invalid property type '{prop_type}' for '{key}'. "
-                        f"Allowed: {allowed_types}"
-                    )
+                    self.errors.append(f"Invalid property type '{prop_type}' for '{key}'. " f"Allowed: {allowed_types}")
                     is_valid = False
 
         return is_valid
@@ -436,8 +433,7 @@ class ValidationReportGenerator:
                 "warnings": r["warnings"],
             }
             for r in self.entity_results
-            if not r["valid"]
-            or (self.config.get("include_warnings", True) and r["warnings"])
+            if not r["valid"] or (self.config.get("include_warnings", True) and r["warnings"])
         ]
 
         report = {
@@ -449,9 +445,7 @@ class ValidationReportGenerator:
                 "average_lod_stars": round(average_lod, 2),
             },
             "lod_distribution": lod_distribution,
-            "errors": (
-                error_entities if self.config.get("detailed_errors", True) else []
-            ),
+            "errors": (error_entities if self.config.get("detailed_errors", True) else []),
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -461,9 +455,7 @@ class ValidationReportGenerator:
 
         return report
 
-    def save_report(
-        self, report: Dict[str, Any], output_file: Optional[str] = None
-    ) -> None:
+    def save_report(self, report: Dict[str, Any], output_file: Optional[str] = None) -> None:
         """
         Save report to file.
 
@@ -603,25 +595,20 @@ class SmartDataModelsValidationAgent:
                     value = data[key]
                     if isinstance(value, list):
                         entities = value
-                        self.logger.info(
-                            f"Extracted {len(entities)} entities from key '{key}'"
-                        )
+                        self.logger.info(f"Extracted {len(entities)} entities from key '{key}'")
                         break
 
             # If no entity list found, check if dict itself looks like entity metadata
             if not entities:
                 # This is a metadata/status dict, not entity data
                 self.logger.warning(
-                    f"No entity list found in {source_file}. "
-                    f"File appears to be metadata only (keys: {list(data.keys())})"
+                    f"No entity list found in {source_file}. " f"File appears to be metadata only (keys: {list(data.keys())})"
                 )
 
         self.logger.info(f"Loaded {len(entities)} entities from {source_file}")
         return entities
 
-    def validate_entity(
-        self, entity: Dict[str, Any]
-    ) -> Tuple[bool, int, List[str], List[str], List[str]]:
+    def validate_entity(self, entity: Dict[str, Any]) -> Tuple[bool, int, List[str], List[str], List[str]]:
         """
         Validate single entity and calculate LOD rating.
 
@@ -649,9 +636,7 @@ class SmartDataModelsValidationAgent:
 
         return (is_valid, lod_rating, errors, warnings, passed_criteria)
 
-    def process_batch(
-        self, entities: List[Dict[str, Any]]
-    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    def process_batch(self, entities: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         """
         Process batch of entities.
 
@@ -668,14 +653,10 @@ class SmartDataModelsValidationAgent:
             entity_id = entity.get("id", "unknown")
 
             try:
-                is_valid, lod_rating, errors, warnings, passed_criteria = (
-                    self.validate_entity(entity)
-                )
+                is_valid, lod_rating, errors, warnings, passed_criteria = self.validate_entity(entity)
 
                 # Add to report
-                self.report_generator.add_entity_result(
-                    entity_id, is_valid, lod_rating, errors, warnings, passed_criteria
-                )
+                self.report_generator.add_entity_result(entity_id, is_valid, lod_rating, errors, warnings, passed_criteria)
 
                 # Categorize entity
                 if is_valid:
@@ -691,15 +672,11 @@ class SmartDataModelsValidationAgent:
                 self.stats["invalid_entities"] += 1
 
                 # Add error to report
-                self.report_generator.add_entity_result(
-                    entity_id, False, 0, [f"Validation exception: {str(e)}"], [], []
-                )
+                self.report_generator.add_entity_result(entity_id, False, 0, [f"Validation exception: {str(e)}"], [], [])
 
         return (valid_entities, invalid_entities)
 
-    def validate_all(
-        self, entities: List[Dict[str, Any]]
-    ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    def validate_all(self, entities: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
         """
         Validate all entities.
 
@@ -721,9 +698,7 @@ class SmartDataModelsValidationAgent:
             batch_num = (i // batch_size) + 1
             total_batches = (len(entities) + batch_size - 1) // batch_size
 
-            self.logger.info(
-                f"Processing batch {batch_num}/{total_batches} ({len(batch)} entities)..."
-            )
+            self.logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} entities)...")
 
             valid_batch, invalid_batch = self.process_batch(batch)
             all_valid.extend(valid_batch)
@@ -766,9 +741,7 @@ class SmartDataModelsValidationAgent:
             with open(invalid_path, "w", encoding="utf-8") as f:
                 json.dump(invalid_entities, f, indent=indent, ensure_ascii=False)
 
-            self.logger.info(
-                f"Saved {len(invalid_entities)} invalid entities to {invalid_file}"
-            )
+            self.logger.info(f"Saved {len(invalid_entities)} invalid entities to {invalid_file}")
 
     def log_statistics(self) -> None:
         """Log validation statistics."""
@@ -781,9 +754,7 @@ class SmartDataModelsValidationAgent:
         self.logger.info(f"Processing time: {self.stats['processing_time']:.2f}s")
 
         if self.stats["total_entities"] > 0:
-            validation_rate = (
-                self.stats["valid_entities"] / self.stats["total_entities"]
-            ) * 100
+            validation_rate = (self.stats["valid_entities"] / self.stats["total_entities"]) * 100
             self.logger.info(f"Validation rate: {validation_rate:.1f}%")
 
         if self.stats["processing_time"] > 0:
@@ -814,9 +785,7 @@ class SmartDataModelsValidationAgent:
         # Generate and save report
         report = self.report_generator.generate_report()
         self.report_generator.save_report(report)
-        self.logger.info(
-            f"Validation report saved to {self.config['report']['output_file']}"
-        )
+        self.logger.info(f"Validation report saved to {self.config['report']['output_file']}")
 
         # Save entities
         self.save_entities(valid_entities, invalid_entities)
@@ -836,9 +805,7 @@ def main(config: Dict = None):
         try:
             input_file = config.get("input_file", "data/sosa_enhanced_entities.json")
             config_path = config.get("config_path", "config/validation.yaml")
-            output_file = config.get(
-                "output_file"
-            )  # NEW: Get output_file from orchestrator
+            output_file = config.get("output_file")  # NEW: Get output_file from orchestrator
 
             agent = SmartDataModelsValidationAgent(config_path=config_path)
 

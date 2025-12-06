@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Quick start guide for Image Refresh Agent.
+
+Module: guides/QUICKSTART.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Quick Start Guide - Image Refresh Agent
 
 ## Prerequisites

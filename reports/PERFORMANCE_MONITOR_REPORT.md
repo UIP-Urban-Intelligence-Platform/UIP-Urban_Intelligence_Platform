@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Performance Monitor Agent comprehensive report.
+
+Module: reports/PERFORMANCE_MONITOR_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # PERFORMANCE MONITOR AGENT - COMPREHENSIVE REPORT
 
 **Implementation Date:** 2025-11-02  

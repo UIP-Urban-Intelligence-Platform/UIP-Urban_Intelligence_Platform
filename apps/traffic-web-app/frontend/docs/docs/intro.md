@@ -4,6 +4,18 @@ title: UIP - Urban Intelligence Platform
 sidebar_position: 1
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Introduction documentation page.
+
+Module: apps/traffic-web-app/frontend/docs/docs/intro.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # UIP - Urban Intelligence Platform
 
 <div align="center">

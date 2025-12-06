@@ -1,4 +1,11 @@
-﻿POSTGRES_PASS=stellio_password
+﻿# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# Reference: Stellio Official Environment Variables
+# Source: https://github.com/stellio-hub/stellio-context-broker
+
+POSTGRES_PASS=stellio_password
 POSTGRES_USER=stellio
 STELLIO_SEARCH_DB_DATABASE=stellio_search
 STELLIO_SUBSCRIPTION_DB_DATABASE=stellio_subscription

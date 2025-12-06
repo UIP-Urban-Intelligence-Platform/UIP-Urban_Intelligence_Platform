@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Final pipeline execution report.
+
+Module: reports/PIPELINE_EXECUTION_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # FINAL PIPELINE EXECUTION REPORT
 ## 100% Completion Achievement (with Workarounds)
 

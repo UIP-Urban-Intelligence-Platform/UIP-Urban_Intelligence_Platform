@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Incident Report Generator Agent report.
+
+Module: reports/INCIDENT_REPORT_GENERATOR_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Incident Report Generator Agent - Implementation Report
 
 **Date**: November 2025  

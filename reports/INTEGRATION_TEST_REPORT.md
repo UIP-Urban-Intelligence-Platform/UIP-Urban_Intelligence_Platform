@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Integration test suite implementation report.
+
+Module: reports/INTEGRATION_TEST_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Complete Integration Test Suite - Implementation Report
 
 ## Executive Summary

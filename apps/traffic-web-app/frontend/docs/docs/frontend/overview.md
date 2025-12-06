@@ -4,6 +4,18 @@ sidebar_label: 'Overview'
 title: 'Frontend Overview'
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Frontend overview documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/frontend/overview.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Frontend Overview
 
 The HCMC Traffic Monitoring System frontend is a modern **React 18** application built with **TypeScript** and **Vite**. It provides an interactive, real-time traffic visualization interface.

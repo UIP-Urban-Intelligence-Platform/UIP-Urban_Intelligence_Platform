@@ -199,9 +199,7 @@ class APIGatewayConfig:
             required_sections = ["api_gateway"]
             for section in required_sections:
                 if section not in config:
-                    raise ValueError(
-                        f"Missing required configuration section: {section}"
-                    )
+                    raise ValueError(f"Missing required configuration section: {section}")
 
             return config
 
@@ -220,9 +218,7 @@ class APIGatewayConfig:
 
         # Create logs directory if it doesn't exist
         if log_output in ("file", "both"):
-            log_file = logging_config.get("file", {}).get(
-                "path", "logs/api_gateway.log"
-            )
+            log_file = logging_config.get("file", {}).get("path", "logs/api_gateway.log")
             Path(log_file).parent.mkdir(parents=True, exist_ok=True)
 
         # Configure root logger
@@ -238,9 +234,7 @@ class APIGatewayConfig:
                 '{"timestamp":"%(asctime)s","level":"%(levelname)s","logger":"%(name)s","message":"%(message)s"}'
             )
         else:
-            formatter = logging.Formatter(
-                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
         # Add file handler
         if log_output in ("file", "both"):
@@ -324,9 +318,7 @@ class TokenBucketRateLimiter:
         # In-memory storage (fallback or primary)
         self.buckets: Dict[str, Dict[str, Any]] = {}
         self.endpoint_limits = {
-            f"{el.get('method', 'GET')}:{el.get('path', '')}": el.get(
-                "limit", self.default_limit
-            )
+            f"{el.get('method', 'GET')}:{el.get('path', '')}": el.get("limit", self.default_limit)
             for el in config.get("endpoint_limits", [])
         }
 
@@ -339,31 +331,21 @@ class TokenBucketRateLimiter:
                 import redis
 
                 # Priority: environment variables > config > defaults
-                redis_url = os.environ.get("REDIS_URL") or config.get(
-                    "redis_url", "redis://localhost:6379"
-                )
+                redis_url = os.environ.get("REDIS_URL") or config.get("redis_url", "redis://localhost:6379")
                 redis_db = config.get("redis_db", 0)
-                self.redis_client = redis.from_url(
-                    redis_url, db=redis_db, decode_responses=True
-                )
-                self.redis_key_prefix = config.get(
-                    "redis_key_prefix", "api_gateway:rate_limit:"
-                )
+                self.redis_client = redis.from_url(redis_url, db=redis_db, decode_responses=True)
+                self.redis_key_prefix = config.get("redis_key_prefix", "api_gateway:rate_limit:")
                 self.logger.info("Connected to Redis for rate limiting")
             except ImportError:
                 self.logger.warning("Redis not available, using in-memory storage")
                 self.storage = "memory"
             except Exception as e:
-                self.logger.error(
-                    f"Failed to connect to Redis: {e}, using in-memory storage"
-                )
+                self.logger.error(f"Failed to connect to Redis: {e}, using in-memory storage")
                 self.storage = "memory"
 
     def _get_bucket_key(self, api_key: str) -> str:
         """Generate bucket key for API key"""
-        return (
-            f"{self.redis_key_prefix}{api_key}" if self.storage == "redis" else api_key
-        )
+        return f"{self.redis_key_prefix}{api_key}" if self.storage == "redis" else api_key
 
     def _get_endpoint_limit(self, method: str, path: str) -> int:
         """Get rate limit for specific endpoint"""
@@ -375,9 +357,7 @@ class TokenBucketRateLimiter:
         # Try pattern match
         for pattern_key, limit in self.endpoint_limits.items():
             pattern_method, pattern_path = pattern_key.split(":", 1)
-            if pattern_method == method and re.match(
-                pattern_path.replace("*", ".*"), path
-            ):
+            if pattern_method == method and re.match(pattern_path.replace("*", ".*"), path):
                 return limit
 
         return self.default_limit
@@ -480,9 +460,7 @@ class TokenBucketRateLimiter:
         # Refill tokens based on elapsed time
         refill_rate = limit / 60.0  # tokens per second
         tokens_to_add = time_elapsed * refill_rate
-        bucket["tokens"] = min(
-            limit + self.burst_size, bucket["tokens"] + tokens_to_add
-        )
+        bucket["tokens"] = min(limit + self.burst_size, bucket["tokens"] + tokens_to_add)
         bucket["last_update"] = current_time
 
         # Check if request can be allowed
@@ -534,9 +512,7 @@ class ResponseCache:
         # Compression settings
         self.compression_enabled = config.get("compression", {}).get("enabled", True)
         self.compression_min_size = config.get("compression", {}).get("min_size", 1024)
-        self.compression_algorithm = config.get("compression", {}).get(
-            "algorithm", "gzip"
-        )
+        self.compression_algorithm = config.get("compression", {}).get("algorithm", "gzip")
         self.compression_level = config.get("compression", {}).get("level", 6)
 
         # In-memory cache (fallback or primary)
@@ -551,22 +527,16 @@ class ResponseCache:
                 import redis
 
                 # Priority: environment variables > config > defaults
-                redis_url = os.environ.get("REDIS_URL") or config.get(
-                    "redis_url", "redis://localhost:6379"
-                )
+                redis_url = os.environ.get("REDIS_URL") or config.get("redis_url", "redis://localhost:6379")
                 redis_db = config.get("redis_db", 1)
                 self.redis_client = redis.from_url(redis_url, db=redis_db)
-                self.redis_key_prefix = config.get(
-                    "redis_key_prefix", "api_gateway:cache:"
-                )
+                self.redis_key_prefix = config.get("redis_key_prefix", "api_gateway:cache:")
                 self.logger.info("Connected to Redis for caching")
             except ImportError:
                 self.logger.warning("Redis not available, using in-memory caching")
                 self.storage = "memory"
             except Exception as e:
-                self.logger.error(
-                    f"Failed to connect to Redis: {e}, using in-memory caching"
-                )
+                self.logger.error(f"Failed to connect to Redis: {e}, using in-memory caching")
                 self.storage = "memory"
 
     def _generate_cache_key(
@@ -664,16 +634,12 @@ class ResponseCache:
         if not cache_config.get("enabled", False):
             return None, CacheStatus.BYPASS
 
-        cache_key = self._generate_cache_key(
-            method, path, query_params, headers, body, route_config
-        )
+        cache_key = self._generate_cache_key(method, path, query_params, headers, body, route_config)
 
         # Get from Redis or memory
         if self.storage == "redis" and self.redis_client:
             try:
-                cached_data = self.redis_client.get(
-                    f"{self.redis_key_prefix}{cache_key}"
-                )
+                cached_data = self.redis_client.get(f"{self.redis_key_prefix}{cache_key}")
                 if cached_data:
                     cache_entry = json.loads(cached_data)
                     response_body = self._decompress_data(
@@ -689,9 +655,7 @@ class ResponseCache:
             if cache_key in self.cache:
                 cache_entry = self.cache[cache_key]
                 if time.time() < cache_entry["expires_at"]:
-                    response_body = self._decompress_data(
-                        cache_entry["body"], cache_entry.get("compressed", False)
-                    )
+                    response_body = self._decompress_data(cache_entry["body"], cache_entry.get("compressed", False))
                     return response_body, CacheStatus.HIT
                 else:
                     del self.cache[cache_key]
@@ -728,9 +692,7 @@ class ResponseCache:
             return
 
         ttl = min(cache_config.get("ttl", self.default_ttl), self.max_ttl)
-        cache_key = self._generate_cache_key(
-            method, path, query_params, headers, body, route_config
-        )
+        cache_key = self._generate_cache_key(method, path, query_params, headers, body, route_config)
 
         # Compress if configured
         compressed = False
@@ -748,9 +710,7 @@ class ResponseCache:
                     "compressed": compressed,
                     "cached_at": time.time(),
                 }
-                self.redis_client.setex(
-                    f"{self.redis_key_prefix}{cache_key}", ttl, json.dumps(cache_entry)
-                )
+                self.redis_client.setex(f"{self.redis_key_prefix}{cache_key}", ttl, json.dumps(cache_entry))
             except Exception as e:
                 self.logger.error(f"Redis cache set error: {e}")
         else:
@@ -830,17 +790,13 @@ class CircuitBreaker:
     def _get_failure_threshold(self, backend_url: str) -> int:
         """Get failure threshold for backend"""
         if backend_url in self.backend_overrides:
-            return self.backend_overrides[backend_url].get(
-                "failure_threshold", self.failure_threshold
-            )
+            return self.backend_overrides[backend_url].get("failure_threshold", self.failure_threshold)
         return self.failure_threshold
 
     def _get_recovery_timeout(self, backend_url: str) -> int:
         """Get recovery timeout for backend"""
         if backend_url in self.backend_overrides:
-            return self.backend_overrides[backend_url].get(
-                "recovery_timeout", self.recovery_timeout
-            )
+            return self.backend_overrides[backend_url].get("recovery_timeout", self.recovery_timeout)
         return self.recovery_timeout
 
     async def call(self, backend_url: str, request_func) -> Any:
@@ -867,13 +823,8 @@ class CircuitBreaker:
         if state.state == CircuitState.OPEN:
             # Check if recovery timeout has elapsed
             recovery_timeout = self._get_recovery_timeout(backend_url)
-            if (
-                state.last_failure_time
-                and (current_time - state.last_failure_time) >= recovery_timeout
-            ):
-                self.logger.info(
-                    f"Circuit breaker for {backend_url} entering HALF_OPEN state"
-                )
+            if state.last_failure_time and (current_time - state.last_failure_time) >= recovery_timeout:
+                self.logger.info(f"Circuit breaker for {backend_url} entering HALF_OPEN state")
                 state.state = CircuitState.HALF_OPEN
                 state.half_open_attempts = 0
             else:
@@ -890,9 +841,7 @@ class CircuitBreaker:
             if state.state == CircuitState.HALF_OPEN:
                 state.half_open_attempts += 1
                 if state.half_open_attempts >= self.half_open_requests:
-                    self.logger.info(
-                        f"Circuit breaker for {backend_url} closing (recovery successful)"
-                    )
+                    self.logger.info(f"Circuit breaker for {backend_url} closing (recovery successful)")
                     state.state = CircuitState.CLOSED
                     state.failure_count = 0
                     state.half_open_attempts = 0
@@ -910,15 +859,11 @@ class CircuitBreaker:
             failure_threshold = self._get_failure_threshold(backend_url)
 
             if state.state == CircuitState.HALF_OPEN:
-                self.logger.warning(
-                    f"Circuit breaker for {backend_url} opening (half-open request failed)"
-                )
+                self.logger.warning(f"Circuit breaker for {backend_url} opening (half-open request failed)")
                 state.state = CircuitState.OPEN
                 state.half_open_attempts = 0
             elif state.failure_count >= failure_threshold:
-                self.logger.warning(
-                    f"Circuit breaker for {backend_url} opening (threshold reached)"
-                )
+                self.logger.warning(f"Circuit breaker for {backend_url} opening (threshold reached)")
                 state.state = CircuitState.OPEN
 
             raise
@@ -1074,9 +1019,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
 class RateLimitingMiddleware(BaseHTTPMiddleware):
     """Rate limiting middleware using token bucket algorithm"""
 
-    def __init__(
-        self, app, config: APIGatewayConfig, rate_limiter: TokenBucketRateLimiter
-    ):
+    def __init__(self, app, config: APIGatewayConfig, rate_limiter: TokenBucketRateLimiter):
         """
         Initialize rate limiting middleware
 
@@ -1108,8 +1051,7 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
             if not allowed:
                 # Rate limit exceeded
                 self.logger.warning(
-                    f"Rate limit exceeded for API key {api_key.owner}: "
-                    f"{request.method} {request.url.path}"
+                    f"Rate limit exceeded for API key {api_key.owner}: " f"{request.method} {request.url.path}"
                 )
 
                 return JSONResponse(
@@ -1179,9 +1121,7 @@ class APIGatewayAgent:
         self.logger = logging.getLogger(__name__)
 
         # Initialize components
-        self.rate_limiter = TokenBucketRateLimiter(
-            self.config.get_rate_limiting_config()
-        )
+        self.rate_limiter = TokenBucketRateLimiter(self.config.get_rate_limiting_config())
         self.response_cache = ResponseCache(self.config.get_caching_config())
         self.circuit_breaker = CircuitBreaker(self.config.get_circuit_breaker_config())
 
@@ -1239,9 +1179,7 @@ class APIGatewayAgent:
             )
 
         # Rate limiting middleware
-        self.app.add_middleware(
-            RateLimitingMiddleware, config=self.config, rate_limiter=self.rate_limiter
-        )
+        self.app.add_middleware(RateLimitingMiddleware, config=self.config, rate_limiter=self.rate_limiter)
 
         # Authentication middleware
         self.app.add_middleware(AuthenticationMiddleware, config=self.config)
@@ -1267,9 +1205,7 @@ class APIGatewayAgent:
 
         return None
 
-    def _build_backend_url(
-        self, route: RouteConfig, request_path: str, query_params: str
-    ) -> str:
+    def _build_backend_url(self, route: RouteConfig, request_path: str, query_params: str) -> str:
         """Build backend URL from route and request"""
         # Handle internal routes
         if route.backend == "internal":
@@ -1315,11 +1251,7 @@ class APIGatewayAgent:
             Backend response
         """
         # Prepare headers
-        proxy_headers = {
-            k: v
-            for k, v in headers.items()
-            if k.lower() not in ("host", "content-length")
-        }
+        proxy_headers = {k: v for k, v in headers.items() if k.lower() not in ("host", "content-length")}
 
         # Retry logic
         retry_enabled = retry_config.get("enabled", False)
@@ -1352,9 +1284,7 @@ class APIGatewayAgent:
                     )
                     await asyncio.sleep(wait_time)
                 else:
-                    self.logger.error(
-                        f"Request failed after {max_attempts} attempts: {e}"
-                    )
+                    self.logger.error(f"Request failed after {max_attempts} attempts: {e}")
 
         # All attempts failed
         raise HTTPException(
@@ -1382,9 +1312,7 @@ class APIGatewayAgent:
                 )
 
             # Check authentication requirement
-            if route.auth_required and not getattr(
-                request.state, "authenticated", False
-            ):
+            if route.auth_required and not getattr(request.state, "authenticated", False):
                 return JSONResponse(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     content={"error": "Authentication required"},
@@ -1396,11 +1324,7 @@ class APIGatewayAgent:
                 return await self._handle_internal_route(request, route)
 
             # Get request body
-            request_body = (
-                await request.body()
-                if request.method in ("POST", "PATCH", "PUT")
-                else None
-            )
+            request_body = await request.body() if request.method in ("POST", "PATCH", "PUT") else None
 
             # Check cache
             cache_status = CacheStatus.BYPASS
@@ -1427,9 +1351,7 @@ class APIGatewayAgent:
                     )
 
             # Build backend URL
-            backend_url = self._build_backend_url(
-                route, f"/{full_path}", str(request.query_params)
-            )
+            backend_url = self._build_backend_url(route, f"/{full_path}", str(request.query_params))
 
             # Proxy request through circuit breaker
             try:
@@ -1444,9 +1366,7 @@ class APIGatewayAgent:
                         route.retry,
                     )
 
-                backend_response = await self.circuit_breaker.call(
-                    route.backend, make_request
-                )
+                backend_response = await self.circuit_breaker.call(route.backend, make_request)
 
                 # Cache response if applicable
                 if request.method == "GET" and route.cache.get("enabled", False):
@@ -1464,16 +1384,12 @@ class APIGatewayAgent:
 
                 # Invalidate cache if write operation
                 if request.method in ("POST", "PATCH", "DELETE", "PUT"):
-                    invalidation_rules = self.config.get_caching_config().get(
-                        "invalidation", []
-                    )
+                    invalidation_rules = self.config.get_caching_config().get("invalidation", [])
                     for rule in invalidation_rules:
                         if rule.get("method") == request.method:
                             pattern = rule.get("pattern", "")
                             if re.match(pattern.replace("*", ".*"), f"/{full_path}"):
-                                await self.response_cache.invalidate(
-                                    rule.get("invalidate_patterns", [])
-                                )
+                                await self.response_cache.invalidate(rule.get("invalidate_patterns", []))
 
                 # Build response
                 response_time = (time.time() - start_time) * 1000
@@ -1496,9 +1412,7 @@ class APIGatewayAgent:
                 )
 
             except HTTPException as e:
-                return JSONResponse(
-                    status_code=e.status_code, content={"error": e.detail}
-                )
+                return JSONResponse(status_code=e.status_code, content={"error": e.detail})
             except Exception as e:
                 self.logger.error(f"Error proxying request: {e}")
                 return JSONResponse(
@@ -1519,15 +1433,12 @@ class APIGatewayAgent:
                     "timestamp": datetime.utcnow().isoformat(),
                     "routes": len(self.routes),
                     "circuit_breakers": {
-                        backend: state.state.value
-                        for backend, state in self.circuit_breaker.backends.items()
+                        backend: state.state.value for backend, state in self.circuit_breaker.backends.items()
                     },
                 }
             )
 
-    async def _handle_internal_route(
-        self, request: Request, route: RouteConfig
-    ) -> Response:
+    async def _handle_internal_route(self, request: Request, route: RouteConfig) -> Response:
         """Handle internal gateway routes"""
         if route.name == "gateway_status":
             return JSONResponse(

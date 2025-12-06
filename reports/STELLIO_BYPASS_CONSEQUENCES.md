@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Stellio bypass consequences analysis.
+
+Module: reports/STELLIO_BYPASS_CONSEQUENCES.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # 🔍 HẬU QUẢ CỦA VIỆC BYPASS STELLIO API GATEWAY
 
 **Ngày phân tích**: 3 tháng 11, 2025  

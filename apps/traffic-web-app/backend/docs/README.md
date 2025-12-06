@@ -1,10 +1,15 @@
-/**
- * @module docs/README
- * @author UIP Team (Nguyen Nhat Quang, Nguyen Viet Hoang, Nguyen Dinh Anh Tuan)
- * @created 2025-11-27
- * @modified 2025-11-27
- * @version 1.0.0
- * @license MIT
+    <!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+@module docs/README
+@author UIP Team (Nguyen Nhat Quang, Nguyen Viet Hoang, Nguyen Dinh Anh Tuan)
+@created 2025-11-27
+@modified 2025-11-27
+@version 1.0.0
  * 
  * @description
  * Documentation Directory Index

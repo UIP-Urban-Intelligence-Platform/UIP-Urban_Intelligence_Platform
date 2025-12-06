@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Fix deployment instructions.
+
+Module: reports/FIX_DEPLOYMENT_INSTRUCTIONS.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # ✅ 100% FIX COMPLETE - DEPLOYMENT INSTRUCTIONS
 
 ## 🎉 Status: ALL ISSUES RESOLVED

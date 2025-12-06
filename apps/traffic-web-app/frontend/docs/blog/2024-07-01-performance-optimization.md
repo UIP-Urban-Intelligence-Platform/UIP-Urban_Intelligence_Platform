@@ -5,6 +5,18 @@ authors: [nguyennhatquang, nguyendinhanhtuan]
 tags: [uip, performance, optimization, python, backend]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Performance Optimization.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2024-07-01-performance-optimization.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 Xử lý real-time data từ **1000+ camera** là thách thức không nhỏ. Bài viết này chia sẻ các kỹ thuật tối ưu performance mà UIP team đã áp dụng.
 
 <!-- truncate -->

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Accident detection analysis report.
+
+Module: reports/ANALYSIS_ACCIDENT_DETECTION.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # 🔍 Phân Tích Nguyên Nhân Không Detect RoadAccident & TrafficPattern
 
 ## 📋 Tóm Tắt

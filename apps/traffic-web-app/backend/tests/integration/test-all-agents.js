@@ -1,11 +1,19 @@
 /**
- * Comprehensive Test Suite for All Agents
- * Module: tests.integration.test-agents-all
- * Author: Nguyễn Nhật Quang
- * Created: 2025-11-26
- * Version: 1.0.0
- * License: MIT
- * Tests the 3 main agents as real users would interact with them
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * @module apps/traffic-web-app/backend/tests/integration/test-all-agents
+ * @author UIP Team
+ * @created 2025-11-26
+ * @modified 2025-12-06
+ * @version 1.0.0
+ *
+ * @description
+ * Comprehensive Test Suite for All Agents - Tests the 3 main agents
+ * as real users would interact with them.
  */
 
 const { execSync } = require('child_process');

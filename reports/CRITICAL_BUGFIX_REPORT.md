@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Critical bug fix report.
+
+Module: reports/CRITICAL_BUGFIX_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Critical Bug Fix Report - Rate Limit Retry Logic
 
 **Date**: 2025-11-12  

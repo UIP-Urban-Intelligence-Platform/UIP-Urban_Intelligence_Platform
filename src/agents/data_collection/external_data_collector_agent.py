@@ -88,9 +88,7 @@ class RetryHandler:
     - Maximum delay cap to prevent excessive waits
     """
 
-    def __init__(
-        self, max_attempts: int = 3, base_delay: float = 1.0, max_delay: float = 60.0
-    ):
+    def __init__(self, max_attempts: int = 3, base_delay: float = 1.0, max_delay: float = 60.0):
         """
         Initialize retry handler.
 
@@ -126,8 +124,7 @@ class RetryHandler:
                 if attempt < self.max_attempts - 1:
                     delay = min(self.base_delay * (2**attempt), self.max_delay)
                     self.logger.debug(
-                        f"Attempt {attempt + 1}/{self.max_attempts} returned None, "
-                        f"retrying in {delay:.2f}s..."
+                        f"Attempt {attempt + 1}/{self.max_attempts} returned None, " f"retrying in {delay:.2f}s..."
                     )
                     await asyncio.sleep(delay)
 
@@ -141,35 +138,27 @@ class RetryHandler:
                     )
                     await asyncio.sleep(delay)
                 else:
-                    self.logger.error(
-                        f"All {self.max_attempts} attempts failed due to rate limiting (429)"
-                    )
+                    self.logger.error(f"All {self.max_attempts} attempts failed due to rate limiting (429)")
 
             except asyncio.TimeoutError:
                 if attempt < self.max_attempts - 1:
                     delay = min(self.base_delay * (2**attempt), self.max_delay)
                     self.logger.warning(
-                        f"Timeout on attempt {attempt + 1}/{self.max_attempts}, "
-                        f"retrying in {delay:.2f}s..."
+                        f"Timeout on attempt {attempt + 1}/{self.max_attempts}, " f"retrying in {delay:.2f}s..."
                     )
                     await asyncio.sleep(delay)
                 else:
-                    self.logger.error(
-                        f"All {self.max_attempts} attempts failed due to timeout"
-                    )
+                    self.logger.error(f"All {self.max_attempts} attempts failed due to timeout")
 
             except aiohttp.ClientError as e:
                 if attempt < self.max_attempts - 1:
                     delay = min(self.base_delay * (2**attempt), self.max_delay)
                     self.logger.warning(
-                        f"Client error on attempt {attempt + 1}/{self.max_attempts}: {e}, "
-                        f"retrying in {delay:.2f}s..."
+                        f"Client error on attempt {attempt + 1}/{self.max_attempts}: {e}, " f"retrying in {delay:.2f}s..."
                     )
                     await asyncio.sleep(delay)
                 else:
-                    self.logger.error(
-                        f"All {self.max_attempts} attempts failed due to client error: {e}"
-                    )
+                    self.logger.error(f"All {self.max_attempts} attempts failed due to client error: {e}")
 
             except Exception as e:
                 self.logger.error(f"Unexpected error on attempt {attempt + 1}: {e}")
@@ -270,9 +259,7 @@ class ExternalDataCollectorAgent:
         self.rate_limiters: Dict[str, RateLimiter] = {}
         for api_name, api_config in self.config.items():
             if isinstance(api_config, dict) and "rate_limit" in api_config:
-                self.rate_limiters[api_name] = RateLimiter(
-                    max_requests=api_config["rate_limit"], time_window=60.0
-                )
+                self.rate_limiters[api_name] = RateLimiter(max_requests=api_config["rate_limit"], time_window=60.0)
 
         # Initialize retry handler (exponential backoff with 3 attempts)
         retry_config = self.config.get("retry", {})
@@ -283,15 +270,11 @@ class ExternalDataCollectorAgent:
         )
 
         # ✅ CRITICAL FIX: Thêm semaphore để giới hạn concurrent requests
-        max_concurrent = self.config.get("external_apis", {}).get(
-            "max_concurrent_requests", 2
-        )
+        max_concurrent = self.config.get("external_apis", {}).get("max_concurrent_requests", 2)
         self.semaphore = asyncio.Semaphore(max_concurrent)
 
         # ✅ CRITICAL FIX: Delays để tránh overwhelm API
-        self.request_delay = self.config.get("external_apis", {}).get(
-            "request_delay", 3.0
-        )
+        self.request_delay = self.config.get("external_apis", {}).get("request_delay", 3.0)
         self.batch_delay = self.config.get("external_apis", {}).get("batch_delay", 10.0)
 
         # Statistics
@@ -373,17 +356,14 @@ class ExternalDataCollectorAgent:
                 config["openweathermap"]["api_key"] = owm_env_key
             if "air_quality" in config:
                 config["air_quality"]["api_key"] = owm_env_key
-            logging.getLogger(__name__).info(
-                "API keys loaded from environment variable OPENWEATHERMAP_API_KEY"
-            )
+            logging.getLogger(__name__).info("API keys loaded from environment variable OPENWEATHERMAP_API_KEY")
         else:
             # Check if config has placeholder value
             if "openweathermap" in config:
                 key = config["openweathermap"].get("api_key", "")
                 if key.startswith("${") and key.endswith("}"):
                     logging.getLogger(__name__).warning(
-                        "OPENWEATHERMAP_API_KEY not set in environment. "
-                        "Weather/AirQuality API may not work."
+                        "OPENWEATHERMAP_API_KEY not set in environment. " "Weather/AirQuality API may not work."
                     )
 
         # OpenAQ API key
@@ -391,17 +371,13 @@ class ExternalDataCollectorAgent:
         if openaq_env_key:
             if "openaq" in config:
                 config["openaq"]["api_key"] = openaq_env_key
-            logging.getLogger(__name__).info(
-                "API key loaded from environment variable OPENAQ_API_KEY"
-            )
+            logging.getLogger(__name__).info("API key loaded from environment variable OPENAQ_API_KEY")
         else:
             # Check if config has placeholder value
             if "openaq" in config:
                 key = config["openaq"].get("api_key", "")
                 if key.startswith("${") and key.endswith("}"):
-                    logging.getLogger(__name__).debug(
-                        "OPENAQ_API_KEY not set (OpenAQ is disabled by default)"
-                    )
+                    logging.getLogger(__name__).debug("OPENAQ_API_KEY not set (OpenAQ is disabled by default)")
 
     def _setup_logging(self) -> logging.Logger:
         """
@@ -429,9 +405,7 @@ class ExternalDataCollectorAgent:
         """Setup graceful shutdown handlers for SIGTERM and SIGINT."""
 
         def signal_handler(signum, frame):
-            self.logger.info(
-                f"Received signal {signum}, initiating graceful shutdown..."
-            )
+            self.logger.info(f"Received signal {signum}, initiating graceful shutdown...")
             self.shutdown_event.set()
 
         signal.signal(signal.SIGTERM, signal_handler)
@@ -498,9 +472,7 @@ class ExternalDataCollectorAgent:
         except (ValueError, TypeError):
             return False
 
-    def calculate_distance(
-        self, lat1: float, lng1: float, lat2: float, lng2: float
-    ) -> float:
+    def calculate_distance(self, lat1: float, lng1: float, lat2: float, lng2: float) -> float:
         """
         Calculate distance between two geo-coordinates using Haversine formula.
 
@@ -528,9 +500,7 @@ class ExternalDataCollectorAgent:
         return c * r
 
     @alru_cache(maxsize=128, ttl=600)  # Cache for 10 minutes (MANDATORY requirement)
-    async def _fetch_weather_data_cached(
-        self, latitude: float, longitude: float, session_id: int
-    ) -> Optional[Dict[str, Any]]:
+    async def _fetch_weather_data_cached(self, latitude: float, longitude: float, session_id: int) -> Optional[Dict[str, Any]]:
         """
         Internal cached method to fetch weather data from OpenWeatherMap API.
 
@@ -591,18 +561,12 @@ class ExternalDataCollectorAgent:
                 # Rate limit exceeded - raise exception for 2-minute retry delay
                 error_text = await response.text()
                 self.logger.warning(
-                    f"Weather API rate limit (429) for ({latitude}, {longitude}). "
-                    f"Response: {error_text[:200]}"
+                    f"Weather API rate limit (429) for ({latitude}, {longitude}). " f"Response: {error_text[:200]}"
                 )
                 self.stats["errors"]["openweathermap"] += 1
-                raise RateLimitExceeded(
-                    f"OpenWeatherMap API rate limit exceeded (429) for ({latitude}, {longitude})"
-                )
+                raise RateLimitExceeded(f"OpenWeatherMap API rate limit exceeded (429) for ({latitude}, {longitude})")
             else:
-                self.logger.warning(
-                    f"Weather API returned status {response.status} for "
-                    f"({latitude}, {longitude})"
-                )
+                self.logger.warning(f"Weather API returned status {response.status} for " f"({latitude}, {longitude})")
                 self.stats["errors"]["openweathermap"] += 1
                 return None
 
@@ -628,9 +592,7 @@ class ExternalDataCollectorAgent:
         session_id = id(session)
 
         # Use retry handler with exponential backoff (MANDATORY: 3 attempts)
-        result = await self.retry_handler.execute(
-            self._fetch_weather_data_cached, latitude, longitude, session_id
-        )
+        result = await self.retry_handler.execute(self._fetch_weather_data_cached, latitude, longitude, session_id)
 
         if result:
             self.stats["cache_hits"]["openweathermap"] += 1
@@ -711,9 +673,7 @@ class ExternalDataCollectorAgent:
                         components = result.get("components", {})
 
                         if not components:
-                            self.logger.debug(
-                                f"No air quality components for ({latitude}, {longitude})"
-                            )
+                            self.logger.debug(f"No air quality components for ({latitude}, {longitude})")
                             return None
 
                         # Extract all pollutants from components
@@ -747,9 +707,7 @@ class ExternalDataCollectorAgent:
                                 4: "Poor",
                                 5: "Very Poor",
                             }
-                            aq_data["aqi_category"] = aqi_categories.get(
-                                owm_aqi, "Unknown"
-                            )
+                            aq_data["aqi_category"] = aqi_categories.get(owm_aqi, "Unknown")
                             aq_data["aqi_index"] = owm_aqi
 
                         # Add source info
@@ -757,9 +715,7 @@ class ExternalDataCollectorAgent:
 
                         # Log pollutants found for debugging
                         required_pollutants = ["pm25", "pm10", "no2", "o3", "co", "so2"]
-                        pollutants_found = [
-                            p for p in required_pollutants if p in aq_data
-                        ]
+                        pollutants_found = [p for p in required_pollutants if p in aq_data]
                         self.logger.debug(
                             f"OpenWeatherMap for ({latitude}, {longitude}): "
                             f"Found {len(pollutants_found)}/6 pollutants: {', '.join(pollutants_found)}"
@@ -768,22 +724,17 @@ class ExternalDataCollectorAgent:
                         return aq_data
                     else:
                         # No data available for this location
-                        self.logger.debug(
-                            f"No air quality data available for ({latitude}, {longitude})"
-                        )
+                        self.logger.debug(f"No air quality data available for ({latitude}, {longitude})")
                         return None
 
                 elif response.status == 429:
                     # Rate limit exceeded - raise exception for retry delay
                     error_text = await response.text()
                     self.logger.warning(
-                        f"OpenWeatherMap rate limit (429) for ({latitude}, {longitude}). "
-                        f"Response: {error_text[:200]}"
+                        f"OpenWeatherMap rate limit (429) for ({latitude}, {longitude}). " f"Response: {error_text[:200]}"
                     )
                     self.stats["errors"][api_name] += 1
-                    raise RateLimitExceeded(
-                        f"OpenWeatherMap API rate limit exceeded (429) for ({latitude}, {longitude})"
-                    )
+                    raise RateLimitExceeded(f"OpenWeatherMap API rate limit exceeded (429) for ({latitude}, {longitude})")
                 else:
                     # Log error details for debugging
                     error_text = await response.text()
@@ -824,9 +775,7 @@ class ExternalDataCollectorAgent:
         session_id = id(session)
 
         # Use retry handler with exponential backoff (MANDATORY: 3 attempts)
-        result = await self.retry_handler.execute(
-            self._fetch_air_quality_data_cached, latitude, longitude, session_id
-        )
+        result = await self.retry_handler.execute(self._fetch_air_quality_data_cached, latitude, longitude, session_id)
 
         if result:
             self.stats["cache_hits"]["openaq"] += 1
@@ -858,9 +807,7 @@ class ExternalDataCollectorAgent:
         else:
             return "Hazardous"
 
-    async def enrich_entity(
-        self, session: aiohttp.ClientSession, entity: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def enrich_entity(self, session: aiohttp.ClientSession, entity: Dict[str, Any]) -> Dict[str, Any]:
         """
         Enrich ORIGINAL entity with external data (weather, air quality).
 
@@ -906,9 +853,7 @@ class ExternalDataCollectorAgent:
             # Return the SAME entity object (now enriched)
             return entity
 
-    async def process_batch(
-        self, session: aiohttp.ClientSession, entities: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+    async def process_batch(self, session: aiohttp.ClientSession, entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Process a batch of entities concurrently.
 
@@ -945,12 +890,8 @@ class ExternalDataCollectorAgent:
         all_enriched = []
 
         # ✅ CRITICAL FIX: Giảm concurrent connections
-        max_concurrent = self.config.get("external_apis", {}).get(
-            "max_concurrent_requests", 2
-        )
-        connector = aiohttp.TCPConnector(
-            limit=max_concurrent, limit_per_host=2  # ✅ Giảm từ 5 → 2
-        )
+        max_concurrent = self.config.get("external_apis", {}).get("max_concurrent_requests", 2)
+        connector = aiohttp.TCPConnector(limit=max_concurrent, limit_per_host=2)  # ✅ Giảm từ 5 → 2
 
         async with aiohttp.ClientSession(connector=connector) as session:
             total_batches = (len(entities) - 1) // batch_size + 1
@@ -958,25 +899,18 @@ class ExternalDataCollectorAgent:
                 batch = entities[i : i + batch_size]
                 batch_num = i // batch_size + 1
 
-                self.logger.info(
-                    f"Processing batch {batch_num}/{total_batches} "
-                    f"({len(batch)} entities)..."
-                )
+                self.logger.info(f"Processing batch {batch_num}/{total_batches} " f"({len(batch)} entities)...")
 
                 enriched_batch = await self.process_batch(session, batch)
                 all_enriched.extend(enriched_batch)
 
                 # ✅ CRITICAL FIX: Thêm delay giữa các batches
                 if batch_num < total_batches:
-                    self.logger.info(
-                        f"Waiting {self.batch_delay:.0f}s before next batch..."
-                    )
+                    self.logger.info(f"Waiting {self.batch_delay:.0f}s before next batch...")
                     await asyncio.sleep(self.batch_delay)
 
         elapsed = time.time() - start_time
-        self.logger.info(
-            f"Collection complete: {len(all_enriched)} entities processed in {elapsed:.2f}s"
-        )
+        self.logger.info(f"Collection complete: {len(all_enriched)} entities processed in {elapsed:.2f}s")
 
         return all_enriched
 
@@ -1013,9 +947,7 @@ class ExternalDataCollectorAgent:
             misses = self.stats["cache_misses"][api]
             total = hits + misses
             hit_rate = (hits / total * 100) if total > 0 else 0
-            self.logger.info(
-                f"  {api}: {hits} hits, {misses} misses ({hit_rate:.1f}% hit rate)"
-            )
+            self.logger.info(f"  {api}: {hits} hits, {misses} misses ({hit_rate:.1f}% hit rate)")
 
         if any(self.stats["errors"].values()):
             self.logger.info("\nErrors:")
@@ -1069,9 +1001,7 @@ async def main(config: Optional[Dict[str, Any]] = None):
             # If called from command line, parse args
             import argparse
 
-            parser = argparse.ArgumentParser(
-                description="External Data Collector Agent"
-            )
+            parser = argparse.ArgumentParser(description="External Data Collector Agent")
             parser.add_argument(
                 "--config",
                 default="config/data_sources.yaml",

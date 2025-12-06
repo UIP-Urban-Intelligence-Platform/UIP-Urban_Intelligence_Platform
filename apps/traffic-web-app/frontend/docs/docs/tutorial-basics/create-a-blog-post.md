@@ -2,6 +2,18 @@
 sidebar_position: 3
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Docusaurus tutorial - Create a blog post.
+
+Module: apps/traffic-web-app/frontend/docs/docs/tutorial-basics/create-a-blog-post.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Create a Blog Post
 
 Docusaurus creates a **page for each blog post**, but also a **blog index page**, a **tag system**, an **RSS** feed...

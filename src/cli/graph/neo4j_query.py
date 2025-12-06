@@ -36,9 +36,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
-def get_neo4j_driver(
-    uri: str = "bolt://localhost:7687", user: str = "neo4j", password: str = "password"
-):
+def get_neo4j_driver(uri: str = "bolt://localhost:7687", user: str = "neo4j", password: str = "password"):
     """Get Neo4j driver instance."""
     if not NEO4J_AVAILABLE:
         print("ERROR: Neo4j driver not available")
@@ -82,15 +80,11 @@ def query_nearby_cameras(
             cameras = list(result)
 
             if cameras:
-                print(
-                    f"\n✓ Found {len(cameras)} cameras within {radius}m of ({lat}, {lon})\n"
-                )
+                print(f"\n✓ Found {len(cameras)} cameras within {radius}m of ({lat}, {lon})\n")
                 print(f"{'ID':<15} {'Name':<30} {'Distance (m)':<15}")
                 print("=" * 60)
                 for record in cameras:
-                    print(
-                        f"{record['id']:<15} {record['name']:<30} {record['distance']:<15.2f}"
-                    )
+                    print(f"{record['id']:<15} {record['name']:<30} {record['distance']:<15.2f}")
             else:
                 print(f"No cameras found within {radius}m of ({lat}, {lon})")
     except Exception as e:
@@ -127,15 +121,11 @@ def query_accident_patterns(
             patterns = list(result)
 
             if patterns:
-                print(
-                    f"\n✓ Found {len(patterns)} locations with >= {min_count} accidents\n"
-                )
+                print(f"\n✓ Found {len(patterns)} locations with >= {min_count} accidents\n")
                 print(f"{'Camera ID':<15} {'Name':<30} {'Accidents':<15}")
                 print("=" * 60)
                 for record in patterns:
-                    print(
-                        f"{record['camera_id']:<15} {record['camera_name']:<30} {record['accident_count']:<15}"
-                    )
+                    print(f"{record['camera_id']:<15} {record['camera_name']:<30} {record['accident_count']:<15}")
             else:
                 print(f"No locations found with >= {min_count} accidents")
     except Exception as e:
@@ -150,12 +140,8 @@ def main():
     parser.add_argument("command", choices=["nearby", "patterns"], help="Query type")
     parser.add_argument("--lat", type=float, help="Latitude")
     parser.add_argument("--lon", type=float, help="Longitude")
-    parser.add_argument(
-        "--radius", type=float, default=1000.0, help="Search radius in meters"
-    )
-    parser.add_argument(
-        "--min-count", type=int, default=3, help="Minimum accident count"
-    )
+    parser.add_argument("--radius", type=float, default=1000.0, help="Search radius in meters")
+    parser.add_argument("--min-count", type=int, default=3, help="Minimum accident count")
     parser.add_argument("--uri", default="bolt://localhost:7687", help="Neo4j URI")
     parser.add_argument("--user", default="neo4j", help="Neo4j username")
     parser.add_argument("--password", default="password", help="Neo4j password")
@@ -166,9 +152,7 @@ def main():
         if args.lat is None or args.lon is None:
             print("ERROR: --lat and --lon required for 'nearby' command")
             return
-        query_nearby_cameras(
-            args.lat, args.lon, args.radius, args.uri, args.user, args.password
-        )
+        query_nearby_cameras(args.lat, args.lon, args.radius, args.uri, args.user, args.password)
     elif args.command == "patterns":
         query_accident_patterns(args.min_count, args.uri, args.user, args.password)
 

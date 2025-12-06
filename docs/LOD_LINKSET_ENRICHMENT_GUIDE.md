@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+LOD Linkset enrichment guide.
+
+Module: docs/LOD_LINKSET_ENRICHMENT_GUIDE.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # LOD Linkset Enrichment Guide
 
 **Hướng dẫn sử dụng tính năng liên kết với LOD Cloud (DBpedia, Wikidata, GeoNames)**

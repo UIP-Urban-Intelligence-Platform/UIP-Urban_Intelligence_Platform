@@ -2,6 +2,7 @@
   "name": "hcmc-traffic-frontend",
   "version": "1.0.0",
   "description": "HCMC Traffic Monitoring Frontend",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "scripts": {

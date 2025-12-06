@@ -1,15 +1,19 @@
-
 /**
- * @module test-traffic-maestro-google-search
-* @author Nguyễn Nhật Quang 
-* @created 2025-11-26
-* @modified 2025-11-26
-* @version 2.0.0
-* @license MIT 
- * Test Google Custom Search integration in TrafficMaestroAgent
- * 
- * This script tests the new searchHCMCEvents() method
- * Run: node test-traffic-maestro-google-search.js
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * @module apps/traffic-web-app/backend/tests/integration/test-traffic-maestro-google-search
+ * @author UIP Team
+ * @created 2025-11-26
+ * @modified 2025-12-06
+ * @version 2.0.0
+ *
+ * @description
+ * Test Google Custom Search integration in TrafficMaestroAgent -
+ * Tests the searchHCMCEvents() method.
  */
 
 require('dotenv').config();

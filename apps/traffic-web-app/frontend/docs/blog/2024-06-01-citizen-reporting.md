@@ -5,6 +5,18 @@ authors: [nguyendinhanhtuan]
 tags: [uip, citizen-report, api, backend, mobile]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Citizen Reporting System.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2024-06-01-citizen-reporting.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Citizen Reporting - Dân chủ hóa Giám sát Giao thông 👥
 
 UIP không chỉ dựa vào camera - chúng tôi tin rằng **người dân** là nguồn thông tin quý giá nhất. Bài viết này chia sẻ cách xây dựng hệ thống Citizen Reporting.

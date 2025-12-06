@@ -79,7 +79,6 @@ import yaml
 # Import centralized environment variable expansion helper
 from src.core.config_loader import expand_env_var
 
-
 # ============================================================================
 # Secure Logging Utilities - Using internal counters to avoid user data in logs
 # ============================================================================
@@ -187,9 +186,7 @@ except ImportError:
     get_mongodb_helper = None
 
 # Logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -198,9 +195,7 @@ logger = logging.getLogger(__name__)
 # ============================================================================
 def load_api_config() -> Dict[str, Any]:
     """Load API keys and configuration from data_sources.yaml."""
-    config_path = (
-        Path(__file__).parent.parent.parent.parent / "config" / "data_sources.yaml"
-    )
+    config_path = Path(__file__).parent.parent.parent.parent / "config" / "data_sources.yaml"
     try:
         with open(config_path, "r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
@@ -222,9 +217,7 @@ API_CONFIG = load_api_config()
 class CitizenReport(BaseModel):
     """Input model for citizen report submission."""
 
-    userId: str = Field(
-        ..., description="User identifier from mobile app", min_length=1
-    )
+    userId: str = Field(..., description="User identifier from mobile app", min_length=1)
     reportType: str = Field(
         ...,
         description="Incident category",
@@ -233,12 +226,8 @@ class CitizenReport(BaseModel):
     description: Optional[str] = Field(None, description="User description of incident")
     latitude: float = Field(..., ge=-90, le=90, description="GPS latitude (WGS84)")
     longitude: float = Field(..., ge=-180, le=180, description="GPS longitude (WGS84)")
-    imageUrl: str = Field(
-        ..., description="URL to uploaded incident photo", min_length=1
-    )
-    timestamp: Optional[str] = Field(
-        None, description="Report submission time (ISO 8601)"
-    )
+    imageUrl: str = Field(..., description="URL to uploaded incident photo", min_length=1)
+    timestamp: Optional[str] = Field(None, description="Report submission time (ISO 8601)")
 
     @field_validator("timestamp", mode="before")
     @classmethod
@@ -287,17 +276,13 @@ class WeatherEnricher:
         config_key = API_CONFIG.get("openweathermap", {}).get("api_key")
 
         self.api_key = env_key or config_key or "mock_key"
-        self.base_url = API_CONFIG.get("openweathermap", {}).get(
-            "base_url", "https://api.openweathermap.org/data/2.5/weather"
-        )
+        self.base_url = API_CONFIG.get("openweathermap", {}).get("base_url", "https://api.openweathermap.org/data/2.5/weather")
         self.use_mock = self.api_key == "mock_key"
 
         if self.use_mock:
             logger.warning("Weather API: Using MOCK data (no API key configured)")
         else:
-            logger.info(
-                f"Weather API: Configured with key from {'environment' if env_key else 'data_sources.yaml'}"
-            )
+            logger.info(f"Weather API: Configured with key from {'environment' if env_key else 'data_sources.yaml'}")
 
     async def fetch(self, lat: float, lon: float) -> Dict[str, Any]:
         """
@@ -317,14 +302,10 @@ class WeatherEnricher:
             params = {"lat": lat, "lon": lon, "appid": self.api_key, "units": "metric"}
 
             async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    self.base_url, params=params, timeout=10
-                ) as response:
+                async with session.get(self.base_url, params=params, timeout=10) as response:
                     if response.status == 200:
                         data = await response.json()
-                        logger.info(
-                            "Weather API: Successfully fetched data for coordinates"
-                        )
+                        logger.info("Weather API: Successfully fetched data for coordinates")
                         return {
                             "temperature": data["main"]["temp"],
                             "condition": data["weather"][0]["description"],
@@ -333,9 +314,7 @@ class WeatherEnricher:
                             "windSpeed": data["wind"]["speed"],
                         }
                     else:
-                        logger.warning(
-                            f"Weather API returned {response.status}, using mock data"
-                        )
+                        logger.warning(f"Weather API returned {response.status}, using mock data")
                         return self._mock_weather_data()
         except Exception as e:
             logger.error(f"Weather API error: {e}, using mock data")
@@ -361,17 +340,13 @@ class AirQualityEnricher:
         config_key = API_CONFIG.get("openaq", {}).get("api_key")
 
         self.api_key = env_key or config_key or "mock_key"
-        self.base_url = API_CONFIG.get("openaq", {}).get(
-            "base_url", "https://api.openaq.org/v3"
-        )
+        self.base_url = API_CONFIG.get("openaq", {}).get("base_url", "https://api.openaq.org/v3")
         self.use_mock = self.api_key == "mock_key"
 
         if self.use_mock:
             logger.warning("AirQuality API: Using MOCK data (no API key configured)")
         else:
-            logger.info(
-                f"AirQuality API: Configured with key from {'environment' if env_key else 'data_sources.yaml'}"
-            )
+            logger.info(f"AirQuality API: Configured with key from {'environment' if env_key else 'data_sources.yaml'}")
 
     async def fetch(self, lat: float, lon: float) -> Dict[str, Any]:
         """
@@ -444,9 +419,7 @@ class AirQualityEnricher:
                         elif param == "o3":
                             aq_data["o3"] = value
 
-                    logger.info(
-                        f"AirQuality API: Successfully fetched {len(aq_data)} parameters"
-                    )
+                    logger.info(f"AirQuality API: Successfully fetched {len(aq_data)} parameters")
                     return aq_data
 
         except Exception as e:
@@ -472,9 +445,7 @@ class NGSILDTransformer:
         # Priority: environment variables > parameter > defaults
         self.stellio_base_url = os.environ.get("STELLIO_URL") or stellio_base_url
         self.session = requests.Session()
-        self.session.headers.update(
-            {"Content-Type": "application/ld+json", "Accept": "application/ld+json"}
-        )
+        self.session.headers.update({"Content-Type": "application/ld+json", "Accept": "application/ld+json"})
 
         # MongoDB helper (optional)
         self._mongodb_helper = None
@@ -512,8 +483,7 @@ class NGSILDTransformer:
             "category": {"type": "Property", "value": report.reportType},
             "description": {
                 "type": "Property",
-                "value": report.description
-                or f"{report.reportType} reported by citizen",
+                "value": report.description or f"{report.reportType} reported by citizen",
             },
             # Geospatial data
             "location": {
@@ -580,17 +550,13 @@ class NGSILDTransformer:
                 if self._mongodb_helper and self._mongodb_helper.enabled:
                     try:
                         if self._mongodb_helper.insert_entity(entity):
-                            logger.info(
-                                f"✅ Published CitizenObservation to MongoDB: {log_ref}"
-                            )
+                            logger.info(f"✅ Published CitizenObservation to MongoDB: {log_ref}")
                     except Exception as e:
                         logger.warning(f"MongoDB publish failed (non-critical): {e}")
 
                 return True
             else:
-                logger.error(
-                    f"❌ Stellio returned {response.status_code}: {response.text}"
-                )
+                logger.error(f"❌ Stellio returned {response.status_code}: {response.text}")
                 return False
 
         except Exception as e:
@@ -684,9 +650,7 @@ if FASTAPI_AVAILABLE:
         status_code=status.HTTP_202_ACCEPTED,
         tags=["Citizen Reports"],
     )
-    async def submit_citizen_report(
-        report: CitizenReport, background_tasks: BackgroundTasks
-    ):
+    async def submit_citizen_report(report: CitizenReport, background_tasks: BackgroundTasks):
         """
         Submit a citizen traffic incident report.
 

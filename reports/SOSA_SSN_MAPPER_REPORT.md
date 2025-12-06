@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+SOSA/SSN Mapper Agent report.
+
+Module: reports/SOSA_SSN_MAPPER_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # SOSA/SSN Mapper Agent - Test Report
 
 **Agent:** SOSA/SSN Mapper Agent  
