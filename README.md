@@ -750,38 +750,480 @@ flowchart LR
 
 ### Environment Variables
 
-Copy `.env.example` to `.env` and configure:
+The application uses environment variables for configuration management. Follow these steps to set up:
+
+#### 1. Initial Setup
 
 ```bash
-# Application Settings
-ENVIRONMENT=development          # development | staging | production
-LOG_LEVEL=INFO                   # DEBUG | INFO | WARNING | ERROR
+# Copy the example environment file
+cp .env.example .env
 
-# Orchestrator Configuration
-ORCHESTRATOR_INTERVAL=60         # Minutes between runs
-WORKFLOW_CONFIG=config/workflow.yaml
+# Edit the file with your preferred editor
+nano .env  # or vim, code, notepad++, etc.
+```
 
-# Data Stores
+#### 2. Required Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `ENVIRONMENT` | ✅ | `development` | Application environment: `development`, `staging`, `production` |
+| `LOG_LEVEL` | ✅ | `INFO` | Logging level: `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL` |
+
+#### 3. Application Settings
+
+<details>
+<summary><strong>🔧 Core Application Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# APPLICATION SETTINGS
+# ============================================================================
+
+# Environment mode (affects logging, debugging, and performance optimizations)
+ENVIRONMENT=development              # Options: development | staging | production
+
+# Logging configuration
+LOG_LEVEL=INFO                       # Options: DEBUG | INFO | WARNING | ERROR | CRITICAL
+LOG_FORMAT=json                      # Options: json | text
+LOG_FILE=logs/uip.log               # Path to log file (relative to project root)
+
+# Application metadata
+APP_NAME="UIP - Urban Intelligence Platform"
+APP_VERSION=2.0.0
+APP_HOST=0.0.0.0                    # Host to bind the application
+APP_PORT=8000                        # Port for the main application
+
+# Debug mode (disable in production)
+DEBUG=false                          # Options: true | false
+```
+
+</details>
+
+#### 4. Orchestrator Configuration
+
+<details>
+<summary><strong>⏱️ Workflow Orchestrator Settings</strong></summary>
+
+```bash
+# ============================================================================
+# ORCHESTRATOR CONFIGURATION
+# ============================================================================
+
+# Orchestration scheduling
+ORCHESTRATOR_INTERVAL=60             # Minutes between orchestration runs
+ORCHESTRATOR_AUTO_START=true         # Auto-start orchestrator on application launch
+ORCHESTRATOR_MAX_RETRIES=3           # Maximum retry attempts for failed agents
+
+# Workflow configuration file
+WORKFLOW_CONFIG=config/workflow.yaml # Path to workflow definition
+
+# Execution settings
+ORCHESTRATOR_PARALLEL_AGENTS=4       # Number of agents to run in parallel
+ORCHESTRATOR_TIMEOUT=3600            # Maximum execution time per phase (seconds)
+
+# Run immediately on startup
+RUN_ORCHESTRATOR_NOW=false           # Options: true | false
+```
+
+</details>
+
+#### 5. Database Connections
+
+<details>
+<summary><strong>🗄️ Data Storage & Databases</strong></summary>
+
+```bash
+# ============================================================================
+# DATA STORES
+# ============================================================================
+
+# Stellio Context Broker (NGSI-LD)
 STELLIO_URL=http://localhost:8080
+STELLIO_TENANT=urn:ngsi-ld:tenant:default
+STELLIO_CONTEXT=https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld
+STELLIO_TIMEOUT=30                   # Request timeout in seconds
+STELLIO_MAX_RETRIES=3               # Maximum retry attempts
+
+# Neo4j Graph Database
 NEO4J_URL=bolt://localhost:7687
 NEO4J_USER=neo4j
-NEO4J_PASSWORD=your_password
+NEO4J_PASSWORD=test12345            # ⚠️ CHANGE IN PRODUCTION
+NEO4J_DATABASE=neo4j                # Database name
+NEO4J_MAX_CONNECTION_LIFETIME=3600  # Connection lifetime in seconds
+NEO4J_MAX_CONNECTION_POOL_SIZE=50   # Maximum connection pool size
+NEO4J_CONNECTION_TIMEOUT=30         # Connection timeout in seconds
+
+# Apache Jena Fuseki (RDF Triplestore)
 FUSEKI_URL=http://localhost:3030
+FUSEKI_DATASET=traffic              # Primary dataset name
+FUSEKI_USER=admin
+FUSEKI_PASSWORD=test_admin          # ⚠️ CHANGE IN PRODUCTION
+FUSEKI_TIMEOUT=60                   # Query timeout in seconds
+
+# MongoDB (Document Store)
 MONGODB_URI=mongodb://localhost:27017
+MONGODB_DATABASE=uip_traffic        # Database name
+MONGODB_USER=                       # Leave empty for no authentication
+MONGODB_PASSWORD=                   # Leave empty for no authentication
+MONGODB_AUTH_SOURCE=admin           # Authentication database
+MONGODB_MAX_POOL_SIZE=10            # Maximum connection pool size
+MONGODB_MIN_POOL_SIZE=1             # Minimum connection pool size
+MONGODB_SERVER_SELECTION_TIMEOUT=5000  # Server selection timeout (ms)
 
-# Message Queue
-KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+# PostgreSQL + TimescaleDB (for Stellio backend)
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=stellio
+POSTGRES_USER=stellio
+POSTGRES_PASSWORD=stellio_password  # ⚠️ CHANGE IN PRODUCTION
+POSTGRES_SCHEMA=public
+POSTGRES_MAX_CONNECTIONS=20
 
-# Computer Vision (YOLOX + DETR)
-YOLOX_MODEL=assets/models/yolox_s.pth
-YOLOX_DEVICE=cpu                  # cpu | cuda
-YOLOX_CONFIDENCE=0.25
-# DETR accident model is auto-downloaded from HuggingFace
-
-# External APIs
-OPENWEATHERMAP_API_KEY=your_key
-GEONAMES_USERNAME=your_username
+# Redis (Cache & Session Store)
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=                     # Leave empty if no password
+REDIS_DB=0                          # Redis database number
+REDIS_MAX_CONNECTIONS=10
+REDIS_SOCKET_TIMEOUT=5              # Socket timeout in seconds
+REDIS_SOCKET_CONNECT_TIMEOUT=5      # Connection timeout in seconds
 ```
+
+</details>
+
+#### 6. Message Queue & Streaming
+
+<details>
+<summary><strong>📨 Apache Kafka Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# MESSAGE QUEUE (Apache Kafka)
+# ============================================================================
+
+# Kafka broker connection
+KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+KAFKA_CLIENT_ID=uip-producer
+KAFKA_GROUP_ID=uip-consumer-group
+
+# Producer settings
+KAFKA_PRODUCER_ACKS=all              # Options: 0 | 1 | all
+KAFKA_PRODUCER_RETRIES=3
+KAFKA_PRODUCER_MAX_IN_FLIGHT_REQUESTS=5
+KAFKA_PRODUCER_COMPRESSION_TYPE=snappy  # Options: none | gzip | snappy | lz4 | zstd
+
+# Consumer settings
+KAFKA_CONSUMER_AUTO_OFFSET_RESET=earliest  # Options: earliest | latest
+KAFKA_CONSUMER_ENABLE_AUTO_COMMIT=true
+KAFKA_CONSUMER_AUTO_COMMIT_INTERVAL_MS=5000
+KAFKA_CONSUMER_SESSION_TIMEOUT_MS=30000
+KAFKA_CONSUMER_MAX_POLL_RECORDS=500
+
+# Topic configuration
+KAFKA_TOPIC_PREFIX=cim.entity        # Prefix for all Kafka topics
+KAFKA_TOPIC_PARTITIONS=3             # Number of partitions per topic
+KAFKA_TOPIC_REPLICATION_FACTOR=1     # Replication factor (set to 3 in production)
+
+# Security (optional - for production)
+KAFKA_SECURITY_PROTOCOL=PLAINTEXT    # Options: PLAINTEXT | SSL | SASL_PLAINTEXT | SASL_SSL
+KAFKA_SASL_MECHANISM=                # Options: PLAIN | SCRAM-SHA-256 | SCRAM-SHA-512
+KAFKA_SASL_USERNAME=
+KAFKA_SASL_PASSWORD=
+```
+
+</details>
+
+#### 7. Computer Vision & AI Models
+
+<details>
+<summary><strong>🤖 YOLOX & DETR Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# COMPUTER VISION (YOLOX + DETR)
+# ============================================================================
+
+# YOLOX Object Detection (Apache-2.0 License)
+YOLOX_MODEL=assets/models/yolox_s.pth     # Model weights file
+YOLOX_MODEL_TYPE=yolox-s                  # Options: yolox-nano | yolox-tiny | yolox-s | yolox-m | yolox-l | yolox-x
+YOLOX_DEVICE=cpu                          # Options: cpu | cuda | cuda:0 | cuda:1 | mps
+YOLOX_CONFIDENCE=0.25                     # Confidence threshold (0.0 - 1.0)
+YOLOX_NMS_THRESHOLD=0.45                  # Non-Maximum Suppression threshold
+YOLOX_INPUT_SIZE=640                      # Input image size (pixels)
+YOLOX_FP16=false                          # Use FP16 half-precision (GPU only)
+YOLOX_BATCH_SIZE=1                        # Batch size for inference
+
+# DETR Accident Detection (via HuggingFace Transformers)
+DETR_MODEL=hilmantm/detr-traffic-accident-detection  # HuggingFace model ID
+DETR_DEVICE=cpu                           # Options: cpu | cuda
+DETR_CONFIDENCE=0.7                       # Confidence threshold for accident detection
+DETR_CACHE_DIR=assets/models/detr        # Model cache directory
+DETR_MAX_SIZE=800                         # Maximum image dimension
+
+# Model download settings
+MODEL_DOWNLOAD_TIMEOUT=300                # Timeout for model downloads (seconds)
+MODEL_CACHE_ENABLED=true                  # Cache downloaded models locally
+HF_HOME=assets/models/huggingface        # HuggingFace cache directory
+
+# GPU Memory Management (if using CUDA)
+CUDA_VISIBLE_DEVICES=0                    # GPU device ID(s), comma-separated
+CUDA_LAUNCH_BLOCKING=0                    # Set to 1 for debugging
+```
+
+</details>
+
+#### 8. External API Integrations
+
+<details>
+<summary><strong>🌍 Third-Party API Keys</strong></summary>
+
+```bash
+# ============================================================================
+# EXTERNAL APIs
+# ============================================================================
+
+# OpenWeatherMap API
+OPENWEATHERMAP_API_KEY=your_api_key_here              # Get from: https://openweathermap.org/api
+OPENWEATHERMAP_UNITS=metric                           # Options: metric | imperial | standard
+OPENWEATHERMAP_LANG=en                                # Language code
+
+# GeoNames API
+GEONAMES_USERNAME=your_username_here                  # Register at: http://www.geonames.org/login
+GEONAMES_MAX_ROWS=10                                  # Maximum results per query
+
+# OpenAQ Air Quality API
+OPENAQ_API_URL=https://api.openaq.org/v2
+OPENAQ_LIMIT=100                                      # Results per page
+OPENAQ_PAGE=1                                         # Page number
+
+# Google Maps API (Optional - for geocoding/routing)
+GOOGLE_MAPS_API_KEY=                                  # Optional: Enhanced geocoding
+GOOGLE_MAPS_LANGUAGE=en
+
+# GeoServer (Optional - for WMS/WFS services)
+GEOSERVER_URL=http://localhost:8080/geoserver
+GEOSERVER_WORKSPACE=traffic
+GEOSERVER_USER=admin
+GEOSERVER_PASSWORD=geoserver
+
+# LOD Cloud Integration
+DBPEDIA_SPARQL_ENDPOINT=https://dbpedia.org/sparql
+WIKIDATA_SPARQL_ENDPOINT=https://query.wikidata.org/sparql
+GEONAMES_RDF_ENDPOINT=http://sws.geonames.org
+```
+
+</details>
+
+#### 9. Security & Authentication
+
+<details>
+<summary><strong>🔐 Security Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# SECURITY & AUTHENTICATION
+# ============================================================================
+
+# API Security
+API_KEY_HEADER=X-API-Key
+API_KEYS=key1,key2,key3                              # Comma-separated API keys
+JWT_SECRET=your-super-secret-jwt-key-change-this     # ⚠️ CHANGE IN PRODUCTION
+JWT_ALGORITHM=HS256
+JWT_EXPIRATION=3600                                  # Token expiration (seconds)
+
+# CORS Configuration
+CORS_ORIGINS=http://localhost:3000,http://localhost:5173  # Allowed origins
+CORS_ALLOW_CREDENTIALS=true
+CORS_ALLOW_METHODS=GET,POST,PUT,DELETE,OPTIONS
+CORS_ALLOW_HEADERS=*
+
+# Rate Limiting
+RATE_LIMIT_ENABLED=true
+RATE_LIMIT_PER_MINUTE=60                             # Requests per minute per IP
+RATE_LIMIT_STORAGE=redis                             # Options: memory | redis
+
+# SSL/TLS (for production)
+SSL_ENABLED=false
+SSL_CERT_PATH=/path/to/cert.pem
+SSL_KEY_PATH=/path/to/key.pem
+```
+
+</details>
+
+#### 10. Monitoring & Observability
+
+<details>
+<summary><strong>📊 Monitoring Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# MONITORING & OBSERVABILITY
+# ============================================================================
+
+# Prometheus Metrics
+PROMETHEUS_ENABLED=true
+PROMETHEUS_PORT=9090
+PROMETHEUS_PATH=/metrics
+
+# Health Check
+HEALTH_CHECK_ENABLED=true
+HEALTH_CHECK_INTERVAL=30                             # Seconds between checks
+HEALTH_CHECK_TIMEOUT=10                              # Timeout per check
+
+# Performance Monitoring
+PERFORMANCE_MONITORING=true
+SLOW_QUERY_THRESHOLD=1000                            # Log queries slower than N milliseconds
+
+# Sentry Error Tracking (Optional)
+SENTRY_DSN=                                          # Sentry project DSN
+SENTRY_ENVIRONMENT=development
+SENTRY_TRACES_SAMPLE_RATE=0.1                       # Sample 10% of transactions
+
+# Grafana Integration
+GRAFANA_URL=http://localhost:3001
+GRAFANA_API_KEY=
+```
+
+</details>
+
+#### 11. Development & Testing
+
+<details>
+<summary><strong>🧪 Development Settings</strong></summary>
+
+```bash
+# ============================================================================
+# DEVELOPMENT & TESTING
+# ============================================================================
+
+# Testing
+TEST_DATABASE_URL=mongodb://localhost:27017/uip_test
+TEST_NEO4J_URL=bolt://localhost:7687
+TEST_REDIS_DB=15                                     # Separate Redis DB for testing
+
+# Mock Services
+MOCK_EXTERNAL_APIS=false                             # Use mock responses for external APIs
+MOCK_CV_MODELS=false                                 # Use mock CV model responses
+
+# Code Quality
+ENABLE_PROFILING=false                               # Enable code profiling
+PROFILE_OUTPUT_DIR=profiles/
+
+# Hot Reload
+AUTO_RELOAD=true                                     # Auto-reload on code changes (dev only)
+RELOAD_DIRS=src,config                              # Directories to watch for changes
+```
+
+</details>
+
+#### 12. Production Deployment
+
+<details>
+<summary><strong>🚀 Production-Specific Settings</strong></summary>
+
+```bash
+# ============================================================================
+# PRODUCTION DEPLOYMENT
+# ============================================================================
+
+# High Availability
+HA_ENABLED=false
+HA_REDIS_SENTINEL=                                   # Redis Sentinel URLs
+HA_KAFKA_BROKERS=kafka1:9092,kafka2:9092,kafka3:9092
+
+# Resource Limits
+MAX_WORKERS=4                                        # Number of worker processes
+WORKER_CONNECTIONS=1000                              # Max connections per worker
+WORKER_TIMEOUT=30                                    # Worker timeout (seconds)
+
+# Database Connection Pooling
+DB_POOL_SIZE=20                                      # Connection pool size
+DB_MAX_OVERFLOW=10                                   # Maximum overflow connections
+
+# Caching
+CACHE_TTL=3600                                       # Cache TTL in seconds
+CACHE_PREFIX=uip:                                    # Cache key prefix
+
+# Backup & Recovery
+BACKUP_ENABLED=false
+BACKUP_SCHEDULE=0 2 * * *                           # Cron expression (2 AM daily)
+BACKUP_RETENTION_DAYS=30
+BACKUP_S3_BUCKET=                                    # S3 bucket for backups
+
+# Feature Flags
+FEATURE_CITIZEN_REPORTS=true
+FEATURE_PATTERN_RECOGNITION=true
+FEATURE_LOD_LINKSETS=true
+```
+
+</details>
+
+---
+
+### 🔍 Environment Variables Reference
+
+#### Quick Reference Table
+
+| Category | Variables | Documentation |
+|----------|-----------|---------------|
+| **Application** | `ENVIRONMENT`, `LOG_LEVEL`, `DEBUG` | [See Application Settings](#3-application-settings) |
+| **Orchestrator** | `ORCHESTRATOR_INTERVAL`, `WORKFLOW_CONFIG` | [See Orchestrator Config](#4-orchestrator-configuration) |
+| **Databases** | `STELLIO_URL`, `NEO4J_URL`, `FUSEKI_URL`, `MONGODB_URI` | [See Database Connections](#5-database-connections) |
+| **Kafka** | `KAFKA_BOOTSTRAP_SERVERS`, `KAFKA_TOPIC_PREFIX` | [See Message Queue](#6-message-queue--streaming) |
+| **AI Models** | `YOLOX_MODEL`, `DETR_MODEL`, `YOLOX_DEVICE` | [See CV Configuration](#7-computer-vision--ai-models) |
+| **External APIs** | `OPENWEATHERMAP_API_KEY`, `GEONAMES_USERNAME` | [See External APIs](#8-external-api-integrations) |
+| **Security** | `JWT_SECRET`, `API_KEYS`, `CORS_ORIGINS` | [See Security](#9-security--authentication) |
+
+---
+
+### ⚠️ Security Best Practices
+
+> **IMPORTANT**: Never commit `.env` files to version control!
+
+1. **Change Default Passwords**: All default passwords must be changed in production
+2. **Use Strong Secrets**: Generate cryptographically secure random strings for `JWT_SECRET`
+3. **Restrict CORS**: Only allow trusted origins in production
+4. **Enable SSL/TLS**: Always use HTTPS in production environments
+5. **Rotate Keys**: Regularly rotate API keys and credentials
+6. **Use Environment-Specific Configs**: Separate `.env.development`, `.env.staging`, `.env.production`
+
+#### Generate Secure Secrets
+
+```bash
+# Generate a secure JWT secret (Linux/macOS)
+openssl rand -base64 32
+
+# Generate a secure API key
+openssl rand -hex 32
+
+# Windows PowerShell
+[Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+```
+
+---
+
+### 📝 Environment File Template
+
+Download the complete `.env.example` template:
+
+```bash
+# Download from repository
+curl -O https://raw.githubusercontent.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/main/.env.example
+
+# Or copy from the repository root
+cp .env.example .env
+```
+
+---
+
+### 🔗 Related Documentation
+
+- **Configuration Guide**: [docs/data-access/](docs/data-access/)
+- **Deployment Guide**: [docs/deployment/](docs/deployment/)
+- **Security Policy**: [.github/SECURITY.md](.github/SECURITY.md)
+- **Docker Configuration**: [docker-compose.yml](docker-compose.yml)
+
+---
 
 ### Workflow Configuration
 
@@ -1063,6 +1505,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ## 🗺️ Roadmap
 
+<details>
+<summary><strong>📦 Các mốc lộ trình đã hoàn thành (Legacy Roadmap)</strong></summary>
+
 ### v1.0.0 (Legacy) ✅
 
 - [x] Multi-agent system architecture (37 agents)
@@ -1083,7 +1528,9 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 - [x] NGSI-LD entity management
 - [x] RDF triple store publishing
 - [x] Docker Compose deployment
-s
+
+</details>
+
 ### v2.1.0 (Q1 2026)
 
 - [ ] Real-time streaming analytics
