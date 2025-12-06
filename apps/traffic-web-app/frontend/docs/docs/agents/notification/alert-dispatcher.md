@@ -204,6 +204,7 @@ agent.broadcast_alert(
 Dispatch alert to multiple channels.
 
 **Parameters:**
+
 - `alert_type` (str): Type of alert (accident, congestion, weather, etc.)
 - `priority` (str): Priority level (critical, high, medium, low)
 - `location` (dict): Location information
@@ -211,9 +212,11 @@ Dispatch alert to multiple channels.
 - `**kwargs`: Additional alert data
 
 **Returns:**
+
 - str: Alert ID
 
 **Example:**
+
 ```python
 alert_id = agent.dispatch_alert(
     alert_type="accident_critical",
@@ -228,6 +231,7 @@ alert_id = agent.dispatch_alert(
 Send alert to specific users.
 
 **Parameters:**
+
 - `user_ids` (List[str]): List of user IDs
 - `alert_type` (str): Alert type
 - `priority` (str): Priority level
@@ -238,11 +242,13 @@ Send alert to specific users.
 Send alert to external webhook.
 
 **Parameters:**
+
 - `webhook_url` (str): Webhook endpoint URL
 - `payload` (dict): Alert payload
 - `headers` (dict, optional): HTTP headers
 
 **Returns:**
+
 - WebhookResult: Delivery result
 
 ##### `broadcast_alert(alert_type: str, priority: str, radius_km: float, center_location: dict, message: str, channels: List[str])`
@@ -250,6 +256,7 @@ Send alert to external webhook.
 Broadcast alert to users in geographic area.
 
 **Parameters:**
+
 - `alert_type` (str): Alert type
 - `priority` (str): Priority level
 - `radius_km` (float): Broadcast radius
@@ -262,12 +269,15 @@ Broadcast alert to users in geographic area.
 Get delivery status of alert.
 
 **Parameters:**
+
 - `alert_id` (str): Alert identifier
 
 **Returns:**
+
 - AlertStatus: Delivery status and statistics
 
 **Example:**
+
 ```python
 status = agent.get_alert_status(alert_id)
 print(f"Delivered: {status.delivered_count}/{status.total_recipients}")

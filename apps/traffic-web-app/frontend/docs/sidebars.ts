@@ -65,6 +65,8 @@ const sidebars: SidebarsConfig = {
                         'agents/data-collection/camera-image-fetch',
                         'agents/data-collection/weather-integration',
                         'agents/data-collection/air-quality',
+                        'agents/data-collection/external-data-collector',
+                        'agents/data-collection/image-refresh',
                     ],
                 },
                 {
@@ -80,6 +82,10 @@ const sidebars: SidebarsConfig = {
                     label: 'RDF & Linked Data Agents',
                     items: [
                         'agents/rdf-linked-data/triplestore-loader',
+                        'agents/rdf-linked-data/content-negotiation',
+                        'agents/rdf-linked-data/lod-linkset-enrichment',
+                        'agents/rdf-linked-data/ngsi-ld-to-rdf',
+                        'agents/rdf-linked-data/smart-data-models-validation',
                     ],
                 },
                 {
@@ -87,6 +93,58 @@ const sidebars: SidebarsConfig = {
                     label: 'Context Management Agents',
                     items: [
                         'agents/context-management/entity-publisher',
+                        'agents/context-management/state-updater',
+                        'agents/context-management/stellio-state-query',
+                        'agents/context-management/temporal-data-manager',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'State Management Agents',
+                    items: [
+                        'agents/state-management/state-manager',
+                        'agents/state-management/accident-state-manager',
+                        'agents/state-management/congestion-state-manager',
+                        'agents/state-management/temporal-state-tracker',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Cache Agents',
+                    items: [
+                        'agents/cache/cache-manager',
+                        'agents/cache/cache-invalidator',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Graph Database Agents',
+                    items: [
+                        'agents/graph-database/neo4j-sync',
+                        'agents/graph-database/neo4j-query',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Monitoring Agents',
+                    items: [
+                        'agents/monitoring/health-check',
+                        'agents/monitoring/performance-monitor',
+                        'agents/monitoring/data-quality-validator',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Ingestion Agents',
+                    items: [
+                        'agents/ingestion/citizen-ingestion',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Integration Agents',
+                    items: [
+                        'agents/integration/api-gateway',
                     ],
                 },
                 {
@@ -94,6 +152,10 @@ const sidebars: SidebarsConfig = {
                     label: 'Notification Agents',
                     items: [
                         'agents/notification/alert-dispatcher',
+                        'agents/notification/email-notification-handler',
+                        'agents/notification/incident-report-generator',
+                        'agents/notification/subscription-manager',
+                        'agents/notification/webhook-notification-handler',
                     ],
                 },
             ],

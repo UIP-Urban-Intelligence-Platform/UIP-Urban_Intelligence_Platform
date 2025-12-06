@@ -164,13 +164,16 @@ print(f"Traffic Contribution: {correlation.traffic_contribution_pct}%")
 Get current Air Quality Index for location.
 
 **Parameters:**
+
 - `lat` (float): Latitude
 - `lon` (float): Longitude
 
 **Returns:**
+
 - AQIData: Current AQI information
 
 **Example:**
+
 ```python
 aqi = agent.get_current_aqi(lat=10.7769, lon=106.7009)
 print(f"AQI: {aqi.aqi} - {aqi.level}")
@@ -181,10 +184,12 @@ print(f"AQI: {aqi.aqi} - {aqi.level}")
 Get detailed pollutant measurements.
 
 **Parameters:**
+
 - `lat` (float): Latitude
 - `lon` (float): Longitude
 
 **Returns:**
+
 - PollutantData: Pollutant concentrations
 
 ##### `assess_health_impact(aqi: AQIData) -> HealthAssessment`
@@ -192,9 +197,11 @@ Get detailed pollutant measurements.
 Calculate health risks based on AQI.
 
 **Parameters:**
+
 - `aqi` (AQIData): AQI data object
 
 **Returns:**
+
 - HealthAssessment: Health impact information
 
 ##### `get_aqi_forecast(lat: float, lon: float, hours: int = 24) -> List[AQIForecast]`
@@ -202,14 +209,17 @@ Calculate health risks based on AQI.
 Get predicted AQI for upcoming hours.
 
 **Parameters:**
+
 - `lat` (float): Latitude
 - `lon` (float): Longitude
 - `hours` (int): Forecast hours (default: 24)
 
 **Returns:**
+
 - List[AQIForecast]: Hourly AQI predictions
 
 **Example:**
+
 ```python
 forecast = agent.get_aqi_forecast(lat=10.7769, lon=106.7009, hours=24)
 for hour in forecast:
