@@ -1,9 +1,11 @@
 #!/bin/bash
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
 #
 # Health Check Script - PRODUCTION READY
-#
 # Checks health of all services using real HTTP requests.
 #
 # Module: scripts/health_check.sh

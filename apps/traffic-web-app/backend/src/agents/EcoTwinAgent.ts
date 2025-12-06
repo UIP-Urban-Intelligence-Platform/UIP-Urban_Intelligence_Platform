@@ -1,5 +1,11 @@
 /**
  * Eco-Twin Simulator Agent - Environmental Health & Digital Twin Guardian
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
  * 
  * @module apps/traffic-web-app/backend/src/agents/EcoTwinAgent
  * @author Nguyễn Nhật Quang

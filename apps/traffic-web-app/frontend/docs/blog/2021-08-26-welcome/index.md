@@ -5,6 +5,18 @@ authors: [nguyennhatquang, nguyenviethoang, nguyendinhanhtuan]
 tags: [uip, hello, welcome, traffic-monitoring]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Welcome to UIP Blog.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2021-08-26-welcome/index.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Chào mừng đến với UIP Blog! 🎉
 
 Đây là trang blog chính thức của **UIP - Urban Intelligence Platform**, nơi chúng tôi chia sẻ kiến thức, kinh nghiệm và cập nhật về dự án.

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+NGSI-LD Transformer Agent report.
+
+Module: reports/NGSI_LD_TRANSFORMER_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # NGSI-LD Transformer Agent - Test Report
 
 **Agent:** NGSI-LD Transformer Agent  

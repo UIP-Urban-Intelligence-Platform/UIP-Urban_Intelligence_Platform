@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Citizen Science feature complete documentation.
+
+Module: docs/CITIZEN_SCIENCE_FEATURE.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Citizen Science Feature - Complete Documentation
 
 ## 📋 Overview

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Phase 5 fix summary (Vietnamese).
+
+Module: reports/PHASE5_FIX_SUMMARY_VI.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # ✅ PHASE 5 AGENT FIX - TÓM TẮT HOÀN THÀNH
 
 ## 🎯 YÊU CẦU ĐÃ THỰC HIỆN

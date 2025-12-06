@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Data access guide for LOD Cloud and storage systems.
+
+Module: guides/DATA_ACCESS_GUIDE.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # 📊 Data Access Guide - LOD Cloud & Storage Systems
 
 > **Hướng dẫn chi tiết để khai thác 100% data từ LOD Cloud và các hệ thống lưu trữ**

@@ -76,9 +76,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -162,13 +160,9 @@ class Neo4jQueryExecutor:
         """
         self.enabled = config.get("enabled", False)
         # Priority: environment variables > config > defaults
-        self.uri = os.environ.get("NEO4J_URL") or config.get(
-            "uri", "bolt://localhost:7687"
-        )
+        self.uri = os.environ.get("NEO4J_URL") or config.get("uri", "bolt://localhost:7687")
         self.username = os.environ.get("NEO4J_USER") or config.get("username", "neo4j")
-        self.password = os.environ.get("NEO4J_PASSWORD") or config.get(
-            "password", "password"
-        )
+        self.password = os.environ.get("NEO4J_PASSWORD") or config.get("password", "password")
         self.database = config.get("database", "neo4j")
         self.queries = config.get("queries", {})
 
@@ -178,9 +172,7 @@ class Neo4jQueryExecutor:
             try:
                 from neo4j import GraphDatabase
 
-                self.driver = GraphDatabase.driver(
-                    self.uri, auth=(self.username, self.password)
-                )
+                self.driver = GraphDatabase.driver(self.uri, auth=(self.username, self.password))
                 logger.info("Connected to Neo4j database")
             except ImportError:
                 logger.warning("neo4j package not installed - Neo4j queries disabled")
@@ -189,9 +181,7 @@ class Neo4jQueryExecutor:
                 logger.error(f"Failed to connect to Neo4j: {e}")
                 self.enabled = False
 
-    def execute_query(
-        self, query_name: str, parameters: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+    def execute_query(self, query_name: str, parameters: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
         Execute named query with parameters.
 
@@ -257,13 +247,9 @@ class ReportDataCollector:
         # Stellio configuration - Priority: environment variables > config > defaults
         self.stellio_config = self.data_sources.get("stellio", {})
         self.stellio_enabled = self.stellio_config.get("enabled", False)
-        self.stellio_base_url = os.environ.get(
-            "STELLIO_URL"
-        ) or self.stellio_config.get("base_url", "http://localhost:8080")
+        self.stellio_base_url = os.environ.get("STELLIO_URL") or self.stellio_config.get("base_url", "http://localhost:8080")
 
-    def collect_incident_data(
-        self, accident_id: str, entity_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    def collect_incident_data(self, accident_id: str, entity_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Collect all data for incident report.
 
@@ -287,9 +273,7 @@ class ReportDataCollector:
         }
 
         # Extract basic information
-        detection_time = entity_data.get("detectionTime", {}).get(
-            "value", datetime.utcnow().isoformat()
-        )
+        detection_time = entity_data.get("detectionTime", {}).get("value", datetime.utcnow().isoformat())
         camera_id = entity_data.get("cameraId", {}).get("value", "")
         location = entity_data.get("location", {}).get("value", {})
 
@@ -300,14 +284,8 @@ class ReportDataCollector:
 
         # Get timeline data
         if camera_id:
-            start_time = (
-                datetime.fromisoformat(detection_time.replace("Z", ""))
-                - timedelta(minutes=5)
-            ).isoformat()
-            end_time = (
-                datetime.fromisoformat(detection_time.replace("Z", ""))
-                + timedelta(minutes=30)
-            ).isoformat()
+            start_time = (datetime.fromisoformat(detection_time.replace("Z", "")) - timedelta(minutes=5)).isoformat()
+            end_time = (datetime.fromisoformat(detection_time.replace("Z", "")) + timedelta(minutes=30)).isoformat()
 
             timeline_data = self.neo4j.execute_query(
                 "timeline",
@@ -323,10 +301,7 @@ class ReportDataCollector:
         if location and isinstance(location, dict):
             coordinates = location.get("coordinates", [])
             if len(coordinates) >= 2:
-                start_time = (
-                    datetime.fromisoformat(detection_time.replace("Z", ""))
-                    - timedelta(hours=24)
-                ).isoformat()
+                start_time = (datetime.fromisoformat(detection_time.replace("Z", "")) - timedelta(hours=24)).isoformat()
                 end_time = datetime.utcnow().isoformat()
 
                 related_data = self.neo4j.execute_query(
@@ -359,9 +334,7 @@ class ReportDataCollector:
                         "end_date": end_date,
                     },
                 )
-                data["historical_patterns"] = (
-                    historical_data[0] if historical_data else {}
-                )
+                data["historical_patterns"] = historical_data[0] if historical_data else {}
 
         # Get weather context
         weather_data = self.neo4j.execute_query(
@@ -400,9 +373,7 @@ class VisualizationGenerator:
         self.charts_enabled = self.charts_config.get("enabled", True)
         self.maps_enabled = self.maps_config.get("enabled", False)
 
-    def generate_speed_timeline_chart(
-        self, timeline_data: List[Dict[str, Any]]
-    ) -> Optional[str]:
+    def generate_speed_timeline_chart(self, timeline_data: List[Dict[str, Any]]) -> Optional[str]:
         """
         Generate speed timeline chart.
 
@@ -440,9 +411,7 @@ class VisualizationGenerator:
             )
             plt.xlabel("Time", fontsize=12)
             plt.ylabel("Speed (km/h)", fontsize=12)
-            plt.title(
-                "Speed Profile Before/After Incident", fontsize=14, fontweight="bold"
-            )
+            plt.title("Speed Profile Before/After Incident", fontsize=14, fontweight="bold")
             plt.grid(True, alpha=0.3)
             plt.tight_layout()
 
@@ -460,9 +429,7 @@ class VisualizationGenerator:
             logger.error(f"Failed to generate speed timeline chart: {e}")
             return None
 
-    def generate_speed_variance_chart(
-        self, timeline_data: List[Dict[str, Any]]
-    ) -> Optional[str]:
+    def generate_speed_variance_chart(self, timeline_data: List[Dict[str, Any]]) -> Optional[str]:
         """
         Generate speed variance bar chart.
 
@@ -515,9 +482,7 @@ class VisualizationGenerator:
             logger.error(f"Failed to generate speed variance chart: {e}")
             return None
 
-    def generate_map(
-        self, location: Dict[str, Any], affected_cameras: List[Dict[str, Any]]
-    ) -> Optional[str]:
+    def generate_map(self, location: Dict[str, Any], affected_cameras: List[Dict[str, Any]]) -> Optional[str]:
         """
         Generate incident location map.
 
@@ -646,22 +611,14 @@ class ReportGenerator:
         charts = []
 
         # Speed timeline chart
-        speed_chart = self.viz_gen.generate_speed_timeline_chart(
-            data.get("timeline", [])
-        )
+        speed_chart = self.viz_gen.generate_speed_timeline_chart(data.get("timeline", []))
         if speed_chart:
-            charts.append(
-                {"title": "Speed Profile Before/After Incident", "data": speed_chart}
-            )
+            charts.append({"title": "Speed Profile Before/After Incident", "data": speed_chart})
 
         # Speed variance chart
-        variance_chart = self.viz_gen.generate_speed_variance_chart(
-            data.get("timeline", [])
-        )
+        variance_chart = self.viz_gen.generate_speed_variance_chart(data.get("timeline", []))
         if variance_chart:
-            charts.append(
-                {"title": "Speed Variance Distribution", "data": variance_chart}
-            )
+            charts.append({"title": "Speed Variance Distribution", "data": variance_chart})
 
         report_data["charts"] = charts
 
@@ -698,9 +655,7 @@ class ReportGenerator:
 
         return results
 
-    def _build_report_data(
-        self, data: Dict[str, Any], report_id: str
-    ) -> Dict[str, Any]:
+    def _build_report_data(self, data: Dict[str, Any], report_id: str) -> Dict[str, Any]:
         """
         Build structured report data.
 
@@ -717,12 +672,8 @@ class ReportGenerator:
         summary = {
             "location": entity_data.get("roadName", {}).get("value", "Unknown"),
             "severity": entity_data.get("severity", {}).get("value", "moderate"),
-            "detection_time": entity_data.get("detectionTime", {}).get(
-                "value", datetime.utcnow().isoformat()
-            ),
-            "estimated_clearance": (
-                datetime.utcnow() + timedelta(minutes=30)
-            ).isoformat(),
+            "detection_time": entity_data.get("detectionTime", {}).get("value", datetime.utcnow().isoformat()),
+            "estimated_clearance": (datetime.utcnow() + timedelta(minutes=30)).isoformat(),
             "camera_id": entity_data.get("cameraId", {}).get("value", ""),
             "description": f"Traffic incident detected on {entity_data.get('roadName', {}).get('value', 'Unknown')}",
         }
@@ -747,11 +698,7 @@ class ReportGenerator:
 
             timeline.append(
                 {
-                    "time": (
-                        event_time.split("T")[-1][:5]
-                        if "T" in event_time
-                        else event_time
-                    ),
+                    "time": (event_time.split("T")[-1][:5] if "T" in event_time else event_time),
                     "event": event,
                 }
             )
@@ -759,11 +706,7 @@ class ReportGenerator:
         # Impact section
         impact = {
             "affected_cameras": [],
-            "avg_speed_drop": (
-                entity_data.get("avgSpeed", {}).get("value", 0) * 0.45
-                if entity_data.get("avgSpeed")
-                else 45
-            ),
+            "avg_speed_drop": (entity_data.get("avgSpeed", {}).get("value", 0) * 0.45 if entity_data.get("avgSpeed") else 45),
             "congestion_duration": "30 minutes",
             "estimated_vehicles_affected": 150,
         }
@@ -861,18 +804,12 @@ class ReportGenerator:
             File path
         """
         storage_config = self.config.get_storage_config()
-        base_path = Path(
-            storage_config.get("filesystem", {}).get(
-                "base_path", "data/incident_reports"
-            )
-        )
+        base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
 
         # Create subdirectories by date
         if storage_config.get("filesystem", {}).get("subdirs_by_date", True):
             now = datetime.utcnow()
-            base_path = (
-                base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
-            )
+            base_path = base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
 
         base_path.mkdir(parents=True, exist_ok=True)
 
@@ -890,9 +827,7 @@ class ReportGenerator:
 
         return str(file_path)
 
-    def _generate_html(
-        self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]
-    ) -> str:
+    def _generate_html(self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]) -> str:
         """
         Generate HTML format report.
 
@@ -911,18 +846,12 @@ class ReportGenerator:
         html_content = template.render(**data)
 
         storage_config = self.config.get_storage_config()
-        base_path = Path(
-            storage_config.get("filesystem", {}).get(
-                "base_path", "data/incident_reports"
-            )
-        )
+        base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
 
         # Create subdirectories by date
         if storage_config.get("filesystem", {}).get("subdirs_by_date", True):
             now = datetime.utcnow()
-            base_path = (
-                base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
-            )
+            base_path = base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
 
         base_path.mkdir(parents=True, exist_ok=True)
 
@@ -937,9 +866,7 @@ class ReportGenerator:
 
         return str(file_path)
 
-    def _generate_pdf(
-        self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]
-    ) -> str:
+    def _generate_pdf(self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]) -> str:
         """
         Generate PDF format report.
 
@@ -958,18 +885,12 @@ class ReportGenerator:
         html_content = template.render(**data)
 
         storage_config = self.config.get_storage_config()
-        base_path = Path(
-            storage_config.get("filesystem", {}).get(
-                "base_path", "data/incident_reports"
-            )
-        )
+        base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
 
         # Create subdirectories by date
         if storage_config.get("filesystem", {}).get("subdirs_by_date", True):
             now = datetime.utcnow()
-            base_path = (
-                base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
-            )
+            base_path = base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
 
         base_path.mkdir(parents=True, exist_ok=True)
 
@@ -1017,9 +938,7 @@ class NotificationSender:
         self.email_enabled = self.email_config.get("enabled", False)
         self.webhook_enabled = self.webhook_config.get("enabled", False)
 
-    def send_email_notification(
-        self, report_data: Dict[str, Any], pdf_path: Optional[str] = None
-    ):
+    def send_email_notification(self, report_data: Dict[str, Any], pdf_path: Optional[str] = None):
         """
         Send email notification with report attachment.
 
@@ -1045,9 +964,7 @@ class NotificationSender:
         from jinja2 import Environment
 
         safe_env = Environment(autoescape=True)
-        subject_template = self.email_config.get(
-            "subject_template", "Incident Report: {{report_id}}"
-        )
+        subject_template = self.email_config.get("subject_template", "Incident Report: {{report_id}}")
         subject = safe_env.from_string(subject_template).render(**report_data)
 
         # Build body - use Environment with autoescape for security
@@ -1056,9 +973,7 @@ class NotificationSender:
 
         # Create message
         msg = MIMEMultipart()
-        msg["From"] = (
-            f"{self.email_config.get('from_name', 'Report System')} <{self.email_config.get('from_addr', '')}>"
-        )
+        msg["From"] = f"{self.email_config.get('from_name', 'Report System')} <{self.email_config.get('from_addr', '')}>"
         msg["To"] = ", ".join(recipients)
         msg["Subject"] = subject
 
@@ -1068,27 +983,17 @@ class NotificationSender:
         if pdf_path and Path(pdf_path).exists():
             with open(pdf_path, "rb") as f:
                 pdf_attachment = MIMEApplication(f.read(), _subtype="pdf")
-                pdf_attachment.add_header(
-                    "Content-Disposition", "attachment", filename=Path(pdf_path).name
-                )
+                pdf_attachment.add_header("Content-Disposition", "attachment", filename=Path(pdf_path).name)
                 msg.attach(pdf_attachment)
 
         # Send email
         try:
             # Priority: environment variables > config > defaults
-            smtp_host = os.environ.get("SMTP_HOST") or self.email_config.get(
-                "smtp_host", "localhost"
-            )
-            smtp_port = int(
-                os.environ.get("SMTP_PORT") or self.email_config.get("smtp_port", 25)
-            )
+            smtp_host = os.environ.get("SMTP_HOST") or self.email_config.get("smtp_host", "localhost")
+            smtp_port = int(os.environ.get("SMTP_PORT") or self.email_config.get("smtp_port", 25))
             use_tls = self.email_config.get("use_tls", False)
-            username = os.environ.get("SMTP_USERNAME") or self.email_config.get(
-                "username", ""
-            )
-            password = os.environ.get("SMTP_PASSWORD") or self.email_config.get(
-                "password", ""
-            )
+            username = os.environ.get("SMTP_USERNAME") or self.email_config.get("username", "")
+            password = os.environ.get("SMTP_PASSWORD") or self.email_config.get("password", "")
 
             with smtplib.SMTP(smtp_host, smtp_port) as server:
                 if use_tls:
@@ -1140,9 +1045,7 @@ class IncidentReportGenerator:
 
         logger.info("Incident report generator initialized")
 
-    def generate_report_for_incident(
-        self, accident_id: str, entity_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    def generate_report_for_incident(self, accident_id: str, entity_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Generate report for incident entity.
 
@@ -1166,15 +1069,9 @@ class IncidentReportGenerator:
             report_data = {
                 "report_id": results["report_id"],
                 "accident_id": accident_id,
-                "severity": data["entity_data"]
-                .get("severity", {})
-                .get("value", "moderate"),
-                "location": data["entity_data"]
-                .get("roadName", {})
-                .get("value", "Unknown"),
-                "detection_time": data["entity_data"]
-                .get("detectionTime", {})
-                .get("value", ""),
+                "severity": data["entity_data"].get("severity", {}).get("value", "moderate"),
+                "location": data["entity_data"].get("roadName", {}).get("value", "Unknown"),
+                "detection_time": data["entity_data"].get("detectionTime", {}).get("value", ""),
                 "summary": f"Incident detected at {data['entity_data'].get('roadName', {}).get('value', 'Unknown')}",
                 "report_url": f"http://localhost:8081/api/reports/{results['report_id']}",
             }
@@ -1211,11 +1108,7 @@ class IncidentReportGenerator:
             format_type = request.args.get("format", "json")
 
             storage_config = self.config.get_storage_config()
-            base_path = Path(
-                storage_config.get("filesystem", {}).get(
-                    "base_path", "data/incident_reports"
-                )
-            )
+            base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
 
             # Search for report file
             report_file = None

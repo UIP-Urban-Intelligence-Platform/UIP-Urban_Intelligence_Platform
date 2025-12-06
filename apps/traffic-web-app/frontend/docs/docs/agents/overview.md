@@ -4,6 +4,18 @@ sidebar_label: 'Overview'
 title: 'Agent System Overview'
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Agent system overview documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/agents/overview.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Agent System Overview
 
 The HCMC Traffic Monitoring System is powered by **30+ specialized agents** that work together to collect, process, analyze, and publish traffic data.

@@ -1,4 +1,12 @@
 /**
+ * Error Handler Middleware - Global Error Management
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/middlewares/errorHandler
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26

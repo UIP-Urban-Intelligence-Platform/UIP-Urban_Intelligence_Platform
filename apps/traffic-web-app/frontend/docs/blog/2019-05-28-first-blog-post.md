@@ -5,6 +5,18 @@ authors: [nguyennhatquang, nguyenviethoang]
 tags: [smart-city, traffic, uip, hcmc]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Why Smart Traffic Matters.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2019-05-28-first-blog-post.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 Thành phố Hồ Chí Minh với hơn 10 triệu dân và 8 triệu phương tiện đang đối mặt với thách thức giao thông nghiêm trọng. Bài viết này giải thích tại sao chúng ta cần giải pháp **giao thông thông minh**.
 
 <!-- truncate -->

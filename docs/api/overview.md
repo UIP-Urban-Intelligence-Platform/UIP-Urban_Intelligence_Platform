@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+REST API reference overview.
+
+Module: docs/api/overview.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # REST API Reference
 
 The HCMC Traffic Monitoring System provides a comprehensive RESTful API for accessing traffic data.

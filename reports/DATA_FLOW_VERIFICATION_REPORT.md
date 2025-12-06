@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Data flow verification report.
+
+Module: reports/DATA_FLOW_VERIFICATION_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Data Flow Verification Report
 ## OpenWeatherMap Air Pollution API Integration
 

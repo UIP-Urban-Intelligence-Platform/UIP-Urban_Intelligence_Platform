@@ -59,9 +59,7 @@ import yaml
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -146,9 +144,7 @@ class SubscriptionManager:
 
         # Load Stellio configuration - Priority: environment variables > config > defaults
         stellio_config = self.config.get_stellio_config()
-        self.base_url = os.environ.get("STELLIO_URL") or stellio_config.get(
-            "base_url", "http://localhost:8080"
-        )
+        self.base_url = os.environ.get("STELLIO_URL") or stellio_config.get("base_url", "http://localhost:8080")
         self.timeout = stellio_config.get("timeout", 10)
         self.max_retries = stellio_config.get("max_retries", 3)
         self.retry_backoff_factor = stellio_config.get("retry_backoff_factor", 2)
@@ -156,15 +152,9 @@ class SubscriptionManager:
         # Endpoints
         endpoints = stellio_config.get("endpoints", {})
         self.create_endpoint = endpoints.get("create", "/ngsi-ld/v1/subscriptions")
-        self.get_endpoint = endpoints.get(
-            "get", "/ngsi-ld/v1/subscriptions/{subscription_id}"
-        )
-        self.update_endpoint = endpoints.get(
-            "update", "/ngsi-ld/v1/subscriptions/{subscription_id}"
-        )
-        self.delete_endpoint = endpoints.get(
-            "delete", "/ngsi-ld/v1/subscriptions/{subscription_id}"
-        )
+        self.get_endpoint = endpoints.get("get", "/ngsi-ld/v1/subscriptions/{subscription_id}")
+        self.update_endpoint = endpoints.get("update", "/ngsi-ld/v1/subscriptions/{subscription_id}")
+        self.delete_endpoint = endpoints.get("delete", "/ngsi-ld/v1/subscriptions/{subscription_id}")
         self.list_endpoint = endpoints.get("list", "/ngsi-ld/v1/subscriptions")
 
         # Headers
@@ -203,9 +193,7 @@ class SubscriptionManager:
 
         logger.info("Subscription manager initialized")
 
-    def build_subscription_payload(
-        self, subscription_def: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    def build_subscription_payload(self, subscription_def: Dict[str, Any]) -> Dict[str, Any]:
         """
         Build NGSI-LD subscription payload from configuration.
 
@@ -286,28 +274,20 @@ class SubscriptionManager:
             payload = self.build_subscription_payload(subscription_def)
             url = urljoin(self.base_url, self.create_endpoint)
 
-            logger.info(
-                f"Creating subscription: {subscription_def.get('name', 'unnamed')}"
-            )
+            logger.info(f"Creating subscription: {subscription_def.get('name', 'unnamed')}")
 
             # Retry logic
             for attempt in range(self.max_retries):
                 try:
-                    response = self.session.post(
-                        url, json=payload, timeout=self.timeout
-                    )
+                    response = self.session.post(url, json=payload, timeout=self.timeout)
 
                     if response.status_code == 201:
                         # Extract subscription ID from Location header
                         location = response.headers.get("Location", "")
-                        subscription_id = (
-                            location.split("/")[-1] if location else payload.get("id")
-                        )
+                        subscription_id = location.split("/")[-1] if location else payload.get("id")
 
                         # Register subscription
-                        subscription_name = subscription_def.get(
-                            "name", subscription_id
-                        )
+                        subscription_name = subscription_def.get("name", subscription_id)
                         self.subscription_registry[subscription_name] = subscription_id
 
                         self.stats["subscriptions_created"] += 1
@@ -322,9 +302,7 @@ class SubscriptionManager:
                         return None
 
                     else:
-                        logger.error(
-                            f"Failed to create subscription: {response.status_code} - {response.text}"
-                        )
+                        logger.error(f"Failed to create subscription: {response.status_code} - {response.text}")
 
                         if attempt < self.max_retries - 1:
                             sleep_time = self.retry_backoff_factor**attempt
@@ -364,9 +342,7 @@ class SubscriptionManager:
             Subscription details if found, None otherwise
         """
         try:
-            url = urljoin(
-                self.base_url, self.get_endpoint.format(subscription_id=subscription_id)
-            )
+            url = urljoin(self.base_url, self.get_endpoint.format(subscription_id=subscription_id))
 
             response = self.session.get(url, timeout=self.timeout)
 
@@ -378,9 +354,7 @@ class SubscriptionManager:
                 return None
 
             else:
-                logger.error(
-                    f"Failed to get subscription: {response.status_code} - {response.text}"
-                )
+                logger.error(f"Failed to get subscription: {response.status_code} - {response.text}")
                 return None
 
         except Exception as e:
@@ -403,18 +377,14 @@ class SubscriptionManager:
                 return response.json()
 
             else:
-                logger.error(
-                    f"Failed to list subscriptions: {response.status_code} - {response.text}"
-                )
+                logger.error(f"Failed to list subscriptions: {response.status_code} - {response.text}")
                 return []
 
         except Exception as e:
             logger.error(f"Error listing subscriptions: {e}")
             return []
 
-    def update_subscription(
-        self, subscription_id: str, updates: Dict[str, Any]
-    ) -> bool:
+    def update_subscription(self, subscription_id: str, updates: Dict[str, Any]) -> bool:
         """
         Update subscription.
 
@@ -441,9 +411,7 @@ class SubscriptionManager:
                 return True
 
             else:
-                logger.error(
-                    f"Failed to update subscription: {response.status_code} - {response.text}"
-                )
+                logger.error(f"Failed to update subscription: {response.status_code} - {response.text}")
                 return False
 
         except Exception as e:
@@ -488,18 +456,14 @@ class SubscriptionManager:
                 return False
 
             else:
-                logger.error(
-                    f"Failed to delete subscription: {response.status_code} - {response.text}"
-                )
+                logger.error(f"Failed to delete subscription: {response.status_code} - {response.text}")
                 return False
 
         except Exception as e:
             logger.error(f"Error deleting subscription: {e}")
             return False
 
-    def check_expiry(
-        self, subscription: Dict[str, Any]
-    ) -> Tuple[bool, Optional[datetime]]:
+    def check_expiry(self, subscription: Dict[str, Any]) -> Tuple[bool, Optional[datetime]]:
         """
         Check if subscription is expiring soon.
 
@@ -552,9 +516,7 @@ class SubscriptionManager:
 
             if success:
                 self.stats["auto_renewals"] += 1
-                logger.info(
-                    f"Renewed subscription {subscription_id} until {new_expiry_str}"
-                )
+                logger.info(f"Renewed subscription {subscription_id} until {new_expiry_str}")
 
             return success
 
@@ -590,9 +552,7 @@ class SubscriptionManager:
             is_expiring, expiry_date = self.check_expiry(subscription)
 
             if is_expiring and self.auto_renew_enabled:
-                logger.info(
-                    f"Subscription {subscription_id} expiring on {expiry_date}, renewing..."
-                )
+                logger.info(f"Subscription {subscription_id} expiring on {expiry_date}, renewing...")
                 self.renew_subscription(subscription_id)
 
             return True
@@ -673,9 +633,7 @@ class SubscriptionManager:
 
         return deleted_count
 
-    def create_from_template(
-        self, template_name: str, parameters: Dict[str, str]
-    ) -> Optional[str]:
+    def create_from_template(self, template_name: str, parameters: Dict[str, str]) -> Optional[str]:
         """
         Create subscription from template.
 

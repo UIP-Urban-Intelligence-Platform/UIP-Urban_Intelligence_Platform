@@ -347,9 +347,7 @@ class ServiceChecker:
         check_type = config.get("check", "list_topics")
         timeout = config.get("timeout", 10)
 
-        admin_client = KafkaAdminClient(
-            bootstrap_servers=bootstrap_servers, request_timeout_ms=timeout * 1000
-        )
+        admin_client = KafkaAdminClient(bootstrap_servers=bootstrap_servers, request_timeout_ms=timeout * 1000)
 
         try:
             if check_type == "list_topics":
@@ -493,9 +491,7 @@ class DataQualityChecker:
 
                 # Parse timestamp
                 timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
-                age_seconds = (
-                    datetime.now(timestamp.tzinfo) - timestamp
-                ).total_seconds()
+                age_seconds = (datetime.now(timestamp.tzinfo) - timestamp).total_seconds()
 
                 # Evaluate thresholds
                 status = self._evaluate_threshold(age_seconds, threshold)
@@ -725,9 +721,7 @@ class PerformanceChecker:
             "threshold": threshold,
         }
 
-    def _evaluate_timing_threshold(
-        self, response_time: float, threshold: Dict[str, Any]
-    ) -> str:
+    def _evaluate_timing_threshold(self, response_time: float, threshold: Dict[str, Any]) -> str:
         """Evaluate response time against threshold."""
         max_val = threshold.get("max")
         warn_max = threshold.get("warn_max")
@@ -876,9 +870,7 @@ class AlertManager:
         # Render payload template
         payload = self._render_template(payload_template, health_status)
 
-        response = requests.request(
-            method, url, json=payload, headers=headers, timeout=timeout
-        )
+        response = requests.request(method, url, json=payload, headers=headers, timeout=timeout)
 
         if response.status_code >= 200 and response.status_code < 300:
             self.logger.info(f"Webhook alert sent to {url}")
@@ -907,22 +899,16 @@ class AlertManager:
     def _render_template(self, template: Any, health_status: Dict[str, Any]) -> Any:
         """Render template with health status data."""
         if isinstance(template, dict):
-            return {
-                k: self._render_template(v, health_status) for k, v in template.items()
-            }
+            return {k: self._render_template(v, health_status) for k, v in template.items()}
         elif isinstance(template, list):
             return [self._render_template(item, health_status) for item in template]
         elif isinstance(template, str):
             # Simple template rendering
             result = template
             result = result.replace("{{status}}", health_status.get("status", ""))
-            result = result.replace(
-                "{{description}}", health_status.get("description", "")
-            )
+            result = result.replace("{{description}}", health_status.get("description", ""))
             result = result.replace("{{timestamp}}", health_status.get("timestamp", ""))
-            result = result.replace(
-                "{{severity}}", self._map_severity(health_status.get("status", ""))
-            )
+            result = result.replace("{{severity}}", self._map_severity(health_status.get("status", "")))
             return result
         else:
             return template
@@ -1007,9 +993,7 @@ class PrometheusExporter:
         )
 
         # Data quality metrics
-        self.cameras_online = Gauge(
-            "health_check_cameras_online", "Number of cameras currently online"
-        )
+        self.cameras_online = Gauge("health_check_cameras_online", "Number of cameras currently online")
 
         self.observation_age = Gauge(
             "health_check_observation_age_seconds",
@@ -1033,15 +1017,11 @@ class PrometheusExporter:
                 status = check.get("status")
 
                 # Service up/down
-                self.service_up.labels(service=check_name, type=check_type).set(
-                    1 if status == "OK" else 0
-                )
+                self.service_up.labels(service=check_name, type=check_type).set(1 if status == "OK" else 0)
 
                 # Response time
                 response_time_ms = check.get("response_time_ms", 0)
-                self.response_time.labels(service=check_name, type=check_type).observe(
-                    response_time_ms / 1000.0
-                )
+                self.response_time.labels(service=check_name, type=check_type).observe(response_time_ms / 1000.0)
 
                 # Execution counter
                 self.executions.labels(check_name=check_name, status=status).inc()
@@ -1049,9 +1029,7 @@ class PrometheusExporter:
                 # Failure counter
                 if status in ["FAILED", "ERROR"]:
                     error_type = check.get("error", "unknown")[:50]
-                    self.failures.labels(
-                        check_name=check_name, error_type=error_type
-                    ).inc()
+                    self.failures.labels(check_name=check_name, error_type=error_type).inc()
 
                 # Data quality metrics
                 if check_name == "cameras_online_count":

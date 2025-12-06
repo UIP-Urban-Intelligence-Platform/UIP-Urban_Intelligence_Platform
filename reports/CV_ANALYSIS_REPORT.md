@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+CV Analysis Agent implementation report.
+
+Module: reports/CV_ANALYSIS_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # CV Analysis Agent - Implementation Report
 
 **Date:** November 1, 2025  

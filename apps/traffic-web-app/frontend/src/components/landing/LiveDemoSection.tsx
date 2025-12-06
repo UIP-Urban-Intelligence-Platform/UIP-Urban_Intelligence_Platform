@@ -1,4 +1,12 @@
 /**
+ * Live Demo Section - Real-Time Metrics Display
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/landing/LiveDemoSection
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-28

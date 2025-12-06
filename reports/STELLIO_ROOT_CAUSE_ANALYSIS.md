@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Stellio root cause analysis.
+
+Module: reports/STELLIO_ROOT_CAUSE_ANALYSIS.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # 🔍 PHÂN TÍCH NGUYÊN NHÂN GỐC RỄ - STELLIO BYPASS
 
 **Thời gian điều tra**: 3 tháng 11, 2025  

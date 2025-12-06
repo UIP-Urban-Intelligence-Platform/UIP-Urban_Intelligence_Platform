@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+SOSA fix changelog.
+
+Module: reports/CHANGELOG_SOSA_FIX.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Changelog - SOSA madeObservation Implementation
 
 ## [2025-11-05] - CRITICAL FIX: SOSA/SSN Compliance

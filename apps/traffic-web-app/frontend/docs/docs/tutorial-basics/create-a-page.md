@@ -2,6 +2,18 @@
 sidebar_position: 1
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Docusaurus tutorial - Create a page.
+
+Module: apps/traffic-web-app/frontend/docs/docs/tutorial-basics/create-a-page.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Create a Page
 
 Add **Markdown or React** files to `src/pages` to create a **standalone page**:

@@ -95,9 +95,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Add project root to Python path
-project_root = Path(
-    __file__
-).parent.parent  # Go up one level since orchestrator.py is now in src/
+project_root = Path(__file__).parent.parent  # Go up one level since orchestrator.py is now in src/
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
@@ -106,9 +104,7 @@ from src.core.data_seeder import seed_data_if_enabled
 
 # Configure logging
 log_level = os.getenv("LOG_LEVEL", "INFO")
-log_format = os.getenv(
-    "LOG_FORMAT", "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+log_format = os.getenv("LOG_FORMAT", "%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logging.basicConfig(level=getattr(logging, log_level), format=log_format)
 logger = logging.getLogger(__name__)
 
@@ -226,18 +222,14 @@ class WorkflowConfig:
         """
         try:
             if not os.path.exists(self.config_path):
-                raise FileNotFoundError(
-                    f"Configuration file not found: {self.config_path}"
-                )
+                raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
 
             with open(self.config_path, "r", encoding="utf-8") as f:
                 self.config = yaml.safe_load(f)
 
             self.workflow_config = self.config.get("workflow", {})
 
-            logger.info(
-                f"Loaded workflow configuration: {self.workflow_config.get('name')}"
-            )
+            logger.info(f"Loaded workflow configuration: {self.workflow_config.get('name')}")
             return self.config
 
         except Exception as e:
@@ -386,9 +378,7 @@ class HealthChecker:
 
         # Raise exception if any required checks failed
         if failed_required:
-            raise RuntimeError(
-                f"Required health check failed: {', '.join(failed_required)}"
-            )
+            raise RuntimeError(f"Required health check failed: {', '.join(failed_required)}")
 
         return results
 
@@ -422,9 +412,7 @@ class AgentExecutor:
 
         if not enabled:
             logger.info(f"Agent {name} is disabled, skipping")
-            return AgentResult(
-                name=name, status=AgentStatus.SKIPPED, duration_seconds=0.0
-            )
+            return AgentResult(name=name, status=AgentStatus.SKIPPED, duration_seconds=0.0)
 
         attempt = 0
         last_error = None
@@ -443,15 +431,11 @@ class AgentExecutor:
                         main_func = module.main
                         # Check if main is async
                         if inspect.iscoroutinefunction(main_func):
-                            result = asyncio.run(
-                                main_func(agent_config.get("config", {}))
-                            )
+                            result = asyncio.run(main_func(agent_config.get("config", {})))
                         else:
                             result = main_func(agent_config.get("config", {}))
                     else:
-                        raise AttributeError(
-                            f"Module {module_path} has no main() function"
-                        )
+                        raise AttributeError(f"Module {module_path} has no main() function")
                 except ImportError as ie:
                     raise ImportError(f"Module not found: {module_path}") from ie
 
@@ -509,12 +493,8 @@ class PhaseManager:
         """
         self.agent_executor = AgentExecutor(retry_policy)
         self.max_workers = execution_settings.get("max_workers", 4)
-        self.continue_on_optional_failure = execution_settings.get(
-            "continue_on_optional_failure", True
-        )
-        self.stop_on_required_failure = execution_settings.get(
-            "stop_on_required_failure", True
-        )
+        self.continue_on_optional_failure = execution_settings.get("continue_on_optional_failure", True)
+        self.stop_on_required_failure = execution_settings.get("stop_on_required_failure", True)
 
     def execute_phase(self, phase_config: Dict) -> PhaseResult:
         """
@@ -560,9 +540,7 @@ class PhaseManager:
 
         logger.info(f"Phase {name} completed: {status.value} ({duration:.2f}s)")
 
-        return PhaseResult(
-            name=name, status=status, duration_seconds=duration, agents=agent_results
-        )
+        return PhaseResult(name=name, status=status, duration_seconds=duration, agents=agent_results)
 
     def _execute_sequential(self, agents: List[Dict]) -> List[AgentResult]:
         """Execute agents sequentially"""
@@ -572,9 +550,7 @@ class PhaseManager:
             results.append(result)
 
             # Stop if required agent failed
-            if result.status == AgentStatus.FAILED and agent_config.get(
-                "required", False
-            ):
+            if result.status == AgentStatus.FAILED and agent_config.get("required", False):
                 logger.error(f"Required agent {result.name} failed, stopping phase")
                 break
 
@@ -585,10 +561,7 @@ class PhaseManager:
         results = []
 
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-            futures = {
-                executor.submit(self.agent_executor.execute, agent): agent
-                for agent in agents
-            }
+            futures = {executor.submit(self.agent_executor.execute, agent): agent for agent in agents}
 
             for future in as_completed(futures):
                 try:
@@ -596,9 +569,7 @@ class PhaseManager:
                     results.append(result)
                 except Exception as e:
                     agent = futures[future]
-                    logger.error(
-                        f"Parallel execution failed for {agent.get('name')}: {e}"
-                    )
+                    logger.error(f"Parallel execution failed for {agent.get('name')}: {e}")
                     results.append(
                         AgentResult(
                             name=agent.get("name"),
@@ -636,9 +607,7 @@ class WorkflowOrchestrator:
         self.health_checker = HealthChecker(health_config)
 
         # Execution settings
-        self.stop_on_required_failure = exec_settings.get(
-            "stop_on_required_failure", True
-        )
+        self.stop_on_required_failure = exec_settings.get("stop_on_required_failure", True)
         self.workflow_timeout = exec_settings.get("timeout", 300)
 
         logger.info("Workflow Orchestrator initialized successfully")
@@ -680,34 +649,22 @@ class WorkflowOrchestrator:
 
                 # Seed data after Phase 5 (Analytics) completes
                 # This ensures accidents.json and patterns.json are seeded before validation
-                if (
-                    seed_config.get("enabled", False)
-                    and phase_config.get("name") == "Analytics"
-                ):
+                if seed_config.get("enabled", False) and phase_config.get("name") == "Analytics":
                     logger.info("Seeding mock data after Analytics phase...")
                     seed_data_if_enabled(seed_config)
 
                 # Check if we should stop
-                if (
-                    phase_result.status == PhaseStatus.FAILED
-                    and self.stop_on_required_failure
-                ):
+                if phase_result.status == PhaseStatus.FAILED and self.stop_on_required_failure:
                     workflow_status = "failed"
                     errors.append(f"Phase '{phase_result.name}' failed")
                     break
 
             # Determine overall status
-            failed_phases = sum(
-                1 for p in phase_results if p.status == PhaseStatus.FAILED
-            )
-            partial_phases = sum(
-                1 for p in phase_results if p.status == PhaseStatus.PARTIAL
-            )
+            failed_phases = sum(1 for p in phase_results if p.status == PhaseStatus.FAILED)
+            partial_phases = sum(1 for p in phase_results if p.status == PhaseStatus.PARTIAL)
 
             if failed_phases > 0:
-                workflow_status = (
-                    "partial" if len(phase_results) > failed_phases else "failed"
-                )
+                workflow_status = "partial" if len(phase_results) > failed_phases else "failed"
             elif partial_phases > 0:
                 workflow_status = "partial"
 
@@ -754,24 +711,13 @@ class WorkflowOrchestrator:
     def _collect_statistics(self, phase_results: List[PhaseResult]) -> Dict[str, Any]:
         """Collect execution statistics"""
         total_agents = sum(len(p.agents) for p in phase_results)
-        successful_agents = sum(
-            1
-            for p in phase_results
-            for a in p.agents
-            if a.status == AgentStatus.SUCCESS
-        )
-        failed_agents = sum(
-            1 for p in phase_results for a in p.agents if a.status == AgentStatus.FAILED
-        )
+        successful_agents = sum(1 for p in phase_results for a in p.agents if a.status == AgentStatus.SUCCESS)
+        failed_agents = sum(1 for p in phase_results for a in p.agents if a.status == AgentStatus.FAILED)
 
         return {
             "total_phases": len(phase_results),
-            "successful_phases": sum(
-                1 for p in phase_results if p.status == PhaseStatus.SUCCESS
-            ),
-            "failed_phases": sum(
-                1 for p in phase_results if p.status == PhaseStatus.FAILED
-            ),
+            "successful_phases": sum(1 for p in phase_results if p.status == PhaseStatus.SUCCESS),
+            "failed_phases": sum(1 for p in phase_results if p.status == PhaseStatus.FAILED),
             "total_agents": total_agents,
             "successful_agents": successful_agents,
             "failed_agents": failed_agents,

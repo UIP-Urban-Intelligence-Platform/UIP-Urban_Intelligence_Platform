@@ -2,6 +2,18 @@
 sidebar_position: 6
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Docusaurus tutorial - Congratulations page.
+
+Module: apps/traffic-web-app/frontend/docs/docs/tutorial-basics/congratulations.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Congratulations!
 
 You have just learned the **basics of Docusaurus** and made some changes to the **initial template**.

@@ -201,10 +201,7 @@ class ConfigLoader:
         if domain:
             if domain not in config_data:
                 available = list(config_data.keys())
-                raise ConfigurationError(
-                    f"Domain '{domain}' not found in {config_file}. "
-                    f"Available: {available}"
-                )
+                raise ConfigurationError(f"Domain '{domain}' not found in {config_file}. " f"Available: {available}")
             config_data = config_data[domain]
 
         # Cache and return
@@ -213,9 +210,7 @@ class ConfigLoader:
 
         return config_data
 
-    def validate_required_fields(
-        self, config: Dict[str, Any], required_fields: List[str]
-    ) -> None:
+    def validate_required_fields(self, config: Dict[str, Any], required_fields: List[str]) -> None:
         """
         Validate that required fields are present in configuration.
 
@@ -228,9 +223,7 @@ class ConfigLoader:
         """
         missing = [field for field in required_fields if field not in config]
         if missing:
-            raise ConfigurationError(
-                f"Missing required configuration fields: {missing}"
-            )
+            raise ConfigurationError(f"Missing required configuration fields: {missing}")
 
     def get(
         self,

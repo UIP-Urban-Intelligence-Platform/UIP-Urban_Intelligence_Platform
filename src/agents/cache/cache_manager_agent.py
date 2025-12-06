@@ -61,16 +61,10 @@ class CacheManagerAgent:
         self.config = config or {}
         self.enabled = self.config.get("enabled", False)  # Disabled by default
         # Priority: environment variables > config > defaults
-        self._redis_host = os.environ.get("REDIS_HOST") or self.config.get(
-            "redis_host", "localhost"
-        )
-        self._redis_port = int(
-            os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379)
-        )
+        self._redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
+        self._redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
         self._redis_db = self.config.get("redis_db", 1)  # Use DB 1 for cache
-        self._redis_password = os.environ.get("REDIS_PASSWORD") or self.config.get(
-            "redis_password"
-        )
+        self._redis_password = os.environ.get("REDIS_PASSWORD") or self.config.get("redis_password")
         self._default_ttl = self.config.get("default_ttl", 3600)
 
         # In-memory fallback cache
@@ -205,9 +199,7 @@ class CacheManagerAgent:
             return count
 
         # Simple pattern matching (symbolic)
-        keys_to_delete = [
-            key for key in self._local_cache.keys() if pattern.replace("*", "") in key
-        ]
+        keys_to_delete = [key for key in self._local_cache.keys() if pattern.replace("*", "") in key]
 
         for key in keys_to_delete:
             del self._local_cache[key]
@@ -215,9 +207,7 @@ class CacheManagerAgent:
         logger.info(f"Cache CLEARED: {len(keys_to_delete)} keys (pattern: {pattern})")
         return len(keys_to_delete)
 
-    def get_or_compute(
-        self, key: str, compute_func: callable, ttl_seconds: Optional[int] = None
-    ) -> Any:
+    def get_or_compute(self, key: str, compute_func: callable, ttl_seconds: Optional[int] = None) -> Any:
         """
         Get from cache or compute and cache result.
 
@@ -256,9 +246,7 @@ class CacheManagerAgent:
         Returns:
             MD5 hash key
         """
-        key_data = json.dumps(
-            {"args": args, "kwargs": sorted(kwargs.items())}, sort_keys=True
-        )
+        key_data = json.dumps({"args": args, "kwargs": sorted(kwargs.items())}, sort_keys=True)
 
         return hashlib.md5(key_data.encode()).hexdigest()
 
@@ -271,9 +259,7 @@ class CacheManagerAgent:
         """
         return {
             "total_keys": len(self._local_cache),
-            "memory_usage_bytes": sum(
-                len(str(v[0])) for v in self._local_cache.values()
-            ),
+            "memory_usage_bytes": sum(len(str(v[0])) for v in self._local_cache.values()),
             "symbolic_mode": not self.enabled,
         }
 

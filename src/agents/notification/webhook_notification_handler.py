@@ -93,9 +93,7 @@ class WebhookNotificationHandler:
                 allowed_methods=["POST", "PUT"],
             )
 
-            adapter = HTTPAdapter(
-                max_retries=retry_strategy, pool_connections=10, pool_maxsize=20
-            )
+            adapter = HTTPAdapter(max_retries=retry_strategy, pool_connections=10, pool_maxsize=20)
             self._session.mount("http://", adapter)
             self._session.mount("https://", adapter)
 
@@ -308,9 +306,7 @@ class WebhookNotificationHandler:
         self._circuit_breakers[url] = self._circuit_breakers.get(url, 0) + 1
 
         if self._circuit_breakers[url] >= self._circuit_threshold:
-            logger.error(
-                f"Circuit breaker OPENED for {url} after {self._circuit_threshold} failures"
-            )
+            logger.error(f"Circuit breaker OPENED for {url} after {self._circuit_threshold} failures")
 
     def _reset_circuit(self, url: str):
         """Reset circuit breaker on successful delivery."""
@@ -329,15 +325,11 @@ class WebhookNotificationHandler:
             HMAC-SHA256 signature hex string
         """
         payload_json = json.dumps(payload, sort_keys=True)
-        signature = hmac.new(
-            secret.encode(), payload_json.encode(), hashlib.sha256
-        ).hexdigest()
+        signature = hmac.new(secret.encode(), payload_json.encode(), hashlib.sha256).hexdigest()
 
         return signature
 
-    def verify_signature(
-        self, payload: Dict[str, Any], received_signature: str, secret: str
-    ) -> bool:
+    def verify_signature(self, payload: Dict[str, Any], received_signature: str, secret: str) -> bool:
         """
         Verify webhook signature (for incoming webhooks).
 
@@ -359,19 +351,13 @@ class WebhookNotificationHandler:
         failed = total_deliveries - successful
 
         # Circuit breaker status
-        open_circuits = [
-            url
-            for url, failures in self._circuit_breakers.items()
-            if failures >= self._circuit_threshold
-        ]
+        open_circuits = [url for url, failures in self._circuit_breakers.items() if failures >= self._circuit_threshold]
 
         return {
             "total_deliveries": total_deliveries,
             "successful": successful,
             "failed": failed,
-            "success_rate": (
-                successful / total_deliveries if total_deliveries > 0 else 0
-            ),
+            "success_rate": (successful / total_deliveries if total_deliveries > 0 else 0),
             "open_circuits": len(open_circuits),
             "circuit_urls": open_circuits,
             "symbolic_mode": not self.enabled,

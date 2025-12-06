@@ -101,9 +101,7 @@ except ImportError:
     get_mongodb_helper = None
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -242,29 +240,17 @@ class CVConfig:
     @property
     def citizen_verification_enabled(self) -> bool:
         """Check if citizen verification is enabled"""
-        return (
-            self.config.get("cv_analysis", {})
-            .get("citizen_verification", {})
-            .get("enabled", False)
-        )
+        return self.config.get("cv_analysis", {}).get("citizen_verification", {}).get("enabled", False)
 
     @property
     def citizen_verification_poll_interval(self) -> int:
         """Get citizen verification poll interval in seconds"""
-        return (
-            self.config.get("cv_analysis", {})
-            .get("citizen_verification", {})
-            .get("poll_interval", 30)
-        )
+        return self.config.get("cv_analysis", {}).get("citizen_verification", {}).get("poll_interval", 30)
 
     @property
     def citizen_verification_stellio_url(self) -> str:
         """Get Stellio URL for citizen verification from config (env vars already expanded)"""
-        return (
-            self.config.get("cv_analysis", {})
-            .get("citizen_verification", {})
-            .get("stellio_url", "http://localhost:8080")
-        )
+        return self.config.get("cv_analysis", {}).get("citizen_verification", {}).get("stellio_url", "http://localhost:8080")
 
     @property
     def citizen_verification_query(self) -> str:
@@ -278,39 +264,22 @@ class CVConfig:
     @property
     def citizen_verification_max_batch(self) -> int:
         """Get max reports per batch"""
-        return (
-            self.config.get("cv_analysis", {})
-            .get("citizen_verification", {})
-            .get("max_reports_per_batch", 10)
-        )
+        return self.config.get("cv_analysis", {}).get("citizen_verification", {}).get("max_reports_per_batch", 10)
 
     @property
     def citizen_verification_rules(self) -> Dict[str, Any]:
         """Get verification rules per report type"""
-        return (
-            self.config.get("cv_analysis", {})
-            .get("citizen_verification", {})
-            .get("verification_rules", {})
-        )
+        return self.config.get("cv_analysis", {}).get("citizen_verification", {}).get("verification_rules", {})
 
     @property
     def citizen_verification_scoring(self) -> Dict[str, float]:
         """Get scoring algorithm weights"""
-        return (
-            self.config.get("cv_analysis", {})
-            .get("citizen_verification", {})
-            .get("scoring", {})
-        )
+        return self.config.get("cv_analysis", {}).get("citizen_verification", {}).get("scoring", {})
 
     @property
     def citizen_verification_update_patch_stellio(self) -> bool:
         """Check if PATCH to Stellio is enabled"""
-        return (
-            self.config.get("cv_analysis", {})
-            .get("citizen_verification", {})
-            .get("update", {})
-            .get("patch_stellio", True)
-        )
+        return self.config.get("cv_analysis", {}).get("citizen_verification", {}).get("update", {}).get("patch_stellio", True)
 
     @property
     def citizen_verification_update_set_verified_status(self) -> bool:
@@ -488,9 +457,7 @@ class YOLOXDetector:
                 self.model.cuda()
             self.model.eval()
 
-            logger.info(
-                f"✅ Loaded YOLOX model: {self.model_name} on device: {self.device}"
-            )
+            logger.info(f"✅ Loaded YOLOX model: {self.model_name} on device: {self.device}")
             logger.info(f"   License: Apache-2.0 (MIT compatible)")
 
         except ImportError:
@@ -533,9 +500,7 @@ class YOLOXDetector:
 
             # Preprocess
             img_info = {"height": img.shape[0], "width": img.shape[1]}
-            ratio = min(
-                self.test_size[0] / img.shape[0], self.test_size[1] / img.shape[1]
-            )
+            ratio = min(self.test_size[0] / img.shape[0], self.test_size[1] / img.shape[1])
             img_info["ratio"] = ratio
 
             # Apply preprocessing
@@ -677,14 +642,10 @@ class AccidentDetector:
         self.device = config.get("device", "cpu")
         self.confidence = config.get("confidence", 0.4)
         self.max_det = config.get("max_det", 10)
-        self.model_name = config.get(
-            "model_name", "hilmantm/detr-traffic-accident-detection"
-        )
+        self.model_name = config.get("model_name", "hilmantm/detr-traffic-accident-detection")
 
         # Severity thresholds
-        self.severity_thresholds = config.get(
-            "severity_thresholds", {"minor": 0.4, "moderate": 0.6, "severe": 0.8}
-        )
+        self.severity_thresholds = config.get("severity_thresholds", {"minor": 0.4, "moderate": 0.6, "severe": 0.8})
 
         # Load model
         self._load_model()
@@ -714,9 +675,7 @@ class AccidentDetector:
             logger.info(f"   License: Apache-2.0 (MIT compatible)")
 
         except ImportError as e:
-            logger.warning(
-                f"transformers not installed - accident detection unavailable: {e}"
-            )
+            logger.warning(f"transformers not installed - accident detection unavailable: {e}")
             logger.info("Install with: pip install transformers")
             self.model = None
             self.processor = None
@@ -767,17 +726,13 @@ class AccidentDetector:
 
             # Parse results - filter for accident class only
             detections = []
-            for score, label_id, box in zip(
-                results["scores"], results["labels"], results["boxes"]
-            ):
+            for score, label_id, box in zip(results["scores"], results["labels"], results["boxes"]):
                 score = score.item()
                 label_id = label_id.item()
                 bbox = box.tolist()
 
                 # Get class name from model config
-                class_name = self.model.config.id2label.get(
-                    label_id, f"class_{label_id}"
-                )
+                class_name = self.model.config.id2label.get(label_id, f"class_{label_id}")
 
                 # Only keep accident detections (not vehicles)
                 if "accident" in class_name.lower():
@@ -796,9 +751,7 @@ class AccidentDetector:
                 logger.info(f"🚨 Detected {len(detections)} accident(s) in image")
                 for det in detections:
                     severity = self.estimate_severity(det)
-                    logger.info(
-                        f"   - {det.class_name}: {det.confidence:.2f} ({severity})"
-                    )
+                    logger.info(f"   - {det.class_name}: {det.confidence:.2f} ({severity})")
 
             return detections
 
@@ -866,9 +819,7 @@ class ImageDownloader:
         self.backoff_factor = conn_config.get("backoff_factor", 2.0)
         self.max_retry_delay = conn_config.get("max_retry_delay", 60)
         self.use_browser_headers = conn_config.get("use_browser_headers", True)
-        self.user_agent = conn_config.get(
-            "user_agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-        )
+        self.user_agent = conn_config.get("user_agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
         self.verify_ssl = conn_config.get("verify_ssl", True)
         self.ssl_timeout = conn_config.get("ssl_timeout", 30)
         self.follow_redirects = conn_config.get("follow_redirects", True)
@@ -945,9 +896,7 @@ class ImageDownloader:
                     removed_count += 1
 
                 if removed_count > 0:
-                    logger.info(
-                        f"Removed {removed_count} cache files to enforce size limit"
-                    )
+                    logger.info(f"Removed {removed_count} cache files to enforce size limit")
         except Exception as e:
             logger.warning(f"Cache size enforcement failed: {e}")
 
@@ -1033,9 +982,7 @@ class ImageDownloader:
                     "User-Agent": self.user_agent,
                     "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
                     "Accept-Language": "en-US,en;q=0.9,vi;q=0.8",
-                    "Accept-Encoding": (
-                        "gzip, deflate, br" if self.compress else "identity"
-                    ),
+                    "Accept-Encoding": ("gzip, deflate, br" if self.compress else "identity"),
                     "Connection": "keep-alive",
                     "Sec-Fetch-Dest": "image",
                     "Sec-Fetch-Mode": "no-cors",
@@ -1066,9 +1013,7 @@ class ImageDownloader:
         # Cap at max_retry_delay
         return min(delay, self.max_retry_delay)
 
-    async def download_image(
-        self, session: aiohttp.ClientSession, url: str, camera_id: str = None
-    ) -> Optional[Image.Image]:
+    async def download_image(self, session: aiohttp.ClientSession, url: str, camera_id: str = None) -> Optional[Image.Image]:
         """
         Download image from URL with comprehensive retry and optimization strategies
 
@@ -1089,14 +1034,10 @@ class ImageDownloader:
         for attempt in range(self.max_retries):
             try:
                 # Create timeout with both total and connection timeouts
-                timeout = aiohttp.ClientTimeout(
-                    total=self.timeout, connect=self.ssl_timeout, sock_read=self.timeout
-                )
+                timeout = aiohttp.ClientTimeout(total=self.timeout, connect=self.ssl_timeout, sock_read=self.timeout)
 
                 log_prefix = f"[{camera_id}]" if camera_id else ""
-                logger.info(
-                    f"{log_prefix} Downloading image (attempt {attempt + 1}/{self.max_retries}): {url[:80]}..."
-                )
+                logger.info(f"{log_prefix} Downloading image (attempt {attempt + 1}/{self.max_retries}): {url[:80]}...")
 
                 async with session.get(
                     url,
@@ -1111,9 +1052,7 @@ class ImageDownloader:
 
                         # Validate data size
                         if len(image_data) < 1024:  # Less than 1KB likely invalid
-                            logger.warning(
-                                f"{log_prefix} Downloaded data too small: {len(image_data)} bytes"
-                            )
+                            logger.warning(f"{log_prefix} Downloaded data too small: {len(image_data)} bytes")
                             continue
 
                         # Open image
@@ -1121,14 +1060,10 @@ class ImageDownloader:
 
                         # Validate image
                         if image.size[0] < 100 or image.size[1] < 100:
-                            logger.warning(
-                                f"{log_prefix} Image too small: {image.size}"
-                            )
+                            logger.warning(f"{log_prefix} Image too small: {image.size}")
                             continue
 
-                        logger.info(
-                            f"{log_prefix} ✅ Successfully downloaded: {len(image_data)} bytes, {image.size}"
-                        )
+                        logger.info(f"{log_prefix} ✅ Successfully downloaded: {len(image_data)} bytes, {image.size}")
 
                         # Cache the image
                         self._save_to_cache(url, image)
@@ -1136,20 +1071,14 @@ class ImageDownloader:
                         return image
 
                     elif response.status == 404:
-                        logger.error(
-                            f"{log_prefix} Image not found (404): {url[:80]}..."
-                        )
+                        logger.error(f"{log_prefix} Image not found (404): {url[:80]}...")
                         return None  # Don't retry for 404
 
                     elif response.status >= 500:
-                        logger.warning(
-                            f"{log_prefix} Server error {response.status}, will retry"
-                        )
+                        logger.warning(f"{log_prefix} Server error {response.status}, will retry")
 
                     else:
-                        logger.warning(
-                            f"{log_prefix} HTTP {response.status} for URL: {url[:80]}..."
-                        )
+                        logger.warning(f"{log_prefix} HTTP {response.status} for URL: {url[:80]}...")
 
             except asyncio.TimeoutError:
                 retry_delay = self._calculate_retry_delay(attempt)
@@ -1172,9 +1101,7 @@ class ImageDownloader:
                 await asyncio.sleep(retry_delay)
 
         # All retries failed
-        logger.error(
-            f"{log_prefix} ❌ Failed to download after {self.max_retries} attempts: {url[:80]}..."
-        )
+        logger.error(f"{log_prefix} ❌ Failed to download after {self.max_retries} attempts: {url[:80]}...")
         return None
 
     def _create_connector(self) -> aiohttp.TCPConnector:
@@ -1194,9 +1121,7 @@ class ImageDownloader:
             ssl=self.verify_ssl,
         )
 
-    async def download_batch(
-        self, urls: List[Tuple[str, str]]
-    ) -> Dict[str, Optional[Image.Image]]:
+    async def download_batch(self, urls: List[Tuple[str, str]]) -> Dict[str, Optional[Image.Image]]:
         """
         Download batch of images with optimized connection pooling
 
@@ -1214,9 +1139,7 @@ class ImageDownloader:
         headers = self._get_headers()
 
         logger.info(f"Starting batch download: {len(urls)} images")
-        logger.info(
-            f"Connection pool size: {self.pool_size}, Timeout: {self.timeout}s, Retries: {self.max_retries}"
-        )
+        logger.info(f"Connection pool size: {self.pool_size}, Timeout: {self.timeout}s, Retries: {self.max_retries}")
 
         async with aiohttp.ClientSession(
             connector=connector,
@@ -1225,9 +1148,7 @@ class ImageDownloader:
         ) as session:
 
             # Download images (can be parallel or sequential based on config)
-            tasks = [
-                self.download_image(session, url, camera_id) for camera_id, url in urls
-            ]
+            tasks = [self.download_image(session, url, camera_id) for camera_id, url in urls]
             results = await asyncio.gather(*tasks, return_exceptions=True)
 
             # Map results to camera IDs
@@ -1236,9 +1157,7 @@ class ImageDownloader:
 
             for (camera_id, url), result in zip(urls, results):
                 if isinstance(result, Exception):
-                    logger.error(
-                        f"[{camera_id}] Exception: {type(result).__name__}: {result}"
-                    )
+                    logger.error(f"[{camera_id}] Exception: {type(result).__name__}: {result}")
                     image_map[camera_id] = None
                 elif result is None:
                     image_map[camera_id] = None
@@ -1247,8 +1166,7 @@ class ImageDownloader:
                     success_count += 1
 
             logger.info(
-                f"Batch download complete: {success_count}/{len(urls)} successful "
-                f"({success_count/len(urls)*100:.1f}%)"
+                f"Batch download complete: {success_count}/{len(urls)} successful " f"({success_count/len(urls)*100:.1f}%)"
             )
 
             return image_map
@@ -1294,9 +1212,7 @@ class MetricsCalculator:
             congestion_level = "moderate"
             # Linear interpolation between max and min speed
             speed_range = self.max_speed - self.min_speed
-            speed_factor = (self.intensity_threshold - intensity) / (
-                self.intensity_threshold - self.low_intensity_threshold
-            )
+            speed_factor = (self.intensity_threshold - intensity) / (self.intensity_threshold - self.low_intensity_threshold)
             average_speed = self.min_speed + (speed_range * speed_factor)
         else:
             congestion_level = "free"
@@ -1305,9 +1221,7 @@ class MetricsCalculator:
             import random
 
             variance = random.uniform(-8, 12)  # -10% to +15% variance
-            average_speed = max(
-                self.min_speed, min(self.max_speed + variance, self.max_speed * 1.15)
-            )
+            average_speed = max(self.min_speed, min(self.max_speed + variance, self.max_speed * 1.15))
 
         return TrafficMetrics(
             vehicle_count=vehicle_count,
@@ -1417,28 +1331,19 @@ class CVAnalysisAgent:
 
         self.detector = YOLOXDetector(self.config_loader.get_model_config())
         self.downloader = ImageDownloader(cv_analysis_config)
-        self.metrics_calculator = MetricsCalculator(
-            self.config_loader.get_metrics_config()
-        )
+        self.metrics_calculator = MetricsCalculator(self.config_loader.get_metrics_config())
         self.vehicle_classes = set(self.config_loader.get_vehicle_classes())
         self.person_classes = set(self.config_loader.get_person_classes())
 
         # Get class IDs for filtering
-        self.vehicle_class_ids = {
-            YOLOXDetector.CLASS_NAME_TO_ID.get(name, -1)
-            for name in self.vehicle_classes
-        }
-        self.person_class_ids = {
-            YOLOXDetector.CLASS_NAME_TO_ID.get(name, -1) for name in self.person_classes
-        }
+        self.vehicle_class_ids = {YOLOXDetector.CLASS_NAME_TO_ID.get(name, -1) for name in self.vehicle_classes}
+        self.person_class_ids = {YOLOXDetector.CLASS_NAME_TO_ID.get(name, -1) for name in self.person_classes}
 
         # Initialize accident detector if enabled
         accident_config = cv_analysis_config.get("accident_detection", {})
         if accident_config.get("enabled", False):
             accident_model_config = accident_config.get("model", {})
-            accident_model_config["severity_thresholds"] = accident_config.get(
-                "severity_thresholds", {}
-            )
+            accident_model_config["severity_thresholds"] = accident_config.get("severity_thresholds", {})
             self.accident_detector = AccidentDetector(accident_model_config)
 
             if self.accident_detector.is_enabled():
@@ -1460,9 +1365,7 @@ class CVAnalysisAgent:
             except Exception as e:
                 logger.debug(f"MongoDB initialization failed (non-critical): {e}")
 
-    def analyze_image(
-        self, camera_id: str, image: Image.Image, image_url: str = ""
-    ) -> ImageAnalysisResult:
+    def analyze_image(self, camera_id: str, image: Image.Image, image_url: str = "") -> ImageAnalysisResult:
         """
         Analyze single image
 
@@ -1482,12 +1385,8 @@ class CVAnalysisAgent:
             detections = self.detector.detect(image)
 
             # Filter and count vehicles and persons
-            vehicle_detections = [
-                d for d in detections if d.class_id in self.vehicle_class_ids
-            ]
-            person_detections = [
-                d for d in detections if d.class_id in self.person_class_ids
-            ]
+            vehicle_detections = [d for d in detections if d.class_id in self.vehicle_class_ids]
+            person_detections = [d for d in detections if d.class_id in self.person_class_ids]
 
             vehicle_count = len(vehicle_detections)
             person_count = len(person_detections)
@@ -1502,15 +1401,11 @@ class CVAnalysisAgent:
                     logger.info(f"🚨 ACCIDENT DETECTED at camera {camera_id}!")
                     for acc_det in accident_detections:
                         severity = self.accident_detector.estimate_severity(acc_det)
-                        logger.info(
-                            f"   - Severity: {severity.upper()} (confidence: {acc_det.confidence:.2f})"
-                        )
+                        logger.info(f"   - Severity: {severity.upper()} (confidence: {acc_det.confidence:.2f})")
 
             processing_time = time.time() - start_time
 
-            status = (
-                DetectionStatus.SUCCESS if detections else DetectionStatus.NO_DETECTIONS
-            )
+            status = DetectionStatus.SUCCESS if detections else DetectionStatus.NO_DETECTIONS
 
             result = ImageAnalysisResult(
                 camera_id=camera_id,
@@ -1551,9 +1446,7 @@ class CVAnalysisAgent:
                 image_url=image_url,
             )
 
-    async def process_cameras(
-        self, cameras: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+    async def process_cameras(self, cameras: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Process batch of cameras
 
@@ -1570,15 +1463,10 @@ class CVAnalysisAgent:
         # Process in batches
         for i in range(0, len(cameras), batch_size):
             batch = cameras[i : i + batch_size]
-            logger.info(
-                f"Processing batch {i // batch_size + 1} ({len(batch)} cameras)"
-            )
+            logger.info(f"Processing batch {i // batch_size + 1} ({len(batch)} cameras)")
 
             # Download images - use image_url_x4 (refreshed by image_refresh_agent)
-            urls = [
-                (cam["id"], cam.get("image_url_x4", cam.get("imageSnapshot", "")))
-                for cam in batch
-            ]
+            urls = [(cam["id"], cam.get("image_url_x4", cam.get("imageSnapshot", ""))) for cam in batch]
             images = await self.downloader.download_batch(urls)
 
             # Analyze each image
@@ -1594,15 +1482,10 @@ class CVAnalysisAgent:
                 result = self.analyze_image(
                     camera_id=camera_id,
                     image=image,
-                    image_url=camera.get(
-                        "image_url_x4", camera.get("imageSnapshot", "")
-                    ),
+                    image_url=camera.get("image_url_x4", camera.get("imageSnapshot", "")),
                 )
 
-                if (
-                    result.status == DetectionStatus.SUCCESS
-                    or result.status == DetectionStatus.NO_DETECTIONS
-                ):
+                if result.status == DetectionStatus.SUCCESS or result.status == DetectionStatus.NO_DETECTIONS:
                     # Calculate metrics
                     metrics = self.metrics_calculator.calculate(result.vehicle_count)
 
@@ -1629,11 +1512,7 @@ class CVAnalysisAgent:
                         metrics=metrics,
                         timestamp=result.timestamp,
                         detections=(
-                            result.detections
-                            if self.config_loader.get_output_config().get(
-                                "include_detections"
-                            )
-                            else None
+                            result.detections if self.config_loader.get_output_config().get("include_detections") else None
                         ),
                     )
 
@@ -1646,9 +1525,7 @@ class CVAnalysisAgent:
 
         return all_entities
 
-    def save_observations(
-        self, entities: List[Dict[str, Any]], output_file: Optional[str] = None
-    ) -> None:
+    def save_observations(self, entities: List[Dict[str, Any]], output_file: Optional[str] = None) -> None:
         """
         Save observations to JSON file
 
@@ -1657,9 +1534,7 @@ class CVAnalysisAgent:
             output_file: Output file path (optional, uses config if not provided)
         """
         if output_file is None:
-            output_file = self.config_loader.get_output_config().get(
-                "file", "data/observations.json"
-            )
+            output_file = self.config_loader.get_output_config().get("file", "data/observations.json")
 
         # Ensure output directory exists
         output_path = Path(output_file)
@@ -1676,9 +1551,7 @@ class CVAnalysisAgent:
             try:
                 success, failed = self._mongodb_helper.insert_entities_batch(entities)
                 if success > 0:
-                    logger.info(
-                        f"✅ Published {success} ItemFlowObserved entities to MongoDB"
-                    )
+                    logger.info(f"✅ Published {success} ItemFlowObserved entities to MongoDB")
                 if failed > 0:
                     logger.warning(f"⚠️ Failed to publish {failed} entities to MongoDB")
             except Exception as e:
@@ -1729,9 +1602,7 @@ class CVAnalysisAgent:
 
             url = f"{stellio_url}/ngsi-ld/v1/entities?{query}&limit={max_batch}"
 
-            response = requests.get(
-                url, headers={"Accept": "application/ld+json"}, timeout=30
-            )
+            response = requests.get(url, headers={"Accept": "application/ld+json"}, timeout=30)
 
             if response.status_code != 200:
                 logger.warning(f"Stellio query failed: {response.status_code}")
@@ -1764,9 +1635,7 @@ class CVAnalysisAgent:
                     # Support both HTTP URLs and local file:// URLs for testing
                     if image_url.startswith("file://"):
                         # Local file path
-                        local_path = image_url.replace("file://", "").replace(
-                            "/", os.sep
-                        )
+                        local_path = image_url.replace("file://", "").replace("/", os.sep)
                         if not os.path.exists(local_path):
                             logger.warning(f"Local image file not found: {local_path}")
                             continue
@@ -1774,27 +1643,19 @@ class CVAnalysisAgent:
                     else:
                         # HTTP(S) URL - download from remote server
                         async with aiohttp.ClientSession() as session:
-                            async with session.get(
-                                image_url, timeout=30
-                            ) as img_response:
+                            async with session.get(image_url, timeout=30) as img_response:
                                 if img_response.status != 200:
-                                    logger.warning(
-                                        f"Failed to download image: {img_response.status}"
-                                    )
+                                    logger.warning(f"Failed to download image: {img_response.status}")
                                     continue
 
                                 image_bytes = await img_response.read()
                                 image = Image.open(io.BytesIO(image_bytes))
 
                     # Step 4: Run YOLOX detection (synchronous method)
-                    result = self.analyze_image(
-                        camera_id=entity_id, image_url=image_url, image=image
-                    )
+                    result = self.analyze_image(camera_id=entity_id, image_url=image_url, image=image)
 
                     if result.status != DetectionStatus.SUCCESS:
-                        logger.warning(
-                            f"Detection failed for {entity_id}: {result.error_message}"
-                        )
+                        logger.warning(f"Detection failed for {entity_id}: {result.error_message}")
                         continue
 
                     # Step 5: Get verification rules for this report type
@@ -1806,9 +1667,7 @@ class CVAnalysisAgent:
                     verification_strategy = rules.get("verification_strategy", "ai")
 
                     if verification_strategy == "manual":
-                        logger.info(
-                            f"Report type '{report_type}' requires manual verification, skipping"
-                        )
+                        logger.info(f"Report type '{report_type}' requires manual verification, skipping")
                         continue
 
                     # Step 6: Calculate verification score
@@ -1818,22 +1677,15 @@ class CVAnalysisAgent:
 
                     # Count detected objects matching required classes
                     detected_classes = [d.class_name for d in result.detections]
-                    matching_objects = [
-                        obj for obj in detected_classes if obj in required_objects
-                    ]
+                    matching_objects = [obj for obj in detected_classes if obj in required_objects]
                     object_match_score = 1.0 if len(matching_objects) > 0 else 0.0
 
                     # Check vehicle count threshold
-                    count_match_score = (
-                        1.0 if result.vehicle_count >= min_count else 0.0
-                    )
+                    count_match_score = 1.0 if result.vehicle_count >= min_count else 0.0
 
                     # Average detection confidence
                     avg_confidence = (
-                        sum(d.confidence for d in result.detections)
-                        / len(result.detections)
-                        if result.detections
-                        else 0.0
+                        sum(d.confidence for d in result.detections) / len(result.detections) if result.detections else 0.0
                     )
 
                     # Special handling for accident reports
@@ -1847,9 +1699,7 @@ class CVAnalysisAgent:
                             if accidents:
                                 accident_detected = True
                                 accident_score = max(a["confidence"] for a in accidents)
-                                logger.info(
-                                    f"🚨 Accident model detected accident: confidence={accident_score:.2f}"
-                                )
+                                logger.info(f"🚨 Accident model detected accident: confidence={accident_score:.2f}")
 
                     # Calculate weighted confidence score
                     if use_accident_model and self.accident_detector:
@@ -1896,9 +1746,7 @@ class CVAnalysisAgent:
                     # Step 8: PATCH Stellio entity
                     if self.config.citizen_verification_update_patch_stellio:
                         patch_data = {
-                            "@context": [
-                                "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
-                            ],
+                            "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
                             "aiVerified": {"type": "Property", "value": True},
                             "aiConfidence": {
                                 "type": "Property",
@@ -1923,15 +1771,10 @@ class CVAnalysisAgent:
                             logger.info(f"✅ Updated {entity_id} in Stellio")
                             verified_count += 1
                         else:
-                            logger.error(
-                                f"❌ Failed to PATCH Stellio: {patch_response.status_code} "
-                                f"{patch_response.text}"
-                            )
+                            logger.error(f"❌ Failed to PATCH Stellio: {patch_response.status_code} " f"{patch_response.text}")
 
                 except Exception as e:
-                    logger.error(
-                        f"Error processing report {entity_id}: {e}", exc_info=True
-                    )
+                    logger.error(f"Error processing report {entity_id}: {e}", exc_info=True)
                     continue
 
             logger.info(f"✅ Verified {verified_count}/{len(reports)} citizen reports")
@@ -1941,9 +1784,7 @@ class CVAnalysisAgent:
             logger.error(f"Citizen verification cycle failed: {e}", exc_info=True)
             return 0
 
-    async def run(
-        self, input_file: str, output_file: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+    async def run(self, input_file: str, output_file: Optional[str] = None) -> List[Dict[str, Any]]:
         """
         Run CV analysis on cameras from input file
 
@@ -1972,8 +1813,7 @@ class CVAnalysisAgent:
         processing_time = time.time() - start_time
 
         logger.info(
-            f"Processed {len(cameras)} cameras in {processing_time:.2f}s "
-            f"({processing_time/len(cameras):.2f}s/camera)"
+            f"Processed {len(cameras)} cameras in {processing_time:.2f}s " f"({processing_time/len(cameras):.2f}s/camera)"
         )
 
         # Save observations

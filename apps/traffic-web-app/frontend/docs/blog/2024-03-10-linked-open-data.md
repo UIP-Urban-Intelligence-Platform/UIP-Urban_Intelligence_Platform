@@ -5,6 +5,18 @@ authors: [nguyenviethoang]
 tags: [uip, rdf, linked-data, semantic-web, ngsi-ld, technical]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Linked Open Data Integration.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2024-03-10-linked-open-data.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Linked Open Data - Kết nối dữ liệu thông minh 🌐
 
 Một trong những điểm đặc biệt của UIP là việc tích hợp **Linked Open Data (LOD)** - công nghệ cho phép dữ liệu giao thông được liên kết và chia sẻ theo chuẩn quốc tế.

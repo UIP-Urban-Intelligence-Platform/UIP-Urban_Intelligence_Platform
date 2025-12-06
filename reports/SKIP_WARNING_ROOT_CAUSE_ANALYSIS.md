@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Skip warning root cause analysis.
+
+Module: reports/SKIP_WARNING_ROOT_CAUSE_ANALYSIS.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # PHÂN TÍCH NGUỒN GỐC CÁC WARNING VỀ SKIPPING
 
 **Ngày tạo:** 2025-11-12  

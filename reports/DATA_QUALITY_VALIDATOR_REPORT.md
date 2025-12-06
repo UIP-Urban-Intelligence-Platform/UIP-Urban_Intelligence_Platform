@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Data Quality Validator Agent report.
+
+Module: reports/DATA_QUALITY_VALIDATOR_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Data Quality Validator Agent - Technical Report
 
 **Date:** 2025-11-02  

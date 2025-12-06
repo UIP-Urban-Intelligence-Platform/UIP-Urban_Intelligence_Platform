@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Alert Dispatcher Agent implementation report.
+
+Module: reports/ALERT_DISPATCHER_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Alert Dispatcher Agent - Implementation Report
 
 **Author:** UIP Development Team  

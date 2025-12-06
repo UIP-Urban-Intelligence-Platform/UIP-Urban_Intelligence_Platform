@@ -88,9 +88,7 @@ import requests
 import yaml
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -109,9 +107,7 @@ class GeoNamesLinker:
         self.sparql_endpoint = "http://factforge.net/repositories/ff-news"
         self.cache = {}
 
-    def find_nearest_place(
-        self, lat: float, lon: float, radius_km: float = 10
-    ) -> Optional[str]:
+    def find_nearest_place(self, lat: float, lon: float, radius_km: float = 10) -> Optional[str]:
         """Find nearest GeoNames place URI.
 
         Args:
@@ -151,9 +147,7 @@ class GeoNamesLinker:
                 # HCM bounds: ~10.3-11.2°N, 106.3-107.0°E
                 if 10.3 <= lat <= 11.2 and 106.3 <= lon <= 107.0:
                     hcm_uri = "http://sws.geonames.org/1566083/"  # Ho Chi Minh City
-                    logger.info(
-                        f"✓ Fallback: ({lat}, {lon}) → {hcm_uri} (Ho Chi Minh City region)"
-                    )
+                    logger.info(f"✓ Fallback: ({lat}, {lon}) → {hcm_uri} (Ho Chi Minh City region)")
                     self.cache[cache_key] = hcm_uri
                     return hcm_uri
 
@@ -170,9 +164,7 @@ class GeoNamesLinker:
                 # No results found - try fallback for Ho Chi Minh City
                 if 10.3 <= lat <= 11.2 and 106.3 <= lon <= 107.0:
                     hcm_uri = "http://sws.geonames.org/1566083/"  # Ho Chi Minh City
-                    logger.info(
-                        f"✓ Fallback: ({lat}, {lon}) → {hcm_uri} (Ho Chi Minh City region)"
-                    )
+                    logger.info(f"✓ Fallback: ({lat}, {lon}) → {hcm_uri} (Ho Chi Minh City region)")
                     self.cache[cache_key] = hcm_uri
                     return hcm_uri
 
@@ -182,9 +174,7 @@ class GeoNamesLinker:
             # Fallback for Ho Chi Minh City region on exception
             if 10.3 <= lat <= 11.2 and 106.3 <= lon <= 107.0:
                 hcm_uri = "http://sws.geonames.org/1566083/"  # Ho Chi Minh City
-                logger.info(
-                    f"✓ Fallback: ({lat}, {lon}) → {hcm_uri} (Ho Chi Minh City region)"
-                )
+                logger.info(f"✓ Fallback: ({lat}, {lon}) → {hcm_uri} (Ho Chi Minh City region)")
                 self.cache[cache_key] = hcm_uri
                 return hcm_uri
 
@@ -205,9 +195,7 @@ class DBpediaLinker:
         self.lookup_endpoint = "https://lookup.dbpedia.org/api/search"
         self.cache = {}
 
-    def find_resource(
-        self, name: str, type_hint: Optional[str] = None
-    ) -> Optional[str]:
+    def find_resource(self, name: str, type_hint: Optional[str] = None) -> Optional[str]:
         """Find DBpedia resource URI by name.
 
         Args:
@@ -354,15 +342,11 @@ class LODLinksetEnrichmentAgent:
         Returns:
             Mapping configuration dictionary
         """
-        config_path = self.config.get(
-            "linkset_mappings", "config/lod_linkset_mappings.yaml"
-        )
+        config_path = self.config.get("linkset_mappings", "config/lod_linkset_mappings.yaml")
         config_file = Path(config_path)
 
         if not config_file.exists():
-            self.logger.warning(
-                f"Mapping config not found: {config_path}, using defaults"
-            )
+            self.logger.warning(f"Mapping config not found: {config_path}, using defaults")
             return self._get_default_mapping_config()
 
         try:
@@ -470,12 +454,7 @@ class LODLinksetEnrichmentAgent:
         # 1. GeoNames linking (based on coordinates)
         # Semantic: Camera IS LOCATED IN City (not IS City)
         # Use refCity relationship from Smart Data Models
-        if (
-            entity_config.get("enable_geonames")
-            and lat
-            and lon
-            and self.geonames_linker
-        ):
+        if entity_config.get("enable_geonames") and lat and lon and self.geonames_linker:
             radius = self.mapping_config.get("geonames", {}).get("radius_km", 10)
             geonames_uri = self.geonames_linker.find_nearest_place(lat, lon, radius)
 
@@ -497,16 +476,10 @@ class LODLinksetEnrichmentAgent:
         # Semantic: Use seeAlso for additional info (not identity)
         if entity_config.get("enable_dbpedia") and self.dbpedia_linker:
             name = self._extract_field_value(entity, entity_config.get("name_field"))
-            address = self._extract_field_value(
-                entity, entity_config.get("address_field")
-            )
+            address = self._extract_field_value(entity, entity_config.get("address_field"))
 
             search_text = name or address
-            type_hint = (
-                self.mapping_config.get("dbpedia", {})
-                .get("type_hints", {})
-                .get(entity_type)
-            )
+            type_hint = self.mapping_config.get("dbpedia", {}).get("type_hints", {}).get(entity_type)
 
             if search_text:
                 dbpedia_uri = self.dbpedia_linker.find_resource(search_text, type_hint)
@@ -573,9 +546,7 @@ class LODLinksetEnrichmentAgent:
                             additional_links.append(
                                 {
                                     "uri": link["object"],
-                                    "dataset": link.get("datasetId", {}).get(
-                                        "value", "unknown"
-                                    ),
+                                    "dataset": link.get("datasetId", {}).get("value", "unknown"),
                                 }
                             )
 
@@ -621,17 +592,13 @@ class LODLinksetEnrichmentAgent:
             if "externalLinks" in enriched_entity:
                 linkset_count += len(enriched_entity["externalLinks"]["value"])
 
-            self.logger.debug(
-                f"✓ Enriched {entity_id} with {linkset_count} LOD Cloud linksets"
-            )
+            self.logger.debug(f"✓ Enriched {entity_id} with {linkset_count} LOD Cloud linksets")
 
             return enriched_entity
 
         return entity
 
-    def _extract_field_value(
-        self, entity: Dict[str, Any], field_path: Optional[str]
-    ) -> Optional[str]:
+    def _extract_field_value(self, entity: Dict[str, Any], field_path: Optional[str]) -> Optional[str]:
         """Extract field value from entity using dot notation path.
 
         Args:
@@ -714,9 +681,7 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 2:
-        print(
-            "Usage: python lod_linkset_enrichment_agent.py <input_entities.json> [output_enriched.json]"
-        )
+        print("Usage: python lod_linkset_enrichment_agent.py <input_entities.json> [output_enriched.json]")
         sys.exit(1)
 
     input_file = sys.argv[1]

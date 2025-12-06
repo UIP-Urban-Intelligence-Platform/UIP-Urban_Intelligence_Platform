@@ -1,5 +1,11 @@
 /**
  * Traffic Web Application Backend Server - Express API with WebSocket Support
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
  * 
  * @module apps/traffic-web-app/backend/src/server
  * @author Nguyen Dinh Anh Tuan

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Frontend scripts documentation.
+
+Module: apps/traffic-web-app/frontend/scripts/README.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 /**
  * @module scripts/README
  * @author UIP Team (Nguyen Nhat Quang, Nguyen Viet Hoang, Nguyen Dinh Anh Tuan)

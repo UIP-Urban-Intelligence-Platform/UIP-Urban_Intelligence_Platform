@@ -1,14 +1,18 @@
-# YAML Configuration for All NGSI-LD Entities
-# This file defines ALL endpoints, field mappings, and transformations
-# Adding new domains requires ONLY editing this config file
-# Module: apps.traffic-web-app.backend.config.entities
-# Author: Nguyễn Nhật Quang
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/backend/config/entities.yaml
+# Author: UIP Team
 # Created: 2025-11-26
+# Modified: 2025-12-06
 # Version: 3.0.0
-# License: MIT
-# Description:
-# This file defines ALL NGSI-LD entities, their endpoints, field mappings, and transformations
-
+#
+# Description: YAML Configuration for All NGSI-LD Entities
+# This file defines ALL endpoints, field mappings, and transformations.
+# Adding new domains requires ONLY editing this config file.
 
 version: "1.0"
 stellioBaseUrl: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/v1/entities"

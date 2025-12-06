@@ -58,15 +58,9 @@ class Neo4jSyncAgent:
         self.config = config or {}
         self.enabled = self.config.get("enabled", False)
         # Priority: environment variables > config > defaults
-        self._uri = os.environ.get("NEO4J_URL") or self.config.get(
-            "neo4j_uri", "bolt://localhost:7687"
-        )
-        self._username = os.environ.get("NEO4J_USER") or self.config.get(
-            "username", "neo4j"
-        )
-        self._password = os.environ.get("NEO4J_PASSWORD") or self.config.get(
-            "password", "password"
-        )
+        self._uri = os.environ.get("NEO4J_URL") or self.config.get("neo4j_uri", "bolt://localhost:7687")
+        self._username = os.environ.get("NEO4J_USER") or self.config.get("username", "neo4j")
+        self._password = os.environ.get("NEO4J_PASSWORD") or self.config.get("password", "password")
 
         # Neo4j driver instance
         self._driver: Optional["Driver"] = None
@@ -89,9 +83,7 @@ class Neo4jSyncAgent:
                     extra={"uri": self._uri, "pool_size": 50},
                 )
             except Exception as e:
-                logger.error(
-                    f"Failed to connect to Neo4j: {e}", extra={"error": str(e)}
-                )
+                logger.error(f"Failed to connect to Neo4j: {e}", extra={"error": str(e)})
                 self._driver = None
         else:
             logger.info(
@@ -125,10 +117,7 @@ class Neo4jSyncAgent:
         RETURN c
         """
 
-        logger.debug(
-            f"Symbolic Neo4j sync: Camera {camera_data.get('id')} "
-            f"(query length: {len(cypher_template)} chars)"
-        )
+        logger.debug(f"Symbolic Neo4j sync: Camera {camera_data.get('id')} " f"(query length: {len(cypher_template)} chars)")
         return True
 
     def sync_observation(self, observation: Dict[str, Any]) -> bool:
@@ -155,10 +144,7 @@ class Neo4jSyncAgent:
         RETURN o
         """
 
-        logger.debug(
-            f"Symbolic Neo4j sync: Observation {obs_id} "
-            f"(query length: {len(cypher_template)} chars)"
-        )
+        logger.debug(f"Symbolic Neo4j sync: Observation {obs_id} " f"(query length: {len(cypher_template)} chars)")
         return True
 
     def sync_accident(self, accident: Dict[str, Any]) -> bool:
@@ -244,9 +230,7 @@ class Neo4jSyncAgent:
                 if self.sync_accident(entity):
                     synced += 1
 
-        logger.info(
-            f"Bulk sync completed: {synced}/{len(entities)} entities (symbolic)"
-        )
+        logger.info(f"Bulk sync completed: {synced}/{len(entities)} entities (symbolic)")
         return synced
 
     def clear_database(self) -> bool:

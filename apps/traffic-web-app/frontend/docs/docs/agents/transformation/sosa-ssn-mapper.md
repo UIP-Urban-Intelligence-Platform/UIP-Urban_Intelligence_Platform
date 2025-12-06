@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+SOSA/SSN mapper agent documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/agents/transformation/sosa-ssn-mapper.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # SOSA/SSN Mapper Agent
 
 ## Overview

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Neo4j and LOD Cloud usage guide.
+
+Module: guides/GUIDE_NEO4J_LOD_USAGE.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # 📘 HƯỚNG DẪN SỬ DỤNG DATA TỪ NEO4J VÀ LOD CLOUD
 
 ## 🎯 MỤC ĐÍCH

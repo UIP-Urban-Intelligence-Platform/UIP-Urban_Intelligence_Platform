@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Congestion Detection Agent implementation report.
+
+Module: reports/CONGESTION_DETECTION_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Congestion Detection Agent - Implementation Report
 
 ## Executive Summary

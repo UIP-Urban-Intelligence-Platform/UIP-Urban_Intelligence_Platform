@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Project changelog.
+
+Module: CHANGELOG.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Changelog
 
 All notable changes to the **UIP - Urban Intelligence Platform** project will be documented in this file.

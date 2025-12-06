@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Docker scripts quick reference guide.
+
+Module: guides/DOCKER_SCRIPTS_GUIDE.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Docker Scripts - Quick Reference Guide
 
 Các scripts PowerShell để quản lý Docker integration tests nhanh chóng và dễ dàng.

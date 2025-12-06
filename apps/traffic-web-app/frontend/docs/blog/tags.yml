@@ -1,4 +1,14 @@
-# UIP Blog Tags
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/frontend/docs/blog/tags.yml
+# Author: UIP Team
+# Version: 1.0.0
+#
+# Description: Blog Tags Configuration for Docusaurus
 # Organized by category for better navigation
 
 # Core Project Tags

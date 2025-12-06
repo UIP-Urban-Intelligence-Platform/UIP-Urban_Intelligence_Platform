@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Documentation directory README.
+
+Module: docs/README.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # HCMC Traffic Monitoring System - Documentation
 
 This directory contains the complete Docusaurus documentation for the project.

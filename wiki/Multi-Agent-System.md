@@ -1,3 +1,14 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+Module: wiki/Multi-Agent-System.md
+Author: UIP Team
+Version: 2.0.0
+-->
 # 🤖 Multi-Agent System
 
 UIP - Urban Intelligence Platform employs a sophisticated multi-agent architecture with **41 specialized agents** (38 Python + 3 TypeScript) organized into 14 functional categories.

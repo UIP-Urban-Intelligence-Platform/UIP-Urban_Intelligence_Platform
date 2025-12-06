@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Unit tests README.
+
+Module: tests/unit/README.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Unit Tests
 
 Unit tests for individual components and functions.

@@ -1,17 +1,19 @@
-
 /**
- * @module test-google-custom-search
-* @author Nguyễn Nhật Quang 
-* @created 2025-11-26
-* @modified 2025-11-26
-* @version 2.0.0
-* @license MIT 
- * Google Custom Search API Test for HCMC Events
- * 
- * This script tests whether Google Custom Search API can effectively
- * find real events in Ho Chi Minh City (concerts, festivals, etc.)
- * 
- * Run: node test-google-custom-search.js
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * @module apps/traffic-web-app/backend/tests/integration/test-google-custom-search
+ * @author UIP Team
+ * @created 2025-11-26
+ * @modified 2025-12-06
+ * @version 2.0.0
+ *
+ * @description
+ * Google Custom Search API Test for HCMC Events - Tests whether Google
+ * Custom Search API can effectively find real events in Ho Chi Minh City.
  */
 
 require('dotenv').config();

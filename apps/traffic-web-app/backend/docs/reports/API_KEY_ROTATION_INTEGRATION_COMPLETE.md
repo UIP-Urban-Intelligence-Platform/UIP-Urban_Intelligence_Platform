@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+@module docs/reports/API_KEY_ROTATION_INTEGRATION_COMPLETE
+@author UIP Team
+@version 1.0.0
+-->
+
 # API Key Rotation Integration - Complete ✅
 
 **Completion Date**: 2025-01-XX  

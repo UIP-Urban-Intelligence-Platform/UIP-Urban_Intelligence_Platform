@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Frontend application documentation.
+
+Module: apps/traffic-web-app/frontend/README.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Traffic Monitoring System - Frontend
 
 ## Overview

@@ -1,4 +1,13 @@
-# Pre-commit hooks configuration
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# Pre-commit Hooks Configuration
+#
+# Module: .pre-commit-config.yaml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Version: 1.0.0
+#
 # Install: pip install pre-commit
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files

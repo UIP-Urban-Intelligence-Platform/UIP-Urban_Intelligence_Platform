@@ -1,13 +1,19 @@
 /**
- * @module test-eventbrite-endpoint
-    * @author Nguyễn Nhật Quang 
-    * @created 2025-11-26
-    * @modified 2025-11-26
-    * @version 2.0.0
-    * @license MIT 
-    * @description
- * Test script for Eventbrite API integration
- * Verifies that the Eventbrite API is properly configured and working
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * @module apps/traffic-web-app/backend/tests/integration/test-eventbrite-endpoint
+ * @author UIP Team
+ * @created 2025-11-26
+ * @modified 2025-12-06
+ * @version 2.0.0
+ *
+ * @description
+ * Test script for Eventbrite API integration - Verifies that the
+ * Eventbrite API is properly configured and working.
  */
 
 const axios = require('axios');

@@ -1,11 +1,17 @@
-# Production Dockerfile for Backend
-# Multi-stage build for optimized image
-#Module: Dockerfile
-#author Nguyễn Nhật Quang
-#created 2025-11-27
-#modified 2025-11-27
-#version 2.0.0
-#license MIT
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/backend/Dockerfile
+# Author: UIP Team
+# Created: 2025-11-27
+# Modified: 2025-12-06
+# Version: 2.0.0
+#
+# Description: Production Dockerfile for Backend - Multi-stage build for optimized image
+
 # Stage 1: Build
 FROM node:18-alpine AS builder
 

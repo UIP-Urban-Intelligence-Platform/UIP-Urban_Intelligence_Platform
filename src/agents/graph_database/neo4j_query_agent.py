@@ -58,15 +58,9 @@ class Neo4jQueryAgent:
         self.enabled = self.config.get("enabled", False)
 
         # Neo4j connection config - Priority: environment variables > config > defaults
-        neo4j_uri = os.environ.get("NEO4J_URL") or self.config.get(
-            "neo4j_uri", "bolt://localhost:7687"
-        )
-        neo4j_user = os.environ.get("NEO4J_USER") or self.config.get(
-            "neo4j_user", "neo4j"
-        )
-        neo4j_password = os.environ.get("NEO4J_PASSWORD") or self.config.get(
-            "neo4j_password", "password"
-        )
+        neo4j_uri = os.environ.get("NEO4J_URL") or self.config.get("neo4j_uri", "bolt://localhost:7687")
+        neo4j_user = os.environ.get("NEO4J_USER") or self.config.get("neo4j_user", "neo4j")
+        neo4j_password = os.environ.get("NEO4J_PASSWORD") or self.config.get("neo4j_password", "password")
         max_pool_size = self.config.get("max_connection_pool_size", 50)
 
         # Initialize driver if enabled and available
@@ -86,9 +80,7 @@ class Neo4jQueryAgent:
         else:
             logger.info("Neo4jQueryAgent initialized (disabled or driver unavailable)")
 
-    def _execute_query(
-        self, cypher: str, parameters: Optional[Dict[str, Any]] = None
-    ) -> List[Dict[str, Any]]:
+    def _execute_query(self, cypher: str, parameters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
         """Execute Cypher query and return results."""
         if not self.enabled or not self._driver:
             return []
@@ -104,9 +96,7 @@ class Neo4jQueryAgent:
             logger.error(f"Query execution failed: {e}")
             return []
 
-    def find_nearby_cameras(
-        self, location: Dict[str, float], radius_meters: float = 1000.0
-    ) -> List[Dict[str, Any]]:
+    def find_nearby_cameras(self, location: Dict[str, float], radius_meters: float = 1000.0) -> List[Dict[str, Any]]:
         """
         Find cameras within radius of location.
 
@@ -201,9 +191,7 @@ class Neo4jQueryAgent:
         logger.debug(f"Tracing congestion propagation from {congestion_id}")
         return self._execute_query(cypher, parameters)
 
-    def find_shortest_path(
-        self, camera1_id: str, camera2_id: str
-    ) -> Optional[Dict[str, Any]]:
+    def find_shortest_path(self, camera1_id: str, camera2_id: str) -> Optional[Dict[str, Any]]:
         """
         Find shortest path between two cameras.
 

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Accident Detection Agent implementation report.
+
+Module: reports/ACCIDENT_DETECTION_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Accident Detection Agent - Implementation Report
 
 ## Executive Summary

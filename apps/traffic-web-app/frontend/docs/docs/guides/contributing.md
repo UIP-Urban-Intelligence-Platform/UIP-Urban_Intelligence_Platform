@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Contributing guide documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/guides/contributing.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # 🤝 Contributing Guide
 
 Thank you for your interest in contributing to Builder Layer End!

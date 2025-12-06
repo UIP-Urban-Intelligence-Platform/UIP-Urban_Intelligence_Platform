@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+Module: README.md
+Author: UIP Team
+Version: 2.0.0
+-->
+
 <p align="center">
   <img src="assets/images/logo.png" alt="UIP - Urban Intelligence Platform Logo" width="200" height="200">
 </p>

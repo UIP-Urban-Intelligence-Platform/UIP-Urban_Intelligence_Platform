@@ -5,6 +5,18 @@ authors: [nguyennhatquang, nguyenviethoang]
 tags: [uip, ai, yolox, accident-detection, computer-vision]
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: AI Accident Detection.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2024-05-15-ai-accident-detection.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # YOLOX và Phát hiện Tai nạn Giao thông Real-time 🤖
 
 Một trong những tính năng quan trọng nhất của UIP là khả năng **phát hiện tai nạn giao thông tự động** trong vòng vài giây. Bài viết này chia sẻ cách chúng tôi xây dựng hệ thống này.

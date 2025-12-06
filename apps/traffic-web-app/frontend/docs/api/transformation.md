@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Transformation API reference documentation.
+
+Module: apps/traffic-web-app/frontend/docs/api/transformation.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Transformation API Reference - PRODUCTION READY
 
 Complete guide for data transformation: Raw JSON → NGSI-LD → SOSA/SSN → RDF.

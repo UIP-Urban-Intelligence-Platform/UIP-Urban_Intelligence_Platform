@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Alert dispatcher agent documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/agents/notification/alert-dispatcher.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Alert Dispatcher Agent
 
 ## Overview

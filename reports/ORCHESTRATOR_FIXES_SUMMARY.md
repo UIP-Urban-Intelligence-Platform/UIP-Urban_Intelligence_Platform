@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Orchestrator fixes summary.
+
+Module: reports/ORCHESTRATOR_FIXES_SUMMARY.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Orchestrator Error & Warning Fixes - Complete Summary
 
 **Date**: 2025-11-12  

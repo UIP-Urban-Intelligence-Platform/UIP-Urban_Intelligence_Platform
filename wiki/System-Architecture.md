@@ -1,3 +1,14 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+
+Module: wiki/System-Architecture.md
+Author: UIP Team
+Version: 2.0.0
+-->
 # 🏗️ System Architecture
 
 This page describes the high-level architecture of UIP - Urban Intelligence Platform.

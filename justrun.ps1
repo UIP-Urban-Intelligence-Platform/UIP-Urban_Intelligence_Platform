@@ -208,6 +208,10 @@ function Install-Dependencies {
     WriteInfo "       Installing Python dependencies..."
     pip install -r requirements/dev.txt -q 2>&1 | Out-Null
     
+    # Ensure statsmodels is installed (required by analytics agents)
+    WriteInfo "       Installing statsmodels for analytics..."
+    pip install statsmodels scipy -q 2>&1 | Out-Null
+    
     WriteSuccess "       OK: Python dependencies installed"
     Write-Host ""
     
@@ -391,13 +395,48 @@ function Start-Dev {
         Write-Host ""
     }
     else {
-        # Even if setup is not needed, ensure YOLOX is installed from GitHub
+        # Activate venv and ensure all ML dependencies are installed
         & .\.venv\Scripts\Activate.ps1
+        
+        # Ensure YOLOX is installed from GitHub
         $yoloxCheck = pip show yolox 2>&1
         if ($LASTEXITCODE -ne 0) {
             WriteInfo "Installing YOLOX from GitHub..."
             pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>&1 | Out-Null
             WriteSuccess "YOLOX installed"
+        }
+        
+        # Ensure statsmodels is installed (for analytics agents)
+        $statsCheck = pip show statsmodels 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            WriteInfo "Installing statsmodels..."
+            pip install statsmodels -q 2>&1 | Out-Null
+            WriteSuccess "statsmodels installed"
+        }
+        
+        # Ensure timm is installed (required for DETR accident detection)
+        $timmCheck = pip show timm 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            WriteInfo "Installing timm (required for DETR)..."
+            pip install timm -q 2>&1 | Out-Null
+            WriteSuccess "timm installed"
+        }
+        
+        # Ensure YOLOX weights are downloaded
+        if (-not (Test-Path "assets\models\yolox_x.pth")) {
+            WriteInfo "Downloading YOLOX-X weights (794MB)..."
+            python scripts/download_yolox_weights.py --model yolox-x 2>&1 | Out-Null
+            if (Test-Path "assets\models\yolox_x.pth") {
+                WriteSuccess "YOLOX-X weights downloaded"
+            }
+        }
+        
+        # Ensure DETR accident detection model is cached
+        $detrModelPath = "$env:USERPROFILE\.cache\huggingface\hub\models--hilmantm--detr-traffic-accident-detection"
+        if (-not (Test-Path $detrModelPath)) {
+            WriteInfo "Downloading DETR accident detection model..."
+            python scripts/download_accident_model.py 2>&1 | Out-Null
+            WriteSuccess "DETR model downloaded"
         }
     }
     
@@ -622,6 +661,10 @@ function Start-Prod {
     # Activate Python venv
     & .\.venv\Scripts\Activate.ps1
     
+    # Install base requirements first (includes scipy, statsmodels)
+    WriteInfo "       Installing Python dependencies..."
+    pip install -r requirements/base.txt -q 2>&1 | Out-Null
+    
     # Install YOLOX if not installed
     $yoloxCheck = pip show yolox 2>&1
     if ($LASTEXITCODE -ne 0) {
@@ -629,12 +672,30 @@ function Start-Prod {
         pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>&1 | Out-Null
         WriteSuccess "       OK: YOLOX installed"
     }
+    else {
+        WriteSuccess "       OK: YOLOX already installed"
+    }
+    
+    # Ensure statsmodels is installed (for analytics agents)
+    $statsCheck = pip show statsmodels 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        WriteInfo "       Installing statsmodels..."
+        pip install statsmodels -q 2>&1 | Out-Null
+        WriteSuccess "       OK: statsmodels installed"
+    }
+    
+    # Ensure timm is installed (required for DETR accident detection)
+    $timmCheck = pip show timm 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        WriteInfo "       Installing timm (required for DETR)..."
+        pip install timm -q 2>&1 | Out-Null
+        WriteSuccess "       OK: timm installed"
+    }
     
     # Download YOLOX weights if not exists
     if (-not (Test-Path "assets\models\yolox_x.pth")) {
         WriteInfo "       Downloading YOLOX-X weights (794MB)..."
         WriteInfo "       This may take a few minutes..."
-        pip install -r requirements/base.txt -q 2>&1 | Out-Null
         python scripts/download_yolox_weights.py --model yolox-x 2>&1 | Out-Null
         if (Test-Path "assets\models\yolox_x.pth") {
             WriteSuccess "       OK: YOLOX-X weights downloaded"

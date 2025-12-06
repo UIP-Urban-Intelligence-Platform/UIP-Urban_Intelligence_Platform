@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Implementation summary for Historical AQI & Accident Hotspots.
+
+Module: apps/traffic-web-app/backend/docs/reports/IMPLEMENTATION_SUMMARY.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Implementation Summary: Historical AQI & Accident Hotspots
 
 ## ✅ IMPLEMENTATION COMPLETE

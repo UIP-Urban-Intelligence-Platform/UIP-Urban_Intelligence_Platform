@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+REST API reference documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/api/rest-api.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # REST API Reference
 
 ## Overview

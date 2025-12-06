@@ -98,9 +98,7 @@ except ImportError:
     raise ImportError("neo4j driver required: pip install neo4j")
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -226,9 +224,7 @@ class PostgresConnector:
                 user=self.config["user"],
                 password=self.config["password"],
             )
-            logger.info(
-                f"Connected to PostgreSQL: {self.config['host']}:{self.config['port']}/{self.config['database']}"
-            )
+            logger.info(f"Connected to PostgreSQL: {self.config['host']}:{self.config['port']}/{self.config['database']}")
         except Exception as e:
             logger.error(f"Failed to connect to PostgreSQL: {e}")
             raise
@@ -242,9 +238,7 @@ class PostgresConnector:
         else:
             loop.run_until_complete(self._async_connect())
 
-    async def _async_fetch_entities(
-        self, table: str = "entity_payload"
-    ) -> List[Dict[str, Any]]:
+    async def _async_fetch_entities(self, table: str = "entity_payload") -> List[Dict[str, Any]]:
         """Async fetch all entities from entity_payload table."""
         if not self.connection:
             raise RuntimeError("Not connected to PostgreSQL")
@@ -409,27 +403,15 @@ class Neo4jConnector:
         """
         payload = entity["payload"]
         entity_id = payload.get("id", entity["entity_id"])
-        entity_type = entity.get(
-            "entity_type", "Camera"
-        )  # Use entity_type from DB, not NGSI-LD type URI
+        entity_type = entity.get("entity_type", "Camera")  # Use entity_type from DB, not NGSI-LD type URI
 
         # Extract properties
         properties = {
             "id": entity_id,
             "type": entity_type,  # Store simple type, not full URI
-            "ngsiLdType": payload.get(
-                "type", entity_type
-            ),  # Store full NGSI-LD type URI separately
-            "createdAt": (
-                entity.get("created_at").isoformat()
-                if entity.get("created_at")
-                else None
-            ),
-            "modifiedAt": (
-                entity.get("modified_at").isoformat()
-                if entity.get("modified_at")
-                else None
-            ),
+            "ngsiLdType": payload.get("type", entity_type),  # Store full NGSI-LD type URI separately
+            "createdAt": (entity.get("created_at").isoformat() if entity.get("created_at") else None),
+            "modifiedAt": (entity.get("modified_at").isoformat() if entity.get("modified_at") else None),
         }
 
         # Extract NGSI-LD properties
@@ -464,9 +446,7 @@ class Neo4jConnector:
         if record:
             logger.debug(f"Created/Updated Camera node: {record['id']}")
 
-    def create_platform_node(
-        self, tx: Transaction, platform_id: str, properties: Dict[str, Any]
-    ) -> None:
+    def create_platform_node(self, tx: Transaction, platform_id: str, properties: Dict[str, Any]) -> None:
         """
         Create Platform node in Neo4j.
 
@@ -518,9 +498,7 @@ class Neo4jConnector:
         result = tx.run(cypher, from_id=from_id, to_id=to_id, properties=properties)
         record = result.single()
         if record:
-            logger.debug(
-                f"Created relationship: {from_id} -[{record['relType']}]-> {to_id}"
-            )
+            logger.debug(f"Created relationship: {from_id} -[{record['relType']}]-> {to_id}")
 
     def execute_transaction(self, work_func, *args, **kwargs) -> Any:
         """
@@ -640,9 +618,7 @@ class Neo4jSyncAgent:
                         if isinstance(value_item, dict) and "@value" in value_item:
                             return value_item["@value"]
                         return value_item
-                    elif (
-                        isinstance(has_value_data, dict) and "@value" in has_value_data
-                    ):
+                    elif isinstance(has_value_data, dict) and "@value" in has_value_data:
                         return has_value_data["@value"]
                     return has_value_data
 
@@ -650,9 +626,7 @@ class Neo4jSyncAgent:
         return data
 
     @staticmethod
-    def _extract_relationship_object(
-        payload: Dict[str, Any], rel_name: str
-    ) -> Optional[str]:
+    def _extract_relationship_object(payload: Dict[str, Any], rel_name: str) -> Optional[str]:
         """
         Extract relationship object ID from NGSI-LD or JSON-LD format.
 
@@ -736,11 +710,7 @@ class Neo4jSyncAgent:
                 # If we got a future, run it
                 loop = self.pg_connector._get_event_loop()
                 if not loop.is_running():
-                    rows = (
-                        loop.run_until_complete(rows)
-                        if hasattr(rows, "__await__")
-                        else rows
-                    )
+                    rows = loop.run_until_complete(rows) if hasattr(rows, "__await__") else rows
 
             # Create index mapping: {0: "urn:ngsi-ld:Camera:TTH%20406", ...}
             # Note: asyncpg returns Record objects that work like dicts
@@ -800,9 +770,7 @@ class Neo4jSyncAgent:
                 logger.error(f"Failed to sync entity {entity.get('entity_id')}: {e}")
                 failed += 1
 
-        logger.info(
-            f"Synchronization complete: {successful}/{total} successful, {failed} failed"
-        )
+        logger.info(f"Synchronization complete: {successful}/{total} successful, {failed} failed")
         return (total, successful, failed)
 
     def _sync_camera(self, entity: Dict[str, Any]) -> None:
@@ -821,18 +789,14 @@ class Neo4jSyncAgent:
             if is_hosted_by.get("type") == "Relationship":
                 platform_id = is_hosted_by.get("object", "")
                 if platform_id:
-                    self.neo4j_connector.create_relationship(
-                        tx, entity_id, platform_id, "IS_HOSTED_BY"
-                    )
+                    self.neo4j_connector.create_relationship(tx, entity_id, platform_id, "IS_HOSTED_BY")
 
             # observes -> ObservableProperty
             observes = payload.get("observes", {})
             if observes.get("type") == "Relationship":
                 obs_prop_id = observes.get("object", "")
                 if obs_prop_id:
-                    self.neo4j_connector.create_relationship(
-                        tx, entity_id, obs_prop_id, "OBSERVES"
-                    )
+                    self.neo4j_connector.create_relationship(tx, entity_id, obs_prop_id, "OBSERVES")
 
         self.neo4j_connector.execute_transaction(work, entity)
 
@@ -881,9 +845,7 @@ class Neo4jSyncAgent:
 
         self.neo4j_connector.execute_transaction(work, entity)
 
-    def _sync_item_flow_observed(
-        self, entity: Dict[str, Any], camera_mapping: Dict[int, str]
-    ) -> None:
+    def _sync_item_flow_observed(self, entity: Dict[str, Any], camera_mapping: Dict[int, str]) -> None:
         """
         Sync ItemFlowObserved entity to Neo4j.
 
@@ -899,9 +861,7 @@ class Neo4jSyncAgent:
             camera_mapping: Mapping from camera index (0,1,2,...) to real Camera entity IDs
         """
 
-        def work(
-            tx: Transaction, entity: Dict[str, Any], camera_mapping: Dict[int, str]
-        ):
+        def work(tx: Transaction, entity: Dict[str, Any], camera_mapping: Dict[int, str]):
             payload = entity["payload"]
             entity_id = payload.get("id", entity["entity_id"])
 
@@ -951,9 +911,7 @@ class Neo4jSyncAgent:
             result = tx.run(cypher, id=entity_id, properties=properties)
             record = result.single()
             if record:
-                logger.debug(
-                    f"Created/Updated ItemFlowObserved (Observation) node: {record['id']}"
-                )
+                logger.debug(f"Created/Updated ItemFlowObserved (Observation) node: {record['id']}")
 
             # Create HAS_OBSERVATION relationship from Camera to Observation
             # Use helper to extract refDevice from both NGSI-LD and JSON-LD formats
@@ -969,9 +927,7 @@ class Neo4jSyncAgent:
                         if camera_index in camera_mapping:
                             original_ref_device = ref_device
                             ref_device = camera_mapping[camera_index]
-                            logger.debug(
-                                f"Mapped camera index {camera_index} ({original_ref_device}) -> {ref_device}"
-                            )
+                            logger.debug(f"Mapped camera index {camera_index} ({original_ref_device}) -> {ref_device}")
                         else:
                             # Silently skip observations for non-existent cameras (old/test data)
                             logger.debug(
@@ -979,9 +935,7 @@ class Neo4jSyncAgent:
                             )
                             return  # Exit early without creating relationship
 
-                logger.debug(
-                    f"Found refDevice relationship: {ref_device} for observation {entity_id}"
-                )
+                logger.debug(f"Found refDevice relationship: {ref_device} for observation {entity_id}")
                 rel_cypher = """
                     MATCH (c:Camera {id: $camera_id})
                     MATCH (o:Observation {id: $obs_id})
@@ -989,29 +943,19 @@ class Neo4jSyncAgent:
                     RETURN type(r) as rel_type
                 """
                 try:
-                    rel_result = tx.run(
-                        rel_cypher, camera_id=ref_device, obs_id=entity_id
-                    )
+                    rel_result = tx.run(rel_cypher, camera_id=ref_device, obs_id=entity_id)
                     rel_record = rel_result.single()
                     if rel_record:
-                        logger.debug(
-                            f"Created HAS_OBSERVATION: {ref_device} -> {entity_id}"
-                        )
+                        logger.debug(f"Created HAS_OBSERVATION: {ref_device} -> {entity_id}")
                     else:
                         # Silently skip if camera doesn't exist in Neo4j (data consistency issue)
-                        logger.debug(
-                            f"Skipped relationship for {entity_id}: Camera {ref_device} not found in Neo4j"
-                        )
+                        logger.debug(f"Skipped relationship for {entity_id}: Camera {ref_device} not found in Neo4j")
                 except Exception as e:
                     # Log at debug level to avoid cluttering logs with data consistency issues
-                    logger.debug(
-                        f"Could not create HAS_OBSERVATION for {entity_id}: {e}"
-                    )
+                    logger.debug(f"Could not create HAS_OBSERVATION for {entity_id}: {e}")
             else:
                 # No refDevice means orphaned observation (possibly test data)
-                logger.debug(
-                    f"No refDevice found for observation {entity_id}, skipping relationship"
-                )
+                logger.debug(f"No refDevice found for observation {entity_id}, skipping relationship")
 
         self.neo4j_connector.execute_transaction(work, entity, camera_mapping)
 
@@ -1059,9 +1003,7 @@ class Neo4jSyncAgent:
         counts = {
             "Camera": self.neo4j_connector.count_nodes("Camera"),
             "Platform": self.neo4j_connector.count_nodes("Platform"),
-            "ObservableProperty": self.neo4j_connector.count_nodes(
-                "ObservableProperty"
-            ),
+            "ObservableProperty": self.neo4j_connector.count_nodes("ObservableProperty"),
             "Total": self.neo4j_connector.count_nodes(),
         }
 
@@ -1095,9 +1037,7 @@ class Neo4jSyncAgent:
                 logger.info("✅ Synchronization completed successfully")
                 return True
             else:
-                logger.warning(
-                    f"⚠️ Synchronization completed with issues: {failed} failures"
-                )
+                logger.warning(f"⚠️ Synchronization completed with issues: {failed} failures")
                 return False
 
         except Exception as e:
@@ -1123,9 +1063,7 @@ def main(config: Optional[Dict[str, Any]] = None):
     if config:
         config_path = config.get("config_path", "config/neo4j_sync.yaml")
     else:
-        parser = argparse.ArgumentParser(
-            description="Sync entities from Stellio to Neo4j"
-        )
+        parser = argparse.ArgumentParser(description="Sync entities from Stellio to Neo4j")
         parser.add_argument(
             "--config",
             default="config/neo4j_sync.yaml",

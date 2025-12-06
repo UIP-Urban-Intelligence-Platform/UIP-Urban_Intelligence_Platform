@@ -120,15 +120,11 @@ class TransformationEngine:
             transform_type = config.get("type")
 
             if transform_type == "boolean_map":
-                self._transform_functions[name] = self._create_boolean_map(
-                    config.get("true_value"), config.get("false_value")
-                )
+                self._transform_functions[name] = self._create_boolean_map(config.get("true_value"), config.get("false_value"))
             elif transform_type == "string_uppercase":
                 self._transform_functions[name] = lambda x: str(x).upper() if x else x
             elif transform_type == "datetime_format":
-                self._transform_functions[name] = self._create_datetime_formatter(
-                    config.get("output_format", "iso8601")
-                )
+                self._transform_functions[name] = self._create_datetime_formatter(config.get("output_format", "iso8601"))
             else:
                 # Identity transform for unknown types
                 self._transform_functions[name] = lambda x: x
@@ -312,9 +308,7 @@ class NGSILDTransformerAgent:
                 else:
                     self.logger.debug("MongoDB publishing disabled in config")
             except Exception as e:
-                self.logger.warning(
-                    f"MongoDB initialization failed (non-critical): {e}"
-                )
+                self.logger.warning(f"MongoDB initialization failed (non-critical): {e}")
         else:
             self.logger.debug("MongoDB not available (pymongo not installed)")
 
@@ -376,9 +370,7 @@ class NGSILDTransformerAgent:
 
         return logger
 
-    def load_source_data(
-        self, source_file: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+    def load_source_data(self, source_file: Optional[str] = None) -> List[Dict[str, Any]]:
         """
         Load source data from JSON file.
 
@@ -441,9 +433,7 @@ class NGSILDTransformerAgent:
 
         return f"{uri_prefix}{encoded_id}"
 
-    def create_property(
-        self, value: Any, observed_at: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def create_property(self, value: Any, observed_at: Optional[str] = None) -> Dict[str, Any]:
         """
         Create NGSI-LD Property structure.
 
@@ -559,9 +549,7 @@ class NGSILDTransformerAgent:
                 else:
                     target_field = mapping_config
 
-                mapped_property = self.apply_property_mapping(
-                    entity, source_field, mapping_config
-                )
+                mapped_property = self.apply_property_mapping(entity, source_field, mapping_config)
 
                 if mapped_property:
                     ngsi_entity[target_field] = mapped_property
@@ -581,13 +569,9 @@ class NGSILDTransformerAgent:
                         try:
                             lat = float(latitude)
                             lng = float(longitude)
-                            ngsi_entity[target_field] = self.create_geo_property(
-                                lat, lng
-                            )
+                            ngsi_entity[target_field] = self.create_geo_property(lat, lng)
                         except (ValueError, TypeError):
-                            self.logger.warning(
-                                f"Invalid coordinates for entity {entity.get(self.config['id_field'])}"
-                            )
+                            self.logger.warning(f"Invalid coordinates for entity {entity.get(self.config['id_field'])}")
 
             # Apply relationship mappings
             relationships = self.config.get("relationships", [])
@@ -606,9 +590,7 @@ class NGSILDTransformerAgent:
             self.logger.error(f"Error transforming entity: {e}")
             return None
 
-    def create_weather_observed_entity(
-        self, camera_entity: Dict[str, Any], camera_id: str
-    ) -> Optional[Dict[str, Any]]:
+    def create_weather_observed_entity(self, camera_entity: Dict[str, Any], camera_id: str) -> Optional[Dict[str, Any]]:
         """
         Create WeatherObserved entity from camera's weather data.
 
@@ -642,9 +624,7 @@ class NGSILDTransformerAgent:
             camera_code = camera_entity.get("code", "unknown")
             encoded_camera_code = quote(str(camera_code), safe="")
             timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-            entity_id = (
-                f"{weather_config['uri_prefix']}{encoded_camera_code}-{timestamp}"
-            )
+            entity_id = f"{weather_config['uri_prefix']}{encoded_camera_code}-{timestamp}"
 
             # Create base entity
             weather_entity = {
@@ -679,16 +659,12 @@ class NGSILDTransformerAgent:
             latitude = camera_entity.get("latitude")
             longitude = camera_entity.get("longitude")
             if latitude is not None and longitude is not None:
-                weather_entity["location"] = self.create_geo_property(
-                    float(latitude), float(longitude)
-                )
+                weather_entity["location"] = self.create_geo_property(float(latitude), float(longitude))
 
             # Add observation timestamp
             enrichment_timestamp = camera_entity.get("enrichment_timestamp")
             if enrichment_timestamp:
-                weather_entity["dateObserved"] = self.create_property(
-                    enrichment_timestamp
-                )
+                weather_entity["dateObserved"] = self.create_property(enrichment_timestamp)
 
             return weather_entity
 
@@ -696,9 +672,7 @@ class NGSILDTransformerAgent:
             self.logger.error(f"Error creating WeatherObserved entity: {e}")
             return None
 
-    def create_air_quality_observed_entity(
-        self, camera_entity: Dict[str, Any], camera_id: str
-    ) -> Optional[Dict[str, Any]]:
+    def create_air_quality_observed_entity(self, camera_entity: Dict[str, Any], camera_id: str) -> Optional[Dict[str, Any]]:
         """
         Create AirQualityObserved entity from camera's air quality data.
 
@@ -776,9 +750,7 @@ class NGSILDTransformerAgent:
             latitude = camera_entity.get("latitude")
             longitude = camera_entity.get("longitude")
             if latitude is not None and longitude is not None:
-                aq_entity["location"] = self.create_geo_property(
-                    float(latitude), float(longitude)
-                )
+                aq_entity["location"] = self.create_geo_property(float(latitude), float(longitude))
 
             # Add observation timestamp
             enrichment_timestamp = camera_entity.get("enrichment_timestamp")
@@ -823,30 +795,21 @@ class NGSILDTransformerAgent:
                         camera_id = camera_entity.get("id")
 
                         # 2. Create WeatherObserved entity
-                        weather_entity = self.create_weather_observed_entity(
-                            entity, camera_id
-                        )
+                        weather_entity = self.create_weather_observed_entity(entity, camera_id)
                         if weather_entity:
                             ngsi_entities.append(weather_entity)
                             self.stats["successful_transforms"] += 1
-                            self.logger.debug(
-                                f"Created WeatherObserved for {camera_id}"
-                            )
+                            self.logger.debug(f"Created WeatherObserved for {camera_id}")
 
                         # 3. Create AirQualityObserved entity
-                        aq_entity = self.create_air_quality_observed_entity(
-                            entity, camera_id
-                        )
+                        aq_entity = self.create_air_quality_observed_entity(entity, camera_id)
                         if aq_entity:
                             ngsi_entities.append(aq_entity)
                             self.stats["successful_transforms"] += 1
-                            self.logger.debug(
-                                f"Created AirQualityObserved for {camera_id}"
-                            )
+                            self.logger.debug(f"Created AirQualityObserved for {camera_id}")
                     else:
                         self.logger.warning(
-                            f"Validation failed for {camera_entity.get('id')}: "
-                            f"{self.validator.get_errors()}"
+                            f"Validation failed for {camera_entity.get('id')}: " f"{self.validator.get_errors()}"
                         )
                         self.stats["validation_errors"] += 1
                         self.stats["failed_transforms"] += 1
@@ -859,17 +822,13 @@ class NGSILDTransformerAgent:
                     camera_id = camera_entity.get("id")
 
                     # Create WeatherObserved entity
-                    weather_entity = self.create_weather_observed_entity(
-                        entity, camera_id
-                    )
+                    weather_entity = self.create_weather_observed_entity(entity, camera_id)
                     if weather_entity:
                         ngsi_entities.append(weather_entity)
                         self.stats["successful_transforms"] += 1
 
                     # Create AirQualityObserved entity
-                    aq_entity = self.create_air_quality_observed_entity(
-                        entity, camera_id
-                    )
+                    aq_entity = self.create_air_quality_observed_entity(entity, camera_id)
                     if aq_entity:
                         ngsi_entities.append(aq_entity)
                         self.stats["successful_transforms"] += 1
@@ -903,8 +862,7 @@ class NGSILDTransformerAgent:
         for i in range(0, len(entities), batch_size):
             batch = entities[i : i + batch_size]
             self.logger.info(
-                f"Processing batch {i//batch_size + 1}/{(len(entities)-1)//batch_size + 1} "
-                f"({len(batch)} entities)..."
+                f"Processing batch {i//batch_size + 1}/{(len(entities)-1)//batch_size + 1} " f"({len(batch)} entities)..."
             )
 
             ngsi_batch = self.process_batch(batch)
@@ -919,9 +877,7 @@ class NGSILDTransformerAgent:
 
         return all_ngsi_entities
 
-    def save_output(
-        self, ngsi_entities: List[Dict[str, Any]], output_file: Optional[str] = None
-    ) -> None:
+    def save_output(self, ngsi_entities: List[Dict[str, Any]], output_file: Optional[str] = None) -> None:
         """
         Save NGSI-LD entities to output file.
 
@@ -941,22 +897,16 @@ class NGSILDTransformerAgent:
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(ngsi_entities, f, ensure_ascii=False, indent=indent)
 
-        self.logger.info(
-            f"Saved {len(ngsi_entities)} NGSI-LD entities to {output_path}"
-        )
+        self.logger.info(f"Saved {len(ngsi_entities)} NGSI-LD entities to {output_path}")
 
         # Optionally publish to MongoDB (non-blocking, failures won't stop workflow)
         if self._mongodb_helper and self._mongodb_helper.enabled and ngsi_entities:
             try:
-                success, failed = self._mongodb_helper.insert_entities_batch(
-                    ngsi_entities
-                )
+                success, failed = self._mongodb_helper.insert_entities_batch(ngsi_entities)
                 if success > 0:
                     self.logger.info(f"✅ Published {success} entities to MongoDB")
                 if failed > 0:
-                    self.logger.warning(
-                        f"⚠️ Failed to publish {failed} entities to MongoDB"
-                    )
+                    self.logger.warning(f"⚠️ Failed to publish {failed} entities to MongoDB")
             except Exception as e:
                 self.logger.warning(f"MongoDB publishing failed (non-critical): {e}")
 
@@ -966,39 +916,25 @@ class NGSILDTransformerAgent:
         self.logger.info("TRANSFORMATION STATISTICS")
         self.logger.info("=" * 60)
         self.logger.info(f"Total input entities: {self.stats['total_entities']}")
-        self.logger.info(
-            f"Total output entities: {self.stats['successful_transforms']}"
-        )
+        self.logger.info(f"Total output entities: {self.stats['successful_transforms']}")
         self.logger.info(f"Failed transforms: {self.stats['failed_transforms']}")
         self.logger.info(f"Validation errors: {self.stats['validation_errors']}")
         self.logger.info(f"Processing time: {self.stats['processing_time']:.2f}s")
 
         if self.stats["total_entities"] > 0:
             # Calculate entity multiplication factor (3x expected: Camera + Weather + AQ)
-            output_ratio = (
-                self.stats["successful_transforms"] / self.stats["total_entities"]
-            )
-            self.logger.info(
-                f"Entity multiplication: {output_ratio:.1f}x (Expected: ~3x if all data present)"
-            )
+            output_ratio = self.stats["successful_transforms"] / self.stats["total_entities"]
+            self.logger.info(f"Entity multiplication: {output_ratio:.1f}x (Expected: ~3x if all data present)")
 
             if self.stats["processing_time"] > 0:
-                throughput = (
-                    self.stats["total_entities"] / self.stats["processing_time"]
-                )
+                throughput = self.stats["total_entities"] / self.stats["processing_time"]
                 self.logger.info(f"Input throughput: {throughput:.1f} cameras/second")
-                output_throughput = (
-                    self.stats["successful_transforms"] / self.stats["processing_time"]
-                )
-                self.logger.info(
-                    f"Output throughput: {output_throughput:.1f} entities/second"
-                )
+                output_throughput = self.stats["successful_transforms"] / self.stats["processing_time"]
+                self.logger.info(f"Output throughput: {output_throughput:.1f} entities/second")
 
         self.logger.info("=" * 60)
 
-    def run(
-        self, source_file: Optional[str] = None, output_file: Optional[str] = None
-    ) -> None:
+    def run(self, source_file: Optional[str] = None, output_file: Optional[str] = None) -> None:
         """
         Run full transformation workflow.
 

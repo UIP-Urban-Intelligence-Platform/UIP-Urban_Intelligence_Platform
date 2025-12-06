@@ -83,9 +83,7 @@ class AccidentStateManagerAgent:
             "archive": self.config.get("archive_timeout", 86400),  # 24 hours
         }
 
-        logger.info(
-            "AccidentStateManagerAgent initialized", extra={"timeouts": self._timeouts}
-        )
+        logger.info("AccidentStateManagerAgent initialized", extra={"timeouts": self._timeouts})
 
     def create_accident(
         self,
@@ -131,9 +129,7 @@ class AccidentStateManagerAgent:
 
         return accident
 
-    def update_accident_state(
-        self, accident_id: str, new_state: str, reason: Optional[str] = None
-    ) -> bool:
+    def update_accident_state(self, accident_id: str, new_state: str, reason: Optional[str] = None) -> bool:
         """
         Transition accident to new state.
 
@@ -199,11 +195,7 @@ class AccidentStateManagerAgent:
         if not self.enabled:
             return []
 
-        return [
-            accident
-            for accident in self._accidents.values()
-            if accident["severity"] == severity
-        ]
+        return [accident for accident in self._accidents.values() if accident["severity"] == severity]
 
     def auto_escalate_severity(self, accident_id: str) -> bool:
         """
@@ -237,10 +229,7 @@ class AccidentStateManagerAgent:
             current_index = severity_order.index(old_severity)
             if current_index < len(severity_order) - 1:
                 accident["severity"] = severity_order[current_index + 1]
-                logger.warning(
-                    f"Accident severity escalated: {accident_id} "
-                    f"{old_severity} -> {accident['severity']}"
-                )
+                logger.warning(f"Accident severity escalated: {accident_id} " f"{old_severity} -> {accident['severity']}")
                 return True
 
         return False
@@ -255,10 +244,7 @@ class AccidentStateManagerAgent:
         for accident_id, accident in list(self._accidents.items()):
             updated_at = datetime.fromisoformat(accident["updated_at"])
 
-            if (
-                updated_at < cutoff_time
-                and accident["state"] == AccidentState.ACTIVE.value
-            ):
+            if updated_at < cutoff_time and accident["state"] == AccidentState.ACTIVE.value:
                 self.update_accident_state(
                     accident_id,
                     AccidentState.RESOLVED.value,
@@ -333,18 +319,12 @@ class AccidentStateManagerAgent:
             elapsed = (datetime.utcnow() - accident["last_updated"]).total_seconds()
 
             # Auto-confirm after timeout
-            if (
-                current_state == AccidentState.DETECTED.value
-                and elapsed > self._timeouts["confirmation"]
-            ):
+            if current_state == AccidentState.DETECTED.value and elapsed > self._timeouts["confirmation"]:
                 self.transition_state(accident_id, AccidentState.CONFIRMED)
                 processed += 1
 
             # Auto-archive resolved accidents
-            elif (
-                current_state == AccidentState.RESOLVED.value
-                and elapsed > self._timeouts["archive"]
-            ):
+            elif current_state == AccidentState.RESOLVED.value and elapsed > self._timeouts["archive"]:
                 self.transition_state(accident_id, AccidentState.ARCHIVED)
                 processed += 1
 

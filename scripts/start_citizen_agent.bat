@@ -1,6 +1,9 @@
 @echo off
 REM SPDX-License-Identifier: MIT
-REM Copyright (c) 2025 Nguyen Nhat Quang
+REM Copyright (c) 2025 UIP Team. All rights reserved.
+REM
+REM UIP - Urban Intelligence Platform
+REM https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
 REM
 REM Start Citizen Ingestion Agent FastAPI Server
 REM Uses virtual environment and loads API keys from data_sources.yaml

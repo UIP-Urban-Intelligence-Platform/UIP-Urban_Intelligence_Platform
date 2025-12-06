@@ -2,6 +2,18 @@
 sidebar_position: 5
 ---
 
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Docusaurus tutorial - Deploy your site.
+
+Module: apps/traffic-web-app/frontend/docs/docs/tutorial-basics/deploy-your-site.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Deploy your site
 
 Docusaurus is a **static-site-generator** (also called **[Jamstack](https://jamstack.org/)**).

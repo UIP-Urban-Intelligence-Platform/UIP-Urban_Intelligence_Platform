@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Content Negotiation Agent implementation report.
+
+Module: reports/CONTENT_NEGOTIATION_REPORT.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Content Negotiation Agent - Implementation Report
 
 ## Executive Summary

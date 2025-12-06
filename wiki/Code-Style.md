@@ -1,6 +1,6 @@
 <!--
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+Copyright (c) 2025 UIP Team. All rights reserved.
 
 UIP - Urban Intelligence Platform
 Code Style Guide
@@ -352,7 +352,7 @@ All source files must include SPDX license headers:
 
 ```python
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 UIP Team
+# Copyright (c) 2025 UIP Team. All rights reserved.
 """Module description.
 
 This module provides functionality for...
@@ -363,7 +363,7 @@ This module provides functionality for...
 
 ```typescript
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2025 UIP Team
+// Copyright (c) 2025 UIP Team. All rights reserved.
 
 /**
  * @fileoverview Module description.
@@ -375,7 +375,7 @@ This module provides functionality for...
 
 ```yaml
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 UIP Team
+# Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # Configuration description
 ```
@@ -385,7 +385,7 @@ This module provides functionality for...
 ```markdown
 <!--
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+Copyright (c) 2025 UIP Team. All rights reserved.
 -->
 ```
 

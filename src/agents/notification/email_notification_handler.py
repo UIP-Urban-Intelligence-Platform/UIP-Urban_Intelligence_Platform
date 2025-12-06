@@ -117,9 +117,7 @@ class EmailNotificationHandler:
         self._sent_count += 1
         return True
 
-    def send_alert_email(
-        self, alert: Dict[str, Any], recipients: List[str]
-    ) -> Dict[str, int]:
+    def send_alert_email(self, alert: Dict[str, Any], recipients: List[str]) -> Dict[str, int]:
         """
         Send alert email to multiple recipients.
 
@@ -157,9 +155,7 @@ class EmailNotificationHandler:
 
         return {"success": success, "failed": failed}
 
-    def send_incident_report(
-        self, incident: Dict[str, Any], recipients: List[str], attach_pdf: bool = True
-    ) -> bool:
+    def send_incident_report(self, incident: Dict[str, Any], recipients: List[str], attach_pdf: bool = True) -> bool:
         """
         Send detailed incident report email.
 
@@ -191,16 +187,12 @@ class EmailNotificationHandler:
 
         all_success = True
         for recipient in recipients:
-            if not self.send_email(
-                recipient, subject, body_html, attachments=attachments
-            ):
+            if not self.send_email(recipient, subject, body_html, attachments=attachments):
                 all_success = False
 
         return all_success
 
-    def send_daily_summary(
-        self, summary_data: Dict[str, Any], recipients: List[str]
-    ) -> bool:
+    def send_daily_summary(self, summary_data: Dict[str, Any], recipients: List[str]) -> bool:
         """
         Send daily traffic summary email.
 

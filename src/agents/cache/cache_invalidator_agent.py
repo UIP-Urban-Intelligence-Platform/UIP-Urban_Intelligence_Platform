@@ -69,16 +69,10 @@ class CacheInvalidatorAgent:
                 import os
 
                 # Priority: environment variables > config > defaults
-                redis_host = os.environ.get("REDIS_HOST") or self.config.get(
-                    "redis_host", "localhost"
-                )
-                redis_port = int(
-                    os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379)
-                )
+                redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
+                redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
 
-                self._redis_client = redis.Redis(
-                    host=redis_host, port=redis_port, decode_responses=True
-                )
+                self._redis_client = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
 
                 self._pubsub = self._redis_client.pubsub()
                 self._pubsub.subscribe("cache_invalidation")
@@ -116,9 +110,7 @@ class CacheInvalidatorAgent:
 
         logger.debug(f"Dependency registered: {source_key} -> {dependent_key}")
 
-    def invalidate(
-        self, key: str, cascade: bool = True, reason: Optional[str] = None
-    ) -> List[str]:
+    def invalidate(self, key: str, cascade: bool = True, reason: Optional[str] = None) -> List[str]:
         """
         Invalidate cache key and optionally cascade to dependencies.
 
@@ -139,9 +131,7 @@ class CacheInvalidatorAgent:
         if cascade and key in self._dependencies:
             for dependent in self._dependencies[key]:
                 # Recursive invalidation
-                child_invalidated = self.invalidate(
-                    dependent, cascade=True, reason="cascade"
-                )
+                child_invalidated = self.invalidate(dependent, cascade=True, reason="cascade")
                 invalidated.extend(child_invalidated)
 
         # Log invalidation
@@ -176,9 +166,7 @@ class CacheInvalidatorAgent:
             return 0
 
         # Symbolic pattern matching
-        logger.info(
-            f"Pattern invalidation: {pattern} (symbolic)", extra={"reason": reason}
-        )
+        logger.info(f"Pattern invalidation: {pattern} (symbolic)", extra={"reason": reason})
 
         # In real implementation, would scan Redis keys
         return 0
@@ -267,9 +255,7 @@ class CacheInvalidatorAgent:
         return {
             "total_invalidations": total_invalidations,
             "by_reason": reasons,
-            "total_dependencies": sum(
-                len(deps) for deps in self._dependencies.values()
-            ),
+            "total_dependencies": sum(len(deps) for deps in self._dependencies.values()),
             "symbolic_mode": not self.enabled,
         }
 

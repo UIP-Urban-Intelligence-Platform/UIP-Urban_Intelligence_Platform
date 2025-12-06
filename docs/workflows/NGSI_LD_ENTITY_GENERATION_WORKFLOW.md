@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+NGSI-LD entity generation workflow documentation.
+
+Module: docs/workflows/NGSI_LD_ENTITY_GENERATION_WORKFLOW.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # NGSI-LD Entity Generation Workflow Documentation
 
 ## 📋 Executive Summary

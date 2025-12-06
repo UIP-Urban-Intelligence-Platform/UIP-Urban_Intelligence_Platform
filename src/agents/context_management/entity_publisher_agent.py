@@ -71,9 +71,7 @@ from requests.adapters import HTTPAdapter
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -194,14 +192,10 @@ class ConfigLoader:
         # Base URL override - check STELLIO_URL first, then STELLIO_BASE_URL
         if "STELLIO_URL" in os.environ:
             stellio_config["base_url"] = os.environ["STELLIO_URL"]
-            logger.info(
-                f"Base URL overridden from STELLIO_URL: {stellio_config['base_url']}"
-            )
+            logger.info(f"Base URL overridden from STELLIO_URL: {stellio_config['base_url']}")
         elif "STELLIO_BASE_URL" in os.environ:
             stellio_config["base_url"] = os.environ["STELLIO_BASE_URL"]
-            logger.info(
-                f"Base URL overridden from STELLIO_BASE_URL: {stellio_config['base_url']}"
-            )
+            logger.info(f"Base URL overridden from STELLIO_BASE_URL: {stellio_config['base_url']}")
 
         # Auth token override
         if "STELLIO_AUTH_TOKEN" in os.environ:
@@ -212,25 +206,17 @@ class ConfigLoader:
         # Batch size override
         if "STELLIO_BATCH_SIZE" in os.environ:
             stellio_config["batch_size"] = int(os.environ["STELLIO_BATCH_SIZE"])
-            logger.info(
-                f"Batch size overridden from environment: {stellio_config['batch_size']}"
-            )
+            logger.info(f"Batch size overridden from environment: {stellio_config['batch_size']}")
 
         # Timeout override
         if "STELLIO_TIMEOUT" in os.environ:
             stellio_config["timeout"] = int(os.environ["STELLIO_TIMEOUT"])
-            logger.info(
-                f"Timeout overridden from environment: {stellio_config['timeout']}"
-            )
+            logger.info(f"Timeout overridden from environment: {stellio_config['timeout']}")
 
         # Max retries override
         if "STELLIO_MAX_RETRIES" in os.environ:
-            stellio_config["retry"]["max_attempts"] = int(
-                os.environ["STELLIO_MAX_RETRIES"]
-            )
-            logger.info(
-                f"Max retries overridden from environment: {stellio_config['retry']['max_attempts']}"
-            )
+            stellio_config["retry"]["max_attempts"] = int(os.environ["STELLIO_MAX_RETRIES"])
+            logger.info(f"Max retries overridden from environment: {stellio_config['retry']['max_attempts']}")
 
     def _validate_config(self) -> None:
         """
@@ -245,17 +231,13 @@ class ConfigLoader:
         required_fields = ["base_url", "api_version", "endpoints"]
         for field in required_fields:
             if field not in stellio_config:
-                raise ValueError(
-                    f"Required field '{field}' missing in stellio configuration"
-                )
+                raise ValueError(f"Required field '{field}' missing in stellio configuration")
 
         # Validate endpoints
         required_endpoints = ["entities", "batch"]
         for endpoint in required_endpoints:
             if endpoint not in stellio_config["endpoints"]:
-                raise ValueError(
-                    f"Required endpoint '{endpoint}' missing in stellio.endpoints"
-                )
+                raise ValueError(f"Required endpoint '{endpoint}' missing in stellio.endpoints")
 
         # Validate batch size
         if stellio_config.get("batch_size", 0) <= 0:
@@ -398,23 +380,17 @@ class BatchPublisher:
                     )
             else:
                 # Batch upsert failed, try individual entities
-                logger.warning(
-                    f"Batch upsert failed with status {response.status_code}, trying individual entities"
-                )
+                logger.warning(f"Batch upsert failed with status {response.status_code}, trying individual entities")
                 results = self._publish_entities_individually(entities)
 
         except requests.exceptions.RequestException as e:
             # Network error, try individual entities
-            logger.error(
-                f"Batch upsert request failed: {e}, trying individual entities"
-            )
+            logger.error(f"Batch upsert request failed: {e}, trying individual entities")
             results = self._publish_entities_individually(entities)
 
         return results
 
-    def _publish_entities_individually(
-        self, entities: List[Dict[str, Any]]
-    ) -> List[PublishResult]:
+    def _publish_entities_individually(self, entities: List[Dict[str, Any]]) -> List[PublishResult]:
         """
         Publish entities one by one (fallback when batch fails).
 
@@ -454,26 +430,19 @@ class BatchPublisher:
 
             try:
                 # POST entity to Stellio
-                response = self.session.post(
-                    url, json=entity, headers=self.headers, timeout=self.timeout
-                )
+                response = self.session.post(url, json=entity, headers=self.headers, timeout=self.timeout)
 
                 duration = time.time() - start_time
 
                 # Handle different status codes
                 if response.status_code in [200, 201]:
                     # Success - entity published
-                    logger.info(
-                        f"Entity {entity_id} published successfully (attempt {attempts})"
-                    )
+                    logger.info(f"Entity {entity_id} published successfully (attempt {attempts})")
 
                     # CRITICAL: If this is an ItemFlowObserved (sosa:Observation),
                     # update the parent Camera (sosa:Sensor) with sosa:madeObservation link
                     entity_type = entity.get("type", "")
-                    if (
-                        entity_type == "ItemFlowObserved"
-                        or "ItemFlowObserved" in entity_type
-                    ):
+                    if entity_type == "ItemFlowObserved" or "ItemFlowObserved" in entity_type:
                         # Extract camera ID from refDevice relationship
                         ref_device = entity.get("refDevice", {})
                         if ref_device and ref_device.get("type") == "Relationship":
@@ -482,17 +451,12 @@ class BatchPublisher:
                                 # Extract observedAt timestamp from any property
                                 observed_at = None
                                 for key, value in entity.items():
-                                    if (
-                                        isinstance(value, dict)
-                                        and "observedAt" in value
-                                    ):
+                                    if isinstance(value, dict) and "observedAt" in value:
                                         observed_at = value["observedAt"]
                                         break
 
                                 # Update Camera with new observation
-                                logger.info(
-                                    f"🔗 Updating Camera {camera_id} with observation {entity_id}"
-                                )
+                                logger.info(f"🔗 Updating Camera {camera_id} with observation {entity_id}")
                                 self.update_camera_with_observation(
                                     camera_id=camera_id,
                                     observation_id=entity_id,
@@ -509,17 +473,13 @@ class BatchPublisher:
 
                 elif response.status_code == 409:
                     # Conflict - entity exists, try PATCH update
-                    logger.warning(
-                        f"Entity {entity_id} already exists (409), attempting PATCH update"
-                    )
+                    logger.warning(f"Entity {entity_id} already exists (409), attempting PATCH update")
                     return self._patch_entity(entity, attempts, start_time)
 
                 elif response.status_code in self.retry_config["retry_status_codes"]:
                     # Retryable error
                     last_error = f"HTTP {response.status_code}: {response.text}"
-                    logger.warning(
-                        f"Retryable error for entity {entity_id} (attempt {attempts}): {last_error}"
-                    )
+                    logger.warning(f"Retryable error for entity {entity_id} (attempt {attempts}): {last_error}")
 
                     if attempts < self.retry_config["max_attempts"]:
                         # Calculate backoff delay
@@ -542,9 +502,7 @@ class BatchPublisher:
                     # Non-retryable error
                     duration = time.time() - start_time
                     error_msg = f"HTTP {response.status_code}: {response.text}"
-                    logger.error(
-                        f"Non-retryable error for entity {entity_id}: {error_msg}"
-                    )
+                    logger.error(f"Non-retryable error for entity {entity_id}: {error_msg}")
                     return PublishResult(
                         entity_id=entity_id,
                         status_code=response.status_code,
@@ -575,9 +533,7 @@ class BatchPublisher:
 
             except requests.exceptions.RequestException as e:
                 last_error = f"Request failed: {str(e)}"
-                logger.error(
-                    f"Request exception for entity {entity_id} (attempt {attempts}): {last_error}"
-                )
+                logger.error(f"Request exception for entity {entity_id} (attempt {attempts}): {last_error}")
 
                 if attempts < self.retry_config["max_attempts"]:
                     delay = self._calculate_backoff_delay(attempts)
@@ -605,9 +561,7 @@ class BatchPublisher:
             duration=duration,
         )
 
-    def _patch_entity(
-        self, entity: Dict[str, Any], attempts: int, start_time: float
-    ) -> PublishResult:
+    def _patch_entity(self, entity: Dict[str, Any], attempts: int, start_time: float) -> PublishResult:
         """
         Update existing entity using PATCH (for 409 conflicts).
 
@@ -634,9 +588,7 @@ class BatchPublisher:
             )
 
         # Build PATCH URL
-        patch_endpoint = self.conflict_resolution["patch_endpoint"].replace(
-            "{entityId}", entity_id
-        )
+        patch_endpoint = self.conflict_resolution["patch_endpoint"].replace("{entityId}", entity_id)
         url = f"{self.base_url}/{self.api_version}{patch_endpoint}"
 
         # Extract attributes for PATCH (exclude id, type)
@@ -651,9 +603,7 @@ class BatchPublisher:
             attrs["@context"] = self.context
 
         try:
-            response = self.session.patch(
-                url, json=attrs, headers=self.headers, timeout=self.timeout
-            )
+            response = self.session.patch(url, json=attrs, headers=self.headers, timeout=self.timeout)
 
             duration = time.time() - start_time
 
@@ -667,9 +617,7 @@ class BatchPublisher:
                     duration=duration,
                 )
             else:
-                error_msg = (
-                    f"PATCH failed with HTTP {response.status_code}: {response.text}"
-                )
+                error_msg = f"PATCH failed with HTTP {response.status_code}: {response.text}"
                 logger.error(f"PATCH update failed for entity {entity_id}: {error_msg}")
                 return PublishResult(
                     entity_id=entity_id,
@@ -693,9 +641,7 @@ class BatchPublisher:
                 duration=duration,
             )
 
-    def update_camera_with_observation(
-        self, camera_id: str, observation_id: str, observed_at: Optional[str] = None
-    ) -> bool:
+    def update_camera_with_observation(self, camera_id: str, observation_id: str, observed_at: Optional[str] = None) -> bool:
         """
         Update Camera entity to append new observation to sosa:madeObservation array.
 
@@ -712,9 +658,7 @@ class BatchPublisher:
         """
         try:
             # Build PATCH URL for Camera entity
-            patch_endpoint = self.conflict_resolution["patch_endpoint"].replace(
-                "{entityId}", camera_id
-            )
+            patch_endpoint = self.conflict_resolution["patch_endpoint"].replace("{entityId}", camera_id)
             url = f"{self.base_url}/{self.api_version}{patch_endpoint}"
 
             # Build PATCH body to append observation to sosa:madeObservation
@@ -731,15 +675,10 @@ class BatchPublisher:
                 patch_body["sosa:madeObservation"]["observedAt"] = observed_at
 
             # Send PATCH request
-            response = self.session.patch(
-                url, json=patch_body, headers=self.headers, timeout=self.timeout
-            )
+            response = self.session.patch(url, json=patch_body, headers=self.headers, timeout=self.timeout)
 
             if response.status_code in [200, 204]:
-                logger.info(
-                    f"✅ Camera {camera_id} updated: added observation {observation_id} "
-                    f"to sosa:madeObservation"
-                )
+                logger.info(f"✅ Camera {camera_id} updated: added observation {observation_id} " f"to sosa:madeObservation")
                 return True
             else:
                 logger.warning(
@@ -749,9 +688,7 @@ class BatchPublisher:
                 return False
 
         except Exception as e:
-            logger.error(
-                f"❌ Exception updating Camera {camera_id} with observation {observation_id}: {e}"
-            )
+            logger.error(f"❌ Exception updating Camera {camera_id} with observation {observation_id}: {e}")
             return False
 
     def _make_request_with_retry(
@@ -785,9 +722,7 @@ class BatchPublisher:
             attempts += 1
 
             try:
-                response = self.session.request(
-                    method=method, url=url, json=json, headers=headers, timeout=timeout
-                )
+                response = self.session.request(method=method, url=url, json=json, headers=headers, timeout=timeout)
                 return response
 
             except requests.exceptions.RequestException as e:
@@ -865,9 +800,7 @@ class PublishReportGenerator:
         self.end_time = time.time()
         if self.start_time:
             self.statistics.duration_seconds = self.end_time - self.start_time
-        logger.info(
-            f"Ended tracking publishing operation (duration: {self.statistics.duration_seconds:.2f}s)"
-        )
+        logger.info(f"Ended tracking publishing operation (duration: {self.statistics.duration_seconds:.2f}s)")
 
     def record_results(self, results: List[PublishResult]) -> None:
         """
@@ -927,14 +860,11 @@ class PublishReportGenerator:
 
         # Add performance metrics
         if self.statistics.duration_seconds > 0 and self.statistics.total_entities > 0:
-            report["throughput"] = round(
-                self.statistics.total_entities / self.statistics.duration_seconds, 2
-            )
+            report["throughput"] = round(self.statistics.total_entities / self.statistics.duration_seconds, 2)
         elif self.statistics.total_entities > 0:
             # If duration is effectively 0, calculate based on very small duration
             report["throughput"] = round(
-                self.statistics.total_entities
-                / max(0.001, self.statistics.duration_seconds),
+                self.statistics.total_entities / max(0.001, self.statistics.duration_seconds),
                 2,
             )
 
@@ -961,9 +891,7 @@ class PublishReportGenerator:
         logger.info(f"Report saved to: {report_path}")
         return str(report_path)
 
-    def save_failed_entities(
-        self, entities: List[Dict[str, Any]], results: List[PublishResult]
-    ) -> Optional[str]:
+    def save_failed_entities(self, entities: List[Dict[str, Any]], results: List[PublishResult]) -> Optional[str]:
         """
         Save failed entities to separate file.
 
@@ -1079,9 +1007,7 @@ class EntityPublisherAgent:
             batch_num = (i // batch_size) + 1
             total_batches = (len(entities) + batch_size - 1) // batch_size
 
-            logger.info(
-                f"Publishing batch {batch_num}/{total_batches} ({len(batch)} entities)"
-            )
+            logger.info(f"Publishing batch {batch_num}/{total_batches} ({len(batch)} entities)")
 
             # Publish batch
             results = self.publisher.publish_batch(batch)
@@ -1098,12 +1024,8 @@ class EntityPublisherAgent:
 
         # Save report
         if output_report:
-            self.report_generator.output_config["report_filename"] = os.path.basename(
-                output_report
-            )
-            self.report_generator.output_config["report_dir"] = (
-                os.path.dirname(output_report) or "data"
-            )
+            self.report_generator.output_config["report_filename"] = os.path.basename(output_report)
+            self.report_generator.output_config["report_dir"] = os.path.dirname(output_report) or "data"
 
         report_path = self.report_generator.save_report(report)
         report["report_path"] = report_path
@@ -1133,9 +1055,7 @@ class EntityPublisherAgent:
             json.JSONDecodeError: If input file is not valid JSON
         """
         if not os.path.exists(input_file):
-            logger.warning(
-                f"Input file not found: {input_file} - returning empty entity list"
-            )
+            logger.warning(f"Input file not found: {input_file} - returning empty entity list")
             return []
 
         try:
@@ -1158,15 +1078,11 @@ class EntityPublisherAgent:
                 normalized_entity = entity.copy()
 
                 # Replace any @context with NGSI-LD core context only
-                normalized_entity["@context"] = (
-                    "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
-                )
+                normalized_entity["@context"] = "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
 
                 normalized_entities.append(normalized_entity)
 
-            logger.info(
-                f"Loaded and normalized {len(normalized_entities)} entities from {input_file}"
-            )
+            logger.info(f"Loaded and normalized {len(normalized_entities)} entities from {input_file}")
             return normalized_entities
 
         except json.JSONDecodeError as e:

@@ -1,13 +1,19 @@
-
 /**
- * @module Test-hcmc-events-sources
-* @author Nguyễn Nhật Quang 
-* @created 2025-11-26
-* @modified 2025-11-26
-* @version 2.0.0
-* @license MIT 
- * Test sources for Ho Chi Minh City Events
- * Try to find concerts, festivals, and other events in HCMC
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * @module apps/traffic-web-app/backend/tests/integration/test-hcmc-events-sources
+ * @author UIP Team
+ * @created 2025-11-26
+ * @modified 2025-12-06
+ * @version 2.0.0
+ *
+ * @description
+ * Test sources for Ho Chi Minh City Events - Find concerts, festivals,
+ * and other events in HCMC for traffic monitoring.
  */
 
 require('dotenv').config();

@@ -1,3 +1,15 @@
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Docker optimization guide.
+
+Module: reports/DOCKER_OPTIMIZATION.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
 # Docker Build Optimization Guide
 
 ## Các Tối Ưu Đã Thực Hiện

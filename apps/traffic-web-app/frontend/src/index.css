@@ -1,13 +1,17 @@
 /**
+ * Main CSS Stylesheet
  *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
  * 
  * @file        index.css
  * @description Main CSS file for the Traffic Web Application frontend
- * @authors     Nguyen Nhat Quang, 
+ * @authors     Nguyen Nhat Quang
  * @version     2.0.0
  * @license     MIT
- * @copyright   Copyright (c) 2025 Builder Layer End Contributors
- * @see         https://github.com/NguyenNhatquang522004/Builder-Layer-End
  */
 @tailwind base;
 @tailwind components;
