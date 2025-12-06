@@ -37,8 +37,18 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 | Apache-2.0 | 40 | 18 | 10 | 68 |
 | BSD (2/3-Clause) | 45 | 41 | 20 | 106 |
 | ISC | 1 | 56 | 54 | 111 |
-| Other Permissive | 11 | 17 | 19 | 47 |
+| CC0-1.0/Unlicense | 2 | 6 | 4 | 12 |
+| CC-BY (3.0/4.0) | 0 | 3 | 3 | 6 |
+| BlueOak-1.0.0 | 0 | 0 | 3 | 3 |
+| 0BSD | 0 | 1 | 1 | 2 |
+| PSF/Python-2.0 | 3 | 1 | 1 | 5 |
+| MPL-2.0 | 2 | 0 | 0 | 2 |
+| EPL/EDL | 0 | 2 | 0 | 2 |
+| Hippocratic-2.1 | 0 | 0 | 2 | 2 |
+| Other Permissive | 4 | 4 | 5 | 13 |
 | **Total** | **168** | **772** | **524** | **1,464** |
+
+> Note: Some packages may have dual/multiple licenses (e.g., "MIT OR CC0-1.0"). They are counted once in their primary category.
 
 ### License Compatibility
 
@@ -53,6 +63,15 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 | PSF-2.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
 | Unlicense | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
 | CC0-1.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+| 0BSD | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+| BlueOak-1.0.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+| CC-BY-3.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+| CC-BY-4.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+| EPL-1.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+| EDL-1.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+| Hippocratic-2.1 | ✅ Yes* | ✅ Allowed | ✅ Allowed | ✅ Allowed |
+
+> *Hippocratic-2.1 requires ethical use compliance. This project fully complies.
 
 ---
 
@@ -257,6 +276,7 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 **License Used:** MPL-1.1  
 
 Pyphen offers a tri-license option. This project uses the Mozilla Public License 1.1 option, which is compatible with MIT. The MPL-1.1 allows:
+
 - Commercial use
 - Modification
 - Distribution
@@ -268,6 +288,7 @@ Pyphen offers a tri-license option. This project uses the Mozilla Public License
 **License:** (EDL-1.0 OR EPL-1.0)  
 
 The Eclipse Distribution License and Eclipse Public License are permissive licenses that allow:
+
 - Commercial use
 - Modification
 - Distribution
@@ -281,16 +302,19 @@ The Eclipse Distribution License and Eclipse Public License are permissive licen
 The Hippocratic License 2.1 is an ethical source license that grants MIT-like permissions with additional requirements:
 
 **Permissions (Same as MIT):**
+
 - ✅ Commercial use
 - ✅ Modification
 - ✅ Distribution
 - ✅ Private use
 
 **Additional Requirement:**
+
 - Must not use for activities that violate Human Rights Laws
 
 **UIP Compliance:**  
 This project (smart city traffic monitoring for public safety) fully complies with ethical use requirements. The system is designed to:
+
 - Improve traffic safety
 - Reduce accidents
 - Enhance urban mobility
@@ -313,7 +337,7 @@ These tools are used only during development and are excluded from all productio
 
 ### MIT License
 
-```
+```text
 MIT License
 
 Copyright (c) [year] [copyright holders]
@@ -339,7 +363,7 @@ SOFTWARE.
 
 ### Apache License 2.0
 
-```
+```text
 Apache License
 Version 2.0, January 2004
 http://www.apache.org/licenses/
@@ -355,7 +379,7 @@ TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
 ### BSD 3-Clause License
 
-```
+```text
 BSD 3-Clause License
 
 Copyright (c) [year], [copyright holders]
@@ -390,7 +414,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 ### ISC License
 
-```
+```text
 ISC License
 
 Copyright (c) [year], [copyright holders]
@@ -410,7 +434,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ### Mozilla Public License 1.1
 
-```
+```text
 Mozilla Public License Version 1.1
 
 1. Definitions.
@@ -422,7 +446,7 @@ Mozilla Public License Version 1.1
 
 ### Eclipse Public License 1.0
 
-```
+```text
 Eclipse Public License - v 1.0
 
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC
@@ -434,7 +458,7 @@ CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
 
 ### Hippocratic License 2.1
 
-```
+```text
 Hippocratic License Version 2.1
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -452,19 +476,90 @@ furnished to do so, subject to the following conditions:
 [Full text available at: https://firstdonoharm.dev/version/2/1/license/]
 ```
 
+### BlueOak Model License 1.0.0
+
+```text
+BlueOak Model License 1.0.0
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+[Full text available at: https://blueoakcouncil.org/license/1.0.0]
+```
+
+### Zero-Clause BSD (0BSD)
+
+```text
+Zero-Clause BSD
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+```
+
+### Creative Commons Zero v1.0 Universal (CC0-1.0)
+
+```text
+CC0 1.0 Universal
+
+The person who associated a work with this deed has dedicated the work to
+the public domain by waiving all of his or her rights to the work worldwide
+under copyright law, including all related and neighboring rights, to the
+extent allowed by law.
+
+You can copy, modify, distribute and perform the work, even for commercial
+purposes, all without asking permission.
+
+[Full text available at: https://creativecommons.org/publicdomain/zero/1.0/]
+```
+
+### Creative Commons Attribution 4.0 (CC-BY-4.0)
+
+```text
+Creative Commons Attribution 4.0 International
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material for any purpose
+
+Under the following terms:
+- Attribution — You must give appropriate credit, provide a link to the
+  license, and indicate if changes were made.
+
+[Full text available at: https://creativecommons.org/licenses/by/4.0/]
+```
+
 ---
 
 ## External Resources
 
 For complete license texts and additional information:
 
-- **MIT License:** https://opensource.org/licenses/MIT
-- **Apache License 2.0:** https://www.apache.org/licenses/LICENSE-2.0
-- **BSD Licenses:** https://opensource.org/licenses/BSD-3-Clause
-- **ISC License:** https://opensource.org/licenses/ISC
-- **MPL 1.1:** https://www.mozilla.org/en-US/MPL/1.1/
-- **EPL 1.0:** https://www.eclipse.org/legal/epl-v10.html
-- **Hippocratic License:** https://firstdonoharm.dev/
+- **MIT License:** <https://opensource.org/licenses/MIT>
+- **Apache License 2.0:** <https://www.apache.org/licenses/LICENSE-2.0>
+- **BSD Licenses:** <https://opensource.org/licenses/BSD-3-Clause>
+- **ISC License:** <https://opensource.org/licenses/ISC>
+- **MPL 1.1:** <https://www.mozilla.org/en-US/MPL/1.1/>
+- **EPL 1.0:** <https://www.eclipse.org/legal/epl-v10.html>
+- **Hippocratic License:** <https://firstdonoharm.dev/>
+- **BlueOak-1.0.0:** <https://blueoakcouncil.org/license/1.0.0>
+- **CC0-1.0:** <https://creativecommons.org/publicdomain/zero/1.0/>
+- **CC-BY-4.0:** <https://creativecommons.org/licenses/by/4.0/>
+- **0BSD:** <https://opensource.org/licenses/0BSD>
 
 ---
 
@@ -473,6 +568,7 @@ For complete license texts and additional information:
 We gratefully acknowledge all the open source contributors and maintainers whose work makes this project possible. This project stands on the shoulders of giants in the open source community.
 
 Special thanks to:
+
 - The PyTorch team for their deep learning framework
 - The Hugging Face team for transformers and model hub
 - The FastAPI team for their modern Python web framework
@@ -486,8 +582,8 @@ Special thanks to:
 
 For questions about licensing or third-party dependencies:
 
-- **Project Repository:** https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
-- **Issue Tracker:** https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues
+- **Project Repository:** <https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform>
+- **Issue Tracker:** <https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues>
 
 ---
 
