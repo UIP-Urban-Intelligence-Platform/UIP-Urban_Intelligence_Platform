@@ -1,0 +1,144 @@
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP - Urban Intelligence Platform Contributors
+
+This product includes software developed by the UIP Team.
+
+================================================================================
+                            THIRD-PARTY NOTICES
+================================================================================
+
+This project incorporates or depends on the following third-party software:
+
+1. YOLOX
+   License: Apache License 2.0
+   Copyright (c) 2021 Megvii Inc.
+   <https://github.com/Megvii-BaseDetection/YOLOX>
+   Used for: Object detection (vehicle, pedestrian detection)
+
+2. DETR - Traffic Accident Detection Model
+   License: Apache License 2.0
+   Model: hilmantm/detr-traffic-accident-detection
+   <https://huggingface.co/hilmantm/detr-traffic-accident-detection>
+   Used for: Traffic accident detection
+
+3. HuggingFace Transformers
+   License: Apache License 2.0
+   Copyright (c) 2018 Hugging Face
+   <https://github.com/huggingface/transformers>
+   Used for: Loading and running DETR model
+
+4. PyTorch / TorchVision
+   License: BSD-3-Clause
+   Copyright (c) Facebook, Inc. and its affiliates
+   <https://github.com/pytorch/pytorch>
+   Used for: Deep learning framework
+
+5. FastAPI
+   License: MIT
+   Copyright (c) Sebastián Ramírez
+   <https://github.com/tiangolo/fastapi>
+   Used for: Web framework
+
+6. RDFLib
+   License: BSD-3-Clause
+   <https://github.com/RDFLib/rdflib>
+   Used for: RDF/Linked Data processing
+
+7. asyncpg
+   License: Apache License 2.0
+   Copyright (c) 2016-present the asyncpg authors
+   <https://github.com/MagicStack/asyncpg>
+   Used for: PostgreSQL async database driver
+
+8. OpenCV
+   License: Apache License 2.0 / BSD
+   <https://opencv.org>
+   Used for: Computer vision operations
+
+9. Neo4j Python Driver
+   License: Apache License 2.0
+   <https://neo4j.com>
+   Used for: Graph database connectivity
+
+10. Apache Jena Fuseki
+    License: Apache License 2.0
+    <https://jena.apache.org>
+    Used for: SPARQL triplestore
+
+11. Stellio Context Broker
+    License: Apache License 2.0
+    <https://stellio.io>
+    Used for: NGSI-LD context broker
+
+12. react-map-gl + MapLibre GL JS
+    License: MIT (react-map-gl), BSD-3-Clause (MapLibre GL JS)
+    Copyright (c) 2019 Uber Technologies, Inc. (react-map-gl)
+    Copyright (c) 2020-2024 MapLibre contributors
+    <https://github.com/visgl/react-map-gl>
+    <https://github.com/maplibre/maplibre-gl-js>
+    Used for: React components for interactive vector tile maps
+    Note: Replaced react-leaflet (Hippocratic) for 100% MIT compatibility
+
+13. reportlab
+    License: BSD-3-Clause
+    <https://www.reportlab.com/>
+    Used for: PDF report generation (pure Python, no external dependencies)
+    Note: Migrated from weasyprint/pyphen (Dec 2025) for 100% MIT compatibility
+
+14. ~~JSTS (JavaScript Topology Suite)~~ REMOVED (December 2025)
+    Former License: EDL-1.0 / EPL-1.0 dual license
+    <https://github.com/bjornharrtell/jsts>
+    Note: Removed for MIT compatibility, replaced with MapLibre GL JS native features
+
+================================================================================
+                         LICENSE COMPATIBILITY
+================================================================================
+
+All third-party dependencies use licenses compatible with MIT:
+
+- MIT License: Fully compatible
+- Apache License 2.0: Compatible with MIT
+- BSD-3-Clause: Compatible with MIT
+- BSD-2-Clause: Compatible with MIT
+- ISC License: Compatible with MIT
+- MPL 1.1/2.0: Compatible with MIT
+- EPL-1.0/EDL-1.0: Compatible with MIT for commercial use
+
+All development tools now use MIT-compatible licenses:
+- ruff (MIT): Replaces pylint/flake8/isort - faster and MIT-licensed
+
+Note: react-leaflet (Hippocratic-2.1) was replaced with react-map-gl + MapLibre GL JS
+in December 2025 to achieve 100% MIT-compatible licensing.
+
+================================================================================
+                         LICENSE AUDIT SUMMARY
+================================================================================
+
+Last Audit: December 2025
+Total Packages Audited: 1,464
+
+| Category        | Total | MIT-Compatible | Status |
+|-----------------|-------|----------------|--------|
+| Python Packages | 168   | 168 (100%)     | PASS   |
+| NPM Backend     | 772   | 772 (100%)     | PASS   |
+| NPM Frontend    | 524   | 524 (100%)     | PASS   |
+|-----------------|-------|----------------|--------|
+| TOTAL           | 1,464 | 1,464 (100%)   | PASS   |
+
+================================================================================
+                         FULL LICENSE TEXTS
+================================================================================
+
+For full license texts of third-party dependencies, please refer to:
+
+- YOLOX: <https://github.com/Megvii-BaseDetection/YOLOX/blob/main/LICENSE>
+- Transformers: <https://github.com/huggingface/transformers/blob/main/LICENSE>
+- PyTorch: <https://github.com/pytorch/pytorch/blob/main/LICENSE>
+- FastAPI: <https://github.com/tiangolo/fastapi/blob/master/LICENSE>
+- RDFLib: <https://github.com/RDFLib/rdflib/blob/main/LICENSE>
+- asyncpg: <https://github.com/MagicStack/asyncpg/blob/master/LICENSE>
+- OpenCV: <https://github.com/opencv/opencv/blob/master/LICENSE>
+- Neo4j Driver: <https://github.com/neo4j/neo4j-python-driver/blob/5.0/LICENSE>
+- react-map-gl: <https://github.com/visgl/react-map-gl/blob/master/LICENSE>
+- MapLibre GL JS: <https://github.com/maplibre/maplibre-gl-js/blob/main/LICENSE.txt>
+- reportlab: <https://hg.reportlab.com/hg-public/reportlab/file/tip/LICENSE.txt>

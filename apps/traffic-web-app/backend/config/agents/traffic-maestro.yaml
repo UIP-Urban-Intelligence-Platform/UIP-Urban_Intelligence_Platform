@@ -1,12 +1,19 @@
-# Traffic Maestro Agent Configuration
-# Domain-agnostic configuration for predictive traffic event orchestration
-# Module: apps.traffic-web-app.backend.config.agents.traffic-maestro
-# Author: Nguyễn Nhật Quang
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/backend/config/agents/traffic-maestro.yaml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-26
+# Modified: 2025-12-06
 # Version: 3.0.0
 # License: MIT
-# Description:
-# This configuration file sets up the Traffic Maestro Agent for
+#
+# Description: Traffic Maestro Agent Configuration
+# Domain-agnostic configuration for predictive traffic event orchestration.
+
 events:
   enabled: true
   

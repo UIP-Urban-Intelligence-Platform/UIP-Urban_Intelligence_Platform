@@ -1,3 +1,15 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: .gitignore
+# Author: UIP Team
+# Version: 1.0.0
+#
+# Description: Git ignore patterns for Python/Node.js project
+
 # Python
 __pycache__/
 *.py[cod]
@@ -55,22 +67,12 @@ coverage.xml
 htmlcov/
 
 # Data files (keep structure, ignore content)
+data/cameras_updated.json
+data/*_updated.json
 data/temp/
 data/cache/
-data/reports/
-
-# Generated RDF data directories (ignore all subdirectories)
 data/rdf/
-data/rdf_observations/
-data/rdf_updates/
-data/rdf_accidents/
-data/rdf_patterns/
-
-# Keep all JSON files in data/ root directory
-# (cameras_raw.json, validated_entities.json, observations.json, etc.)
-
-# Allow .gitkeep files to preserve structure
-!data/**/.gitkeep
+data/reports/
 
 # Environment variables
 .env
@@ -98,4 +100,5 @@ dmypy.json
 # Backup files
 *.bak
 *.backup
-pof.md
+
+assets/models/*.pth

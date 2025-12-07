@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Air quality agent documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/agents/data-collection/air-quality.md
+Module: Data Collection Agents Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for the Air Quality Agent component.
+============================================================================
+-->
+
 # Air Quality Agent
 
 ## Overview
@@ -152,13 +171,16 @@ print(f"Traffic Contribution: {correlation.traffic_contribution_pct}%")
 Get current Air Quality Index for location.
 
 **Parameters:**
+
 - `lat` (float): Latitude
 - `lon` (float): Longitude
 
 **Returns:**
+
 - AQIData: Current AQI information
 
 **Example:**
+
 ```python
 aqi = agent.get_current_aqi(lat=10.7769, lon=106.7009)
 print(f"AQI: {aqi.aqi} - {aqi.level}")
@@ -169,10 +191,12 @@ print(f"AQI: {aqi.aqi} - {aqi.level}")
 Get detailed pollutant measurements.
 
 **Parameters:**
+
 - `lat` (float): Latitude
 - `lon` (float): Longitude
 
 **Returns:**
+
 - PollutantData: Pollutant concentrations
 
 ##### `assess_health_impact(aqi: AQIData) -> HealthAssessment`
@@ -180,9 +204,11 @@ Get detailed pollutant measurements.
 Calculate health risks based on AQI.
 
 **Parameters:**
+
 - `aqi` (AQIData): AQI data object
 
 **Returns:**
+
 - HealthAssessment: Health impact information
 
 ##### `get_aqi_forecast(lat: float, lon: float, hours: int = 24) -> List[AQIForecast]`
@@ -190,14 +216,17 @@ Calculate health risks based on AQI.
 Get predicted AQI for upcoming hours.
 
 **Parameters:**
+
 - `lat` (float): Latitude
 - `lon` (float): Longitude
 - `hours` (int): Forecast hours (default: 24)
 
 **Returns:**
+
 - List[AQIForecast]: Hourly AQI predictions
 
 **Example:**
+
 ```python
 forecast = agent.get_aqi_forecast(lat=10.7769, lon=106.7009, hours=24)
 for hour in forecast:
@@ -455,8 +484,8 @@ agent.enable_multi_source(
 ```python
 # Analyze long-term trends
 trends = agent.analyze_historical_trends(
-    start_date="2024-01-01",
-    end_date="2024-12-31",
+    start_date="2025-11-20",
+    end_date="2025-12-05",
     location="District 1"
 )
 ```
@@ -500,6 +529,6 @@ agent.configure_fallback(
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

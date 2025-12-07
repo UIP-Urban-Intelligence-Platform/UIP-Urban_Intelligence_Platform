@@ -1,3 +1,19 @@
+/**
+ * @file docusaurus.config.ts
+ * @module apps/traffic-web-app/frontend/docs/docusaurus.config
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-20
+ * @version 1.0.0
+ * @license MIT
+ * @description Docusaurus configuration for UIP documentation site
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ */
+
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
@@ -35,13 +51,13 @@ const config: Config = {
             {
                 docs: {
                     sidebarPath: './sidebars.ts',
-                    editUrl: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/tree/main/apps/traffic-web-app/frontend/docs/',
+                    editUrl: 'https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/tree/main/apps/traffic-web-app/frontend/docs/',
                     showLastUpdateTime: false,
                     showLastUpdateAuthor: false,
                 },
                 blog: {
                     showReadingTime: true,
-                    editUrl: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/tree/main/apps/traffic-web-app/frontend/docs/',
+                    editUrl: 'https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/tree/main/apps/traffic-web-app/frontend/docs/',
                 },
                 theme: {
                     customCss: './src/css/custom.css',
@@ -83,7 +99,7 @@ const config: Config = {
                     position: 'right',
                 },
                 {
-                    href: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform',
+                    href: 'https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform',
                     label: 'GitHub',
                     position: 'right',
                 },
@@ -135,7 +151,7 @@ const config: Config = {
                         },
                         {
                             label: 'GitHub',
-                            href: 'https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform',
+                            href: 'https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform',
                         },
                     ],
                 },

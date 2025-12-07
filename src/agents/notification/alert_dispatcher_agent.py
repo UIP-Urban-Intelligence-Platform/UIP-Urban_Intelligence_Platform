@@ -3,8 +3,8 @@
 """Multi-Channel Alert Dispatcher Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -333,8 +333,8 @@ class WebSocketChannel(ChannelDelivery):
             }
 
             # In a real implementation, this would use Socket.IO or similar
-            # For now, we'll just log the broadcast
-            logger.info(f"Broadcasting WebSocket message: {message.get('alert_type')}")
+            # For now, log the broadcast with payload type
+            logger.info(f"Broadcasting WebSocket message: {payload['type']}")
 
             return True
 

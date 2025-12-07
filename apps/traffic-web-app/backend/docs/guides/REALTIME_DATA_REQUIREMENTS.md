@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/backend/docs/guides/REALTIME_DATA_REQUIREMENTS.md
+Module: Realtime Data Requirements Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Realtime Data Requirements for Routing System.
+============================================================================
+-->
+
 # Yêu cầu Dữ liệu Realtime cho Routing System
 
 ## Tổng quan

@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/api/complete-api-reference.md
+Module: Complete API Reference
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Complete API reference documentation.
+============================================================================
+-->
+
 # Complete API Reference
 
 ## Overview
@@ -159,7 +179,7 @@ response = requests.get('https://api.traffic.hcmc.gov.vn/v1/cameras', headers=he
         "address": "Nguyen Hue St, District 1"
       },
       "status": "active",
-      "last_update": "2024-01-15T10:30:00Z",
+      "last_update": "2025-11-29T10:30:00Z",
       "stream_url": "rtsp://stream.traffic.hcmc.gov.vn/CAM_001",
       "capabilities": ["accident_detection", "vehicle_count", "speed_detection"]
     }
@@ -207,7 +227,7 @@ def get_cameras(district=None, status=None, limit=50):
     "address": "Nguyen Hue St, District 1"
   },
   "status": "active",
-  "last_update": "2024-01-15T10:30:00Z",
+  "last_update": "2025-11-29T10:30:00Z",
   "stream_url": "rtsp://stream.traffic.hcmc.gov.vn/CAM_001",
   "capabilities": ["accident_detection", "vehicle_count", "speed_detection"],
   "statistics": {
@@ -244,12 +264,12 @@ curl -X GET "https://api.traffic.hcmc.gov.vn/v1/cameras/CAM_001/latest-image" \
 ```json
 {
   "camera_id": "CAM_001",
-  "start_date": "2024-01-01T00:00:00Z",
-  "end_date": "2024-01-31T23:59:59Z",
+  "start_date": "2025-11-20T00:00:00Z",
+  "end_date": "2025-12-05T23:59:59Z",
   "interval": "day",
   "data": [
     {
-      "timestamp": "2024-01-01T00:00:00Z",
+      "timestamp": "2025-11-20T00:00:00Z",
       "vehicle_count": 12345,
       "avg_speed": 35.5,
       "accidents_detected": 2
@@ -282,8 +302,8 @@ curl -X GET "https://api.traffic.hcmc.gov.vn/v1/cameras/CAM_001/latest-image" \
   "offset": 0,
   "accidents": [
     {
-      "id": "ACC_20240115_001",
-      "timestamp": "2024-01-15T10:30:00Z",
+      "id": "ACC_20251125_001",
+      "timestamp": "2025-11-29T10:30:00Z",
       "location": {
         "lat": 10.7769,
         "lon": 106.7009,
@@ -298,7 +318,7 @@ curl -X GET "https://api.traffic.hcmc.gov.vn/v1/cameras/CAM_001/latest-image" \
       "detection_method": "yolox_x",
       "confidence": 0.95,
       "images": [
-        "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20240115_001_1.jpg"
+        "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20251125_001_1.jpg"
       ]
     }
   ]
@@ -333,8 +353,8 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "ACC_20240115_001",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "id": "ACC_20251125_001",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {
     "lat": 10.7769,
     "lon": 106.7009,
@@ -349,21 +369,21 @@ def get_accidents_today(severity=None):
   "detection_method": "yolox_x",
   "confidence": 0.95,
   "images": [
-    "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20240115_001_1.jpg"
+    "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20251125_001_1.jpg"
   ],
   "timeline": [
     {
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-11-29T10:30:00Z",
       "event": "detected",
       "description": "Accident detected by camera CAM_001"
     },
     {
-      "timestamp": "2024-01-15T10:35:00Z",
+      "timestamp": "2025-11-29T10:35:00Z",
       "event": "alert_sent",
       "description": "Emergency services notified"
     },
     {
-      "timestamp": "2024-01-15T11:15:00Z",
+      "timestamp": "2025-11-29T11:15:00Z",
       "event": "resolved",
       "description": "Scene cleared, traffic resumed"
     }
@@ -401,7 +421,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "ACC_20240115_CR_001",
+  "id": "ACC_20251125_CR_001",
   "status": "submitted",
   "verification_status": "pending",
   "message": "Report submitted successfully. Thank you for your contribution."
@@ -423,7 +443,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "zones": [
     {
       "id": "ZONE_001",
@@ -451,7 +471,7 @@ def get_accidents_today(severity=None):
   "zone_id": "ZONE_001",
   "forecast": [
     {
-      "timestamp": "2024-01-15T11:00:00Z",
+      "timestamp": "2025-11-29T11:00:00Z",
       "predicted_congestion": "moderate",
       "predicted_speed": 28.3,
       "confidence": 0.85
@@ -467,7 +487,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "zones": [
     {
       "id": "ZONE_001",
@@ -498,7 +518,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {
     "lat": 10.7769,
     "lon": 106.7009
@@ -530,7 +550,7 @@ def get_accidents_today(severity=None):
 {
   "forecast": [
     {
-      "timestamp": "2024-01-15T11:00:00Z",
+      "timestamp": "2025-11-29T11:00:00Z",
       "temperature": 33.0,
       "precipitation_probability": 15,
       "conditions": "sunny"
@@ -550,7 +570,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "stations": [
     {
       "id": "AQI_001",
@@ -590,7 +610,7 @@ def get_accidents_today(severity=None):
   "station_id": "AQI_001",
   "data": [
     {
-      "timestamp": "2024-01-15T00:00:00Z",
+      "timestamp": "2025-11-29T00:00:00Z",
       "aqi": 85,
       "category": "moderate",
       "pm25": 35.5
@@ -616,8 +636,8 @@ def get_accidents_today(severity=None):
 ```json
 {
   "period": {
-    "start": "2024-01-01T00:00:00Z",
-    "end": "2024-01-31T23:59:59Z"
+    "start": "2025-11-20T00:00:00Z",
+    "end": "2025-12-05T23:59:59Z"
   },
   "metrics": {
     "total_vehicles": 1234567,
@@ -708,7 +728,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "CR_20240115_001",
+  "id": "CR_20251125_001",
   "status": "submitted",
   "verification_status": "pending",
   "estimated_verification_time": "5-10 minutes"
@@ -722,11 +742,11 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "CR_20240115_001",
+  "id": "CR_20251125_001",
   "status": "verified",
   "verification_status": "confirmed",
-  "verified_at": "2024-01-15T10:35:00Z",
-  "linked_accident_id": "ACC_20240115_001"
+  "verified_at": "2025-11-29T10:35:00Z",
+  "linked_accident_id": "ACC_20251125_001"
 }
 ```
 
@@ -776,7 +796,7 @@ def get_accidents_today(severity=None):
         "address": "Nguyen Hue St, District 1"
       },
       "message": "Severe accident reported. Expect delays.",
-      "timestamp": "2024-01-15T10:30:00Z"
+      "timestamp": "2025-11-29T10:30:00Z"
     }
   ]
 }
@@ -866,7 +886,7 @@ asyncio.run(connect_websocket())
 {
   "channel": "traffic",
   "type": "update",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "zone_id": "ZONE_001",
     "congestion_level": "moderate",
@@ -896,9 +916,9 @@ asyncio.run(connect_websocket())
 {
   "channel": "accidents",
   "type": "alert",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "severity": "severe",
     "location": {
       "lat": 10.7769,
@@ -942,7 +962,7 @@ asyncio.run(connect_websocket())
     "type": "Property",
     "value": {
       "@type": "DateTime",
-      "@value": "2024-01-15T10:30:00Z"
+      "@value": "2025-11-29T10:30:00Z"
     }
   }
 }
@@ -1027,7 +1047,7 @@ curl -X GET "https://context.traffic.hcmc.gov.vn/ngsi-ld/v1/entities?type=Traffi
 
 **Example:**
 ```bash
-curl -X GET "https://context.traffic.hcmc.gov.vn/ngsi-ld/v1/temporal/entities?type=TrafficCamera&timerel=between&timeAt=2024-01-01T00:00:00Z&endTimeAt=2024-01-31T23:59:59Z" \
+curl -X GET "https://context.traffic.hcmc.gov.vn/ngsi-ld/v1/temporal/entities?type=TrafficCamera&timerel=between&timeAt=2025-11-20T00:00:00Z&endTimeAt=2025-12-05T23:59:59Z" \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
@@ -1111,8 +1131,8 @@ WHERE {
             traffic:timestamp ?timestamp ;
             traffic:severity ?severity ;
             traffic:location ?location .
-  FILTER(?timestamp >= "2024-01-01T00:00:00Z"^^xsd:dateTime &&
-         ?timestamp <= "2024-01-31T23:59:59Z"^^xsd:dateTime)
+  FILTER(?timestamp >= "2025-11-20T00:00:00Z"^^xsd:dateTime &&
+         ?timestamp <= "2025-12-05T23:59:59Z"^^xsd:dateTime)
 }
 ORDER BY DESC(?timestamp)
 ```
@@ -1524,7 +1544,7 @@ cameras = client.cameras.list(district='District 1')
 
 # Get accidents
 accidents = client.accidents.list(
-    start_date='2024-01-01',
+    start_date='2025-11-20',
     severity='severe'
 )
 ```
@@ -1545,7 +1565,7 @@ const cameras = await client.cameras.list({ district: 'District 1' });
 
 // Get accidents
 const accidents = await client.accidents.list({
-  startDate: '2024-01-01',
+  startDate: '2025-11-20',
   severity: 'severe'
 });
 ```
@@ -1560,6 +1580,6 @@ const accidents = await client.accidents.list({
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

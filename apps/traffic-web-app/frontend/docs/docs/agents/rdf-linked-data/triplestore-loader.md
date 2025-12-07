@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Triplestore loader agent documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/agents/rdf-linked-data/triplestore-loader.md
+Module: RDF Linked Data Agents Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for the Triplestore Loader Agent component.
+============================================================================
+-->
+
 # Triplestore Loader Agent
 
 ## Overview
@@ -133,7 +152,7 @@ INSERT DATA {
     GRAPH <http://hcmc-traffic.example.org/graph/traffic> {
         ex:Observation_001 a sosa:Observation ;
             sosa:madeBySensor ex:Sensor_CAM_001 ;
-            sosa:resultTime "2024-01-15T10:30:00Z"^^xsd:dateTime ;
+            sosa:resultTime "2025-11-29T10:30:00Z"^^xsd:dateTime ;
             sosa:hasSimpleResult 45 .
     }
 }
@@ -217,7 +236,7 @@ WHERE {
          sosa:hasSimpleResult ?value ;
          sosa:hasFeatureOfInterest ?location ;
          sosa:resultTime ?time .
-    FILTER(?time >= "2024-01-15T00:00:00Z"^^xsd:dateTime)
+    FILTER(?time >= "2025-11-29T00:00:00Z"^^xsd:dateTime)
 }
 GROUP BY ?location
 ORDER BY DESC(?avgFlow)
@@ -339,6 +358,6 @@ print(f"Last Update: {stats.last_update}")
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

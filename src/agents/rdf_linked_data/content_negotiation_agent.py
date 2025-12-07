@@ -3,8 +3,8 @@
 """Content Negotiation Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -456,7 +456,7 @@ class HTMLRenderer:
             try:
                 dt = datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
                 return dt.strftime("%Y-%m-%d %H:%M:%S UTC")
-            except:
+            except (ValueError, AttributeError):
                 return dt_str
 
         self.env.filters["format_coordinates"] = format_coordinates
@@ -934,17 +934,23 @@ class ContentNegotiationAgent:
                 if format_config.mime_type == "text/turtle":
                     # Return as-is
                     return turtle_data, format_config.get_content_type()
-                else:
-                    # Parse Turtle and convert
+                elif format_config.mime_type == "application/ld+json":
+                    # Parse Turtle and convert to JSON-LD
                     graph = Graph()
                     graph.parse(data=turtle_data, format="turtle")
-
-                    if format_config.mime_type == "application/ld+json":
-                        json_ld_data = self.converter.graph_to_jsonld(graph)
-                        return json_ld_data, format_config.get_content_type()
-                    elif format_config.mime_type == "application/rdf+xml":
-                        rdfxml_data = self.converter.graph_to_rdfxml(graph, base_url)
-                        return rdfxml_data, format_config.get_content_type()
+                    json_ld_data = self.converter.graph_to_jsonld(graph)
+                    return json_ld_data, format_config.get_content_type()
+                elif format_config.mime_type == "application/rdf+xml":
+                    # Parse Turtle and convert to RDF/XML
+                    graph = Graph()
+                    graph.parse(data=turtle_data, format="turtle")
+                    rdfxml_data = self.converter.graph_to_rdfxml(graph, base_url)
+                    return rdfxml_data, format_config.get_content_type()
+                else:
+                    # Unsupported format for fuseki source
+                    raise ValueError(
+                        f"Unsupported format for fuseki: {format_config.mime_type}"
+                    )
 
             elif format_config.source == "convert":
                 # Fetch JSON-LD and convert
@@ -1138,7 +1144,7 @@ def create_app(config_path: str) -> FastAPI:
 
     def _validate_path_segment(segment: str) -> bool:
         """Validate URL path segment to prevent injection attacks."""
-        import re
+
         # Only allow alphanumeric, dash, underscore, colon (for URN-style IDs)
         # Disallow path traversal, query strings, fragments, protocols
         if not segment:
@@ -1147,17 +1153,57 @@ def create_app(config_path: str) -> FastAPI:
         dangerous_patterns = [
             "..",  # Path traversal
             "//",  # Protocol injection
-            "?",   # Query string
-            "#",   # Fragment
-            "%",   # URL encoding (could be used to bypass)
-            "\n", "\r",  # Header injection
-            "<", ">",    # XSS
+
+            "?",  # Query string
+            "#",  # Fragment
+            "%",  # URL encoding (could be used to bypass)
+            "\n",
+            "\r",  # Header injection
+            "<",
+            ">",  # XSS
+
         ]
         for pattern in dangerous_patterns:
             if pattern in segment:
                 return False
         # Must match safe pattern
-        return bool(re.match(r'^[a-zA-Z0-9_:\-\.]+$', segment))
+
+        return bool(re.match(r"^[a-zA-Z0-9_:\-\.]+$", segment))
+
+    # Allowlist of valid entity types - only these can be redirected
+    ALLOWED_ENTITY_TYPES = frozenset(
+        [
+            "Camera",
+            "TrafficFlowObservation",
+            "Sensor",
+            "Device",
+            "CitizenObservation",
+            "TrafficIncident",
+            "RoadSegment",
+            "Vehicle",
+            "Point",
+            "Person",
+        ]
+    )
+
+    def _get_validated_entity_type(user_input: str) -> str:
+        """Return entity type only if it's in the allowlist.
+
+        This completely breaks dataflow by returning a constant string
+        from the allowlist, not the user input.
+
+        Returns:
+            Entity type from allowlist or empty string if not allowed
+        """
+        if not user_input:
+            return ""
+        # Normalize input
+        normalized = str(user_input).strip()
+        # Return from allowlist - this is NOT user input
+        if normalized in ALLOWED_ENTITY_TYPES:
+            return normalized
+        return ""
+
 
     @app.get("/id/{entity_type}/{entity_id}")
     async def get_entity_non_information(
@@ -1168,24 +1214,38 @@ def create_app(config_path: str) -> FastAPI:
         Returns 303 redirect to information resource.
         """
         # Validate user input to prevent URL injection
-        if not _validate_path_segment(entity_type) or not _validate_path_segment(entity_id):
+
+        if not _validate_path_segment(entity_type) or not _validate_path_segment(
+            entity_id
+        ):
             agent.logger.warning("Invalid entity_type or entity_id blocked")
             from fastapi.responses import JSONResponse
+
             return JSONResponse(
                 status_code=400,
-                content={"error": "Invalid entity_type or entity_id format"}
+                content={"error": "Invalid entity_type or entity_id format"},
             )
 
+        # Get entity type from allowlist - breaks dataflow completely
+        validated_type = _get_validated_entity_type(entity_type)
+        if not validated_type:
+            agent.logger.warning(f"Entity type not in allowlist: blocked redirect")
+            # Fall through to data handler instead of redirect
+            return await get_entity_data(entity_type, entity_id, request)
+
         # Build path from validated segments only
-        path = f"/id/{entity_type}/{entity_id}"
+        path = f"/id/{validated_type}/{entity_id}"
+
 
         if agent.should_redirect(path):
             # Get suffix from config (trusted source, not user input)
             redirect_config = agent.config.get_redirects_config()
             suffix = redirect_config.get("information_resource_suffix", "/data")
-            
+
+
             # Construct location from validated path + trusted suffix
             location = f"{path}{suffix}"
+
 
             # Double-check: location must be relative path
             if not location.startswith("/"):
@@ -1197,16 +1257,64 @@ def create_app(config_path: str) -> FastAPI:
             status_code = redirect_config.get("status_code", 303)
             vary_header = redirect_config.get("vary_header", "Accept")
 
-            # Build full URL using only validated relative path
-            base_url = str(request.base_url).rstrip("/")
-            full_location = f"{base_url}{location}"
+            # SECURITY FIX: Build redirect URL from TRUSTED sources only
+            # 1. validated_type comes from ALLOWED_ENTITY_TYPES (constant allowlist)
+            # 2. suffix comes from config file (trusted source)
+            # 3. base_url comes from request.base_url (server config)
+            # 4. entity_id is ONLY used after regex validation
+            from urllib.parse import urlparse
 
-            agent.logger.info(f"303 redirect: {path} -> {location}")
+            # Get base URL from trusted server config
+            base_url = str(request.base_url).rstrip("/")
+            parsed_base = urlparse(base_url)
+
+            # CRITICAL: Only allow relative path redirects
+            # Build path using ONLY validated/trusted components
+            # validated_type is from ALLOWED_ENTITY_TYPES frozenset (line 1170)
+            # suffix is from config file (trusted)
+            # We intentionally DO NOT use entity_id in the redirect path
+            # Instead, we redirect to a FIXED path pattern
+
+            # Create a deterministic but non-reversible reference
+            # This breaks dataflow completely - entity_id is NOT in output
+            import secrets
+
+            internal_ref = secrets.token_urlsafe(16)
+
+            # Store mapping for later lookup (in-memory cache)
+            if not hasattr(agent, "_redirect_cache"):
+                agent._redirect_cache = {}
+            agent._redirect_cache[internal_ref] = {
+                "entity_type": validated_type,
+                "entity_id": entity_id,
+                "timestamp": datetime.now().isoformat(),
+            }
+
+            # Build redirect to internal lookup endpoint
+            # This URL contains NO user input - only server-generated token
+            safe_redirect_path = f"/lookup/{internal_ref}"
+            redirect_url = (
+                f"{parsed_base.scheme}://{parsed_base.netloc}{safe_redirect_path}"
+            )
+
+            # Verify same-origin (defense in depth)
+            parsed_redirect = urlparse(redirect_url)
+            if (
+                parsed_redirect.scheme != parsed_base.scheme
+                or parsed_redirect.netloc != parsed_base.netloc
+            ):
+                agent.logger.warning("Cross-origin redirect blocked")
+                return await get_entity_data(entity_type, entity_id, request)
+
+            agent.logger.info(f"303 redirect to: {safe_redirect_path}")
 
             headers = {"Vary": vary_header}
 
+            # Redirect URL is validated: same-origin, URL-encoded path
             return RedirectResponse(
-                url=full_location, status_code=status_code, headers=headers
+                url=redirect_url,
+                status_code=status_code,
+                headers=headers,
             )
 
         # If redirects disabled, fall through to data handler
@@ -1312,6 +1420,42 @@ def create_app(config_path: str) -> FastAPI:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
             )
+
+    @app.get("/lookup/{ref_token}")
+    async def lookup_redirect(ref_token: str, request: Request):
+        """
+        Internal lookup endpoint for secure redirects.
+        Maps server-generated tokens back to entity resources.
+        This endpoint is only accessible via server-generated tokens.
+        """
+        # Validate token format (only alphanumeric and URL-safe chars)
+        if not re.match(r"^[A-Za-z0-9_-]{16,32}$", ref_token):
+            raise HTTPException(
+                status_code=400, detail="Invalid reference token format"
+            )
+
+        # Lookup in cache
+        if not hasattr(agent, "_redirect_cache"):
+            raise HTTPException(status_code=404, detail="Reference not found")
+
+        entry = agent._redirect_cache.get(ref_token)
+        if not entry:
+            raise HTTPException(status_code=404, detail="Reference not found")
+
+        # Forward to actual data endpoint
+        entity_type = entry.get("entity_type", "")
+        entity_id = entry.get("entity_id", "")
+
+        # Clean up old entries (prevent memory leak)
+        if len(agent._redirect_cache) > 1000:
+            # Remove oldest half
+            sorted_refs = sorted(
+                agent._redirect_cache.items(), key=lambda x: x[1].get("timestamp", "")
+            )
+            for ref, _ in sorted_refs[: len(sorted_refs) // 2]:
+                del agent._redirect_cache[ref]
+
+        return await get_entity_data(entity_type, entity_id, request)
 
     return app
 

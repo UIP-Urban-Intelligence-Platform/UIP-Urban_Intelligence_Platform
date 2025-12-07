@@ -2,7 +2,26 @@
 sidebar_position: 6
 ---
 
-# Congratulations!
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Docusaurus tutorial - Congratulations page.
+
+File: apps/traffic-web-app/frontend/docs/docs/tutorial-basics/congratulations.md
+Module: Tutorial Basics Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Tutorial completion congratulations page.
+============================================================================
+-->
+
+# Congratulations
 
 You have just learned the **basics of Docusaurus** and made some changes to the **initial template**.
 

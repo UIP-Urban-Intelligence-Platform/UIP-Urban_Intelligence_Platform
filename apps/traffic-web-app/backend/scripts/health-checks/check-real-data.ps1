@@ -1,14 +1,17 @@
-
 #!/usr/bin/env pwsh
-# =========================================
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
 # Module: check-real-data.ps1
-#Author: Nguyễn Nhật Quang
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-26
 # Modified: 2025-11-26
 # Version: 2.0.0
 # License: MIT
-# Real Data Health Check Script
-# Kiểm tra dữ liệu thực trong cơ sở dữ liệu
+# Description: Real Data Health Check Script
 
 Write-Host "`n╔════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
 Write-Host "║         CHECKING REAL DATA IN DATABASES                   ║" -ForegroundColor Cyan

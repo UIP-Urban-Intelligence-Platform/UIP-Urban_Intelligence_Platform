@@ -1,5 +1,11 @@
 /**
  * GraphRAG Investigator Agent - Multimodal Incident Analysis with AI
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
  * 
  * @module apps/traffic-web-app/backend/src/agents/GraphInvestigatorAgent
  * @author Nguyễn Nhật Quang
@@ -1160,7 +1166,7 @@ OUTPUT JSON FORMAT:
         try {
             const apiKey = this.geminiKeyManager.getNextKey();
             const geminiClient = new GoogleGenerativeAI(apiKey);
-            const model = geminiClient.getGenerativeModel({ model: 'gemini-1.5-flash' });
+            const model = geminiClient.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
             const detectionSummary = detections.length > 0
                 ? detections.map(d => `${d.label} (${(d.confidence * 100).toFixed(0)}%)`).join(', ')
@@ -1245,7 +1251,7 @@ Trả về JSON format chính xác:
             // Call Gemini Vision API for object detection
             const apiKey = this.geminiKeyManager.getNextKey();
             const geminiClient = new GoogleGenerativeAI(apiKey);
-            const model = geminiClient.getGenerativeModel({ model: 'gemini-2.5-flash' });
+            const model = geminiClient.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
             const prompt = `Analyze this traffic camera image and detect all vehicles and pedestrians. For each detected object, provide:
 1. Label: Type of object (xe cộ, xe máy, xe tải, xe buýt, người đi bộ)

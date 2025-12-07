@@ -1,8 +1,14 @@
 /**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
  * @module apps/traffic-web-app/backend/test-enhanced-agents
  * @author Builder Layer Testing Team
- * @created 2024-11-18
- * @modified 2024-11-27
+ * @created 2025-11-20
+ * @modified 2025-11-20
  * @version 2.0.0
  * @license MIT
  * 

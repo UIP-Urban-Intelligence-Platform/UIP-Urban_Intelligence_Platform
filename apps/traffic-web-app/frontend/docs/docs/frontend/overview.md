@@ -4,13 +4,35 @@ sidebar_label: 'Overview'
 title: 'Frontend Overview'
 ---
 
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/frontend/overview.md
+Module: Frontend Overview
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Frontend overview documentation.
+============================================================================
+-->
+Version: 1.0.0
+-->
+
 # Frontend Overview
 
 The HCMC Traffic Monitoring System frontend is a modern **React 18** application built with **TypeScript** and **Vite**. It provides an interactive, real-time traffic visualization interface.
 
 ## 🎯 Key Features
 
-- 🗺️ **Interactive Leaflet Map** - 1,000+ camera markers with real-time updates
+- 🗺️ **Interactive MapLibre GL Map** - 1,000+ camera markers with real-time updates
 - 📊 **Analytics Dashboard** - 7 chart types for data visualization
 - 📱 **Citizen Reports** - Mobile-friendly report submission
 - ⏱️ **Time Machine** - Historical data playback
@@ -96,10 +118,12 @@ apps/traffic-web-app/frontend/
 - **Vite 5.0** - Fast build tool (HMR < 50ms)
 
 ### Map & Visualization
-- **Leaflet 1.9** - Interactive maps
-- **React-Leaflet 4.2** - React bindings for Leaflet
+- **MapLibre GL JS 4.7** - Interactive vector tile maps (BSD-3-Clause)
+- **react-map-gl 7.1** - React bindings for MapLibre (MIT)
 - **Recharts 2.10** - Composable charting library
 - **D3.js** - Advanced visualizations
+
+> **Migration Note (2025-12):** Migrated from react-leaflet (Hippocratic) to react-map-gl + MapLibre GL JS for 100% MIT compatibility.
 
 ### State Management
 - **Zustand 4.4** - Lightweight state management (< 1KB)
@@ -125,7 +149,8 @@ The core component that renders the interactive map.
 
 ```tsx
 // src/components/TrafficMap.tsx (450 lines)
-import { MapContainer, TileLayer } from 'react-leaflet';
+// Using MIT-licensed react-map-gl + MapLibre GL JS
+import { MapContainer } from './map';
 import CameraMarkers from './map/CameraMarkers';
 import AccidentMarkers from './map/AccidentMarkers';
 import WeatherOverlay from './map/WeatherOverlay';

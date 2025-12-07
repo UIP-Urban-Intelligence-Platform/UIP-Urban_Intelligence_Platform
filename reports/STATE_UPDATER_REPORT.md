@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/STATE_UPDATER_REPORT.md
+Module: State Updater Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  State Updater Agent implementation report.
+============================================================================
+-->
+
 # State Updater Agent - Implementation Report
 
 ## Executive Summary
@@ -119,10 +139,10 @@ The **State Updater Agent** is a production-ready, domain-agnostic real-time ent
     "imageSnapshot": {
       "type": "Property",
       "value": "https://example.com/image.jpg",
-      "observedAt": "2025-11-01T10:00:00Z"
+      "observedAt": "2025-11-20T10:00:00Z"
     }
   },
-  "timestamp": "2025-11-01T10:00:00Z",
+  "timestamp": "2025-11-20T10:00:00Z",
   "event_id": "evt-12345",
   "metadata": {
     "source": "sensor-123",
@@ -196,7 +216,7 @@ Content-Type: application/json
   "intensity": {
     "type": "Property",
     "value": 0.75,
-    "observedAt": "2025-11-01T10:00:00Z"
+    "observedAt": "2025-11-20T10:00:00Z"
   }
 }
 ```
@@ -689,7 +709,7 @@ The **State Updater Agent** successfully delivers:
 
 ---
 
-**Report Generated**: November 1, 2025  
+**Report Generated**: November 20, 2025  
 **Agent Version**: 1.0.0  
 **Test Status**: ✅ 50/50 Passing (100%)  
 **Coverage**: 63%

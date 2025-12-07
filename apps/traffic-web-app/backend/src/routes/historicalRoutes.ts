@@ -1,8 +1,14 @@
 /**
  * Historical Routes - Time-Series Data via SPARQL Queries
- * 
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/routes/historicalRoutes
-  * @author Nguyen Dinh Anh Tuan
+ * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
  * @modified 2025-11-26
  * @version 2.0.0
@@ -133,6 +139,95 @@ router.get('/aqi', async (req: Request, res: Response) => {
     return res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : 'Failed to query historical AQI data'
+    });
+  }
+});
+
+/**
+ * GET /api/historical/weather
+ * Query historical Weather trends via SPARQL from Fuseki
+ * 
+ * This endpoint retrieves historical weather data from the Fuseki triple store
+ * using SPARQL queries. Data includes temperature, humidity, pressure, wind speed,
+ * and precipitation measurements.
+ * 
+ * Query Parameters:
+ * - days: Number of days to query (default: 7, max: 365)
+ * - cameraId: Filter by specific camera ID (optional)
+ * - groupBy: Aggregation method - 'hour', 'day', or undefined (default: none)
+ * 
+ * Response Format (Time-Series):
+ * {
+ *   success: true,
+ *   count: 5,
+ *   data: [
+ *     {
+ *       cameraId: "urn:ngsi-ld:Camera:001",
+ *       timestamps: ["2025-11-04T10:00:00Z", ...],
+ *       temperature: [28.5, 29.2, ...],
+ *       humidity: [75, 72, ...],
+ *       pressure: [1013, 1012, ...],
+ *       windSpeed: [3.2, 4.1, ...],
+ *       precipitation: [0, 0.5, ...]
+ *     }
+ *   ],
+ *   metadata: {...}
+ * }
+ * 
+ * Example Usage:
+ * - GET /api/historical/weather?days=7
+ * - GET /api/historical/weather?days=30&groupBy=day
+ */
+router.get('/weather', async (req: Request, res: Response) => {
+  try {
+    const days = req.query.days ? parseInt(req.query.days as string) : 7;
+    const cameraId = req.query.cameraId as string | undefined;
+    const groupBy = req.query.groupBy as string | undefined;
+
+    // Validate days parameter
+    if (isNaN(days) || days < 1 || days > 365) {
+      logger.warn(`Invalid days parameter: ${days}`);
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid days parameter. Must be between 1 and 365'
+      });
+    }
+
+    // Validate groupBy parameter
+    if (groupBy && !['hour', 'day'].includes(groupBy)) {
+      logger.warn(`Invalid groupBy parameter: ${groupBy}`);
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid groupBy parameter. Must be "hour" or "day"'
+      });
+    }
+
+    logger.info(`Fetching historical weather: days=${days}, cameraId=${cameraId || 'all'}, groupBy=${groupBy || 'none'}`);
+
+    // Query Fuseki via SPARQL
+    const timeSeriesData = await fusekiService.queryHistoricalWeather(days, cameraId, groupBy);
+
+    logger.info(`Returned historical weather data for ${timeSeriesData.length} cameras`);
+
+    return res.status(200).json({
+      success: true,
+      count: timeSeriesData.length,
+      data: timeSeriesData,
+      metadata: {
+        days,
+        cameraId: cameraId || 'all',
+        groupBy: groupBy || 'none',
+        startDate: new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString(),
+        endDate: new Date().toISOString()
+      }
+    });
+
+  } catch (error) {
+    logger.error(`Error fetching historical weather: ${error}`);
+
+    return res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to query historical weather data'
     });
   }
 });

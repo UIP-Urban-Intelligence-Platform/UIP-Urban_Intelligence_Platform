@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/PATTERN_RECOGNITION_REPORT.md
+Module: Pattern Recognition Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Pattern Recognition Agent implementation report.
+============================================================================
+-->
+
 # Pattern Recognition Agent - Implementation Report
 
 ## Executive Summary
@@ -299,7 +319,7 @@ forecasting:
     "type": "Property",
     "value": {
       "start": "2025-10-25T00:00:00Z",
-      "end": "2025-11-01T00:00:00Z",
+      "end": "2025-11-20T00:00:00Z",
       "dataPoints": 168
     }
   },
@@ -602,7 +622,7 @@ pattern_recognition:
 MATCH (c:Camera {id: 'urn:ngsi-ld:Camera:TTH406'})
       -[:HAS_OBSERVATION]->(o:Observation)
 WHERE o.observedAt >= datetime('2025-10-25T00:00:00Z')
-  AND o.observedAt <= datetime('2025-11-01T00:00:00Z')
+  AND o.observedAt <= datetime('2025-11-20T00:00:00Z')
 RETURN o.observedAt AS timestamp, 
        o.intensity, 
        o.occupancy,
@@ -812,7 +832,7 @@ The **Pattern Recognition Agent** successfully delivers:
 
 ---
 
-**Report Generated**: November 1, 2025  
+**Report Generated**: November 20, 2025  
 **Agent Version**: 1.0.0  
 **Test Status**: ✅ 30/30 Passing (100%)  
 **Coverage**: 74%

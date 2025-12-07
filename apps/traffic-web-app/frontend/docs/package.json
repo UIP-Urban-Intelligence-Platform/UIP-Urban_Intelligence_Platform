@@ -5,7 +5,7 @@
     "private": true,
     "author": {
         "name": "UIP Contributors",
-        "url": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform"
+        "url": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform"
     },
     "contributors": [
         {
@@ -27,11 +27,11 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git"
+        "url": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git"
     },
     "scripts": {
         "docusaurus": "docusaurus",
-        "start": "docusaurus start",
+        "start": "docusaurus start --port 3002",
         "build": "docusaurus build",
         "swizzle": "docusaurus swizzle",
         "deploy": "docusaurus deploy",

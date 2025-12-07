@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/License.md
+Module: License Information
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  MIT License information for UIP - Urban Intelligence Platform.
+============================================================================
+-->
 # 📜 License
 
 UIP - Urban Intelligence Platform is released under the MIT License.
@@ -9,7 +28,7 @@ UIP - Urban Intelligence Platform is released under the MIT License.
 ```
 MIT License
 
-Copyright (c) 2024 UIP - Urban Intelligence Platform Contributors
+Copyright (c) 2025 UIP - Urban Intelligence Platform Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -112,13 +131,13 @@ When using UIP - Urban Intelligence Platform, we appreciate attribution in the f
 
 ```
 Built with UIP - Urban Intelligence Platform
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 ```
 
 Or in documentation:
 
 ```markdown
-This project uses [UIP - Urban Intelligence Platform](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform), 
+This project uses [UIP - Urban Intelligence Platform](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform), 
 a Multi-Agent Linked Open Data Pipeline for Smart Traffic Management.
 ```
 
@@ -134,7 +153,7 @@ If you have questions about the license or usage rights, please:
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Home]] - Project overview
 - [[Contributing]] - How to contribute

@@ -3,8 +3,8 @@
 """Stellio State Query Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -322,7 +322,7 @@ def main(config: Dict = None):
             print("=" * 80)
             print("Entities found: 0")
             print("=" * 80)
-            return None
+            return {"status": "success", "entities_found": 0, "output_file": None}
 
         # Save entities
         output_path = agent.save_entities(entities, args.output)
@@ -337,11 +337,19 @@ def main(config: Dict = None):
         print(f"Output file:     {output_path}")
         print("=" * 80)
 
+        return {
+            "status": "success",
+            "entities_found": len(entities),
+            "output_file": output_path,
+        }
+
     except Exception as e:
         logger.error(f"Fatal error: {e}", exc_info=True)
         if config:
             return {"status": "failed", "error": str(e)}
         sys.exit(1)
+
+    return None  # Explicit return for non-config CLI mode
 
 
 if __name__ == "__main__":

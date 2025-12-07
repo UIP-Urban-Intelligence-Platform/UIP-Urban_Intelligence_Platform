@@ -3,7 +3,7 @@
 """Accident Detection Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 
@@ -924,8 +924,8 @@ class AccidentDetectionAgent:
             if hour_start:
                 hour_start_dt = parse_iso(hour_start)
                 if (current_time - hour_start_dt).total_seconds() >= 3600:
-                    # Reset hourly counter - variable used for comparison below
-                    alert_count = 0  # noqa: F841
+                    # Reset hourly counter - new hour started, allow alert
+                    pass  # Counter will be reset in _update_camera_state
                 elif alert_count >= max_per_hour:
                     return False
         except Exception:

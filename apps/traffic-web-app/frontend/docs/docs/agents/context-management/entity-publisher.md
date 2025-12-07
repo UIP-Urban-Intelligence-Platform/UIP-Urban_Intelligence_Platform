@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Entity publisher agent documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/agents/context-management/entity-publisher.md
+Module: Context Management Agents Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for the Entity Publisher Agent component.
+============================================================================
+-->
+
 # Entity Publisher Agent
 
 ## Overview
@@ -61,7 +80,7 @@ agent = EntityPublisherAgent()
 
 # Create traffic flow entity
 entity = {
-    "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20240115T103000Z",
+    "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20251125T103000Z",
     "type": "TrafficFlowObserved",
     "location": {
         "type": "GeoProperty",
@@ -115,7 +134,7 @@ entities = agent.query_entities(
     },
     time_query={
         "timerel": "after",
-        "time": "2024-01-15T10:00:00Z"
+        "time": "2025-11-29T10:00:00Z"
     }
 )
 ```
@@ -169,6 +188,6 @@ publisher.create_entity(entity)
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

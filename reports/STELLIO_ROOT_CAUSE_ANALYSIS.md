@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/STELLIO_ROOT_CAUSE_ANALYSIS.md
+Module: Stellio Root Cause Analysis
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Stellio root cause analysis.
+============================================================================
+-->
+
 # 🔍 PHÂN TÍCH NGUYÊN NHÂN GỐC RỄ - STELLIO BYPASS
 
 **Thời gian điều tra**: 3 tháng 11, 2025  
@@ -20,7 +40,7 @@ $ docker exec test-postgres psql -U stellio -d stellio_search -c \
 
  version |      description      |        installed_on        | success 
 ---------+-----------------------+----------------------------+---------
- 1       | << Flyway Baseline >> | 2025-11-03 11:25:35.566958 | t
+ 1       | << Flyway Baseline >> | 2025-11-22 11:25:35.566958 | t
 ```
 
 **Nghĩa là gì?**
@@ -74,8 +94,8 @@ management:
 
 #### Evidence từ logs
 ```
-2025-11-03 15:27:51 INFO RoutePredicateFactory - Loaded...
-2025-11-03 15:27:51 INFO GatewayProperties - routes: []
+2025-11-22 15:27:51 INFO RoutePredicateFactory - Loaded...
+2025-11-22 15:27:51 INFO GatewayProperties - routes: []
 ```
 
 **Gateway có 0 routes được define trong YAML!**

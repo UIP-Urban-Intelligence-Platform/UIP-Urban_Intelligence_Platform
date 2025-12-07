@@ -1,8 +1,28 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/frontend/complete-components-reference.md
+Module: Complete Frontend Components Reference
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Complete frontend components reference.
+============================================================================
+-->
+
 # Complete Frontend Components Reference
 
 ## Overview
 
-Comprehensive documentation for all 40+ React components in the HCMC Traffic Management System frontend, built with React 18.2, TypeScript, Leaflet, and modern web technologies.
+Comprehensive documentation for all 40+ React components in the HCMC Traffic Management System frontend, built with React 18.2, TypeScript, MapLibre GL, and modern web technologies.
 
 ---
 
@@ -69,7 +89,7 @@ Comprehensive documentation for all 40+ React components in the HCMC Traffic Man
 ## TrafficMap
 
 ### Overview
-Core interactive map component displaying real-time traffic conditions, camera feeds, accidents, congestion zones, and weather overlays using Leaflet.
+Core interactive map component displaying real-time traffic conditions, camera feeds, accidents, congestion zones, and weather overlays using MapLibre GL.
 
 ### Props
 
@@ -152,7 +172,7 @@ const [mapConfig, setMapConfig] = useState({
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.leaflet-container {
+.maplibregl-map {
   font-family: 'Inter', sans-serif;
   background: #f5f5f5;
 }
@@ -196,7 +216,7 @@ const cameras = [
     name: 'District 1 - Nguyen Hue',
     location: { lat: 10.7769, lon: 106.7009 },
     status: 'active',
-    last_update: '2024-01-15T10:30:00Z'
+    last_update: '2025-11-29T10:30:00Z'
   }
 ];
 
@@ -547,7 +567,7 @@ import FilterPanel from '@/components/FilterPanel';
 const [filters, setFilters] = useState({
   categories: ['accidents', 'congestion'],
   severity: ['moderate', 'severe'],
-  dateRange: [new Date('2024-01-01'), new Date('2024-01-31')]
+  dateRange: [new Date('2025-11-20'), new Date('2025-12-05')]
 });
 
 <FilterPanel
@@ -815,8 +835,8 @@ import TimeMachine from '@/components/TimeMachine';
 const [currentTime, setCurrentTime] = useState(new Date());
 
 <TimeMachine
-  startDate={new Date('2024-01-01')}
-  endDate={new Date('2024-01-31')}
+  startDate={new Date('2025-11-20')}
+  endDate={new Date('2025-12-05')}
   currentTime={currentTime}
   onTimeChange={setCurrentTime}
   playbackSpeed={1}
@@ -1202,8 +1222,8 @@ interface PresetRange {
 import DateRangePicker from '@/components/DateRangePicker';
 
 const [dateRange, setDateRange] = useState<[Date, Date]>([
-  new Date('2024-01-01'),
-  new Date('2024-01-31')
+  new Date('2025-11-20'),
+  new Date('2025-12-05')
 ]);
 
 const presets = [
@@ -1554,6 +1574,6 @@ describe('TrafficMap', () => {
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

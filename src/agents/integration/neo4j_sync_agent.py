@@ -3,8 +3,8 @@
 """Neo4j Sync Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -77,6 +77,7 @@ import asyncio
 import json
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -90,7 +91,7 @@ from src.core.config_loader import expand_env_var
 
 # Neo4j driver (required dependency)
 try:
-    from neo4j import Driver, GraphDatabase, Transaction
+    from neo4j import Driver, GraphDatabase, Session, Transaction
 
     NEO4J_AVAILABLE = True
 except ImportError:
@@ -251,7 +252,7 @@ class PostgresConnector:
 
         try:
             query = f"""
-                SELECT
+                SELECT 
                     entity_id,
                     payload,
                     types,
@@ -721,8 +722,8 @@ class Neo4jSyncAgent:
         logger.info("Building camera index-to-ID mapping...")
 
         query = """
-            SELECT entity_id
-            FROM entity_payload
+            SELECT entity_id 
+            FROM entity_payload 
             WHERE 'https://uri.etsi.org/ngsi-ld/default-context/Camera' = ANY(types)
             ORDER BY created_at ASC
         """
@@ -790,6 +791,9 @@ class Neo4jSyncAgent:
                     # Special handler for observations (adds both ItemFlowObserved and Observation labels)
                     # Pass camera_mapping to transform index-based refDevice to real Camera IDs
                     self._sync_item_flow_observed(entity, camera_mapping)
+                elif entity_type == "Accident":
+                    # Special handler for accidents with proper property extraction
+                    self._sync_accident(entity)
                 else:
                     # Generic entity handler
                     self._sync_generic_entity(entity)
@@ -1014,6 +1018,178 @@ class Neo4jSyncAgent:
                 )
 
         self.neo4j_connector.execute_transaction(work, entity, camera_mapping)
+
+    def _sync_accident(self, entity: Dict[str, Any]) -> None:
+        """Sync Accident entity to Neo4j with proper property extraction.
+
+        Handles JSON-LD expanded format from Stellio PostgreSQL.
+        Extracts location (GeoProperty), severity, confidence, accidentDate,
+        and creates relationships to Camera via detectedBy.
+        """
+
+        def work(tx: Transaction, entity: Dict[str, Any]):
+            payload = entity["payload"]
+            entity_id = payload.get("@id", payload.get("id", entity["entity_id"]))
+
+            # Extract properties from JSON-LD expanded format
+            properties = {
+                "id": entity_id,
+                "type": "Accident",
+            }
+
+            # Helper to extract value from JSON-LD expanded property
+            def extract_value(key_suffix: str, prop_type: str = "Property"):
+                """Extract value from JSON-LD expanded format."""
+                # Try different possible keys
+                possible_keys = [
+                    f"https://uri.etsi.org/ngsi-ld/default-context/{key_suffix}",
+                    f"https://uri.etsi.org/ngsi-ld/{key_suffix}",
+                    key_suffix,  # Simple key fallback
+                ]
+
+                for key in possible_keys:
+                    if key in payload:
+                        prop_data = payload[key]
+                        if isinstance(prop_data, list) and len(prop_data) > 0:
+                            prop_data = prop_data[0]
+                        if isinstance(prop_data, dict):
+                            # JSON-LD expanded format
+                            has_value = prop_data.get(
+                                "https://uri.etsi.org/ngsi-ld/hasValue", []
+                            )
+                            if has_value:
+                                if isinstance(has_value, list) and len(has_value) > 0:
+                                    val = has_value[0]
+                                    if isinstance(val, dict):
+                                        return val.get("@value", val.get("@id"))
+                                    return val
+                            # Simple format
+                            return prop_data.get("value")
+                return None
+
+            # Extract simple properties
+            for key in ["severity", "confidence", "status", "accidentType", "source"]:
+                value = extract_value(key)
+                if value is not None:
+                    properties[key] = value
+
+            # Extract accidentDate and map to timestamp for backend compatibility
+            accident_date = extract_value("accidentDate")
+            if accident_date:
+                properties["accidentDate"] = accident_date
+                properties["timestamp"] = accident_date  # Backend uses timestamp
+                properties["dateDetected"] = accident_date  # Alternative field
+
+            # Extract location (GeoProperty) - WKT format "POINT (lon lat)"
+            location_keys = ["https://uri.etsi.org/ngsi-ld/location", "location"]
+            for loc_key in location_keys:
+                if loc_key in payload:
+                    loc_data = payload[loc_key]
+                    if isinstance(loc_data, list) and len(loc_data) > 0:
+                        loc_data = loc_data[0]
+                    if isinstance(loc_data, dict):
+                        has_value = loc_data.get(
+                            "https://uri.etsi.org/ngsi-ld/hasValue", []
+                        )
+                        if (
+                            has_value
+                            and isinstance(has_value, list)
+                            and len(has_value) > 0
+                        ):
+                            wkt_val = has_value[0]
+                            if isinstance(wkt_val, dict):
+                                wkt_val = wkt_val.get("@value", "")
+                            # Parse WKT: "POINT (106.78 10.76)"
+                            if isinstance(wkt_val, str) and wkt_val.startswith("POINT"):
+                                try:
+                                    # Extract coordinates from POINT (lon lat)
+                                    coords_str = (
+                                        wkt_val.replace("POINT", "").strip().strip("()")
+                                    )
+                                    lon, lat = coords_str.split()
+                                    properties["longitude"] = float(lon)
+                                    properties["latitude"] = float(lat)
+                                except (ValueError, IndexError):
+                                    pass
+                        # Also try simple format
+                        elif "value" in loc_data:
+                            loc_value = loc_data["value"]
+                            if (
+                                isinstance(loc_value, dict)
+                                and loc_value.get("type") == "Point"
+                            ):
+                                coords = loc_value.get("coordinates", [])
+                                if len(coords) >= 2:
+                                    properties["longitude"] = coords[0]
+                                    properties["latitude"] = coords[1]
+                    break
+
+            # Create Accident node
+            cypher = """
+                MERGE (a:Accident {id: $id})
+                SET a += $properties
+                RETURN a.id as id
+            """
+            result = tx.run(cypher, id=entity_id, properties=properties)
+            record = result.single()
+            if record:
+                logger.debug(f"Created/Updated Accident node: {record['id']}")
+
+            # Create relationship to Camera via detectedBy
+            detected_by_keys = [
+                "https://uri.etsi.org/ngsi-ld/default-context/detectedBy",
+                "detectedBy",
+            ]
+            for db_key in detected_by_keys:
+                if db_key in payload:
+                    db_data = payload[db_key]
+                    if isinstance(db_data, list) and len(db_data) > 0:
+                        db_data = db_data[0]
+                    if isinstance(db_data, dict):
+                        # JSON-LD expanded format
+                        has_object = db_data.get(
+                            "https://uri.etsi.org/ngsi-ld/hasObject", []
+                        )
+                        if (
+                            has_object
+                            and isinstance(has_object, list)
+                            and len(has_object) > 0
+                        ):
+                            camera_obj = has_object[0]
+                            camera_id = (
+                                camera_obj.get("@id")
+                                if isinstance(camera_obj, dict)
+                                else camera_obj
+                            )
+                        else:
+                            # Simple format
+                            camera_id = db_data.get("object")
+
+                        if camera_id:
+                            try:
+                                rel_cypher = """
+                                    MATCH (a:Accident {id: $accident_id})
+                                    MATCH (c:Camera {id: $camera_id})
+                                    MERGE (c)-[:HAS_ACCIDENT]->(a)
+                                    RETURN c.id as camera
+                                """
+                                rel_result = tx.run(
+                                    rel_cypher,
+                                    accident_id=entity_id,
+                                    camera_id=camera_id,
+                                )
+                                rel_record = rel_result.single()
+                                if rel_record:
+                                    logger.debug(
+                                        f"Created HAS_ACCIDENT: {camera_id} -> {entity_id}"
+                                    )
+                            except Exception as e:
+                                logger.debug(
+                                    f"Could not create HAS_ACCIDENT for {entity_id}: {e}"
+                                )
+                    break
+
+        self.neo4j_connector.execute_transaction(work, entity)
 
     def _sync_generic_entity(self, entity: Dict[str, Any]) -> None:
         """Sync generic entity to Neo4j."""

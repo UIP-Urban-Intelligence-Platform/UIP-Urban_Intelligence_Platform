@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-TypeScript AI Agents Documentation
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: wiki/TypeScript-Agents.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/TypeScript-Agents.md
+Module: TypeScript AI Agents Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
+License: MIT
+
+Description:
+  Documentation for the 3 TypeScript AI agents.
+============================================================================
 -->
 
 # 🤖 TypeScript AI Agents

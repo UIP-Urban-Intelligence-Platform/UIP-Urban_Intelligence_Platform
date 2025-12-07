@@ -1,17 +1,18 @@
-
 /**
-  * @module test-facebook-graph-endpoint
-    * @author Nguyễn Nhật Quang 
-    * @created 2025-11-26
-    * @modified 2025-11-26
-    * @version 2.0.0
-    * @license MIT 
- * Test Facebook Graph API Integration
- * 
- * This script tests the Facebook Graph API to fetch public events
- * in Ho Chi Minh City, Vietnam for traffic monitoring.
- * 
- * Run: node test-facebook-graph-endpoint.js
+ * @file test-facebook-graph-endpoint.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-facebook-graph-endpoint
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 2.0.0
+ * @license MIT
+ * @description Test Facebook Graph API Integration - Fetches public events in
+ * Ho Chi Minh City, Vietnam for traffic monitoring.
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 require('dotenv').config();

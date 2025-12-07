@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/CONTENT_NEGOTIATION_REPORT.md
+Module: Content Negotiation Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Content Negotiation Agent implementation report.
+============================================================================
+-->
+
 # Content Negotiation Agent - Implementation Report
 
 ## Executive Summary
@@ -286,8 +306,8 @@ JSON-LD ←→ rdflib Graph ←→ Turtle
 
 2. **format_datetime(dt_str)**
    ```python
-   Input: "2024-01-15T10:30:00Z"
-   Output: "2024-01-15 10:30:00 UTC"
+   Input: "2025-11-29T10:30:00Z"
+   Output: "2025-11-29 10:30:00 UTC"
    ```
 
 **Features:**
@@ -1389,6 +1409,6 @@ The Content Negotiation Agent successfully implements all requirements from PROM
 
 ---
 
-**Report Generated:** 2024-11-02  
+**Report Generated:** 2025-11-20  
 **Agent Version:** 1.0.0  
 **Test Status:** ✅ 48/48 PASSING

@@ -3,8 +3,8 @@
 """MongoDB Publishing Integration Test Suite.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -233,7 +233,8 @@ class TestMongoDBPublisher(unittest.TestCase):
         ]
 
         # Should still succeed for valid entities
-        result = self.helper.insert_entities_batch(
+        # Note: Result indicates overall success, individual failures handled internally
+        _ = self.helper.insert_entities_batch(
             entities,
             collection_name=self.test_collection,
             ordered=False,  # Continue on error

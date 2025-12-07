@@ -1,6 +1,12 @@
 /**
  * Routing Routes - Intelligent Route Planning with Multi-Criteria Optimization
- * 
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/routes/routing
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
@@ -230,13 +236,35 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
 
     console.log(`Fetched ${cameras.length} cameras for Voronoi calculation`);
 
-    if (cameras.length < 3) {
-      throw new Error('Insufficient cameras for Voronoi calculation (minimum 3 required)');
+    // Filter cameras with valid numeric coordinates
+    const validCameras = cameras.filter((camera: Camera) => {
+      if (!camera.location) {
+        console.warn(`Camera ${camera.id} has no location`);
+        return false;
+      }
+      const { lat, lng } = camera.location;
+      if (typeof lat !== 'number' || typeof lng !== 'number' || isNaN(lat) || isNaN(lng)) {
+        console.warn(`Camera ${camera.id} has invalid coordinates: lat=${lat}, lng=${lng}`);
+        return false;
+      }
+      // Check if coordinates are within HCMC bounds
+      if (lat < HCMC_BOUNDS.minLat || lat > HCMC_BOUNDS.maxLat ||
+        lng < HCMC_BOUNDS.minLng || lng > HCMC_BOUNDS.maxLng) {
+        console.warn(`Camera ${camera.id} is outside HCMC bounds: lat=${lat}, lng=${lng}`);
+        return false;
+      }
+      return true;
+    });
+
+    console.log(`Valid cameras for Voronoi: ${validCameras.length} out of ${cameras.length}`);
+
+    if (validCameras.length < 3) {
+      throw new Error(`Insufficient valid cameras for Voronoi calculation (need 3, have ${validCameras.length})`);
     }
 
     // Create points collection for Voronoi
     const points = turfFeatureCollection(
-      cameras.map((camera: Camera) =>
+      validCameras.map((camera: Camera) =>
         turfPoint(
           [camera.location.lng, camera.location.lat],
           { cameraId: camera.id }
@@ -259,17 +287,36 @@ async function calculateVoronoiZones(): Promise<VoronoiZone[]> {
     }
 
     // Fetch related data for aggregation
-    const [airQualityData, weatherData, accidentsData, patternsData] = await Promise.all([
+    const [airQualityDataRaw, weatherDataRaw, accidentsDataRaw, patternsData] = await Promise.all([
       genericNgsiService.fetchEntities('AirQualityObserved').catch(() => []) as Promise<AirQuality[]>,
       genericNgsiService.fetchEntities('WeatherObserved').catch(() => []) as Promise<Weather[]>,
       genericNgsiService.fetchEntities('Accident').catch(() => []) as Promise<Accident[]>,
       genericNgsiService.fetchEntities('TrafficPattern').catch(() => []) as Promise<TrafficPattern[]>
     ]);
 
+    // Filter data with valid coordinates
+    const airQualityData = airQualityDataRaw.filter((aqi: AirQuality) =>
+      aqi.location &&
+      typeof aqi.location.lat === 'number' && !isNaN(aqi.location.lat) &&
+      typeof aqi.location.lng === 'number' && !isNaN(aqi.location.lng)
+    );
+
+    const weatherData = weatherDataRaw.filter((weather: Weather) =>
+      weather.location &&
+      typeof weather.location.lat === 'number' && !isNaN(weather.location.lat) &&
+      typeof weather.location.lng === 'number' && !isNaN(weather.location.lng)
+    );
+
+    const accidentsData = accidentsDataRaw.filter((accident: Accident) =>
+      accident.location &&
+      typeof accident.location.latitude === 'number' && !isNaN(accident.location.latitude) &&
+      typeof accident.location.longitude === 'number' && !isNaN(accident.location.longitude)
+    );
+
     // Aggregate data for each zone
     const zones: VoronoiZone[] = voronoiPolygons.features.map(feature => {
       const cameraId = feature.properties?.cameraId || '';
-      const camera = cameras.find((c: Camera) => c.id === cameraId);
+      const camera = validCameras.find((c: Camera) => c.id === cameraId);
 
       if (!camera) {
         return null;

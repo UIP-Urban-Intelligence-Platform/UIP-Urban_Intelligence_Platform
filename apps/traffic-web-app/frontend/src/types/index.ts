@@ -1,4 +1,12 @@
 /**
+ * TypeScript Type Definitions - Core Types and Interfaces
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ * 
  * @module apps/traffic-web-app/frontend/src/types/index
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-27
@@ -49,6 +57,7 @@ export interface Camera {
   };
   status: 'active' | 'inactive' | 'maintenance' | 'online' | 'offline';
   streamUrl?: string;
+  imageSnapshot?: string; // Camera snapshot image URL from HCM Traffic Portal
   lastUpdate: string;
   dateModified?: string;
   district?: string; // District information

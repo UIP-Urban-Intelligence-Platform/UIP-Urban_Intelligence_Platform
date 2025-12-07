@@ -3,8 +3,8 @@
 """Incident Report Generator Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -977,15 +977,178 @@ class ReportGenerator:
         file_path = base_path / f"{report_id}.pdf"
 
         try:
-            from weasyprint import HTML
+            from reportlab.lib import colors
+            from reportlab.lib.pagesizes import A4
+            from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+            from reportlab.lib.units import cm, mm
+            from reportlab.platypus import (
+                Image,
+                PageBreak,
+                Paragraph,
+                SimpleDocTemplate,
+                Spacer,
+                Table,
+                TableStyle,
+            )
 
-            # Convert HTML to PDF
-            HTML(string=html_content).write_pdf(str(file_path))
+            # Build PDF using reportlab (BSD license - 100% MIT compatible)
+            doc = SimpleDocTemplate(
+                str(file_path),
+                pagesize=A4,
+                rightMargin=2 * cm,
+                leftMargin=2 * cm,
+                topMargin=2 * cm,
+                bottomMargin=2 * cm,
+            )
 
+            # Define styles
+            styles = getSampleStyleSheet()
+            title_style = ParagraphStyle(
+                "CustomTitle",
+                parent=styles["Heading1"],
+                fontSize=24,
+                textColor=colors.HexColor("#e74c3c"),
+                spaceAfter=20,
+            )
+            heading_style = ParagraphStyle(
+                "CustomHeading",
+                parent=styles["Heading2"],
+                fontSize=16,
+                textColor=colors.HexColor("#2c3e50"),
+                spaceAfter=12,
+                spaceBefore=20,
+            )
+            normal_style = ParagraphStyle(
+                "CustomNormal", parent=styles["Normal"], fontSize=11, leading=14
+            )
+
+            # Build story (content)
+            story = []
+
+            # Title
+            story.append(Paragraph("🚨 INCIDENT REPORT", title_style))
+            story.append(Spacer(1, 10 * mm))
+
+            # Report metadata
+            story.append(
+                Paragraph(
+                    f"<b>Report ID:</b> {data.get('report_id', 'N/A')}", normal_style
+                )
+            )
+            story.append(
+                Paragraph(
+                    f"<b>Generated:</b> {data.get('generated_at', 'N/A')}", normal_style
+                )
+            )
+            story.append(
+                Paragraph(
+                    f"<b>Incident ID:</b> {data.get('accident_id', 'N/A')}",
+                    normal_style,
+                )
+            )
+            story.append(
+                Paragraph(
+                    f"<b>Severity:</b> {data.get('severity', 'N/A').upper()}",
+                    normal_style,
+                )
+            )
+            story.append(Spacer(1, 10 * mm))
+
+            # Executive Summary
+            summary = data.get("summary", {})
+            story.append(Paragraph("Executive Summary", heading_style))
+            summary_data = [
+                ["Location", summary.get("location", "N/A")],
+                ["Detection Time", summary.get("detection_time", "N/A")],
+                ["Camera ID", summary.get("camera_id", "N/A")],
+                ["Estimated Clearance", summary.get("clearance_estimate", "N/A")],
+                ["Affected Vehicles", str(summary.get("affected_vehicles", 0))],
+            ]
+            summary_table = Table(summary_data, colWidths=[5 * cm, 10 * cm])
+            summary_table.setStyle(
+                TableStyle(
+                    [
+                        ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#ecf0f1")),
+                        ("TEXTCOLOR", (0, 0), (-1, -1), colors.HexColor("#2c3e50")),
+                        ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
+                        ("FONTSIZE", (0, 0), (-1, -1), 10),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+                        ("TOPPADDING", (0, 0), (-1, -1), 8),
+                        ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#ddd")),
+                    ]
+                )
+            )
+            story.append(summary_table)
+            story.append(Spacer(1, 10 * mm))
+
+            # Timeline section
+            timeline = data.get("timeline", [])
+            if timeline:
+                story.append(Paragraph("Timeline of Events", heading_style))
+                for event in timeline:
+                    story.append(
+                        Paragraph(
+                            f"<b>{event.get('time', 'N/A')}</b>: {event.get('event', 'N/A')}",
+                            normal_style,
+                        )
+                    )
+                    story.append(Spacer(1, 2 * mm))
+                story.append(Spacer(1, 8 * mm))
+
+            # Recommendations
+            recommendations = data.get("recommendations", [])
+            if recommendations:
+                story.append(Paragraph("Recommendations", heading_style))
+                for rec in recommendations:
+                    story.append(Paragraph(f"• {rec}", normal_style))
+                    story.append(Spacer(1, 2 * mm))
+                story.append(Spacer(1, 8 * mm))
+
+            # Charts (if available)
+            charts = data.get("charts", {})
+            if charts:
+                story.append(PageBreak())
+                story.append(Paragraph("Visual Analysis", heading_style))
+                for chart_name, chart_data in charts.items():
+                    if chart_data and "data" in chart_data:
+                        try:
+                            # Chart data is base64 encoded
+                            img_data = base64.b64decode(chart_data["data"])
+                            img_buffer = io.BytesIO(img_data)
+                            img = Image(img_buffer, width=15 * cm, height=10 * cm)
+                            story.append(img)
+                            story.append(
+                                Paragraph(
+                                    f"<i>{chart_data.get('title', chart_name)}</i>",
+                                    normal_style,
+                                )
+                            )
+                            story.append(Spacer(1, 5 * mm))
+                        except Exception as e:
+                            logger.warning(f"Failed to embed chart {chart_name}: {e}")
+
+            # Footer
+            story.append(Spacer(1, 20 * mm))
+            footer_style = ParagraphStyle(
+                "Footer",
+                parent=styles["Normal"],
+                fontSize=8,
+                textColor=colors.HexColor("#7f8c8d"),
+                alignment=1,  # Center
+            )
+            story.append(
+                Paragraph(
+                    "UIP - Urban Intelligence Platform | Generated automatically",
+                    footer_style,
+                )
+            )
+
+            # Build PDF
+            doc.build(story)
             logger.info(f"Generated PDF report: {file_path}")
 
-        except ImportError:
-            logger.error("weasyprint not installed - PDF generation disabled")
+        except ImportError as e:
+            logger.error(f"reportlab not installed - PDF generation disabled: {e}")
             logger.info("Falling back to HTML output")
 
             # Save as HTML instead

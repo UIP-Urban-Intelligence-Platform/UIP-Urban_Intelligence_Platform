@@ -1,0 +1,1797 @@
+[
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20406",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Trần Quang Khải - Trần Khắc Chân"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 406"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=662b86c41afb9c00172dd31c&zoom=4&t=1764944113787"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:16.988818Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.691054105759,
+          10.7918902432446
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:WeatherObserved:TTH%20406-20251205152501",
+    "type": [
+      "WeatherObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20406"
+    },
+    "temperature": {
+      "type": "Property",
+      "value": 27.98,
+      "unitCode": "CEL"
+    },
+    "relativeHumidity": {
+      "type": "Property",
+      "value": 78,
+      "unitCode": "P1"
+    },
+    "windSpeed": {
+      "type": "Property",
+      "value": 2.57,
+      "unitCode": "MTS"
+    },
+    "precipitation": {
+      "type": "Property",
+      "value": 0.0,
+      "unitCode": "MMT"
+    },
+    "weatherType": {
+      "type": "Property",
+      "value": "scattered clouds"
+    },
+    "atmosphericPressure": {
+      "type": "Property",
+      "value": 1012,
+      "unitCode": "A97"
+    },
+    "cloudiness": {
+      "type": "Property",
+      "value": 40,
+      "unitCode": "P1"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.691054105759,
+          10.7918902432446
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:39.740381Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:AirQualityObserved:TTH%20406-20251205152501",
+    "type": [
+      "AirQualityObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20406"
+    },
+    "pm25": {
+      "type": "Property",
+      "value": 12.49,
+      "unitCode": "GQ"
+    },
+    "pm10": {
+      "type": "Property",
+      "value": 27.84,
+      "unitCode": "GQ"
+    },
+    "co": {
+      "type": "Property",
+      "value": 252.42,
+      "unitCode": "GP"
+    },
+    "o3": {
+      "type": "Property",
+      "value": 70.53,
+      "unitCode": "GQ"
+    },
+    "no2": {
+      "type": "Property",
+      "value": 3.88,
+      "unitCode": "GQ"
+    },
+    "so2": {
+      "type": "Property",
+      "value": 1.68,
+      "unitCode": "GQ"
+    },
+    "nh3": {
+      "type": "Property",
+      "value": 3.35,
+      "unitCode": "GQ"
+    },
+    "airQualityCategory": {
+      "type": "Property",
+      "value": "Fair"
+    },
+    "airQualityIndexValue": {
+      "type": "Property",
+      "value": 2
+    },
+    "dataProvider": {
+      "type": "Property",
+      "value": "OpenWeatherMap"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.691054105759,
+          10.7918902432446
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:39.740381Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%2021.84",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Tô Ngọc Vân - TX25"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 21.84"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "Fixed"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=5a6065c58576340017d06615&zoom=4&t=1764944113787"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:19.026648Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.677986383438,
+          10.8797100979598
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:WeatherObserved:TTH%2021.84-20251205152501",
+    "type": [
+      "WeatherObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%2021.84"
+    },
+    "temperature": {
+      "type": "Property",
+      "value": 28.02,
+      "unitCode": "CEL"
+    },
+    "relativeHumidity": {
+      "type": "Property",
+      "value": 78,
+      "unitCode": "P1"
+    },
+    "windSpeed": {
+      "type": "Property",
+      "value": 2.57,
+      "unitCode": "MTS"
+    },
+    "precipitation": {
+      "type": "Property",
+      "value": 0.0,
+      "unitCode": "MMT"
+    },
+    "weatherType": {
+      "type": "Property",
+      "value": "scattered clouds"
+    },
+    "atmosphericPressure": {
+      "type": "Property",
+      "value": 1012,
+      "unitCode": "A97"
+    },
+    "cloudiness": {
+      "type": "Property",
+      "value": 40,
+      "unitCode": "P1"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.677986383438,
+          10.8797100979598
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:39.698384Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:AirQualityObserved:TTH%2021.84-20251205152501",
+    "type": [
+      "AirQualityObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%2021.84"
+    },
+    "pm25": {
+      "type": "Property",
+      "value": 26.03,
+      "unitCode": "GQ"
+    },
+    "pm10": {
+      "type": "Property",
+      "value": 42.92,
+      "unitCode": "GQ"
+    },
+    "co": {
+      "type": "Property",
+      "value": 467.74,
+      "unitCode": "GP"
+    },
+    "o3": {
+      "type": "Property",
+      "value": 60.24,
+      "unitCode": "GQ"
+    },
+    "no2": {
+      "type": "Property",
+      "value": 9.93,
+      "unitCode": "GQ"
+    },
+    "so2": {
+      "type": "Property",
+      "value": 3.67,
+      "unitCode": "GQ"
+    },
+    "nh3": {
+      "type": "Property",
+      "value": 6.25,
+      "unitCode": "GQ"
+    },
+    "airQualityCategory": {
+      "type": "Property",
+      "value": "Moderate"
+    },
+    "airQualityIndexValue": {
+      "type": "Property",
+      "value": 3
+    },
+    "dataProvider": {
+      "type": "Property",
+      "value": "OpenWeatherMap"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.677986383438,
+          10.8797100979598
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:39.698384Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20300",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Quốc Lộ 13 - cầu Ông Dầu"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 300"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=6623f4df6f998a001b2528eb&zoom=4&t=1764944113788"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:21.054430Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.713809967041,
+          10.8361932799182
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:WeatherObserved:TTH%20300-20251205152501",
+    "type": [
+      "WeatherObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20300"
+    },
+    "temperature": {
+      "type": "Property",
+      "value": 28.03,
+      "unitCode": "CEL"
+    },
+    "relativeHumidity": {
+      "type": "Property",
+      "value": 78,
+      "unitCode": "P1"
+    },
+    "windSpeed": {
+      "type": "Property",
+      "value": 2.57,
+      "unitCode": "MTS"
+    },
+    "precipitation": {
+      "type": "Property",
+      "value": 0.0,
+      "unitCode": "MMT"
+    },
+    "weatherType": {
+      "type": "Property",
+      "value": "scattered clouds"
+    },
+    "atmosphericPressure": {
+      "type": "Property",
+      "value": 1012,
+      "unitCode": "A97"
+    },
+    "cloudiness": {
+      "type": "Property",
+      "value": 40,
+      "unitCode": "P1"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.713809967041,
+          10.8361932799182
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:42.999550Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:AirQualityObserved:TTH%20300-20251205152501",
+    "type": [
+      "AirQualityObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20300"
+    },
+    "pm25": {
+      "type": "Property",
+      "value": 26.03,
+      "unitCode": "GQ"
+    },
+    "pm10": {
+      "type": "Property",
+      "value": 42.92,
+      "unitCode": "GQ"
+    },
+    "co": {
+      "type": "Property",
+      "value": 467.74,
+      "unitCode": "GP"
+    },
+    "o3": {
+      "type": "Property",
+      "value": 60.24,
+      "unitCode": "GQ"
+    },
+    "no2": {
+      "type": "Property",
+      "value": 9.93,
+      "unitCode": "GQ"
+    },
+    "so2": {
+      "type": "Property",
+      "value": 3.67,
+      "unitCode": "GQ"
+    },
+    "nh3": {
+      "type": "Property",
+      "value": 6.25,
+      "unitCode": "GQ"
+    },
+    "airQualityCategory": {
+      "type": "Property",
+      "value": "Moderate"
+    },
+    "airQualityIndexValue": {
+      "type": "Property",
+      "value": 3
+    },
+    "dataProvider": {
+      "type": "Property",
+      "value": "OpenWeatherMap"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.713809967041,
+          10.8361932799182
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:42.999550Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20374",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Cách Mạng Tháng Tám - Bùi Thị Xuân"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 374"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=662b7ce71afb9c00172dc676&zoom=4&t=1764944113788"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:23.106886Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.691064834595,
+          10.7726452614037
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:WeatherObserved:TTH%20374-20251205152501",
+    "type": [
+      "WeatherObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20374"
+    },
+    "temperature": {
+      "type": "Property",
+      "value": 27.97,
+      "unitCode": "CEL"
+    },
+    "relativeHumidity": {
+      "type": "Property",
+      "value": 78,
+      "unitCode": "P1"
+    },
+    "windSpeed": {
+      "type": "Property",
+      "value": 2.57,
+      "unitCode": "MTS"
+    },
+    "precipitation": {
+      "type": "Property",
+      "value": 0.0,
+      "unitCode": "MMT"
+    },
+    "weatherType": {
+      "type": "Property",
+      "value": "scattered clouds"
+    },
+    "atmosphericPressure": {
+      "type": "Property",
+      "value": 1012,
+      "unitCode": "A97"
+    },
+    "cloudiness": {
+      "type": "Property",
+      "value": 40,
+      "unitCode": "P1"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.691064834595,
+          10.7726452614037
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:43.055410Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:AirQualityObserved:TTH%20374-20251205152501",
+    "type": [
+      "AirQualityObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20374"
+    },
+    "pm25": {
+      "type": "Property",
+      "value": 12.49,
+      "unitCode": "GQ"
+    },
+    "pm10": {
+      "type": "Property",
+      "value": 27.84,
+      "unitCode": "GQ"
+    },
+    "co": {
+      "type": "Property",
+      "value": 252.42,
+      "unitCode": "GP"
+    },
+    "o3": {
+      "type": "Property",
+      "value": 70.53,
+      "unitCode": "GQ"
+    },
+    "no2": {
+      "type": "Property",
+      "value": 3.88,
+      "unitCode": "GQ"
+    },
+    "so2": {
+      "type": "Property",
+      "value": 1.68,
+      "unitCode": "GQ"
+    },
+    "nh3": {
+      "type": "Property",
+      "value": 3.35,
+      "unitCode": "GQ"
+    },
+    "airQualityCategory": {
+      "type": "Property",
+      "value": "Fair"
+    },
+    "airQualityIndexValue": {
+      "type": "Property",
+      "value": 2
+    },
+    "dataProvider": {
+      "type": "Property",
+      "value": "OpenWeatherMap"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.691064834595,
+          10.7726452614037
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:43.055410Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%2022.7",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Nguyễn Thị Định - Đường D"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 22.7"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "Fixed"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=583f969161cfea0012cf68f7&zoom=4&t=1764944113788"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:25.137383Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.781423091888,
+          10.7646823693643
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:WeatherObserved:TTH%2022.7-20251205152501",
+    "type": [
+      "WeatherObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%2022.7"
+    },
+    "temperature": {
+      "type": "Property",
+      "value": 28.03,
+      "unitCode": "CEL"
+    },
+    "relativeHumidity": {
+      "type": "Property",
+      "value": 78,
+      "unitCode": "P1"
+    },
+    "windSpeed": {
+      "type": "Property",
+      "value": 2.57,
+      "unitCode": "MTS"
+    },
+    "precipitation": {
+      "type": "Property",
+      "value": 0.0,
+      "unitCode": "MMT"
+    },
+    "weatherType": {
+      "type": "Property",
+      "value": "scattered clouds"
+    },
+    "atmosphericPressure": {
+      "type": "Property",
+      "value": 1012,
+      "unitCode": "A97"
+    },
+    "cloudiness": {
+      "type": "Property",
+      "value": 40,
+      "unitCode": "P1"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.781423091888,
+          10.7646823693643
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:46.217205Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:AirQualityObserved:TTH%2022.7-20251205152501",
+    "type": [
+      "AirQualityObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%2022.7"
+    },
+    "pm25": {
+      "type": "Property",
+      "value": 12.49,
+      "unitCode": "GQ"
+    },
+    "pm10": {
+      "type": "Property",
+      "value": 27.84,
+      "unitCode": "GQ"
+    },
+    "co": {
+      "type": "Property",
+      "value": 252.42,
+      "unitCode": "GP"
+    },
+    "o3": {
+      "type": "Property",
+      "value": 70.53,
+      "unitCode": "GQ"
+    },
+    "no2": {
+      "type": "Property",
+      "value": 3.88,
+      "unitCode": "GQ"
+    },
+    "so2": {
+      "type": "Property",
+      "value": 1.68,
+      "unitCode": "GQ"
+    },
+    "nh3": {
+      "type": "Property",
+      "value": 3.35,
+      "unitCode": "GQ"
+    },
+    "airQualityCategory": {
+      "type": "Property",
+      "value": "Fair"
+    },
+    "airQualityIndexValue": {
+      "type": "Property",
+      "value": 2
+    },
+    "dataProvider": {
+      "type": "Property",
+      "value": "OpenWeatherMap"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.781423091888,
+          10.7646823693643
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:46.217205Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:IDICO-QL1%2029",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "QL1 - Tỉnh lộ 10 B (2)"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "IDICO-QL1 29"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "Fixed"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=59ca317602eb490011a0a408&zoom=4&t=1764944113788"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:27.161212Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.593974232674,
+          10.7492355507977
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:WeatherObserved:IDICO-QL1%2029-20251205152501",
+    "type": [
+      "WeatherObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:IDICO-QL1%2029"
+    },
+    "temperature": {
+      "type": "Property",
+      "value": 28.04,
+      "unitCode": "CEL"
+    },
+    "relativeHumidity": {
+      "type": "Property",
+      "value": 78,
+      "unitCode": "P1"
+    },
+    "windSpeed": {
+      "type": "Property",
+      "value": 2.57,
+      "unitCode": "MTS"
+    },
+    "precipitation": {
+      "type": "Property",
+      "value": 0.0,
+      "unitCode": "MMT"
+    },
+    "weatherType": {
+      "type": "Property",
+      "value": "scattered clouds"
+    },
+    "atmosphericPressure": {
+      "type": "Property",
+      "value": 1012,
+      "unitCode": "A97"
+    },
+    "cloudiness": {
+      "type": "Property",
+      "value": 40,
+      "unitCode": "P1"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.593974232674,
+          10.7492355507977
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:46.336407Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:AirQualityObserved:IDICO-QL1%2029-20251205152501",
+    "type": [
+      "AirQualityObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:IDICO-QL1%2029"
+    },
+    "pm25": {
+      "type": "Property",
+      "value": 14.84,
+      "unitCode": "GQ"
+    },
+    "pm10": {
+      "type": "Property",
+      "value": 30.57,
+      "unitCode": "GQ"
+    },
+    "co": {
+      "type": "Property",
+      "value": 292.45,
+      "unitCode": "GP"
+    },
+    "o3": {
+      "type": "Property",
+      "value": 66.8,
+      "unitCode": "GQ"
+    },
+    "no2": {
+      "type": "Property",
+      "value": 5.12,
+      "unitCode": "GQ"
+    },
+    "so2": {
+      "type": "Property",
+      "value": 1.97,
+      "unitCode": "GQ"
+    },
+    "nh3": {
+      "type": "Property",
+      "value": 4.14,
+      "unitCode": "GQ"
+    },
+    "airQualityCategory": {
+      "type": "Property",
+      "value": "Fair"
+    },
+    "airQualityIndexValue": {
+      "type": "Property",
+      "value": 2
+    },
+    "dataProvider": {
+      "type": "Property",
+      "value": "OpenWeatherMap"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.593974232674,
+          10.7492355507977
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:46.336407Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20273",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Phan Đăng Lưu - Thích Quảng Đức"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 273"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=6623e8da6f998a001b2524a6&zoom=4&t=1764944113789"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:29.219530Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.684530973434,
+          10.8032933150268
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:WeatherObserved:TTH%20273-20251205152501",
+    "type": [
+      "WeatherObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20273"
+    },
+    "temperature": {
+      "type": "Property",
+      "value": 27.99,
+      "unitCode": "CEL"
+    },
+    "relativeHumidity": {
+      "type": "Property",
+      "value": 78,
+      "unitCode": "P1"
+    },
+    "windSpeed": {
+      "type": "Property",
+      "value": 2.57,
+      "unitCode": "MTS"
+    },
+    "precipitation": {
+      "type": "Property",
+      "value": 0.0,
+      "unitCode": "MMT"
+    },
+    "weatherType": {
+      "type": "Property",
+      "value": "scattered clouds"
+    },
+    "atmosphericPressure": {
+      "type": "Property",
+      "value": 1012,
+      "unitCode": "A97"
+    },
+    "cloudiness": {
+      "type": "Property",
+      "value": 40,
+      "unitCode": "P1"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.684530973434,
+          10.8032933150268
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:49.439012Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:AirQualityObserved:TTH%20273-20251205152501",
+    "type": [
+      "AirQualityObserved",
+      "sosa:Observation"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "refDevice": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:TTH%20273"
+    },
+    "pm25": {
+      "type": "Property",
+      "value": 26.03,
+      "unitCode": "GQ"
+    },
+    "pm10": {
+      "type": "Property",
+      "value": 42.92,
+      "unitCode": "GQ"
+    },
+    "co": {
+      "type": "Property",
+      "value": 467.74,
+      "unitCode": "GP"
+    },
+    "o3": {
+      "type": "Property",
+      "value": 60.24,
+      "unitCode": "GQ"
+    },
+    "no2": {
+      "type": "Property",
+      "value": 9.93,
+      "unitCode": "GQ"
+    },
+    "so2": {
+      "type": "Property",
+      "value": 3.67,
+      "unitCode": "GQ"
+    },
+    "nh3": {
+      "type": "Property",
+      "value": 6.25,
+      "unitCode": "GQ"
+    },
+    "airQualityCategory": {
+      "type": "Property",
+      "value": "Moderate"
+    },
+    "airQualityIndexValue": {
+      "type": "Property",
+      "value": 3
+    },
+    "dataProvider": {
+      "type": "Property",
+      "value": "OpenWeatherMap"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.684530973434,
+          10.8032933150268
+        ]
+      }
+    },
+    "dateObserved": {
+      "type": "Property",
+      "value": "2025-12-05T14:15:49.439012Z"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%2018.2",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Võ Văn Kiệt - An Dương Vương 2"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 18.2"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=56de42f611f398ec0c481299&zoom=4&t=1764944113795"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:31.284081Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.620351076126,
+          10.7265671915496
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20419",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Điện Biên Phủ - Nguyễn Gia Trí"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 419"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=66b1c426779f74001867415e&zoom=4&t=1764944113795"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:33.423659Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.715161800385,
+          10.8010801833774
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%2021.59",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Quốc lộ 1 - Rạch Láng Le 1"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 21.59"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "Fixed"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=595dc29c3dcfc400106f2894&zoom=4&t=1764944113795"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:35.504866Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.686397790909,
+          10.8610818827294
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20292",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Lũy Bán Bích - Thoại Ngọc Hầu"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 292"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "Fixed"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=6623f1046f998a001b2527db&zoom=4&t=1764944113796"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:37.606328Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.636122465134,
+          10.7821519725547
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%201.8",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Cao tốc LTDG - Võ Chí Công"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 1.8"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "Fixed"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=5d9de4de766c880017188cbb&zoom=4&t=1764944113797"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:39.674796Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.790762543678,
+          10.796827763223
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20299.1",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Võ Nguyên Giáp - Đỗ Xuân Hợp (1)"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 299.1"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=6623f44f6f998a001b2528aa&zoom=4&t=1764944113797"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:41.783077Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.765716075897,
+          10.8349709243101
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20308",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Kinh Dương Vương - Tên Lửa"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 308"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=662a881a1afb9c00172d2559&zoom=4&t=1764944113797"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:43.882532Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.61497592926,
+          10.7380517925754
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20423",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Mai Bá Hương - Kênh 4"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 423"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "Fixed"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=6818833d6dfb4b0018f8ee9d&zoom=4&t=1764944113797"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:46.030396Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.509790420532,
+          10.7736992353084
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  },
+  {
+    "id": "urn:ngsi-ld:Camera:TTH%20335",
+    "type": [
+      "Camera",
+      "sosa:Sensor"
+    ],
+    "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "cameraName": {
+      "type": "Property",
+      "value": "Nguyễn Chí Thanh - Thuận Kiều"
+    },
+    "cameraNum": {
+      "type": "Property",
+      "value": "TTH 335"
+    },
+    "cameraType": {
+      "type": "Property",
+      "value": "PTZ"
+    },
+    "cameraUsage": {
+      "type": "Property",
+      "value": "TTH"
+    },
+    "imageSnapshot": {
+      "type": "Property",
+      "value": "https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=662b4ecb1afb9c00172d8692&zoom=4&t=1764944113798"
+    },
+    "status": {
+      "type": "Property",
+      "value": "success"
+    },
+    "dateLastValueReported": {
+      "type": "Property",
+      "value": "2025-11-19T16:00:48.878410Z"
+    },
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.658009290695,
+          10.7576784340111
+        ]
+      }
+    },
+    "sosa:observes": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:ObservableProperty:TrafficFlow"
+    },
+    "sosa:isHostedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Platform:HCMCTrafficSystem"
+    }
+  }
+]

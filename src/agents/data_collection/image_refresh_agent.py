@@ -3,8 +3,8 @@
 """Image Refresh Agent - Data Collection with URL Timestamp Updates.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -65,6 +65,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
+
+# Fix Windows asyncio event loop issue (must be before aiohttp import)
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 import aiohttp
 import yaml
@@ -644,9 +648,7 @@ async def main(config: Dict = None):
     # If called from orchestrator with config dict
     if config:
         try:
-            _input_file = config.get(
-                "input_file", "data/cameras_raw.json"
-            )  # noqa: F841
+            # Note: input_file from config is currently unused but kept for future use
             output_file = config.get("output_file", "data/cameras_updated.json")
             config_path = config.get("config_path", "config/data_sources.yaml")
             domain = config.get("domain", "cameras")
@@ -698,4 +700,8 @@ async def main(config: Dict = None):
 
 
 if __name__ == "__main__":
+    import platform
+    # Fix Windows asyncio event loop issue with aiohttp
+    if platform.system() == 'Windows':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(main())

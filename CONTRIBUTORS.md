@@ -1,12 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 Nguyen Nhat Quang
-
+============================================================================
 UIP - Urban Intelligence Platform
-List of contributors who have helped build this project
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
+SPDX-License-Identifier: MIT
+============================================================================
+File: CONTRIBUTORS.md
+Module: Project Contributors List
 Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
-Repository: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Created: 2025-11-15
+Version: 1.0.0
+License: MIT
+
+Description:
+  List of all contributors who have helped build this project.
+============================================================================
 -->
 
 # Contributors
@@ -118,4 +127,4 @@ Submit a pull request! All contributors who have their PRs merged will be added 
 
 *Last updated: December 2025*
 
-Copyright (c) 2024-2025 UIP - Urban Intelligence Platform Contributors
+Copyright (c) 2025 UIP - Urban Intelligence Platform Contributors

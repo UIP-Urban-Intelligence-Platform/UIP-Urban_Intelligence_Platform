@@ -1,4 +1,14 @@
-# Docker Ignore File - Optimize Build Context
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: .dockerignore
+# Author: UIP Team
+# Version: 1.0.0
+#
+# Description: Docker Ignore File - Optimize Build Context
 # Reduces Docker build size and speeds up builds
 
 # Python cache and compiled files

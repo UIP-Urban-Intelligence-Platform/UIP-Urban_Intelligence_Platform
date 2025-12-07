@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/FAQ.md
+Module: Frequently Asked Questions
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Common questions and answers about UIP - Urban Intelligence Platform.
+============================================================================
+-->
 # ❓ Frequently Asked Questions
 
 Common questions and answers about UIP - Urban Intelligence Platform.
@@ -70,7 +89,7 @@ Yes, UIP - Urban Intelligence Platform is designed for production use. However, 
 winget install Docker.DockerDesktop
 
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Start services
@@ -84,7 +103,7 @@ docker-compose up -d
 curl -fsSL https://get.docker.com | sh
 
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Start services
@@ -455,7 +474,7 @@ docker system prune -a --volumes
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Installation]] - Setup instructions
 - [[Configuration]] - Configuration guide

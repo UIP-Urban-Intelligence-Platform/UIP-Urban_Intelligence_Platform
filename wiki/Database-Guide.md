@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Database-Guide.md
+Module: Database Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Complete documentation for all database systems.
+============================================================================
+-->
 # 💾 Database Guide
 
 Complete documentation for all database systems.
@@ -337,7 +356,7 @@ configs = db["configs"]
         "detection_zones": [...]
     },
     "metadata": {
-        "installed_date": ISODate("2024-01-15"),
+        "installed_date": ISODate("2025-11-29"),
         "vendor": "Hikvision"
     }
 }
@@ -348,7 +367,7 @@ configs = db["configs"]
     "type": "CONGESTION",
     "severity": "HIGH",
     "camera_id": ObjectId("..."),
-    "timestamp": ISODate("2024-01-15T10:30:00Z"),
+    "timestamp": ISODate("2025-11-29T10:30:00Z"),
     "data": {
         "vehicle_count": 150,
         "density": 85.5,
@@ -522,7 +541,7 @@ def sync_camera_to_neo4j(camera: dict):
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Docker-Services]] - Database containers
 - [[Configuration]] - Database configuration

@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/System-Architecture.md
+Module: System Architecture Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  High-level architecture of UIP - Urban Intelligence Platform.
+============================================================================
+-->
 # 🏗️ System Architecture
 
 This page describes the high-level architecture of UIP - Urban Intelligence Platform.
@@ -334,7 +353,7 @@ apps/traffic-web-app/frontend/src/
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Multi-Agent-System]] - Detailed agent documentation
 - [[Data-Flow]] - Complete data flow diagrams

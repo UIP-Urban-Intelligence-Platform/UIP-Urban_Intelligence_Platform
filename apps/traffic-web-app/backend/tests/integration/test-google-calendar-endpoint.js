@@ -1,13 +1,18 @@
-
 /**
-* @module test-google-calendar-endpoint
-* @author Nguyễn Nhật Quang 
-* @created 2025-11-26
-* @modified 2025-11-26
-* @version 2.0.0
-* @license MIT 
- * Test script for Google Calendar API integration
- * Verifies that the Google Calendar API is properly configured and working
+ * @file test-google-calendar-endpoint.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-google-calendar-endpoint
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 2.0.0
+ * @license MIT
+ * @description Test script for Google Calendar API integration - Verifies that the
+ * Google Calendar API is properly configured and working.
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 const axios = require('axios');

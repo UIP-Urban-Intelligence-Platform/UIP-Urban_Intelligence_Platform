@@ -3,8 +3,8 @@
 """Citizen Complete Workflow Integration Test.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -60,7 +60,7 @@ def send_citizen_report():
         "description": "Tai nạn giao thông - Test AI verification với YOLOX",
         "latitude": 10.7769,
         "longitude": 106.7009,
-        "imageUrl": r"D:\\olp\\Builder-Layer-End\\data\\cache\\images\\0a4a8e14ac85d9b23831aeca35c27576.jpg",
+        "imageUrl": r"data\\cache\\images\\0a4a8e14ac85d9b23831aeca35c27576.jpg",
     }
 
     print(f"📤 Sending POST to {CITIZEN_API}")

@@ -3,8 +3,8 @@
 """Test Citizen Ingestion API with Real Local Image Files.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -357,10 +357,8 @@ def main():
     print(f"\n📷 Sử dụng hình ảnh: {IMAGE_PATH}")
     print(f"   File size: {IMAGE_PATH.stat().st_size:,} bytes")
 
-    # Encode image
-    # Để đơn giản, tạo mock URL thay vì base64 (vì base64 quá dài)
-    image_url = f"file://{IMAGE_PATH.absolute().as_posix()}"
-    # Hoặc dùng URL giả
+    # Create image URL for the report
+    # Using mock HCMC traffic monitor URL (real image would be uploaded separately)
     image_url = f"https://traffic-monitor.hcmc.gov.vn/images/accident_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
 
     print(f"📎 Image URL: {image_url[:80]}...")

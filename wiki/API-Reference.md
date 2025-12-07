@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/API-Reference.md
+Module: API Reference Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Complete API documentation for UIP platform services.
+============================================================================
+-->
 # 🔌 API Reference
 
 Complete API documentation for UIP - Urban Intelligence Platform services.
@@ -74,7 +93,7 @@ GET /api/cameras
       "status": "active",
       "type": "traffic",
       "streamUrl": "rtsp://...",
-      "lastUpdate": "2024-01-15T10:30:00Z"
+      "lastUpdate": "2025-11-29T10:30:00Z"
     }
   ],
   "total": 50
@@ -131,7 +150,7 @@ GET /api/weather
     "conditions": "Partly Cloudy",
     "windSpeed": 12.3,
     "visibility": 10000,
-    "timestamp": "2024-01-15T10:30:00Z"
+    "timestamp": "2025-11-29T10:30:00Z"
   }
 }
 ```
@@ -181,7 +200,7 @@ GET /api/air-quality
       "co": 0.5
     },
     "recommendations": ["Safe for outdoor activities"],
-    "timestamp": "2024-01-15T10:30:00Z"
+    "timestamp": "2025-11-29T10:30:00Z"
   }
 }
 ```
@@ -221,7 +240,7 @@ GET /api/accidents
         "coordinates": [105.8342, 21.0278]
       },
       "description": "Two-vehicle collision",
-      "timestamp": "2024-01-15T08:15:00Z",
+      "timestamp": "2025-11-29T08:15:00Z",
       "status": "cleared",
       "vehiclesInvolved": 2,
       "injuries": 0,
@@ -287,8 +306,8 @@ GET /api/patterns
         "type": "congestion",
         "severity": 0.75,
         "location": {...},
-        "startTime": "2024-01-15T07:00:00Z",
-        "endTime": "2024-01-15T09:00:00Z",
+        "startTime": "2025-11-29T07:00:00Z",
+        "endTime": "2025-11-29T09:00:00Z",
         "description": "Morning rush hour congestion"
       }
     ],
@@ -382,8 +401,8 @@ GET /api/historical
   "success": true,
   "data": {
     "timeRange": {
-      "start": "2024-01-01T00:00:00Z",
-      "end": "2024-01-15T23:59:59Z"
+      "start": "2025-11-20T00:00:00Z",
+      "end": "2025-11-29T23:59:59Z"
     },
     "metrics": {
       "avgSpeed": [...],
@@ -507,7 +526,7 @@ GET /api/agents
       "id": "traffic-maestro",
       "name": "TrafficMaestroAgent",
       "status": "active",
-      "lastAction": "2024-01-15T10:30:00Z",
+      "lastAction": "2025-11-29T10:30:00Z",
       "metrics": {
         "tasksCompleted": 150,
         "avgResponseTime": 250
@@ -581,7 +600,7 @@ Content-Type: application/ld+json
   "type": "TrafficFlowObserved",
   "dateObserved": {
     "type": "Property",
-    "value": "2024-01-15T10:30:00Z"
+    "value": "2025-11-29T10:30:00Z"
   },
   "intensity": {
     "type": "Property",
@@ -750,7 +769,7 @@ JWT_SECRET=your-jwt-secret
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Installation]] - Setup instructions
 - [[Configuration]] - Configuration reference

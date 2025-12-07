@@ -1,3 +1,22 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Home.md
+Module: Wiki Home Page
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Main entry point for the UIP project wiki documentation.
+============================================================================
+-->
 # 🏠 UIP - Urban Intelligence Platform Wiki
 
 <p align="center">
@@ -9,7 +28,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/LICENSE">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
   </a>
   <img src="https://img.shields.io/badge/Python-3.9%2B-blue.svg" alt="Python 3.9+">
@@ -88,20 +107,32 @@
 
 | Resource | Link |
 |----------|------|
-| 📖 README | [README.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/README.md) |
-| 📋 CHANGELOG | [CHANGELOG.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/CHANGELOG.md) |
-| 🤝 Contributing | [CONTRIBUTING.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/.github/CONTRIBUTING.md) |
-| 🔒 Security | [SECURITY.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/.github/SECURITY.md) |
-| 💬 Support | [SUPPORT.md](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/.github/SUPPORT.md) |
+| 📖 README | [README.md](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/README.md) |
+| 📋 CHANGELOG | [CHANGELOG.md](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/CHANGELOG.md) |
+| 🤝 Contributing | [CONTRIBUTING.md](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/.github/CONTRIBUTING.md) |
+| 🔒 Security | [SECURITY.md](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/.github/SECURITY.md) |
+| 💬 Support | [SUPPORT.md](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/.github/SUPPORT.md) |
+
+---
+
+## 🔗 Related Pages
+
+- [[Quick-Start]] - Get running in 5 minutes
+- [[Installation]] - Detailed installation guide
+- [[System-Architecture]] - System overview
+- [[Technology-Stack]] - Technologies used
+- [[Configuration]] - Configuration options
+- [[API-Reference]] - API documentation
+- [[Contributing]] - How to contribute
 
 ---
 
 ## 📞 Community & Support
 
-- **GitHub Discussions**: [Ask questions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions)
-- **GitHub Issues**: [Report bugs](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
-- **Mailing List**: uip-urban-intelligence@googlegroups.com
-- **Discord**: [Join our server](https://discord.gg/uip-urban-intelligence)
+- **GitHub Discussions**: [Ask questions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions)
+- **GitHub Issues**: [Report bugs](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
+- **Mailing List**: [Google Groups](https://groups.google.com/g/uip---urban-intelligence-platform)
+- **Discord**: [Join our server](https://discord.com/invite/tbDJqsUu)
 
 ---
 

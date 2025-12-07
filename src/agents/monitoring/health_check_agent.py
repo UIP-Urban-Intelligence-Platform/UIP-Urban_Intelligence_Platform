@@ -3,8 +3,8 @@
 """Health Check Agent - Comprehensive Monitoring System.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -652,7 +652,8 @@ class PerformanceChecker:
         threshold = config.get("threshold", {})
 
         start_time = time.time()
-        response = requests.request(method, url, timeout=timeout)
+        # Execute request to measure response time (response object used implicitly for timing)
+        _ = requests.request(method, url, timeout=timeout)
         response_time = (time.time() - start_time) * 1000
 
         status = self._evaluate_timing_threshold(response_time, threshold)
@@ -1108,9 +1109,9 @@ class HealthCheckAgent:
         @self.app.route("/health/history", methods=["GET"])
         def get_health_history():
             """Get health status history."""
-            hours = request.args.get("hours", 24, type=int)
-            # TODO: Implement history retrieval
-            return jsonify({"data": []})
+            hours_param = request.args.get("hours", 24, type=int)
+            # TODO: Implement history retrieval with hours_param filter
+            return jsonify({"data": [], "hours_requested": hours_param})
 
         @self.app.route("/metrics", methods=["GET"])
         def get_metrics():

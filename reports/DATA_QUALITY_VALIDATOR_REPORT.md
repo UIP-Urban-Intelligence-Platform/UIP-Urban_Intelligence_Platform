@@ -1,6 +1,26 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/DATA_QUALITY_VALIDATOR_REPORT.md
+Module: Data Quality Validator Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Data Quality Validator Agent technical report.
+============================================================================
+-->
+
 # Data Quality Validator Agent - Technical Report
 
-**Date:** 2025-11-02  
+**Date:** 2025-11-21  
 **Author:** UIP  
 **Version:** 1.0.0  
 **Status:** Production-Ready ✅
@@ -268,11 +288,11 @@ cleaner = DataCleaner(config)
 cleaned_entity = cleaner.clean(entity)
 
 # Before:
-# "observedAt": "2025-11-01T10:00:00+07:00"
+# "observedAt": "2025-11-20T10:00:00+07:00"
 # "type": "  camera  "
 
 # After:
-# "observedAt": "2025-11-01T03:00:00.000Z"
+# "observedAt": "2025-11-20T03:00:00.000Z"
 # "type": "CAMERA"
 ```
 
@@ -447,7 +467,7 @@ data_quality_validator:
 {
   "entity_id": "urn:ngsi-ld:Camera:TTH406",
   "entity_type": "Camera",
-  "validation_timestamp": "2025-11-02T10:00:00.000Z",
+  "validation_timestamp": "2025-11-21T10:00:00.000Z",
   "quality_score": 0.850,
   "status": "PASS",
   
@@ -822,12 +842,12 @@ logging.getLogger('agents.monitoring.data_quality_validator_agent').setLevel(
 ### Log Output Examples
 
 ```
-2025-11-02 10:00:00 - INFO - Loaded configuration from config/data_quality_config.yaml
-2025-11-02 10:00:01 - INFO - Data Quality Validator Agent initialized
-2025-11-02 10:00:02 - INFO - Validating entity urn:ngsi-ld:Camera:TTH406 (type: Camera)
-2025-11-02 10:00:02 - INFO - Entity urn:ngsi-ld:Camera:TTH406: PASS (quality_score=0.850)
-2025-11-02 10:00:03 - WARNING - Entity urn:ngsi-ld:Camera:TTH407: WARNING (quality_score=0.650)
-2025-11-02 10:00:04 - ERROR - Entity urn:ngsi-ld:Camera:TTH408: REJECT (quality_score=0.300)
+2025-11-21 10:00:00 - INFO - Loaded configuration from config/data_quality_config.yaml
+2025-11-21 10:00:01 - INFO - Data Quality Validator Agent initialized
+2025-11-21 10:00:02 - INFO - Validating entity urn:ngsi-ld:Camera:TTH406 (type: Camera)
+2025-11-21 10:00:02 - INFO - Entity urn:ngsi-ld:Camera:TTH406: PASS (quality_score=0.850)
+2025-11-21 10:00:03 - WARNING - Entity urn:ngsi-ld:Camera:TTH407: WARNING (quality_score=0.650)
+2025-11-21 10:00:04 - ERROR - Entity urn:ngsi-ld:Camera:TTH408: REJECT (quality_score=0.300)
 ```
 
 ### Validation Reports
@@ -933,6 +953,6 @@ The system is ready for integration into the UIP pipeline as a pre-publication v
 
 ---
 
-**Report Generated:** 2025-11-02  
+**Report Generated:** 2025-11-21  
 **Tool Version:** 1.0.0  
 **Next Review:** After PROMPT 21 completion

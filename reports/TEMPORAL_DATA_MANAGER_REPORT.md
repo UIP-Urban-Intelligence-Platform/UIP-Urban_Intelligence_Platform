@@ -1,9 +1,29 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/TEMPORAL_DATA_MANAGER_REPORT.md
+Module: Temporal Data Manager Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Temporal Data Manager Agent implementation report.
+============================================================================
+-->
+
 # Temporal Data Manager Agent - Implementation Report
 
 **Agent**: Temporal Data Manager Agent  
 **Version**: 1.0.0  
 **Author**: UIP Development Team  
-**Date**: January 2025  
+**Date**: November 2025  
 **Status**: ✅ PRODUCTION READY
 
 ---
@@ -201,11 +221,11 @@ Monday 00:00:00 - Sunday 23:59:59 → Single aggregated value
 
 ```python
 {
-    'observedAt': '2025-11-01T10:00:00Z',  # Window start
+    'observedAt': '2025-11-20T10:00:00Z',  # Window start
     'intensity': 0.67,                     # Aggregated value
     'observation_count': 120,              # Number of observations
-    'window_start': '2025-11-01T10:00:00Z',
-    'window_end': '2025-11-01T10:59:59Z'
+    'window_start': '2025-11-20T10:00:00Z',
+    'window_end': '2025-11-20T10:59:59Z'
 }
 ```
 
@@ -227,7 +247,7 @@ archived:
 
 **Path Generation**:
 ```python
-# Input: urn:ngsi-ld:Camera:TTH406, date=2025-11-01
+# Input: urn:ngsi-ld:Camera:TTH406, date=2025-11-20
 # Output: /data/archive/Camera/TTH406/2025/11/01.json.gz
 
 entity_type = "Camera"    # Extracted from entity_id
@@ -286,19 +306,19 @@ archived:
     {
       "type": "Property",
       "value": 0.75,
-      "observedAt": "2025-11-01T10:00:00Z"
+      "observedAt": "2025-11-20T10:00:00Z"
     },
     {
       "type": "Property",
       "value": 0.82,
-      "observedAt": "2025-11-01T10:01:00Z"
+      "observedAt": "2025-11-20T10:01:00Z"
     }
   ],
   "occupancy": [
     {
       "type": "Property",
       "value": 0.65,
-      "observedAt": "2025-11-01T10:00:00Z"
+      "observedAt": "2025-11-20T10:00:00Z"
     }
   ]
 }
@@ -685,7 +705,7 @@ agent = TemporalDataManagerAgent('config/temporal_config.yaml')
 entity_id = 'urn:ngsi-ld:Camera:TTH406'
 observations = [
     {
-        'observedAt': '2025-11-01T10:00:00Z',
+        'observedAt': '2025-11-20T10:00:00Z',
         'intensity': 0.75,
         'occupancy': 0.65,
         'congested': False
@@ -986,6 +1006,6 @@ The **Temporal Data Manager Agent** provides production-ready temporal data life
 
 ---
 
-**Report Generated**: January 2025  
+**Report Generated**: November 2025  
 **Agent Version**: 1.0.0  
 **Implementation Status**: ✅ COMPLETE

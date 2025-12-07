@@ -1,3 +1,24 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: README.md
+Module: Project Main Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-15
+Version: 2.0.0
+License: MIT
+
+Description:
+  Main documentation and entry point for the UIP project.
+  Multi-Agent Linked Open Data Pipeline for Smart Traffic Management.
+============================================================================
+-->
+
 <p align="center">
   <img src="assets/images/logo.png" alt="UIP - Urban Intelligence Platform Logo" width="200" height="200">
 </p>
@@ -9,16 +30,16 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml">
-    <img src="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml/badge.svg" alt="Tests">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml">
+    <img src="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml/badge.svg" alt="Tests">
   </a>
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml">
-    <img src="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml/badge.svg" alt="Lint">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml">
+    <img src="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml/badge.svg" alt="Lint">
   </a>
-  <a href="https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform">
-    <img src="https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/branch/main/graph/badge.svg" alt="codecov">
+  <a href="https://codecov.io/gh/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform">
+    <img src="https://codecov.io/gh/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/branch/main/graph/badge.svg" alt="codecov">
   </a>
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/LICENSE">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
   </a>
 </p>
@@ -39,13 +60,13 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions">
     <img src="https://img.shields.io/badge/GitHub-Discussions-blue?logo=github" alt="Discussions">
   </a>
-  <a href="https://groups.google.com/g/uip-platform">
+  <a href="https://groups.google.com/g/uip---urban-intelligence-platform">
     <img src="https://img.shields.io/badge/Mailing%20List-Google%20Groups-red?logo=google" alt="Mailing List">
   </a>
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/wiki">
     <img src="https://img.shields.io/badge/Wiki-Documentation-green?logo=gitbook" alt="Wiki">
   </a>
 </p>
@@ -81,16 +102,16 @@ This project is developed and maintained by:
         <img src="https://github.com/JamesNguyen106.png" width="100px;" alt="Nguyễn Việt Hoàng"/><br />
         <sub><b>Nguyễn Việt Hoàng</b></sub>
       </a><br />
-      <sub>Full-Stack Developer</sub><br />
-      <sub>🎨 Frontend | 🔌 API | 📚 Docs</sub>
+      <sub>Backend Developer</sub><br />
+      <sub>🤖 Agents | 📊 Data | 🧪 Testing</sub>
     </td>
     <td align="center">
       <a href="https://github.com/NguyenDinhAnhTuan04">
         <img src="https://github.com/NguyenDinhAnhTuan04.png" width="100px;" alt="Nguyễn Đình Anh Tuấn"/><br />
         <sub><b>Nguyễn Đình Anh Tuấn</b></sub>
       </a><br />
-      <sub>Backend Developer</sub><br />
-      <sub>🤖 Agents | 📊 Data | 🧪 Testing</sub>
+      <sub>Full Stack Developer</sub><br />
+      <sub>🎨 Frontend | 🔌 API | 📚 Docs</sub>
     </td>
   </tr>
 </table>
@@ -149,17 +170,16 @@ This project is developed and maintained by:
 
 ## 📖 Overview
 
-**UIP - Urban Intelligence Platform** is a production-ready, multi-agent system for processing real-time traffic data in Ho Chi Minh City and publishing it as **Linked Open Data (LOD)**. The system integrates computer vision (YOLOX + DETR), semantic web technologies (RDF, NGSI-LD, SOSA/SSN), and modern microservices architecture.
+**UIP - Urban Intelligence Platform** is a production-ready multi-agent system designed to process real-time traffic data in Ho Chi Minh City and publish it as **Linked Open Data (LOD)**. The system integrates computer vision (YOLOX + DETR), semantic web technologies (RDF, NGSI-LD, SOSA/SSN), and a modern microservices architecture.
 
-### Why UIP?
+### Why Choose UIP?
 
-- 🚀 **Production-Ready**: Battle-tested with comprehensive error handling, retry logic, and graceful shutdown
-- 🔧 **Config-Driven**: 100% YAML-configurable — no code changes needed for new domains
-- 🌐 **Standards-Compliant**: Full support for ETSI NGSI-LD, W3C SOSA/SSN, and Smart Data Models
-- 📊 **Full Stack**: Python backend + React/TypeScript frontend + Docusaurus documentation
-- 🐳 **Cloud-Native**: Docker Compose orchestration with 12 integrated services
+- 🚀 **Production-Ready**: Battle-tested with comprehensive error handling, retry logic, and graceful shutdown mechanisms.
+- 🔧 **YAML-Configurable**: 100% configured via YAML — no code changes required for new domains.
+- 🌐 **Standards-Compliant**: Full support for ETSI NGSI-LD, W3C SOSA/SSN, and Smart Data Models.
+- 📊 **Full Stack Solution**: Python Backend + React/TypeScript Frontend + Docusaurus Documentation.
+- 🐳 **Cloud-Native**: Docker Compose orchestration with 12 integrated services.
 
----
 
 ## ✨ Features
 
@@ -205,18 +225,67 @@ This project is developed and maintained by:
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### ⚙️ System Requirements
+
+#### ⚠️ Minimum Requirements (Development Mode)
+| Component | Requirement | Note |
+|-----------|-------------|------|
+| **RAM** | 16 GB | 12 Docker services + AI models require significant memory |
+| **CPU** | 4 cores | Recommended: 6+ cores for better performance |
+| **Storage** | 20 GB free space | Docker images, databases, and AI models |
+| **OS** | Windows 10/11, Ubuntu 20.04+, macOS 11+ | Docker Desktop required for Windows/macOS |
+
+#### 🚀 Recommended Configuration (Production Mode)
+| Component | Requirement | Note |
+|-----------|-------------|------|
+| **RAM** | 32 GB | Optimal for concurrent AI processing |
+| **CPU** | 8+ cores | Intel i7/Ryzen 7 or equivalent |
+| **GPU** | NVIDIA GPU with 6GB+ VRAM | For YOLOX/DETR acceleration (optional but recommended) |
+| **Storage** | 50 GB SSD | Fast I/O for databases (Neo4j, PostgreSQL, MongoDB) |
+| **Network** | 100 Mbps+ | For camera feeds and external API calls |
+
+#### 🐳 Docker Resource Allocation
+
+**Windows/macOS Docker Desktop Settings:**
+```
+Resources → Advanced:
+- CPUs: Minimum 4, Recommended 6-8
+- Memory: Minimum 12 GB, Recommended 20-24 GB
+- Swap: 2 GB
+- Disk Image Size: 60 GB
+```
+
+**Linux Docker:**
+- No memory limits by default, but monitor with `docker stats`
+- Ensure sufficient swap space (8-16 GB recommended)
+
+#### ⚠️ Important Notes
+
+> **WARNING**: Running this system on machines with **< 16GB RAM** may cause:
+> - System freezes or crashes
+> - Out of Memory (OOM) errors
+> - Docker container failures
+> - Extremely slow performance
+
+**For Low-Spec Machines (8-12 GB RAM):**
+- Use `docker-compose` with selective services only
+- Disable AI services (YOLOX/DETR) if not needed
+- Run backend and frontend separately without full Docker stack
+- Consider cloud deployment (AWS, GCP, Azure) instead
+
+### Software Prerequisites
 
 - **Python** 3.9 or higher
 - **Node.js** 18 or higher
-- **Docker** & Docker Compose
+- **Docker** & Docker Compose (Docker Desktop 4.0+ for Windows/macOS)
 - **Git**
+- **NVIDIA Docker** (optional, for GPU support)
 
 ### Option 1: Docker Compose (Recommended)
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Copy environment configuration
@@ -245,7 +314,7 @@ docker-compose ps
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Create Python virtual environment
@@ -269,7 +338,7 @@ This project supports standard GNU Make targets for building and installing:
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # View all available targets
@@ -342,6 +411,9 @@ python orchestrator.py --dry-run
 ---
 
 ## 📁 Project Structure
+
+<details>
+<summary><strong>📂 Click to expand full project structure</strong></summary>
 
 ```
 UIP-Urban_Intelligence_Platform/
@@ -519,485 +591,166 @@ UIP-Urban_Intelligence_Platform/
 └── 📄 README.md                         # Project documentation
 ```
 
+</details>
+
 ---
 
 ## 🏗️ Architecture
 
-### System Overview
+### System Architecture Overview
 
 > **38 Python Agents** | **3 TypeScript AI Agents** | **12 Docker Services** | **7 Backend Services** | **12 API Routes**
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────┐
-│                              UIP - URBAN INTELLIGENCE PLATFORM                       │
-│                    Multi-Agent Linked Open Data Pipeline                            │
-├─────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                     │
-│   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐      │
-│   │   CLIENT    │────▶│   BACKEND   │────▶│ ORCHESTRATOR│────▶│   STORAGE   │      │
-│   │   LAYER     │     │   LAYER     │     │   LAYER     │     │   LAYER     │      │
-│   └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘      │
-│                                                                                     │
-│   React Frontend      Express.js API      38 Python Agents    6 Databases          │
-│   Port: 3000          Port: 3001          FastAPI: 8001       Kafka: 9092          │
-│                                                                                     │
-└─────────────────────────────────────────────────────────────────────────────────────┘
-```
+```mermaid
+flowchart TD
+    %% --- Định nghĩa các lớp (Layers) ---
+    subgraph ClientLayer ["🌐 CLIENT LAYER"]
+        Frontend["🖥️ React Frontend"]
+        ExtClients["📱 External Clients"]
+    end
 
-### Complete System Architecture
+    subgraph GatewayLayer ["🔀 API GATEWAY LAYER"]
+        APIGW["Express.js Backend & TS AI Agents"]
+    end
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                  🌐 CLIENT LAYER                                         │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│  ┌────────────────────────────────────┐    ┌────────────────────────────────────┐      │
-│  │     🖥️ React Frontend (Port 3000)   │    │     📱 External Clients             │      │
-│  │     Vite + TailwindCSS + Zustand   │    │     Mobile & Third-Party Apps      │      │
-│  │                                    │    │                                    │      │
-│  │  Pages:                            │    │  Protocols:                        │      │
-│  │  ├── Dashboard.tsx                 │    │  ├── REST API Consumers            │      │
-│  │  └── LandingPage.tsx               │    │  ├── WebSocket Clients             │      │
-│  │                                    │    │  └── SPARQL Clients                │      │
-│  │  Components (30+):                 │    │                                    │      │
-│  │  ├── TrafficMap                    │    │                                    │      │
-│  │  ├── AnalyticsDashboard            │    │                                    │      │
-│  │  ├── CitizenReportForm             │    │                                    │      │
-│  │  ├── RoutePlanner                  │    │                                    │      │
-│  │  ├── agents/ (3 components)        │    │                                    │      │
-│  │  └── landing/ (8 components)       │    │                                    │      │
-│  └─────────────────┬──────────────────┘    └─────────────────┬──────────────────┘      │
-│                    │ HTTP/WebSocket                          │                         │
-└────────────────────┼─────────────────────────────────────────┼─────────────────────────┘
-                     │                                         │
-                     ▼                                         ▼
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                          🔀 API GATEWAY LAYER (Port 3001)                                │
-│                          Express.js + TypeScript Backend                                │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│  ┌─────────────────────────────────────┐  ┌─────────────────────────────────────┐      │
-│  │     📡 Routes (12 endpoints)         │  │     ⚙️ Services (7 services)         │      │
-│  │                                     │  │                                     │      │
-│  │  /api/accidents    /api/agents      │  │  stellioService.ts                  │      │
-│  │  /api/airQuality   /api/analytics   │  │  neo4jService.ts                    │      │
-│  │  /api/cameras      /api/correlation │  │  fusekiService.ts                   │      │
-│  │  /api/geocoding    /api/historical  │  │  postgresService.ts                 │      │
-│  │  /api/multiAgent   /api/patterns    │  │  websocketService.ts                │      │
-│  │  /api/routing      /api/weather     │  │  dataAggregator.ts                  │      │
-│  │                                     │  │  genericNgsiService.ts              │      │
-│  └─────────────────────────────────────┘  └─────────────────────────────────────┘      │
-│                                                                                         │
-│  ┌──────────────────────────────────────────────────────────────────────────────┐      │
-│  │                      🤖 TypeScript AI Agents (3 agents)                       │      │
-│  │                                                                              │      │
-│  │  ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐       │      │
-│  │  │ TrafficMaestroAgent│ │GraphInvestigator   │ │ EcoTwinAgent       │       │      │
-│  │  │                    │ │Agent               │ │                    │       │      │
-│  │  │ Real-time traffic  │ │ Graph analysis &   │ │ Environmental      │       │      │
-│  │  │ orchestration      │ │ pattern discovery  │ │ impact modeling    │       │      │
-│  │  └────────────────────┘ └────────────────────┘ └────────────────────┘       │      │
-│  └──────────────────────────────────────────────────────────────────────────────┘      │
-│                                         │                                              │
-└─────────────────────────────────────────┼──────────────────────────────────────────────┘
-                                          │
-                                          ▼
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                          🐍 PYTHON ORCHESTRATOR LAYER                                    │
-│                          main.py + orchestrator.py                                      │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────────┐       │
-│  │                    📡 Citizen Ingestion API (Port 8001)                      │       │
-│  │                    FastAPI + Uvicorn + YOLOX + DETR                        │       │
-│  │                                                                             │       │
-│  │  Endpoints:                           Features:                             │       │
-│  │  POST /api/v1/citizen-reports         • Image upload with geolocation      │       │
-│  │  GET  /api/v1/citizen-reports         • CV verification (YOLOX/DETR)       │       │
-│  │  GET  /api/v1/citizen-reports/{id}    • Category classification            │       │
-│  │  GET  /docs (OpenAPI/Swagger)         • Real-time validation               │       │
-│  └─────────────────────────────────────────────────────────────────────────────┘       │
-│                                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────────┐       │
-│  │                    ⏱️ Scheduled Orchestrator (APScheduler)                   │       │
-│  │                    Interval: every 60 minutes (configurable)                │       │
-│  │                                                                             │       │
-│  │  Phase 1: Data Collection      ──▶  Gather from cameras, APIs, citizens    │       │
-│  │  Phase 2: Analytics & CV       ──▶  YOLOX/DETR detection, pattern analysis  │       │
-│  │  Phase 3: Transformation       ──▶  NGSI-LD mapping, SOSA/SSN enrichment   │       │
-│  │  Phase 4: Context Management   ──▶  Stellio publishing, state updates      │       │
-│  │  Phase 5: RDF & LOD Publishing ──▶  Triplestore, LOD Cloud linksets        │       │
-│  └─────────────────────────────────────────────────────────────────────────────┘       │
-│                                         │                                              │
-└─────────────────────────────────────────┼──────────────────────────────────────────────┘
-                                          │
-                                          ▼
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                          🤖 MULTI-AGENT SYSTEM (38 Python Agents)                        │
-│                          src/agents/ — 12 Categories                                    │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
-│  │ 📥 DATA COLLECTION   │ │ 📤 INGESTION         │ │ 🔬 ANALYTICS          │            │
-│  │ (2 agents)           │ │ (1 agent)            │ │ (4 agents)           │            │
-│  │                      │ │                      │ │                      │            │
-│  │ • image_refresh      │ │ • citizen_ingestion  │ │ • cv_analysis        │            │
-│  │ • external_data      │ │                      │ │ • congestion_detect  │            │
-│  │   _collector         │ │                      │ │ • accident_detect    │            │
-│  │                      │ │                      │ │ • pattern_recognition│            │
-│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
-│                                                                                         │
-│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
-│  │ 🔄 TRANSFORMATION    │ │ 📤 CONTEXT MGMT      │ │ 🔗 RDF & LINKED DATA │            │
-│  │ (2 agents)           │ │ (4 agents)           │ │ (5 agents)           │            │
-│  │                      │ │                      │ │                      │            │
-│  │ • ngsi_ld_           │ │ • entity_publisher   │ │ • ngsi_ld_to_rdf     │            │
-│  │   transformer        │ │ • state_updater      │ │ • triplestore_loader │            │
-│  │ • sosa_ssn_mapper    │ │ • temporal_data_mgr  │ │ • lod_linkset_enrich │            │
-│  │                      │ │ • stellio_state_query│ │ • content_negotiation│            │
-│  │                      │ │                      │ │ • smart_data_valid   │            │
-│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
-│                                                                                         │
-│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
-│  │ 💾 STATE MANAGEMENT  │ │ 📊 MONITORING        │ │ 🔔 NOTIFICATION      │            │
-│  │ (4 agents)           │ │ (3 agents)           │ │ (5 agents)           │            │
-│  │                      │ │                      │ │                      │            │
-│  │ • state_manager      │ │ • health_check       │ │ • alert_dispatcher   │            │
-│  │ • accident_state_mgr │ │ • data_quality_valid │ │ • incident_report_gen│            │
-│  │ • congestion_state   │ │ • performance_monitor│ │ • subscription_mgr   │            │
-│  │ • temporal_tracker   │ │                      │ │ • email_notification │            │
-│  │                      │ │                      │ │ • webhook_notification│           │
-│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
-│                                                                                         │
-│  ┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐            │
-│  │ 🗄️ GRAPH DATABASE    │ │ 💨 CACHE             │ │ 🔌 INTEGRATION       │            │
-│  │ (2 agents)           │ │ (2 agents)           │ │ (3 agents)           │            │
-│  │                      │ │                      │ │                      │            │
-│  │ • neo4j_query        │ │ • cache_manager      │ │ • api_gateway        │            │
-│  │ • neo4j_sync         │ │ • cache_invalidator  │ │ • cache_manager      │            │
-│  │                      │ │                      │ │ • neo4j_sync         │            │
-│  └──────────────────────┘ └──────────────────────┘ └──────────────────────┘            │
-│                                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────────┐       │
-│  │ 📨 KAFKA PUBLISHER (1 agent) — kafka_entity_publisher_agent.py              │       │
-│  │ Real-time entity streaming to Apache Kafka topics                           │       │
-│  └─────────────────────────────────────────────────────────────────────────────┘       │
-│                                         │                                              │
-└─────────────────────────────────────────┼──────────────────────────────────────────────┘
-                                            │
-┌───────────────────────────────────────────┼─────────────────────────────────────────────┐
-│                                           ▼                                             │
-│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                        📨 MESSAGE QUEUE LAYER                                     │  │
-│  ├────────────────────────────────────┬─────────────────────────────────────────────┤  │
-│  │                                    │                                              │  │
-│  │   ┌────────────────────────────────┴────────────────────────────────┐            │  │
-│  │   │                    Apache Kafka (Port 9092)                      │            │  │
-│  │   │                    KRaft Mode (No Zookeeper)                     │            │  │
-│  │   │                                                                  │            │  │
-│  │   │   Topics:                                                        │            │  │
-│  │   │   • cim.entity.TrafficObservation                               │            │  │
-│  │   │   • cim.entity.TrafficCamera                                    │            │  │
-│  │   │   • cim.entity.AccidentEvent                                    │            │  │
-│  │   │   • cim.entity.CongestionLevel                                  │            │  │
-│  │   │   • cim.entity.CitizenReport                                    │            │  │
-│  │   └──────────────────────────────────────────────────────────────────┘            │  │
-│  │                                                                                   │  │
-│  └──────────────────────────────────────────────────────────────────────────────────┘  │
-│                                           │                                             │
-└───────────────────────────────────────────┼─────────────────────────────────────────────┘
-                                            │
-┌───────────────────────────────────────────┼─────────────────────────────────────────────┐
-│                                           ▼                                             │
-│  ┌──────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                         🗄️ DATA STORAGE LAYER                                     │  │
-│  ├──────────────────────────────────────────────────────────────────────────────────┤  │
-│  │                                                                                   │  │
-│  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐                │  │
-│  │  │ 🌐 Stellio       │  │ 🔷 Neo4j         │  │ 🔺 Fuseki        │                │  │
-│  │  │ Context Broker   │  │ Graph Database   │  │ Triplestore      │                │  │
-│  │  │ (Port 8080)      │  │ (Port 7474/7687) │  │ (Port 3030)      │                │  │
-│  │  │                  │  │                  │  │                  │                │  │
-│  │  │ • NGSI-LD API    │  │ • Cypher Queries │  │ • SPARQL Queries │                │  │
-│  │  │ • Entity CRUD    │  │ • Graph Traversal│  │ • RDF Storage    │                │  │
-│  │  │ • Subscriptions  │  │ • Path Finding   │  │ • Turtle/N3/JSON │                │  │
-│  │  │ • Temporal API   │  │ • APOC Plugins   │  │ • Content Neg.   │                │  │
-│  │  │                  │  │                  │  │                  │                │  │
-│  │  │ Services:        │  │                  │  │ Datasets:        │                │  │
-│  │  │ • api-gateway    │  │                  │  │ • /traffic       │                │  │
-│  │  │ • search-service │  │                  │  │ • /observations  │                │  │
-│  │  │ • subscription   │  │                  │  │                  │                │  │
-│  │  └──────────────────┘  └──────────────────┘  └──────────────────┘                │  │
-│  │                                                                                   │  │
-│  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐                │  │
-│  │  │ 🐘 PostgreSQL    │  │ 🍃 MongoDB       │  │ 🔴 Redis         │                │  │
-│  │  │ + TimescaleDB    │  │ Document Store   │  │ Cache Layer      │                │  │
-│  │  │ (Port 5432)      │  │ (Port 27017)     │  │ (Port 6379)      │                │  │
-│  │  │                  │  │                  │  │                  │                │  │
-│  │  │ • Stellio Backend│  │ • NGSI-LD Docs   │  │ • Session Cache  │                │  │
-│  │  │ • Time-series    │  │ • Citizen Reports│  │ • Query Cache    │                │  │
-│  │  │ • PostGIS (Geo)  │  │ • Raw JSON Store │  │ • Rate Limiting  │                │  │
-│  │  │ • Hypertables    │  │                  │  │ • Pub/Sub        │                │  │
-│  │  └──────────────────┘  └──────────────────┘  └──────────────────┘                │  │
-│  │                                                                                   │  │
-│  └──────────────────────────────────────────────────────────────────────────────────┘  │
-│                                                                                         │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
+    subgraph PythonLayer ["🐍 PYTHON ORCHESTRATION & AGENTS"]
+        Orchestrator["📡 Ingestion API & Scheduler"]
+        MAS["🤖 Multi-Agent System"]
+    end
 
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              🌍 EXTERNAL INTEGRATIONS                                    │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐   │
-│  │ 📷 Traffic      │  │ 🌤️ Weather APIs  │  │ 🌐 LOD Cloud    │  │ 🤖 AI/ML        │   │
-│  │ Camera APIs     │  │                 │  │ Linksets        │  │ Services        │   │
-│  │                 │  │                 │  │                 │  │                 │   │
-│  │ • HCMC Camera   │  │ • OpenWeather   │  │ • GeoNames      │  │ • YOLOX         │   │
-│  │   Network       │  │ • OpenAQ        │  │ • DBpedia       │  │ • DETR (HF)     │   │
-│  │ • RTSP Streams  │  │ • AirVisual     │  │ • Wikidata      │  │ • Google Gemini │   │
-│  │                 │  │                 │  │ • Schema.org    │  │   (Optional)    │   │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  └─────────────────┘   │
-│                                                                                         │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
+    subgraph MQLayer ["📨 MESSAGE QUEUE LAYER"]
+        Kafka["Apache Kafka"]
+    end
+
+    subgraph StorageLayer ["🗄️ DATA STORAGE LAYER"]
+        Stellio["🌐 Stellio Context Broker"]
+        Databases["Neo4j, Fuseki, Postgres, Mongo, Redis"]
+    end
+
+    subgraph ExternalLayer ["🌍 EXTERNAL INTEGRATIONS"]
+        ExternalSources["Cameras, APIs, LOD Cloud, AI Models"]
+    end
+
+    %% --- Định nghĩa các luồng kết nối (Flows) ---
+    
+    %% Client kết nối đến Gateway
+    Frontend -->|HTTP/WebSocket| APIGW
+    ExtClients -->|REST/WS| APIGW
+
+    %% Gateway giao tiếp với lớp Python
+    APIGW -->|API Calls| Orchestrator
+
+    %% Nguồn bên ngoài nạp dữ liệu vào Orchestrator
+    ExternalSources -->|Data Ingestion| Orchestrator
+
+    %% Orchestrator điều phối hệ thống Multi-Agent
+    Orchestrator -->|Triggers/Coordinates| MAS
+
+    %% Multi-Agent System xử lý và đẩy dữ liệu vào Kafka
+    MAS -->|Publishes Processed Data| Kafka
+
+    %% Kafka phân phối dữ liệu xuống lớp lưu trữ
+    Kafka -->|Streams Data| StorageLayer
+
+    %% Các kết nối trực tiếp đến lưu trữ (đơn giản hóa)
+    APIGW -.->|Queries| StorageLayer
+    MAS -.->|Reads/Writes| StorageLayer
+
+    %% Styling (Tùy chọn màu sắc)
+    style ClientLayer fill:#f9f,stroke:#333,stroke-width:2px,color:#000
+    style GatewayLayer fill:#ccf,stroke:#333,stroke-width:2px,color:#000
+    style PythonLayer fill:#cfc,stroke:#333,stroke-width:2px,color:#000
+    style MQLayer fill:#fcf,stroke:#333,stroke-width:2px,color:#000
+    style StorageLayer fill:#ff9,stroke:#333,stroke-width:2px,color:#000
+    style ExternalLayer fill:#eee,stroke:#333,stroke-width:2px,color:#000
 ```
 
 ### Data Flow Pipeline
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              📊 DATA FLOW PIPELINE                                       │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    %% --- ĐỊNH NGHĨA STYLE (CSS) ---
+    %% Style node cơ bản: Bo góc, màu chữ đậm
+    classDef baseNode fill:#fff,stroke:#666,stroke-width:1px,rx:5,ry:5,color:#333;
+    
+    %% Style tiêu đề: Không viền, in đậm
+    classDef titleNode fill:none,stroke:none,font-size:14px,font-weight:bold,color:#000;
+    
+    %% Style màu sắc từng Phase
+    classDef p1 fill:#e3f2fd,stroke:#2196f3,stroke-width:2px;
+    classDef p2 fill:#fff3e0,stroke:#ff9800,stroke-width:2px;
+    classDef p3 fill:#e8f5e9,stroke:#4caf50,stroke-width:2px;
+    classDef p4 fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px;
+    classDef p5 fill:#ffebee,stroke:#ef5350,stroke-width:2px;
 
-Phase 1: DATA COLLECTION
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│ 📷 Traffic  │    │ 🌤️ Weather  │    │ 💨 Air      │    │ 👤 Citizen  │
-│ Cameras     │    │ APIs        │    │ Quality     │    │ Reports     │
-│ (722 feeds) │    │             │    │             │    │ (Mobile)    │
-└──────┬──────┘    └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
-       │                  │                  │                  │
-       └──────────────────┴──────────────────┴──────────────────┘
-                                   │
-                                   ▼
-Phase 2: ANALYTICS & COMPUTER VISION
-┌─────────────────────────────────────────────────────────────────┐
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │ 🚗 YOLOX    │  │ 🚦 Congestion│  │ 🚨 Accident │             │
-│  │ Detection   │  │ Analysis    │  │ Detection   │             │
-│  │ (DETR for   │  │             │  │ (DETR)      │             │
-│  │ accidents)  │  │ • Speed     │  │ • Collision │             │
-│  │ • Vehicles  │  │ • Density   │  │ • Severity  │             │
-│  │ • Counting  │  │ • Patterns  │  │ • Location  │             │
-│  │ • Types     │  │             │  │             │             │
-│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
-│         └────────────────┴────────────────┘                    │
-└─────────────────────────────┬───────────────────────────────────┘
-                              │
-                              ▼
-Phase 3: SEMANTIC TRANSFORMATION
-┌─────────────────────────────────────────────────────────────────┐
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │                 NGSI-LD Transformer                      │   │
-│  │                                                          │   │
-│  │   Raw Data → Smart Data Models → NGSI-LD Entities       │   │
-│  │                                                          │   │
-│  │   Entity Types:                                          │   │
-│  │   • TrafficObservation    • WeatherObserved             │   │
-│  │   • TrafficCamera         • AirQualityObserved          │   │
-│  │   • AccidentEvent         • CitizenReport               │   │
-│  │   • CongestionLevel       • TrafficPattern              │   │
-│  └─────────────────────────────────────────────────────────┘   │
-│                              │                                  │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │                  SOSA/SSN Enrichment                     │   │
-│  │                                                          │   │
-│  │   NGSI-LD Entities → W3C SOSA/SSN Ontology Mapping      │   │
-│  │                                                          │   │
-│  │   • sosa:Observation      • ssn:Sensor                  │   │
-│  │   • sosa:FeatureOfInterest• sosa:ObservableProperty     │   │
-│  │   • sosa:Result           • sosa:Procedure              │   │
-│  └─────────────────────────────────────────────────────────┘   │
-└─────────────────────────────┬───────────────────────────────────┘
-                              │
-                              ▼
-Phase 4: CONTEXT MANAGEMENT & PUBLISHING
-┌─────────────────────────────────────────────────────────────────┐
-│         ┌───────────────────┴───────────────────┐               │
-│         ▼                                       ▼               │
-│  ┌─────────────────┐                    ┌─────────────────┐    │
-│  │ Stellio Context │                    │ MongoDB Storage │    │
-│  │ Broker          │                    │                 │    │
-│  │                 │                    │ • Raw entities  │    │
-│  │ • Entity CRUD   │                    │ • Audit logs    │    │
-│  │ • Subscriptions │                    │ • Citizen data  │    │
-│  │ • Temporal API  │                    │                 │    │
-│  └────────┬────────┘                    └─────────────────┘    │
-│           │                                                     │
-│           ▼                                                     │
-│  ┌─────────────────┐                                           │
-│  │ Kafka Topics    │                                           │
-│  │                 │                                           │
-│  │ cim.entity.*   │ ◄─── Real-time event streaming            │
-│  └─────────────────┘                                           │
-└─────────────────────────────┬───────────────────────────────────┘
-                              │
-                              ▼
-Phase 5: RDF & LINKED OPEN DATA
-┌─────────────────────────────────────────────────────────────────┐
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │                   RDF Conversion                         │   │
-│  │                                                          │   │
-│  │   NGSI-LD → RDF Serializations:                         │   │
-│  │   • Turtle (.ttl)    • N-Triples (.nt)                  │   │
-│  │   • RDF/XML (.rdf)   • JSON-LD (.jsonld)                │   │
-│  └─────────────────────────────────────────────────────────┘   │
-│                              │                                  │
-│         ┌────────────────────┼────────────────────┐            │
-│         ▼                    ▼                    ▼            │
-│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐      │
-│  │ Fuseki      │     │ Neo4j       │     │ LOD Cloud   │      │
-│  │ Triplestore │     │ Graph DB    │     │ Linksets    │      │
-│  │             │     │             │     │             │      │
-│  │ • SPARQL    │     │ • Cypher    │     │ • GeoNames  │      │
-│  │ • RDF Store │     │ • Graph Viz │     │ • DBpedia   │      │
-│  │ • Reasoning │     │ • Analytics │     │ • Wikidata  │      │
-│  └─────────────┘     └─────────────┘     └─────────────┘      │
-└─────────────────────────────────────────────────────────────────┘
-```
+    %% --- PHASE 1 (CỘT 1) ---
+    subgraph Phase1 [ ]
+        direction TB
+        T1["📥 DATA COLLECTION"]:::titleNode
+        P1_Cam["📷 Cameras"]:::baseNode
+        P1_Wea["🌤️ Weather"]:::baseNode
+        P1_Cit["👤 Citizen"]:::baseNode
+        
+        %% Xếp thẳng hàng dọc bên trong
+        T1 ~~~ P1_Cam ~~~ P1_Wea ~~~ P1_Cit
+    end
 
-### Technology Stack Diagram
+    %% --- PHASE 2 (CỘT 2) ---
+    subgraph Phase2 [ ]
+        direction TB
+        T2["👁️ ANALYTICS & CV"]:::titleNode
+        P2_Yolo["🚗 YOLOX/DETR"]:::baseNode
+        P2_Cong["🚦 Congestion"]:::baseNode
+        P2_Acc["💥 Accident"]:::baseNode
+        
+        T2 ~~~ P2_Yolo ~~~ P2_Cong ~~~ P2_Acc
+    end
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              🛠️ TECHNOLOGY STACK                                         │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│  FRONTEND                    BACKEND                      INFRASTRUCTURE               │
-│  ─────────                   ────────                     ──────────────               │
-│  ┌─────────────┐            ┌─────────────┐              ┌─────────────┐               │
-│  │ React 18    │            │ Python 3.11 │              │ Docker      │               │
-│  │ TypeScript  │            │ FastAPI     │              │ Compose     │               │
-│  │ Vite        │            │ AsyncIO     │              │             │               │
-│  │ TailwindCSS │            │ APScheduler │              │ 10+ Services│               │
-│  │ Zustand     │            │             │              │             │               │
-│  │ React-Leaflet│           │ Express.js  │              │             │               │
-│  │ Recharts    │            │ TypeScript  │              │             │               │
-│  └─────────────┘            └─────────────┘              └─────────────┘               │
-│                                                                                         │
-│  DATABASES                   SEMANTIC WEB                 AI/ML                        │
-│  ─────────                   ────────────                 ─────                        │
-│  ┌─────────────┐            ┌─────────────┐              ┌─────────────┐               │
-│  │ PostgreSQL  │            │ Stellio     │              │ YOLOX       │               │
-│  │ TimescaleDB │            │ NGSI-LD     │              │ (Apache-2.0)│               │
-│  │ Neo4j 5.x   │            │             │              │             │               │
-│  │ MongoDB 7.0 │            │ Fuseki      │              │ DETR        │               │
-│  │ Redis 7     │            │ SPARQL/RDF  │              │ (HuggingFace)│              │
-│  │             │            │             │              │ OpenCV      │               │
-│  │             │            │ SOSA/SSN    │              │ PyTorch     │               │
-│  └─────────────┘            └─────────────┘              └─────────────┘               │
-│                                                                                         │
-│  MESSAGING                   DEVOPS                       STANDARDS                    │
-│  ─────────                   ──────                       ─────────                    │
-│  ┌─────────────┐            ┌─────────────┐              ┌─────────────┐               │
-│  │ Kafka       │            │ GitHub      │              │ NGSI-LD     │               │
-│  │ KRaft Mode  │            │ Actions     │              │ ETSI CIM    │               │
-│  │             │            │ (9 workflows)│             │             │               │
-│  │ WebSocket   │            │             │              │ SOSA/SSN    │               │
-│  │ Socket.IO   │            │ Prometheus  │              │ W3C         │               │
-│  │             │            │ Grafana     │              │             │               │
-│  │             │            │             │              │ Smart Data  │               │
-│  │             │            │ Codecov     │              │ Models      │               │
-│  └─────────────┘            └─────────────┘              └─────────────┘               │
-│                                                                                         │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
-```
+    %% --- PHASE 3 (CỘT 3) ---
+    subgraph Phase3 [ ]
+        direction TB
+        T3["🔄 TRANSFORMATION"]:::titleNode
+        P3_NGSI["📦 NGSI-LD"]:::baseNode
+        P3_SOSA["📚 SOSA/SSN"]:::baseNode
+        
+        T3 ~~~ P3_NGSI --> P3_SOSA
+    end
 
-### Docker Services Architecture
+    %% --- PHASE 4 (CỘT 4) ---
+    subgraph Phase4 [ ]
+        direction TB
+        T4["🌐 CONTEXT"]:::titleNode
+        P4_Stellio["💠 Stellio Broker"]:::baseNode
+        P4_Kafka[("🔥 Kafka")]:::baseNode
+        P4_Mongo[("🍃 Mongo")]:::baseNode
+        
+        T4 ~~~ P4_Stellio --> P4_Kafka ~~~ P4_Mongo
+    end
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                           🐳 DOCKER COMPOSE SERVICES (12 Containers)                     │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
-│  │                          STELLIO CONTEXT BROKER CLUSTER                          │   │
-│  │                                                                                  │   │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │   │
-│  │  │ stellio-api-    │  │ search-service  │  │ subscription-   │                  │   │
-│  │  │ gateway :8080   │  │ :8083           │  │ service         │                  │   │
-│  │  │                 │  │                 │  │                 │                  │   │
-│  │  │ NGSI-LD REST API│  │ Entity Search   │  │ Notifications   │                  │   │
-│  │  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘                  │   │
-│  │           └───────────────────┬┴───────────────────┘                            │   │
-│  │                               ▼                                                 │   │
-│  │           ┌─────────────────────────────────────────┐                          │   │
-│  │           │        postgres :5432                    │                          │   │
-│  │           │        TimescaleDB + PostGIS             │                          │   │
-│  │           └─────────────────────────────────────────┘                          │   │
-│  └─────────────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
-│  │                              DATA STORES & MESSAGING                             │   │
-│  │                                                                                  │   │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │   │
-│  │  │ neo4j 5.12.0    │  │ fuseki          │  │ mongodb 7.0     │                  │   │
-│  │  │ :7474 :7687     │  │ :3030           │  │ :27017          │                  │   │
-│  │  │                 │  │                 │  │                 │                  │   │
-│  │  │ Graph Database  │  │ RDF Triplestore │  │ Document Store  │                  │   │
-│  │  │ Cypher + APOC   │  │ SPARQL Endpoint │  │ NGSI-LD Docs    │                  │   │
-│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │   │
-│  │                                                                                  │   │
-│  │  ┌─────────────────┐  ┌─────────────────┐                                       │   │
-│  │  │ redis 7-alpine  │  │ kafka           │                                       │   │
-│  │  │ :6379           │  │ :9092           │                                       │   │
-│  │  │                 │  │                 │                                       │   │
-│  │  │ Cache + Pub/Sub │  │ KRaft Mode      │                                       │   │
-│  │  └─────────────────┘  └─────────────────┘                                       │   │
-│  └─────────────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
-│  │                              APPLICATION SERVICES                                │   │
-│  │                                                                                  │   │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │   │
-│  │  │ backend         │  │ frontend        │  │ cv-verification │                  │   │
-│  │  │ :3001           │  │ :3000           │  │ -service        │                  │   │
-│  │  │                 │  │                 │  │                 │                  │   │
-│  │  │ Express.js API  │  │ React + Vite    │  │ YOLOX/DETR API  │                  │   │
-│  │  │ TypeScript      │  │ TailwindCSS     │  │ FastAPI         │                  │   │
-│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │   │
-│  └─────────────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                         │
-│  Network: test-network (bridge mode)                                                   │
-│  Volumes: neo4j_data, fuseki_data, mongodb_data, postgres_data, redis_data, kafka_data │
-│                                                                                         │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
-```
+    %% --- PHASE 5 (CỘT 5) ---
+    subgraph Phase5 [ ]
+        direction TB
+        T5["🔗 LINKED DATA"]:::titleNode
+        P5_Conv["⚙️ RDF Convert"]:::baseNode
+        P5_Fuseki[("🔺 Fuseki")]:::baseNode
+        P5_Neo4j[("🔷 Neo4j")]:::baseNode
+        
+        T5 ~~~ P5_Conv --> P5_Fuseki ~~~ P5_Neo4j
+    end
 
-### Agent Categories Summary
+    %% --- MŨI TÊN KẾT NỐI GIỮA CÁC CỘT (HÀNG NGANG) ---
+    %% Kết nối từ giữa cột này sang giữa cột kia cho đẹp
+    P1_Wea ==> P2_Cong
+    P2_Cong ==> P3_NGSI
+    P3_SOSA ==> P4_Stellio
+    P4_Kafka ==> P5_Conv
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              📊 AGENT DISTRIBUTION (38 Total)                            │
-├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                         │
-│   Category             │ Count │ Location                                              │
-│   ─────────────────────┼───────┼───────────────────────────────────────────────────── │
-│   Data Collection      │   2   │ src/agents/data_collection/                          │
-│   Ingestion            │   1   │ src/agents/ingestion/                                │
-│   Analytics            │   4   │ src/agents/analytics/                                │
-│   Transformation       │   2   │ src/agents/transformation/                           │
-│   Context Management   │   4   │ src/agents/context_management/                       │
-│   RDF & Linked Data    │   5   │ src/agents/rdf_linked_data/                          │
-│   State Management     │   4   │ src/agents/state_management/                         │
-│   Monitoring           │   3   │ src/agents/monitoring/                               │
-│   Notification         │   5   │ src/agents/notification/                             │
-│   Graph Database       │   2   │ src/agents/graph_database/                           │
-│   Cache                │   2   │ src/agents/cache/                                    │
-│   Integration          │   3   │ src/agents/integration/                              │
-│   Kafka Publisher      │   1   │ src/agents/kafka_entity_publisher_agent.py           │
-│   ─────────────────────┼───────┼───────────────────────────────────────────────────── │
-│   TOTAL                │  38   │                                                       │
-│                                                                                         │
-└─────────────────────────────────────────────────────────────────────────────────────────┘
+    %% --- ÁP DỤNG MÀU ---
+    class Phase1 p1
+    class Phase2 p2
+    class Phase3 p3
+    class Phase4 p4
+    class Phase5 p5
 ```
 
 ---
@@ -1006,38 +759,480 @@ Phase 5: RDF & LINKED OPEN DATA
 
 ### Environment Variables
 
-Copy `.env.example` to `.env` and configure:
+The application uses environment variables for configuration management. Follow these steps to set up:
+
+#### 1. Initial Setup
 
 ```bash
-# Application Settings
-ENVIRONMENT=development          # development | staging | production
-LOG_LEVEL=INFO                   # DEBUG | INFO | WARNING | ERROR
+# Copy the example environment file
+cp .env.example .env
 
-# Orchestrator Configuration
-ORCHESTRATOR_INTERVAL=60         # Minutes between runs
-WORKFLOW_CONFIG=config/workflow.yaml
+# Edit the file with your preferred editor
+nano .env  # or vim, code, notepad++, etc.
+```
 
-# Data Stores
+#### 2. Required Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `ENVIRONMENT` | ✅ | `development` | Application environment: `development`, `staging`, `production` |
+| `LOG_LEVEL` | ✅ | `INFO` | Logging level: `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL` |
+
+#### 3. Application Settings
+
+<details>
+<summary><strong>🔧 Core Application Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# APPLICATION SETTINGS
+# ============================================================================
+
+# Environment mode (affects logging, debugging, and performance optimizations)
+ENVIRONMENT=development              # Options: development | staging | production
+
+# Logging configuration
+LOG_LEVEL=INFO                       # Options: DEBUG | INFO | WARNING | ERROR | CRITICAL
+LOG_FORMAT=json                      # Options: json | text
+LOG_FILE=logs/uip.log               # Path to log file (relative to project root)
+
+# Application metadata
+APP_NAME="UIP - Urban Intelligence Platform"
+APP_VERSION=2.0.0
+APP_HOST=0.0.0.0                    # Host to bind the application
+APP_PORT=8000                        # Port for the main application
+
+# Debug mode (disable in production)
+DEBUG=false                          # Options: true | false
+```
+
+</details>
+
+#### 4. Orchestrator Configuration
+
+<details>
+<summary><strong>⏱️ Workflow Orchestrator Settings</strong></summary>
+
+```bash
+# ============================================================================
+# ORCHESTRATOR CONFIGURATION
+# ============================================================================
+
+# Orchestration scheduling
+ORCHESTRATOR_INTERVAL=60             # Minutes between orchestration runs
+ORCHESTRATOR_AUTO_START=true         # Auto-start orchestrator on application launch
+ORCHESTRATOR_MAX_RETRIES=3           # Maximum retry attempts for failed agents
+
+# Workflow configuration file
+WORKFLOW_CONFIG=config/workflow.yaml # Path to workflow definition
+
+# Execution settings
+ORCHESTRATOR_PARALLEL_AGENTS=4       # Number of agents to run in parallel
+ORCHESTRATOR_TIMEOUT=3600            # Maximum execution time per phase (seconds)
+
+# Run immediately on startup
+RUN_ORCHESTRATOR_NOW=false           # Options: true | false
+```
+
+</details>
+
+#### 5. Database Connections
+
+<details>
+<summary><strong>🗄️ Data Storage & Databases</strong></summary>
+
+```bash
+# ============================================================================
+# DATA STORES
+# ============================================================================
+
+# Stellio Context Broker (NGSI-LD)
 STELLIO_URL=http://localhost:8080
+STELLIO_TENANT=urn:ngsi-ld:tenant:default
+STELLIO_CONTEXT=https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld
+STELLIO_TIMEOUT=30                   # Request timeout in seconds
+STELLIO_MAX_RETRIES=3               # Maximum retry attempts
+
+# Neo4j Graph Database
 NEO4J_URL=bolt://localhost:7687
 NEO4J_USER=neo4j
-NEO4J_PASSWORD=your_password
+NEO4J_PASSWORD=test12345            # ⚠️ CHANGE IN PRODUCTION
+NEO4J_DATABASE=neo4j                # Database name
+NEO4J_MAX_CONNECTION_LIFETIME=3600  # Connection lifetime in seconds
+NEO4J_MAX_CONNECTION_POOL_SIZE=50   # Maximum connection pool size
+NEO4J_CONNECTION_TIMEOUT=30         # Connection timeout in seconds
+
+# Apache Jena Fuseki (RDF Triplestore)
 FUSEKI_URL=http://localhost:3030
+FUSEKI_DATASET=traffic              # Primary dataset name
+FUSEKI_USER=admin
+FUSEKI_PASSWORD=test_admin          # ⚠️ CHANGE IN PRODUCTION
+FUSEKI_TIMEOUT=60                   # Query timeout in seconds
+
+# MongoDB (Document Store)
 MONGODB_URI=mongodb://localhost:27017
+MONGODB_DATABASE=uip_traffic        # Database name
+MONGODB_USER=                       # Leave empty for no authentication
+MONGODB_PASSWORD=                   # Leave empty for no authentication
+MONGODB_AUTH_SOURCE=admin           # Authentication database
+MONGODB_MAX_POOL_SIZE=10            # Maximum connection pool size
+MONGODB_MIN_POOL_SIZE=1             # Minimum connection pool size
+MONGODB_SERVER_SELECTION_TIMEOUT=5000  # Server selection timeout (ms)
 
-# Message Queue
-KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+# PostgreSQL + TimescaleDB (for Stellio backend)
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=stellio
+POSTGRES_USER=stellio
+POSTGRES_PASSWORD=stellio_password  # ⚠️ CHANGE IN PRODUCTION
+POSTGRES_SCHEMA=public
+POSTGRES_MAX_CONNECTIONS=20
 
-# Computer Vision (YOLOX + DETR)
-YOLOX_MODEL=assets/models/yolox_s.pth
-YOLOX_DEVICE=cpu                  # cpu | cuda
-YOLOX_CONFIDENCE=0.25
-# DETR accident model is auto-downloaded from HuggingFace
-
-# External APIs
-OPENWEATHERMAP_API_KEY=your_key
-GEONAMES_USERNAME=your_username
+# Redis (Cache & Session Store)
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=                     # Leave empty if no password
+REDIS_DB=0                          # Redis database number
+REDIS_MAX_CONNECTIONS=10
+REDIS_SOCKET_TIMEOUT=5              # Socket timeout in seconds
+REDIS_SOCKET_CONNECT_TIMEOUT=5      # Connection timeout in seconds
 ```
+
+</details>
+
+#### 6. Message Queue & Streaming
+
+<details>
+<summary><strong>📨 Apache Kafka Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# MESSAGE QUEUE (Apache Kafka)
+# ============================================================================
+
+# Kafka broker connection
+KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+KAFKA_CLIENT_ID=uip-producer
+KAFKA_GROUP_ID=uip-consumer-group
+
+# Producer settings
+KAFKA_PRODUCER_ACKS=all              # Options: 0 | 1 | all
+KAFKA_PRODUCER_RETRIES=3
+KAFKA_PRODUCER_MAX_IN_FLIGHT_REQUESTS=5
+KAFKA_PRODUCER_COMPRESSION_TYPE=snappy  # Options: none | gzip | snappy | lz4 | zstd
+
+# Consumer settings
+KAFKA_CONSUMER_AUTO_OFFSET_RESET=earliest  # Options: earliest | latest
+KAFKA_CONSUMER_ENABLE_AUTO_COMMIT=true
+KAFKA_CONSUMER_AUTO_COMMIT_INTERVAL_MS=5000
+KAFKA_CONSUMER_SESSION_TIMEOUT_MS=30000
+KAFKA_CONSUMER_MAX_POLL_RECORDS=500
+
+# Topic configuration
+KAFKA_TOPIC_PREFIX=cim.entity        # Prefix for all Kafka topics
+KAFKA_TOPIC_PARTITIONS=3             # Number of partitions per topic
+KAFKA_TOPIC_REPLICATION_FACTOR=1     # Replication factor (set to 3 in production)
+
+# Security (optional - for production)
+KAFKA_SECURITY_PROTOCOL=PLAINTEXT    # Options: PLAINTEXT | SSL | SASL_PLAINTEXT | SASL_SSL
+KAFKA_SASL_MECHANISM=                # Options: PLAIN | SCRAM-SHA-256 | SCRAM-SHA-512
+KAFKA_SASL_USERNAME=
+KAFKA_SASL_PASSWORD=
+```
+
+</details>
+
+#### 7. Computer Vision & AI Models
+
+<details>
+<summary><strong>🤖 YOLOX & DETR Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# COMPUTER VISION (YOLOX + DETR)
+# ============================================================================
+
+# YOLOX Object Detection (Apache-2.0 License)
+YOLOX_MODEL=assets/models/yolox_s.pth     # Model weights file
+YOLOX_MODEL_TYPE=yolox-s                  # Options: yolox-nano | yolox-tiny | yolox-s | yolox-m | yolox-l | yolox-x
+YOLOX_DEVICE=cpu                          # Options: cpu | cuda | cuda:0 | cuda:1 | mps
+YOLOX_CONFIDENCE=0.25                     # Confidence threshold (0.0 - 1.0)
+YOLOX_NMS_THRESHOLD=0.45                  # Non-Maximum Suppression threshold
+YOLOX_INPUT_SIZE=640                      # Input image size (pixels)
+YOLOX_FP16=false                          # Use FP16 half-precision (GPU only)
+YOLOX_BATCH_SIZE=1                        # Batch size for inference
+
+# DETR Accident Detection (via HuggingFace Transformers)
+DETR_MODEL=hilmantm/detr-traffic-accident-detection  # HuggingFace model ID
+DETR_DEVICE=cpu                           # Options: cpu | cuda
+DETR_CONFIDENCE=0.7                       # Confidence threshold for accident detection
+DETR_CACHE_DIR=assets/models/detr        # Model cache directory
+DETR_MAX_SIZE=800                         # Maximum image dimension
+
+# Model download settings
+MODEL_DOWNLOAD_TIMEOUT=300                # Timeout for model downloads (seconds)
+MODEL_CACHE_ENABLED=true                  # Cache downloaded models locally
+HF_HOME=assets/models/huggingface        # HuggingFace cache directory
+
+# GPU Memory Management (if using CUDA)
+CUDA_VISIBLE_DEVICES=0                    # GPU device ID(s), comma-separated
+CUDA_LAUNCH_BLOCKING=0                    # Set to 1 for debugging
+```
+
+</details>
+
+#### 8. External API Integrations
+
+<details>
+<summary><strong>🌍 Third-Party API Keys</strong></summary>
+
+```bash
+# ============================================================================
+# EXTERNAL APIs
+# ============================================================================
+
+# OpenWeatherMap API
+OPENWEATHERMAP_API_KEY=your_api_key_here              # Get from: https://openweathermap.org/api
+OPENWEATHERMAP_UNITS=metric                           # Options: metric | imperial | standard
+OPENWEATHERMAP_LANG=en                                # Language code
+
+# GeoNames API
+GEONAMES_USERNAME=your_username_here                  # Register at: http://www.geonames.org/login
+GEONAMES_MAX_ROWS=10                                  # Maximum results per query
+
+# OpenAQ Air Quality API
+OPENAQ_API_URL=https://api.openaq.org/v2
+OPENAQ_LIMIT=100                                      # Results per page
+OPENAQ_PAGE=1                                         # Page number
+
+# Google Maps API (Optional - for geocoding/routing)
+GOOGLE_MAPS_API_KEY=                                  # Optional: Enhanced geocoding
+GOOGLE_MAPS_LANGUAGE=en
+
+# GeoServer (Optional - for WMS/WFS services)
+GEOSERVER_URL=http://localhost:8080/geoserver
+GEOSERVER_WORKSPACE=traffic
+GEOSERVER_USER=admin
+GEOSERVER_PASSWORD=geoserver
+
+# LOD Cloud Integration
+DBPEDIA_SPARQL_ENDPOINT=https://dbpedia.org/sparql
+WIKIDATA_SPARQL_ENDPOINT=https://query.wikidata.org/sparql
+GEONAMES_RDF_ENDPOINT=http://sws.geonames.org
+```
+
+</details>
+
+#### 9. Security & Authentication
+
+<details>
+<summary><strong>🔐 Security Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# SECURITY & AUTHENTICATION
+# ============================================================================
+
+# API Security
+API_KEY_HEADER=X-API-Key
+API_KEYS=key1,key2,key3                              # Comma-separated API keys
+JWT_SECRET=your-super-secret-jwt-key-change-this     # ⚠️ CHANGE IN PRODUCTION
+JWT_ALGORITHM=HS256
+JWT_EXPIRATION=3600                                  # Token expiration (seconds)
+
+# CORS Configuration
+CORS_ORIGINS=http://localhost:3000,http://localhost:5173  # Allowed origins
+CORS_ALLOW_CREDENTIALS=true
+CORS_ALLOW_METHODS=GET,POST,PUT,DELETE,OPTIONS
+CORS_ALLOW_HEADERS=*
+
+# Rate Limiting
+RATE_LIMIT_ENABLED=true
+RATE_LIMIT_PER_MINUTE=60                             # Requests per minute per IP
+RATE_LIMIT_STORAGE=redis                             # Options: memory | redis
+
+# SSL/TLS (for production)
+SSL_ENABLED=false
+SSL_CERT_PATH=/path/to/cert.pem
+SSL_KEY_PATH=/path/to/key.pem
+```
+
+</details>
+
+#### 10. Monitoring & Observability
+
+<details>
+<summary><strong>📊 Monitoring Configuration</strong></summary>
+
+```bash
+# ============================================================================
+# MONITORING & OBSERVABILITY
+# ============================================================================
+
+# Prometheus Metrics
+PROMETHEUS_ENABLED=true
+PROMETHEUS_PORT=9090
+PROMETHEUS_PATH=/metrics
+
+# Health Check
+HEALTH_CHECK_ENABLED=true
+HEALTH_CHECK_INTERVAL=30                             # Seconds between checks
+HEALTH_CHECK_TIMEOUT=10                              # Timeout per check
+
+# Performance Monitoring
+PERFORMANCE_MONITORING=true
+SLOW_QUERY_THRESHOLD=1000                            # Log queries slower than N milliseconds
+
+# Sentry Error Tracking (Optional)
+SENTRY_DSN=                                          # Sentry project DSN
+SENTRY_ENVIRONMENT=development
+SENTRY_TRACES_SAMPLE_RATE=0.1                       # Sample 10% of transactions
+
+# Grafana Integration
+GRAFANA_URL=http://localhost:3001
+GRAFANA_API_KEY=
+```
+
+</details>
+
+#### 11. Development & Testing
+
+<details>
+<summary><strong>🧪 Development Settings</strong></summary>
+
+```bash
+# ============================================================================
+# DEVELOPMENT & TESTING
+# ============================================================================
+
+# Testing
+TEST_DATABASE_URL=mongodb://localhost:27017/uip_test
+TEST_NEO4J_URL=bolt://localhost:7687
+TEST_REDIS_DB=15                                     # Separate Redis DB for testing
+
+# Mock Services
+MOCK_EXTERNAL_APIS=false                             # Use mock responses for external APIs
+MOCK_CV_MODELS=false                                 # Use mock CV model responses
+
+# Code Quality
+ENABLE_PROFILING=false                               # Enable code profiling
+PROFILE_OUTPUT_DIR=profiles/
+
+# Hot Reload
+AUTO_RELOAD=true                                     # Auto-reload on code changes (dev only)
+RELOAD_DIRS=src,config                              # Directories to watch for changes
+```
+
+</details>
+
+#### 12. Production Deployment
+
+<details>
+<summary><strong>🚀 Production-Specific Settings</strong></summary>
+
+```bash
+# ============================================================================
+# PRODUCTION DEPLOYMENT
+# ============================================================================
+
+# High Availability
+HA_ENABLED=false
+HA_REDIS_SENTINEL=                                   # Redis Sentinel URLs
+HA_KAFKA_BROKERS=kafka1:9092,kafka2:9092,kafka3:9092
+
+# Resource Limits
+MAX_WORKERS=4                                        # Number of worker processes
+WORKER_CONNECTIONS=1000                              # Max connections per worker
+WORKER_TIMEOUT=30                                    # Worker timeout (seconds)
+
+# Database Connection Pooling
+DB_POOL_SIZE=20                                      # Connection pool size
+DB_MAX_OVERFLOW=10                                   # Maximum overflow connections
+
+# Caching
+CACHE_TTL=3600                                       # Cache TTL in seconds
+CACHE_PREFIX=uip:                                    # Cache key prefix
+
+# Backup & Recovery
+BACKUP_ENABLED=false
+BACKUP_SCHEDULE=0 2 * * *                           # Cron expression (2 AM daily)
+BACKUP_RETENTION_DAYS=30
+BACKUP_S3_BUCKET=                                    # S3 bucket for backups
+
+# Feature Flags
+FEATURE_CITIZEN_REPORTS=true
+FEATURE_PATTERN_RECOGNITION=true
+FEATURE_LOD_LINKSETS=true
+```
+
+</details>
+
+---
+
+### 🔍 Environment Variables Reference
+
+#### Quick Reference Table
+
+| Category | Variables | Documentation |
+|----------|-----------|---------------|
+| **Application** | `ENVIRONMENT`, `LOG_LEVEL`, `DEBUG` | [See Application Settings](#3-application-settings) |
+| **Orchestrator** | `ORCHESTRATOR_INTERVAL`, `WORKFLOW_CONFIG` | [See Orchestrator Config](#4-orchestrator-configuration) |
+| **Databases** | `STELLIO_URL`, `NEO4J_URL`, `FUSEKI_URL`, `MONGODB_URI` | [See Database Connections](#5-database-connections) |
+| **Kafka** | `KAFKA_BOOTSTRAP_SERVERS`, `KAFKA_TOPIC_PREFIX` | [See Message Queue](#6-message-queue--streaming) |
+| **AI Models** | `YOLOX_MODEL`, `DETR_MODEL`, `YOLOX_DEVICE` | [See CV Configuration](#7-computer-vision--ai-models) |
+| **External APIs** | `OPENWEATHERMAP_API_KEY`, `GEONAMES_USERNAME` | [See External APIs](#8-external-api-integrations) |
+| **Security** | `JWT_SECRET`, `API_KEYS`, `CORS_ORIGINS` | [See Security](#9-security--authentication) |
+
+---
+
+### ⚠️ Security Best Practices
+
+> **IMPORTANT**: Never commit `.env` files to version control!
+
+1. **Change Default Passwords**: All default passwords must be changed in production
+2. **Use Strong Secrets**: Generate cryptographically secure random strings for `JWT_SECRET`
+3. **Restrict CORS**: Only allow trusted origins in production
+4. **Enable SSL/TLS**: Always use HTTPS in production environments
+5. **Rotate Keys**: Regularly rotate API keys and credentials
+6. **Use Environment-Specific Configs**: Separate `.env.development`, `.env.staging`, `.env.production`
+
+#### Generate Secure Secrets
+
+```bash
+# Generate a secure JWT secret (Linux/macOS)
+openssl rand -base64 32
+
+# Generate a secure API key
+openssl rand -hex 32
+
+# Windows PowerShell
+[Convert]::ToBase64String([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+```
+
+---
+
+### 📝 Environment File Template
+
+Download the complete `.env.example` template:
+
+```bash
+# Download from repository
+curl -O https://raw.githubusercontent.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/main/.env.example
+
+# Or copy from the repository root
+cp .env.example .env
+```
+
+---
+
+### 🔗 Related Documentation
+
+- **Configuration Guide**: [docs/data-access/](docs/data-access/)
+- **Deployment Guide**: [docs/deployment/](docs/deployment/)
+- **Security Policy**: [.github/SECURITY.md](.github/SECURITY.md)
+- **Docker Configuration**: [docker-compose.yml](docker-compose.yml)
+
+---
 
 ### Workflow Configuration
 
@@ -1137,10 +1332,10 @@ Join our community to get help, share ideas, and connect with other users:
 
 | Channel | Description | Link |
 |---------|-------------|------|
-| 💬 **GitHub Discussions** | Q&A, ideas, and general discussion | [Join Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions) |
-| 📧 **Mailing List** | Announcements & release notifications | [Google Groups](https://groups.google.com/g/uip-platform) |
-| 📖 **Wiki** | Comprehensive documentation | [GitHub Wiki](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki) |
-| 🐛 **Issues** | Bug reports & feature requests | [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues) |
+| 💬 **GitHub Discussions** | Q&A, ideas, and general discussion | [Join Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions) |
+| 📧 **Mailing List** | Announcements & release notifications | [Google Groups](https://groups.google.com/g/uip---urban-intelligence-platform) |
+| 📖 **Wiki** | Comprehensive documentation | [GitHub Wiki](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/wiki) |
+| 🐛 **Issues** | Bug reports & feature requests | [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues) |
 
 ### Discussion Categories
 
@@ -1262,7 +1457,7 @@ The **MIT License** covers all code in this project. You are free to:
 ```
 MIT License
 
-Copyright (c) 2024-2025 UIP - Urban Intelligence Platform Contributors
+Copyright (c) 2025 UIP - Urban Intelligence Platform Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1305,19 +1500,22 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 | Channel | Description | Link |
 |---------|-------------|------|
-| 📧 **Mailing List** | Announcements & discussions | [uip-platform@googlegroups.com](https://groups.google.com/g/uip-platform) |
-| 💬 **Discord** | Real-time chat & support | [Join Discord](https://discord.gg/uip-platform) |
-| 💬 **Discussions** | Q&A & community | [GitHub Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions) |
+| 📧 **Mailing List** | Announcements & discussions | [Google Groups](https://groups.google.com/g/uip---urban-intelligence-platform) |
+| 💬 **Discord** | Real-time chat & support | [Join Discord](https://discord.com/invite/tbDJqsUu) |
+| 💬 **Discussions** | Q&A & community | [GitHub Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions) |
 
 ### Other Resources
 
 - 📖 **Documentation**: [docs/](docs/)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
 - 📧 **Email**: nguyennhatquang522004@gmail.com
 
 ---
 
 ## 🗺️ Roadmap
+
+<details>
+<summary><strong>📦 Legacy Roadmap</strong></summary>
 
 ### v1.0.0 (Legacy) ✅
 
@@ -1340,6 +1538,8 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 - [x] RDF triple store publishing
 - [x] Docker Compose deployment
 
+</details>
+
 ### v2.1.0 (Q1 2026)
 
 - [ ] Real-time streaming analytics
@@ -1347,7 +1547,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 - [ ] Mobile application
 - [ ] Public API with rate limiting
 
-### v2.0.0 (Q2 2026)
+### v2.2.0 (Q2 2026)
 
 - [ ] Federated learning
 - [ ] Edge computing support

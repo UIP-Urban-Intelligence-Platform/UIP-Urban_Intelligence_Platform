@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: guides/DATA_ACCESS_GUIDE.md
+Module: Data Access Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Data access guide for LOD Cloud and storage systems.
+============================================================================
+-->
+
 # 📊 Data Access Guide - LOD Cloud & Storage Systems
 
 > **Hướng dẫn chi tiết để khai thác 100% data từ LOD Cloud và các hệ thống lưu trữ**
@@ -912,7 +932,7 @@ docker exec -it test-stellio-api-gateway curl http://postgres:5432
 | `streamUrl` | String | URL stream video | `"rtsp://camera-server/stream1"` | - |
 | `status` | String | Trạng thái hoạt động | `"online"`, `"offline"`, `"maintenance"` | - |
 | `resolution` | String | Độ phân giải video | `"1920x1080"`, `"1280x720"` | pixels |
-| `installedAt` | DateTime | Ngày lắp đặt | `"2023-01-15T00:00:00Z"` | ISO 8601 |
+| `installedAt` | DateTime | Ngày lắp đặt | `"2025-11-20T00:00:00Z"` | ISO 8601 |
 | `dateModified` | DateTime | Lần cập nhật cuối | `"2025-11-10T12:30:00Z"` | ISO 8601 |
 
 **Camera Types:**
@@ -5400,7 +5420,7 @@ For issues or questions about this data access guide, please refer to project do
 ---
 
 **Document Version**: 1.0  
-**Last Updated**: November 10, 2025  
+**Last Updated**: November 25, 2025  
 **Data Snapshot**: 200 NGSI-LD entities, 22,733 RDF triples, 202 graph nodes
 
 

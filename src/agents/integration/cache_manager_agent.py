@@ -3,8 +3,8 @@
 """Cache Manager Agent - Redis-Based Caching Layer.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -1394,7 +1394,8 @@ if __name__ == "__main__":
             # Keep running
             await asyncio.Event().wait()
         except KeyboardInterrupt:
-            pass
+            # Graceful shutdown on Ctrl+C
+            logging.info("Received shutdown signal")
         finally:
             await manager.stop()
 

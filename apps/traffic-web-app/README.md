@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/README.md
+Module: Traffic Web Application
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Traffic web application README.
+============================================================================
+-->
+
 # Traffic Web Application
 
 **Integrated from**: Layer-Business  
@@ -18,7 +38,7 @@ Full-stack traffic monitoring web application với real-time data visualization
 ├─────────────────────────────────────────────────────┤
 │                                                      │
 │  Frontend (React + TypeScript)                      │
-│  ├── Dashboard with Leaflet Map                     │
+│  ├── Dashboard with MapLibre GL Map                 │
 │  ├── Real-time WebSocket Updates                    │
 │  ├── Analytics Dashboard (Recharts)                 │
 │  ├── 3 AI Agent Chat Interfaces                     │
@@ -183,7 +203,7 @@ npm run start:frontend # Frontend preview
 
 ### Dashboard Components
 
-1. **TrafficMap** - Interactive Leaflet map với 8 overlays:
+1. **TrafficMap** - Interactive MapLibre GL map với 8 overlays:
    - Camera markers
    - Pollutant circles (AQI visualization)
    - Humidity/Visibility layer
@@ -311,7 +331,7 @@ apps/traffic-web-app/
 │   │   │   ├── Dashboard.tsx      # Main dashboard
 │   │   │   └── LandingPage.tsx    # Landing page
 │   │   ├── components/
-│   │   │   ├── TrafficMap.tsx     # Leaflet map
+│   │   │   ├── TrafficMap.tsx     # MapLibre GL map
 │   │   │   ├── AnalyticsDashboard.tsx
 │   │   │   ├── Sidebar.tsx
 │   │   │   └── agents/            # AI agent UIs

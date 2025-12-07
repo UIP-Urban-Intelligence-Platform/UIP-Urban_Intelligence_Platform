@@ -1,19 +1,18 @@
 /**
- * Module: tests.integration.test-agents-realistic
- * Author: Nguyễn Nhật Quang
- * Created: 2025-11-26
- * Version: 1.0.0
- * License: MIT
- * Description:
- * This test suite runs agents with realistic mock data to demonstrate actual use cases
- * Usage: node test-agents-realistic.js
- * Purpose:
- * To validate agent behavior with realistic mock data, simulating actual use cases
- * Dependencies:
- * - TrafficMaestroAgent
- * - EcoTwinAgent
- * Realistic Agent Test Suite
- * Tests agents with realistic mock data to demonstrate actual use cases
+ * @file test-agents-realistic.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-agents-realistic
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 1.0.0
+ * @license MIT
+ * @description Realistic Agent Test Suite - Tests agents with realistic mock data
+ * to demonstrate actual use cases and validate agent behavior.
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 // Load environment variables first

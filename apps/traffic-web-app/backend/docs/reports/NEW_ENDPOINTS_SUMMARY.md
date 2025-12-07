@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/backend/docs/reports/NEW_ENDPOINTS_SUMMARY.md
+Module: New Endpoints Summary Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  New endpoints implementation summary.
+============================================================================
+-->
+
 # New Endpoints Implementation Summary
 
 ## Overview
@@ -97,7 +117,7 @@ websocket:
 // 1. Store initial state
 camerasCache.set(cameraId, {
   data: camera,
-  dateModified: "2024-01-15T10:00:00Z"
+  dateModified: "2025-11-29T10:00:00Z"
 });
 
 // 2. Poll Stellio after 30 seconds
@@ -661,6 +681,6 @@ For questions or issues:
 3. Check server logs for errors
 4. Verify Stellio connectivity
 
-**Implementation Date:** 2024-01-15  
+**Implementation Date:** 2025-11-20  
 **Status:** ✅ **PRODUCTION READY**  
 **Version:** 1.0.0

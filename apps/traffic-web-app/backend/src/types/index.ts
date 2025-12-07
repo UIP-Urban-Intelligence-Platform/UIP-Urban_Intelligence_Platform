@@ -1,4 +1,12 @@
 /**
+ * TypeScript Type Definitions - Traffic Monitoring System
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/types/index
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
@@ -40,7 +48,7 @@
  *   location: { lat: 10.762622, lng: 106.660172 },
  *   status: 'online',
  *   cameraType: 'PTZ',
- *   dateModified: '2024-11-27T10:00:00Z'
+ *   dateModified: '2025-11-27T10:00:00Z'
  * };
  * 
  * const params: CameraQueryParams = {
@@ -63,6 +71,7 @@ export interface Camera {
   };
   status: 'online' | 'offline';
   streamUrl?: string;
+  imageSnapshot?: string;
   lastUpdate?: string;
   dateModified: string;
   district?: string;

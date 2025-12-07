@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-Code Style Guide
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: wiki/Code-Style.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Code-Style.md
+Module: Code Style Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
+License: MIT
+
+Description:
+  Coding standards and style guidelines for the project.
+============================================================================
 -->
 
 # 📝 Code Style
@@ -20,10 +28,12 @@ Comprehensive code style guide for UIP - Urban Intelligence Platform contributor
 
 UIP - Urban Intelligence Platform follows industry-standard code style conventions:
 
-- **Python**: PEP 8 + Black + isort + Ruff
+- **Python**: PEP 8 + Black + Ruff (linting & import sorting)
 - **TypeScript**: ESLint + Prettier + TypeScript strict mode
 - **Documentation**: Google-style docstrings
 - **Commits**: Conventional Commits
+
+> **Note (2025-12):** Migrated from isort/flake8/pylint to Ruff for 10-100x faster linting.
 
 ---
 
@@ -49,15 +59,17 @@ exclude = '''
 '''
 ```
 
-### Import Sorting: isort
+### Import Sorting: Ruff
 
-Imports are sorted with [isort](https://pycqa.github.io/isort/):
+Imports are sorted with [Ruff](https://docs.astral.sh/ruff/) (replaces isort):
 
 ```toml
-# pyproject.toml
-[tool.isort]
+# ruff.toml
+[lint]
+select = ["I"]  # Enable isort rules
+
+[lint.isort]
 profile = "black"
-line_length = 88
 known_first_party = ["src", "tests"]
 sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
 skip = [".git", ".venv", "build", "dist"]
@@ -352,7 +364,7 @@ All source files must include SPDX license headers:
 
 ```python
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2024-2025 UIP Team
+# Copyright (c) 2025 UIP Team. All rights reserved.
 """Module description.
 
 This module provides functionality for...
@@ -363,7 +375,7 @@ This module provides functionality for...
 
 ```typescript
 // SPDX-License-Identifier: MIT
-// Copyright (c) 2024-2025 UIP Team
+// Copyright (c) 2025 UIP Team. All rights reserved.
 
 /**
  * @fileoverview Module description.
@@ -375,7 +387,7 @@ This module provides functionality for...
 
 ```yaml
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2024-2025 UIP Team
+# Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # Configuration description
 ```
@@ -385,7 +397,7 @@ This module provides functionality for...
 ```markdown
 <!--
 SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
+Copyright (c) 2025 UIP Team. All rights reserved.
 -->
 ```
 
@@ -545,16 +557,12 @@ repos:
       - id: black
         language_version: python3.11
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.14
     hooks:
       - id: ruff
         args: [--fix]
+      - id: ruff-format
 
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8

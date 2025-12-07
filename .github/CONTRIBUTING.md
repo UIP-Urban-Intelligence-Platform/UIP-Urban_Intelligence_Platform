@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 Nguyen Nhat Quang
-
+============================================================================
 UIP - Urban Intelligence Platform
-Contribution Guidelines
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: .github/CONTRIBUTING.md
+SPDX-License-Identifier: MIT
+============================================================================
+File: .github/CONTRIBUTING.md
+Module: Contribution Guidelines
 Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-15
 Version: 1.0.0
+License: MIT
+
+Description:
+  Guidelines and instructions for contributing to the UIP project.
+============================================================================
 -->
 
 # Contributing to UIP - Urban Intelligence Platform
@@ -49,7 +57,7 @@ This project adheres to a code of conduct that all contributors are expected to 
    ```
 3. **Add upstream remote**:
    ```bash
-   git remote add upstream https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+   git remote add upstream https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
    ```
 
 ## Development Setup
@@ -121,8 +129,8 @@ This project adheres to a code of conduct that all contributors are expected to 
    
    # Check code quality
    black src/ tests/
-   isort src/ tests/
-   flake8 src/ tests/
+   ruff check src/ tests/  # Linting + import sorting (MIT licensed)
+   ruff format --check src/ tests/
    mypy src/
    ```
 
@@ -146,16 +154,16 @@ This project adheres to a code of conduct that all contributors are expected to 
 We follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) with these tools:
 
 - **Black**: Code formatting (line length: 100)
-- **isort**: Import sorting
-- **flake8**: Linting
+- **Ruff**: Linting + import sorting (MIT licensed, 10-100x faster)
 - **mypy**: Type checking
-- **pylint**: Additional code quality checks
+
+> **Note (2025-12):** Migrated from flake8/isort/pylint to Ruff for faster linting and 100% MIT compatibility.
 
 ### Code Quality Checklist
 
 - [ ] Code is formatted with Black
-- [ ] Imports are sorted with isort
-- [ ] No linting errors from flake8
+- [ ] No linting errors from Ruff (`ruff check`)
+- [ ] Imports are sorted (`ruff check --select I`)
 - [ ] Type hints added (and checked with mypy)
 - [ ] Docstrings added for public functions/classes
 - [ ] Comments explain "why", not "what"
@@ -394,8 +402,8 @@ Use the [Feature Request template](.github/ISSUE_TEMPLATE/feature_request.yml) t
 ## Getting Help
 
 - **Documentation**: Check the [docs/](docs/) folder
-- **Discussions**: Use [GitHub Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions)
-- **Issues**: Search [existing issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+- **Discussions**: Use [GitHub Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions)
+- **Issues**: Search [existing issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
 - **Chat**: Join our Slack/Discord (if available)
 
 ## License

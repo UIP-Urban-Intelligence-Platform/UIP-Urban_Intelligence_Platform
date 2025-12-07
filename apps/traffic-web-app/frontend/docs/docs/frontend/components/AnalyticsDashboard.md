@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/frontend/components/AnalyticsDashboard.md
+Module: Traffic Web App - AnalyticsDashboard Component Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  AnalyticsDashboard component documentation for data visualization.
+============================================================================
+-->
+
 # AnalyticsDashboard Component
 
 ## Overview
@@ -140,8 +160,8 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
 
 ```tsx
 const [dateRange, setDateRange] = useState<DateRange>({
-  start: new Date('2024-01-01'),
-  end: new Date('2024-01-31')
+  start: new Date('2025-11-20'),
+  end: new Date('2025-12-05')
 });
 
 <DateRangePicker value={dateRange} onChange={setDateRange} />
@@ -199,4 +219,4 @@ const handleExport = (format: 'csv' | 'pdf') => {
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)

@@ -3,8 +3,8 @@
 """Update Python File Headers to Open Source Standard.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -105,7 +105,7 @@ def create_standard_header(file_path: Path, info: dict) -> str:
 """
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 

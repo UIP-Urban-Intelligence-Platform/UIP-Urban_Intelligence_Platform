@@ -1,4 +1,16 @@
-# UIP Blog Tags
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/frontend/docs/blog/tags.yml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
+# Version: 1.0.0
+# License: MIT
+#
+# Description: Blog Tags Configuration for Docusaurus
 # Organized by category for better navigation
 
 # Core Project Tags
@@ -80,10 +92,10 @@ typescript:
   permalink: /typescript
   description: TypeScript programming
 
-leaflet:
-  label: Leaflet
-  permalink: /leaflet
-  description: Leaflet.js maps and geospatial
+maplibre:
+  label: MapLibre
+  permalink: /maplibre
+  description: MapLibre GL JS vector tile maps
 
 # Backend Tags
 backend:

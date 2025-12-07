@@ -1,6 +1,12 @@
 /**
  * Apache Jena Fuseki Service - SPARQL Triplestore & Linked Open Data Client
- * 
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/services/fusekiService
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
@@ -263,8 +269,196 @@ export class FusekiService {
 
     } catch (error) {
       logger.error('Error querying historical AQI from Fuseki:', error);
-      throw new Error('Failed to query historical AQI data from Fuseki');
+      // Return empty array instead of throwing error when Fuseki is unavailable
+      logger.warn('Returning empty AQI data due to Fuseki error');
+      return [];
     }
+  }
+
+  /**
+   * Query historical Weather data from Fuseki using SPARQL
+   * Returns time-series data for weather metrics (temperature, humidity, etc.)
+   * 
+   * @param days - Number of days to query (default: 7)
+   * @param cameraId - Optional camera ID filter
+   * @param groupBy - Optional aggregation: 'hour' or 'day'
+   */
+  async queryHistoricalWeather(days: number = 7, cameraId?: string, groupBy?: string): Promise<any> {
+    const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+    const startDateISO = startDate.toISOString();
+
+    logger.debug(`Querying historical weather from Fuseki: days=${days}, cameraId=${cameraId || 'all'}, groupBy=${groupBy || 'none'}`);
+
+    // Build SPARQL query for historical weather data
+    const cameraFilter = cameraId
+      ? `FILTER(?camera = <${cameraId}>)`
+      : '';
+
+    const sparqlQuery = `
+      PREFIX traffic: <https://hcmc-traffic.vn/ontology/>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+      SELECT ?camera ?timestamp ?temperature ?humidity ?pressure ?windSpeed ?precipitation ?condition
+      WHERE {
+        GRAPH ?g {
+          ?observation a traffic:WeatherObservation ;
+                       sosa:madeBySensor ?camera ;
+                       sosa:resultTime ?timestamp ;
+                       traffic:temperature ?temperature ;
+                       traffic:humidity ?humidity .
+          OPTIONAL { ?observation traffic:pressure ?pressure }
+          OPTIONAL { ?observation traffic:windSpeed ?windSpeed }
+          OPTIONAL { ?observation traffic:precipitation ?precipitation }
+          OPTIONAL { ?observation traffic:condition ?condition }
+          ${cameraFilter}
+          FILTER(?timestamp >= "${startDateISO}"^^xsd:dateTime)
+        }
+      }
+      ORDER BY ?camera ?timestamp
+    `;
+
+    try {
+      const stream = await this.client.query.select(sparqlQuery);
+      const results: any[] = [];
+
+      for await (const row of stream) {
+        results.push({
+          camera: row.camera?.value || '',
+          timestamp: row.timestamp?.value || '',
+          temperature: row.temperature ? parseFloat(row.temperature.value) : null,
+          humidity: row.humidity ? parseFloat(row.humidity.value) : null,
+          pressure: row.pressure ? parseFloat(row.pressure.value) : null,
+          windSpeed: row.windSpeed ? parseFloat(row.windSpeed.value) : null,
+          precipitation: row.precipitation ? parseFloat(row.precipitation.value) : null,
+          condition: row.condition?.value || null
+        });
+      }
+
+      logger.debug(`Queried ${results.length} historical weather records from Fuseki`);
+
+      // Transform to time-series format
+      if (groupBy) {
+        return this.transformWeatherToTimeSeriesWithGrouping(results, groupBy);
+      } else {
+        return this.transformWeatherToTimeSeries(results);
+      }
+
+    } catch (error) {
+      logger.error('Error querying historical weather from Fuseki:', error);
+      // Return empty array instead of throwing error when Fuseki is unavailable
+      logger.warn('Returning empty weather data due to Fuseki error');
+      return [];
+    }
+  }
+
+  /**
+   * Transform weather SPARQL results to time-series format without grouping
+   */
+  private transformWeatherToTimeSeries(data: any[]): any {
+    const cameraMap = new Map<string, any>();
+
+    data.forEach(record => {
+      const cameraId = record.camera;
+
+      if (!cameraMap.has(cameraId)) {
+        cameraMap.set(cameraId, {
+          cameraId,
+          timestamps: [],
+          temperature: [],
+          humidity: [],
+          pressure: [],
+          windSpeed: [],
+          precipitation: []
+        });
+      }
+
+      const series = cameraMap.get(cameraId);
+      series.timestamps.push(record.timestamp);
+      series.temperature.push(record.temperature);
+      series.humidity.push(record.humidity);
+      series.pressure.push(record.pressure);
+      series.windSpeed.push(record.windSpeed);
+      series.precipitation.push(record.precipitation);
+    });
+
+    return Array.from(cameraMap.values());
+  }
+
+  /**
+   * Transform weather SPARQL results with time-based aggregation
+   */
+  private transformWeatherToTimeSeriesWithGrouping(data: any[], groupBy: string): any {
+    const cameraMap = new Map<string, Map<string, any>>();
+
+    data.forEach(record => {
+      const cameraId = record.camera;
+      const timestamp = new Date(record.timestamp);
+
+      // Determine time bucket based on groupBy
+      let timeBucket: string;
+      if (groupBy === 'hour') {
+        timeBucket = `${timestamp.getFullYear()}-${String(timestamp.getMonth() + 1).padStart(2, '0')}-${String(timestamp.getDate()).padStart(2, '0')} ${String(timestamp.getHours()).padStart(2, '0')}:00`;
+      } else if (groupBy === 'day') {
+        timeBucket = `${timestamp.getFullYear()}-${String(timestamp.getMonth() + 1).padStart(2, '0')}-${String(timestamp.getDate()).padStart(2, '0')}`;
+      } else {
+        timeBucket = record.timestamp;
+      }
+
+      if (!cameraMap.has(cameraId)) {
+        cameraMap.set(cameraId, new Map());
+      }
+
+      const cameraData = cameraMap.get(cameraId)!;
+
+      if (!cameraData.has(timeBucket)) {
+        cameraData.set(timeBucket, {
+          timestamp: timeBucket,
+          temperatureValues: [],
+          humidityValues: [],
+          pressureValues: [],
+          windSpeedValues: [],
+          precipitationValues: []
+        });
+      }
+
+      const bucket = cameraData.get(timeBucket);
+      if (record.temperature !== null) bucket.temperatureValues.push(record.temperature);
+      if (record.humidity !== null) bucket.humidityValues.push(record.humidity);
+      if (record.pressure !== null) bucket.pressureValues.push(record.pressure);
+      if (record.windSpeed !== null) bucket.windSpeedValues.push(record.windSpeed);
+      if (record.precipitation !== null) bucket.precipitationValues.push(record.precipitation);
+    });
+
+    // Calculate averages for each time bucket
+    const result: any[] = [];
+
+    cameraMap.forEach((buckets, cameraId) => {
+      const cameraSeries = {
+        cameraId,
+        timestamps: [] as string[],
+        temperature: [] as number[],
+        humidity: [] as number[],
+        pressure: [] as number[],
+        windSpeed: [] as number[],
+        precipitation: [] as number[]
+      };
+
+      const sortedBuckets = Array.from(buckets.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+
+      sortedBuckets.forEach(([timestamp, bucket]) => {
+        cameraSeries.timestamps.push(timestamp);
+        cameraSeries.temperature.push(this.calculateAverage(bucket.temperatureValues));
+        cameraSeries.humidity.push(this.calculateAverage(bucket.humidityValues));
+        cameraSeries.pressure.push(this.calculateAverage(bucket.pressureValues));
+        cameraSeries.windSpeed.push(this.calculateAverage(bucket.windSpeedValues));
+        cameraSeries.precipitation.push(this.calculateAverage(bucket.precipitationValues));
+      });
+
+      result.push(cameraSeries);
+    });
+
+    return result;
   }
 
   /**

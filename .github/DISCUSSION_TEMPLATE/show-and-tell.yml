@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
+# Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
 # GitHub Discussion Template: Show and Tell
 #
 # Module: .github/DISCUSSION_TEMPLATE/show-and-tell.yml
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
 # Version: 1.0.0
+# License: MIT
 
 title: "[Show & Tell] "
 labels:
@@ -40,7 +42,7 @@ body:
         
         Describe your project...
         
-        ## How does it use Builder Layer End?
+        ## How does it use UIP - Urban Intelligence Platform?
         
         Which features/agents do you use?
     validations:

@@ -1,7 +1,7 @@
 # ============================================================================
 # UIP - Urban Intelligence Platform
-# Copyright (c) 2024-2025 UIP Team. All rights reserved.
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# Copyright (c) 2025 UIP Team. All rights reserved.
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # SPDX-License-Identifier: MIT
 # ============================================================================
@@ -110,7 +110,7 @@ subscription_manager:
       # Temporal filter (optional)
       temporal_q:
         timerel: "after"
-        time: "2025-01-01T00:00:00Z"
+        time: "2025-11-20T00:00:00Z"
     
     # Example 2: Accident Alerts (different domain)
     - name: "accident-alerts"

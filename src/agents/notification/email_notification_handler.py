@@ -3,8 +3,8 @@
 """Email Notification Handler.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -280,7 +280,7 @@ class EmailNotificationHandler:
 
     def _generate_incident_pdf(self, incident: Dict[str, Any]) -> bytes:
         """Generate PDF report (symbolic)."""
-        # In real implementation, would use reportlab or weasyprint
+        # In real implementation, would use reportlab (BSD license)
         return b"PDF_CONTENT_SYMBOLIC"
 
     def reset_rate_limit(self):

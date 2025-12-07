@@ -1,8 +1,28 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/README.md
+Module: Frontend Application Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Frontend application documentation.
+============================================================================
+-->
+
 # Traffic Monitoring System - Frontend
 
 ## Overview
 
-Complete React + TypeScript + Leaflet frontend for real-time traffic monitoring in Ho Chi Minh City, Vietnam. Features live WebSocket updates, interactive map layers, and advanced data visualizations.
+Complete React + TypeScript + MapLibre GL frontend for real-time traffic monitoring in Ho Chi Minh City, Vietnam. Features live WebSocket updates, interactive map layers, and advanced data visualizations.
 
 ## Features Implemented
 
@@ -22,14 +42,14 @@ Complete React + TypeScript + Leaflet frontend for real-time traffic monitoring 
 ### ✅ Advanced Overlays
 
 #### **AQI Heatmap Layer** (`AQIHeatmap.tsx`)
-- Uses `leaflet.heat` plugin for smooth gradient visualization
+- Uses MapLibre GL native heatmap layer for smooth gradient visualization
 - **Color Gradient**:
   - 0-50 (Good) → Green `#00ff00`
   - 51-100 (Moderate) → Yellow `#ffff00`
   - 101-150 (Unhealthy) → Orange `#ff8800`
   - 151-200 (Very Unhealthy) → Red `#ff0000`
   - 201+ (Hazardous) → Purple `#800080`
-- **Heatmap Options**: radius=30, blur=20, maxZoom=14
+- **Heatmap Options**: radius=30, intensity=0.6
 - **Legend**: Collapsible legend showing AQI ranges with color indicators
 - **Toggle**: On/off control via Sidebar
 
@@ -167,14 +187,15 @@ npm install
 ```json
 {
   "react": "^18.2.0",
-  "react-leaflet": "^4.2.1",
-  "leaflet": "^1.9.4",
-  "leaflet.heat": "^0.2.0",
+  "react-map-gl": "^7.1.9",
+  "maplibre-gl": "^4.7.1",
   "zustand": "^4.4.6",
   "date-fns": "^3.0.0",
   "tailwindcss": "^3.3.0"
 }
 ```
+
+> **Migration Note (2025-12):** Migrated from react-leaflet to react-map-gl + MapLibre GL JS for 100% MIT-compatible licensing.
 
 ### Environment Variables
 Create `.env` file:
@@ -211,7 +232,7 @@ trafficStore.ts (Zustand state)
     ↓
 React Components (auto re-render)
     ↓
-Leaflet Map Layers
+MapLibre GL Map Layers
 ```
 
 ### File Structure
@@ -246,7 +267,7 @@ frontend/
 4. **Overlays**: Toggle layers via checkboxes in layer control or sidebar
 
 ### Layer Controls
-- **Top-Right**: Leaflet LayersControl with all overlay toggles
+- **Top-Right**: MapLibre LayersControl with all overlay toggles
 - **Sidebar**: Duplicate toggles with data counts
 
 ### View AQI Heatmap
@@ -342,7 +363,7 @@ User must allow notifications in browser settings for alerts to appear.
 
 ## Performance Optimizations
 
-1. **Marker Clustering**: Use `react-leaflet-cluster` for >50 cameras
+1. **Map Clustering**: MapLibre GL handles clustering via supercluster
 2. **Heatmap MaxZoom**: Heatmap disappears at zoom >14 (shows markers instead)
 3. **Memoization**: useMemo for expensive calculations
 4. **Conditional Rendering**: Layers only render when visible
@@ -351,13 +372,13 @@ User must allow notifications in browser settings for alerts to appear.
 ## Troubleshooting
 
 ### Map Not Loading
-- Check console for Leaflet CSS import errors
-- Verify `leaflet/dist/leaflet.css` is imported
+- Check console for MapLibre GL CSS import errors
+- Verify `maplibre-gl/dist/maplibre-gl.css` is imported
 
 ### Heatmap Not Showing
-- Install `leaflet.heat` and `@types/leaflet.heat`
-- Check browser console for heatLayer errors
+- Check browser console for heatmap layer errors
 - Verify AQI data has valid lat/lng coordinates
+- MapLibre native heatmap uses different configuration
 
 ### Weather Overlay Issues
 - Ensure weather data has all required fields
@@ -380,7 +401,7 @@ User must allow notifications in browser settings for alerts to appear.
 
 ### Add New Overlay
 1. Create component in `src/components/`
-2. Use `useMap()` hook from react-leaflet
+2. Use `useMap()` hook from `./map` wrapper
 3. Add visibility prop from store
 4. Import in TrafficMap.tsx
 5. Add filter to trafficStore.ts
@@ -429,7 +450,7 @@ curl http://localhost:5000/api/correlations/accident-pattern
 curl http://localhost:5000/api/analytics/hotspots
 
 # Check historical AQI
-curl "http://localhost:5000/api/historical/aqi?startDate=2024-01-01&endDate=2024-12-31"
+curl "http://localhost:5000/api/historical/aqi?startDate=2025-11-20&endDate=2025-12-05"
 ```
 
 ## Production Deployment
@@ -463,16 +484,15 @@ npx serve -s dist
 ## Credits
 
 ### Libraries Used
-- **Leaflet**: Open-source mapping library
-- **React-Leaflet**: React components for Leaflet
-- **Leaflet.heat**: Heatmap plugin by Vladimir Agafonkin
+- **MapLibre GL JS**: Open-source fork of Mapbox GL JS (BSD-3-Clause)
+- **react-map-gl**: React components for MapLibre GL JS (MIT)
 - **Zustand**: Lightweight state management
 - **Date-fns**: Modern date utility library
 - **Vite**: Fast build tool
 - **Tailwind CSS**: Utility-first CSS framework
 
 ### Icon Credits
-Marker icons from [leaflet-color-markers](https://github.com/pointhi/leaflet-color-markers) by pointhi
+Custom marker icons with MapLibre GL JS markers
 
 ### Map Data
 - OpenStreetMap contributors
@@ -493,8 +513,14 @@ For issues, questions, or feature requests:
 
 ## Changelog
 
-### v2.0.0 (Current)
-- ✅ Added AQI Heatmap Layer with leaflet.heat
+### v3.0.0 (Current - December 2025)
+- ✅ **MAJOR**: Migrated from react-leaflet to react-map-gl + MapLibre GL JS
+- ✅ 100% MIT-compatible licensing achieved
+- ✅ Native MapLibre heatmap layers (removed leaflet.heat GPL dependency)
+- ✅ Custom map wrapper components in `src/components/map/`
+
+### v2.0.0
+- ✅ Added AQI Heatmap Layer
 - ✅ Added Weather Overlay with 4 view modes
 - ✅ Added contextual data in camera popups
 - ✅ Added browser notifications for alerts

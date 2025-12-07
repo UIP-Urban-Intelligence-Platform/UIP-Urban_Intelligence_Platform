@@ -1,15 +1,18 @@
-
-
 /**
-Author: Nguyễn Nhật Quang
- Created: 2025-11-26
- Modified: 2025-11-26
- Version: 2.0.0
- License: MIT
- * Camera Endpoint Implementation Verification
- * 
- * This script verifies that the camera endpoint implementation
- * meets all the requirements from the prompt.
+ * @file verify-implementation.js
+ * @module apps/traffic-web-app/backend/scripts/health-checks/verify-implementation
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 2.0.0
+ * @license MIT
+ * @description Camera Endpoint Implementation Verification - Verifies that the camera
+ * endpoint implementation meets all the requirements from the prompt.
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 const fs = require('fs');
@@ -31,20 +34,20 @@ function log(message, color = 'reset') {
 
 function checkFile(filePath, requiredContent = []) {
   const fullPath = path.join(__dirname, filePath);
-  
+
   if (!fs.existsSync(fullPath)) {
     log(`  ✗ File missing: ${filePath}`, 'red');
     return false;
   }
-  
+
   const content = fs.readFileSync(fullPath, 'utf8');
   const missing = requiredContent.filter(str => !content.includes(str));
-  
+
   if (missing.length > 0) {
     log(`  ✗ ${filePath} - Missing: ${missing.join(', ')}`, 'red');
     return false;
   }
-  
+
   log(`  ✓ ${filePath}`, 'green');
   return true;
 }
@@ -250,9 +253,9 @@ function checkImplementation() {
   log('\n' + '═'.repeat(70), 'cyan');
   log('Verification Summary', 'cyan');
   log('═'.repeat(70), 'cyan');
-  
+
   const percentage = ((passedChecks / totalChecks) * 100).toFixed(1);
-  
+
   log(`\nTotal Checks: ${totalChecks}`, 'bold');
   log(`Passed: ${passedChecks}`, passedChecks === totalChecks ? 'green' : 'yellow');
   log(`Failed: ${totalChecks - passedChecks}`, totalChecks - passedChecks === 0 ? 'green' : 'red');

@@ -1,20 +1,19 @@
 /**
- * Test Google Calendar API - Search for HCMC Events
- * Module: tests.integration.test-agents-realistic
- * Author: Nguyễn Nhật Quang
- * Created: 2025-11-26
- * Version: 1.0.0
- * License: MIT
- * Purpose:
+ * @file test-calendar-hcmc-events.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-calendar-hcmc-events
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 1.0.0
+ * @license MIT
+ * @description Test Google Calendar API - Search for HCMC Events.
  * Find all possible public calendars with events in Ho Chi Minh City, Vietnam
- * to enhance TrafficMaestroAgent's event awareness
- * Usage: node test-calendar-hcmc-events.js
- * Dependencies: axios, dotenv
- * Description:
- * This script queries multiple public Google Calendars to find events
- * occurring in Ho Chi Minh City over the next year. It logs the results
- * and suggests calendars that could be integrated into the TrafficMaestroAgent
- * for improved traffic event monitoring.
+ * to enhance TrafficMaestroAgent's event awareness.
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 require('dotenv').config();

@@ -1,3 +1,22 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Installation.md
+Module: Installation Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  All installation methods for UIP - Urban Intelligence Platform.
+============================================================================
+-->
 # 📥 Installation
 
 This guide covers all installation methods for UIP - Urban Intelligence Platform.
@@ -33,14 +52,14 @@ This guide covers all installation methods for UIP - Urban Intelligence Platform
 
 ```powershell
 # Windows PowerShell
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 .\justrun.ps1 dev
 ```
 
 ```bash
 # Linux / macOS
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 chmod +x justrun.sh
 ./justrun.sh dev
@@ -61,7 +80,7 @@ This single command will:
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # View available targets
@@ -107,7 +126,7 @@ make prod
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Copy environment
@@ -130,7 +149,7 @@ docker-compose down
 #### Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 ```
 
@@ -278,8 +297,11 @@ npm install
 
 ---
 
-## 📚 Next Steps
+## 🔗 Related Pages
 
 - [[Quick-Start]] - Get running in 5 minutes
 - [[Configuration]] - Configure for your environment
 - [[System-Architecture]] - Understand the architecture
+- [[Docker-Services]] - Docker setup details
+- [[Technology-Stack]] - Required technologies
+- [[Troubleshooting]] - Common issues

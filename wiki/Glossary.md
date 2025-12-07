@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Glossary.md
+Module: Glossary
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Technical terms and definitions used in UIP - Urban Intelligence Platform.
+============================================================================
+-->
 # 📖 Glossary
 
 Technical terms and definitions used in UIP - Urban Intelligence Platform.
@@ -268,7 +287,7 @@ A centralized service for maintaining configuration information, naming, and syn
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[System-Architecture]] - Architecture overview
 - [[Multi-Agent-System]] - Agent documentation

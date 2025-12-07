@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
+# Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
 # GitHub Discussion Template: Release Announcements
 #
 # Module: .github/DISCUSSION_TEMPLATE/release-announcement.yml
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
 # Version: 1.0.0
+# License: MIT
 
 title: "[Release] v"
 labels:
@@ -111,8 +113,8 @@ body:
         ### Fresh Installation
         
         ```bash
-        git clone https://github.com/NguyenNhatquang522004/builder-layer-end.git
-        cd builder-layer-end
+        git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
+        cd cd UIP-Urban_Intelligence_Platform
         git checkout v{VERSION}
         ./justrun.ps1 dev  # Windows
         ./justrun.sh dev   # Linux/macOS
@@ -129,7 +131,7 @@ body:
         ### Docker
         
         ```bash
-        docker pull ghcr.io/nguyennhatquang522004/builder-layer-end:v{VERSION}
+        docker pull ghcr.io/nguyennhatquang522004/uip-urban-intelligence-platform:v{VERSION}
         ```
     validations:
       required: false
@@ -140,10 +142,10 @@ body:
       label: Download Links
       description: Links to download the release
       placeholder: |
-        - 📦 **Source (tar.gz)**: [builder-layer-end-2.0.0.tar.gz](https://github.com/NguyenNhatquang522004/builder-layer-end/releases/download/v2.0.0/builder-layer-end-2.0.0.tar.gz)
-        - 📦 **Source (zip)**: [builder-layer-end-2.0.0.zip](https://github.com/NguyenNhatquang522004/builder-layer-end/releases/download/v2.0.0/builder-layer-end-2.0.0.zip)
-        - 🐳 **Docker**: `ghcr.io/nguyennhatquang522004/builder-layer-end:v2.0.0`
-        - 🐍 **PyPI**: `pip install builder-layer-end==2.0.0`
+        - 📦 **Source (tar.gz)**: [uip-2.0.0.tar.gz](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/releases/download/v2.0.0/uip-2.0.0.tar.gz)
+        - 📦 **Source (zip)**: [uip-2.0.0.zip](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/releases/download/v2.0.0/uip-2.0.0.zip)
+        - 🐳 **Docker**: `ghcr.io/nguyennhatquang522004/uip-urban-intelligence-platform:v2.0.0`
+        - 🐍 **PyPI**: `pip install uip-urban-intelligence-platform==2.0.0`
     validations:
       required: false
 

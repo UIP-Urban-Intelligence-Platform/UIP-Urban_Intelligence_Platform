@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/backend/docs/reports/API_KEY_ROTATION_COMPLETE.md
+Module: API Key Rotation Complete Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  API Key Rotation System Implemented.
+============================================================================
+-->
+
 # API Key Rotation System - Implemented ✅
 
 ## Tính năng mới
@@ -7,7 +27,7 @@ Hỗ trợ nhiều API keys cho mỗi service, cách nhau bởi dấu phẩy:
 
 ```env
 # Ví dụ: 1 key
-GEMINI_API_KEY=AIzaSyDtelIruWqGr2BOa-VIpqpBdL_-Ih8MGBQ
+GEMINI_API_KEY=your_gemini_api_key_here
 
 # Ví dụ: 3 keys
 GEMINI_API_KEY=key1,key2,key3
@@ -91,14 +111,14 @@ Cần tích hợp cho:
 
 ```env
 # Single key (works như cũ)
-GEMINI_API_KEY=AIzaSyDtelIruWqGr2BOa-VIpqpBdL_-Ih8MGBQ
+GEMINI_API_KEY=your_gemini_api_key_here
 
 # Multiple keys (mới)
-GEMINI_API_KEY=AIzaSyDtelIruWqGr2BOa-VIpqpBdL_-Ih8MGBQ,AIzaSyXXXXXXXXXX,AIzaSyYYYYYYYYYY
+GEMINI_API_KEY=your_gemini_api_key_here,your_key_2,your_key_3
 
-TAVILY_API_KEY=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,tvly-dev-XXXXXXXX
+TAVILY_API_KEY=your_tavily_key_here,your_key_2
 
-TICKETMASTER_API_KEY=HxUQZ2R0w6oi6Q6CyHdicpsqklwjRT4s,keyXXXXXXXX,keyYYYYYYYY
+TICKETMASTER_API_KEY=your_ticketmaster_key_here,keyXXXXXXXX,keyYYYYYYYY
 ```
 
 ### 2. Agent tự động rotation
@@ -117,25 +137,25 @@ const status = this.geminiKeyManager?.getStatus();
 console.log(status);
 // Output:
 // [
-//   { key: 'AIzaSyDt...MGBQ', failureCount: 0, isBlacklisted: false },
-//   { key: 'AIzaSyXX...XXXX', failureCount: 3, isBlacklisted: true, lastError: 'Rate limit' }
+//   { key: 'KEY_1_MASKED', failureCount: 0, isBlacklisted: false },
+//   { key: 'KEY_2_MASKED', failureCount: 3, isBlacklisted: true, lastError: 'Rate limit' }
 // ]
 ```
 
 ## Log examples
 
 ```
-[INFO] Gemini: Using key AIzaSyDt...MGBQ (Failures: 0)
+[INFO] Gemini: Using key KEY_1_MASKED (Failures: 0)
 [INFO] Visual analysis completed - Severity: 8/10, Hazards: 3
 
-[WARN] Gemini: Key AIzaSyDt...MGBQ failed (1/3) - Rate limit exceeded
-[INFO] Gemini: Using key AIzaSyXX...XXXX (Failures: 0)
+[WARN] Gemini: Key KEY_1_MASKED failed (1/3) - Rate limit exceeded
+[INFO] Gemini: Using key KEY_2_MASKED (Failures: 0)
 [INFO] Visual analysis completed - Severity: 7/10, Hazards: 2
 
-[ERROR] Gemini: Key AIzaSyYY...YYYY BLACKLISTED for 300s (Reason: Quota exceeded)
-[INFO] Gemini: Using key AIzaSyDt...MGBQ (Failures: 0)
+[ERROR] Gemini: Key KEY_3_MASKED BLACKLISTED for 300s (Reason: Quota exceeded)
+[INFO] Gemini: Using key KEY_1_MASKED (Failures: 0)
 
-[INFO] Gemini: Key AIzaSyYY...YYYY restored from blacklist
+[INFO] Gemini: Key KEY_3_MASKED restored from blacklist
 ```
 
 ## Benefits

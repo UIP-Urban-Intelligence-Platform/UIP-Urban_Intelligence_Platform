@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-Smart Data Models Guide
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: wiki/Smart-Data-Models.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Smart-Data-Models.md
+Module: Smart Data Models Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
+License: MIT
+
+Description:
+  Complete guide to Smart Data Models integration in UIP.
+============================================================================
 -->
 
 # 📊 Smart Data Models
@@ -247,7 +255,7 @@ Complete guide to Smart Data Models integration in UIP - Urban Intelligence Plat
   },
   "dateModified": {
     "type": "Property",
-    "value": "2024-01-15T10:30:00Z"
+    "value": "2025-11-29T10:30:00Z"
   }
 }
 ```
@@ -260,11 +268,11 @@ Complete guide to Smart Data Models integration in UIP - Urban Intelligence Plat
     "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
     "https://raw.githubusercontent.com/smart-data-models/dataModel.Transportation/master/context.jsonld"
   ],
-  "id": "urn:ngsi-ld:TrafficFlowObserved:obs-2024-01-15-TTH406",
+  "id": "urn:ngsi-ld:TrafficFlowObserved:obs-2025-11-29-TTH406",
   "type": "TrafficFlowObserved",
   "dateObserved": {
     "type": "Property",
-    "value": "2024-01-15T10:30:00Z"
+    "value": "2025-11-29T10:30:00Z"
   },
   "vehicleCount": {
     "type": "Property",

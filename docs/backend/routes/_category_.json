@@ -1,0 +1,19 @@
+{
+    "label": "Routes",
+    "position": 4,
+    "link": {
+        "type": "generated-index",
+        "title": "API Routes",
+        "description": "RESTful API endpoints for camera, weather, air quality, accidents, patterns, analytics, agents, and more.",
+        "keywords": [
+            "routes",
+            "api",
+            "rest",
+            "endpoints",
+            "express",
+            "camera",
+            "weather",
+            "agents"
+        ]
+    }
+}

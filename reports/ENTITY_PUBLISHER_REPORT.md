@@ -1,7 +1,27 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/ENTITY_PUBLISHER_REPORT.md
+Module: Entity Publisher Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Entity Publisher Agent comprehensive test report.
+============================================================================
+-->
+
 # ENTITY PUBLISHER AGENT - COMPREHENSIVE TEST REPORT
 
 **Agent:** Entity Publisher Agent (PROMPT 6)  
-**Date:** November 1, 2025  
+**Date:** November 20, 2025  
 **Version:** 1.0.0  
 **Test Environment:** Python 3.10.0, Windows, Virtual Environment (.venv)  
 **Status:** ✅ **PRODUCTION READY - 100% COMPLIANT**
@@ -259,7 +279,7 @@ Report saved to:   data/publish_report.json
 
 ```json
 {
-  "timestamp": "2025-11-01T07:08:11.820376Z",
+  "timestamp": "2025-11-20T07:08:11.820376Z",
   "total_entities": 42,
   "successful": 42,
   "failed": 0,
@@ -556,13 +576,13 @@ The agent handles all error scenarios gracefully:
 The agent provides comprehensive logging:
 
 ```
-2025-11-01 14:08:11,726 - entity_publisher_agent - INFO - Initializing Entity Publisher Agent
-2025-11-01 14:08:11,726 - entity_publisher_agent - INFO - Loading Stellio configuration from: config/stellio.yaml
-2025-11-01 14:08:11,760 - entity_publisher_agent - INFO - Stellio configuration loaded successfully
-2025-11-01 14:08:11,814 - entity_publisher_agent - INFO - Loaded 42 entities to publish
-2025-11-01 14:08:11,815 - entity_publisher_agent - INFO - Publishing batch 1/1 (42 entities)
-2025-11-01 14:08:11,820 - entity_publisher_agent - INFO - Batch upsert successful for 42 entities
-2025-11-01 14:08:11,824 - entity_publisher_agent - INFO - Report saved to: data\publish_report.json
+2025-11-20 14:08:11,726 - entity_publisher_agent - INFO - Initializing Entity Publisher Agent
+2025-11-20 14:08:11,726 - entity_publisher_agent - INFO - Loading Stellio configuration from: config/stellio.yaml
+2025-11-20 14:08:11,760 - entity_publisher_agent - INFO - Stellio configuration loaded successfully
+2025-11-20 14:08:11,814 - entity_publisher_agent - INFO - Loaded 42 entities to publish
+2025-11-20 14:08:11,815 - entity_publisher_agent - INFO - Publishing batch 1/1 (42 entities)
+2025-11-20 14:08:11,820 - entity_publisher_agent - INFO - Batch upsert successful for 42 entities
+2025-11-20 14:08:11,824 - entity_publisher_agent - INFO - Report saved to: data\publish_report.json
 ```
 
 **Log Levels:**
@@ -601,6 +621,6 @@ The agent is **PRODUCTION READY** and successfully completes the Linked Open Dat
 
 ---
 
-**Test Report Generated:** November 1, 2025  
+**Test Report Generated:** November 20, 2025  
 **Agent Version:** 1.0.0  
 **Status:** ✅ PRODUCTION READY - 100% COMPLIANT

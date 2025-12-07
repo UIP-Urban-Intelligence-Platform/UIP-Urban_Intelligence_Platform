@@ -2,6 +2,25 @@
 sidebar_position: 1
 ---
 
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Docusaurus tutorial - Manage docs versions.
+
+File: apps/traffic-web-app/frontend/docs/docs/tutorial-extras/manage-docs-versions.md
+Module: Tutorial Extras Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Tutorial on managing documentation versions in Docusaurus.
+============================================================================
+-->
+
 # Manage Docs Versions
 
 Docusaurus can manage multiple versions of your docs.

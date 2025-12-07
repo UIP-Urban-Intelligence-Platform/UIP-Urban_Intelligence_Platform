@@ -1,3 +1,22 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/_Sidebar.md
+Module: Wiki Sidebar
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Sidebar navigation template for all UIP wiki pages.
+============================================================================
+-->
 <!-- UIP - Urban Intelligence Platform Wiki Sidebar -->
 
 **📚 UIP - Urban Intelligence Platform Wiki**
@@ -74,10 +93,10 @@
 ---
 
 ### 🔗 External Links
-* [GitHub Repository](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform)
-* [Issue Tracker](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
-* [Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions)
-* [Releases](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases)
+* [GitHub Repository](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform)
+* [Issue Tracker](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
+* [Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions)
+* [Releases](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/releases)
 
 ---
 

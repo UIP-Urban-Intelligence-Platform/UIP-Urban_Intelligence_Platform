@@ -1,7 +1,7 @@
 # ============================================================================
 # UIP - Urban Intelligence Platform
-# Copyright (c) 2024-2025 UIP Team. All rights reserved.
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# Copyright (c) 2025 UIP Team. All rights reserved.
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # SPDX-License-Identifier: MIT
 # ============================================================================
@@ -135,7 +135,7 @@ incident_report_generator:
     - type: "pdf"
       enabled: true
       template: "templates/incident_report.html"
-      engine: "weasyprint"  # HTML to PDF converter
+      engine: "reportlab"  # Pure Python PDF generation (BSD license)
       settings:
         page_size: "A4"
         orientation: "portrait"

@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 /**
-Author: Nguyễn Nhật Quang
- Created: 2025-11-26
- Modified: 2025-11-26
- Version: 2.0.0
- License: MIT
- * Camera Endpoint Implementation Verification
- * 
- * This script verifies that the camera endpoint implementation
- * meets all the requirements from the prompt.
+ * @file setup.js
+ * @module apps/traffic-web-app/backend/scripts/setup/setup
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 2.0.0
+ * @license MIT
+ * @description HCMC Traffic Monitoring - Backend Setup Script
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 const { execSync } = require('child_process');

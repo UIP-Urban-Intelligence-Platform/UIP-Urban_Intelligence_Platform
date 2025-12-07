@@ -1,9 +1,11 @@
 #!/bin/bash
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # Production Environment Setup - PRODUCTION READY
-#
 # Initializes production infrastructure.
 # REQUIRES: kubectl, helm, terraform (optional)
 #
@@ -11,6 +13,7 @@
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-25
 # Version: 1.0.0
+# License: MIT
 # Description: Production environment setup script for the traffic monitoring system
 set -e
 

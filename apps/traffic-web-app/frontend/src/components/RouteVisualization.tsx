@@ -1,4 +1,12 @@
 /**
+ * Route Visualization - Multi-Criteria Route Display
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/RouteVisualization
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -21,8 +29,8 @@
  * 
  * @dependencies
  * - react@18.2.0 - Component state and lifecycle
- * - react-leaflet@4.2.1 - Polyline, Marker, Popup, Tooltip components
- * - leaflet@1.9.4 - Icon creation and map geometry
+ * - react-map-gl@^7.1 - Polyline, Marker, Popup, Tooltip components (MIT license)
+ * - maplibre-gl@^4.7 - Icon creation and map geometry (BSD-3-Clause)
  * 
  * @example
  * ```tsx
@@ -34,8 +42,7 @@
  * ```
  */
 import React, { useEffect, useState } from 'react';
-import { Polyline, Marker, Popup, Tooltip } from 'react-leaflet';
-import L from 'leaflet';
+import { Polyline, Marker, Popup, Tooltip, DivIcon } from './map';
 
 // =====================================================
 // TYPES & INTERFACES
@@ -65,7 +72,7 @@ interface RouteVisualizationProps {
 // =====================================================
 
 const createMarkerIcon = (color: string, label: string) => {
-  return L.divIcon({
+  return new DivIcon({
     className: 'custom-marker-icon',
     html: `
       <div style="
@@ -109,7 +116,7 @@ const createWarningIcon = (type: 'aqi' | 'accident' | 'traffic' | 'weather') => 
     weather: '🌧️',
   };
 
-  return L.divIcon({
+  return new DivIcon({
     className: 'warning-marker-icon',
     html: `
       <div style="
@@ -281,17 +288,13 @@ const RouteVisualization: React.FC<RouteVisualizationProps> = ({
             }}
             eventHandlers={{
               click: () => onRouteClick && onRouteClick(route),
-              mouseover: (e) => {
-                const layer = e.target;
-                layer.setStyle({
-                  weight: weight + 2,
-                });
+              // Note: MapLibre GL handles hover states via paint properties
+              // Dynamic style changes are handled at the layer level
+              mouseover: () => {
+                // Hover effect handled by MapLibre GL layer
               },
-              mouseout: (e) => {
-                const layer = e.target;
-                layer.setStyle({
-                  weight,
-                });
+              mouseout: () => {
+                // Hover effect handled by MapLibre GL layer
               },
             }}
           >

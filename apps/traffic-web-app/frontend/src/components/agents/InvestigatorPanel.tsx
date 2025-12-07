@@ -1,4 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+/**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ */
+
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 /**
  * @fileoverview InvestigatorPanel Component - AI Vision Analysis Display
@@ -118,6 +126,8 @@ export const InvestigatorPanel: React.FC<InvestigatorPanelProps> = ({
 }) => {
     const [selectedDetection, setSelectedDetection] = useState<BoundingBox | null>(null);
     const [showCameraDropdown, setShowCameraDropdown] = useState(false);
+    const [imageTimestamp, setImageTimestamp] = useState(Date.now());
+    const [isStreaming, setIsStreaming] = useState(true);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
 
@@ -125,7 +135,7 @@ export const InvestigatorPanel: React.FC<InvestigatorPanelProps> = ({
     // CANVAS DRAWING - AI VISION BOUNDING BOXES
     // =====================================================
 
-    const drawBoundingBoxes = () => {
+    const drawBoundingBoxes = useCallback(() => {
         if (!canvasRef.current || !imageRef.current || !investigationResult) return;
 
         const canvas = canvasRef.current;
@@ -154,19 +164,19 @@ export const InvestigatorPanel: React.FC<InvestigatorPanelProps> = ({
 
             const x = box.x * scaleX;
             const y = box.y * scaleY;
-            const width = box.width * scaleX;
-            const height = box.height * scaleY;
+            const boxWidth = box.width * scaleX;
+            const boxHeight = box.height * scaleY;
 
             // Draw rectangle
             ctx.strokeStyle = color;
             ctx.lineWidth = 3;
-            ctx.strokeRect(x, y, width, height);
+            ctx.strokeRect(x, y, boxWidth, boxHeight);
 
             // Highlight if selected
             if (selectedDetection?.label === label) {
                 ctx.strokeStyle = '#FFD700';
                 ctx.lineWidth = 5;
-                ctx.strokeRect(x - 2, y - 2, width + 4, height + 4);
+                ctx.strokeRect(x - 2, y - 2, boxWidth + 4, boxHeight + 4);
             }
 
             // Draw label background
@@ -183,14 +193,35 @@ export const InvestigatorPanel: React.FC<InvestigatorPanelProps> = ({
             ctx.font = 'bold 14px Arial';
             ctx.fillText(labelText, x + padding, y - 8);
         });
-    };
+    }, [investigationResult, selectedDetection]);
+
+    // =====================================================
+    // AUTO-REFRESH FOR LIVE STREAM EFFECT
+    // =====================================================
+
+    useEffect(() => {
+        if (!isStreaming || !investigationResult?.snapshot?.url) return;
+
+        // Check if it's HCM Traffic Portal URL (supports live refresh)
+        const isLiveStream = investigationResult.snapshot.url.includes('giaothong.hochiminhcity.gov.vn') ||
+            investigationResult.snapshot.url.includes('proxy/image');
+
+        if (!isLiveStream) return;
+
+        // Refresh image every 2 seconds to simulate video stream
+        const interval = setInterval(() => {
+            setImageTimestamp(Date.now());
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, [isStreaming, investigationResult?.snapshot?.url]);
 
     // Redraw when image loads or detections change
     useEffect(() => {
         if (imageRef.current && imageRef.current.complete) {
             drawBoundingBoxes();
         }
-    }, [investigationResult, selectedDetection]);
+    }, [drawBoundingBoxes]);
 
     // =====================================================
     // SEVERITY STYLING
@@ -225,43 +256,41 @@ export const InvestigatorPanel: React.FC<InvestigatorPanelProps> = ({
     };
 
     // =====================================================
-    // LOADING STATE
+    // RENDER - USING CONDITIONAL RENDERING (NO EARLY RETURNS TO AVOID HOOKS ERROR)
     // =====================================================
 
+    // LOADING STATE
     if (isLoading) {
         return (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg p-8 shadow-2xl">
                     <div className="flex flex-col items-center space-y-4">
                         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
-                        <p className="text-lg font-semibold text-gray-700">Investigating scene...</p>
-                        <p className="text-sm text-gray-500">Analyzing camera feed, fetching external data</p>
+                        <p className="text-lg font-semibold text-gray-700">Đang phân tích...</p>
+                        <p className="text-sm text-gray-500">Đang xử lý dữ liệu camera và AI Vision</p>
                     </div>
                 </div>
             </div>
         );
     }
 
-    // =====================================================
     // EMPTY STATE
-    // =====================================================
-
     if (!investigationResult) {
         return (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg p-8 shadow-2xl max-w-md">
                     <div className="flex flex-col items-center space-y-4">
                         <div className="text-6xl">🔍</div>
-                        <p className="text-lg font-semibold text-gray-700">No investigation data</p>
+                        <p className="text-lg font-semibold text-gray-700">Không có dữ liệu</p>
                         <p className="text-sm text-gray-500 text-center">
-                            Select a camera and trigger investigation to see AI vision analysis
+                            Chọn camera để xem phân tích AI Vision
                         </p>
                         {onClose && (
                             <button
                                 onClick={onClose}
                                 className="mt-4 px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
                             >
-                                Close
+                                Đóng
                             </button>
                         )}
                     </div>
@@ -368,28 +397,70 @@ export const InvestigatorPanel: React.FC<InvestigatorPanelProps> = ({
                 <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
                     <div className="max-w-4xl mx-auto space-y-4">
 
-                        {/* CAMERA SNAPSHOT */}
+                        {/* CAMERA LIVE STREAM */}
                         <div className="bg-white rounded-lg shadow-lg p-4" key={investigationResult.cameraId}>
-                            <h3 className="text-lg font-bold mb-3 flex items-center space-x-2" style={{ color: '#111827' }}>
-                                <span>📷</span>
-                                <span>Hình Ảnh Camera</span>
-                            </h3>
+                            <div className="flex items-center justify-between mb-3">
+                                <h3 className="text-lg font-bold flex items-center space-x-2" style={{ color: '#111827' }}>
+                                    <span>📹</span>
+                                    <span>Camera Trực Tiếp</span>
+                                    {isStreaming && (
+                                        <span className="flex items-center ml-2">
+                                            <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-1"></span>
+                                            <span className="text-xs text-red-500 font-normal">LIVE</span>
+                                        </span>
+                                    )}
+                                </h3>
+                                <button
+                                    onClick={() => setIsStreaming(!isStreaming)}
+                                    className={`px-3 py-1 text-xs rounded-full transition-colors ${isStreaming
+                                        ? 'bg-red-100 text-red-600 hover:bg-red-200'
+                                        : 'bg-green-100 text-green-600 hover:bg-green-200'
+                                        }`}
+                                >
+                                    {isStreaming ? '⏸ Tạm dừng' : '▶ Tiếp tục'}
+                                </button>
+                            </div>
                             <div className="bg-gray-900 rounded-lg overflow-hidden">
                                 <div className="relative w-full">
+                                    {/* Image with auto-refresh timestamp for live stream effect */}
                                     <img
                                         ref={imageRef}
-                                        src={investigationResult.snapshot.url}
-                                        alt="Camera snapshot"
+                                        src={(() => {
+                                            const baseUrl = investigationResult.snapshot.url;
+                                            // Add timestamp to force refresh for live stream
+                                            if (baseUrl.includes('proxy/image')) {
+                                                return `${baseUrl}&_t=${imageTimestamp}`;
+                                            }
+                                            return baseUrl.includes('?')
+                                                ? `${baseUrl}&_t=${imageTimestamp}`
+                                                : `${baseUrl}?_t=${imageTimestamp}`;
+                                        })()}
+                                        alt="Camera live stream"
                                         onLoad={drawBoundingBoxes}
+                                        onError={(e) => {
+                                            console.warn('Camera stream failed to load:', investigationResult.snapshot.url);
+                                            (e.target as HTMLImageElement).src = 'https://placehold.co/640x480/1f2937/ffffff?text=Camera+Không+Khả+Dụng';
+                                        }}
                                         className="w-full h-auto block"
+                                        style={{ minHeight: '300px', objectFit: 'cover' }}
                                     />
                                     <canvas
                                         ref={canvasRef}
                                         className="absolute top-0 left-0 pointer-events-none"
                                         style={{ position: 'absolute', top: 0, left: 0 }}
                                     />
+                                    {/* Stream overlay indicator */}
+                                    {isStreaming && (
+                                        <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                            🔄 Cập nhật: {new Date(imageTimestamp).toLocaleTimeString('vi-VN')}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
+                            {/* Show stream URL */}
+                            <p className="text-xs text-gray-400 mt-2 truncate" title={investigationResult.snapshot.url}>
+                                🔗 {decodeURIComponent(investigationResult.snapshot.url).substring(0, 80)}...
+                            </p>
                         </div>
 
                         {/* VERDICT SUMMARY */}

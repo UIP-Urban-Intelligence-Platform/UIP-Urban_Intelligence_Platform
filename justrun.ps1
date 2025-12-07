@@ -1,7 +1,7 @@
 # ============================================================================
 # UIP - Urban Intelligence Platform
-# Copyright (c) 2024-2025 UIP Team. All rights reserved.
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# Copyright (c) 2025 UIP Team. All rights reserved.
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # SPDX-License-Identifier: MIT
 # ============================================================================
@@ -43,7 +43,7 @@ function WriteErr { param($msg) Write-Host $msg -ForegroundColor Red }
 function Show-Banner {
     Write-Host ""
     Write-Host "================================================================" -ForegroundColor Cyan
-    Write-Host "  Builder Layer End - Just Run System                          " -ForegroundColor Cyan
+    Write-Host "  UIP - Urban Intelligence Platform                            " -ForegroundColor Cyan
     Write-Host "  Multi-Agent Linked Open Data Pipeline                        " -ForegroundColor Cyan
     Write-Host "================================================================" -ForegroundColor Cyan
     Write-Host ""
@@ -207,6 +207,10 @@ function Install-Dependencies {
     
     WriteInfo "       Installing Python dependencies..."
     pip install -r requirements/dev.txt -q 2>&1 | Out-Null
+    
+    # Ensure statsmodels is installed (required by analytics agents)
+    WriteInfo "       Installing statsmodels for analytics..."
+    pip install statsmodels scipy -q 2>&1 | Out-Null
     
     WriteSuccess "       OK: Python dependencies installed"
     Write-Host ""
@@ -391,13 +395,48 @@ function Start-Dev {
         Write-Host ""
     }
     else {
-        # Even if setup is not needed, ensure YOLOX is installed from GitHub
+        # Activate venv and ensure all ML dependencies are installed
         & .\.venv\Scripts\Activate.ps1
+        
+        # Ensure YOLOX is installed from GitHub
         $yoloxCheck = pip show yolox 2>&1
         if ($LASTEXITCODE -ne 0) {
             WriteInfo "Installing YOLOX from GitHub..."
             pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>&1 | Out-Null
             WriteSuccess "YOLOX installed"
+        }
+        
+        # Ensure statsmodels is installed (for analytics agents)
+        $statsCheck = pip show statsmodels 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            WriteInfo "Installing statsmodels..."
+            pip install statsmodels -q 2>&1 | Out-Null
+            WriteSuccess "statsmodels installed"
+        }
+        
+        # Ensure timm is installed (required for DETR accident detection)
+        $timmCheck = pip show timm 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            WriteInfo "Installing timm (required for DETR)..."
+            pip install timm -q 2>&1 | Out-Null
+            WriteSuccess "timm installed"
+        }
+        
+        # Ensure YOLOX weights are downloaded
+        if (-not (Test-Path "assets\models\yolox_x.pth")) {
+            WriteInfo "Downloading YOLOX-X weights (794MB)..."
+            python scripts/download_yolox_weights.py --model yolox-x 2>&1 | Out-Null
+            if (Test-Path "assets\models\yolox_x.pth") {
+                WriteSuccess "YOLOX-X weights downloaded"
+            }
+        }
+        
+        # Ensure DETR accident detection model is cached
+        $detrModelPath = "$env:USERPROFILE\.cache\huggingface\hub\models--hilmantm--detr-traffic-accident-detection"
+        if (-not (Test-Path $detrModelPath)) {
+            WriteInfo "Downloading DETR accident detection model..."
+            python scripts/download_accident_model.py 2>&1 | Out-Null
+            WriteSuccess "DETR model downloaded"
         }
     }
     
@@ -556,6 +595,32 @@ npm run dev
     WriteSuccess "      OK: React frontend started"
     
     # ============================================================================
+    # Step 5: Run CV and Sync Pipeline (Real-time Data Generator)
+    # ============================================================================
+    Write-Host ""
+    WriteInfo "[5/5] Starting Real-time Data Generator Pipeline..."
+    WriteInfo "      - Live Camera → YOLOX → Neo4j → Analytics"
+    WriteInfo "      - Runs: 99999, Delay: 60s, Max Cameras: ALL"
+    WriteInfo "      - This will populate databases with real traffic data"
+    
+    $cvSyncCmd = @"
+Set-Location '$ProjectRoot'
+.\`.venv\Scripts\Activate.ps1
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host '  CV & Sync Pipeline - Data Generator' -ForegroundColor Yellow
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host ''
+python scripts/pipeline/run_cv_and_sync.py --runs 99999 --delay 60
+Write-Host ''
+Write-Host 'Pipeline completed! Press any key to close...' -ForegroundColor Green
+`$null = `$Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+"@
+    
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", $cvSyncCmd
+    Start-Sleep -Seconds 2
+    WriteSuccess "      OK: CV & Sync pipeline started"
+    
+    # ============================================================================
     # Success Summary
     # ============================================================================
     Write-Host ""
@@ -576,6 +641,10 @@ npm run dev
     Write-Host "                           " -NoNewline; Write-Host " (neo4j / test12345)" -ForegroundColor DarkGray
     Write-Host "    Apache Jena Fuseki:    " -NoNewline; Write-Host " http://localhost:3030" -ForegroundColor Yellow
     Write-Host "                           " -NoNewline; Write-Host " (admin / test_admin)" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "  Data Pipeline:" -ForegroundColor White
+    Write-Host "    CV & Sync Pipeline:    " -NoNewline; Write-Host "Running in separate window" -ForegroundColor Magenta
+    Write-Host "                           " -NoNewline; Write-Host " (99999 runs, 60s delay, ALL cameras)" -ForegroundColor DarkGray
     Write-Host ""
     WriteWarn "TO STOP ALL SERVICES:"
     Write-Host "  .\justrun.ps1 stop" -ForegroundColor White
@@ -622,6 +691,10 @@ function Start-Prod {
     # Activate Python venv
     & .\.venv\Scripts\Activate.ps1
     
+    # Install base requirements first (includes scipy, statsmodels)
+    WriteInfo "       Installing Python dependencies..."
+    pip install -r requirements/base.txt -q 2>&1 | Out-Null
+    
     # Install YOLOX if not installed
     $yoloxCheck = pip show yolox 2>&1
     if ($LASTEXITCODE -ne 0) {
@@ -629,12 +702,30 @@ function Start-Prod {
         pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>&1 | Out-Null
         WriteSuccess "       OK: YOLOX installed"
     }
+    else {
+        WriteSuccess "       OK: YOLOX already installed"
+    }
+    
+    # Ensure statsmodels is installed (for analytics agents)
+    $statsCheck = pip show statsmodels 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        WriteInfo "       Installing statsmodels..."
+        pip install statsmodels -q 2>&1 | Out-Null
+        WriteSuccess "       OK: statsmodels installed"
+    }
+    
+    # Ensure timm is installed (required for DETR accident detection)
+    $timmCheck = pip show timm 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        WriteInfo "       Installing timm (required for DETR)..."
+        pip install timm -q 2>&1 | Out-Null
+        WriteSuccess "       OK: timm installed"
+    }
     
     # Download YOLOX weights if not exists
     if (-not (Test-Path "assets\models\yolox_x.pth")) {
         WriteInfo "       Downloading YOLOX-X weights (794MB)..."
         WriteInfo "       This may take a few minutes..."
-        pip install -r requirements/base.txt -q 2>&1 | Out-Null
         python scripts/download_yolox_weights.py --model yolox-x 2>&1 | Out-Null
         if (Test-Path "assets\models\yolox_x.pth") {
             WriteSuccess "       OK: YOLOX-X weights downloaded"
@@ -952,6 +1043,36 @@ VITE_WS_URL=ws://localhost:3001
     Write-Host ""
     
     # ============================================================================
+    # Step 8: Run CV and Sync Pipeline (Real-time Data Generator)
+    # ============================================================================
+    WriteInfo "[8/8] Starting Real-time Data Generator Pipeline..."
+    WriteInfo "      - Live Camera → YOLOX → Neo4j → Analytics"
+    WriteInfo "      - Runs: 99999, Delay: 60s, Max Cameras: ALL"
+    WriteInfo "      - This will populate databases with real traffic data"
+    
+    # Run CV pipeline in background using Docker python-backend or local venv
+    $cvSyncCmd = @"
+Set-Location '$ProjectRoot'
+if (Test-Path '.venv') {
+    .\`.venv\Scripts\Activate.ps1
+}
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host '  CV & Sync Pipeline - Data Generator (PROD)' -ForegroundColor Yellow
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host ''
+python scripts/pipeline/run_cv_and_sync.py --runs 99999 --delay 60
+Write-Host ''
+Write-Host 'Pipeline completed! Press any key to close...' -ForegroundColor Green
+`$null = `$Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+"@
+    
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", $cvSyncCmd
+    Start-Sleep -Seconds 2
+    WriteSuccess "      OK: CV & Sync pipeline started"
+    
+    Write-Host ""
+    
+    # ============================================================================
     # Success Summary
     # ============================================================================
     WriteSuccess "============================================================"
@@ -971,6 +1092,10 @@ VITE_WS_URL=ws://localhost:3001
     Write-Host "                           " -NoNewline; Write-Host " (neo4j / test12345)" -ForegroundColor DarkGray
     Write-Host "    Apache Jena Fuseki:    " -NoNewline; Write-Host " http://localhost:3030" -ForegroundColor Yellow
     Write-Host "                           " -NoNewline; Write-Host " (admin / test_admin)" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "  Data Pipeline:" -ForegroundColor White
+    Write-Host "    CV & Sync Pipeline:    " -NoNewline; Write-Host "Running in separate window" -ForegroundColor Magenta
+    Write-Host "                           " -NoNewline; Write-Host " (99999 runs, 60s delay, ALL cameras)" -ForegroundColor DarkGray
     Write-Host ""
     WriteInfo "USEFUL COMMANDS:"
     Write-Host "  View logs:     docker-compose logs -f" -ForegroundColor White
@@ -1015,7 +1140,7 @@ function Stop-Services {
     # Stop Python processes (except system Python)
     WriteInfo "        Stopping Python processes..."
     Get-Process -Name python -ErrorAction SilentlyContinue | 
-    Where-Object { $_.Path -like "*Builder-Layer-End*" } | 
+    Where-Object { $_.Path -like "*UIP-Urban_Intelligence_Platform*" } | 
     Stop-Process -Force
     WriteSuccess "        OK: Python stopped"
     

@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: AUTHORS.md
+Module: Project Authors List
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-15
+Version: 2.0.0
+License: MIT
+
+Description:
+  List of all authors and original creators of the UIP project.
+============================================================================
+-->
+
 # Authors
 
 This file lists all the authors and original creators of the **UIP - Urban Intelligence Platform** project.
@@ -18,9 +38,9 @@ The following individuals are the original creators and primary authors of this 
   - CI/CD pipelines
   - Docker infrastructure
 
-### Nguyễn Việt Hoàng (Full-Stack Developer)
-- **GitHub**: [@JamesNguyen106](https://github.com/JamesNguyen106)
-- **Email**: viethoang01062004nt@gmail.com
+### Nguyễn Đình Anh Tuấn (Full-Stack Developer)
+- **GitHub**: [@NguyenDinhAnhTuan04](https://github.com/NguyenDinhAnhTuan04)
+- **Email**: nguyentuan834897@gmail.com
 - **Role**: Full-Stack Developer, Frontend Lead
 - **Contributions**:
   - Traffic Web Application (React/TypeScript)
@@ -29,9 +49,9 @@ The following individuals are the original creators and primary authors of this 
   - User interface design
   - Docusaurus documentation site
 
-### Nguyễn Đình Anh Tuấn (Backend Developer)
-- **GitHub**: [@NguyenDinhAnhTuan04](https://github.com/NguyenDinhAnhTuan04)
-- **Email**: nguyentuan834897@gmail.com
+### Nguyễn Việt Hoàng (Backend Developer)
+- **GitHub**: [@JamesNguyen106](https://github.com/JamesNguyen106)
+- **Email**: nguyenviethoang01062004nt@gmail.com
 - **Role**: Backend Developer, Data Engineer
 - **Contributions**:
   - Agent system development
@@ -47,7 +67,7 @@ The following individuals are the original creators and primary authors of this 
 This project was developed as part of academic research in Smart City and Linked Open Data technologies.
 
 **Institution**: University/College (if applicable)
-**Year**: 2024-2025
+**Year**: 2025
 
 ---
 
@@ -62,4 +82,4 @@ For project inquiries, please contact the lead developer:
 
 All authors have agreed to license their contributions under the [MIT License](LICENSE).
 
-Copyright (c) 2024-2025 UIP - Urban Intelligence Platform Authors
+Copyright (c) 2025 UIP - Urban Intelligence Platform Authors

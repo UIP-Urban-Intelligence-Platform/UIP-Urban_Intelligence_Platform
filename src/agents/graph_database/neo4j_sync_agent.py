@@ -3,8 +3,8 @@
 """Neo4j Graph Database Synchronization Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -31,6 +31,10 @@ except ImportError:
     NEO4J_AVAILABLE = False
     GraphDatabase = None  # type: ignore
     Driver = None  # type: ignore
+
+# Reference for type annotations when Neo4j available
+if NEO4J_AVAILABLE:
+    assert Driver is not None  # nosec: type available
 
 import logging
 from datetime import datetime
@@ -109,8 +113,8 @@ class Neo4jSyncAgent:
             logger.debug(f"Camera sync skipped (symbolic): {camera_data.get('id')}")
             return True
 
-        # Symbolic Cypher query (not executed)
-        cypher = f"""
+        # Symbolic Cypher query (for documentation - not executed in symbolic mode)
+        cypher_template = f"""
         MERGE (c:Camera {{id: '{camera_data.get('id')}'}})
         SET c.name = '{camera_data.get('name', 'Unknown')}',
             c.location = point({{
@@ -121,7 +125,10 @@ class Neo4jSyncAgent:
         RETURN c
         """
 
-        logger.debug(f"Symbolic Neo4j sync: Camera {camera_data.get('id')}")
+        logger.debug(
+            f"Symbolic Neo4j sync: Camera {camera_data.get('id')} "
+            f"(query length: {len(cypher_template)} chars)"
+        )
         return True
 
     def sync_observation(self, observation: Dict[str, Any]) -> bool:
@@ -136,7 +143,8 @@ class Neo4jSyncAgent:
         camera_id = observation.get("camera_id")
         obs_id = observation.get("id")
 
-        cypher = f"""
+        # Symbolic Cypher query (for documentation - not executed in symbolic mode)
+        cypher_template = f"""
         MATCH (c:Camera {{id: '{camera_id}'}})
         CREATE (o:Observation {{
             id: '{obs_id}',
@@ -147,7 +155,10 @@ class Neo4jSyncAgent:
         RETURN o
         """
 
-        logger.debug(f"Symbolic Neo4j sync: Observation {obs_id}")
+        logger.debug(
+            f"Symbolic Neo4j sync: Observation {obs_id} "
+            f"(query length: {len(cypher_template)} chars)"
+        )
         return True
 
     def sync_accident(self, accident: Dict[str, Any]) -> bool:
@@ -190,7 +201,8 @@ class Neo4jSyncAgent:
         if not self.enabled:
             return True
 
-        cypher = f"""
+        # Symbolic Cypher query (for documentation - not executed in symbolic mode)
+        cypher_template = f"""
         MATCH (e1:{entity1_type} {{id: '{entity1_id}'}})
         MATCH (e2:{entity2_type} {{id: '{entity2_id}'}})
         MERGE (e1)-[r:{correlation_type}]->(e2)
@@ -200,7 +212,8 @@ class Neo4jSyncAgent:
         """
 
         logger.debug(
-            f"Symbolic correlation: {entity1_id} -{correlation_type}-> {entity2_id}"
+            f"Symbolic correlation: {entity1_id} -{correlation_type}-> {entity2_id} "
+            f"(query length: {len(cypher_template)} chars)"
         )
         return True
 

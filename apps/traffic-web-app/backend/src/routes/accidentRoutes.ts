@@ -1,6 +1,12 @@
 /**
  * Accident Routes - RoadAccident API Endpoints
- * 
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/routes/accidentRoutes
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
@@ -30,6 +36,7 @@
 import { Router, Request, Response } from 'express';
 import { genericNgsiService } from '../services/genericNgsiService';
 import { logger } from '../utils/logger';
+import { Neo4jService } from '../services/neo4jService';
 
 const router = Router();
 
@@ -41,18 +48,18 @@ const router = Router();
  * - hours: Filter accidents from last N hours
  * - severity: Filter by severity (severe, moderate, minor)
  * - cameraId: Filter by affected camera ID
- * - limit: Maximum number of results (default: 100, max: 1000)
+ * - limit: Maximum number of results (default: all, use 0 or 'all' for no limit)
  * - page: Page number for pagination (default: 1)
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { hours, severity, cameraId, limit = 100, page = 1 } = req.query;
-
-    logger.info(`Fetching accidents with filters: hours=${hours}, severity=${severity}, cameraId=${cameraId}, limit=${limit}, page=${page}`);
+    const { hours, severity, cameraId, limit, page = 1 } = req.query;
+    // If no limit specified or limit=0 or limit='all', return ALL accidents
+    const noLimit = !limit || limit === '0' || limit === 'all';
+    logger.info(`Fetching accidents from Stellio: hours=${hours}, severity=${severity}, cameraId=${cameraId}, limit=${noLimit ? 'ALL' : limit}, page=${page}`);
 
     // Build query params
     const queryParams: any = {};
-
     if (hours) {
       const hoursNum = parseInt(hours as string);
       if (isNaN(hoursNum) || hoursNum <= 0) {
@@ -63,7 +70,6 @@ router.get('/', async (req: Request, res: Response) => {
       }
       queryParams.hours = hoursNum;
     }
-
     if (severity) {
       const validSeverities = ['severe', 'moderate', 'minor'];
       if (!validSeverities.includes(severity as string)) {
@@ -74,11 +80,9 @@ router.get('/', async (req: Request, res: Response) => {
       }
       queryParams.severity = severity;
     }
-
     if (cameraId) {
       queryParams.cameraId = cameraId;
     }
-
     if (limit) {
       const limitNum = parseInt(limit as string);
       if (isNaN(limitNum) || limitNum <= 0) {
@@ -90,19 +94,32 @@ router.get('/', async (req: Request, res: Response) => {
       queryParams.limit = Math.min(limitNum, 1000);
     }
 
-    // Fetch accidents using generic service
-    const accidents = await genericNgsiService.fetchEntities('RoadAccident', queryParams);
+    // Fetch accidents using generic service - supports both Accident and RoadAccident types
+    const accidents = await genericNgsiService.fetchEntities('Accident', queryParams);
 
-    // Apply pagination
+    // Apply pagination only if limit is specified
+    if (noLimit) {
+      // Return ALL accidents without pagination
+      logger.info(`Returned ALL ${accidents.length} accidents from Stellio`);
+      return res.status(200).json({
+        success: true,
+        count: accidents.length,
+        totalPages: 1,
+        currentPage: 1,
+        totalCount: accidents.length,
+        data: accidents
+      });
+    }
+
+    // Pagination mode
     const pageNum = parseInt(page as string) || 1;
     const limitNum = parseInt(limit as string) || 100;
     const startIndex = (pageNum - 1) * limitNum;
     const endIndex = startIndex + limitNum;
-
     const paginatedAccidents = accidents.slice(startIndex, endIndex);
     const totalPages = Math.ceil(accidents.length / limitNum);
 
-    logger.info(`Returned ${paginatedAccidents.length} accidents (page ${pageNum}/${totalPages})`);
+    logger.info(`Returned ${paginatedAccidents.length} accidents from Stellio (page ${pageNum}/${totalPages})`);
 
     return res.status(200).json({
       success: true,
@@ -112,10 +129,8 @@ router.get('/', async (req: Request, res: Response) => {
       totalCount: accidents.length,
       data: paginatedAccidents
     });
-
   } catch (error) {
-    logger.error(`Error fetching accidents: ${error}`);
-
+    logger.error(`Error fetching accidents from Stellio: ${error}`);
     return res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : 'Internal server error'

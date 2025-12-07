@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/backend/docs/api/CORRELATION_API_DOCUMENTATION.md
+Module: Correlation API Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Accident-Pattern Correlation API Documentation.
+============================================================================
+-->
+
 # Accident-Pattern Correlation API Documentation
 
 ## Overview
@@ -428,7 +448,7 @@ curl http://localhost:5000/api/correlations/accident-pattern | jq '.data.byPatte
 ### Query Parameters
 ```typescript
 // Filter by date range
-GET /api/correlations/accident-pattern?from=2024-01-01&to=2024-01-31
+GET /api/correlations/accident-pattern?from=2025-11-20&to=2025-12-05
 
 // Filter by camera
 GET /api/correlations/accident-pattern?camera=Camera:001

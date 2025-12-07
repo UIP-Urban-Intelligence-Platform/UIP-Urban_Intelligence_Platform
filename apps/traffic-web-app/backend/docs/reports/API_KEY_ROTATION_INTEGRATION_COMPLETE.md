@@ -1,6 +1,26 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/backend/docs/reports/API_KEY_ROTATION_INTEGRATION_COMPLETE.md
+Module: API Key Rotation Integration Complete Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  API Key Rotation Integration Complete.
+============================================================================
+-->
+
 # API Key Rotation Integration - Complete ✅
 
-**Completion Date**: 2025-01-XX  
+**Completion Date**: 2025-11-20  
 **Status**: All 3 Enhanced Agents Fully Integrated
 
 ---
@@ -84,7 +104,7 @@ All API keys now support **multiple values separated by commas**:
 
 ```env
 # Single key (legacy format - still supported)
-GEMINI_API_KEY=AIzaSyDtelIruWqGr2BOa-VIpqpBdL_-Ih8MGBQ
+GEMINI_API_KEY=your_gemini_api_key_here
 
 # Multiple keys (new format - recommended)
 GEMINI_API_KEY=key1,key2,key3
@@ -203,15 +223,15 @@ Check rotation manager status in logs:
     {
       key: "***abc",
       failureCount: 0,
-      lastUsed: "2025-01-XX...",
+      lastUsed: "2025-11-20...",
       blacklisted: false
     },
     {
       key: "***def",
       failureCount: 3,
-      lastUsed: "2025-01-XX...",
+      lastUsed: "2025-11-20...",
       blacklisted: true,
-      blacklistedUntil: "2025-01-XX..."
+      blacklistedUntil: "2025-11-20..."
     }
   ]
 }

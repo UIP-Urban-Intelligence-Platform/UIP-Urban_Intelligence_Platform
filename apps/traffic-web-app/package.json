@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "Full-stack HCMC Traffic Monitoring System - Real-time traffic analysis and visualization platform for Ho Chi Minh City",
   "private": true,
-  "homepage": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform",
+  "homepage": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git"
+    "url": "git+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git"
   },
   "bugs": {
-    "url": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues"
+    "url": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -66,7 +66,7 @@
   "contributors": [
     {
       "name": "UIP Team",
-      "url": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform"
+      "url": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform"
     }
   ],
   "license": "MIT"

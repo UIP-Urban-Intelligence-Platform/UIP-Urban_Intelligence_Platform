@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Deployment guide documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/guides/deployment.md
+Module: Guides Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for deployment procedures and configurations.
+============================================================================
+-->
+
 # Deployment Guide
 
 ## Overview
@@ -699,12 +718,12 @@ scrape_configs:
 
 ```bash
 # Import dashboard
-curl -X POST http://grafana:3000/api/dashboards/db \
-  -H "Content-Type: application/json" \
+curl -X POST http://grafana:3000/api/dashboards/db \\
+  -H \"Content-Type: application/json\" \\
   -d @config/grafana_dashboard.json
 ```
 
-## SSL/TLS Configuration
+## SSL/TLS Configuration for Kubernetes
 
 ```bash
 # Install cert-manager
@@ -815,4 +834,4 @@ curl http://stellio:8080/ngsi-ld/v1/entities
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)

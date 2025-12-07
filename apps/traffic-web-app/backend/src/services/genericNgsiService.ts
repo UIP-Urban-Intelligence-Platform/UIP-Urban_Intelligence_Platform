@@ -1,4 +1,12 @@
 /**
+ * Generic NGSI-LD Service - Config-Driven Entity Architecture
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/services/genericNgsiService
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
@@ -87,22 +95,22 @@ export class GenericNgsiService {
     // Create HTTP agent with connection pooling
     const httpAgent = new http.Agent({
       keepAlive: true,
-      keepAliveMsecs: 30000,
+      keepAliveMsecs: 60000,
       maxSockets: 10,
       maxFreeSockets: 5,
-      timeout: 30000
+      timeout: 60000
     });
 
     const httpsAgent = new https.Agent({
       keepAlive: true,
-      keepAliveMsecs: 30000,
+      keepAliveMsecs: 60000,
       maxSockets: 10,
       maxFreeSockets: 5,
-      timeout: 30000
+      timeout: 60000
     });
 
     this.axiosClient = axios.create({
-      timeout: 30000,
+      timeout: 60000,
       httpAgent: httpAgent,
       httpsAgent: httpsAgent,
       maxRedirects: 5,
@@ -124,30 +132,40 @@ export class GenericNgsiService {
     }
 
     try {
-      // Build Stellio query URL
-      const stellioUrl = `${this.stellioBaseUrl}?type=${entityConfig.entityType}`;
+      // Build Stellio query URL with pagination to fetch ALL entities
+      // Stellio max limit is 100 per request, so we paginate until no more results
+      const stellioPageSize = 100; // Stellio max limit per request
+      let allEntities: any[] = [];
+      let offset = 0;
+      let hasMore = true;
 
-      logger.info(`Fetching ${entityName} entities from Stellio: ${stellioUrl}`);
+      while (hasMore) {
+        const stellioUrl = `${this.stellioBaseUrl}?type=${entityConfig.entityType}&limit=${stellioPageSize}&offset=${offset}`;
 
-      // Fetch from Stellio using pooled client
-      const response = await this.axiosClient.get(stellioUrl, {
-        headers: {
-          'Accept': 'application/ld+json',
-          'Link': '<https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"'
+        logger.debug(`Fetching ${entityName} entities from Stellio: ${stellioUrl}`);
+
+        const response = await this.axiosClient.get(stellioUrl, {
+          headers: {
+            'Accept': 'application/ld+json',
+            'Link': '<https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel="http://www.w3.org/ns/json-ld#context"; type="application/ld+json"'
+          }
+        });
+
+        let entities = response.data;
+        if (!Array.isArray(entities)) {
+          entities = entities ? [entities] : [];
         }
-      });
 
-      let entities = response.data;
-
-      if (!Array.isArray(entities)) {
-        entities = [entities];
+        allEntities = allEntities.concat(entities);
+        offset += stellioPageSize;
+        hasMore = entities.length === stellioPageSize;
       }
 
-      logger.info(`Fetched ${entities.length} ${entityName} entities from Stellio`);
+      logger.info(`Fetched ${allEntities.length} ${entityName} entities from Stellio (paginated)`);
 
       // Transform entities
       const transformedEntities = await Promise.all(
-        entities.map((entity: any) => this.transformEntity(entity, entityConfig))
+        allEntities.map((entity: any) => this.transformEntity(entity, entityConfig))
       );
 
       // Apply filters from query params

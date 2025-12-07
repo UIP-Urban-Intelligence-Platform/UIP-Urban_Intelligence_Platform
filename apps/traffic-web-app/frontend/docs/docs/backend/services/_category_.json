@@ -1,0 +1,19 @@
+{
+    "label": "Services",
+    "position": 3,
+    "link": {
+        "type": "generated-index",
+        "title": "Backend Services",
+        "description": "Database clients, WebSocket communication, and data aggregation services for the UIP Traffic Backend.",
+        "keywords": [
+            "services",
+            "stellio",
+            "neo4j",
+            "fuseki",
+            "postgres",
+            "websocket",
+            "aggregator",
+            "ngsi-ld"
+        ]
+    }
+}

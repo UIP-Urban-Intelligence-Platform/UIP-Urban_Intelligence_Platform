@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-NGSI-LD Guide
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: wiki/NGSI-LD-Guide.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/NGSI-LD-Guide.md
+Module: NGSI-LD Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
+License: MIT
+
+Description:
+  Complete guide to NGSI-LD (Next Generation Service Interface - Linked Data).
+============================================================================
 -->
 
 # 🔷 NGSI-LD Guide
@@ -86,7 +94,7 @@ UIP - Urban Intelligence Platform uses NGSI-LD as the primary data model for all
   },
   "dateObserved": {
     "type": "Property",
-    "value": "2024-01-15T10:30:00Z"
+    "value": "2025-11-29T10:30:00Z"
   },
   "isOnRoad": {
     "type": "Relationship",
@@ -124,7 +132,7 @@ UIP - Urban Intelligence Platform defines these NGSI-LD entity types:
   },
   "status": { "type": "Property", "value": "active" },
   "imageUrl": { "type": "Property", "value": "https://..." },
-  "dateModified": { "type": "Property", "value": "2024-01-15T10:30:00Z" }
+  "dateModified": { "type": "Property", "value": "2025-11-29T10:30:00Z" }
 }
 ```
 
@@ -135,7 +143,7 @@ UIP - Urban Intelligence Platform defines these NGSI-LD entity types:
   "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
   "id": "urn:ngsi-ld:TrafficFlowObserved:observation-001",
   "type": "TrafficFlowObserved",
-  "dateObserved": { "type": "Property", "value": "2024-01-15T10:30:00Z" },
+  "dateObserved": { "type": "Property", "value": "2025-11-29T10:30:00Z" },
   "vehicleCount": { "type": "Property", "value": 45 },
   "congestionLevel": { "type": "Property", "value": 0.35 },
   "averageSpeed": { "type": "Property", "value": 25.5, "unitCode": "KMH" },
@@ -153,7 +161,7 @@ UIP - Urban Intelligence Platform defines these NGSI-LD entity types:
   "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
   "id": "urn:ngsi-ld:WeatherObserved:weather-001",
   "type": "WeatherObserved",
-  "dateObserved": { "type": "Property", "value": "2024-01-15T10:30:00Z" },
+  "dateObserved": { "type": "Property", "value": "2025-11-29T10:30:00Z" },
   "temperature": { "type": "Property", "value": 32.5, "unitCode": "CEL" },
   "humidity": { "type": "Property", "value": 75, "unitCode": "P1" },
   "weatherType": { "type": "Property", "value": "Clear" },
@@ -171,7 +179,7 @@ UIP - Urban Intelligence Platform defines these NGSI-LD entity types:
   "@context": "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
   "id": "urn:ngsi-ld:AirQualityObserved:aqi-001",
   "type": "AirQualityObserved",
-  "dateObserved": { "type": "Property", "value": "2024-01-15T10:30:00Z" },
+  "dateObserved": { "type": "Property", "value": "2025-11-29T10:30:00Z" },
   "airQualityIndex": { "type": "Property", "value": 85 },
   "pm25": { "type": "Property", "value": 35.2, "unitCode": "GQ" },
   "pm10": { "type": "Property", "value": 52.1, "unitCode": "GQ" },
@@ -302,10 +310,10 @@ GET /ngsi-ld/v1/entities?type=Camera&georel=within&geometry=Polygon&coordinates=
 
 ```http
 # Entities modified after date
-GET /ngsi-ld/v1/entities?type=TrafficFlowObserved&timerel=after&timeAt=2024-01-15T00:00:00Z
+GET /ngsi-ld/v1/entities?type=TrafficFlowObserved&timerel=after&timeAt=2025-11-29T00:00:00Z
 
 # Entities in time range
-GET /ngsi-ld/v1/temporal/entities?type=TrafficFlowObserved&timerel=between&timeAt=2024-01-15T00:00:00Z&endTimeAt=2024-01-15T23:59:59Z
+GET /ngsi-ld/v1/temporal/entities?type=TrafficFlowObserved&timerel=between&timeAt=2025-11-29T00:00:00Z&endTimeAt=2025-11-29T23:59:59Z
 ```
 
 ---

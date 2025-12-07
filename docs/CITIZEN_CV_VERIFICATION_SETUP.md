@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: docs/CITIZEN_CV_VERIFICATION_SETUP.md
+Module: Citizen Science CV Verification Setup
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Citizen Science API CV Verification setup guide.
+============================================================================
+-->
+
 # Citizen Science API - CV Verification Service Setup
 
 ## 🎯 Tổng quan

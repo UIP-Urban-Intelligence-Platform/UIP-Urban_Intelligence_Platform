@@ -3,8 +3,8 @@
 """NGSI-LD Transformer Unit Test Suite.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -31,7 +31,7 @@ class TestNGSILDTransformer:
         observation = {
             "camera_id": "CAM001",
             "vehicles": 15,
-            "timestamp": "2024-01-15T10:30:00Z",
+            "timestamp": "2025-11-29T10:30:00Z",
         }
 
         # Transform to NGSI-LD

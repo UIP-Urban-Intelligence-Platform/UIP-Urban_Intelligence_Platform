@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Technology-Stack.md
+Module: Technology Stack Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Complete list of technologies, frameworks, and tools used in UIP.
+============================================================================
+-->
 # 🔧 Technology Stack
 
 Complete list of technologies, frameworks, and tools used in UIP - Urban Intelligence Platform.
@@ -75,24 +94,25 @@ Complete list of technologies, frameworks, and tools used in UIP - Urban Intelli
 ### Reporting
 
 | Technology | Version | Purpose |
-|------------|---------|---------|
-| reportlab | 4.0+ | PDF generation |
-| weasyprint | 60.0+ | HTML to PDF |
+|------------|---------|---------||
+| reportlab | 4.0+ | PDF generation (pure BSD license) |
 | Jinja2 | 3.1+ | Templating |
+
+> **Note (2025-12):** Migrated from weasyprint to pure reportlab for PDF generation to achieve 100% MIT-compatible licensing (weasyprint had pyphen GPL dependency).
 
 ### Development Tools
 
 | Technology | Version | Purpose |
-|------------|---------|---------|
+|------------|---------|--------|
 | black | 23.11+ | Code formatter |
-| isort | 5.12+ | Import sorter |
-| flake8 | 6.1+ | Linter |
-| pylint | 3.0+ | Linter |
+| ruff | 0.1+ | Linter & import sorter (replaces flake8, isort, pylint) |
 | mypy | 1.7+ | Type checker |
 | pytest | 7.4+ | Testing |
 | pytest-asyncio | 0.21+ | Async testing |
 | pytest-cov | 4.1+ | Coverage |
 | pre-commit | 3.5+ | Git hooks |
+
+> **Note (2025-12):** Migrated from flake8/isort/pylint to Ruff for 10-100x faster linting.
 
 ---
 
@@ -153,10 +173,12 @@ Complete list of technologies, frameworks, and tools used in UIP - Urban Intelli
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Leaflet | 1.9+ | Maps |
-| React-Leaflet | 4.2+ | React map wrapper |
+| MapLibre GL JS | 4.7+ | Interactive vector tile maps (BSD-3-Clause) |
+| react-map-gl | 7.1+ | React bindings for MapLibre (MIT) |
 | Recharts | 2.8+ | Charts |
 | Lucide React | 0.294+ | Icons |
+
+> **Note:** Migrated from React-Leaflet (Hippocratic) to react-map-gl + MapLibre GL JS in December 2025 for 100% MIT compatibility.
 
 ### Forms & Validation
 
@@ -341,7 +363,7 @@ Complete list of technologies, frameworks, and tools used in UIP - Urban Intelli
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[System-Architecture]] - Architecture overview
 - [[Docker-Services]] - Container details

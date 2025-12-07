@@ -1,14 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 Nguyen Nhat Quang
-
+============================================================================
 UIP - Urban Intelligence Platform
-Community Discussions & Communication Guide
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: DISCUSSIONS.md
+SPDX-License-Identifier: MIT
+============================================================================
+File: DISCUSSIONS.md
+Module: Community Discussions & Communication Guide
 Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
-Repository: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+License: MIT
+
+Description:
+  Community discussions and communication guidelines for the project.
+============================================================================
 -->
 
 # 💬 Community Discussions & Communication
@@ -23,10 +30,10 @@ We maintain a mailing list for announcements, discussions, and community engagem
 
 ### Subscribe
 
-**Google Groups**: [uip-urban-intelligence@googlegroups.com](https://groups.google.com/g/uip-urban-intelligence)
+**Google Groups**: [uip---urban-intelligence-platform@googlegroups.com](https://groups.google.com/g/uip---urban-intelligence-platform)
 
 To subscribe:
-1. Visit [Google Groups - UIP Urban Intelligence](https://groups.google.com/g/uip-urban-intelligence)
+1. Visit [Google Groups - UIP Urban Intelligence Platform](https://groups.google.com/g/uip---urban-intelligence-platform)
 2. Click "Ask to join group"
 3. Or send an email to: `uip-urban-intelligence+subscribe@googlegroups.com`
 
@@ -52,7 +59,7 @@ To subscribe:
 
 For real-time Q&A and community discussions:
 
-**[GitHub Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions)**
+**[GitHub Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions)**
 
 ### Categories
 
@@ -81,7 +88,7 @@ For real-time Q&A and community discussions:
 
 Join our Discord for real-time chat and community support:
 
-**[Join Discord](https://discord.gg/uip-urban-intelligence)** *(Coming Soon)*
+**[Join Discord](https://discord.com/invite/tbDJqsUu)**
 
 ### Channels
 
@@ -102,9 +109,9 @@ Stay updated with new releases:
 
 ### Where We Announce
 
-1. **GitHub Releases**: [Releases Page](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases)
+1. **GitHub Releases**: [Releases Page](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/releases)
 2. **Mailing List**: Subscribe to receive notifications
-3. **GitHub Discussions**: [Announcements category](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions/categories/announcements)
+3. **GitHub Discussions**: [Announcements category](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions/categories/announcements)
 4. **Discord**: #announcements channel
 5. **NEWS File**: Check [NEWS](NEWS) file for release history
 
@@ -119,7 +126,7 @@ Stay updated with new releases:
 1. **Watch Releases**: Click "Watch" → "Custom" → "Releases"
 2. **RSS Feed**: Use GitHub's Atom feed for releases
 3. **Email**: Subscribe to our mailing list
-4. **Atom Feed**: `https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases.atom`
+4. **Atom Feed**: `https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/releases.atom`
 
 ### Release Announcement Format
 
@@ -140,7 +147,7 @@ See [Release Announcement Template](docs/RELEASE_ANNOUNCEMENT_TEMPLATE.md) for d
 Security vulnerabilities are handled privately:
 
 1. **Report**: See [SECURITY.md](.github/SECURITY.md)
-2. **Advisory**: Published on [GitHub Security Advisories](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/security/advisories)
+2. **Advisory**: Published on [GitHub Security Advisories](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/security/advisories)
 3. **Notification**: Critical issues announced on mailing list
 
 ---
@@ -223,7 +230,7 @@ See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 | Resource | Link |
 |----------|------|
 | Documentation | [docs/](docs/) |
-| Wiki | [GitHub Wiki](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki) |
+| Wiki | [GitHub Wiki](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/wiki) |
 | API Reference | [API Docs](docs/api/) |
 | Examples | [examples/](examples/) |
 | Changelog | [CHANGELOG.md](docs/CHANGELOG.md) |
@@ -234,10 +241,10 @@ See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 
 | Purpose | Contact |
 |---------|---------|      
-| General Questions | [GitHub Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions) |
-| Bug Reports | [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues) |
+| General Questions | [GitHub Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions) |
+| Bug Reports | [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues) |
 | Security Issues | security@uip-urban-intelligence.dev |
-| Mailing List | [uip-urban-intelligence@googlegroups.com](https://groups.google.com/g/uip-urban-intelligence) |
+| Mailing List | [Google Groups](https://groups.google.com/g/uip---urban-intelligence-platform) |
 | Maintainers | [MAINTAINERS.md](MAINTAINERS.md) |---
 
 ## 🙏 Thank You

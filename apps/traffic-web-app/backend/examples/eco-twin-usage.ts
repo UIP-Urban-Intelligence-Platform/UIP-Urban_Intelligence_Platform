@@ -1,4 +1,10 @@
 /**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
  * @module apps/traffic-web-app/backend/examples/eco-twin-usage
  * @author Nguyễn Nhật Quang
  * @created 2025-11-26

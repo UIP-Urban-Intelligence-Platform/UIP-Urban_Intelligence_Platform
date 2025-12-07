@@ -3,8 +3,8 @@
 """External Data Collector Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -949,8 +949,8 @@ class ExternalDataCollectorAgent:
             "max_concurrent_requests", 2
         )
         connector = aiohttp.TCPConnector(
-            limit=max_concurrent, limit_per_host=2  # ✅ Giảm từ 5 → 2
-        )
+            limit=max_concurrent, limit_per_host=2
+        )  # ✅ Giảm từ 5 → 2
 
         async with aiohttp.ClientSession(connector=connector) as session:
             total_batches = (len(entities) - 1) // batch_size + 1

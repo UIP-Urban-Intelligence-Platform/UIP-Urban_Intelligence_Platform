@@ -1,7 +1,16 @@
-# ============================================================
-# GraphRAG Investigator Agent Configuration
-# ============================================================
-# 
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/backend/config/agents/graph-investigator.yaml
+# Author: UIP Team
+# Created: 2025-11-26
+# Modified: 2025-12-06
+# Version: 3.0.0
+#
+# Description: GraphRAG Investigator Agent Configuration
 # 100% DOMAIN-AGNOSTIC & CONFIG-DRIVEN ARCHITECTURE
 # 
 # This configuration file controls ALL aspects of the agent:
@@ -12,13 +21,11 @@
 # - ffmpeg stream capture settings
 #
 # TO ADD NEW DOMAIN: Simply modify this YAML file, NO code changes needed
-# ============================================================
 
 # ============================================================
 # VISION ANALYSIS CONFIGURATION
 # ============================================================
-# Module: apps.traffic-web-app.backend.config.agents.graph-investigator
-# Author: Nguyễn Nhật Quang
+# Author: Nguyen Nhat Quang
 # Created: 2025-11-26
 # Version: 3.0.0
 # License: MIT

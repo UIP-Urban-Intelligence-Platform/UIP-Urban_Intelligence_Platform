@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-One-Command Setup Guide
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: wiki/One-Command-Setup.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/One-Command-Setup.md
+Module: One-Command Setup Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
+License: MIT
+
+Description:
+  Get the entire UIP running with a single command.
+============================================================================
 -->
 
 # ⚡ One-Command Setup
@@ -33,7 +41,7 @@ The one-command setup (`justrun.ps1` / `justrun.sh`) is designed to:
 
 ```powershell
 # Clone and enter directory
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Run the one-command setup
@@ -44,7 +52,7 @@ cd UIP-Urban_Intelligence_Platform
 
 ```bash
 # Clone and enter directory
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Make executable and run

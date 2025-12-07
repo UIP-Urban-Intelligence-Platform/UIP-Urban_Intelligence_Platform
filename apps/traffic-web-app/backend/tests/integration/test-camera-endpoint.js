@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 
 /**
- * Camera Endpoint Manual Test Script
- * Module: tests.integration.test-camera-endpoint
- * Author: Nguyễn Nhật Quang
- * Created: 2025-11-26
- * Version: 1.0.0
- * License: MIT
- * This script tests the Camera API endpoint with various query parameters
- * Run: node test-camera-endpoint.js
+ * @file test-camera-endpoint.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-camera-endpoint
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 1.0.0
+ * @license MIT
+ * @description Camera Endpoint Manual Test Script - Tests the Camera API endpoint
+ * with various query parameters.
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 const axios = require('axios');
@@ -51,27 +57,27 @@ async function testEndpoint(description, url, expectedStatus = 200) {
     log('='.repeat(60), 'blue');
 
     const response = await axios.get(url);
-    
+
     if (response.status === expectedStatus) {
       logSuccess(`Status: ${response.status}`);
       logSuccess(`Success: ${response.data.success}`);
       logInfo(`Count: ${response.data.count}`);
-      
+
       if (response.data.data && response.data.data.length > 0) {
         logInfo(`Sample camera data (first result):`);
         console.log(JSON.stringify(response.data.data[0], null, 2));
-        
+
         // Validate structure
         const camera = response.data.data[0];
         const requiredFields = ['id', 'cameraName', 'location', 'cameraType', 'status', 'dateModified'];
         const missingFields = requiredFields.filter(field => !(field in camera));
-        
+
         if (missingFields.length === 0) {
           logSuccess('All required fields present');
         } else {
           logWarning(`Missing fields: ${missingFields.join(', ')}`);
         }
-        
+
         // Validate location structure
         if (camera.location && typeof camera.location === 'object') {
           if ('lat' in camera.location && 'lng' in camera.location) {
@@ -83,7 +89,7 @@ async function testEndpoint(description, url, expectedStatus = 200) {
       } else {
         logWarning('No cameras returned');
       }
-      
+
       return { success: true, data: response.data };
     } else {
       logError(`Unexpected status: ${response.status} (expected ${expectedStatus})`);
@@ -112,7 +118,7 @@ async function runTests() {
   log('\n' + '═'.repeat(60), 'yellow');
   log('Camera Endpoint Test Suite', 'yellow');
   log('═'.repeat(60), 'yellow');
-  
+
   const results = {
     total: 0,
     passed: 0,
@@ -253,8 +259,8 @@ async function runTests() {
   log(`Total tests: ${results.total}`);
   log(`Passed: ${results.passed}`, 'green');
   log(`Failed: ${results.failed}`, results.failed > 0 ? 'red' : 'green');
-  log(`Success rate: ${((results.passed / results.total) * 100).toFixed(1)}%`, 
-      results.failed === 0 ? 'green' : 'yellow');
+  log(`Success rate: ${((results.passed / results.total) * 100).toFixed(1)}%`,
+    results.failed === 0 ? 'green' : 'yellow');
   log('═'.repeat(60), 'yellow');
 
   process.exit(results.failed > 0 ? 1 : 0);
@@ -264,7 +270,7 @@ async function runTests() {
 if (require.main === module) {
   log('\nStarting Camera Endpoint Tests...', 'cyan');
   log(`Target: ${API_BASE_URL}\n`, 'cyan');
-  
+
   runTests().catch(error => {
     logError(`\nTest suite failed: ${error.message}`);
     process.exit(1);

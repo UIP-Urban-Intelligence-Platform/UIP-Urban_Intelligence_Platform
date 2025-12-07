@@ -1,6 +1,25 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Contributing guide documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/guides/contributing.md
+Module: Guides Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for contributing guidelines and code of conduct.
+============================================================================
+-->
+
 # 🤝 Contributing Guide
 
-Thank you for your interest in contributing to Builder Layer End!
+Thank you for your interest in contributing to UIP - Urban Intelligence Platform!
 
 ---
 
@@ -24,12 +43,14 @@ We pledge to make participation in our project a harassment-free experience for 
 ### Our Standards
 
 **Positive behavior includes:**
+
 - Using welcoming and inclusive language
 - Being respectful of differing viewpoints
 - Gracefully accepting constructive criticism
 - Focusing on what is best for the community
 
 **Unacceptable behavior includes:**
+
 - Trolling, insulting/derogatory comments
 - Public or private harassment
 - Publishing others' private information
@@ -50,11 +71,11 @@ We pledge to make participation in our project a harassment-free experience for 
 
 ```bash
 # Fork the repository on GitHub, then:
-git clone https://github.com/YOUR-USERNAME/Builder-Layer-End.git
-cd Builder-Layer-End
+git clone https://github.com/YOUR-USERNAME/UIP-Urban_Intelligence_Platform.git
+cd UIP-Urban_Intelligence_Platform
 
 # Add upstream remote
-git remote add upstream https://github.com/ORIGINAL-OWNER/Builder-Layer-End.git
+git remote add upstream https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 ```
 
 ### Development Setup
@@ -82,7 +103,7 @@ docker-compose up -d
 
 ### Branch Strategy
 
-```
+```text
 main
 ├── develop          # Development branch
 ├── feature/*        # Feature branches
@@ -113,7 +134,7 @@ git checkout -b feature/your-feature-name
 
 ### Commit Message Format
 
-```
+```text
 <type>(<scope>): <description>
 
 [optional body]
@@ -122,6 +143,7 @@ git checkout -b feature/your-feature-name
 ```
 
 **Types:**
+
 | Type | Description |
 |------|-------------|
 | `feat` | New feature |
@@ -134,7 +156,8 @@ git checkout -b feature/your-feature-name
 | `perf` | Performance improvements |
 
 **Examples:**
-```
+
+```text
 feat(agent): add weather enrichment agent
 
 Implements OpenWeatherMap integration for camera data enrichment.
@@ -166,18 +189,18 @@ We follow [PEP 8](https://pep8.org/) with these tools:
 # Format code
 black src/ tests/
 
-# Sort imports
-isort src/ tests/
+# Lint with Ruff (replaces flake8, isort, pylint)
+ruff check src/ tests/
 
-# Lint code
-flake8 src/ tests/
-pylint src/
+# Auto-fix linting issues
+ruff check --fix src/ tests/
 
 # Type checking
 mypy src/
 ```
 
 **Configuration (.pre-commit-config.yaml):**
+
 ```yaml
 repos:
   - repo: https://github.com/psf/black
@@ -186,15 +209,11 @@ repos:
       - id: black
         language_version: python3.9
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.0
     hooks:
-      - id: isort
-
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
-    hooks:
-      - id: flake8
+      - id: ruff
+        args: ['--fix']
 ```
 
 ### TypeScript Style Guide
@@ -317,18 +336,21 @@ export class CameraService {
 ### Before Submitting
 
 1. **Sync with upstream**
+
    ```bash
    git fetch upstream
    git rebase upstream/develop
    ```
 
 2. **Run tests**
+
    ```bash
    pytest
    npm test
    ```
 
 3. **Run linters**
+
    ```bash
    pre-commit run --all-files
    ```
@@ -341,6 +363,7 @@ export class CameraService {
 ### Creating a Pull Request
 
 1. Push your branch:
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -442,6 +465,7 @@ Any other context or screenshots.
 ### Good First Issues
 
 Look for issues labeled:
+
 - `good first issue` - Great for newcomers
 - `help wanted` - Extra attention needed
 - `documentation` - Documentation improvements
@@ -452,7 +476,7 @@ Look for issues labeled:
 
 When adding new features, follow this structure:
 
-```
+```text
 src/
 ├── agents/               # Add new agents here
 │   └── your_category/
@@ -490,7 +514,7 @@ config/
 
 ---
 
-## 🙏 Thank You!
+## 🙏 Thank You
 
 Your contributions make this project better. We appreciate your time and effort!
 

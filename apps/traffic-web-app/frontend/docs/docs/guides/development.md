@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Development workflow documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/guides/development.md
+Module: Guides Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for development workflow and best practices.
+============================================================================
+-->
+
 # Development Workflow
 
 ## Overview
@@ -17,7 +36,7 @@ Complete guide for local development, debugging, testing, and preparing contribu
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 ```
 
@@ -74,7 +93,7 @@ ENABLE_DEBUG_TOOLBAR=true
 
 ### Backend Debugging (Python)
 
-#### VS Code Configuration
+#### VS Code Configuration for Backend
 
 **`.vscode/launch.json`**:
 
@@ -161,7 +180,7 @@ logger.error('Error occurred', exc_info=True)
 
 ### Frontend Debugging (React + TypeScript)
 
-#### VS Code Configuration
+#### VS Code Configuration for Frontend
 
 **`.vscode/launch.json`** (add to configurations):
 
@@ -384,6 +403,10 @@ tracemalloc.stop()
 # 2. Implement pagination
 # 3. Clear caches regularly
 ```
+
+### Environment Variables Reference
+
+```bash
 DEBUG=true
 APP_PORT=8000
 
@@ -429,7 +452,7 @@ cd apps/traffic-web-app/frontend
 npm run dev
 ```
 
-Visit: http://localhost:3000
+Visit: `http://localhost:3000`
 
 ### Documentation Site
 
@@ -438,7 +461,7 @@ cd apps/traffic-web-app/frontend/docs
 npm run start
 ```
 
-Visit: http://localhost:3001
+Visit: `http://localhost:3001`
 
 ## Development Tools
 
@@ -463,9 +486,9 @@ Visit: http://localhost:3001
 # Code formatting
 black . --line-length 100
 
-# Linting
-flake8 src/
-pylint src/
+# Linting with Ruff (replaces flake8/pylint)
+ruff check src/
+ruff check --fix src/
 
 # Type checking
 mypy src/
@@ -604,6 +627,7 @@ git commit -m "test(integration): add end-to-end tests"
 ```
 
 **Types**:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -642,7 +666,7 @@ git push origin feature/your-feature
 
 ## Database Management
 
-### MongoDB
+### MongoDB Management
 
 ```bash
 # Connect to MongoDB
@@ -656,7 +680,7 @@ db.cameras.find().pretty()
 db.accidents.find().sort({timestamp: -1}).limit(10)
 ```
 
-### Redis
+### Redis Management
 
 ```bash
 # Connect to Redis
@@ -674,7 +698,7 @@ FLUSHDB
 
 ### Fuseki
 
-Visit: http://localhost:3030/dataset.html
+Visit: `http://localhost:3030/dataset.html`
 
 ## Agent Development
 
@@ -822,7 +846,7 @@ describe('MyComponent', () => {
 });
 ```
 
-## Performance Profiling
+## Advanced Performance Profiling
 
 ### Backend Profiling
 
@@ -867,4 +891,4 @@ Both backend and frontend support hot reload in development:
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)

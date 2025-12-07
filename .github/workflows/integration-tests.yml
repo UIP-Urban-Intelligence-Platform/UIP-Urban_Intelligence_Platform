@@ -1,13 +1,20 @@
-# SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
-#
+# ============================================================================
 # UIP - Urban Intelligence Platform
-# GitHub Actions Workflow: Integration Tests
-# Automated testing pipeline for complete system integration
+# Copyright (c) 2025 UIP Team. All rights reserved.
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
-# Module: .github/workflows/integration-tests.yml
+# SPDX-License-Identifier: MIT
+# ============================================================================
+# File: .github/workflows/integration-tests.yml
+# Module: GitHub Actions Workflow - Integration Tests
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
 # Version: 1.0.0
+# License: MIT
+#
+# Description:
+#   Automated testing pipeline for complete system integration.
+# ============================================================================
 
 name: Integration Tests
 
@@ -53,23 +60,17 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 mypy black isort pylint
+          pip install ruff mypy black
           pip install -r requirements/base.txt -r requirements/dev.txt
       
       - name: Run Black (code formatting check)
         run: black --check src/ tests/
       
-      - name: Run isort (import sorting check)
-        run: isort --check-only src/ tests/
-      
-      - name: Run flake8 (linting)
-        run: flake8 src/ tests/ --max-line-length=100 --ignore=E203,W503
+      - name: Run Ruff (linting + import sorting - MIT licensed, 10-100x faster than pylint/flake8)
+        run: ruff check src/ tests/ --line-length=100
       
       - name: Run mypy (type checking)
         run: mypy src/ --ignore-missing-imports
-      
-      - name: Run pylint (code quality)
-        run: pylint src/ --disable=C0111,R0903,W0212 --max-line-length=100
 
   # ==========================================================================
   # UNIT TESTS

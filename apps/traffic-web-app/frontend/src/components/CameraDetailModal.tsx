@@ -1,4 +1,12 @@
 /**
+ * Camera Detail Modal - Comprehensive Camera Information
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/CameraDetailModal
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -26,17 +34,17 @@
  * - Accident entities from Stellio
  * 
  * @dependencies
- * - react-leaflet@^4.2: Mini-map rendering
+ * - react-map-gl@^7.1: Mini-map rendering (MIT license)
+ * - maplibre-gl@^4.7: Map display (BSD-3-Clause)
  * - recharts@^2.9: Chart visualization
  * - lucide-react@^0.294: Icons
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, Marker, Popup } from './map';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Camera, Accident } from '../types';
 import { useTrafficStore } from '../store/trafficStore';
-import L from 'leaflet';
 
 interface CameraDetailModalProps {
   camera: Camera;
@@ -77,8 +85,11 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
 
   // Extract camera coordinates with fallback for both formats
   // Backend sends {lat, lng}, not {latitude, longitude}
-  const cameraLat = (camera.location as any).lat || camera.location.latitude || 0;
-  const cameraLng = (camera.location as any).lng || camera.location.longitude || 0;
+  const rawLat = (camera.location as any)?.lat ?? camera.location?.latitude;
+  const rawLng = (camera.location as any)?.lng ?? camera.location?.longitude;
+  const cameraLat = typeof rawLat === 'number' && !isNaN(rawLat) ? rawLat : 0;
+  const cameraLng = typeof rawLng === 'number' && !isNaN(rawLng) ? rawLng : 0;
+  const hasValidCoordinates = typeof rawLat === 'number' && typeof rawLng === 'number' && !isNaN(rawLat) && !isNaN(rawLng);
 
   console.log('📷 Camera Detail Modal opened:', {
     cameraId: camera.id,
@@ -145,135 +156,80 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
 
       return distance < 2; // Within 2km
     });
-  }, [airQuality, camera, cameraLat, cameraLng]);  // Fetch historical data from Fuseki
+  }, [airQuality, camera, cameraLat, cameraLng]);  // Fetch historical data from backend API (which queries Fuseki)
   const fetchHistoricalData = async () => {
     setIsRefreshing(true);
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     try {
-      // Fetch AQI history (last 7 days)
-      const aqiQuery = `
-        PREFIX ex: <http://example.org/traffic#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        SELECT ?date ?aqi ?pm25 ?pm10 ?timestamp
-        WHERE {
-          ?measurement a ex:AirQuality ;
-            ex:location ?location ;
-            ex:aqi ?aqi ;
-            ex:pm25 ?pm25 ;
-            ex:pm10 ?pm10 ;
-            ex:timestamp ?timestamp .
-          
-          ?location ex:latitude ?lat ;
-            ex:longitude ?lon .
-          
-          FILTER(?lat > ${cameraLat - 0.02} && ?lat < ${cameraLat + 0.02})
-          FILTER(?lon > ${cameraLng - 0.02} && ?lon < ${cameraLng + 0.02})
-          FILTER(?timestamp >= "${new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()}"^^xsd:dateTime)
-          
-          BIND(SUBSTR(STR(?timestamp), 1, 10) as ?date)
-        }
-        ORDER BY DESC(?timestamp)
-        LIMIT 168
-      `;
-
-      const aqiResponse = await fetch('http://localhost:3030/traffic/sparql', {
-        method: 'POST',
+      // Fetch AQI history (last 7 days) via backend API
+      const aqiResponse = await fetch(`${API_URL}/api/historical/aqi?days=7&groupBy=day`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/sparql-query',
           'Accept': 'application/json'
-        },
-        body: aqiQuery
+        }
       });
 
       if (aqiResponse.ok) {
         const aqiData = await aqiResponse.json();
-        const aqiResults = aqiData.results?.bindings || [];
 
-        // Group by date and calculate averages
-        const aqiByDate = aqiResults.reduce((acc: any, item: any) => {
-          const date = item.date.value;
-          if (!acc[date]) {
-            acc[date] = { aqi: [], pm25: [], pm10: [], timestamp: item.timestamp.value };
+        if (aqiData.success && aqiData.data) {
+          // Transform backend response to component format
+          // Backend returns time-series data grouped by camera
+          const aqiHistory: HistoricalAQI[] = [];
+
+          // If data has timestamps array format
+          if (Array.isArray(aqiData.data) && aqiData.data.length > 0) {
+            const cameraData = aqiData.data[0]; // Use first camera's data
+            if (cameraData.timestamps && cameraData.aqi) {
+              for (let i = 0; i < cameraData.timestamps.length; i++) {
+                aqiHistory.push({
+                  date: cameraData.timestamps[i].substring(0, 10),
+                  aqi: Math.round(cameraData.aqi[i] || 0),
+                  pm25: Math.round(cameraData.pm25?.[i] || 0),
+                  pm10: Math.round(cameraData.pm10?.[i] || 0),
+                  timestamp: cameraData.timestamps[i]
+                });
+              }
+            }
           }
-          acc[date].aqi.push(parseFloat(item.aqi.value));
-          acc[date].pm25.push(parseFloat(item.pm25.value));
-          acc[date].pm10.push(parseFloat(item.pm10.value));
-          return acc;
-        }, {});
 
-        const aqiHistory = Object.keys(aqiByDate).map(date => ({
-          date,
-          aqi: Math.round(aqiByDate[date].aqi.reduce((a: number, b: number) => a + b, 0) / aqiByDate[date].aqi.length),
-          pm25: Math.round(aqiByDate[date].pm25.reduce((a: number, b: number) => a + b, 0) / aqiByDate[date].pm25.length),
-          pm10: Math.round(aqiByDate[date].pm10.reduce((a: number, b: number) => a + b, 0) / aqiByDate[date].pm10.length),
-          timestamp: aqiByDate[date].timestamp
-        })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-        setHistoricalAQI(aqiHistory);
+          setHistoricalAQI(aqiHistory);
+        }
       }
 
-      // Fetch Weather history (last 7 days)
-      const weatherQuery = `
-        PREFIX ex: <http://example.org/traffic#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        SELECT ?date ?temperature ?humidity ?rainfall ?timestamp
-        WHERE {
-          ?measurement a ex:Weather ;
-            ex:location ?location ;
-            ex:temperature ?temperature ;
-            ex:humidity ?humidity ;
-            ex:rainfall ?rainfall ;
-            ex:timestamp ?timestamp .
-          
-          ?location ex:latitude ?lat ;
-            ex:longitude ?lon .
-          
-          FILTER(?lat > ${cameraLat - 0.02} && ?lat < ${cameraLat + 0.02})
-          FILTER(?lon > ${cameraLng - 0.02} && ?lon < ${cameraLng + 0.02})
-          FILTER(?timestamp >= "${new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()}"^^xsd:dateTime)
-          
-          BIND(SUBSTR(STR(?timestamp), 1, 10) as ?date)
-        }
-        ORDER BY DESC(?timestamp)
-        LIMIT 168
-      `;
-
-      const weatherResponse = await fetch('http://localhost:3030/traffic/sparql', {
-        method: 'POST',
+      // Fetch Weather history (last 7 days) via backend API
+      const weatherResponse = await fetch(`${API_URL}/api/historical/weather?days=7&groupBy=day`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/sparql-query',
           'Accept': 'application/json'
-        },
-        body: weatherQuery
+        }
       });
 
       if (weatherResponse.ok) {
         const weatherData = await weatherResponse.json();
-        const weatherResults = weatherData.results?.bindings || [];
 
-        // Group by date and calculate averages
-        const weatherByDate = weatherResults.reduce((acc: any, item: any) => {
-          const date = item.date.value;
-          if (!acc[date]) {
-            acc[date] = { temperature: [], humidity: [], rainfall: [], timestamp: item.timestamp.value };
+        if (weatherData.success && weatherData.data) {
+          // Transform backend response to component format
+          const weatherHistory: HistoricalWeather[] = [];
+
+          if (Array.isArray(weatherData.data) && weatherData.data.length > 0) {
+            const cameraData = weatherData.data[0]; // Use first camera's data
+            if (cameraData.timestamps && cameraData.temperature) {
+              for (let i = 0; i < cameraData.timestamps.length; i++) {
+                weatherHistory.push({
+                  date: cameraData.timestamps[i].substring(0, 10),
+                  temperature: Math.round((cameraData.temperature[i] || 0) * 10) / 10,
+                  humidity: Math.round(cameraData.humidity?.[i] || 0),
+                  rainfall: Math.round((cameraData.precipitation?.[i] || cameraData.rainfall?.[i] || 0) * 10) / 10,
+                  timestamp: cameraData.timestamps[i]
+                });
+              }
+            }
           }
-          acc[date].temperature.push(parseFloat(item.temperature.value));
-          acc[date].humidity.push(parseFloat(item.humidity.value));
-          acc[date].rainfall.push(parseFloat(item.rainfall.value));
-          return acc;
-        }, {});
 
-        const weatherHistory = Object.keys(weatherByDate).map(date => ({
-          date,
-          temperature: Math.round(weatherByDate[date].temperature.reduce((a: number, b: number) => a + b, 0) / weatherByDate[date].temperature.length * 10) / 10,
-          humidity: Math.round(weatherByDate[date].humidity.reduce((a: number, b: number) => a + b, 0) / weatherByDate[date].humidity.length),
-          rainfall: Math.round(weatherByDate[date].rainfall.reduce((a: number, b: number) => a + b, 0) / weatherByDate[date].rainfall.length * 10) / 10,
-          timestamp: weatherByDate[date].timestamp
-        })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-        setHistoricalWeather(weatherHistory);
+          setHistoricalWeather(weatherHistory);
+        }
       }
     } catch (error) {
       console.error('Error fetching historical data:', error);
@@ -355,13 +311,13 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
     }
   };
 
-  // Custom marker icon for camera location
-  const cameraIcon = L.divIcon({
+  // Custom marker icon for camera location - using MapLibre-compatible DivIcon
+  const cameraIcon = {
     html: `<div style="background-color: #3b82f6; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
     className: '',
-    iconSize: [24, 24],
-    iconAnchor: [12, 12]
-  });
+    iconSize: [24, 24] as [number, number],
+    iconAnchor: [12, 12] as [number, number],
+  };
 
   return (
     <div className="fixed inset-0 z-[10000] bg-black bg-opacity-50 flex items-center justify-center p-4 overflow-y-auto">
@@ -423,6 +379,7 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
           {/* Overview Tab */}
           {activeTab === 'overview' && (
             <div className="space-y-6">
+              {/* Camera Live Stream Toggle */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Location Map */}
                 <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -436,10 +393,7 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
                       style={{ height: '100%', width: '100%' }}
                       scrollWheelZoom={false}
                     >
-                      <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                      />
+                      {/* TileLayer is handled via mapStyle in MapContainer - OpenStreetMap default */}
                       <Marker position={[cameraLat, cameraLng]} icon={cameraIcon}>
                         <Popup>{camera.name || camera.cameraName || 'Camera'}</Popup>
                       </Marker>
@@ -454,32 +408,38 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Address:</span>
-                        <span className="font-medium text-right">{camera.location.address || camera.district || 'N/A'}</span>
+                        <span className="font-medium text-gray-900 text-right">{camera.location?.address || camera.district || camera.name || camera.cameraName || 'N/A'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Latitude:</span>
-                        <span className="font-medium">{cameraLat ? cameraLat.toFixed(6) : 'N/A'}</span>
+                        <span className="font-medium text-gray-900">{hasValidCoordinates ? cameraLat.toFixed(6) : 'N/A'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Longitude:</span>
-                        <span className="font-medium">{cameraLng ? cameraLng.toFixed(6) : 'N/A'}</span>
+                        <span className="font-medium text-gray-900">{hasValidCoordinates ? cameraLng.toFixed(6) : 'N/A'}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">Last Update:</span>
-                        <span className="font-medium">{new Date(camera.lastUpdate).toLocaleString()}</span>
+                        <span className="font-medium text-gray-900">{camera.lastUpdate ? new Date(camera.lastUpdate).toLocaleString() : 'N/A'}</span>
                       </div>
-                      {camera.streamUrl && (
-                        <div className="pt-2 border-t border-gray-200">
+                      {/* Stream URL - show if available, otherwise link to HCM traffic portal */}
+                      <div className="pt-2 border-t border-gray-200 space-y-2">
+                        {camera.streamUrl ? (
                           <a
                             href={camera.streamUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
                           >
-                            View Live Stream →
+                            <span>🎥</span> View Live Stream →
                           </a>
-                        </div>
-                      )}
+                        ) : (
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <span>📹</span>
+                            <span>Camera ID: {camera.id?.split(':').pop()?.replace(/%20/g, ' ') || camera.id}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 

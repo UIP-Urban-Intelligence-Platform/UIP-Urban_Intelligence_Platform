@@ -1,4 +1,12 @@
 /**
+ * Pattern Zones - Traffic Congestion Visualization
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/PatternZones
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -27,13 +35,13 @@
  * - Severe: Dark red (#991b1b)
  * 
  * @dependencies
- * - react-leaflet@^4.2: Polygon and SVG overlays
- * - leaflet@^1.9: Bounds and coordinates
+ * - react-map-gl@^7.1: Polygon rendering (MIT license)
+ * - maplibre-gl@^4.7: Bounds and coordinates (BSD-3-Clause)
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { Polygon, Popup, SVGOverlay } from 'react-leaflet';
-import { LatLngExpression, LatLngBounds } from 'leaflet';
+import { Polygon, Popup, LatLngExpression } from './map';
+// Note: SVGOverlay and LatLngBounds are disabled - migrating to MapLibre native
 import { useTrafficStore } from '../store/trafficStore';
 import { TrafficPattern, AirQuality } from '../types';
 
@@ -444,25 +452,7 @@ const PatternZones: React.FC<PatternZonesProps> = ({ visible = true, displayMode
               click: () => setSelectedPattern(zone.pattern),
             }}
           >
-            {fillPattern && (
-              <SVGOverlay
-                attributes={{ fill: fillPattern, fillOpacity: '0.4' }}
-                bounds={
-                  new LatLngBounds(
-                    zone.coordinates as Array<[number, number]>
-                  )
-                }
-              >
-                <polygon
-                  points={zone.coordinates
-                    .map((coord) => {
-                      const [lat, lng] = coord as [number, number];
-                      return `${lng},${lat}`;
-                    })
-                    .join(' ')}
-                />
-              </SVGOverlay>
-            )}
+            {/* SVGOverlay disabled - MapLibre uses different pattern system */}
             <Popup>
               <div style={{ minWidth: '260px', padding: '8px' }}>
                 <h3 style={{

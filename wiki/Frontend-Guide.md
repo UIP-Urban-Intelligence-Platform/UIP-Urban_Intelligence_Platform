@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Frontend-Guide.md
+Module: Frontend Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  React + TypeScript + TailwindCSS web application documentation.
+============================================================================
+-->
 # 🖥️ Frontend Guide
 
 React + TypeScript + TailwindCSS web application documentation.
@@ -17,7 +36,7 @@ The frontend is a modern Single Page Application (SPA):
 | React Query | 5.x | Data Fetching |
 | Zustand | 4.x | State Management |
 | React Router | 6.x | Routing |
-| Leaflet | 1.x | Maps |
+| MapLibre GL | 4.x | Maps |
 | Socket.IO | 4.x | Real-time |
 | Recharts | 2.x | Charts |
 
@@ -134,7 +153,8 @@ export const TrafficStats: React.FC = () => {
 
 ```tsx
 // src/components/map/TrafficMap.tsx
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+// Using MIT-licensed react-map-gl + MapLibre GL JS
+import { MapContainer, Marker, Popup } from './map';
 
 export const TrafficMap: React.FC = () => {
   const { cameras } = useCameras();
@@ -507,7 +527,7 @@ VITE_DEFAULT_CENTER_LNG=106.6297
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Backend-Guide]] - Backend documentation
 - [[API-Reference]] - API endpoints

@@ -3,8 +3,8 @@
 """Data Quality Validator Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -1101,7 +1101,6 @@ class DataQualityValidatorAgent:
         logger.info(f"Validating entity {entity_id} (type: {entity_type})")
 
         # Apply data cleaning if enabled
-        _original_entity = entity  # noqa: F841 - kept for potential future use
         if auto_clean and self.integration_config.get("auto_fix", True):
             entity = self.data_cleaner.clean(entity)
 
@@ -1304,12 +1303,10 @@ class DataQualityValidatorAgent:
             logger.error(f"Failed to save validation report: {e}")
 
     def _log_validation_result(self, report: Dict[str, Any]):
-        """Log validation result."""
+        """Log validation result based on status."""
         entity_id = report["entity_id"]
         status = report["status"]
         score = report["quality_score"]
-
-        _log_level = self.reporting_config.get("log_level", "INFO")  # noqa: F841
 
         message = f"Entity {entity_id}: {status} " f"(quality_score={score:.3f})"
 

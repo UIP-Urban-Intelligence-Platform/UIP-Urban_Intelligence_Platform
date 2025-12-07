@@ -3,8 +3,8 @@
 """Subscription Manager Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -343,6 +343,10 @@ class SubscriptionManager:
                     else:
                         self.stats["subscriptions_failed"] += 1
                         return None
+
+            # All retries exhausted without success
+            self.stats["subscriptions_failed"] += 1
+            return None
 
         except Exception as e:
             logger.error(f"Error creating subscription: {e}")

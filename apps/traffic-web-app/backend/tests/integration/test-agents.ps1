@@ -1,10 +1,16 @@
-# Test Enhanced Agents Script
-# Tests all 3 agents with API key rotation
-#Module: tests.integration.test-agents
-#Author: Nguyễn Nhật Quang
-#Created: 2025-11-26
-#Version: 1.0.0
-#License: MIT
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: tests.integration.test-agents
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-26
+# Version: 1.0.0
+# License: MIT
+# Description: Test Enhanced Agents Script - API key rotation tests
+
 Write-Host ""
 Write-Host "╔════════════════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
 Write-Host "║           ENHANCED AGENTS TEST RUNNER - API Key Rotation Test            ║" -ForegroundColor Cyan

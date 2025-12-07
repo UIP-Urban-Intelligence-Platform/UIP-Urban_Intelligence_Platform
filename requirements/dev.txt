@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # Module: requirements/dev.txt
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
@@ -19,11 +22,9 @@ setuptools>=69.0.0
 
 # Code formatters
 black>=23.11.0
-isort>=5.12.0
 
-# Linters
-flake8>=6.1.0
-pylint>=3.0.2
+# Linters (Ruff replaces flake8, pylint, isort - MIT licensed, 10-100x faster)
+ruff>=0.1.0
 interrogate>=1.5.0
 
 # Type checking

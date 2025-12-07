@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/CI-CD-Pipeline.md
+Module: CI/CD Pipeline Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Continuous Integration and Deployment pipeline documentation.
+============================================================================
+-->
 # 🔄 CI/CD Pipeline
 
 Continuous Integration and Continuous Deployment with GitHub Actions.
@@ -121,16 +140,13 @@ jobs:
           python-version: '3.9'
       
       - name: Install linters
-        run: pip install black isort flake8 mypy
+        run: pip install black ruff mypy
       
       - name: Check black formatting
         run: black --check src/ tests/
       
-      - name: Check import sorting
-        run: isort --check-only src/ tests/
-      
-      - name: Flake8 linting
-        run: flake8 src/ tests/
+      - name: Ruff linting (replaces flake8 + isort)
+        run: ruff check src/ tests/
       
       - name: Type checking
         run: mypy src/
@@ -477,15 +493,15 @@ Configure these secrets in GitHub repository settings:
 Add these to your README:
 
 ```markdown
-![Tests](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/workflows/Tests/badge.svg)
-![Lint](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/workflows/Lint/badge.svg)
-![CodeQL](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/workflows/CodeQL/badge.svg)
+![Tests](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/workflows/Tests/badge.svg)
+![Lint](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/workflows/Lint/badge.svg)
+![CodeQL](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/workflows/CodeQL/badge.svg)
 [![codecov](https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/branch/main/graph/badge.svg)](https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform)
 ```
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Testing-Guide]] - Test documentation
 - [[Contributing]] - Contribution workflow

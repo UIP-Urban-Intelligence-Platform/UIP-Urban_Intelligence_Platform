@@ -1,6 +1,12 @@
 /**
  * Sidebar Component - Map Controls & Layer Management
- * 
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/Sidebar
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -114,8 +120,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
   const [showAutocomplete, setShowAutocomplete] = useState(false);
   const [districtsData, setDistrictsData] = useState<any[]>([]);
 
-  const activeAccidents = accidents.filter((a) => !a.resolved);
-
   // Fetch districts data
   useEffect(() => {
     const fetchDistricts = async () => {
@@ -181,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
 
   const basicLayers = [
     { key: 'showCameras' as const, label: 'Cameras', icon: Camera, count: cameras.length, color: 'text-blue-400' },
-    { key: 'showAccidents' as const, label: 'Accidents', icon: AlertTriangle, count: activeAccidents.length, color: 'text-red-400' },
+    { key: 'showAccidents' as const, label: 'Accidents', icon: AlertTriangle, count: accidents.length, color: 'text-red-400' },
     { key: 'showWeather' as const, label: 'Weather', icon: Cloud, count: weather.length, color: 'text-sky-400' },
     { key: 'showAirQuality' as const, label: 'Air Quality', icon: Wind, count: airQuality.length, color: 'text-amber-400' },
     { key: 'showPatterns' as const, label: 'Traffic Patterns', icon: Activity, count: patterns.length, color: 'text-purple-400' },
@@ -237,9 +241,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
             </div>
             <div>
               <h1 className="text-lg font-semibold text-gray-900 tracking-tight">
-                Traffic Monitor
+                UIP Dashboard
               </h1>
-              <p className="text-xs text-gray-500 font-light">HCMC System</p>
+              <p className="text-xs text-gray-500 font-light">Urban Intelligence</p>
             </div>
           </div>
           <button
@@ -465,10 +469,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
             </div>
             <div className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Active Accidents</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Accidents</p>
                 <AlertTriangle className="w-4 h-4 text-gray-400" />
               </div>
-              <p className="text-3xl font-bold text-gray-900">{activeAccidents.length}</p>
+              <p className="text-3xl font-bold text-gray-900">{accidents.length}</p>
             </div>
             <div className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
@@ -640,7 +644,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
               All Time
             </button>
             <div className="mt-3 pt-3 border-t border-gray-200 text-xs text-gray-600">
-              <div><strong className="text-gray-900">{activeAccidents.length}</strong> active accidents</div>
+              <div><strong className="text-gray-900">{accidents.length}</strong> total accidents</div>
               <div className="mt-1">Auto-refresh: 60s</div>
             </div>
           </div>
@@ -784,7 +788,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
       {/* Footer */}
       <div className="p-4 border-t border-gray-200 bg-white">
         <p className="text-xs text-gray-500 text-center font-light">
-          © 2025 HCMC Traffic Monitor
+          © 2025 UIP - Urban Intelligence Platform
         </p>
       </div>
     </div>

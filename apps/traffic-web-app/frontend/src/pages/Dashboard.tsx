@@ -1,6 +1,12 @@
 /**
  * Dashboard Page - Main Traffic Monitoring Interface
- * 
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/pages/Dashboard
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-27
@@ -21,7 +27,7 @@
  * - Auto-refresh with configurable intervals
  * 
  * Components:
- * - TrafficMap: Leaflet map with camera markers, heatmaps, zones
+ * - TrafficMap: MapLibre GL map with camera markers, heatmaps, zones
  * - Sidebar: Layer toggles, filters, AI agent panels
  * - AnalyticsDashboard: Charts for congestion, accidents, AQI trends
  * 

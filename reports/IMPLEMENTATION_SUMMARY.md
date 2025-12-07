@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/IMPLEMENTATION_SUMMARY.md
+Module: Implementation Summary
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Image Refresh Agent implementation summary.
+============================================================================
+-->
+
 # Image Refresh Agent - Implementation Summary
 
 ## ✅ Implementation Checklist
@@ -78,7 +98,7 @@
    - aiohttp for async HTTP
    - PyYAML for configuration
    - pytest ecosystem for testing
-   - Code quality tools (black, flake8, mypy)
+   - Code quality tools (black, ruff, mypy)
 
 ### Shared Utilities
 5. ✅ `shared/config_loader.py` - Configuration loading utility
@@ -310,10 +330,11 @@ python agents/data_collection/image_refresh_agent.py --domain medical_devices --
 
 ### Tools Compatible
 - ✅ black (code formatting)
-- ✅ flake8 (linting)
+- ✅ ruff (linting + import sorting)
 - ✅ mypy (type checking)
-- ✅ pylint (code analysis)
 - ✅ pytest (testing)
+
+> **Note (2025-12):** Migrated from flake8/pylint/isort to Ruff for 10-100x faster linting.
 
 ## 🎓 Documentation
 
@@ -380,6 +401,6 @@ cat data/cameras_updated.json
 
 **Implementation Status**: ✅ **COMPLETE**
 
-**Date**: November 1, 2025
+**Date**: November 20, 2025
 
 **Version**: 1.0.0

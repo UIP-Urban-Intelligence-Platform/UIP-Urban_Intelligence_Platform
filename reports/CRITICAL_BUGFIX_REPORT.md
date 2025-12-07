@@ -1,6 +1,26 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/CRITICAL_BUGFIX_REPORT.md
+Module: Critical Bug Fix Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Critical bug fix report - Rate Limit Retry Logic.
+============================================================================
+-->
+
 # Critical Bug Fix Report - Rate Limit Retry Logic
 
-**Date**: 2025-11-12  
+**Date**: 2025-11-27  
 **Severity**: HIGH - Rate limit retry logic was completely non-functional  
 **Status**: ✅ FIXED
 
@@ -45,18 +65,18 @@ The nested try-except structure was used to handle transient errors when fetchin
 
 User's logs showed:
 ```
-2025-11-12 01:07:48 - ExternalDataCollector - INFO - Measurements API status: 429
-2025-11-12 01:07:48 - ExternalDataCollector - WARNING - Measurements API rate limit (429)...
+2025-11-27 01:07:48 - ExternalDataCollector - INFO - Measurements API status: 429
+2025-11-27 01:07:48 - ExternalDataCollector - WARNING - Measurements API rate limit (429)...
 [NO RETRY MESSAGE]
-2025-11-12 01:07:50 - ExternalDataCollector - WARNING - AQ API returned status 429 for (...)
+2025-11-27 01:07:50 - ExternalDataCollector - WARNING - AQ API returned status 429 for (...)
 ```
 
 **Expected behavior** (if retry logic worked):
 ```
-2025-11-12 01:07:48 - INFO - Measurements API status: 429
-2025-11-12 01:07:48 - WARNING - Rate limit (429) hit on attempt 1/3, waiting 120s (2 minutes) before retry...
+2025-11-27 01:07:48 - INFO - Measurements API status: 429
+2025-11-27 01:07:48 - WARNING - Rate limit (429) hit on attempt 1/3, waiting 120s (2 minutes) before retry...
 [120-second pause]
-2025-11-12 01:09:48 - INFO - Measurements API status: 200  ← Retry succeeded
+2025-11-27 01:09:48 - INFO - Measurements API status: 200  ← Retry succeeded
 ```
 
 ---
@@ -234,7 +254,7 @@ User should verify the following in the next orchestrator run:
 
 **Issue**: Entities with spaces in IDs fail PATCH updates with HTTP 400:
 ```
-2025-11-12 01:08:24 - ERROR - PATCH update failed for entity urn:ngsi-ld:Camera:TTH%20406
+2025-11-27 01:08:24 - ERROR - PATCH update failed for entity urn:ngsi-ld:Camera:TTH%20406
 Response: "The supplied identifier was expected to be an URI but it is not: 
 urn:ngsi-ld:Camera:TTH 406 (cause was: java.net.URISyntaxException: 
 Illegal character in opaque part at index 22: urn:ngsi-ld:Camera:TTH 406)"
@@ -256,8 +276,8 @@ def normalize_id(raw_id: str) -> str:
 
 **Issue**: 
 ```
-2025-11-12 01:10:51 - PatternRecognitionAgent - WARNING - No cameras found in Neo4j
-2025-11-12 01:10:51 - ERROR - Agent pattern_recognition_agent failed: 'entities_created'
+2025-11-27 01:10:51 - PatternRecognitionAgent - WARNING - No cameras found in Neo4j
+2025-11-27 01:10:51 - ERROR - Agent pattern_recognition_agent failed: 'entities_created'
 ```
 
 **Root Cause**: Agent tried to access `result['entities_created']` but dictionary key doesn't exist.
@@ -273,7 +293,7 @@ entities_created = result.get('entities_created', 0)
 
 **Issue**:
 ```
-2025-11-12 01:10:51 - neo4j.notifications - WARNING - One of the labels in your query is 
+2025-11-27 01:10:51 - neo4j.notifications - WARNING - One of the labels in your query is 
 not available in the database: Camera
 ```
 

@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/AIR_QUALITY_API_COMPARISON.md
+Module: Air Quality API Comparison Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Air quality API comparison report.
+============================================================================
+-->
+
 # AIR QUALITY API COMPARISON REPORT
 
 ## Tổng Quan
@@ -440,7 +460,7 @@ python check_entities.py  # Should show 6/6 pollutants
 
 ---
 
-**Report Generated**: 2025-11-18
+**Report Generated**: 2025-12-01
 **Status**: ✅ COMPLETED - OpenWeatherMap Integrated
 **Recommended Action**: ~~Integrate OpenAQ API~~ → **DONE: OpenWeatherMap API Integrated**
 
@@ -448,7 +468,7 @@ python check_entities.py  # Should show 6/6 pollutants
 
 ## Integration Completed
 
-**Date**: 2025-11-18  
+**Date**: 2025-12-01  
 **API Selected**: OpenWeatherMap Air Pollution API  
 **Integration Status**: ✅ SUCCESSFUL
 

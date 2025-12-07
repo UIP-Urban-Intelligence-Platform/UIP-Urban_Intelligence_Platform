@@ -1,4 +1,12 @@
 /**
+ * Humidity & Visibility Layer - Environmental Visualization
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/HumidityVisibilityLayer
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -21,8 +29,8 @@
  * 
  * @dependencies
  * - react@18.2.0 - React hooks and component lifecycle
- * - react-leaflet@4.2.1 - Circle, Polygon, Popup, Tooltip components
- * - leaflet@1.9.4 (peer) - Geospatial geometry calculations
+ * - react-map-gl@^7.1 - Circle, Polygon, Popup, Tooltip components (MIT license)
+ * - maplibre-gl@^4.7 - Geospatial geometry calculations (BSD-3-Clause)
  * 
  * @example
  * ```tsx
@@ -30,7 +38,7 @@
  * ```
  */
 import React, { useState, useMemo, useEffect } from 'react';
-import { Circle, Polygon, Popup, Tooltip } from 'react-leaflet';
+import { CircleMarker as Circle, Polygon, Popup, Tooltip } from './map';
 
 interface HumidityVisibilityLayerProps {
   visible?: boolean;

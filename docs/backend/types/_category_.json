@@ -1,0 +1,15 @@
+{
+    "label": "Types",
+    "position": 8,
+    "link": {
+        "type": "generated-index",
+        "title": "TypeScript Type Definitions",
+        "description": "TypeScript interfaces and type definitions for the UIP Backend API.",
+        "keywords": [
+            "types",
+            "typescript",
+            "interfaces",
+            "definitions"
+        ]
+    }
+}

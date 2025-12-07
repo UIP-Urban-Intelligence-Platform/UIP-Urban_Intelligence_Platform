@@ -1,4 +1,12 @@
 /**
+ * Circle Draw Tool - Spatial Query Interface
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/CircleDrawTool
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -26,13 +34,12 @@
  * - Accidents
  * 
  * @dependencies
- * - react-leaflet@^4.2: Circle and map events
- * - leaflet@^1.9: Distance calculations
+ * - react-map-gl@^7.1: Circle and map events (MIT license)
+ * - maplibre-gl@^4.7: Distance calculations (BSD-3-Clause)
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { Circle, useMapEvents, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
+import { CircleMarker as Circle, useMapEvents, Marker, Popup, DivIcon, LatLng } from './map';
 import { Camera, Weather, AirQuality, Accident } from '../types';
 
 // =====================================================
@@ -61,7 +68,7 @@ interface NearbyResults {
 }
 
 interface CircleData {
-  center: L.LatLng;
+  center: LatLng;
   radius: number;
 }
 
@@ -69,7 +76,7 @@ interface CircleData {
 // CUSTOM MARKER ICON
 // =====================================================
 
-const centerIcon = L.divIcon({
+const centerIcon = new DivIcon({
   className: 'circle-center-marker',
   html: `
     <div style="
@@ -92,7 +99,7 @@ const centerIcon = L.divIcon({
 const CircleDrawTool: React.FC<CircleDrawToolProps> = ({ onResults, isActive, onToggle }) => {
   const [circle, setCircle] = useState<CircleData | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [startPoint, setStartPoint] = useState<L.LatLng | null>(null);
+  const [startPoint, setStartPoint] = useState<LatLng | null>(null);
   const [currentRadius, setCurrentRadius] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<NearbyResults | null>(null);
@@ -161,7 +168,7 @@ const CircleDrawTool: React.FC<CircleDrawToolProps> = ({ onResults, isActive, on
 
   // ========== API QUERY ==========
 
-  const queryNearby = async (center: L.LatLng, radius: number) => {
+  const queryNearby = async (center: LatLng, radius: number) => {
     setIsLoading(true);
     setError(null);
 

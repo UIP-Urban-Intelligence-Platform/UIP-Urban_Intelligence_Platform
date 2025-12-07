@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Semantic-Web-Guide.md
+Module: Semantic Web Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Understanding the Semantic Web technologies in UIP.
+============================================================================
+-->
 # 🌐 Semantic Web Guide
 
 Understanding the Semantic Web technologies in UIP - Urban Intelligence Platform.
@@ -72,8 +91,8 @@ UIP - Urban Intelligence Platform implements a comprehensive Semantic Web stack:
   },
   "dateObserved": {
     "type": "Property",
-    "value": "2024-01-15T10:30:00Z",
-    "observedAt": "2024-01-15T10:30:00Z"
+    "value": "2025-11-29T10:30:00Z",
+    "observedAt": "2025-11-29T10:30:00Z"
   },
   "controlledAsset": {
     "type": "Relationship",
@@ -137,7 +156,7 @@ POST /ngsi-ld/v1/subscriptions
     sosa:madeBySensor <urn:ngsi-ld:Device:camera-001> ;
     sosa:observedProperty <urn:ngsi-ld:ObservableProperty:traffic-flow> ;
     sosa:hasSimpleResult 150 ;
-    sosa:resultTime "2024-01-15T10:30:00Z"^^xsd:dateTime .
+    sosa:resultTime "2025-11-29T10:30:00Z"^^xsd:dateTime .
 ```
 
 ### SOSA Classes Used
@@ -196,7 +215,7 @@ WHERE {
        sosa:madeBySensor ?sensor ;
        sosa:hasSimpleResult ?value ;
        sosa:resultTime ?time .
-  FILTER (?time > "2024-01-15T00:00:00Z"^^xsd:dateTime)
+  FILTER (?time > "2025-11-29T00:00:00Z"^^xsd:dateTime)
 }
 ORDER BY DESC(?time)
 LIMIT 100
@@ -375,7 +394,7 @@ namespaces:
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[System-Architecture]] - Overall architecture
 - [[API-Reference]] - API endpoints

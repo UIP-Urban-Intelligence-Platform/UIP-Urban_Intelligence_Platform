@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/architecture/overview.md
+Module: System Architecture Overview
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  System architecture overview documentation.
+============================================================================
+-->
+
 # System Architecture Overview
 
 This page provides a comprehensive view of the HCMC Traffic Monitoring System architecture.
@@ -60,7 +80,7 @@ graph TB
 | **React** | 18.2 | UI framework |
 | **TypeScript** | 5.2 | Type safety |
 | **Vite** | 5.0 | Build tool |
-| **Leaflet** | 1.9 | Interactive maps |
+| **MapLibre GL** | 4.7 | Interactive maps |
 | **Recharts** | 2.10 | Data visualization |
 | **Tailwind CSS** | 3.4 | Styling |
 | **Framer Motion** | 10.16 | Animations |
@@ -142,28 +162,33 @@ graph TB
 ## 🎯 Design Principles
 
 ### 1. **Microservices Architecture**
+
 - Each agent is an independent, loosely-coupled component
 - Services communicate via REST APIs, Kafka, or direct database access
 - Docker containers ensure isolation and portability
 
 ### 2. **Multi-Agent Orchestration**
+
 - **30+ specialized agents** work in parallel
 - Orchestrator manages execution order and dependencies
 - Agents can be added/removed without affecting others
 
 ### 3. **Semantic Web Standards**
+
 - **NGSI-LD** for context information management
 - **SOSA/SSN** for sensor observations
 - **RDF** for linked open data
 - **SPARQL** for semantic queries
 
 ### 4. **Real-time Processing**
+
 - **WebSocket** connections for live updates
 - **Kafka** streaming for high-throughput data
 - **Redis** caching for fast access
 - **Async/await** patterns throughout
 
 ### 5. **Scalability & Resilience**
+
 - Horizontal scaling of agents
 - Database replication and sharding
 - Circuit breakers and retry logic
@@ -240,8 +265,8 @@ sequenceDiagram
 ### Frontend Layer
 
 | Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **TrafficMap** | Leaflet | Interactive map with 1,000+ markers |
+|-----------|-----------|----------|
+| **TrafficMap** | MapLibre GL | Interactive map with 1,000+ markers |
 | **Analytics Dashboard** | Recharts | 7 chart types for data visualization |
 | **Citizen Reports** | React Forms | User-submitted traffic reports |
 | **State Management** | Zustand | Global state (cameras, accidents, filters) |
@@ -287,16 +312,19 @@ sequenceDiagram
 ## 🔐 Security Architecture
 
 ### 1. Authentication & Authorization
+
 - JWT tokens for API authentication
 - Role-based access control (RBAC)
 - API key management for external integrations
 
 ### 2. Data Protection
+
 - HTTPS/TLS encryption in transit
 - Database encryption at rest
 - Sensitive data masking in logs
 
 ### 3. Network Security
+
 - Docker network isolation
 - Firewall rules for service access
 - Rate limiting on public endpoints
@@ -320,6 +348,7 @@ graph LR
 ```
 
 ### Vertical Scaling
+
 - Increase container resources (CPU, RAM)
 - Optimize database queries with indexes
 - Implement caching at multiple levels
@@ -327,16 +356,19 @@ graph LR
 ## 🔍 Monitoring & Observability
 
 ### Metrics Collection
+
 - **Prometheus** for metrics scraping
 - **Grafana** for visualization
 - **Custom dashboards** for agent performance
 
 ### Logging
+
 - Centralized logging with **ELK stack** (Elasticsearch, Logstash, Kibana)
 - Structured JSON logging
 - Log levels: DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 ### Tracing
+
 - Distributed tracing with **Jaeger**
 - Request tracking across services
 - Performance bottleneck identification
@@ -344,21 +376,24 @@ graph LR
 ## 🚀 Deployment Architectures
 
 ### Development
-```
+
+```text
 Single machine
 Docker Compose
 All services on localhost
 ```
 
 ### Staging
-```
+
+```text
 Single VM or EC2 instance
 Docker Compose
 External access via reverse proxy
 ```
 
 ### Production
-```
+
+```text
 Kubernetes cluster (EKS/GKE/AKS)
 Multi-node setup
 Auto-scaling

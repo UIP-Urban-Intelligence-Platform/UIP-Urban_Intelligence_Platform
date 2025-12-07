@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/backend/docs/reports/GRAPH_INVESTIGATOR_SUMMARY.md
+Module: Graph Investigator Summary Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  GraphRAG Investigator Agent Implementation Summary.
+============================================================================
+-->
+
 # 🎉 GraphRAG Investigator Agent - Implementation Summary
 
 ## ✅ Status: FULLY IMPLEMENTED & PRODUCTION-READY

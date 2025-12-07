@@ -3,7 +3,7 @@
 """Citizen Ingestion Agent - FastAPI Server for Citizen Science Reports.
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 
@@ -66,57 +66,30 @@ Example Request:
     }
 """
 
+import json
 import logging
 import os
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 import yaml
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Import centralized environment variable expansion helper
 from src.core.config_loader import expand_env_var
-
-
-def _mask_sensitive_id(value: str) -> str:
-    """Mask sensitive ID for secure logging - show first and last chars only."""
-    if not value or len(value) < 4:
-        return "***"
-    return f"{value[:2]}***{value[-2:]}"
-
-
-def _mask_entity_id(entity_id: str) -> str:
-    """Mask entity ID for secure logging - extract and mask UUID portion."""
-    if not entity_id:
-        return "***"
-    # Entity IDs are like: urn:ngsi-ld:CitizenObservation:uuid-here
-    parts = entity_id.split(":")
-    if len(parts) >= 4:
-        # Mask the UUID part but keep the type visible
-        return f"{parts[0]}:{parts[1]}:{parts[2]}:***"
-    return _mask_sensitive_id(entity_id)
-
-
-def _sanitize_log_value(value: str, max_length: int = 50) -> str:
-    """Sanitize user input for safe logging - prevent log injection.
-    
-    Removes newlines, control characters, and truncates long values.
-    """
-    if not value:
-        return "***"
-    # Remove newlines and control characters to prevent log injection
-    sanitized = "".join(c if c.isprintable() and c not in "\n\r\t" else "_" for c in str(value))
-    # Truncate long values
-    if len(sanitized) > max_length:
-        return sanitized[:max_length] + "..."
-    return sanitized
-
 
 # FastAPI & Uvicorn
 try:
     import uvicorn
     from fastapi import BackgroundTasks, FastAPI, HTTPException, status
+    from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.responses import JSONResponse
     from pydantic import BaseModel, Field, field_validator
 
     FASTAPI_AVAILABLE = True
@@ -227,6 +200,24 @@ if FASTAPI_AVAILABLE:
         docs_url="/docs",
         redoc_url="/redoc",
     )
+
+    # CORS Configuration - Allow frontend origins
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            "http://localhost:5173",  # Vite dev server
+            "http://localhost:3000",  # Alternative dev port
+            "http://localhost:5000",  # Express backend
+            "http://127.0.0.1:5173",
+            "http://127.0.0.1:3000",
+            "*",  # Allow all origins in development
+        ],
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+        allow_headers=["*"],
+        expose_headers=["*"],
+    )
+    logger.info("CORS middleware configured for citizen ingestion API")
 else:
     app = None
     logger.critical("FastAPI not installed - cannot start server")
@@ -282,7 +273,7 @@ class WeatherEnricher:
                     if response.status == 200:
                         data = await response.json()
                         logger.info(
-                            "Weather API: Successfully fetched data for coordinates"
+                            f"Weather API: Successfully fetched data for ({lat}, {lon})"
                         )
                         return {
                             "temperature": data["main"]["temp"],
@@ -374,7 +365,9 @@ class AirQualityEnricher:
                         return self._mock_air_quality_data()
 
                     location_id = data["results"][0]["id"]
-                    logger.info("AirQuality API: Found nearby station for coordinates")
+                    logger.info(
+                        f"AirQuality API: Found station {location_id} near ({lat}, {lon})"
+                    )
 
                 # Step 2: Get latest measurements
                 async with session.get(
@@ -529,16 +522,14 @@ class NGSILDTransformer:
             response = self.session.post(url, json=entity, timeout=10)
 
             if response.status_code in [201, 204]:
-                logger.info(
-                    f"✅ Published entity to Stellio: {_mask_entity_id(entity['id'])}"
-                )
+                logger.info(f"✅ Published {entity['id']} to Stellio")
 
                 # Optionally publish to MongoDB (non-blocking)
                 if self._mongodb_helper and self._mongodb_helper.enabled:
                     try:
                         if self._mongodb_helper.insert_entity(entity):
                             logger.info(
-                                f"✅ Published CitizenObservation to MongoDB: {_mask_entity_id(entity['id'])}"
+                                f"✅ Published CitizenObservation to MongoDB: {entity['id']}"
                             )
                     except Exception as e:
                         logger.warning(f"MongoDB publish failed (non-critical): {e}")
@@ -577,9 +568,9 @@ async def process_citizen_report_background(
         aq_enricher: Air quality API client
         transformer: NGSI-LD transformer and Stellio publisher
     """
-    logger.info(
-        f"🚀 Processing report: {_sanitize_log_value(report.reportType)} from user {_mask_sensitive_id(report.userId)}"
-    )
+
+    logger.info(f"🚀 Processing report: {report.reportType} from user {report.userId}")
+
 
     try:
         # Step 1: Fetch enrichment data in parallel
@@ -594,19 +585,15 @@ async def process_citizen_report_background(
 
         # Step 2: Transform to NGSI-LD
         entity = transformer.transform(report, weather_data, aq_data)
-        logger.info(f"🔄 Transformed to NGSI-LD: {_mask_entity_id(entity['id'])}")
+        logger.info(f"🔄 Transformed to NGSI-LD: {entity['id']}")
 
         # Step 3: Publish to Stellio
         success = transformer.publish_to_stellio(entity)
 
         if success:
-            logger.info(
-                f"✅ Report processing complete: {_mask_entity_id(entity['id'])}"
-            )
+            logger.info(f"✅ Report processing complete: {entity['id']}")
         else:
-            logger.error(
-                f"❌ Failed to publish report: {_mask_entity_id(entity['id'])}"
-            )
+            logger.error(f"❌ Failed to publish report: {entity['id']}")
 
     except Exception as e:
         logger.error(f"💥 Background task failed: {e}", exc_info=True)
@@ -673,9 +660,9 @@ if FASTAPI_AVAILABLE:
         Returns:
             202 Accepted with report ID
         """
-        logger.info(
-            f"📥 Received report: {_sanitize_log_value(report.reportType)} from {_mask_sensitive_id(report.userId)}"
-        )
+
+        logger.info(f"📥 Received report: {report.reportType} from {report.userId}")
+
 
         # Generate report ID for tracking
         report_id = str(uuid.uuid4())

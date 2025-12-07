@@ -1,4 +1,12 @@
 /**
+ * Root Application Component - Traffic Web Application
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/App
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-27
@@ -41,17 +49,23 @@ import { NotificationProvider } from './components/NotificationProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 import './index.css';
 
+// App Routes component
+const AppRoutes: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/docs/*" element={<DocsPage />} />
+    </Routes>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <NotificationProvider maxToasts={3}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/docs/*" element={<DocsPage />} />
-            <Route path="/docs" element={<DocsPage />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </NotificationProvider>
     </ErrorBoundary>

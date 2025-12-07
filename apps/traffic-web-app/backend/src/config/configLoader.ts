@@ -1,4 +1,12 @@
 /**
+ * Configuration Loader - Config-Driven Entity Definitions
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/config/configLoader
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
@@ -189,12 +197,46 @@ class ConfigurationLoader {
   }
 
   /**
+   * Substitute environment variables in a string
+   * Supports ${VAR} and ${VAR:-default} syntax
+   */
+  private substituteEnvVars(str: string): string {
+    return str.replace(/\$\{([^}]+)\}/g, (_, expr) => {
+      const [varName, defaultValue] = expr.split(':-');
+      return process.env[varName.trim()] || defaultValue?.trim() || '';
+    });
+  }
+
+  /**
+   * Recursively substitute environment variables in config object
+   */
+  private substituteEnvVarsInConfig(obj: any): any {
+    if (typeof obj === 'string') {
+      return this.substituteEnvVars(obj);
+    }
+    if (Array.isArray(obj)) {
+      return obj.map(item => this.substituteEnvVarsInConfig(item));
+    }
+    if (obj && typeof obj === 'object') {
+      const result: any = {};
+      for (const [key, value] of Object.entries(obj)) {
+        result[key] = this.substituteEnvVarsInConfig(value);
+      }
+      return result;
+    }
+    return obj;
+  }
+
+  /**
    * Load and validate YAML configuration
    */
   public load(): YamlConfig {
     try {
       const fileContents = fs.readFileSync(this.configPath, 'utf8');
-      this.config = yaml.load(fileContents) as YamlConfig;
+      const rawConfig = yaml.load(fileContents) as YamlConfig;
+
+      // Substitute environment variables in the config
+      this.config = this.substituteEnvVarsInConfig(rawConfig) as YamlConfig;
 
       this.validateConfig();
       return this.config;

@@ -1,4 +1,12 @@
 /**
+ * Pollutant Circles - Air Quality Marker Visualization
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/PollutantCircles
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -20,12 +28,12 @@
  * - AQI standard thresholds
  * 
  * @dependencies
- * - react-leaflet@^4.2: Circle markers
- * - leaflet@^1.9: Map integration
+ * - react-map-gl@^7.1: Circle markers (MIT license)
+ * - maplibre-gl@^4.7: Map integration (BSD-3-Clause)
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { CircleMarker, Popup, Tooltip } from 'react-leaflet';
+import { CircleMarker, Popup, Tooltip } from './map';
 
 interface PollutantCirclesProps {
   visible?: boolean;

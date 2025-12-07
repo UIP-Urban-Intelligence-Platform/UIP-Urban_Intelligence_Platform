@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: docs/architecture/data_flow.md
+Module: Data Flow Architecture
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Data flow architecture documentation from Camera to NGSI-LD.
+============================================================================
+-->
+
 # Data Flow Architecture - PRODUCTION READY
 
 ## Data Flow Overview
@@ -220,7 +240,7 @@ Neo4j Graph Database
 ### Raw Observation
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "cameraId": "CAM001",
   "vehicleCount": 45,
   "avgSpeed": 35.5

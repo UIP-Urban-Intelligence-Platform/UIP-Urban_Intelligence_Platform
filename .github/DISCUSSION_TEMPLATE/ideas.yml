@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
+# Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
 # GitHub Discussion Template: Ideas
 #
 # Module: .github/DISCUSSION_TEMPLATE/ideas.yml
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
 # Version: 1.0.0
+# License: MIT
 
 title: "[Idea] "
 labels:
@@ -21,8 +23,8 @@ body:
         Share your ideas for improving UIP - Urban Intelligence Platform!
         
         **Before posting:**
-        - 🔍 Search [existing ideas](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions/categories/ideas)
-        - 📋 Check the [roadmap](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/projects)
+        - 🔍 Search [existing ideas](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions/categories/ideas)
+        - 📋 Check the [roadmap](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/projects)
 
   - type: textarea
     id: idea

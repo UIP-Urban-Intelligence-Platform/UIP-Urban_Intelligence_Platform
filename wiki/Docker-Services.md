@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Docker-Services.md
+Module: Docker Services Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Complete Docker infrastructure documentation for UIP.
+============================================================================
+-->
 # 🐳 Docker Services
 
 Complete Docker infrastructure documentation for UIP - Urban Intelligence Platform.
@@ -458,7 +477,7 @@ docker inspect --format='{{.State.Health.Status}}' traffic-postgres
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[Installation]] - Setup instructions
 - [[Configuration]] - Configuration reference

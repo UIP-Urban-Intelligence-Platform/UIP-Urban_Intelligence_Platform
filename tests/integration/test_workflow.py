@@ -3,8 +3,8 @@
 """Workflow Orchestration Integration Test Suite.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -70,8 +70,6 @@ class TestWorkflowOrchestration:
     )
     def test_agent_modules_exist(self, workflow_config, project_root: Path):
         """Test all agent modules exist as files."""
-        project_root / "src"
-
         for phase in workflow_config["phases"]:
             for agent in phase["agents"]:
                 module_path = agent["module"]

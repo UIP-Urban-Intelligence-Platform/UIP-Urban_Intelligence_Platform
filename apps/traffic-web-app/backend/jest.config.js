@@ -1,39 +1,18 @@
 /**
- * @module jest.config
- * @author Nguyễn Nhật Quang
+ * @file jest.config.js
+ * @module apps/traffic-web-app/backend/jest.config
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
  * @created 2025-11-29
- * @modified 2025-11-29
  * @version 1.0.0
  * @license MIT
- * 
- * @description
- * Jest Testing Framework Configuration
- * 
- * This configuration file sets up Jest for testing TypeScript code in the backend application.
- * It configures ts-jest preset for seamless TypeScript integration, defines test environments,
- * coverage collection, and test matching patterns.
- * 
- * **Core Features:**
- * - TypeScript support via ts-jest preset
- * - Node environment for backend testing
- * - Coverage reporting with detailed metrics
- * - Test file pattern matching for __tests__ directories
- * - Module path resolution for clean imports
- * 
- * @dependencies
- * - jest@^29.7.0 - Testing framework
- * - ts-jest@^29.1.1 - TypeScript preprocessor for Jest
- * - @types/jest@^29.5.8 - TypeScript type definitions
- * 
- * @example
- * // Run all tests
- * npm test
- * 
- * // Run tests with coverage
- * npm test -- --coverage
- * 
- * // Run specific test file
- * npm test -- cameraRoutes.test.ts
+ * @description Jest Testing Framework Configuration - Sets up Jest for testing
+ * TypeScript code in the backend application with ts-jest preset.
+ *
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ *
+ * UIP - Urban Intelligence Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 module.exports = {

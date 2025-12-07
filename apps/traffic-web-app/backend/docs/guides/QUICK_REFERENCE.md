@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/backend/docs/guides/QUICK_REFERENCE.md
+Module: Quick Reference Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Quick Reference Guide for Weather and Air Quality Endpoints.
+============================================================================
+-->
+
 # Quick Reference Guide: Weather & Air Quality Endpoints
 
 ## Running the Backend
@@ -617,7 +637,7 @@ Need help? Check:
 
 ---
 
-**Last Updated:** January 15, 2024  
+**Last Updated:** November 20, 2025  
 **Version:** 1.2.0  
 **Status:** ✅ Production Ready (Including WebSocket & Correlation APIs)
 

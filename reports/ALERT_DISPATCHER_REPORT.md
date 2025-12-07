@@ -1,8 +1,28 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: reports/ALERT_DISPATCHER_REPORT.md
+Module: Alert Dispatcher Report
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Alert Dispatcher Agent implementation report.
+============================================================================
+-->
+
 # Alert Dispatcher Agent - Implementation Report
 
 **Author:** UIP Development Team  
 **Version:** 1.0.0  
-**Date:** January 2025  
+**Date:** November 2025  
 **Prompt:** PROMPT 17
 
 ---
@@ -115,7 +135,7 @@ The Alert Dispatcher Agent is a **domain-agnostic multi-channel notification sys
 {
   "id": "urn:ngsi-ld:TrafficCamera:cam-123",
   "type": "TrafficCamera",
-  "observedAt": "2024-01-15T10:00:00Z",
+  "observedAt": "2025-11-29T10:00:00Z",
   "data": [
     {
       "camera_name": {"value": "Highway 1 - Exit 5"},
@@ -162,7 +182,7 @@ The Alert Dispatcher Agent is a **domain-agnostic multi-channel notification sys
     "speed": 45,
     "intensity": "high"
   },
-  "timestamp": "2024-01-15T10:00:00Z"
+  "timestamp": "2025-11-29T10:00:00Z"
 }
 ```
 
@@ -212,7 +232,7 @@ The Alert Dispatcher Agent is a **domain-agnostic multi-channel notification sys
 <p><strong>Location:</strong> Highway 1 - Exit 5</p>
 <p><strong>Speed:</strong> 45 km/h</p>
 <p><strong>Intensity:</strong> High</p>
-<p><strong>Time:</strong> 2024-01-15 10:00:00 UTC</p>
+<p><strong>Time:</strong> 2025-11-29 10:00:00 UTC</p>
 ```
 
 ### 3.4 SMS Channel (Twilio)
@@ -297,7 +317,7 @@ Time: {{timestamp}}
   'camera_name': 'Highway 1 - Exit 5',
   'speed': '45',
   'intensity': 'high',
-  'timestamp': '2024-01-15T10:00:00Z'
+  'timestamp': '2025-11-29T10:00:00Z'
 }
 ```
 
@@ -305,7 +325,7 @@ Time: {{timestamp}}
 ```
 Congestion detected at Highway 1 - Exit 5 - Speed: 45 km/h
 Intensity: high
-Time: 2024-01-15T10:00:00Z
+Time: 2025-11-29T10:00:00Z
 ```
 
 ### 5.2 Template Types
@@ -494,7 +514,7 @@ stats = {
 **Log Entry:**
 ```json
 {
-  "timestamp": "2024-01-15T10:00:00Z",
+  "timestamp": "2025-11-29T10:00:00Z",
   "alert_type": "congestion",
   "alert_id": "urn:ngsi-ld:TrafficCamera:cam-123",
   "channel": "fcm",
@@ -1032,7 +1052,7 @@ This implementation fulfills all mandatory requirements for PROMPT 17 and is rea
 
 ---
 
-**Report Generated:** January 2025  
+**Report Generated:** November 2025  
 **Implementation Status:** ✅ COMPLETE  
 **Next Steps:** Deploy to staging environment, integrate with Stellio subscriptions
 

@@ -1,14 +1,22 @@
 <!--
-SPDX-License-Identifier: CC-BY-4.0
-Copyright (c) 2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-Community Code of Conduct
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: .github/CODE_OF_CONDUCT.md
-Author: UIP Team (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+SPDX-License-Identifier: CC-BY-4.0
+============================================================================
+File: .github/CODE_OF_CONDUCT.md
+Module: Community Code of Conduct
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-15
 Version: 2.1.0
+License: CC-BY-4.0
 Based on: Contributor Covenant v2.1
+
+Description:
+  Community standards and code of conduct for all project participants.
+============================================================================
 -->
 
 # 📜 Contributor Covenant Code of Conduct

@@ -1,0 +1,165 @@
+---
+slug: interactive-api-explorer
+title: 🔌 Interactive API Explorer
+authors: [nguyendinhanhtuan]
+tags: [uip, api, interactive, fastapi]
+---
+
+{/* SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+Blog post: Interactive API Explorer.
+
+Module: apps/traffic-web-app/frontend/docs/blog/2025-11-24-mdx-blog-post.mdx
+Author: UIP Team
+Version: 1.0.0 */}
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Khám phá UIP API một cách tương tác! Bài viết này sử dụng MDX để tạo các ví dụ API live.
+
+:::tip Pro Tip
+Bạn có thể copy các code snippets và chạy trực tiếp với `curl` hoặc trong Postman!
+:::
+
+{/* truncate */}
+
+## 🚀 Base URL
+
+```
+https://api.uip.vn/v1
+# hoặc local: http://localhost:8000/api/v1
+```
+
+## 📡 Available Endpoints
+
+<Tabs>
+  <TabItem value="cameras" label="🎥 Cameras" default>
+
+### Get All Cameras
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/cameras" \
+  -H "Accept: application/json"
+```
+
+**Response:**
+```json
+{
+  "total": 1247,
+  "items": [
+    {
+      "id": "CAM001",
+      "name": "Nguyễn Văn Linh - Cầu Kênh Tẻ",
+      "location": {
+        "lat": 10.7352,
+        "lng": 106.6869
+      },
+      "status": "active",
+      "lastUpdate": "2025-11-29T08:30:00Z"
+    }
+  ]
+}
+```
+
+  </TabItem>
+  <TabItem value="accidents" label="🚨 Accidents">
+
+### Get Recent Accidents
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/accidents?limit=10" \
+  -H "Accept: application/json"
+```
+
+**Response:**
+```json
+{
+  "total": 127,
+  "items": [
+    {
+      "id": "ACC2025112501",
+      "type": "vehicle_collision",
+      "severity": "high",
+      "location": {
+        "lat": 10.7626,
+        "lng": 106.6885
+      },
+      "detectedAt": "2025-11-29T07:45:00Z",
+      "status": "resolved"
+    }
+  ]
+}
+```
+
+  </TabItem>
+  <TabItem value="congestion" label="🚗 Congestion">
+
+### Get Current Congestion
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/congestion/current" \
+  -H "Accept: application/json"
+```
+
+**Response:**
+```json
+{
+  "timestamp": "2025-11-29T08:30:00Z",
+  "hotspots": [
+    {
+      "id": "HS001",
+      "location": "Ngã tư Hàng Xanh",
+      "level": "severe",
+      "avgSpeed": 8,
+      "estimatedClearTime": "09:15:00"
+    }
+  ]
+}
+```
+
+  </TabItem>
+</Tabs>
+
+## 🔐 Authentication
+
+API sử dụng Bearer Token authentication:
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/protected-endpoint" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+:::warning Bảo mật
+Không bao giờ commit API key vào source code! Sử dụng environment variables.
+:::
+
+## 📊 Response Codes
+
+| Code | Meaning |
+|------|---------|
+| `200` | ✅ Success |
+| `201` | ✅ Created |
+| `400` | ❌ Bad Request |
+| `401` | 🔐 Unauthorized |
+| `404` | 🔍 Not Found |
+| `429` | ⏱️ Rate Limited |
+| `500` | 💥 Server Error |
+
+## 🛠️ Try It Yourself
+
+<button onClick={() => {
+  navigator.clipboard.writeText('curl -X GET "http://localhost:8000/api/v1/health"');
+  alert('Command copied to clipboard!');
+}}>
+  📋 Copy Health Check Command
+</button>
+
+---
+
+**Xem full API docs tại:** [API Reference](/docs/api)
+
+*Nguyễn Đình Anh Tuấn - Backend Developer @ UIP Team*

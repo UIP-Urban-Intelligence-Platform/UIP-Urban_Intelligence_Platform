@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/api/websocket.md
+Module: WebSocket API Reference
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  WebSocket API reference documentation.
+============================================================================
+-->
+
 # WebSocket API Reference
 
 ## Overview
@@ -56,7 +76,7 @@ All messages follow this structure:
 ```json
 {
   "type": "message_type",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {}
 }
 ```
@@ -115,7 +135,7 @@ ws.send(JSON.stringify({
 ```json
 {
   "type": "traffic.flow",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "camera_id": "CAM_001",
     "location": {"lat": 10.7769, "lon": 106.7009},
@@ -143,9 +163,9 @@ ws.send(JSON.stringify({
 // New accident detected
 {
   "type": "accidents.new",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "location": {"lat": 10.7769, "lon": 106.7009},
     "severity": "moderate",
     "confidence": 0.92,
@@ -157,9 +177,9 @@ ws.send(JSON.stringify({
 // Accident updated
 {
   "type": "accidents.update",
-  "timestamp": "2024-01-15T10:35:00Z",
+  "timestamp": "2025-11-29T10:35:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "status": "investigating",
     "emergency_services": "en_route"
   }
@@ -168,9 +188,9 @@ ws.send(JSON.stringify({
 // Accident resolved
 {
   "type": "accidents.resolved",
-  "timestamp": "2024-01-15T11:30:00Z",
+  "timestamp": "2025-11-29T11:30:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "resolution": "cleared",
     "duration": 60
   }
@@ -186,7 +206,7 @@ ws.send(JSON.stringify({
 ```json
 {
   "type": "congestion.update",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "zone_id": "ZONE_001",
     "level": "high",
@@ -216,7 +236,7 @@ ws.send(JSON.stringify({
 // Weather update
 {
   "type": "weather.update",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "location": {"lat": 10.7769, "lon": 106.7009},
     "temperature": 32.5,
@@ -228,14 +248,14 @@ ws.send(JSON.stringify({
 // Weather alert
 {
   "type": "weather.alert",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "alert_type": "heavy_rain",
     "severity": "warning",
     "description": "Heavy rainfall expected in next 2 hours",
     "affected_zones": ["ZONE_001", "ZONE_002"],
-    "start_time": "2024-01-15T11:00:00Z",
-    "end_time": "2024-01-15T13:00:00Z"
+    "start_time": "2025-11-29T11:00:00Z",
+    "end_time": "2025-11-29T13:00:00Z"
   }
 }
 ```
@@ -249,7 +269,7 @@ ws.send(JSON.stringify({
 ```json
 {
   "type": "air-quality.update",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "location": {"lat": 10.7769, "lon": 106.7009},
     "aqi": 85,
@@ -273,11 +293,11 @@ ws.send(JSON.stringify({
 ```json
 {
   "type": "cameras.status",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "camera_id": "CAM_001",
     "status": "active",
-    "last_frame": "2024-01-15T10:29:58Z",
+    "last_frame": "2025-11-29T10:29:58Z",
     "health": {
       "connectivity": "good",
       "image_quality": "excellent",
@@ -296,7 +316,7 @@ ws.send(JSON.stringify({
 ```json
 {
   "type": "alert",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "data": {
     "id": "ALERT_001",
     "priority": "high",
@@ -545,7 +565,7 @@ All errors follow this structure:
 ```json
 {
   "type": "error",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "error": {
     "code": "ERROR_CODE",
     "message": "Human-readable error description",
@@ -631,4 +651,4 @@ ws.onmessage = (event) => {
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)

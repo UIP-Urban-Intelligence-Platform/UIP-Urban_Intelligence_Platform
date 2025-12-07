@@ -1,4 +1,15 @@
-# Pre-commit hooks configuration
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# Pre-commit Hooks Configuration
+#
+# Module: .pre-commit-config.yaml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
+# Version: 1.0.0
+# License: MIT
+#
 # Install: pip install pre-commit
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files
@@ -40,24 +51,15 @@ repos:
         language_version: python3.10
         args: ['--line-length=100']
 
-  # Import sorting with isort
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+  # Linting and import sorting with Ruff (replaces flake8 + isort)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.0
     hooks:
-      - id: isort
-        name: Sort Python imports with isort
-        args: ['--profile=black', '--line-length=100']
-
-  # Linting with flake8
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
-    hooks:
-      - id: flake8
-        name: Lint Python code with flake8
-        args: 
-          - '--max-line-length=100'
-          - '--extend-ignore=E203,W503'
-          - '--exclude=.venv,__pycache__,.pytest_cache,htmlcov'
+      - id: ruff
+        name: Lint Python code with Ruff
+        args: ['--fix']
+      - id: ruff-format
+        name: Format Python code with Ruff
 
   # Type checking with mypy
   - repo: https://github.com/pre-commit/mirrors-mypy

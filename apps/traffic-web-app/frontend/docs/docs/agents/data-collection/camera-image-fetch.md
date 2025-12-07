@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Camera image fetch agent documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/agents/data-collection/camera-image-fetch.md
+Module: Data Collection Agents Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for the Camera Image Fetch Agent component.
+============================================================================
+-->
+
 # Camera Image Fetch Agent
 
 ## Overview
@@ -450,6 +469,6 @@ See [Contributing Guide](../../guides/contributing.md) for information on how to
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

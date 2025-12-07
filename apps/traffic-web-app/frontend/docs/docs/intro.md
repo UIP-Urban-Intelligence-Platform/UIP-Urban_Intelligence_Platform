@@ -4,6 +4,28 @@ title: UIP - Urban Intelligence Platform
 sidebar_position: 1
 ---
 
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/intro.md
+Module: Introduction Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Introduction documentation page.
+============================================================================
+-->
+Version: 1.0.0
+-->
+
 # UIP - Urban Intelligence Platform
 
 <div align="center">
@@ -39,7 +61,7 @@ The UIP - Urban Intelligence Platform is a **production-ready, multi-agent orche
 - 🤖 **Detects accidents** using YOLOX computer vision
 - 📊 **Analyzes patterns** with advanced analytics agents
 - 🌐 **Publishes Linked Open Data** following NGSI-LD and SOSA/SSN standards
-- 🗺️ **Visualizes data** on an interactive React + Leaflet map
+- 🗺️ **Visualizes data** on an interactive React + MapLibre GL map
 - 📱 **Collects citizen reports** via mobile-friendly forms
 
 ## 🏗️ Architecture Overview
@@ -74,7 +96,7 @@ Get started in **3 steps** (5 minutes):
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # 2. Configure environment
@@ -125,7 +147,7 @@ npm run dev
 - State management and caching
 
 ### 🗺️ Interactive Map Interface
-- **Leaflet-based** traffic visualization
+- **MapLibre GL** traffic visualization
 - Multiple overlay layers (weather, AQI, speed zones)
 - Real-time updates via WebSocket
 - Advanced filtering and search
@@ -170,7 +192,7 @@ npm run dev
 ### Frontend
 - **React 18.2** - UI framework
 - **TypeScript 5.2** - Type safety
-- **Leaflet** - Map visualization
+- **MapLibre GL JS** - Map visualization
 - **Zustand** - State management
 - **Recharts** - Data visualization
 
@@ -219,4 +241,4 @@ Ready to explore? Start with the [Prerequisites](installation/prerequisites) pag
 
 **Built with ❤️ by the UIP Team**
 
-Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)

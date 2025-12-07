@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Alert dispatcher agent documentation.
+
+File: apps/traffic-web-app/frontend/docs/docs/agents/notification/alert-dispatcher.md
+Module: Notification Agents Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Documentation for the Alert Dispatcher Agent component.
+============================================================================
+-->
+
 # Alert Dispatcher Agent
 
 ## Overview
@@ -161,7 +180,7 @@ agent.dispatch_webhook(
         "event": "accident_detected",
         "severity": "high",
         "location": {"lat": 10.7769, "lon": 106.7009},
-        "timestamp": "2024-01-15T10:30:00Z"
+        "timestamp": "2025-11-29T10:30:00Z"
     },
     headers={"X-API-Key": "your-api-key"}
 )
@@ -192,6 +211,7 @@ agent.broadcast_alert(
 Dispatch alert to multiple channels.
 
 **Parameters:**
+
 - `alert_type` (str): Type of alert (accident, congestion, weather, etc.)
 - `priority` (str): Priority level (critical, high, medium, low)
 - `location` (dict): Location information
@@ -199,9 +219,11 @@ Dispatch alert to multiple channels.
 - `**kwargs`: Additional alert data
 
 **Returns:**
+
 - str: Alert ID
 
 **Example:**
+
 ```python
 alert_id = agent.dispatch_alert(
     alert_type="accident_critical",
@@ -216,6 +238,7 @@ alert_id = agent.dispatch_alert(
 Send alert to specific users.
 
 **Parameters:**
+
 - `user_ids` (List[str]): List of user IDs
 - `alert_type` (str): Alert type
 - `priority` (str): Priority level
@@ -226,11 +249,13 @@ Send alert to specific users.
 Send alert to external webhook.
 
 **Parameters:**
+
 - `webhook_url` (str): Webhook endpoint URL
 - `payload` (dict): Alert payload
 - `headers` (dict, optional): HTTP headers
 
 **Returns:**
+
 - WebhookResult: Delivery result
 
 ##### `broadcast_alert(alert_type: str, priority: str, radius_km: float, center_location: dict, message: str, channels: List[str])`
@@ -238,6 +263,7 @@ Send alert to external webhook.
 Broadcast alert to users in geographic area.
 
 **Parameters:**
+
 - `alert_type` (str): Alert type
 - `priority` (str): Priority level
 - `radius_km` (float): Broadcast radius
@@ -250,12 +276,15 @@ Broadcast alert to users in geographic area.
 Get delivery status of alert.
 
 **Parameters:**
+
 - `alert_id` (str): Alert identifier
 
 **Returns:**
+
 - AlertStatus: Delivery status and statistics
 
 **Example:**
+
 ```python
 status = agent.get_alert_status(alert_id)
 print(f"Delivered: {status.delivered_count}/{status.total_recipients}")
@@ -630,6 +659,6 @@ agent.enable_deduplication(
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

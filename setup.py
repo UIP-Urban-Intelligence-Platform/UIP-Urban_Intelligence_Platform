@@ -3,8 +3,8 @@
 """Setup Configuration for UIP - Urban Intelligence Platform.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -41,13 +41,14 @@ if requirements_file.exists():
 
 setup(
     name="uip-urban-intelligence-platform",
-    version="1.0.0",
+    version="2.0.0",
     description="Multi-Agent Linked Open Data Pipeline for Traffic Management",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn",
     author_email="nguyennhatquang522004@gmail.com, viethoang01062004nt@gmail.com, nguyentuan834897@gmail.com",
-    url="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform",
+    url="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform",
+    license="MIT",
     # Package configuration
     packages=find_packages(where="src"),
     package_dir={"": "src"},
@@ -70,20 +71,30 @@ setup(
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Information Technology",
         "Topic :: Software Development :: Libraries :: Application Frameworks",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
+        "Topic :: Scientific/Engineering :: GIS",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3 :: Only",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Typing :: Typed",
+        "Framework :: AsyncIO",
     ],
     # Keywords
-    keywords="linked-data open-data ngsi-ld rdf semantic-web multi-agent traffic",
+    keywords="linked-data open-data ngsi-ld rdf semantic-web multi-agent traffic smart-city urban-intelligence iot fiware",
     # Project URLs
     project_urls={
-        "Documentation": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/docs",
-        "Source": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform",
-        "Bug Reports": "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues",
+        "Documentation": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/wiki",
+        "Source": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform",
+        "Bug Reports": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues",
+        "Changelog": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/CHANGELOG.md",
+        "Discussions": "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions",
     },
 )

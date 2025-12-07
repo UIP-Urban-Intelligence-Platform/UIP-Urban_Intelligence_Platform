@@ -1,6 +1,12 @@
 /**
  * Data Aggregator Service - Real-Time Entity Polling & WebSocket Broadcasting
- * 
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/backend/src/services/dataAggregator
  * @author Nguyen Dinh Anh Tuan
  * @created 2025-11-26
@@ -58,6 +64,7 @@ import { StellioService } from './stellioService';
 import { FusekiService } from './fusekiService';
 import { Neo4jService } from './neo4jService';
 import { PostgresService } from './postgresService';
+import { genericNgsiService } from './genericNgsiService';
 import { logger } from '../utils/logger';
 import { Camera, Weather, AirQuality, Accident, TrafficPattern } from '../types';
 
@@ -270,7 +277,18 @@ export class DataAggregator {
 
   private async fetchAndBroadcastAccidents(isInitial: boolean): Promise<void> {
     try {
-      const accidents: Accident[] = await this.neo4jService.getAccidents();
+      // Fetch ALL accidents from Stellio (no pagination limit)
+      const rawAccidents = await genericNgsiService.fetchEntities('Accident', {});
+      const accidents: Accident[] = rawAccidents.map((acc: any) => ({
+        id: acc.id,
+        type: acc.accidentType || acc.type || 'other',
+        severity: acc.severity || 'minor',
+        location: acc.location || { latitude: 0, longitude: 0, address: '' },
+        timestamp: acc.dateDetected || acc.timestamp || new Date().toISOString(),
+        description: acc.description || '',
+        resolved: acc.resolved ?? false,
+        casualties: acc.casualties || 0
+      }));
       const changedAccidents: Accident[] = [];
 
       accidents.forEach(accident => {

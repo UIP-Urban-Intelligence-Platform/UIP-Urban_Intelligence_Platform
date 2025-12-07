@@ -1,12 +1,20 @@
-# SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
-#
+# ============================================================================
 # UIP - Urban Intelligence Platform
-# GitHub Actions Workflow: Release
+# Copyright (c) 2025 UIP Team. All rights reserved.
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
-# Module: .github/workflows/release.yml
+# SPDX-License-Identifier: MIT
+# ============================================================================
+# File: .github/workflows/release.yml
+# Module: GitHub Actions Workflow - Release
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
 # Version: 1.0.0
+# License: MIT
+#
+# Description:
+#   Automated release workflow with Docker build and publish.
+# ============================================================================
 
 name: Release
 
@@ -145,12 +153,12 @@ jobs:
           echo "📢 Release Announcement Checklist:"
           echo "  ✅ GitHub Release created"
           echo "  ✅ Docker image pushed to ghcr.io"
-          echo "  ⏳ Manual: Send mailing list announcement to builder-layer-end@googlegroups.com"
+          echo "  ⏳ Manual: Send mailing list announcement to uip-urban-intelligence@googlegroups.com"
           echo "  ⏳ Manual: Post to GitHub Discussions (Announcements category)"
           echo "  ⏳ Manual: Update NEWS file if not already done"
           echo ""
           echo "📧 Mailing List Announcement Template:"
-          echo "  Subject: [ANN] Builder Layer End v$VERSION Released"
+          echo "  Subject: [ANN] UIP - Urban Intelligence Platform v$VERSION Released"
           echo "  See: docs/RELEASE_ANNOUNCEMENT_TEMPLATE.md"
           # Add Slack/Discord/Email notification here if needed
 
@@ -162,9 +170,9 @@ jobs:
           category-name: "Announcements"
           title: "🚀 Release v${{ steps.version.outputs.version }}"
           body: |
-            ## Builder Layer End v${{ steps.version.outputs.version }} Released!
+            ## UIP - Urban Intelligence Platform v${{ steps.version.outputs.version }} Released!
             
-            We are excited to announce the release of Builder Layer End v${{ steps.version.outputs.version }}.
+            We are excited to announce the release of UIP - Urban Intelligence Platform v${{ steps.version.outputs.version }}.
             
             ### 📥 Download
             
@@ -177,9 +185,9 @@ jobs:
             
             ### 📧 Mailing List
             
-            Subscribe to [builder-layer-end@googlegroups.com](https://groups.google.com/g/builder-layer-end) for future announcements.
+            Subscribe to [Google Groups](https://groups.google.com/g/uip---urban-intelligence-platform) for future announcements.
             
             ---
             
-            Thank you for using Builder Layer End! 🙏
+            Thank you for using UIP - Urban Intelligence Platform! 🙏
         continue-on-error: true

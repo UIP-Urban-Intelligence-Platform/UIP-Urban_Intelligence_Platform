@@ -1,6 +1,12 @@
 /**
- * Health Advisor Chat Component - EcoTwin AI Agent Interface
- * 
+ * Health Advisor Chat - EcoTwin AI Agent Interface
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/agents/HealthAdvisorChat
  * @author Nguyễn Nhật Quang
  * @created 2025-11-28
@@ -230,7 +236,7 @@ export const HealthAdvisorChat: React.FC<HealthAdvisorChatProps> = ({
     initialMessages = [],
     currentWeather,
     currentAQI,
-    onSendMessage,
+    onSendMessage: _onSendMessage,
     onSuggestionClick,
     isTyping = false
 }) => {
@@ -300,46 +306,102 @@ export const HealthAdvisorChat: React.FC<HealthAdvisorChatProps> = ({
         setIsSending(true);
 
         try {
-            if (onSendMessage) {
-                const response = await onSendMessage(inputMessage);
-                setMessages((prev) => [...prev, response]);
+            // Call EcoTwin AI API
+            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const response = await fetch(`${API_URL}/api/agents/eco-twin/chat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: inputMessage,
+                    location: {
+                        lat: 10.8231, // Default HCM location - could get from geolocation
+                        lng: 106.6297
+                    },
+                    userProfile: {
+                        language: userProfile.preferredLanguage || 'vi',
+                        sensitivityLevel: userProfile.sensitivityLevel || 'medium',
+                        transportMode: userProfile.transportMode || 'motorbike',
+                        healthConditions: userProfile.healthConditions || []
+                    }
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.data) {
+                // Build suggestions based on response
+                const suggestions: SmartSuggestion[] = [];
+
+                // Add route suggestion if AQI is moderate or high
+                if (data.data.aqi > 50) {
+                    suggestions.push({
+                        id: 'sug_route',
+                        type: 'route',
+                        label: 'Xem tuyến đường sạch hơn',
+                        icon: '🗺️',
+                        action: 'show_cleaner_route'
+                    });
+                }
+
+                // Add cafe suggestion for outdoor activities
+                suggestions.push({
+                    id: 'sug_cafe',
+                    type: 'location',
+                    label: 'Tìm quán cafe gần đây',
+                    icon: '☕',
+                    action: 'find_cafe'
+                });
+
+                const aiResponse: ChatMessage = {
+                    id: `assistant_${Date.now()}`,
+                    role: 'assistant',
+                    content: data.data.message || `Chất lượng không khí hiện tại: AQI ${data.data.aqi} (${data.data.aqiCategory}).\n\n${data.data.recommendations?.join('\n') || 'Hãy cẩn thận khi ra ngoài!'}`,
+                    timestamp: new Date().toISOString(),
+                    metadata: {
+                        aqi: data.data.aqi,
+                        aqiCategory: data.data.aqiCategory,
+                        weather: currentWeather
+                    },
+                    suggestions: suggestions
+                };
+                setMessages((prev) => [...prev, aiResponse]);
             } else {
-                // Mock response for demo
-                setTimeout(() => {
-                    const mockResponse: ChatMessage = {
-                        id: `assistant_${Date.now()}`,
-                        role: 'assistant',
-                        content: `Cảm ơn bạn đã hỏi! 🌤️ Tôi đang phân tích dữ liệu không khí và thời tiết để đưa ra lời khuyên tốt nhất cho bạn.`,
-                        timestamp: new Date().toISOString(),
-                        metadata: {
-                            aqi: currentAQI.value,
-                            aqiCategory: currentAQI.category,
-                            weather: currentWeather
-                        },
-                        suggestions: [
-                            {
-                                id: 'sug_1',
-                                type: 'location',
-                                label: 'Tìm quán cafe gần đây',
-                                icon: '☕',
-                                action: 'find_cafe'
-                            },
-                            {
-                                id: 'sug_2',
-                                type: 'route',
-                                label: 'Xem tuyến đường sạch hơn',
-                                icon: '🗺️',
-                                action: 'show_cleaner_route'
-                            }
-                        ]
-                    };
-                    setMessages((prev) => [...prev, mockResponse]);
-                    setIsSending(false);
-                }, 1500);
-                return;
+                throw new Error(data.error || 'Failed to get AI response');
             }
         } catch (error) {
             console.error('Failed to send message:', error);
+
+            // Fallback response when API fails
+            const fallbackResponse: ChatMessage = {
+                id: `assistant_${Date.now()}`,
+                role: 'assistant',
+                content: `🌤️ Xin lỗi, tôi đang gặp sự cố kết nối. Dựa trên dữ liệu hiện có:\n\n📊 AQI: ${currentAQI.value} (${currentAQI.category})\n🌡️ Nhiệt độ: ${currentWeather.temperature}°C\n\n${currentAQI.value <= 50 ? '✅ Chất lượng không khí tốt, an toàn cho hoạt động ngoài trời!' : '⚠️ Nên hạn chế hoạt động ngoài trời kéo dài.'}`,
+                timestamp: new Date().toISOString(),
+                metadata: {
+                    aqi: currentAQI.value,
+                    aqiCategory: currentAQI.category,
+                    weather: currentWeather
+                },
+                suggestions: [
+                    {
+                        id: 'sug_1',
+                        type: 'location',
+                        label: 'Tìm quán cafe gần đây',
+                        icon: '☕',
+                        action: 'find_cafe'
+                    },
+                    {
+                        id: 'sug_2',
+                        type: 'route',
+                        label: 'Xem tuyến đường sạch hơn',
+                        icon: '🗺️',
+                        action: 'show_cleaner_route'
+                    }
+                ]
+            };
+            setMessages((prev) => [...prev, fallbackResponse]);
         } finally {
             setIsSending(false);
         }
@@ -375,6 +437,58 @@ export const HealthAdvisorChat: React.FC<HealthAdvisorChatProps> = ({
             timestamp: new Date().toISOString()
         };
         setMessages((prev) => [...prev, userMessage]);
+
+        // Generate AI response based on suggestion action
+        setTimeout(() => {
+            let responseContent = '';
+            let responseSuggestions: SmartSuggestion[] = [];
+
+            switch (suggestion.action) {
+                case 'show_cleaner_route':
+                    responseContent = `🗺️ Đã mở Route Planner cho bạn!\n\nTôi đã chọn chế độ "Healthiest" để tìm tuyến đường có chất lượng không khí tốt nhất.\n\n📍 Hãy nhập điểm đi và điểm đến ở panel bên trái để xem các tuyến đường được đề xuất.\n\n💡 Tip: Tuyến màu xanh lá = không khí sạch nhất!`;
+                    break;
+
+                case 'find_cafe':
+                    responseContent = `☕ Đang tìm khu vực có không khí sạch gần bạn...\n\nTôi đã zoom đến vị trí có AQI thấp nhất trong khu vực.\n\n🌿 AQI hiện tại: ${currentAQI.value} (${currentAQI.category})\n🌡️ Nhiệt độ: ${currentWeather.temperature}°C\n\n💡 Các quán cafe ngoài trời ở khu vực này sẽ có không khí trong lành!`;
+                    responseSuggestions = [
+                        {
+                            id: 'sug_route',
+                            type: 'route',
+                            label: 'Chỉ đường đến đây',
+                            icon: '🚶',
+                            action: 'show_cleaner_route'
+                        }
+                    ];
+                    break;
+
+                case 'show_traffic':
+                    responseContent = `🚦 Đã bật hiển thị mật độ giao thông!\n\nBạn có thể thấy các khu vực:\n• 🟢 Xanh: Thông thoáng\n• 🟡 Vàng: Đông vừa\n• 🔴 Đỏ: Tắc nghẽn\n\n💡 Tip: Tránh khu vực đỏ để tiết kiệm thời gian và nhiên liệu!`;
+                    break;
+
+                default:
+                    responseContent = `✅ Đã thực hiện: ${suggestion.label}\n\nBạn cần tôi hỗ trợ gì thêm không?`;
+            }
+
+            const aiResponse: ChatMessage = {
+                id: `ai_response_${Date.now()}`,
+                role: 'assistant',
+                content: responseContent,
+                timestamp: new Date().toISOString(),
+                metadata: {
+                    aqi: currentAQI.value,
+                    aqiCategory: currentAQI.category,
+                    weather: {
+                        condition: currentWeather.condition,
+                        temperature: currentWeather.temperature,
+                        humidity: currentWeather.humidity,
+                        rainfall: currentWeather.rainfall
+                    }
+                },
+                suggestions: responseSuggestions.length > 0 ? responseSuggestions : undefined
+            };
+
+            setMessages((prev) => [...prev, aiResponse]);
+        }, 800); // Small delay for natural feel
     };
 
     // =====================================================

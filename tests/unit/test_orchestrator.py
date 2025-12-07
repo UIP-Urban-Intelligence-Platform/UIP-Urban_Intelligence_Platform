@@ -3,8 +3,8 @@
 """Orchestrator Unit Test Suite.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -33,8 +33,12 @@ try:
 
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
-    WorkflowOrchestrator = None
+    WorkflowOrchestrator = None  # type: ignore
     ORCHESTRATOR_AVAILABLE = False
+
+# Verify import succeeded when available
+if ORCHESTRATOR_AVAILABLE:
+    assert WorkflowOrchestrator is not None  # nosec: import verified
 
 
 @pytest.mark.skipif(

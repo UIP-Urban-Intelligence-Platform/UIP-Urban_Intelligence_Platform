@@ -1,10 +1,17 @@
-#Module: Dockerfile
-#Author: nguyễn Nhật Quang
-#Created: 2025-12-1
-#Version: 1.0.0
-#license MIT
-# Production Dockerfile for Frontend
-# Multi-stage build with Nginx
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/frontend/Dockerfile
+# Author: UIP Team
+# Created: 2025-12-01
+# Modified: 2025-12-06
+# Version: 1.0.0
+# License: MIT
+# Description: Production Dockerfile for Frontend - Multi-stage build with Nginx
+
 # Stage 1: Build
 FROM node:18-alpine AS builder
 

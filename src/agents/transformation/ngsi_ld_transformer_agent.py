@@ -3,7 +3,7 @@
 """NGSI-LD Transformer Agent - Domain-Agnostic Entity Transformation.
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 
@@ -67,6 +67,7 @@ References:
 import json
 import logging
 import sys
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
@@ -172,7 +173,7 @@ class TransformationEngine:
                     # Try parsing as ISO format
                     dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
                     return dt.isoformat() + "Z"
-                except (ValueError, AttributeError):
+                except:
                     return value
             elif isinstance(value, datetime):
                 return value.isoformat() + "Z"
@@ -816,33 +817,56 @@ class NGSILDTransformerAgent:
                 # Validate camera entity if configured
                 if self.config["processing"].get("validate_output", True):
                     if self.validator.validate_entity(camera_entity):
-                        ngsi_entities.append(camera_entity)
-                        self.stats["successful_transforms"] += 1
-
                         # Get camera ID for relationships
                         camera_id = camera_entity.get("id")
 
-                        # 2. Create WeatherObserved entity
+                        # 2. Create WeatherObserved entity FIRST (to get its ID)
                         weather_entity = self.create_weather_observed_entity(
                             entity, camera_id
                         )
+                        weather_entity_id = None
                         if weather_entity:
+                            weather_entity_id = weather_entity.get("id")
                             ngsi_entities.append(weather_entity)
                             self.stats["successful_transforms"] += 1
                             self.logger.debug(
                                 f"Created WeatherObserved for {camera_id}"
                             )
 
-                        # 3. Create AirQualityObserved entity
+                        # 3. Create AirQualityObserved entity (to get its ID)
                         aq_entity = self.create_air_quality_observed_entity(
                             entity, camera_id
                         )
+                        aq_entity_id = None
                         if aq_entity:
+                            aq_entity_id = aq_entity.get("id")
                             ngsi_entities.append(aq_entity)
                             self.stats["successful_transforms"] += 1
                             self.logger.debug(
                                 f"Created AirQualityObserved for {camera_id}"
                             )
+
+                        # 4. Add bidirectional Relationships to Camera entity (LOD 5-star compliance)
+                        # Following NGSI-LD Smart Data Models standards
+                        if weather_entity_id:
+                            camera_entity["refWeatherObserved"] = (
+                                self.create_relationship(weather_entity_id)
+                            )
+                            self.logger.debug(
+                                f"Added refWeatherObserved relationship to {camera_id}"
+                            )
+
+                        if aq_entity_id:
+                            camera_entity["refAirQualityObserved"] = (
+                                self.create_relationship(aq_entity_id)
+                            )
+                            self.logger.debug(
+                                f"Added refAirQualityObserved relationship to {camera_id}"
+                            )
+
+                        # 5. Add Camera entity (with relationships) to result list
+                        ngsi_entities.append(camera_entity)
+                        self.stats["successful_transforms"] += 1
                     else:
                         self.logger.warning(
                             f"Validation failed for {camera_entity.get('id')}: "
@@ -851,18 +875,16 @@ class NGSILDTransformerAgent:
                         self.stats["validation_errors"] += 1
                         self.stats["failed_transforms"] += 1
                 else:
-                    # No validation - add all entities
-                    ngsi_entities.append(camera_entity)
-                    self.stats["successful_transforms"] += 1
-
-                    # Get camera ID for relationships
+                    # No validation - still add relationships for LOD 5-star compliance
                     camera_id = camera_entity.get("id")
 
-                    # Create WeatherObserved entity
+                    # Create WeatherObserved entity FIRST
                     weather_entity = self.create_weather_observed_entity(
                         entity, camera_id
                     )
+                    weather_entity_id = None
                     if weather_entity:
+                        weather_entity_id = weather_entity.get("id")
                         ngsi_entities.append(weather_entity)
                         self.stats["successful_transforms"] += 1
 
@@ -870,9 +892,25 @@ class NGSILDTransformerAgent:
                     aq_entity = self.create_air_quality_observed_entity(
                         entity, camera_id
                     )
+                    aq_entity_id = None
                     if aq_entity:
+                        aq_entity_id = aq_entity.get("id")
                         ngsi_entities.append(aq_entity)
                         self.stats["successful_transforms"] += 1
+
+                    # Add bidirectional Relationships to Camera entity
+                    if weather_entity_id:
+                        camera_entity["refWeatherObserved"] = self.create_relationship(
+                            weather_entity_id
+                        )
+                    if aq_entity_id:
+                        camera_entity["refAirQualityObserved"] = (
+                            self.create_relationship(aq_entity_id)
+                        )
+
+                    # Add Camera entity (with relationships)
+                    ngsi_entities.append(camera_entity)
+                    self.stats["successful_transforms"] += 1
             else:
                 self.stats["failed_transforms"] += 1
 
@@ -1053,7 +1091,6 @@ def main(config: Dict = None):
     except Exception as e:
         print(f"Fatal error: {e}", file=sys.stderr)
         sys.exit(1)
-    return None
 
 
 if __name__ == "__main__":

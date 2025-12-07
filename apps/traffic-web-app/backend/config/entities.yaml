@@ -1,14 +1,19 @@
-# YAML Configuration for All NGSI-LD Entities
-# This file defines ALL endpoints, field mappings, and transformations
-# Adding new domains requires ONLY editing this config file
-# Module: apps.traffic-web-app.backend.config.entities
-# Author: Nguyễn Nhật Quang
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 UIP Team. All rights reserved.
+#
+# UIP - Urban Intelligence Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+#
+# Module: apps/traffic-web-app/backend/config/entities.yaml
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-26
+# Modified: 2025-12-06
 # Version: 3.0.0
 # License: MIT
-# Description:
-# This file defines ALL NGSI-LD entities, their endpoints, field mappings, and transformations
-
+#
+# Description: YAML Configuration for All NGSI-LD Entities
+# This file defines ALL endpoints, field mappings, and transformations.
+# Adding new domains requires ONLY editing this config file.
 
 version: "1.0"
 stellioBaseUrl: "${STELLIO_URL:-http://localhost:8080}/ngsi-ld/v1/entities"
@@ -228,7 +233,15 @@ entities:
       - name: "level"
         field: "level"
         operator: "equals"
-        enum: ["good", "moderate", "unhealthy_sensitive", "unhealthy", "very_unhealthy", "hazardous"]
+        enum:
+          [
+            "good",
+            "moderate",
+            "unhealthy_sensitive",
+            "unhealthy",
+            "very_unhealthy",
+            "hazardous",
+          ]
       - name: "minAqi"
         field: "aqi"
         operator: "greaterThanOrEqual"
@@ -268,10 +281,76 @@ entities:
           very_unhealthy: "#8f3f97"
           hazardous: "#7e0023"
 
-  # Road Accident Entity
+  # Road Accident Entity (from CV Analysis with DETR)
+  Accident:
+    entityType: "Accident"
+    endpoint: "/api/accidents"
+    description: "Road accident incidents detected by CV Analysis"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: true
+        transform: "coordinatesToLatLng"
+      dateDetected:
+        ngsiPath: "accidentDate.value"
+        alternativePaths:
+          - "dateDetected.value"
+          - "timestamp"
+        type: "datetime"
+        required: true
+      accidentType:
+        ngsiPath: "accidentType.value"
+        type: "string"
+        required: false
+        default: "traffic_accident"
+      severity:
+        ngsiPath: "severity.value"
+        type: "string"
+        required: true
+        enum: ["severe", "moderate", "minor"]
+        default: "moderate"
+      affectedCamera:
+        ngsiPath: "detectedBy.object"
+        alternativePaths:
+          - "refDevice.object"
+          - "refDevice.value"
+        type: "string"
+        required: false
+      confidence:
+        ngsiPath: "confidence.value"
+        type: "number"
+        required: false
+        default: 0.5
+        validate: "range:0-1"
+      status:
+        ngsiPath: "status.value"
+        type: "string"
+        required: false
+        default: "detected"
+      source:
+        ngsiPath: "source.value"
+        type: "string"
+        required: false
+    filters:
+      - name: "hours"
+        field: "dateDetected"
+        operator: "timeRange"
+      - name: "severity"
+        field: "severity"
+        operator: "equals"
+      - name: "cameraId"
+        field: "affectedCamera"
+        operator: "equals"
+
+  # Road Accident Entity (legacy/alternate type)
   RoadAccident:
     entityType: "RoadAccident"
-    endpoint: "/api/accidents"
+    endpoint: "/api/accidents/road"
     description: "Road accident incidents"
     fields:
       id:
@@ -291,7 +370,8 @@ entities:
         ngsiPath: "accidentType.value"
         type: "string"
         required: true
-        enum: ["collision", "pedestrian", "vehicle_breakdown", "debris", "other"]
+        enum:
+          ["collision", "pedestrian", "vehicle_breakdown", "debris", "other"]
       severity:
         ngsiPath: "severity.value"
         type: "string"
@@ -378,7 +458,16 @@ entities:
         type: "array"
         required: true
         itemType: "string"
-        enum: ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        enum:
+          [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday",
+          ]
       avgVehicleCount:
         ngsiPath: "avgVehicleCount.value"
         type: "number"
@@ -436,6 +525,82 @@ entities:
         parameters:
           cameraIds: "affectedCameras"
           bufferDistance: 100
+
+  # Item Flow Observed Entity - Real-time traffic flow from CV Analysis
+  ItemFlowObserved:
+    entityType: "ItemFlowObserved"
+    endpoint: "/api/flow"
+    description: "Real-time traffic flow observations from CV Analysis"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      refDevice:
+        ngsiPath: "refDevice.object"
+        alternativePaths:
+          - "refDevice.value"
+        type: "string"
+        required: false
+      cameraId:
+        ngsiPath: "refDevice.object"
+        type: "string"
+        required: false
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: false
+        transform: "coordinatesToLatLng"
+      vehicleCount:
+        ngsiPath: "vehicleCount.value"
+        type: "number"
+        required: false
+        default: 0
+      averageSpeed:
+        ngsiPath: "averageSpeed.value"
+        type: "number"
+        required: false
+        unit: "km/h"
+        default: 0
+      congestionLevel:
+        ngsiPath: "congestionLevel.value"
+        type: "string"
+        required: false
+        enum: ["congested", "moderate", "free"]
+        default: "unknown"
+      intensity:
+        ngsiPath: "intensity.value"
+        type: "number"
+        required: false
+        default: 0
+      occupancy:
+        ngsiPath: "occupancy.value"
+        type: "number"
+        required: false
+        default: 0
+      observedAt:
+        ngsiPath: "vehicleCount.observedAt"
+        alternativePaths:
+          - "congestionLevel.observedAt"
+          - "dateObserved.value"
+        type: "datetime"
+        required: false
+      detectionDetails:
+        ngsiPath: "detectionDetails.value"
+        type: "object"
+        required: false
+    filters:
+      - name: "congestion"
+        field: "congestionLevel"
+        operator: "equals"
+        enum: ["congested", "moderate", "free"]
+      - name: "cameraId"
+        field: "refDevice"
+        operator: "equals"
+      - name: "limit"
+        operator: "limit"
+        default: 100
+        max: 1000
 
 # Analytics Endpoint Configurations
 analytics:
@@ -522,7 +687,7 @@ analytics:
       PREFIX ngsi-ld: <https://uri.etsi.org/ngsi-ld/>
       PREFIX traffic: <http://traffic.hcmc.vn/ontology#>
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-      
+
       SELECT ?timestamp ?camera ?aqi ?pm25 ?pm10 ?no2 ?o3
       WHERE {
         GRAPH ?g {
@@ -597,8 +762,8 @@ analytics:
 # WebSocket Configuration
 websocket:
   port: 8081
-  updateInterval: 30000  # 30 seconds
-  heartbeatInterval: 10000  # 10 seconds
+  updateInterval: 30000 # 30 seconds
+  heartbeatInterval: 10000 # 10 seconds
   changeDetection:
     enabled: true
     compareField: "dateModified"
@@ -689,17 +854,17 @@ validationRules:
   range:
     description: "Validate number is within range"
     parameters: ["min", "max"]
-    
+
   nonNegative:
     description: "Validate number is >= 0"
-    
+
   enum:
     description: "Validate value is in allowed list"
     parameters: ["allowedValues"]
-    
+
   datetime:
     description: "Validate ISO 8601 datetime string"
-    
+
   geopoint:
     description: "Validate lat/lng coordinates"
     rules:

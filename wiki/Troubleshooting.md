@@ -1,3 +1,22 @@
+﻿<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Troubleshooting.md
+Module: Troubleshooting Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 2.0.0
+License: MIT
+
+Description:
+  Common issues and their solutions for UIP.
+============================================================================
+-->
 # 🔧 Troubleshooting
 
 Common issues and their solutions.
@@ -492,7 +511,7 @@ python scripts/diagnostics.py > diagnostics.txt
 
 ### Report Issues
 
-1. Check existing issues: [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+1. Check existing issues: [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
 2. Search FAQ: [[FAQ]]
 3. Create new issue with:
    - Environment (OS, Docker version, Python version)
@@ -503,7 +522,7 @@ python scripts/diagnostics.py > diagnostics.txt
 
 ---
 
-## 📚 Related Pages
+## 🔗 Related Pages
 
 - [[FAQ]] - Frequently asked questions
 - [[Installation]] - Setup instructions

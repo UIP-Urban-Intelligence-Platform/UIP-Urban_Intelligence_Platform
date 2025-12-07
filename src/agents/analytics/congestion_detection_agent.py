@@ -3,7 +3,7 @@
 """Congestion Detection Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 
@@ -54,8 +54,9 @@ import asyncio
 import json
 import logging
 import os
+import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -70,6 +71,9 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
+
+# Thread lock for file operations to prevent race conditions
+_alerts_file_lock = threading.Lock()
 
 
 ISO_FMT = "%Y-%m-%dT%H:%M:%SZ"
@@ -439,8 +443,8 @@ class CongestionDetectionAgent:
                 # Query all Camera entities - entity_id contains the camera code
                 # Format: urn:ngsi-ld:Camera:TTH%20406 -> code is "TTH 406" (URL encoded)
                 query = """
-                    SELECT entity_id
-                    FROM entity_payload
+                    SELECT entity_id 
+                    FROM entity_payload 
                     WHERE 'https://uri.etsi.org/ngsi-ld/default-context/Camera' = ANY(types)
                 """
 
@@ -469,7 +473,7 @@ class CongestionDetectionAgent:
         try:
             # Run async function in event loop
             try:
-                asyncio.get_running_loop()
+                loop = asyncio.get_running_loop()
                 # If we're already in an async context, create task
                 import concurrent.futures
 
@@ -597,14 +601,26 @@ class CongestionDetectionAgent:
         }
         try:
             alerts_file.parent.mkdir(parents=True, exist_ok=True)
-            if alerts_file.exists():
-                with open(alerts_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-            else:
+            # Use thread lock to prevent race condition when multiple threads write simultaneously
+            with _alerts_file_lock:
                 data = []
-            data.append(alert)
-            with open(alerts_file, "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=2, ensure_ascii=False)
+                if alerts_file.exists():
+                    # Handle empty or invalid JSON file gracefully
+                    try:
+                        content = alerts_file.read_text(encoding="utf-8").strip()
+                        if content:
+                            data = json.loads(content)
+                            if not isinstance(data, list):
+                                logger.warning(
+                                    f"alerts.json contains non-list data, resetting to empty list"
+                                )
+                                data = []
+                    except json.JSONDecodeError as je:
+                        logger.warning(f"Invalid JSON in alerts.json, resetting: {je}")
+                        data = []
+                data.append(alert)
+                with open(alerts_file, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
             logger.info(f"Alert generated for {camera_ref}")
         except Exception as e:
             logger.error(f"Failed to write alert for {camera_ref}: {e}")
@@ -650,7 +666,7 @@ class CongestionDetectionAgent:
                 logger.error(f"Skipping entity due to evaluation error: {e}")
                 continue
             camera_ref = self.detector._get_camera_ref(entity)
-            _prev_state = self.state_store.get(camera_ref)  # noqa: F841
+            prev_state = self.state_store.get(camera_ref)
 
             # If a first_breach_ts should be initialized or reset based on reasons
             if "started_timer" in (reason or ""):

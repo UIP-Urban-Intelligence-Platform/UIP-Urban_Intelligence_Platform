@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 Nguyen Nhat Quang
-
+============================================================================
 UIP - Urban Intelligence Platform
-Pull Request Template
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: .github/pull_request_template.md
+SPDX-License-Identifier: MIT
+============================================================================
+File: .github/PULL_REQUEST_TEMPLATE.md
+Module: Pull Request Template
 Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-15
 Version: 1.0.0
+License: MIT
+
+Description:
+  Standard template for pull requests in the UIP project.
+============================================================================
 -->
 
 # Pull Request

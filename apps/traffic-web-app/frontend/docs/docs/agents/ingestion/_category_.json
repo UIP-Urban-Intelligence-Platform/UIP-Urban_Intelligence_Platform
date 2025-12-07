@@ -1,0 +1,8 @@
+{
+    "label": "Ingestion",
+    "position": 5,
+    "link": {
+        "type": "generated-index",
+        "description": "Agents for ingesting data from various sources into the platform."
+    }
+}

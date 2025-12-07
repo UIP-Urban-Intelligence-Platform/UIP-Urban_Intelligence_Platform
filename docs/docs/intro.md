@@ -1,3 +1,22 @@
+<!--
+============================================================================
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
+
+UIP - Urban Intelligence Platform
+Getting started documentation.
+
+File: docs/docs/intro.md
+Module: Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+Description: Getting started guide for UIP system.
+============================================================================
+-->
+
 # Getting Started with HCMC Traffic Monitoring System
 
 Welcome to the **HCMC Traffic Monitoring System** documentation! This is a comprehensive Linked Open Data (LOD) pipeline for real-time traffic management in Ho Chi Minh City.
@@ -10,7 +29,7 @@ The HCMC Traffic Monitoring System is a **multi-agent orchestration platform** t
 - 🤖 **Detects accidents** using YOLOX computer vision
 - 📊 **Analyzes patterns** with advanced analytics agents
 - 🌐 **Publishes Linked Open Data** following NGSI-LD and SOSA/SSN standards
-- 🗺️ **Visualizes data** on an interactive React + Leaflet map
+- 🗺️ **Visualizes data** on an interactive React + MapLibre GL map
 - 📱 **Collects citizen reports** via mobile-friendly forms
 
 ## 🏗️ Architecture Overview
@@ -43,7 +62,7 @@ The HCMC Traffic Monitoring System is a **multi-agent orchestration platform** t
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Start all services
@@ -90,7 +109,7 @@ npm run dev
 - State management and caching
 
 ### 🗺️ Interactive Map Interface
-- **Leaflet-based** traffic visualization
+- **MapLibre GL** traffic visualization
 - Multiple overlay layers (weather, AQI, speed zones)
 - Real-time updates via WebSocket
 - Advanced filtering and search
@@ -135,7 +154,7 @@ npm run dev
 ### Frontend
 - **React 18.2** - UI framework
 - **TypeScript 5.2** - Type safety
-- **Leaflet** - Map visualization
+- **MapLibre GL JS** - Map visualization
 - **Zustand** - State management
 - **Recharts** - Data visualization
 

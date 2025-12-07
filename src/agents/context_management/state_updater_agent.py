@@ -3,8 +3,8 @@
 """State Updater Agent - Real-Time Entity State Updates.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -680,10 +680,10 @@ class EntityUpdater:
                 rule = self.update_rules[attr_name]
                 validation = rule.get("validation", {})
 
-                # Get attribute value
-                attr_value = event.updates[attr_name]
-                if isinstance(attr_value, dict):
-                    attr_value = attr_value.get("value")
+                # Get attribute value - extract from dict if needed
+                raw_attr = event.updates[attr_name]
+                # Note: attr_value used for type normalization before validation
+                _ = raw_attr.get("value") if isinstance(raw_attr, dict) else raw_attr
 
                 # Validate based on rules
                 for field, constraints in validation.items():

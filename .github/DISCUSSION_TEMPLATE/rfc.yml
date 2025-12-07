@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: MIT
-# Copyright (c) 2025 Nguyen Nhat Quang
+# Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
 # GitHub Discussion Template: RFC (Request for Comments)
 #
 # Module: .github/DISCUSSION_TEMPLATE/rfc.yml
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+# Created: 2025-11-20
 # Version: 1.0.0
+# License: MIT
 
 title: "[RFC] "
 labels:
@@ -26,7 +28,7 @@ body:
         3. Core team review
         4. Decision and implementation
         
-        **For minor changes, use [Ideas](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions/categories/ideas) instead.**
+        **For minor changes, use [Ideas](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions/categories/ideas) instead.**
 
   - type: input
     id: rfc-title

@@ -3,8 +3,8 @@
 """Kafka Entity Publisher Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -302,13 +302,8 @@ if __name__ == "__main__":
 
     agent = KafkaEntityPublisherAgent(config)
 
-    # Test with sample entity
-    test_entity = {
-        "id": "urn:ngsi-ld:Test:001",
-        "type": "Test",
-        "name": {"type": "Property", "value": "Kafka Test"},
-        "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
-    }
+    # Note: test_entity removed as run() reads from entities_file
+    # To test, create test.json with sample entities
 
     result = agent.run({"entities_file": "test.json"})  # Create this file for testing
 

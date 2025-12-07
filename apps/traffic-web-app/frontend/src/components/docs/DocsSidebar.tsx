@@ -1,4 +1,12 @@
 /**
+ * Docs Sidebar - Documentation Navigation Component
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/docs/DocsSidebar
  * @author Nguyễn Nhật Quang
  * @created 2025-11-30
@@ -15,10 +23,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, ChevronDown, Book, FileText, Home, X, FolderOpen, Folder } from 'lucide-react';
 import { docsNavigation, DocItem, hasDocContent } from '../../services/docsService';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Language, getTranslations } from '../../services/i18nService';
 
 interface DocsSidebarProps {
     isOpen?: boolean;
     onClose?: () => void;
+    language?: Language;
 }
 
 // Helper function to check if current path is within item's children
@@ -117,29 +127,30 @@ const NavItem: React.FC<{
     return (
         <div className="w-full">
             <div className="flex items-center">
+                {hasChildren && (
+                    <button
+                        onClick={handleToggle}
+                        className="p-1 transition-transform duration-200 hover:bg-slate-200 dark:hover:bg-slate-700 rounded"
+                    >
+                        {isExpanded ? (
+                            <ChevronDown className="w-4 h-4 text-slate-500" />
+                        ) : (
+                            <ChevronRight className="w-4 h-4 text-slate-500" />
+                        )}
+                    </button>
+                )}
                 <Link
                     to={item.path}
                     className={`
                         flex-1 flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200
-                        ${level > 0 ? 'ml-4' : ''}
+                        ${level > 0 && !hasChildren ? 'ml-4' : ''}
                         ${isActive
                             ? 'bg-blue-100 text-blue-700 font-medium dark:bg-blue-900/30 dark:text-blue-300'
                             : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200'
                         }
                     `}
                 >
-                    {hasChildren ? (
-                        <button
-                            onClick={handleToggle}
-                            className="transition-transform duration-200 hover:bg-slate-200 dark:hover:bg-slate-700 rounded p-0.5"
-                        >
-                            {isExpanded ? (
-                                <ChevronDown className="w-4 h-4" />
-                            ) : (
-                                <ChevronRight className="w-4 h-4" />
-                            )}
-                        </button>
-                    ) : (
+                    {!hasChildren && (
                         <FileText className="w-4 h-4 opacity-50" />
                     )}
                     <span className="flex-1 truncate">{item.title}</span>
@@ -165,8 +176,9 @@ const NavItem: React.FC<{
     );
 };
 
-const DocsSidebar: React.FC<DocsSidebarProps> = ({ isOpen = false, onClose }) => {
+const DocsSidebar: React.FC<DocsSidebarProps> = ({ isOpen = false, onClose, language = 'vi' }) => {
     const location = useLocation();
+    const t = getTranslations(language);
 
     return (
         <>
@@ -193,21 +205,23 @@ const DocsSidebar: React.FC<DocsSidebarProps> = ({ isOpen = false, onClose }) =>
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                         className="fixed top-0 left-0 z-50 w-72 h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 overflow-y-auto lg:hidden"
                     >
-                        <SidebarContent onClose={onClose} currentPath={location.pathname} />
+                        <SidebarContent onClose={onClose} currentPath={location.pathname} translations={t} />
                     </motion.aside>
                 )}
             </AnimatePresence>
 
             {/* Desktop Sidebar - Always visible */}
             <aside className="hidden lg:block sticky top-16 w-72 h-[calc(100vh-4rem)] bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 overflow-y-auto flex-shrink-0">
-                <SidebarContent currentPath={location.pathname} />
+                <SidebarContent currentPath={location.pathname} translations={t} />
             </aside>
         </>
     );
 };
 
 // Separate component for sidebar content to avoid duplication
-const SidebarContent: React.FC<{ onClose?: () => void; currentPath: string }> = ({ onClose, currentPath }) => {
+import { Translations } from '../../services/i18nService';
+
+const SidebarContent: React.FC<{ onClose?: () => void; currentPath: string; translations: Translations }> = ({ onClose, currentPath, translations: t }) => {
     return (
         <>
             {/* Header */}
@@ -215,7 +229,7 @@ const SidebarContent: React.FC<{ onClose?: () => void; currentPath: string }> = 
                 <div className="flex items-center justify-between">
                     <Link to="/docs" className="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-white">
                         <Book className="w-5 h-5 text-blue-600" />
-                        <span>Documentation</span>
+                        <span>{t.documentation}</span>
                     </Link>
                     {onClose && (
                         <button
@@ -235,7 +249,7 @@ const SidebarContent: React.FC<{ onClose?: () => void; currentPath: string }> = 
                     className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 rounded-lg transition-all"
                 >
                     <Home className="w-4 h-4" />
-                    <span>Quay lại Trang chủ</span>
+                    <span>{t.backToHome}</span>
                 </Link>
             </div>
 
@@ -249,7 +263,7 @@ const SidebarContent: React.FC<{ onClose?: () => void; currentPath: string }> = 
             {/* Footer info */}
             <div className="p-4 mt-auto border-t border-slate-200 dark:border-slate-700">
                 <div className="text-xs text-slate-500 dark:text-slate-500">
-                    <p>HCMC Traffic Monitoring</p>
+                    <p>Urban Intelligence Platform</p>
                     <p>Documentation v1.0.0</p>
                 </div>
             </div>

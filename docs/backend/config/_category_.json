@@ -1,0 +1,15 @@
+{
+    "label": "Config",
+    "position": 7,
+    "link": {
+        "type": "generated-index",
+        "title": "Configuration",
+        "description": "Configuration loader and environment settings for the UIP Backend.",
+        "keywords": [
+            "config",
+            "configuration",
+            "environment",
+            "settings"
+        ]
+    }
+}

@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-LOD Cloud Integration Guide
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: wiki/LOD-Cloud-Integration.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/LOD-Cloud-Integration.md
+Module: LOD Cloud Integration Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
+License: MIT
+
+Description:
+  Complete guide to Linked Open Data (LOD) Cloud integration in UIP.
+============================================================================
 -->
 
 # 🌐 LOD Cloud Integration

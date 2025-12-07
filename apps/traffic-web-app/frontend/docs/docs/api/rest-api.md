@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/api/rest-api.md
+Module: REST API Reference
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  REST API reference documentation.
+============================================================================
+-->
+
 # REST API Reference
 
 ## Overview
@@ -61,7 +81,7 @@ GET /cameras
         "address": "Nguyen Hue St, District 1"
       },
       "status": "active",
-      "last_update": "2024-01-15T10:30:00Z",
+      "last_update": "2025-11-29T10:30:00Z",
       "capabilities": ["image", "video", "thermal"]
     }
   ],
@@ -94,7 +114,7 @@ GET /cameras/{camera_id}
   "status": "active",
   "stream_url": "rtsp://camera.example.com/stream/CAM_001",
   "last_image": "https://api.traffic.example.com/images/CAM_001/latest.jpg",
-  "last_update": "2024-01-15T10:30:00Z",
+  "last_update": "2025-11-29T10:30:00Z",
   "metadata": {
     "resolution": "1920x1080",
     "fps": 30,
@@ -130,8 +150,8 @@ GET /cameras/{camera_id}/stats
 {
   "camera_id": "CAM_001",
   "period": {
-    "start": "2024-01-15T00:00:00Z",
-    "end": "2024-01-15T23:59:59Z"
+    "start": "2025-11-29T00:00:00Z",
+    "end": "2025-11-29T23:59:59Z"
   },
   "stats": {
     "total_vehicles": 15420,
@@ -163,9 +183,9 @@ GET /traffic/flow
 {
   "observations": [
     {
-      "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20240115T103000Z",
+      "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20251125T103000Z",
       "camera_id": "CAM_001",
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-11-29T10:30:00Z",
       "location": {"lat": 10.7769, "lon": 106.7009},
       "intensity": 45,
       "average_speed": 35.5,
@@ -191,7 +211,7 @@ GET /traffic/realtime
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "zones": [
     {
       "zone_id": "ZONE_001",
@@ -226,8 +246,8 @@ GET /accidents
 {
   "accidents": [
     {
-      "id": "ACC_20240115_001",
-      "timestamp": "2024-01-15T10:30:00Z",
+      "id": "ACC_20251125_001",
+      "timestamp": "2025-11-29T10:30:00Z",
       "location": {
         "lat": 10.7769,
         "lon": 106.7009,
@@ -255,8 +275,8 @@ GET /accidents/{accident_id}
 
 ```json
 {
-  "id": "ACC_20240115_001",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "id": "ACC_20251125_001",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {
     "lat": 10.7769,
     "lon": 106.7009,
@@ -276,19 +296,19 @@ GET /accidents/{accident_id}
   },
   "timeline": [
     {
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-11-29T10:30:00Z",
       "event": "Accident detected",
       "source": "CV Agent"
     },
     {
-      "timestamp": "2024-01-15T10:31:30Z",
+      "timestamp": "2025-11-29T10:31:30Z",
       "event": "Emergency services notified",
       "source": "Alert Dispatcher"
     }
   ],
   "images": [
-    "https://api.traffic.example.com/images/accidents/ACC_20240115_001_1.jpg",
-    "https://api.traffic.example.com/images/accidents/ACC_20240115_001_2.jpg"
+    "https://api.traffic.example.com/images/accidents/ACC_20251125_001_1.jpg",
+    "https://api.traffic.example.com/images/accidents/ACC_20251125_001_2.jpg"
   ]
 }
 ```
@@ -321,7 +341,7 @@ POST /accidents
 
 ```json
 {
-  "id": "ACC_20240115_002",
+  "id": "ACC_20251125_002",
   "status": "created",
   "verification_status": "pending"
 }
@@ -342,7 +362,7 @@ GET /weather/current
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {"lat": 10.7769, "lon": 106.7009},
   "temperature": 32.5,
   "humidity": 75,
@@ -374,7 +394,7 @@ GET /weather/forecast
 {
   "forecast": [
     {
-      "timestamp": "2024-01-15T11:00:00Z",
+      "timestamp": "2025-11-29T11:00:00Z",
       "temperature": 33.0,
       "precipitation_probability": 20,
       "conditions": "Partly Cloudy"
@@ -398,7 +418,7 @@ GET /air-quality
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {"lat": 10.7769, "lon": 106.7009},
   "aqi": 85,
   "category": "Moderate",
@@ -434,8 +454,8 @@ GET /analytics/zones/{zone_id}
 {
   "zone_id": "ZONE_001",
   "period": {
-    "start": "2024-01-15T00:00:00Z",
-    "end": "2024-01-15T23:59:59Z"
+    "start": "2025-11-29T00:00:00Z",
+    "end": "2025-11-29T23:59:59Z"
   },
   "metrics": {
     "total_vehicles": 45320,
@@ -499,7 +519,7 @@ POST /citizen-reports
 
 ```json
 {
-  "id": "CR_20240115_001",
+  "id": "CR_20251125_001",
   "status": "submitted",
   "verification_status": "pending",
   "priority": "high"
@@ -590,4 +610,4 @@ All list endpoints support pagination:
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)

@@ -3,7 +3,7 @@
 """Computer Vision Analysis Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (C) 2024-2025 UIP Team
+Copyright (C) 2025 UIP Team
 
 SPDX-License-Identifier: MIT
 
@@ -77,12 +77,18 @@ import io
 import json
 import logging
 import os
+import sys
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlparse
+
+# Fix Windows asyncio event loop issue (must be before aiohttp import)
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 import aiohttp
 import yaml
@@ -99,6 +105,77 @@ try:
 except ImportError:
     MONGODB_AVAILABLE = False
     get_mongodb_helper = None
+
+# Stellio real-time publisher
+import requests as http_requests
+
+class StellioRealtimePublisher:
+    """Real-time publisher to push entities to Stellio immediately after detection."""
+    
+    def __init__(self, stellio_url: str = None):
+        self.stellio_url = stellio_url or os.environ.get('STELLIO_URL', 'http://localhost:8080')
+        self.session = None
+        self._enabled = True
+        
+    def _get_session(self):
+        """Get or create HTTP session."""
+        if self.session is None:
+            self.session = http_requests.Session()
+            self.session.headers.update({
+                'Content-Type': 'application/ld+json',
+                'Accept': 'application/ld+json'
+            })
+        return self.session
+    
+    def publish_entities_batch(self, entities: List[Dict[str, Any]], entity_type: str = "ItemFlowObserved") -> Tuple[int, int]:
+        """
+        Publish entities to Stellio immediately using batch upsert.
+        
+        Args:
+            entities: List of NGSI-LD entities
+            entity_type: Type of entity for logging
+            
+        Returns:
+            Tuple of (successful_count, failed_count)
+        """
+        if not entities or not self._enabled:
+            return 0, 0
+            
+        try:
+            session = self._get_session()
+            url = f"{self.stellio_url}/ngsi-ld/v1/entityOperations/upsert"
+            
+            response = session.post(url, json=entities, params={'options': 'update'}, timeout=30)
+            
+            if response.status_code in [200, 201, 204]:
+                logger.info(f"📤 REAL-TIME: Published {len(entities)} {entity_type} entities to Stellio")
+                return len(entities), 0
+            elif response.status_code == 207:
+                # Partial success
+                logger.warning(f"📤 REAL-TIME: Partial success publishing {entity_type} to Stellio")
+                return len(entities) // 2, len(entities) // 2
+            else:
+                logger.warning(f"📤 REAL-TIME: Failed to publish {entity_type}: {response.status_code}")
+                return 0, len(entities)
+                
+        except Exception as e:
+            logger.warning(f"📤 REAL-TIME: Stellio publish error (non-critical): {e}")
+            return 0, len(entities)
+    
+    def publish_single_entity(self, entity: Dict[str, Any]) -> bool:
+        """Publish single entity immediately."""
+        success, _ = self.publish_entities_batch([entity], entity.get('type', 'Entity'))
+        return success > 0
+
+# Global real-time publisher instance
+_realtime_publisher: Optional[StellioRealtimePublisher] = None
+
+def get_realtime_publisher() -> StellioRealtimePublisher:
+    """Get singleton real-time publisher."""
+    global _realtime_publisher
+    if _realtime_publisher is None:
+        _realtime_publisher = StellioRealtimePublisher()
+    return _realtime_publisher
 
 # Configure logging
 logging.basicConfig(
@@ -1322,6 +1399,57 @@ class NGSILDEntityGenerator:
     """Generate NGSI-LD entities from analysis results"""
 
     @staticmethod
+    def create_accident_entity(
+        camera_id: str,
+        location: Dict[str, Any],
+        confidence: float,
+        severity: str,
+        timestamp: str,
+        detection_index: int = 0,
+    ) -> Dict[str, Any]:
+        """
+        Create Accident NGSI-LD entity
+
+        Args:
+            camera_id: Camera identifier
+            location: Location GeoJSON (Point)
+            confidence: Detection confidence (0-1)
+            severity: Severity level (minor, moderate, severe)
+            timestamp: ISO 8601 timestamp
+            detection_index: Index for unique ID when multiple accidents at same camera
+
+        Returns:
+            NGSI-LD Accident entity dictionary
+        """
+        # Generate unique ID
+        ts_clean = (
+            timestamp.replace(":", "")
+            .replace("-", "")
+            .replace(".", "")
+            .replace("Z", "")
+        )
+        entity_id = f"urn:ngsi-ld:Accident:{camera_id}-{ts_clean}-{detection_index}"
+
+        entity = {
+            "@context": ["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
+            "id": entity_id,
+            "type": "Accident",
+            "location": {"type": "GeoProperty", "value": location},
+            "accidentDate": {"type": "Property", "value": timestamp},
+            "severity": {"type": "Property", "value": severity},
+            "confidence": {"type": "Property", "value": round(confidence, 3)},
+            "status": {"type": "Property", "value": "detected"},
+            "detectedBy": {
+                "type": "Relationship",
+                "object": f"urn:ngsi-ld:Camera:{camera_id}",
+            },
+            "accidentType": {"type": "Property", "value": "traffic_accident"},
+            "source": {"type": "Property", "value": "DETR-CV-Analysis"},
+        }
+
+        return entity
+
+    @staticmethod
     def create_item_flow_observed(
         camera_id: str,
         location: Dict[str, Any],
@@ -1450,6 +1578,9 @@ class CVAnalysisAgent:
             self.accident_detector = None
             logger.info("ℹ️ Accident detection disabled in config")
 
+        # Initialize detected accidents list
+        self._detected_accidents: List[Dict[str, Any]] = []
+
         # MongoDB helper (optional, non-blocking)
         self._mongodb_helper = None
         if MONGODB_AVAILABLE:
@@ -1535,6 +1666,9 @@ class CVAnalysisAgent:
                     }
                     for det in accident_detections
                 ]
+                logger.info(
+                    f"📝 Set metadata.accidents for camera {camera_id}: {len(result.metadata['accidents'])} accidents"
+                )
 
             return result
 
@@ -1567,12 +1701,23 @@ class CVAnalysisAgent:
         batch_size = self.config_loader.get_batch_size()
         all_entities = []
 
+        # Collect detected accidents for saving to accidents.json
+        self._detected_accidents = []
+        
+        # Get real-time publisher for immediate Stellio push
+        realtime_publisher = get_realtime_publisher()
+        
         # Process in batches
         for i in range(0, len(cameras), batch_size):
-            batch = cameras[i : i + batch_size]
-            logger.info(
-                f"Processing batch {i // batch_size + 1} ({len(batch)} cameras)"
-            )
+            batch = cameras[i:i + batch_size]
+            batch_num = i // batch_size + 1
+            total_batches = (len(cameras) + batch_size - 1) // batch_size
+            logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} cameras)")
+            
+            # Entities detected in this batch (for real-time push)
+            batch_entities = []
+            batch_accidents = []
+            
 
             # Download images - use image_url_x4 (refreshed by image_refresh_agent)
             urls = [
@@ -1638,17 +1783,91 @@ class CVAnalysisAgent:
                     )
 
                     all_entities.append(entity)
+                    batch_entities.append(entity)
+                    
 
+                    # Create Accident entities if accidents detected
+                    # Debug: log metadata state
+                    if result.metadata:
+                        logger.debug(
+                            f"Camera {camera_id} metadata keys: {list(result.metadata.keys())}"
+                        )
+
+                    if result.metadata and "accidents" in result.metadata:
+                        accidents = result.metadata["accidents"]
+                        for idx, acc in enumerate(accidents):
+                            accident_entity = (
+                                NGSILDEntityGenerator.create_accident_entity(
+                                    camera_id=camera_id,
+                                    location=location,
+                                    confidence=acc["confidence"],
+                                    severity=acc["severity"],
+                                    timestamp=result.timestamp,
+                                    detection_index=idx,
+                                )
+                            )
+                            self._detected_accidents.append(accident_entity)
+                            batch_accidents.append(accident_entity)
+                            logger.info(f"🚨 Created Accident entity: {accident_entity['id']} (severity: {acc['severity']})")
+                    
                     logger.info(
                         f"Processed {camera_id}: {result.vehicle_count} vehicles, "
                         f"intensity={metrics.intensity}, speed={metrics.average_speed} km/h"
                     )
+            
+            # 🚀 REAL-TIME PUSH: Push batch entities to Stellio IMMEDIATELY after each batch
+            if batch_entities:
+                realtime_publisher.publish_entities_batch(batch_entities, "ItemFlowObserved")
+            
+            # 🚨 REAL-TIME PUSH: Push accidents to Stellio IMMEDIATELY
+            if batch_accidents:
+                realtime_publisher.publish_entities_batch(batch_accidents, "Accident")
+                # Also save accidents incrementally to file
+                self._save_accidents_incremental(batch_accidents)
+        
+        # Log summary of detected accidents
+        if self._detected_accidents:
+            logger.info(
+                f"📊 Total accidents detected: {len(self._detected_accidents)} across all cameras"
+            )
 
         return all_entities
 
-    def save_observations(
-        self, entities: List[Dict[str, Any]], output_file: Optional[str] = None
-    ) -> None:
+    
+    def _save_accidents_incremental(self, new_accidents: List[Dict[str, Any]], output_file: str = 'data/accidents.json') -> None:
+        """
+        Incrementally save new accidents to file (append with deduplication).
+        Called after each batch for real-time persistence.
+        """
+        if not new_accidents:
+            return
+            
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Load existing
+        existing = []
+        if output_path.exists():
+            try:
+                with open(output_file, 'r', encoding='utf-8') as f:
+                    existing = json.load(f)
+            except:
+                existing = []
+        
+        # Merge with dedup
+        existing_ids = {acc.get('id') for acc in existing}
+        for acc in new_accidents:
+            if acc.get('id') not in existing_ids:
+                existing.append(acc)
+                existing_ids.add(acc.get('id'))
+        
+        # Save
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(existing, f, indent=2, ensure_ascii=False)
+        
+        logger.info(f"💾 Saved {len(new_accidents)} new accidents to {output_file} (total: {len(existing)})")
+    
+    def save_observations(self, entities: List[Dict[str, Any]], output_file: Optional[str] = None) -> None:
         """
         Save observations to JSON file
 
@@ -1681,6 +1900,66 @@ class CVAnalysisAgent:
                     )
                 if failed > 0:
                     logger.warning(f"⚠️ Failed to publish {failed} entities to MongoDB")
+            except Exception as e:
+                logger.warning(f"MongoDB publishing failed (non-critical): {e}")
+
+    def save_accidents(self, output_file: str = "data/accidents.json") -> None:
+        """
+        Save detected accidents to JSON file for downstream processing.
+
+        
+        This method APPENDS accidents detected during process_cameras() to a JSON file.
+        Existing accidents are preserved and new ones are added with deduplication by ID.
+        The file will be picked up by the workflow for validation and publishing to Stellio.
+        
+        Args:
+            output_file: Output file path (default: 'data/accidents.json')
+        """
+        new_accidents = getattr(self, '_detected_accidents', [])
+        
+        # Ensure output directory exists
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Load existing accidents to append (not overwrite)
+        existing_accidents = []
+        if output_path.exists():
+            try:
+                with open(output_file, 'r', encoding='utf-8') as f:
+                    existing_accidents = json.load(f)
+                logger.info(f"📂 Loaded {len(existing_accidents)} existing accidents from {output_file}")
+            except (json.JSONDecodeError, Exception) as e:
+                logger.warning(f"Could not load existing accidents: {e}, starting fresh")
+                existing_accidents = []
+        
+        # Merge with deduplication by ID
+        existing_ids = {acc.get('id') for acc in existing_accidents}
+        merged_accidents = existing_accidents.copy()
+        
+        new_count = 0
+        for acc in new_accidents:
+            if acc.get('id') not in existing_ids:
+                merged_accidents.append(acc)
+                existing_ids.add(acc.get('id'))
+                new_count += 1
+        
+        # Save merged accidents to file
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(merged_accidents, f, indent=2, ensure_ascii=False)
+        
+        logger.info(f"💾 Saved {len(merged_accidents)} accident entities to {output_file} (+{new_count} new)")
+        
+
+        # Optionally publish accidents to MongoDB (non-blocking)
+        if self._mongodb_helper and self._mongodb_helper.enabled and accidents:
+            try:
+                success, failed = self._mongodb_helper.insert_entities_batch(accidents)
+                if success > 0:
+                    logger.info(f"✅ Published {success} Accident entities to MongoDB")
+                if failed > 0:
+                    logger.warning(
+                        f"⚠️ Failed to publish {failed} accident entities to MongoDB"
+                    )
             except Exception as e:
                 logger.warning(f"MongoDB publishing failed (non-critical): {e}")
 
@@ -1979,6 +2258,9 @@ class CVAnalysisAgent:
         # Save observations
         self.save_observations(entities, output_file)
 
+        # Save detected accidents to data/accidents.json for downstream workflow
+        self.save_accidents("data/accidents.json")
+
         return entities
 
 
@@ -1989,7 +2271,12 @@ def main(config: Optional[Dict[str, Any]] = None):
         config: Optional workflow agent config (from orchestrator)
     """
     import sys
-
+    import platform
+    
+    # Fix Windows asyncio event loop issue with aiohttp
+    if platform.system() == 'Windows':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    
     # Parse command line arguments or use config
     config_path = "config/cv_config.yaml"
     input_file = "data/cameras_updated.json"

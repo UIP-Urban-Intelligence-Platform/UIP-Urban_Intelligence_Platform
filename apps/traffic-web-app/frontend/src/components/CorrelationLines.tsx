@@ -1,4 +1,12 @@
 /**
+ * Correlation Lines - Spatial Relationship Visualization
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
  * @module apps/traffic-web-app/frontend/src/components/CorrelationLines
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
@@ -19,12 +27,12 @@
  * - Performance optimized with memoization
  * 
  * @dependencies
- * - react-leaflet@^4.2: Polyline rendering
- * - leaflet@^1.9: Geospatial calculations
+ * - react-map-gl@^7.1: Polyline rendering (MIT license)
+ * - maplibre-gl@^4.7: Geospatial calculations (BSD-3-Clause)
  */
 
 import React, { useState, useMemo } from 'react';
-import { Polyline, Popup } from 'react-leaflet';
+import { Polyline, Popup } from './map';
 import { useTrafficStore } from '../store/trafficStore';
 
 interface CorrelationLinesProps {

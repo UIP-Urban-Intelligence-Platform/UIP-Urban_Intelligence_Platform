@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 Nguyen Nhat Quang
-
+============================================================================
 UIP - Urban Intelligence Platform
-Security Policy
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: .github/SECURITY.md
+SPDX-License-Identifier: MIT
+============================================================================
+File: .github/SECURITY.md
+Module: Security Policy
 Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-15
 Version: 1.0.0
+License: MIT
+
+Description:
+  Security policy and vulnerability reporting guidelines.
+============================================================================
 -->
 
 # Security Policy
@@ -32,7 +40,7 @@ We take the security of UIP - Urban Intelligence Platform seriously. If you beli
 Instead, please report them via one of the following methods:
 
 1. **Email**: Send details to `security@your-domain.com`
-2. **GitHub Security Advisory**: Use the [GitHub Security Advisory](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/security/advisories/new) feature
+2. **GitHub Security Advisory**: Use the [GitHub Security Advisory](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/security/advisories/new) feature
 3. **Private Vulnerability Reporting**: Use GitHub's private vulnerability reporting feature
 
 ### What to Include
@@ -169,7 +177,7 @@ Security updates will be released as:
 - **Minor releases** (x.X.x) for moderate security issues
 - **Major releases** (X.x.x) for critical security updates with breaking changes
 
-Subscribe to our [security advisories](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/security/advisories) to receive notifications.
+Subscribe to our [security advisories](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/security/advisories) to receive notifications.
 
 ## Contact
 
@@ -177,7 +185,7 @@ For security-related questions or concerns:
 
 - **Email**: security@your-domain.com
 - **GitHub Security**: Use the Security tab on this repository
-- **General Support**: Create a [discussion](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions)
+- **General Support**: Create a [discussion](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions)
 
 ## Acknowledgments
 

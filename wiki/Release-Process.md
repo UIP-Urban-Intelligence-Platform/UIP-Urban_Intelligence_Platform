@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2024-2025 UIP Team
-
+============================================================================
 UIP - Urban Intelligence Platform
-Release Process Guide
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: wiki/Release-Process.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: wiki/Release-Process.md
+Module: Release Process Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 2.0.0
+License: MIT
+
+Description:
+  Complete guide to the release process for UIP.
+============================================================================
 -->
 
 # 🚀 Release Process
@@ -166,7 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Vulnerability fixes
 
-## [2.0.0] - 2024-01-15
+## [2.0.0] - 2025-11-29
 
 ### Added
 - NGSI-LD context broker integration with Stellio
@@ -189,7 +197,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All dependencies now 100% MIT compatible
 - Added security scanning in CI/CD
 
-## [1.0.0] - 2023-06-01
+## [1.0.0] - 2025-12-08
 
 ### Added
 - Initial release

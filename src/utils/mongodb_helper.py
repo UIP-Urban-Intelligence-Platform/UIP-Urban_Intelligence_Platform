@@ -3,8 +3,8 @@
 """MongoDB Helper Utilities for NGSI-LD Entity Storage.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -87,6 +87,10 @@ except ImportError:
     MongoClient = None
     ASCENDING = DESCENDING = GEOSPHERE = None
     ConnectionFailure = DuplicateKeyError = BulkWriteError = PyMongoError = Exception
+
+# DESCENDING is used for sorting when pymongo is installed
+if PYMONGO_AVAILABLE:
+    assert DESCENDING is not None  # nosec: constant available
 
 logger = logging.getLogger(__name__)
 

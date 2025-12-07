@@ -1,3 +1,23 @@
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: apps/traffic-web-app/frontend/docs/docs/testing/complete-testing-guide.md
+Module: Complete Testing Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Complete testing and quality guide.
+============================================================================
+-->
+
 # Complete Testing & Quality Guide
 
 ## Overview
@@ -7,7 +27,7 @@ Comprehensive testing strategy for the HCMC Traffic Management System covering u
 **Testing Stack:**
 - **Python**: pytest, pytest-cov, pytest-asyncio, pytest-mock, Locust
 - **TypeScript/JavaScript**: Jest, React Testing Library, Playwright, Cypress
-- **Code Quality**: ESLint, Pylint, Black, Prettier, mypy, SonarQube
+- **Code Quality**: ESLint, Ruff, Black, Prettier, mypy, SonarQube
 - **CI/CD**: GitHub Actions, Pre-commit hooks
 
 ---
@@ -297,12 +317,13 @@ import userEvent from '@testing-library/user-event';
 import { TrafficMap } from '../TrafficMap';
 import '@testing-library/jest-dom';
 
-// Mock Leaflet
-jest.mock('react-leaflet', () => ({
+// Mock MapLibre GL / react-map-gl
+jest.mock('../map', () => ({
   MapContainer: ({ children }: any) => <div data-testid="map-container">{children}</div>,
-  TileLayer: () => <div data-testid="tile-layer" />,
   Marker: ({ children }: any) => <div data-testid="marker">{children}</div>,
   Popup: ({ children }: any) => <div data-testid="popup">{children}</div>,
+  Polyline: () => <div data-testid="polyline" />,
+  useMap: () => ({ setView: jest.fn(), getZoom: () => 13 }),
 }));
 
 describe('TrafficMap Component', () => {
@@ -669,7 +690,7 @@ test.describe('Citizen Report Workflow', () => {
     await page.goto('/map');
     
     // Wait for map to load
-    await page.waitForSelector('.leaflet-container');
+    await page.waitForSelector('.maplibregl-map');
     
     // Trigger accident (simulate WebSocket message)
     await page.evaluate(() => {
@@ -815,20 +836,20 @@ module.exports = {
 };
 ```
 
-### Pylint Configuration
+### Ruff Configuration (Replaces Pylint, Flake8, isort)
 
-```ini
-# .pylintrc
-[MASTER]
-max-line-length=120
-disable=
-    C0111,  # missing-docstring
-    R0903,  # too-few-public-methods
-    R0913,  # too-many-arguments
+```toml
+# ruff.toml
+[tool.ruff]
+line-length = 120
+target-version = "py310"
 
-[TYPECHECK]
-generated-members=cv2.*,torch.*
+[tool.ruff.lint]
+select = ["E", "F", "W", "C90", "I", "N", "B", "S"]
+ignore = ["E501", "S101"]
 ```
+
+> **Note (2025-12):** Migrated from pylint/flake8/isort to Ruff for 10-100x faster linting.
 
 ---
 
@@ -855,17 +876,12 @@ repos:
       - id: black
         language_version: python3.9
   
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.0
     hooks:
-      - id: isort
-        args: ["--profile", "black"]
-  
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        args: ['--max-line-length=120']
+      - id: ruff
+        args: ['--fix']
+      - id: ruff-format
   
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.3.0
@@ -891,6 +907,6 @@ repos:
 
 ## License
 
-MIT License - Copyright (c) 2024-2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
+MIT License - Copyright (c) 2025 UIP Contributors (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
 
 See [LICENSE](../LICENSE) for details.

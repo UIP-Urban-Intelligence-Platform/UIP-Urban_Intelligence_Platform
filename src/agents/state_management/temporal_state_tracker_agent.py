@@ -3,8 +3,8 @@
 """Temporal State Tracking Agent.
 
 UIP - Urban Intelligence Platform
-Copyright (c) 2024-2025 UIP Team. All rights reserved.
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 SPDX-License-Identifier: MIT
 
@@ -35,6 +35,10 @@ except ImportError:
     REDIS_TIMESERIES_AVAILABLE = False
     redis = None  # type: ignore
     TimeSeries = None  # type: ignore
+
+# TimeSeries used conditionally when Redis is available
+if REDIS_TIMESERIES_AVAILABLE:
+    assert TimeSeries is not None  # nosec: type available
 
 import logging
 from collections import defaultdict
