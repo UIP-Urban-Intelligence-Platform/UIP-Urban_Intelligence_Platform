@@ -815,11 +815,30 @@ export class StellioService {
     }
 
     // Extract status - normalize to online/offline
+    // Camera is considered 'online' if:
+    // 1. status contains: online, active, operational, success, enabled, running
+    // 2. imageSnapshot URL exists (camera is providing images)
+    // 3. dateLastValueReported is recent (within last 30 minutes)
     let status: 'online' | 'offline' = 'offline';
     const statusValue = entity.status?.value || entity.status || '';
     const statusStr = String(statusValue).toLowerCase();
+    const hasImageSnapshot = !!(entity.imageSnapshot?.value || entity.imageSnapshot);
 
-    if (statusStr.includes('online') || statusStr.includes('active') || statusStr.includes('operational')) {
+    // Check last reported time - if within 30 minutes, consider online
+    const lastReported = entity.dateLastValueReported?.value || entity.dateLastValueReported ||
+      entity.dateModified?.value || entity.dateModified || '';
+    let isRecentlyActive = false;
+    if (lastReported) {
+      const lastTime = new Date(lastReported).getTime();
+      const now = Date.now();
+      const thirtyMinutes = 30 * 60 * 1000;
+      isRecentlyActive = (now - lastTime) < thirtyMinutes;
+    }
+
+    if (statusStr.includes('online') || statusStr.includes('active') ||
+      statusStr.includes('operational') || statusStr.includes('success') ||
+      statusStr.includes('enabled') || statusStr.includes('running') ||
+      (hasImageSnapshot && isRecentlyActive)) {
       status = 'online';
     }
 
@@ -853,7 +872,9 @@ export class StellioService {
         lng: Number(lng)
       },
       status,
-      streamUrl: entity.streamUrl?.value || entity.streamUrl,
+      // 🔧 FIX: In Stellio, imageSnapshot contains the camera URL, fallback to it if streamUrl is missing
+      streamUrl: entity.streamUrl?.value || entity.streamUrl || entity.imageSnapshot?.value || entity.imageSnapshot,
+      imageSnapshot: entity.imageSnapshot?.value || entity.imageSnapshot,
       lastUpdate: String(dateModified),
       dateModified: String(dateModified)
     };

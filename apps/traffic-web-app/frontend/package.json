@@ -14,18 +14,15 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/leaflet.heat": "^0.2.5",
     "axios": "^1.6.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^12.23.24",
     "gray-matter": "^4.0.3",
-    "leaflet": "^1.9.4",
-    "leaflet.heat": "^0.2.0",
     "lucide-react": "^0.553.0",
+    "maplibre-gl": "^4.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-leaflet": "^4.2.1",
-    "react-leaflet-cluster": "^2.1.0",
+    "react-map-gl": "^7.1.9",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^7.9.6",
     "react-syntax-highlighter": "^15.5.0",
@@ -35,7 +32,6 @@
     "zustand": "^4.4.6"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.8",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/react-syntax-highlighter": "^15.5.11",

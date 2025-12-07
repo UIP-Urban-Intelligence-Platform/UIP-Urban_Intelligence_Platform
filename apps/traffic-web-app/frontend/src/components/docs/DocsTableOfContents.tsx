@@ -20,6 +20,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { List } from 'lucide-react';
+import { Language, getTranslations } from '../../services/i18nService';
 
 interface TocItem {
     id: string;
@@ -29,10 +30,12 @@ interface TocItem {
 
 interface DocsTableOfContentsProps {
     content: string;
+    language?: Language;
 }
 
-const DocsTableOfContents: React.FC<DocsTableOfContentsProps> = ({ content }) => {
+const DocsTableOfContents: React.FC<DocsTableOfContentsProps> = ({ content, language = 'vi' }) => {
     const [activeId, setActiveId] = useState<string>('');
+    const t = getTranslations(language);
 
     // Extract headings from markdown content
     const headings = useMemo(() => {
@@ -96,7 +99,7 @@ const DocsTableOfContents: React.FC<DocsTableOfContentsProps> = ({ content }) =>
                 <div className="p-4">
                     <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white mb-4">
                         <List className="w-4 h-4" />
-                        Mục lục
+                        {t.tableOfContents}
                     </h4>
                     <nav className="space-y-1">
                         {headings.map((heading) => (

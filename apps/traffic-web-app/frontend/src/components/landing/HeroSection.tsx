@@ -70,22 +70,22 @@ export default function HeroSection() {
                                     <div className="absolute inset-0 w-9 h-9 bg-slate-800/50 rounded-2xl -rotate-6 blur-sm"></div>
                                 </div>
                                 <div>
-                                    <span className="font-bold text-lg text-slate-900 tracking-tight block leading-none">LOD Traffic</span>
-                                    <span className="text-[10px] text-slate-500 font-medium">Smart Monitoring</span>
+                                    <span className="font-bold text-lg text-slate-900 tracking-tight block leading-none">UIP</span>
+                                    <span className="text-[10px] text-slate-500 font-medium">Urban Intelligence</span>
                                 </div>
                             </motion.div>
 
                             {/* Desktop Navigation - Pill Style */}
                             <div className="hidden md:flex items-center bg-slate-50/50 rounded-full px-2 py-2 gap-1">
                                 <Link to="/" className="relative px-5 py-2 text-sm text-slate-700 hover:text-slate-900 rounded-full transition-all duration-300 hover:bg-white hover:shadow-sm">
-                                    <span className="relative z-10">Trang chủ</span>
+                                    <span className="relative z-10">Home</span>
                                 </Link>
                                 <Link to="/docs" className="relative px-5 py-2 text-sm text-slate-700 hover:text-slate-900 rounded-full transition-all duration-300 hover:bg-white hover:shadow-sm flex items-center gap-2">
                                     <FileText className="w-3.5 h-3.5" />
-                                    <span className="relative z-10">Tài liệu</span>
+                                    <span className="relative z-10">Documentation</span>
                                 </Link>
                                 <a href="#features" className="relative px-5 py-2 text-sm text-slate-700 hover:text-slate-900 rounded-full transition-all duration-300 hover:bg-white hover:shadow-sm">
-                                    <span className="relative z-10">Tính năng</span>
+                                    <span className="relative z-10">Features</span>
                                 </a>
                                 <a href="#demo" className="relative px-5 py-2 text-sm text-slate-700 hover:text-slate-900 rounded-full transition-all duration-300 hover:bg-white hover:shadow-sm">
                                     <span className="relative z-10">Demo</span>
@@ -98,7 +98,7 @@ export default function HeroSection() {
                                 whileTap={{ scale: 0.95 }}
                                 className="hidden md:block px-6 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-slate-800 transition-all duration-300 shadow-lg shadow-slate-900/20"
                             >
-                                Liên hệ
+                                Contact
                             </motion.button>
 
                             {/* Mobile Menu Button - Soft */}
@@ -123,21 +123,21 @@ export default function HeroSection() {
                         >
                             <div className="px-4 py-4 space-y-1">
                                 <Link to="/" className="block text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-xl px-4 py-3 transition-all">
-                                    Trang chủ
+                                    Home
                                 </Link>
                                 <Link to="/docs" className="block text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-xl px-4 py-3 transition-all flex items-center gap-2">
                                     <FileText className="w-4 h-4" />
-                                    Tài liệu
+                                    Documentation
                                 </Link>
                                 <a href="#features" className="block text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-xl px-4 py-3 transition-all">
-                                    Tính năng
+                                    Features
                                 </a>
                                 <a href="#demo" className="block text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-xl px-4 py-3 transition-all">
                                     Demo
                                 </a>
                                 <div className="pt-2 px-2">
                                     <button className="w-full px-6 py-3 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20">
-                                        Liên hệ
+                                        Contact
                                     </button>
                                 </div>
                             </div>
@@ -181,11 +181,11 @@ export default function HeroSection() {
                         className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
                     >
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900">
-                            Intelligent Traffic
+                            Urban Intelligence
                         </span>
                         <br />
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900">
-                            Monitoring System
+                            Platform
                         </span>
                     </motion.h1>
 
@@ -231,13 +231,13 @@ export default function HeroSection() {
                         className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                     >
                         <Link to="/dashboard" className="group px-8 py-4 bg-slate-900 text-white rounded-full font-semibold text-lg hover:bg-slate-800 transition-all duration-300 flex items-center gap-2">
-                            Khám phá hệ thống
+                            Explore System
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
 
                         <a href="#features" className="group px-8 py-4 bg-white text-slate-900 rounded-full font-semibold text-lg border-2 border-slate-200 hover:border-blue-600 transition-all duration-300 flex items-center gap-2 shadow-sm hover:shadow-md">
                             <Play className="w-5 h-5" />
-                            Xem Demo
+                            Watch Demo
                         </a>
                     </motion.div>
 

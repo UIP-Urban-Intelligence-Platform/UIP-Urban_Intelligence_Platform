@@ -14,11 +14,11 @@ Version: 1.0.0
 
 ## Overview
 
-The TrafficMap component is the core visualization component displaying real-time traffic conditions, camera feeds, accidents, congestion zones, and weather overlays on an interactive Leaflet map.
+The TrafficMap component is the core visualization component displaying real-time traffic conditions, camera feeds, accidents, congestion zones, and weather overlays on an interactive MapLibre GL map.
 
 ## Features
 
-- **Interactive Map**: Leaflet-based map with pan, zoom, and layer controls
+- **Interactive Map**: MapLibre GL map with pan, zoom, and layer controls
 - **Real-time Updates**: WebSocket-powered live traffic data
 - **Multiple Layers**: Traffic flow, accidents, cameras, weather, air quality
 - **Camera Markers**: Clickable camera icons with live image popups
@@ -30,7 +30,7 @@ The TrafficMap component is the core visualization component displaying real-tim
 
 ```mermaid
 graph TB
-    A[TrafficMap] --> B[Leaflet Map]
+    A[TrafficMap] --> B[MapLibre GL Map]
     B --> C[Base Layers]
     B --> D[Overlay Layers]
     D --> E[Camera Markers]
@@ -206,7 +206,7 @@ return (
   overflow: hidden;
 }
 
-.leaflet-container {
+.maplibregl-map {
   background: #f5f5f5;
 }
 

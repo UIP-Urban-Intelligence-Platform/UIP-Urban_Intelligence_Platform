@@ -698,6 +698,109 @@ router.post('/nearby', async (req: Request, res: Response) => {
 });
 
 /**
+ * @swagger
+ * /api/cameras/proxy/image:
+ *   get:
+ *     summary: Proxy camera image to bypass CORS
+ *     description: |
+ *       Fetches camera snapshot image from HCM Traffic Portal and returns it
+ *       with proper CORS headers. This bypasses browser CORS restrictions.
+ *     tags: [Cameras]
+ *     parameters:
+ *       - in: query
+ *         name: url
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The camera image URL to proxy
+ *         example: https://giaothong.hochiminhcity.gov.vn/render/ImageHandler.ashx?id=123
+ *     responses:
+ *       200:
+ *         description: Camera image binary
+ *         content:
+ *           image/jpeg:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: Missing URL parameter
+ *       500:
+ *         description: Failed to fetch image
+ */
+router.get('/proxy/image', async (req: Request, res: Response) => {
+  try {
+    const imageUrl = req.query.url as string;
+
+    if (!imageUrl) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing url parameter'
+      });
+    }
+
+    logger.info(`GET /api/cameras/proxy/image - Proxying: ${imageUrl}`);
+
+    // Validate URL is from allowed domains
+    const allowedDomains = [
+      'giaothong.hochiminhcity.gov.vn',
+      'camera.thongtingiaothong.vn',
+      'cdn.giaothong.hochiminhcity.gov.vn'
+    ];
+
+    const url = new URL(imageUrl);
+    if (!allowedDomains.some(domain => url.hostname.includes(domain))) {
+      logger.warn(`Blocked proxy request to unauthorized domain: ${url.hostname}`);
+      return res.status(403).json({
+        success: false,
+        message: 'Domain not allowed for proxying'
+      });
+    }
+
+    // Fetch image from source with appropriate headers
+    const response = await fetch(imageUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Referer': 'https://giaothong.hochiminhcity.gov.vn/',
+        'Accept': 'image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+        'Accept-Language': 'vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7',
+      }
+    });
+
+    if (!response.ok) {
+      logger.error(`Failed to fetch image: ${response.status} ${response.statusText}`);
+      return res.status(response.status).json({
+        success: false,
+        message: `Failed to fetch image: ${response.statusText}`
+      });
+    }
+
+    // Get content type from response
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+
+    // Get image as buffer
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Set response headers
+    res.set({
+      'Content-Type': contentType,
+      'Content-Length': buffer.length.toString(),
+      'Cache-Control': 'public, max-age=30', // Cache for 30 seconds
+      'Access-Control-Allow-Origin': '*',
+    });
+
+    return res.send(buffer);
+  } catch (error) {
+    logger.error(`Error proxying image:`, error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to proxy image',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
  * GET /api/cameras/:id
  * Fetch single camera by ID from Stellio
  * 

@@ -13,21 +13,33 @@
 -- Initialize Stellio databases with TimescaleDB extension
 -- Stellio requires TimescaleDB for time-series data hypertables
 
--- Create databases for Stellio services
-CREATE DATABASE stellio_search;
-CREATE DATABASE stellio_subscription;
-CREATE DATABASE stellio;  -- Required by TimescaleDB background workers
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS timescaledb;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Connect to stellio_search and enable TimescaleDB + PostGIS
+-- Create stellio_search database for Stellio Search Service
+SELECT 'CREATE DATABASE stellio_search'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'stellio_search')\gexec
+
+-- Create stellio_subscription database for Stellio Subscription Service  
+SELECT 'CREATE DATABASE stellio_subscription'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'stellio_subscription')\gexec
+
+-- Grant privileges
+GRANT ALL PRIVILEGES ON DATABASE stellio_search TO stellio;
+GRANT ALL PRIVILEGES ON DATABASE stellio_subscription TO stellio;
+
+-- Connect to stellio_search and enable extensions
 \c stellio_search
-CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS timescaledb;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Connect to stellio_subscription and enable TimescaleDB + PostGIS  
+-- Connect to stellio_subscription and enable extensions
 \c stellio_subscription
-CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS timescaledb;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Connect to stellio and enable TimescaleDB (required by background workers)
-\c stellio
-CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+-- Return to default database
+\c stellio_test

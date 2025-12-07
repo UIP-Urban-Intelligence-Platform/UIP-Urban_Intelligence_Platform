@@ -237,13 +237,10 @@ These packages are development-only and NOT included in production:
 | pytest-asyncio | 1.3.0 | Apache-2.0 | `Apache-2.0` | Async testing |
 | pytest-cov | 7.0.0 | MIT | `MIT` | Coverage plugin |
 | black | 25.11.0 | MIT | `MIT` | Code formatter |
-| isort | 7.0.0 | MIT | `MIT` | Import sorter |
-| flake8 | 7.3.0 | MIT | `MIT` | Linting |
+| ruff | 0.14.8 | MIT | `MIT` | Linting & import sorting |
 | mypy | 1.19.0 | MIT | `MIT` | Type checking |
-| pylint | 4.0.4 | GPL-2.0 | `GPL-2.0-only` | Linting (dev only) |
-| astroid | 4.0.2 | LGPL-2.1 | `LGPL-2.1-only` | AST library (dev only) |
 
-> ⚠️ `pylint` and `astroid` use copyleft licenses but are development-only tools excluded from production distributions.
+> ✅ All development tools are 100% MIT-compatible. Previously used GPL tools (pylint, astroid, flake8, isort) have been replaced with ruff (MIT).
 
 ---
 

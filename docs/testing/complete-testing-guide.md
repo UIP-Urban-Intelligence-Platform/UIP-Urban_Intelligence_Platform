@@ -309,12 +309,13 @@ import userEvent from '@testing-library/user-event';
 import { TrafficMap } from '../TrafficMap';
 import '@testing-library/jest-dom';
 
-// Mock Leaflet
-jest.mock('react-leaflet', () => ({
+// Mock MapLibre GL / react-map-gl
+jest.mock('../map', () => ({
   MapContainer: ({ children }: any) => <div data-testid="map-container">{children}</div>,
-  TileLayer: () => <div data-testid="tile-layer" />,
   Marker: ({ children }: any) => <div data-testid="marker">{children}</div>,
   Popup: ({ children }: any) => <div data-testid="popup">{children}</div>,
+  Polyline: () => <div data-testid="polyline" />,
+  useMap: () => ({ setView: jest.fn(), getZoom: () => 13 }),
 }));
 
 describe('TrafficMap Component', () => {
@@ -681,7 +682,7 @@ test.describe('Citizen Report Workflow', () => {
     await page.goto('/map');
     
     // Wait for map to load
-    await page.waitForSelector('.leaflet-container');
+    await page.waitForSelector('.maplibregl-map');
     
     // Trigger accident (simulate WebSocket message)
     await page.evaluate(() => {

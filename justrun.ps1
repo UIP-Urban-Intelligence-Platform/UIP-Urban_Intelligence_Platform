@@ -595,6 +595,32 @@ npm run dev
     WriteSuccess "      OK: React frontend started"
     
     # ============================================================================
+    # Step 5: Run CV and Sync Pipeline (Real-time Data Generator)
+    # ============================================================================
+    Write-Host ""
+    WriteInfo "[5/5] Starting Real-time Data Generator Pipeline..."
+    WriteInfo "      - Live Camera → YOLOX → Neo4j → Analytics"
+    WriteInfo "      - Runs: 99999, Delay: 60s, Max Cameras: ALL"
+    WriteInfo "      - This will populate databases with real traffic data"
+    
+    $cvSyncCmd = @"
+Set-Location '$ProjectRoot'
+.\`.venv\Scripts\Activate.ps1
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host '  CV & Sync Pipeline - Data Generator' -ForegroundColor Yellow
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host ''
+python scripts/pipeline/run_cv_and_sync.py --runs 99999 --delay 60
+Write-Host ''
+Write-Host 'Pipeline completed! Press any key to close...' -ForegroundColor Green
+`$null = `$Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+"@
+    
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", $cvSyncCmd
+    Start-Sleep -Seconds 2
+    WriteSuccess "      OK: CV & Sync pipeline started"
+    
+    # ============================================================================
     # Success Summary
     # ============================================================================
     Write-Host ""
@@ -615,6 +641,10 @@ npm run dev
     Write-Host "                           " -NoNewline; Write-Host " (neo4j / test12345)" -ForegroundColor DarkGray
     Write-Host "    Apache Jena Fuseki:    " -NoNewline; Write-Host " http://localhost:3030" -ForegroundColor Yellow
     Write-Host "                           " -NoNewline; Write-Host " (admin / test_admin)" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "  Data Pipeline:" -ForegroundColor White
+    Write-Host "    CV & Sync Pipeline:    " -NoNewline; Write-Host "Running in separate window" -ForegroundColor Magenta
+    Write-Host "                           " -NoNewline; Write-Host " (99999 runs, 60s delay, ALL cameras)" -ForegroundColor DarkGray
     Write-Host ""
     WriteWarn "TO STOP ALL SERVICES:"
     Write-Host "  .\justrun.ps1 stop" -ForegroundColor White
@@ -1013,6 +1043,36 @@ VITE_WS_URL=ws://localhost:3001
     Write-Host ""
     
     # ============================================================================
+    # Step 8: Run CV and Sync Pipeline (Real-time Data Generator)
+    # ============================================================================
+    WriteInfo "[8/8] Starting Real-time Data Generator Pipeline..."
+    WriteInfo "      - Live Camera → YOLOX → Neo4j → Analytics"
+    WriteInfo "      - Runs: 99999, Delay: 60s, Max Cameras: ALL"
+    WriteInfo "      - This will populate databases with real traffic data"
+    
+    # Run CV pipeline in background using Docker python-backend or local venv
+    $cvSyncCmd = @"
+Set-Location '$ProjectRoot'
+if (Test-Path '.venv') {
+    .\`.venv\Scripts\Activate.ps1
+}
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host '  CV & Sync Pipeline - Data Generator (PROD)' -ForegroundColor Yellow
+Write-Host '============================================' -ForegroundColor Yellow
+Write-Host ''
+python scripts/pipeline/run_cv_and_sync.py --runs 99999 --delay 60
+Write-Host ''
+Write-Host 'Pipeline completed! Press any key to close...' -ForegroundColor Green
+`$null = `$Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+"@
+    
+    Start-Process powershell -ArgumentList "-NoExit", "-Command", $cvSyncCmd
+    Start-Sleep -Seconds 2
+    WriteSuccess "      OK: CV & Sync pipeline started"
+    
+    Write-Host ""
+    
+    # ============================================================================
     # Success Summary
     # ============================================================================
     WriteSuccess "============================================================"
@@ -1032,6 +1092,10 @@ VITE_WS_URL=ws://localhost:3001
     Write-Host "                           " -NoNewline; Write-Host " (neo4j / test12345)" -ForegroundColor DarkGray
     Write-Host "    Apache Jena Fuseki:    " -NoNewline; Write-Host " http://localhost:3030" -ForegroundColor Yellow
     Write-Host "                           " -NoNewline; Write-Host " (admin / test_admin)" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "  Data Pipeline:" -ForegroundColor White
+    Write-Host "    CV & Sync Pipeline:    " -NoNewline; Write-Host "Running in separate window" -ForegroundColor Magenta
+    Write-Host "                           " -NoNewline; Write-Host " (99999 runs, 60s delay, ALL cameras)" -ForegroundColor DarkGray
     Write-Host ""
     WriteInfo "USEFUL COMMANDS:"
     Write-Host "  View logs:     docker-compose logs -f" -ForegroundColor White

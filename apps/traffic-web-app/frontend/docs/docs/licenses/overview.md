@@ -59,20 +59,20 @@ pie title License Distribution (1,464 packages)
 
 | License Type | Python | NPM Backend | NPM Frontend | Total | % |
 |--------------|--------|-------------|--------------|-------|---|
-| MIT | 71 | 640 | 421 | **1,132** | 77.3% |
+| MIT | 71 | 640 | 421 | **1,132** | 77.5% |
 | ISC | 1 | 56 | 54 | **111** | 7.6% |
-| BSD (2/3-Clause) | 45 | 41 | 20 | **106** | 7.2% |
-| Apache-2.0 | 40 | 18 | 10 | **68** | 4.6% |
+| BSD (2/3-Clause) | 45 | 41 | 20 | **106** | 7.3% |
+| Apache-2.0 | 40 | 18 | 10 | **68** | 4.7% |
 | CC0-1.0/Unlicense | 2 | 6 | 4 | **12** | 0.8% |
 | CC-BY (3.0/4.0) | 0 | 3 | 3 | **6** | 0.4% |
 | PSF/Python-2.0 | 3 | 1 | 1 | **5** | 0.3% |
 | BlueOak-1.0.0 | 0 | 0 | 3 | **3** | 0.2% |
 | MPL-2.0 | 2 | 0 | 0 | **2** | 0.1% |
-| EPL/EDL | 0 | 2 | 0 | **2** | 0.1% |
-| Hippocratic-2.1 | 0 | 0 | 2 | **2** | 0.1% |
 | 0BSD | 0 | 1 | 1 | **2** | 0.1% |
 | Other Permissive | 4 | 4 | 5 | **13** | 0.9% |
-| **Total** | **168** | **772** | **524** | **1,464** | 100% |
+| **Total** | **168** | **770** | **520** | **1,458** | 100% |
+
+> **Migration Note (2025-12):** EPL/EDL packages (@turf/jsts, jsts) and Hippocratic-2.1 packages (react-leaflet) have been **removed** and replaced with MIT-compatible alternatives.
 
 ## License Compatibility Matrix
 
@@ -92,11 +92,8 @@ All licenses used in this project are compatible with the MIT License:
 | 0BSD | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ❌ No |
 | BlueOak-1.0.0 | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
 | CC-BY-3.0/4.0 | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ❌ No |
-| EPL-1.0 | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
-| EDL-1.0 | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ❌ No |
-| Hippocratic-2.1 | ✅ Yes* | ✅ Yes | ✅ Yes | ✅ Yes | ❌ No |
 
-> *Hippocratic-2.1 requires ethical use compliance. This project (smart city traffic monitoring) fully complies.
+> **Note:** All non-MIT licenses (EPL/EDL, Hippocratic-2.1) have been removed in December 2025 migration.
 
 ## SPDX License Identifiers
 

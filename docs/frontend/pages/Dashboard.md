@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
 | Component | Purpose | Ref Methods |
 |-----------|---------|-------------|
 | `Sidebar` | Layer controls, filters, AI agents | - |
-| `TrafficMap` | Interactive Leaflet map | `handleCameraClick`, `handleZoomToCamera`, `handleZoomToDistrict` |
+| `TrafficMap` | Interactive MapLibre map | `handleCameraClick`, `handleZoomToCamera`, `handleZoomToDistrict` |
 | `AnalyticsDashboard` | Collapsible charts panel | - |
 
 ## Usage

@@ -34,7 +34,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 
 interface ExternalEvent {
     id: string;
-    type: 'concert' | 'sports' | 'conference' | 'festival' | 'emergency' | 'construction';
+    type: 'concert' | 'sports' | 'conference' | 'festival' | 'emergency' | 'construction' | 'traffic_hotspot' | 'Music' | 'Undefined' | 'other' | string;
     name: string;
     venue: string;
     startTime: string;
@@ -48,6 +48,11 @@ interface ExternalEvent {
     riskScore: number; // 0-100
     startTimeFormatted?: string;
     endTimeFormatted?: string;
+    // Additional fields for traffic hotspots
+    averageSpeed?: number;
+    vehicleCount?: number;
+    source?: string; // 'external_api' for Ticketmaster events
+    isSimulated?: boolean; // true if data is simulated, false if from real CV analysis
 }interface CongestionPrediction {
     timestamp: string;
     currentCongestion: number; // 0-100
@@ -62,32 +67,9 @@ interface ExternalEvent {
     };
 }
 
-interface PreemptiveAction {
-    id: string;
-    type: 'green_wave' | 'detour' | 'alert' | 'signal_adjustment';
-    label: string;
-    description: string;
-    targetArea: string;
-    estimatedImpact: string;
-    requiredRiskLevel: number; // Minimum risk score to enable
-    icon: string;
-    status: 'available' | 'active' | 'disabled';
-}
-
-interface RouteAlternative {
-    routeId: string;
-    name: string;
-    currentDelay: number; // minutes
-    predictedDelay: number; // minutes
-    distanceKm: number;
-}
-
 interface PredictiveTimelineProps {
     predictions: CongestionPrediction[];
     events: ExternalEvent[];
-    actions: PreemptiveAction[];
-    routes?: RouteAlternative[];
-    onActionTrigger?: (action: PreemptiveAction) => void;
     onEventClick?: (event: ExternalEvent) => void;
     onClose?: () => void;
     onRefresh?: () => void;
@@ -100,13 +82,15 @@ interface PredictiveTimelineProps {
 // =====================================================
 
 const getEventIcon = (type: ExternalEvent['type']): string => {
-    const icons = {
+    const icons: Record<string, string> = {
         concert: '🎵',
         sports: '⚽',
         conference: '💼',
         festival: '🎉',
         emergency: '🚨',
-        construction: '🚧'
+        construction: '🚧',
+        traffic_hotspot: '🔥',
+        other: '📍'
     };
     return icons[type] || '📍';
 };
@@ -133,9 +117,6 @@ const getRiskColor = (risk: number): string => {
 export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
     predictions,
     events,
-    actions,
-    routes = [],
-    onActionTrigger,
     onEventClick,
     onClose,
     onRefresh,
@@ -143,7 +124,6 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
     autoRefreshInterval = 60
 }) => {
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [activeActions, setActiveActions] = useState<Set<string>>(new Set());
     const [countdown, setCountdown] = useState(autoRefreshInterval);    // =====================================================
     // AUTO-REFRESH TIMER
     // =====================================================
@@ -175,7 +155,7 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
 
         return {
             time: new Date(peak.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            level: peak.predictedCongestion
+            level: Math.round(peak.predictedCongestion)
         };
     }, [predictions]);
 
@@ -191,8 +171,8 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
             return {
                 time: time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 minutesFromNow,
-                current: pred.currentCongestion,
-                predicted: pred.predictedCongestion,
+                current: Math.round(pred.currentCongestion),
+                predicted: Math.round(pred.predictedCongestion),
                 confidence: pred.confidence * 100,
                 timestamp: pred.timestamp
             };
@@ -204,41 +184,79 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
     // =====================================================
 
     const eventMarkers = useMemo(() => {
-        return events.map((event) => {
+        console.log('🔍 Processing events:', events?.length || 0, 'events received');
+
+        if (!events || events.length === 0) {
+            console.log('⚠️ No events to process');
+            return [];
+        }
+
+        const processed = events.map((event) => {
             const startTime = new Date(event.startTime);
             const endTime = new Date(event.endTime);
             const minutesFromNow = Math.floor((startTime.getTime() - currentTime.getTime()) / 60000);
             const durationMinutes = Math.floor((endTime.getTime() - startTime.getTime()) / 60000);
 
+            // Format date and time for display
+            const dateFormatted = startTime.toLocaleDateString('vi-VN', {
+                weekday: 'short',
+                day: '2-digit',
+                month: '2-digit'
+            });
+            const startTimeFormatted = startTime.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            const endTimeFormatted = endTime.toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
             return {
                 ...event,
                 minutesFromNow,
                 durationMinutes,
-                startTimeFormatted: startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                endTimeFormatted: endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                dateFormatted,
+                startTimeFormatted,
+                endTimeFormatted
             };
-        }).filter((e) => e.minutesFromNow <= 120);
+        });
+
+        // Filter: Show all traffic_hotspots + external_api events + events in next 24 hours
+        const filtered = processed.filter((e) => {
+            const isHotspot = e.type === 'traffic_hotspot';
+            const isExternalEvent = e.source === 'external_api';
+            const isInTimeRange = e.minutesFromNow >= -60 && e.minutesFromNow <= 1440;
+
+            return isHotspot || isExternalEvent || isInTimeRange;
+        });
+
+        console.log('✅ Filtered events:', filtered.length, 'events after filter');
+
+        // Sort: Hotspots first (by riskScore), then events by time
+        return filtered.sort((a, b) => {
+            // Hotspots always come first, sorted by risk score (highest first)
+            if (a.type === 'traffic_hotspot' && b.type !== 'traffic_hotspot') return -1;
+            if (a.type !== 'traffic_hotspot' && b.type === 'traffic_hotspot') return 1;
+            if (a.type === 'traffic_hotspot' && b.type === 'traffic_hotspot') {
+                return b.riskScore - a.riskScore;
+            }
+            // Events sorted by time
+            return a.minutesFromNow - b.minutesFromNow;
+        });
     }, [events, currentTime]);
 
     // =====================================================
-    // ACTION HANDLER
+    // SEPARATE HOTSPOTS AND EXTERNAL EVENTS
     // =====================================================
 
-    const handleActionTrigger = (action: PreemptiveAction) => {
-        if (action.status === 'disabled') return;
+    const hotspots = useMemo(() => {
+        return eventMarkers.filter(e => e.type === 'traffic_hotspot');
+    }, [eventMarkers]);
 
-        const newActiveActions = new Set(activeActions);
-        if (newActiveActions.has(action.id)) {
-            newActiveActions.delete(action.id);
-        } else {
-            newActiveActions.add(action.id);
-        }
-        setActiveActions(newActiveActions);
-
-        if (onActionTrigger) {
-            onActionTrigger(action);
-        }
-    };
+    const externalEvents = useMemo(() => {
+        return eventMarkers.filter(e => e.type !== 'traffic_hotspot');
+    }, [eventMarkers]);
 
     // =====================================================
     // LOADING STATE
@@ -303,7 +321,7 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
             </div>
 
             {/* MAIN CONTENT - SCROLLABLE */}
-            <div className="overflow-y-auto" style={{ maxHeight: 'calc(90vh - 100px)' }}>
+            <div className="overflow-y-auto" style={{ maxHeight: 'calc(80vh - 80px)' }}>
                 <div className="p-4 space-y-4">
 
                     {/* CURRENT STATUS CARDS */}
@@ -332,111 +350,112 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
                         </div>
                     </div>
 
-                    {/* UPCOMING EVENTS */}
-                    <div className="bg-white rounded-lg shadow-lg p-4">
-                        <h3 className="text-lg font-bold mb-3 flex items-center space-x-2" style={{ color: '#111827' }}>
-                            <span>📅</span>
-                            <span>Sự Kiện Sắp Tới ({events.length})</span>
-                        </h3>
-                        {eventMarkers.length === 0 ? (
-                            <p className="text-gray-500 text-sm text-center py-4">Không có sự kiện nào trong 2 giờ tới</p>
-                        ) : (
-                            <div className="space-y-2">
-                                {eventMarkers.slice(0, 5).map((event) => (
-                                    <div
-                                        key={event.id}
-                                        onClick={() => onEventClick?.(event)}
-                                        className="p-3 rounded-lg border-2 border-gray-200 hover:bg-gray-50 cursor-pointer transition-all"
-                                        onMouseEnter={(e) => e.currentTarget.style.borderColor = '#111827'}
-                                        onMouseLeave={(e) => e.currentTarget.style.borderColor = '#E5E7EB'}
-                                    >
-                                        <div className="flex items-start justify-between">
-                                            <div className="flex items-start space-x-3">
-                                                <div className="text-2xl">{getEventIcon(event.type)}</div>
-                                                <div>
-                                                    <p className="font-semibold" style={{ color: '#111827' }}>{event.name}</p>
-                                                    <p className="text-xs text-gray-600">{event.venue}</p>
-                                                    <p className="text-xs text-gray-500 mt-1">
-                                                        🕒 {event.startTimeFormatted} - {event.endTimeFormatted} • 👥 {event.estimatedAttendees.toLocaleString()} người
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className={`px-2 py-1 rounded text-xs font-bold ${getRiskColor(event.riskScore)}`}>
-                                                {event.riskScore}%
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* PREEMPTIVE ACTIONS */}
-                    <div className="bg-white rounded-lg shadow-lg p-4">
-                        <h3 className="text-lg font-bold mb-3 flex items-center space-x-2" style={{ color: '#111827' }}>
-                            <span>⚡</span>
-                            <span>Hành Động Khuyến Nghị</span>
-                        </h3>
-                        <div className="grid grid-cols-2 gap-3">
-                            {actions.map((action) => {
-                                const isActive = activeActions.has(action.id);
-                                const isDisabled = action.status === 'disabled' || peakRisk.level < action.requiredRiskLevel;
-
-                                return (
-                                    <button
-                                        key={action.id}
-                                        onClick={() => handleActionTrigger(action)}
-                                        disabled={isDisabled}
-                                        className={`p-4 rounded-lg border-2 text-left transition-all ${isDisabled
-                                            ? 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
-                                            : isActive
-                                                ? 'bg-gray-100 shadow-lg'
-                                                : 'border-gray-200 bg-white hover:bg-gray-50 hover:shadow-md'
-                                            }`}
-                                        style={!isDisabled ? { borderColor: isActive ? '#111827' : '#E5E7EB' } : undefined}
-                                    >
-                                        <div className="flex items-start justify-between mb-2">
-                                            <span className="text-2xl">{action.icon}</span>
-                                            {isActive && <span className="font-bold text-sm" style={{ color: '#111827' }}>✓ Đang Hoạt Động</span>}
-                                        </div>
-                                        <p className="font-semibold text-sm mb-1" style={{ color: '#111827' }}>{action.label}</p>
-                                        <p className="text-xs text-gray-600 line-clamp-2">{action.description}</p>
-                                        <p className="text-xs text-gray-500 mt-2">📍 {action.targetArea}</p>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* ROUTE ALTERNATIVES */}
-                    {routes.length > 0 && (
+                    {/* TWO COLUMN LAYOUT: Hotspots + External Events */}
+                    <div className="grid grid-cols-2 gap-4">
+                        {/* LEFT: TRAFFIC HOTSPOTS */}
                         <div className="bg-white rounded-lg shadow-lg p-4">
                             <h3 className="text-lg font-bold mb-3 flex items-center space-x-2" style={{ color: '#111827' }}>
-                                <span>🛣️</span>
-                                <span>Tuyến Đường Thay Thế</span>
+                                <span>🔥</span>
+                                <span>Điểm Nóng ({hotspots.length})</span>
                             </h3>
-                            <div className="space-y-2">
-                                {routes.map((route) => (
-                                    <div key={route.routeId} className="p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-all" onMouseEnter={(e) => e.currentTarget.style.borderColor = '#111827'} onMouseLeave={(e) => e.currentTarget.style.borderColor = '#E5E7EB'}>
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="font-semibold" style={{ color: '#111827' }}>{route.name}</span>
-                                            <span className="text-sm text-gray-600">{route.distanceKm.toFixed(1)} km</span>
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-2 text-xs">
-                                            <div>
-                                                <span className="text-gray-600">Hiện tại:</span>
-                                                <span className="ml-1 font-semibold" style={{ color: '#111827' }}>+{route.currentDelay} phút</span>
+                            {hotspots.length === 0 ? (
+                                <p className="text-gray-500 text-sm text-center py-4">Không có điểm nóng nào</p>
+                            ) : (
+                                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                                    {hotspots.slice(0, 10).map((event) => (
+                                        <div
+                                            key={event.id}
+                                            onClick={() => onEventClick?.(event)}
+                                            className="p-3 rounded-lg border-2 border-red-200 bg-red-50 hover:bg-red-100 cursor-pointer transition-all"
+                                            onMouseEnter={(e) => e.currentTarget.style.borderColor = '#EF4444'}
+                                            onMouseLeave={(e) => e.currentTarget.style.borderColor = '#FECACA'}
+                                        >
+                                            <div className="flex items-start justify-between">
+                                                <div className="flex items-start space-x-3">
+                                                    <div className="text-2xl">🔥</div>
+                                                    <div>
+                                                        <p className="font-semibold" style={{ color: '#111827' }}>{event.name}</p>
+                                                        <p className="text-xs text-gray-600">{event.venue}</p>
+                                                        <div className="text-xs text-gray-500 mt-1 space-y-0.5">
+                                                            <p>🚗 {event.vehicleCount || event.estimatedAttendees} xe • 🏎️ {event.averageSpeed?.toFixed(0) || '?'} km/h</p>
+                                                            <p className="text-red-500 font-medium">⚠️ Đang kẹt xe</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col items-end space-y-1">
+                                                    <div className={`px-2 py-1 rounded text-xs font-bold ${getRiskColor(event.riskScore)}`}>
+                                                        {Math.round(event.riskScore)}%
+                                                    </div>
+                                                    {event.isSimulated ? (
+                                                        <span className="text-xs text-orange-500 font-semibold">🟡 Mô phỏng</span>
+                                                    ) : (
+                                                        <span className="text-xs text-green-500 font-semibold">🟢 Real-time</span>
+                                                    )}
+                                                </div>
                                             </div>
-                                            <div>
-                                                <span className="text-gray-600">Dự đoán:</span>
-                                                <span className="ml-1 font-semibold" style={{ color: '#111827' }}>+{route.predictedDelay} phút</span>
-                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                    )}
+
+                        {/* RIGHT: EXTERNAL EVENTS */}
+                        <div className="bg-white rounded-lg shadow-lg p-4">
+                            <h3 className="text-lg font-bold mb-3 flex items-center space-x-2" style={{ color: '#111827' }}>
+                                <span>🎉</span>
+                                <span>Sự Kiện ({externalEvents.length})</span>
+                            </h3>
+                            {externalEvents.length === 0 ? (
+                                <p className="text-gray-500 text-sm text-center py-4">Không có sự kiện nào</p>
+                            ) : (
+                                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                                    {externalEvents.slice(0, 10).map((event) => (
+                                        <div
+                                            key={event.id}
+                                            onClick={() => onEventClick?.(event)}
+                                            className="p-3 rounded-lg border-2 border-blue-200 bg-blue-50 hover:bg-blue-100 cursor-pointer transition-all"
+                                            onMouseEnter={(e) => e.currentTarget.style.borderColor = '#3B82F6'}
+                                            onMouseLeave={(e) => e.currentTarget.style.borderColor = '#BFDBFE'}
+                                        >
+                                            <div className="flex items-start justify-between">
+                                                <div className="flex items-start space-x-3">
+                                                    <div className="text-2xl">{getEventIcon(event.type)}</div>
+                                                    <div>
+                                                        <p className="font-semibold" style={{ color: '#111827' }}>{event.name}</p>
+                                                        <p className="text-xs text-gray-600">{event.venue}</p>
+                                                        <p className="text-xs text-gray-500 mt-1">
+                                                            📆 {event.dateFormatted} • 🕒 {event.startTimeFormatted} - {event.endTimeFormatted}
+                                                        </p>
+                                                        <p className="text-xs text-gray-500">
+                                                            👥 {event.estimatedAttendees.toLocaleString()} người
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col items-end space-y-1">
+                                                    <div className={`px-2 py-1 rounded text-xs font-bold ${getRiskColor(event.riskScore)}`}>
+                                                        {Math.round(event.riskScore)}%
+                                                    </div>
+                                                    {event.minutesFromNow > 0 && (
+                                                        <span className="text-xs text-gray-400">
+                                                            {event.minutesFromNow < 60
+                                                                ? `${event.minutesFromNow} phút nữa`
+                                                                : event.minutesFromNow < 1440
+                                                                    ? `${Math.floor(event.minutesFromNow / 60)}h ${event.minutesFromNow % 60}m nữa`
+                                                                    : `${Math.floor(event.minutesFromNow / 1440)} ngày nữa`
+                                                            }
+                                                        </span>
+                                                    )}
+                                                    {event.minutesFromNow <= 0 && event.minutesFromNow >= -60 && (
+                                                        <span className="text-xs text-green-500 font-semibold">🔴 Đang diễn ra</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
                 </div>
             </div>

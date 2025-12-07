@@ -45,7 +45,7 @@ body {
   min-height: 100vh;
 }
 
-.leaflet-container {
+.maplibregl-map, .leaflet-container {
   height: 100%;
   width: 100%;
 }

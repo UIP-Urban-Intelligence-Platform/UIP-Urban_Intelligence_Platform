@@ -97,243 +97,109 @@ const TimeMachine: React.FC<TimeMachineProps> = ({ visible, onClose, onDataUpdat
     return d.toISOString();
   }, []);
 
-  // Fetch historical data from Fuseki
+  // Fetch historical data from backend API (which queries Fuseki)
   const fetchHistoricalData = useCallback(async (date: Date, hour: number): Promise<HistoricalData | null> => {
     setIsLoading(true);
     setError(null);
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
     try {
       const timestamp = formatTimestamp(date, hour);
-      const startTime = new Date(timestamp);
-      startTime.setMinutes(startTime.getMinutes() - 30); // ±30 minutes window
-      const endTime = new Date(timestamp);
-      endTime.setMinutes(endTime.getMinutes() + 30);
 
-      // Fetch Weather Data
-      const weatherQuery = `
-        PREFIX ex: <http://example.org/traffic#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        SELECT ?id ?lat ?lon ?district ?temperature ?humidity ?rainfall ?windSpeed ?windDirection ?condition ?timestamp
-        WHERE {
-          ?measurement a ex:Weather ;
-            ex:id ?id ;
-            ex:location ?location ;
-            ex:temperature ?temperature ;
-            ex:humidity ?humidity ;
-            ex:rainfall ?rainfall ;
-            ex:windSpeed ?windSpeed ;
-            ex:windDirection ?windDirection ;
-            ex:condition ?condition ;
-            ex:timestamp ?timestamp .
-          
-          ?location ex:latitude ?lat ;
-            ex:longitude ?lon ;
-            ex:district ?district .
-          
-          FILTER(?timestamp >= "${startTime.toISOString()}"^^xsd:dateTime && ?timestamp <= "${endTime.toISOString()}"^^xsd:dateTime)
+      // Fetch snapshot data from backend API
+      const snapshotResponse = await fetch(
+        `${API_URL}/api/historical/snapshot?timestamp=${encodeURIComponent(timestamp)}`,
+        {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
         }
-        ORDER BY ?timestamp
-        LIMIT 100
-      `;
-
-      const weatherResponse = await fetch('http://localhost:3030/traffic/sparql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/sparql-query',
-          'Accept': 'application/json'
-        },
-        body: weatherQuery
-      });
+      );
 
       let weatherData: Weather[] = [];
-      if (weatherResponse.ok) {
-        const weatherResult = await weatherResponse.json();
-        const bindings = weatherResult.results?.bindings || [];
-
-        weatherData = bindings.map((item: any) => ({
-          id: item.id.value,
-          location: {
-            latitude: parseFloat(item.lat.value),
-            longitude: parseFloat(item.lon.value),
-            district: item.district.value
-          },
-          temperature: parseFloat(item.temperature.value),
-          humidity: parseFloat(item.humidity.value),
-          rainfall: parseFloat(item.rainfall.value),
-          windSpeed: parseFloat(item.windSpeed.value),
-          windDirection: item.windDirection.value,
-          condition: item.condition.value,
-          timestamp: item.timestamp.value
-        }));
-      }
-
-      // Fetch Air Quality Data
-      const aqiQuery = `
-        PREFIX ex: <http://example.org/traffic#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        SELECT ?id ?lat ?lon ?station ?aqi ?pm25 ?pm10 ?co ?no2 ?so2 ?o3 ?level ?timestamp
-        WHERE {
-          ?measurement a ex:AirQuality ;
-            ex:id ?id ;
-            ex:location ?location ;
-            ex:aqi ?aqi ;
-            ex:pm25 ?pm25 ;
-            ex:pm10 ?pm10 ;
-            ex:co ?co ;
-            ex:no2 ?no2 ;
-            ex:so2 ?so2 ;
-            ex:o3 ?o3 ;
-            ex:level ?level ;
-            ex:timestamp ?timestamp .
-          
-          ?location ex:latitude ?lat ;
-            ex:longitude ?lon ;
-            ex:station ?station .
-          
-          FILTER(?timestamp >= "${startTime.toISOString()}"^^xsd:dateTime && ?timestamp <= "${endTime.toISOString()}"^^xsd:dateTime)
-        }
-        ORDER BY ?timestamp
-        LIMIT 100
-      `;
-
-      const aqiResponse = await fetch('http://localhost:3030/traffic/sparql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/sparql-query',
-          'Accept': 'application/json'
-        },
-        body: aqiQuery
-      });
-
       let aqiData: AirQuality[] = [];
-      if (aqiResponse.ok) {
-        const aqiResult = await aqiResponse.json();
-        const bindings = aqiResult.results?.bindings || [];
-
-        aqiData = bindings.map((item: any) => ({
-          id: item.id.value,
-          location: {
-            latitude: parseFloat(item.lat.value),
-            longitude: parseFloat(item.lon.value),
-            station: item.station.value
-          },
-          aqi: parseInt(item.aqi.value),
-          pm25: parseFloat(item.pm25.value),
-          pm10: parseFloat(item.pm10.value),
-          co: parseFloat(item.co.value),
-          no2: parseFloat(item.no2.value),
-          so2: parseFloat(item.so2.value),
-          o3: parseFloat(item.o3.value),
-          level: item.level.value as AirQuality['level'],
-          timestamp: item.timestamp.value
-        }));
-      }
-
-      // Fetch Traffic Patterns
-      const patternsQuery = `
-        PREFIX ex: <http://example.org/traffic#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        SELECT ?id ?patternType ?congestionLevel ?timeRange ?avgSpeed ?vehicleCount ?timestamp
-        WHERE {
-          ?pattern a ex:TrafficPattern ;
-            ex:id ?id ;
-            ex:patternType ?patternType ;
-            ex:congestionLevel ?congestionLevel ;
-            ex:timeRange ?timeRange ;
-            ex:timestamp ?timestamp .
-          
-          OPTIONAL { ?pattern ex:averageSpeed ?avgSpeed }
-          OPTIONAL { ?pattern ex:vehicleCount ?vehicleCount }
-          
-          FILTER(?timestamp >= "${startTime.toISOString()}"^^xsd:dateTime && ?timestamp <= "${endTime.toISOString()}"^^xsd:dateTime)
-        }
-        ORDER BY ?timestamp
-        LIMIT 100
-      `;
-
-      const patternsResponse = await fetch('http://localhost:3030/traffic/sparql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/sparql-query',
-          'Accept': 'application/json'
-        },
-        body: patternsQuery
-      });
-
       let patternsData: TrafficPattern[] = [];
-      if (patternsResponse.ok) {
-        const patternsResult = await patternsResponse.json();
-        const bindings = patternsResult.results?.bindings || [];
-
-        patternsData = bindings.map((item: any) => ({
-          id: item.id.value,
-          patternType: item.patternType.value,
-          congestionLevel: item.congestionLevel.value as TrafficPattern['congestionLevel'],
-          timeRange: item.timeRange.value,
-          daysOfWeek: [],
-          affectedCameras: [],
-          averageSpeed: item.avgSpeed ? parseFloat(item.avgSpeed.value) : undefined,
-          vehicleCount: item.vehicleCount ? parseInt(item.vehicleCount.value) : undefined,
-          timestamp: item.timestamp.value
-        }));
-      }
-
-      // Fetch Accidents
-      const accidentsQuery = `
-        PREFIX ex: <http://example.org/traffic#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        SELECT ?id ?lat ?lon ?address ?type ?severity ?description ?timestamp ?resolved
-        WHERE {
-          ?accident a ex:Accident ;
-            ex:id ?id ;
-            ex:location ?location ;
-            ex:type ?type ;
-            ex:severity ?severity ;
-            ex:description ?description ;
-            ex:timestamp ?timestamp ;
-            ex:resolved ?resolved .
-          
-          ?location ex:latitude ?lat ;
-            ex:longitude ?lon ;
-            ex:address ?address .
-          
-          FILTER(?timestamp >= "${startTime.toISOString()}"^^xsd:dateTime && ?timestamp <= "${endTime.toISOString()}"^^xsd:dateTime)
-        }
-        ORDER BY ?timestamp
-        LIMIT 100
-      `;
-
-      const accidentsResponse = await fetch('http://localhost:3030/traffic/sparql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/sparql-query',
-          'Accept': 'application/json'
-        },
-        body: accidentsQuery
-      });
-
       let accidentsData: Accident[] = [];
-      if (accidentsResponse.ok) {
-        const accidentsResult = await accidentsResponse.json();
-        const bindings = accidentsResult.results?.bindings || [];
 
-        accidentsData = bindings.map((item: any) => ({
-          id: item.id.value,
-          location: {
-            latitude: parseFloat(item.lat.value),
-            longitude: parseFloat(item.lon.value),
-            address: item.address.value
-          },
-          type: item.type.value as Accident['type'],
-          severity: item.severity.value as Accident['severity'],
-          description: item.description.value,
-          timestamp: item.timestamp.value,
-          resolved: item.resolved.value === 'true'
-        }));
+      if (snapshotResponse.ok) {
+        const snapshotResult = await snapshotResponse.json();
+
+        if (snapshotResult.success && snapshotResult.data) {
+          const data = snapshotResult.data;
+
+          // Transform weather data
+          if (data.weather && Array.isArray(data.weather)) {
+            weatherData = data.weather.map((item: any) => ({
+              id: item.cameraId || item.id,
+              location: {
+                latitude: item.location?.lat || item.location?.latitude || 0,
+                longitude: item.location?.lng || item.location?.longitude || 0,
+                district: item.district || 'Unknown'
+              },
+              temperature: item.temperature || 0,
+              humidity: item.humidity || 0,
+              rainfall: item.precipitation || item.rainfall || 0,
+              windSpeed: item.windSpeed || 0,
+              windDirection: item.windDirection || 'N',
+              condition: item.condition || 'Clear',
+              timestamp: data.timestamp || timestamp
+            }));
+          }
+
+          // Transform AQI data
+          if (data.aqi && Array.isArray(data.aqi)) {
+            aqiData = data.aqi.map((item: any) => ({
+              id: item.cameraId || item.id,
+              location: {
+                latitude: item.location?.lat || item.location?.latitude || 0,
+                longitude: item.location?.lng || item.location?.longitude || 0,
+                station: item.station || 'Unknown'
+              },
+              aqi: item.aqi || 0,
+              pm25: item.pm25 || 0,
+              pm10: item.pm10 || 0,
+              co: item.co || 0,
+              no2: item.no2 || 0,
+              so2: item.so2 || 0,
+              o3: item.o3 || 0,
+              level: (item.level || 'good') as AirQuality['level'],
+              timestamp: data.timestamp || timestamp
+            }));
+          }
+
+          // Transform patterns data
+          if (data.patterns && Array.isArray(data.patterns)) {
+            patternsData = data.patterns.map((item: any) => ({
+              id: item.patternId || item.id,
+              patternType: item.patternType || 'normal',
+              congestionLevel: (item.congestionLevel || 'low') as TrafficPattern['congestionLevel'],
+              timeRange: item.timeRange || '00:00-23:59',
+              daysOfWeek: item.daysOfWeek || [],
+              affectedCameras: item.affectedCameras || [],
+              averageSpeed: item.averageSpeed,
+              vehicleCount: item.vehicleCount,
+              timestamp: data.timestamp || timestamp
+            }));
+          }
+
+          // Transform accidents data
+          if (data.accidents && Array.isArray(data.accidents)) {
+            accidentsData = data.accidents.map((item: any) => ({
+              id: item.accidentId || item.id,
+              location: {
+                latitude: item.location?.lat || item.location?.latitude || 0,
+                longitude: item.location?.lng || item.location?.longitude || 0,
+                address: item.address || 'Unknown'
+              },
+              type: (item.type || 'collision') as Accident['type'],
+              severity: (item.severity || 'minor') as Accident['severity'],
+              description: item.description || '',
+              timestamp: item.timestamp || data.timestamp || timestamp,
+              resolved: item.resolved || false
+            }));
+          }
+        }
       }
 
       setIsLoading(false);

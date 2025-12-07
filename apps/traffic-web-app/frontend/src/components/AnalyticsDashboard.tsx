@@ -44,7 +44,7 @@
  * - zustand: State management
  */
 
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef, useCallback } from 'react';
 import { useTrafficStore } from '../store/trafficStore';
 import { Accident } from '../types';
 import {
@@ -121,6 +121,17 @@ interface CongestionTimelinePoint {
   avgSpeed: number;
 }
 
+interface CongestionSummary {
+  totalObservations: number;
+  byCongestionLevel: {
+    congested: number;
+    moderate: number;
+    free: number;
+    unknown: number;
+  };
+  highCongestionZones: number;
+}
+
 const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggle }) => {
   const { cameras, airQuality, accidents, patterns } = useTrafficStore();
   const [expandedSections, setExpandedSections] = useState({
@@ -128,6 +139,106 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
     topLists: true,
     charts: true,
   });
+
+  // Congestion data from ItemFlowObserved entities
+  const [congestionData, setCongestionData] = useState<CongestionSummary | null>(null);
+
+  // Fetch congestion summary from API
+  useEffect(() => {
+    const fetchCongestionSummary = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/patterns/congestion-summary');
+        const result = await response.json();
+        if (result.success) {
+          setCongestionData(result.data);
+        }
+      } catch (error) {
+        console.warn('Failed to fetch congestion summary:', error);
+      }
+    };
+
+    fetchCongestionSummary();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchCongestionSummary, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Draggable button state (AssistiveTouch style)
+  const [buttonPosition, setButtonPosition] = useState({ x: 16, y: 100 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [isSnapping, setIsSnapping] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const hasMoved = useRef(false);
+
+  // Handle drag start
+  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+    setIsSnapping(false);
+    hasMoved.current = false;
+  }, []);
+
+  // Handle drag move - directly update position for instant response
+  const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
+    if (!isDragging) return;
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    hasMoved.current = true;
+
+    // Calculate position from right edge
+    const newX = Math.max(8, Math.min(window.innerWidth - 64, window.innerWidth - clientX - 28));
+    const newY = Math.max(8, Math.min(window.innerHeight - 64, clientY - 28));
+
+    setButtonPosition({ x: newX, y: newY });
+  }, [isDragging]);
+
+  // Handle drag end - snap to nearest edge like AssistiveTouch
+  const handleDragEnd = useCallback(() => {
+    if (!isDragging) return;
+
+    setIsDragging(false);
+
+    // Snap to nearest horizontal edge (left or right)
+    const buttonCenterX = window.innerWidth - buttonPosition.x - 28;
+    const snapToRight = buttonCenterX > window.innerWidth / 2;
+
+    setIsSnapping(true);
+    setButtonPosition(prev => ({
+      x: snapToRight ? 8 : window.innerWidth - 64,
+      y: prev.y
+    }));
+
+    // Reset snapping state after animation
+    setTimeout(() => setIsSnapping(false), 300);
+  }, [isDragging, buttonPosition.x]);
+
+  // Handle click - only trigger if not dragged
+  const handleClick = useCallback(() => {
+    if (!hasMoved.current) {
+      onToggle();
+    }
+  }, [onToggle]);
+
+  // Add/remove global event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      const options = { passive: false };
+      window.addEventListener('mousemove', handleDragMove, options);
+      window.addEventListener('mouseup', handleDragEnd);
+      window.addEventListener('touchmove', handleDragMove, options);
+      window.addEventListener('touchend', handleDragEnd);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleDragMove);
+      window.removeEventListener('mouseup', handleDragEnd);
+      window.removeEventListener('touchmove', handleDragMove);
+      window.removeEventListener('touchend', handleDragEnd);
+    };
+  }, [isDragging, handleDragMove, handleDragEnd]);
 
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections((prev) => ({
@@ -161,10 +272,20 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
         : 0;
     const aqiInfo = getAQILevel(avgAQI);
 
+    // Helper to get accident date - use dateDetected (from Stellio) or timestamp as fallback
+    // Note: dateDetected from Stellio is in UTC (ends with 'Z'), parseISO handles timezone correctly
+    const getAccidentDate = (acc: Accident): Date => {
+      const dateStr = acc.dateDetected || acc.timestamp;
+      if (!dateStr) return new Date(0); // Return epoch if no date
+      return parseISO(dateStr);
+    };
+
+    // Use local timezone for "today" comparison
     const todayStart = startOfDay(new Date());
     const todayEnd = endOfDay(new Date());
+
     const accidentsToday = accidents.filter((acc) => {
-      const accDate = parseISO(acc.timestamp);
+      const accDate = getAccidentDate(acc);
       return accDate >= todayStart && accDate <= todayEnd;
     });
 
@@ -175,7 +296,8 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
       minor: accidentsToday.filter((a) => a.severity === 'minor').length,
     };
 
-    const highCongestionZones = patterns.filter(
+    // Use congestion data from ItemFlowObserved API, fallback to patterns
+    const highCongestionZones = congestionData?.highCongestionZones ?? patterns.filter(
       (p) => p.congestionLevel === 'high' || p.congestionLevel === 'severe' || p.congestionLevel === 'heavy'
     ).length;
 
@@ -198,7 +320,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
         highZones: highCongestionZones,
       },
     };
-  }, [cameras, airQuality, accidents, patterns]);
+  }, [cameras, airQuality, accidents, patterns, congestionData]);
 
   const topAQILocations = useMemo((): TopAQILocation[] => {
     const sorted = [...airQuality]
@@ -263,15 +385,21 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
     const now = new Date();
     const last24h = subHours(now, 24);
 
+    // Helper to get date from airQuality record - backend sends dateObserved, fallback to timestamp
+    const getAQDate = (aq: typeof airQuality[0]): Date => {
+      const dateStr = aq.dateObserved || aq.timestamp || new Date().toISOString();
+      return parseISO(dateStr);
+    };
+
     const recentAirQuality = airQuality.filter((aq) => {
-      const aqDate = parseISO(aq.timestamp);
+      const aqDate = getAQDate(aq);
       return aqDate >= last24h;
     });
 
     const hourlyData = new Map<number, number[]>();
 
     recentAirQuality.forEach((aq) => {
-      const aqDate = parseISO(aq.timestamp);
+      const aqDate = getAQDate(aq);
       const hoursSinceStart = differenceInHours(aqDate, last24h);
       if (!hourlyData.has(hoursSinceStart)) {
         hourlyData.set(hoursSinceStart, []);
@@ -297,8 +425,14 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
   }, [airQuality]);
 
   const accidentsByHour = useMemo((): AccidentByHourPoint[] => {
+    // Helper to get date from accident record - backend sends dateDetected, fallback to timestamp
+    const getAccidentDate = (acc: Accident): Date => {
+      const dateStr = acc.dateDetected || acc.timestamp || new Date().toISOString();
+      return parseISO(dateStr);
+    };
+
     const todayAccidents = accidents.filter((acc) => {
-      const accDate = parseISO(acc.timestamp);
+      const accDate = getAccidentDate(acc);
       return isToday(accDate);
     });
 
@@ -308,7 +442,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
     }
 
     todayAccidents.forEach((accident) => {
-      const accDate = parseISO(accident.timestamp);
+      const accDate = getAccidentDate(accident);
       const hour = getHours(accDate);
       hourlyData.get(hour)!.push(accident);
     });
@@ -335,10 +469,35 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
     }
 
     patterns.forEach((pattern) => {
-      if (pattern.timeRange && pattern.vehicleCount !== undefined) {
-        const timeMatch = pattern.timeRange.match(/(\d{1,2}):(\d{2})/);
-        if (timeMatch) {
-          const hour = parseInt(timeMatch[1], 10);
+      if (pattern.vehicleCount !== undefined) {
+        let hour: number | null = null;
+
+        // Try to extract hour from timeRange (format: "HH:MM" or "HH:MM - HH:MM")
+        if (pattern.timeRange) {
+          const timeMatch = pattern.timeRange.match(/(\d{1,2}):(\d{2})/);
+          if (timeMatch) {
+            hour = parseInt(timeMatch[1], 10);
+          }
+        }
+
+        // Fallback: try to extract hour from timestamp or timeOfDay
+        if (hour === null && pattern.timestamp) {
+          try {
+            const patternDate = parseISO(pattern.timestamp);
+            hour = getHours(patternDate);
+          } catch (e) {
+            // Ignore parse errors
+          }
+        }
+
+        if (hour === null && pattern.timeOfDay) {
+          const timeMatch = pattern.timeOfDay.match(/(\d{1,2}):(\d{2})/);
+          if (timeMatch) {
+            hour = parseInt(timeMatch[1], 10);
+          }
+        }
+
+        if (hour !== null && hour >= 0 && hour < 24) {
           const data = hourlyData.get(hour);
           if (data) {
             data.vehicles.push(pattern.vehicleCount);
@@ -389,11 +548,23 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
   if (!isOpen) {
     return (
       <button
-        onClick={onToggle}
-        className="absolute top-4 right-4 z-[1001] bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
+        ref={buttonRef}
+        onClick={handleClick}
+        onMouseDown={handleDragStart}
+        onTouchStart={handleDragStart}
+        className={`fixed z-[1001] w-14 h-14 rounded-full bg-black/60 backdrop-blur-sm text-white shadow-lg flex items-center justify-center text-2xl select-none ${isDragging ? 'cursor-grabbing opacity-90' : 'cursor-grab hover:bg-black/70'
+          } ${isSnapping ? 'transition-all duration-300 ease-out' : ''}`}
+        style={{
+          right: buttonPosition.x,
+          top: buttonPosition.y,
+          touchAction: 'none',
+          WebkitTouchCallout: 'none',
+          WebkitUserSelect: 'none',
+          willChange: isDragging ? 'transform' : 'auto',
+        }}
         aria-label="Open Analytics Dashboard"
       >
-        📊 Analytics
+        📊
       </button>
     );
   }
@@ -401,11 +572,23 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
   return (
     <>
       <button
-        onClick={onToggle}
-        className="absolute top-4 right-4 z-[1001] bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-700 transition-colors"
+        ref={buttonRef}
+        onClick={handleClick}
+        onMouseDown={handleDragStart}
+        onTouchStart={handleDragStart}
+        className={`fixed z-[1002] w-14 h-14 rounded-full bg-red-500/80 backdrop-blur-sm text-white shadow-lg flex items-center justify-center text-2xl select-none ${isDragging ? 'cursor-grabbing opacity-90' : 'cursor-grab hover:bg-red-600/80'
+          } ${isSnapping ? 'transition-all duration-300 ease-out' : ''}`}
+        style={{
+          right: buttonPosition.x,
+          top: buttonPosition.y,
+          touchAction: 'none',
+          WebkitTouchCallout: 'none',
+          WebkitUserSelect: 'none',
+          willChange: isDragging ? 'transform' : 'auto',
+        }}
         aria-label="Close Analytics Dashboard"
       >
-        ✕ Close
+        ✕
       </button>
 
       <div className="absolute top-0 right-0 h-full w-full md:w-[480px] lg:w-[560px] bg-gray-900 text-white shadow-2xl z-[1000] overflow-y-auto">

@@ -71,6 +71,7 @@ export interface Camera {
   };
   status: 'online' | 'offline';
   streamUrl?: string;
+  imageSnapshot?: string;
   lastUpdate?: string;
   dateModified: string;
   district?: string;

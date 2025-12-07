@@ -336,37 +336,15 @@ b) in the case of each subsequent Contributor:
 
 ---
 
-## Hippocratic License 2.1
+## ~~Hippocratic License 2.1~~ (REMOVED)
 
-**Used by:** 2 packages (0.1%) - react-leaflet, @react-leaflet/core
+:::warning Migration Complete - December 2025
+The packages using Hippocratic License (react-leaflet, @react-leaflet/core) have been **removed** and replaced with MIT-compatible alternatives:
 
-```text
-Hippocratic License Version 2.1
+- **react-map-gl** (MIT) - React bindings for MapLibre GL JS
+- **maplibre-gl** (BSD-3-Clause) - Interactive vector tile maps
 
-Licensor hereby grants permission by this license ("License"), free of charge,
-to any person or entity (the "Licensee") obtaining a copy of this software and
-associated documentation files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to the
-following conditions:
-
-* The above copyright notice and this License or a subsequent version published
-  on the Hippocratic License Website (https://firstdonoharm.dev/) shall be
-  included in all copies or substantial portions of the Software.
-
-* The Software may not be used by any person or entity for any systems,
-  activities, or other uses that violate any Human Rights Laws.
-
-[Full text: https://firstdonoharm.dev/version/2/1/license/]
-```
-
-**SPDX Identifier:** `Hippocratic-2.1`  
-**OSI Approved:** No (Ethical Source)  
-**MIT-Compatible:** Yes for ethical use
-
-:::info UIP Compliance
-This project (smart city traffic monitoring for public safety) fully complies with Hippocratic License ethical requirements.
+**Result:** 100% MIT-compatible frontend licensing achieved.
 :::
 
 ---

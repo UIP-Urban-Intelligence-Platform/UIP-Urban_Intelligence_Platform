@@ -20,14 +20,14 @@ services:
   # ==========================================================================
   # CORE DATA STORES
   # ==========================================================================
-  
+
   # Neo4j - Property Graph Database
   neo4j:
     image: neo4j:5.12.0
     container_name: test-neo4j
     ports:
-      - "7474:7474"  # HTTP
-      - "7687:7687"  # Bolt
+      - "7474:7474" # HTTP
+      - "7687:7687" # Bolt
     environment:
       - NEO4J_AUTH=neo4j/test12345
       - NEO4J_PLUGINS=["apoc"]
@@ -38,11 +38,16 @@ services:
     volumes:
       - neo4j_test_data:/data
     healthcheck:
-      test: ["CMD-SHELL", "cypher-shell -u neo4j -p test12345 'RETURN 1' > /dev/null 2>&1 || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "cypher-shell -u neo4j -p test12345 'RETURN 1' > /dev/null 2>&1 || exit 1",
+        ]
       interval: 15s
       timeout: 15s
       retries: 20
-      start_period: 120s  # Neo4j needs time to start, install APOC plugin, and initialize
+      start_period: 120s # Neo4j needs time to start, install APOC plugin, and initialize
+    restart: unless-stopped
     networks:
       - test-network
 
@@ -62,7 +67,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 12
-      start_period: 30s  # JVM needs time to start
+      start_period: 30s # JVM needs time to start
+    restart: unless-stopped
     networks:
       - test-network
 
@@ -80,6 +86,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
     networks:
       - test-network
 
@@ -103,15 +110,16 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
+    restart: unless-stopped
     networks:
       - test-network
 
   # PostgreSQL - Stellio Backend (PostGIS for geometry support)
   postgres:
-    image: timescale/timescaledb-ha:pg15  # TimescaleDB with PostGIS included
+    image: timescale/timescaledb-ha:pg15 # TimescaleDB with PostGIS included
     container_name: test-postgres
     ports:
-      - "5432:5432"  # Map PostgreSQL port for external access
+      - "5432:5432" # Map PostgreSQL port for external access
     environment:
       - POSTGRES_USER=stellio
       - POSTGRES_PASSWORD=stellio_test
@@ -124,7 +132,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 60s  # Wait 60s before starting healthchecks (init script needs time)
+      start_period: 60s # Wait 60s before starting healthchecks (init script needs time)
+    restart: unless-stopped
     networks:
       - test-network
 
@@ -147,31 +156,36 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
-      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
     volumes:
       - kafka_test_data:/tmp/kraft-combined-logs
     healthcheck:
-      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1 || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1 || exit 1",
+        ]
       interval: 15s
       timeout: 15s
       retries: 20
-      start_period: 90s  # Kafka KRaft mode needs more time to fully initialize
+      start_period: 90s # Kafka KRaft mode needs more time to fully initialize
+    restart: unless-stopped
     networks:
       - test-network
 
   # ==========================================================================
   # STELLIO CONTEXT BROKER
   # ==========================================================================
-  
+
   # Stellio API Gateway
   stellio-api-gateway:
-    image: stellio/stellio-api-gateway:2.26.1  # Use stable release instead of latest
+    image: stellio/stellio-api-gateway:2.26.1 # Use stable release instead of latest
     container_name: test-stellio-api-gateway
     ports:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/stellio_search  # Gateway needs search database!
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/stellio_search # Gateway needs search database!
       - SPRING_R2DBC_USERNAME=stellio
       - SPRING_R2DBC_PASSWORD=stellio_test
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
@@ -190,13 +204,14 @@ services:
       interval: 15s
       timeout: 10s
       retries: 12
-      start_period: 60s  # Spring Boot app needs time to start
+      start_period: 60s # Spring Boot app needs time to start
+    restart: unless-stopped
     networks:
       - test-network
 
   # Stellio Search Service (must be named 'search-service' for API Gateway routing)
   search-service:
-    image: stellio/stellio-search-service:2.26.1  # Use stable release instead of latest
+    image: stellio/stellio-search-service:2.26.1 # Use stable release instead of latest
     container_name: test-stellio-search
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -206,7 +221,7 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       # Flyway baseline mode to handle PostGIS pre-populated table
       - SPRING_FLYWAY_BASELINE_ON_MIGRATE=true
-      - SPRING_FLYWAY_BASELINE_VERSION=0.0  # Baseline BEFORE V0_1 to run all migrations
+      - SPRING_FLYWAY_BASELINE_VERSION=0.0 # Baseline BEFORE V0_1 to run all migrations
       - APPLICATION_AUTHENTICATION_ENABLED=false
       # Neo4j Configuration - Enable Graph Database Support
       - SPRING_NEO4J_URI=bolt://neo4j:7687
@@ -215,7 +230,7 @@ services:
       - APPLICATION_NEO4J_ENABLED=true
       # Note: Gateway v2.26.1 routes to search-service:8083 (not entity-service:8082!)
     ports:
-      - "8083:8083"  # Official Stellio port for search-service
+      - "8083:8083" # Official Stellio port for search-service
     depends_on:
       postgres:
         condition: service_healthy
@@ -226,12 +241,13 @@ services:
     networks:
       test-network:
         aliases:
-          - entity-service  # Gateway hardcoded to look for this hostname
+          - entity-service # Gateway hardcoded to look for this hostname
           - search-service
+    restart: unless-stopped
 
   # Stellio Subscription Service (must be named 'subscription-service' for API Gateway routing)
   subscription-service:
-    image: stellio/stellio-subscription-service:2.26.1  # Use stable release instead of latest
+    image: stellio/stellio-subscription-service:2.26.1 # Use stable release instead of latest
     container_name: test-stellio-subscription
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -241,20 +257,21 @@ services:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
       # Flyway baseline mode to handle PostGIS pre-populated table
       - SPRING_FLYWAY_BASELINE_ON_MIGRATE=true
-      - SPRING_FLYWAY_BASELINE_VERSION=0.0  # Baseline BEFORE V0_1 to run all migrations
+      - SPRING_FLYWAY_BASELINE_VERSION=0.0 # Baseline BEFORE V0_1 to run all migrations
       - APPLICATION_AUTHENTICATION_ENABLED=false
     depends_on:
       postgres:
         condition: service_healthy
       kafka:
         condition: service_healthy
+    restart: unless-stopped
     networks:
       - test-network
 
   # ==========================================================================
   # PYTHON BACKEND (Citizen API + Orchestrator)
   # ==========================================================================
-  
+
   python-backend:
     build:
       context: .
@@ -305,7 +322,7 @@ services:
   # ==========================================================================
   # CV VERIFICATION SERVICE (Background Service)
   # ==========================================================================
-  
+
   cv-verification-service:
     build:
       context: .
@@ -323,9 +340,13 @@ services:
     volumes:
       - ./config:/app/config
       - ./logs:/app/logs
-      - ./assets:/app/assets  # YOLOX models
+      - ./assets:/app/assets # YOLOX models
     healthcheck:
-      test: ["CMD-SHELL", "python -c \"import os; exit(0 if os.path.exists('/app/logs/cv_verification_service.log') else 1)\" || curl -sf http://stellio-api-gateway:8080/ngsi-ld/v1/entityTypes > /dev/null"]
+      test:
+        [
+          "CMD-SHELL",
+          'python -c "import os; exit(0 if os.path.exists(''/app/logs/cv_verification_service.log'') else 1)" || curl -sf http://stellio-api-gateway:8080/ngsi-ld/v1/entityTypes > /dev/null',
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -336,7 +357,7 @@ services:
   # ==========================================================================
   # WEB APPLICATION - BACKEND & FRONTEND
   # ==========================================================================
-  
+
   # Backend API Server (TypeScript/Express)
   backend:
     build:
@@ -413,7 +434,7 @@ services:
   # ==========================================================================
   # TEST RUNNER
   # ==========================================================================
-  
+
   test-runner:
     build:
       context: .
@@ -443,13 +464,13 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=test_redis_pass
-      
+
       # Test configuration
       - TEST_DATA_DIR=/app/test_data
       - TEST_OUTPUT_DIR=/app/test_output
       - TEST_TIMEOUT=300
       - COVERAGE_THRESHOLD=90
-      
+
       # Logging
       - LOG_LEVEL=INFO
       - PYTEST_VERBOSE=1

@@ -86,10 +86,8 @@ Complete documentation of all **1,296 NPM packages** (772 backend + 524 frontend
 |---------|---------|---------|---------|-------------|
 | @turf/turf | 7.2.0 | MIT | `MIT` | Geospatial analysis |
 | @turf/helpers | 7.2.0 | MIT | `MIT` | Turf helpers |
-| @turf/jsts | 2.7.2 | EPL-1.0/EDL-1.0 | `EPL-1.0 OR BSD-3-Clause` | Geometry operations |
-| jsts | 2.7.1 | EPL-1.0/EDL-1.0 | `EPL-1.0 OR BSD-3-Clause` | JTS Topology Suite |
 
-> EPL/EDL licenses are permissive and MIT-compatible for this use case.
+> **Migration Note (2025-12):** @turf/jsts and jsts (EPL-1.0/EDL-1.0) have been **removed** to achieve 100% MIT-compatible licensing.
 
 ### AI & ML
 
@@ -134,14 +132,11 @@ Complete documentation of all **1,296 NPM packages** (772 backend + 524 frontend
 
 | Package | Version | License | SPDX ID | Description |
 |---------|---------|---------|---------|-------------|
-| leaflet | 1.9.4 | BSD-2-Clause | `BSD-2-Clause` | Interactive maps |
-| react-leaflet | 4.2.1 | Hippocratic-2.1 | `Hippocratic-2.1` | React Leaflet |
-| @react-leaflet/core | 2.1.0 | Hippocratic-2.1 | `Hippocratic-2.1` | React Leaflet core |
-| leaflet.heat | 0.2.0 | BSD | `BSD-2-Clause` | Heatmap plugin |
-| react-leaflet-cluster | 2.1.0 | MIT | `MIT` | Marker clustering |
+| react-map-gl | 7.1.9 | MIT | `MIT` | React bindings for MapLibre GL JS |
+| maplibre-gl | 4.7.1 | BSD-3-Clause | `BSD-3-Clause` | Interactive vector tile maps |
 
-:::info Hippocratic License
-The Hippocratic License 2.1 grants all MIT-like permissions (use, modify, distribute, commercial) with an additional ethical use requirement. This project's use case (smart city traffic monitoring for public safety) fully complies.
+:::info Migration Note (December 2025)
+react-leaflet (Hippocratic-2.1) was replaced with react-map-gl + MapLibre GL JS to achieve 100% MIT-compatible licensing. All heatmap functionality now uses MapLibre GL native heatmap layers.
 :::
 
 ### UI Components

@@ -27,30 +27,23 @@
  * - Auto-refresh every 30 seconds
  * 
  * @dependencies
- * - react-leaflet@^4.2: Map rendering
- * - leaflet@^1.9: Mapping library
+ * - react-map-gl@^7.1: Map rendering (MIT license)
+ * - maplibre-gl@^4.7: Mapping library (BSD-3-Clause)
  * - lucide-react@^0.294: Icons
  * - citizenReportService: API client
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer } from './map';
 import { Plus, X } from 'lucide-react';
-import 'leaflet/dist/leaflet.css';
+// Note: MapLibre CSS is handled by MapContainer
 import { CitizenReportForm } from './CitizenReportForm';
 import { CitizenReportMarkers } from './CitizenReportMarkers';
 import { CitizenReportFilterPanel } from './CitizenReportFilterPanel';
 import { citizenReportService } from '../services/citizenReportService';
 import { CitizenReport, CitizenReportFilters, CitizenReportStats } from '../types/citizenReport';
 
-// Fix Leaflet default marker icons
-import L from 'leaflet';
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+// Note: Leaflet icon fix removed - MapLibre handles icons differently
 
 const HCMC_CENTER: [number, number] = [10.791, 106.691];
 const DEFAULT_ZOOM = 12;
@@ -118,12 +111,8 @@ export const CitizenReportMap: React.FC = () => {
                 center={HCMC_CENTER}
                 zoom={DEFAULT_ZOOM}
                 className="w-full h-full"
-                zoomControl={true}
             >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+                {/* TileLayer is handled via mapStyle in MapContainer - OpenStreetMap default */}
 
                 {/* Citizen Report Markers */}
                 <CitizenReportMarkers reports={reports} />

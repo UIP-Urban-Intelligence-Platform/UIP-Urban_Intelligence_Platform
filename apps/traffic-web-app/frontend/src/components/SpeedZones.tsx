@@ -26,12 +26,12 @@
  * - Semi-transparent overlays for visibility
  * 
  * @dependencies
- * - react-leaflet@^4.2: Polygon rendering
- * - leaflet@^1.9: GeoJSON support
+ * - react-map-gl@^7.1: Polygon rendering (MIT license)
+ * - maplibre-gl@^4.7: GeoJSON support (BSD-3-Clause)
  */
 
 import React, { useState, useEffect } from 'react';
-import { Polygon, Tooltip, Popup } from 'react-leaflet';
+import { Polygon, Tooltip, Popup } from './map';
 
 interface SpeedZonesProps {
   visible?: boolean;

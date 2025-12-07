@@ -1,0 +1,258 @@
+/**
+ * Marker Component - Map Point Markers
+ *
+ * UIP - Urban Intelligence Platform
+ * Copyright (c) 2025 UIP Team. All rights reserved.
+ * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * @description
+ * Marker component compatible with react-leaflet's Marker API.
+ * Supports custom icons, popups, tooltips, and event handlers.
+ */
+
+import React, { ReactNode, useMemo, useCallback, useState } from 'react';
+import { Marker as RMGMarker, Popup as RMGPopup } from 'react-map-gl/maplibre';
+import type { LatLngExpression } from './types';
+
+// Leaflet-compatible Icon interface
+export interface IconOptions {
+    iconUrl?: string;
+    iconRetinaUrl?: string;
+    iconSize?: [number, number];
+    iconAnchor?: [number, number];
+    popupAnchor?: [number, number];
+    shadowUrl?: string;
+    shadowSize?: [number, number];
+    shadowAnchor?: [number, number];
+    className?: string;
+    html?: string;
+}
+
+export interface Icon {
+    options: IconOptions;
+}
+
+export interface DivIcon extends Icon {
+    options: IconOptions & {
+        html: string;
+        className?: string;
+    };
+}
+
+export interface MarkerProps {
+    position: LatLngExpression;
+    icon?: Icon | DivIcon | IconOptions;
+    children?: ReactNode;
+    draggable?: boolean;
+    opacity?: number;
+    zIndexOffset?: number;
+    eventHandlers?: {
+        click?: (e: any) => void;
+        dblclick?: (e: any) => void;
+        mousedown?: (e: any) => void;
+        mouseup?: (e: any) => void;
+        mouseover?: (e: any) => void;
+        mouseout?: (e: any) => void;
+        dragstart?: (e: any) => void;
+        drag?: (e: any) => void;
+        dragend?: (e: any) => void;
+    };
+}
+
+// Convert position to [lng, lat] for MapLibre
+function getCoordinates(position: LatLngExpression): [number, number] {
+    if (Array.isArray(position)) {
+        return [position[1], position[0]]; // [lng, lat]
+    }
+    if ('lat' in position && 'lng' in position) {
+        return [position.lng, position.lat];
+    }
+    if ('latitude' in position && 'longitude' in position) {
+        return [position.longitude, position.latitude];
+    }
+    throw new Error('Invalid position format');
+}
+
+// Get icon options from icon prop
+function getIconOptions(icon?: Icon | DivIcon | IconOptions): IconOptions {
+    if (!icon) {
+        return {
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+        };
+    }
+
+    if ('options' in icon) {
+        return icon.options;
+    }
+
+    return icon as IconOptions;
+}
+
+export const Marker: React.FC<MarkerProps> = ({
+    position,
+    icon,
+    children,
+    draggable = false,
+    opacity = 1,
+    eventHandlers = {},
+}) => {
+    const [lng, lat] = getCoordinates(position);
+    const iconOptions = getIconOptions(icon);
+    const [showPopup, setShowPopup] = useState(false);
+
+    // Calculate anchor offset
+    const anchor = useMemo(() => {
+        if (iconOptions.iconAnchor) {
+            return iconOptions.iconAnchor.join(' ') as any;
+        }
+        return 'bottom';
+    }, [iconOptions.iconAnchor]);
+
+    // Handle click events
+    const handleClick = useCallback((e: any) => {
+        setShowPopup(true);
+        eventHandlers.click?.(e);
+    }, [eventHandlers]);
+
+    // Render custom icon or default marker
+    const renderMarkerContent = () => {
+        if (iconOptions.html) {
+            // DivIcon with custom HTML
+            return (
+                <div
+                    dangerouslySetInnerHTML={{ __html: iconOptions.html }}
+                    className={iconOptions.className || ''}
+                    style={{ opacity }}
+                />
+            );
+        }
+
+        if (iconOptions.iconUrl) {
+            // Image-based icon
+            const [width, height] = iconOptions.iconSize || [25, 41];
+            const [anchorX, anchorY] = iconOptions.iconAnchor || [12, 41];
+
+            return (
+                <div
+                    style={{
+                        position: 'relative',
+                        opacity,
+                        cursor: 'pointer',
+                    }}
+                >
+                    <img
+                        src={iconOptions.iconUrl}
+                        alt="marker"
+                        style={{
+                            width: `${width}px`,
+                            height: `${height}px`,
+                            position: 'absolute',
+                            left: `-${anchorX}px`,
+                            top: `-${anchorY}px`,
+                        }}
+                    />
+                </div>
+            );
+        }
+
+        // Default marker
+        return (
+            <div
+                style={{
+                    width: '25px',
+                    height: '41px',
+                    background: '#2b7cff',
+                    borderRadius: '50% 50% 50% 0',
+                    transform: 'rotate(-45deg)',
+                    border: '2px solid white',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    opacity,
+                }}
+            />
+        );
+    };
+
+    // Extract popup and tooltip children
+    const popupChild = React.Children.toArray(children).find(
+        (child): child is React.ReactElement =>
+            React.isValidElement(child) && (child.type as any)?.displayName === 'Popup'
+    );
+
+    // Note: Tooltip support can be added later if needed
+    // const tooltipChild = React.Children.toArray(children).find(
+    //   (child): child is React.ReactElement =>
+    //     React.isValidElement(child) && (child.type as any)?.displayName === 'Tooltip'
+    // );
+
+    return (
+        <>
+            <RMGMarker
+                longitude={lng}
+                latitude={lat}
+                anchor={anchor}
+                draggable={draggable}
+                onClick={handleClick}
+                onDragStart={eventHandlers.dragstart}
+                onDrag={eventHandlers.drag}
+                onDragEnd={eventHandlers.dragend}
+            >
+                {renderMarkerContent()}
+            </RMGMarker>
+
+            {/* Render popup when marker is clicked */}
+            {showPopup && popupChild && (
+                <RMGPopup
+                    longitude={lng}
+                    latitude={lat}
+                    anchor="bottom"
+                    onClose={() => setShowPopup(false)}
+                    closeOnClick={false}
+                    offset={iconOptions.popupAnchor ? [iconOptions.popupAnchor[0], -iconOptions.popupAnchor[1]] : [0, -41]}
+                >
+                    {popupChild.props.children}
+                </RMGPopup>
+            )}
+        </>
+    );
+};
+
+Marker.displayName = 'Marker';
+
+// Helper factory classes to create Icon and DivIcon objects
+// These mimic Leaflet's Icon and DivIcon class constructors
+
+export class Icon {
+    options: IconOptions;
+
+    constructor(options: IconOptions) {
+        this.options = options;
+    }
+}
+
+export class DivIcon {
+    options: IconOptions & { html: string; className?: string };
+
+    constructor(options: IconOptions & { html: string; className?: string }) {
+        this.options = {
+            ...options,
+            html: options.html,
+            className: options.className || '',
+        };
+    }
+}
+
+// Factory functions (alternative to class constructors)
+export function createIcon(options: IconOptions): Icon {
+    return new Icon(options);
+}
+
+export function createDivIcon(options: IconOptions & { html: string; className?: string }): DivIcon {
+    return new DivIcon(options);
+}
+
+export default Marker;

@@ -118,6 +118,110 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 /**
+ * GET /api/patterns/congestion-summary
+ * Get real-time congestion summary from ItemFlowObserved entities
+ * This provides actual congestion data detected by CV Analysis
+ * 
+ * Response:
+ * {
+ *   success: true,
+ *   data: {
+ *     totalObservations: number,
+ *     byCongestionLevel: { congested: number, moderate: number, free: number },
+ *     highCongestionZones: number,
+ *     recentObservations: [...] // Last 10 congested observations
+ *   }
+ * }
+ */
+router.get('/congestion-summary', async (_req: Request, res: Response) => {
+  try {
+    logger.info('Fetching congestion summary from ItemFlowObserved entities');
+
+    // Fetch ItemFlowObserved entities (these have real congestionLevel from CV Analysis)
+    const observations = await genericNgsiService.fetchEntities('ItemFlowObserved', {});
+
+    // Count observations by congestion level
+    const byCongestionLevel = {
+      congested: 0,
+      moderate: 0,
+      free: 0,
+      unknown: 0
+    };
+
+    // Track unique cameras by congestion level (to count actual zones, not observations)
+    const uniqueCameras = {
+      congested: new Set<string>(),
+      moderate: new Set<string>(),
+      free: new Set<string>()
+    };
+
+    observations.forEach((obs: any) => {
+      const level = obs.congestionLevel?.toLowerCase() || 'unknown';
+      const cameraId = obs.refDevice || obs.cameraId || obs.id;
+
+      if (level === 'congested' || level === 'heavy' || level === 'high') {
+        byCongestionLevel.congested++;
+        uniqueCameras.congested.add(cameraId);
+      } else if (level === 'moderate' || level === 'medium') {
+        byCongestionLevel.moderate++;
+        uniqueCameras.moderate.add(cameraId);
+      } else if (level === 'free' || level === 'low' || level === 'free_flow') {
+        byCongestionLevel.free++;
+        uniqueCameras.free.add(cameraId);
+      } else {
+        byCongestionLevel.unknown++;
+      }
+    });
+
+    // Get recent congested observations (for details panel)
+    const congestedObs = observations
+      .filter((obs: any) => {
+        const level = obs.congestionLevel?.toLowerCase() || '';
+        return level === 'congested' || level === 'heavy' || level === 'high';
+      })
+      .slice(0, 10)
+      .map((obs: any) => ({
+        id: obs.id,
+        cameraId: obs.refDevice || obs.cameraId,
+        congestionLevel: obs.congestionLevel,
+        vehicleCount: obs.vehicleCount,
+        averageSpeed: obs.averageSpeed,
+        location: obs.location,
+        observedAt: obs.observedAt || obs.dateObserved
+      }));
+
+    // uniqueCamerasCongested = số camera UNIQUE đang tắc nghẽn (không trùng lặp)
+    const uniqueCamerasCongested = uniqueCameras.congested.size;
+
+    logger.info(`Congestion summary: ${uniqueCamerasCongested} unique cameras congested (${byCongestionLevel.congested} total observations)`);
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        totalObservations: observations.length,
+        byCongestionLevel,
+        // Số CAMERA unique đang tắc nghẽn (để hiển thị "X zones affected")
+        highCongestionZones: uniqueCamerasCongested,
+        // Chi tiết số camera unique theo level
+        uniqueCameraCount: {
+          congested: uniqueCameras.congested.size,
+          moderate: uniqueCameras.moderate.size,
+          free: uniqueCameras.free.size
+        },
+        recentObservations: congestedObs
+      }
+    });
+
+  } catch (error) {
+    logger.error(`Error fetching congestion summary: ${error}`);
+    return res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Internal server error'
+    });
+  }
+});
+
+/**
  * GET /api/patterns/vehicle-heatmap
  * Get vehicle density heatmap by location and timeation and time
  * 

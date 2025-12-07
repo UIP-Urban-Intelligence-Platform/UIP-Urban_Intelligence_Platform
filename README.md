@@ -891,7 +891,7 @@ Phase 5: RDF & LINKED OPEN DATA
 │  │ Vite        │            │ AsyncIO     │              │             │               │
 │  │ TailwindCSS │            │ APScheduler │              │ 10+ Services│               │
 │  │ Zustand     │            │             │              │             │               │
-│  │ React-Leaflet│           │ Express.js  │              │             │               │
+│  │ MapLibre GL │            │ Express.js  │              │             │               │
 │  │ Recharts    │            │ TypeScript  │              │             │               │
 │  └─────────────┘            └─────────────┘              └─────────────┘               │
 │                                                                                         │

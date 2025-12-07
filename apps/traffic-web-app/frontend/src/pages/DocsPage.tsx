@@ -18,14 +18,16 @@
  * table of contents, breadcrumbs, and prev/next navigation.
  */
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { Menu, ChevronLeft, ChevronRight, ArrowLeft, Moon, Sun, Search, Github, BookOpen, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DocsSidebar from '../components/docs/DocsSidebar';
 import MarkdownRenderer from '../components/docs/MarkdownRenderer';
 import DocsTableOfContents from '../components/docs/DocsTableOfContents';
+import LanguageSwitcher from '../components/docs/LanguageSwitcher';
 import { loadDocContent, getBreadcrumbs, getPrevNextDocs, DocContent, docsNavigation, hasDocContent } from '../services/docsService';
+import { Language, getInitialLanguage, saveLanguage, getTranslations } from '../services/i18nService';
 
 const DocsPage: React.FC = () => {
     const location = useLocation();
@@ -44,6 +46,16 @@ const DocsPage: React.FC = () => {
         return false;
     });
 
+    // Language state
+    const [language, setLanguage] = useState<Language>(getInitialLanguage);
+    const t = useMemo(() => getTranslations(language), [language]);
+
+    // Handle language change
+    const handleLanguageChange = (lang: Language) => {
+        setLanguage(lang);
+        saveLanguage(lang);
+    };
+
     // Get current path - ensure it's clean
     const currentPath = location.pathname;
 
@@ -56,21 +68,23 @@ const DocsPage: React.FC = () => {
     const breadcrumbs = useMemo(() => getBreadcrumbs(currentPath), [currentPath]);
 
     // Flatten navigation for search - only include docs with actual content
-    const flattenNav = useCallback((items: typeof docsNavigation): Array<{ title: string; path: string }> => {
-        let result: Array<{ title: string; path: string }> = [];
-        items.forEach(item => {
-            // Only include items that have actual content in docsMap
-            if (hasDocContent(item.path)) {
-                result.push({ title: item.title, path: item.path });
-            }
-            if (item.children) {
-                result = result.concat(flattenNav(item.children));
-            }
-        });
-        return result;
-    }, []);
-
-    const allDocs = flattenNav(docsNavigation);
+    // Memoize allDocs to prevent infinite loop in useEffect
+    const allDocs = useMemo(() => {
+        const flattenNav = (items: typeof docsNavigation): Array<{ title: string; path: string }> => {
+            let result: Array<{ title: string; path: string }> = [];
+            items.forEach(item => {
+                // Only include items that have actual content in docsMap
+                if (hasDocContent(item.path)) {
+                    result.push({ title: item.title, path: item.path });
+                }
+                if (item.children) {
+                    result = result.concat(flattenNav(item.children));
+                }
+            });
+            return result;
+        };
+        return flattenNav(docsNavigation);
+    }, []); // Empty dependency - docsNavigation is static
 
     // Search functionality
     useEffect(() => {
@@ -106,9 +120,9 @@ const DocsPage: React.FC = () => {
             if (content) {
                 setDocContent(content);
                 // Update page title
-                document.title = `${content.title} | HCMC Traffic Docs`;
+                document.title = `${content.title} | UIP Docs`;
             } else {
-                setError('Không tìm thấy tài liệu');
+                setError(t.documentNotFound);
             }
 
             setLoading(false);
@@ -153,7 +167,7 @@ const DocsPage: React.FC = () => {
                                 <Zap className="w-5 h-5 text-white" />
                             </div>
                             <div className="hidden sm:block">
-                                <span className="font-bold text-slate-900 dark:text-white">HCMC Traffic</span>
+                                <span className="font-bold text-slate-900 dark:text-white">UIP</span>
                                 <span className="ml-2 px-1.5 py-0.5 text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded">v1.0</span>
                             </div>
                         </Link>
@@ -167,7 +181,7 @@ const DocsPage: React.FC = () => {
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Tìm kiếm tài liệu... (Ctrl+K)"
+                                placeholder={t.searchPlaceholder}
                                 className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-0 rounded-lg text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onBlur={() => setTimeout(() => setShowSearch(false), 200)}
                                 onFocus={() => searchQuery.length > 1 && setShowSearch(true)}
@@ -207,6 +221,12 @@ const DocsPage: React.FC = () => {
 
                     {/* Right side */}
                     <div className="flex items-center gap-2">
+                        {/* Language Switcher */}
+                        <LanguageSwitcher
+                            currentLanguage={language}
+                            onLanguageChange={handleLanguageChange}
+                        />
+
                         <a
                             href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform"
                             target="_blank"
@@ -220,7 +240,7 @@ const DocsPage: React.FC = () => {
                         <button
                             onClick={() => setDarkMode(!darkMode)}
                             className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                            title={darkMode ? 'Light mode' : 'Dark mode'}
+                            title={darkMode ? t.lightMode : t.darkMode}
                         >
                             {darkMode ? (
                                 <Sun className="w-5 h-5 text-yellow-500" />
@@ -234,14 +254,14 @@ const DocsPage: React.FC = () => {
                             className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4" />
-                            App
+                            {t.app}
                         </Link>
 
                         <Link
                             to="/dashboard"
                             className="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
                         >
-                            Dashboard
+                            {t.dashboard}
                         </Link>
                     </div>
                 </div>
@@ -249,7 +269,7 @@ const DocsPage: React.FC = () => {
 
             <div className="flex">
                 {/* Sidebar */}
-                <DocsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+                <DocsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} language={language} />
 
                 {/* Main Content Area */}
                 <main className="flex-1 min-w-0 lg:ml-0">
@@ -291,7 +311,7 @@ const DocsPage: React.FC = () => {
                                         </motion.div>
                                     ) : error ? (
                                         <motion.div
-                                            key="error"
+                                            key={`error-${currentPath}`}
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0 }}
@@ -302,19 +322,19 @@ const DocsPage: React.FC = () => {
                                                 {error}
                                             </h2>
                                             <p className="text-slate-600 dark:text-slate-400 mb-6">
-                                                Trang bạn tìm kiếm không tồn tại hoặc đã bị di chuyển.
+                                                {t.notFoundDescription}
                                             </p>
                                             <Link
                                                 to="/docs"
                                                 className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                                             >
                                                 <ArrowLeft className="w-4 h-4" />
-                                                Về trang chủ Docs
+                                                {t.backToDocs}
                                             </Link>
                                         </motion.div>
                                     ) : docContent ? (
                                         <motion.div
-                                            key="content"
+                                            key={`content-${currentPath}`}
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0 }}
@@ -339,7 +359,7 @@ const DocsPage: React.FC = () => {
                                             >
                                                 <span className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 mb-1">
                                                     <ChevronLeft className="w-4 h-4" />
-                                                    Trước
+                                                    {t.previous}
                                                 </span>
                                                 <span className="font-medium text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                                     {prev.title}
@@ -355,7 +375,7 @@ const DocsPage: React.FC = () => {
                                                 className="flex-1 flex flex-col items-end p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group cursor-pointer text-right"
                                             >
                                                 <span className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 mb-1">
-                                                    Tiếp theo
+                                                    {t.next}
                                                     <ChevronRight className="w-4 h-4" />
                                                 </span>
                                                 <span className="font-medium text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -370,7 +390,7 @@ const DocsPage: React.FC = () => {
                             </article>
 
                             {/* Table of Contents */}
-                            {docContent && <DocsTableOfContents content={docContent.content} />}
+                            {docContent && <DocsTableOfContents content={docContent.content} language={language} />}
                         </div>
                     </div>
                 </main>
@@ -381,7 +401,7 @@ const DocsPage: React.FC = () => {
                 <div className="max-w-6xl mx-auto px-4 lg:px-8 py-8">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            © 2024 HCMC Traffic Monitoring System. Built with ❤️
+                            © 2025 UIP - Urban Intelligence Platform. Built with ❤️
                         </p>
                         <div className="flex items-center gap-6 text-sm">
                             <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">

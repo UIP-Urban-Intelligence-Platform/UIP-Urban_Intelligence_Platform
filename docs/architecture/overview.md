@@ -72,7 +72,7 @@ graph TB
 | **React** | 18.2 | UI framework |
 | **TypeScript** | 5.2 | Type safety |
 | **Vite** | 5.0 | Build tool |
-| **Leaflet** | 1.9 | Interactive maps |
+| **MapLibre GL** | 4.7 | Interactive maps |
 | **Recharts** | 2.10 | Data visualization |
 | **Tailwind CSS** | 3.4 | Styling |
 | **Framer Motion** | 10.16 | Animations |
@@ -257,8 +257,8 @@ sequenceDiagram
 ### Frontend Layer
 
 | Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **TrafficMap** | Leaflet | Interactive map with 1,000+ markers |
+|-----------|-----------|----------|
+| **TrafficMap** | MapLibre GL | Interactive map with 1,000+ markers |
 | **Analytics Dashboard** | Recharts | 7 chart types for data visualization |
 | **Citizen Reports** | React Forms | User-submitted traffic reports |
 | **State Management** | Zustand | Global state (cameras, accidents, filters) |

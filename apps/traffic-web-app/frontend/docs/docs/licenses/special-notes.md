@@ -21,70 +21,39 @@ This document details special considerations and compliance notes for specific l
 
 ---
 
-## 1. Hippocratic License 2.1
+## 1. ~~Hippocratic License 2.1~~ (REMOVED - December 2025)
 
-### Packages Affected
+:::warning Migration Complete
+The react-leaflet packages (Hippocratic-2.1) have been **replaced** with MIT-compatible alternatives:
 
-| Package | Version | Usage |
-|---------|---------|-------|
-| react-leaflet | 4.2.1 | Map components |
-| @react-leaflet/core | 2.1.0 | Core functionality |
+| Old Package | New Package | License |
+|-------------|-------------|---------|
+| react-leaflet | react-map-gl | MIT |
+| @react-leaflet/core | maplibre-gl | BSD-3-Clause |
+| leaflet.heat | Native MapLibre heatmap | BSD-3-Clause |
+| react-leaflet-cluster | Native MapLibre clustering | BSD-3-Clause |
 
-### License Summary
-
-The Hippocratic License is an "ethical source" license that grants all typical MIT permissions with an additional ethical use requirement.
-
-### Permissions (Same as MIT)
-
-- ✅ Commercial use
-- ✅ Modification
-- ✅ Distribution
-- ✅ Private use
-- ✅ Sublicensing
-
-### Ethical Use Requirement
-
-```text
-The Software may not be used by any person or entity for any systems,
-activities, or other uses that violate any Human Rights Laws.
-```
-
-### UIP Compliance Statement
-
-:::success Full Compliance
-The UIP - Urban Intelligence Platform is designed for:
-
-- **Traffic safety monitoring** - Reducing accidents and saving lives
-- **Environmental monitoring** - Improving air quality awareness
-- **Public welfare** - Enhancing urban mobility for all citizens
-- **Open data** - Transparent, citizen-accessible information
-
-This use case **fully complies** with Hippocratic License ethical requirements.
+**Result:** 100% MIT-compatible frontend licensing achieved.
 :::
 
 ---
 
-## 2. Eclipse Public License (EPL-1.0) / Eclipse Distribution License (EDL-1.0)
+## ~~2. Eclipse Public License (EPL-1.0) / Eclipse Distribution License (EDL-1.0)~~ (REMOVED - December 2025)
 
-### Packages Affected
+### ~~Packages Affected~~ **REMOVED**
 
-| Package | Version | Usage |
-|---------|---------|-------|
-| jsts | 2.7.1 | JTS Topology Suite |
-| @turf/jsts | 2.7.2 | Turf.js integration |
+| Package | Version | Status |
+|---------|---------|--------|
+| ~~jsts~~ | ~~2.7.1~~ | **REMOVED** |
+| ~~@turf/jsts~~ | ~~2.7.2~~ | **REMOVED** |
 
-### License Characteristics
+:::warning Migration Complete
+These packages have been **removed** from the project to achieve 100% MIT-compatible licensing.
 
-- **Weak copyleft** for modifications to the original library
-- **No copyleft** for applications using the library
-- MIT-compatible for our use case
+**Replacement:** Native MapLibre GL JS features and MIT-licensed @turf/turf functions.
 
-### Compliance
-
-```text
-This project uses JSTS as a library dependency without modifications.
-No EPL copyleft obligations apply to the UIP codebase.
-```
+**Result:** No EPL/EDL dependencies remain in the project.
+:::
 
 ---
 

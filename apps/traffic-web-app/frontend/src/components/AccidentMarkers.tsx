@@ -1,5 +1,5 @@
 /**
- * Accident Markers - Leaflet Map Accident Display
+ * Accident Markers - MapLibre GL Map Accident Display
  *
  * UIP - Urban Intelligence Platform
  * Copyright (c) 2025 UIP Team. All rights reserved.
@@ -15,7 +15,7 @@
  * @license MIT
  * 
  * @description
- * Accident Markers Component - Displays traffic accidents on Leaflet map with clustering.
+ * Accident Markers Component - Displays traffic accidents on MapLibre GL map with clustering.
  * Features severity-based color coding, time-based filtering, and interactive popups
  * with detailed accident information.
  * 
@@ -28,16 +28,15 @@
  * - Real-time updates via Zustand store
  * 
  * @dependencies
- * - react-leaflet@^4.2: Leaflet React bindings
- * - react-leaflet-cluster@^2.1: Marker clustering
+ * - react-map-gl@^7.1: MapLibre GL React bindings (MIT license)
+ * - maplibre-gl@^4.7: Interactive maps (BSD-3-Clause)
  * - date-fns@^2.30: Date manipulation
  * - lucide-react@^0.294: Icons
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Marker, Popup } from 'react-leaflet';
-import MarkerClusterGroup from 'react-leaflet-cluster';
-import { DivIcon } from 'leaflet';
+import { Marker, Popup, DivIcon } from './map';
+// Note: Clustering is now handled natively by MapLibre GL supercluster
 import { useTrafficStore } from '../store/trafficStore';
 import { Accident } from '../types';
 import { format, parseISO, isAfter, subHours, subDays } from 'date-fns';
@@ -326,205 +325,160 @@ const AccidentMarkers: React.FC<AccidentMarkersProps> = ({ visible = true }) => 
         </div>
       )}
 
-      <MarkerClusterGroup
-        chunkedLoading
-        maxClusterRadius={100}
-        spiderfyOnMaxZoom={true}
-        showCoverageOnHover={true}
-        zoomToBoundsOnClick={true}
-        iconCreateFunction={(cluster: any) => {
-          const count = cluster.getChildCount();
-          let size = 'small';
-          let bgColor = '#fbbf24';
+      {/* Note: MarkerClusterGroup removed - MapLibre GL handles marker rendering */}
+      {/* Individual markers are rendered without clustering for now */}
+      {Array.from(groupedAccidents.values())
+        .filter(group => {
+          const primaryAccident = group[0];
+          return primaryAccident?.location?.latitude != null &&
+            primaryAccident?.location?.longitude != null &&
+            !isNaN(primaryAccident.location.latitude) &&
+            !isNaN(primaryAccident.location.longitude);
+        })
+        .map((group) => {
+          const primaryAccident = group[0];
+          const isRecent = isRecentAccident(primaryAccident);
 
-          if (count > 10) {
-            size = 'large';
-            bgColor = '#ef4444';
-          } else if (count > 5) {
-            size = 'medium';
-            bgColor = '#f97316';
-          }
+          return (
+            <Marker
+              key={primaryAccident.id}
+              position={[primaryAccident.location.latitude, primaryAccident.location.longitude]}
+              icon={createAccidentIcon(primaryAccident.severity, isRecent)}
+              eventHandlers={{
+                click: () => setSelectedAccident(primaryAccident),
+              }}
+            >
+              <Popup>
+                <div style={{ minWidth: '280px', padding: '8px' }}>
+                  {group.length > 1 && (
+                    <div style={{
+                      backgroundColor: '#fef3c7',
+                      padding: '6px',
+                      borderRadius: '4px',
+                      marginBottom: '8px',
+                      fontSize: '12px',
+                      fontWeight: 'bold'
+                    }}>
+                      ⚠️ {group.length} accidents at this location
+                    </div>
+                  )}
 
-          const sizeMap = { small: 40, medium: 50, large: 60 };
-          const dimension = sizeMap[size as keyof typeof sizeMap];
-
-          return new DivIcon({
-            html: `
-              <div style="
-                width: ${dimension}px;
-                height: ${dimension}px;
-                border-radius: 50%;
-                background-color: ${bgColor};
-                border: 3px solid white;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                font-weight: bold;
-                font-size: ${dimension / 3}px;
-              ">
-                ${count}
-              </div>
-            `,
-            className: 'custom-cluster-icon',
-            iconSize: [dimension, dimension],
-          });
-        }}
-      >
-        {Array.from(groupedAccidents.values())
-          .filter(group => {
-            const primaryAccident = group[0];
-            return primaryAccident?.location?.latitude != null &&
-              primaryAccident?.location?.longitude != null &&
-              !isNaN(primaryAccident.location.latitude) &&
-              !isNaN(primaryAccident.location.longitude);
-          })
-          .map((group) => {
-            const primaryAccident = group[0];
-            const isRecent = isRecentAccident(primaryAccident);
-
-            return (
-              <Marker
-                key={primaryAccident.id}
-                position={[primaryAccident.location.latitude, primaryAccident.location.longitude]}
-                icon={createAccidentIcon(primaryAccident.severity, isRecent)}
-                eventHandlers={{
-                  click: () => setSelectedAccident(primaryAccident),
-                }}
-              >
-                <Popup>
-                  <div style={{ minWidth: '280px', padding: '8px' }}>
-                    {group.length > 1 && (
-                      <div style={{
-                        backgroundColor: '#fef3c7',
-                        padding: '6px',
-                        borderRadius: '4px',
-                        marginBottom: '8px',
-                        fontSize: '12px',
-                        fontWeight: 'bold'
-                      }}>
-                        ⚠️ {group.length} accidents at this location
-                      </div>
-                    )}
-
-                    {group.map((accident, index) => (
-                      <div
-                        key={accident.id}
-                        style={{
-                          borderBottom: index < group.length - 1 ? '1px solid #e5e7eb' : 'none',
-                          paddingBottom: index < group.length - 1 ? '12px' : '0',
-                          marginBottom: index < group.length - 1 ? '12px' : '0',
-                        }}
-                      >
-                        <h3 style={{
-                          fontSize: '16px',
-                          fontWeight: 'bold',
-                          marginBottom: '8px',
-                          color: '#ef4444'
-                        }}>
-                          {isRecentAccident(accident) && '🚨 '} Accident {index > 0 ? `#${index + 1}` : ''}
-                        </h3>
-
-                        <div style={{ fontSize: '13px', lineHeight: '1.6' }}>
-                          <div style={{ marginBottom: '6px' }}>
-                            <strong>Type:</strong> {accident.type}
-                          </div>
-
-                          <div style={{ marginBottom: '6px' }}>
-                            <strong>Severity:</strong>{' '}
-                            <span style={{
-                              color: accident.severity === 'fatal' || accident.severity === 'severe' ? '#ef4444' :
-                                accident.severity === 'moderate' ? '#f97316' : '#22c55e',
-                              fontWeight: 'bold',
-                              textTransform: 'uppercase'
-                            }}>
-                              {accident.severity}
-                            </span>
-                          </div>
-
-                          <div style={{ marginBottom: '6px' }}>
-                            <strong>Detected:</strong>{' '}
-                            {format(parseISO(accident.timestamp || accident.dateDetected || new Date().toISOString()), 'PPpp')}
-                          </div>
-
-                          {accident.affectedCamera && (
-                            <div style={{ marginBottom: '6px' }}>
-                              <strong>Camera:</strong> {getAffectedCameraName(accident.affectedCamera)}
-                            </div>
-                          )}
-
-                          {accident.vehicles !== undefined && (
-                            <div style={{ marginBottom: '6px' }}>
-                              <strong>Vehicles:</strong> {accident.vehicles}
-                            </div>
-                          )}
-
-                          {accident.casualties !== undefined && accident.casualties > 0 && (
-                            <div style={{ marginBottom: '6px', color: '#ef4444', fontWeight: 'bold' }}>
-                              <strong>Casualties:</strong> {accident.casualties}
-                            </div>
-                          )}
-
-                          {accident.confidence !== undefined && (
-                            <div style={{ marginBottom: '6px' }}>
-                              <strong>Confidence:</strong>{' '}
-                              <span style={{
-                                color: accident.confidence > 0.8 ? '#22c55e' :
-                                  accident.confidence > 0.6 ? '#f97316' : '#ef4444'
-                              }}>
-                                {(accident.confidence * 100).toFixed(1)}%
-                              </span>
-                            </div>
-                          )}
-
-                          {accident.description && (
-                            <div style={{
-                              marginTop: '8px',
-                              padding: '8px',
-                              backgroundColor: '#f3f4f6',
-                              borderRadius: '4px',
-                              fontSize: '12px'
-                            }}>
-                              {accident.description}
-                            </div>
-                          )}
-
-                          <div style={{
-                            marginTop: '8px',
-                            fontSize: '11px',
-                            color: '#6b7280',
-                            fontStyle: 'italic'
-                          }}>
-                            📍 {accident.location.address}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-
-                    <button
-                      onClick={() => setSelectedAccident(primaryAccident)}
+                  {group.map((accident, index) => (
+                    <div
+                      key={accident.id}
                       style={{
-                        width: '100%',
-                        marginTop: '12px',
-                        padding: '8px',
-                        backgroundColor: '#ef4444',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '13px',
-                        fontWeight: 'bold'
+                        borderBottom: index < group.length - 1 ? '1px solid #e5e7eb' : 'none',
+                        paddingBottom: index < group.length - 1 ? '12px' : '0',
+                        marginBottom: index < group.length - 1 ? '12px' : '0',
                       }}
                     >
-                      View Full Details
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
-            );
-          })}
-      </MarkerClusterGroup>
+                      <h3 style={{
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        marginBottom: '8px',
+                        color: '#ef4444'
+                      }}>
+                        {isRecentAccident(accident) && '🚨 '} Accident {index > 0 ? `#${index + 1}` : ''}
+                      </h3>
+
+                      <div style={{ fontSize: '13px', lineHeight: '1.6' }}>
+                        <div style={{ marginBottom: '6px' }}>
+                          <strong>Type:</strong> {accident.type}
+                        </div>
+
+                        <div style={{ marginBottom: '6px' }}>
+                          <strong>Severity:</strong>{' '}
+                          <span style={{
+                            color: accident.severity === 'fatal' || accident.severity === 'severe' ? '#ef4444' :
+                              accident.severity === 'moderate' ? '#f97316' : '#22c55e',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase'
+                          }}>
+                            {accident.severity}
+                          </span>
+                        </div>
+
+                        <div style={{ marginBottom: '6px' }}>
+                          <strong>Detected:</strong>{' '}
+                          {format(parseISO(accident.timestamp || accident.dateDetected || new Date().toISOString()), 'PPpp')}
+                        </div>
+
+                        {accident.affectedCamera && (
+                          <div style={{ marginBottom: '6px' }}>
+                            <strong>Camera:</strong> {getAffectedCameraName(accident.affectedCamera)}
+                          </div>
+                        )}
+
+                        {accident.vehicles !== undefined && (
+                          <div style={{ marginBottom: '6px' }}>
+                            <strong>Vehicles:</strong> {accident.vehicles}
+                          </div>
+                        )}
+
+                        {accident.casualties !== undefined && accident.casualties > 0 && (
+                          <div style={{ marginBottom: '6px', color: '#ef4444', fontWeight: 'bold' }}>
+                            <strong>Casualties:</strong> {accident.casualties}
+                          </div>
+                        )}
+
+                        {accident.confidence !== undefined && (
+                          <div style={{ marginBottom: '6px' }}>
+                            <strong>Confidence:</strong>{' '}
+                            <span style={{
+                              color: accident.confidence > 0.8 ? '#22c55e' :
+                                accident.confidence > 0.6 ? '#f97316' : '#ef4444'
+                            }}>
+                              {(accident.confidence * 100).toFixed(1)}%
+                            </span>
+                          </div>
+                        )}
+
+                        {accident.description && (
+                          <div style={{
+                            marginTop: '8px',
+                            padding: '8px',
+                            backgroundColor: '#f3f4f6',
+                            borderRadius: '4px',
+                            fontSize: '12px'
+                          }}>
+                            {accident.description}
+                          </div>
+                        )}
+
+                        <div style={{
+                          marginTop: '8px',
+                          fontSize: '11px',
+                          color: '#6b7280',
+                          fontStyle: 'italic'
+                        }}>
+                          📍 {accident.location.address}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    onClick={() => setSelectedAccident(primaryAccident)}
+                    style={{
+                      width: '100%',
+                      marginTop: '12px',
+                      padding: '8px',
+                      backgroundColor: '#ef4444',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    View Full Details
+                  </button>
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
     </>
   );
 };

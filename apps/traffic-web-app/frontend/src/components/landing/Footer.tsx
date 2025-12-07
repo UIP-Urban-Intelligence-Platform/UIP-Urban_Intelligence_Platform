@@ -93,19 +93,19 @@ export default function Footer() {
                         className="text-center"
                     >
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                            Sẵn sàng bắt đầu?
+                            Ready to get started?
                         </h2>
                         <p className="text-xl text-blue-200 mb-10 max-w-2xl mx-auto">
-                            Khám phá sức mạnh của hệ thống giám sát giao thông thông minh
-                            với công nghệ AI và Linked Open Data
+                            Discover the power of Urban Intelligence Platform
+                            with AI technology and Linked Open Data
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link to="/dashboard" className="group px-8 py-4 bg-white text-slate-900 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2">
-                                Trải nghiệm ngay
+                                Try it now
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
                             <Link to="/docs" className="px-8 py-4 bg-white/10 backdrop-blur-lg text-white rounded-full font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300">
-                                Xem tài liệu
+                                View Documentation
                             </Link>
                         </div>
                     </motion.div>
@@ -126,11 +126,11 @@ export default function Footer() {
                             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                                 <span className="text-white font-bold text-xl">L</span>
                             </div>
-                            <span className="text-xl font-bold">LOD Traffic</span>
+                            <span className="text-xl font-bold">UIP</span>
                         </div>
                         <p className="text-blue-200 mb-6 leading-relaxed">
-                            Enterprise-grade traffic monitoring system với NGSI-LD,
-                            AI agents, và Linked Open Data technology
+                            Enterprise-grade Urban Intelligence Platform with NGSI-LD,
+                            AI agents, and Linked Open Data technology
                         </p>
                         {/* Social Links */}
                         <div className="flex gap-3">
@@ -245,7 +245,7 @@ export default function Footer() {
                 >
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <p className="text-blue-300 text-sm">
-                            © {currentYear} LOD Traffic System. All rights reserved.
+                            © {currentYear} UIP - Urban Intelligence Platform. All rights reserved.
                         </p>
                         <div className="flex items-center gap-6 text-sm text-blue-300">
                             <span className="flex items-center gap-2">

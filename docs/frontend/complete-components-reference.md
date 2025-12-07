@@ -14,7 +14,7 @@ Version: 1.0.0
 
 ## Overview
 
-Comprehensive documentation for all 40+ React components in the HCMC Traffic Management System frontend, built with React 18.2, TypeScript, Leaflet, and modern web technologies.
+Comprehensive documentation for all 40+ React components in the HCMC Traffic Management System frontend, built with React 18.2, TypeScript, MapLibre GL, and modern web technologies.
 
 ---
 
@@ -81,7 +81,7 @@ Comprehensive documentation for all 40+ React components in the HCMC Traffic Man
 ## TrafficMap
 
 ### Overview
-Core interactive map component displaying real-time traffic conditions, camera feeds, accidents, congestion zones, and weather overlays using Leaflet.
+Core interactive map component displaying real-time traffic conditions, camera feeds, accidents, congestion zones, and weather overlays using MapLibre GL.
 
 ### Props
 
@@ -164,7 +164,7 @@ const [mapConfig, setMapConfig] = useState({
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.leaflet-container {
+.maplibregl-map {
   font-family: 'Inter', sans-serif;
   background: #f5f5f5;
 }

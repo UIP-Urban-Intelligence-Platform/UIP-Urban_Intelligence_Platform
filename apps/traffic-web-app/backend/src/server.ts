@@ -59,6 +59,7 @@ import routingRoutes from './routes/routing';
 import geocodingRoutes from './routes/geocoding';
 import agentRoutes from './routes/agentRoutes';
 import multiAgentRoutes from './routes/multiAgentRoutes';
+import citizenRoutes from './routes/citizenRoutes';
 import { WebSocketService } from './services/websocketService';
 import { DataAggregator } from './services/dataAggregator';
 import { checkAllConnections } from './utils/healthCheck';
@@ -142,6 +143,7 @@ app.use('/api/routing', routingRoutes);
 app.use('/api/geocoding', geocodingRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/agents', multiAgentRoutes);
+app.use('/api/citizen-reports', citizenRoutes);
 
 // Error handling
 app.use(errorHandler);

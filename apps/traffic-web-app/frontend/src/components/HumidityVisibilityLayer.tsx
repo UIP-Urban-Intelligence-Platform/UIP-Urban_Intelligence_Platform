@@ -29,8 +29,8 @@
  * 
  * @dependencies
  * - react@18.2.0 - React hooks and component lifecycle
- * - react-leaflet@4.2.1 - Circle, Polygon, Popup, Tooltip components
- * - leaflet@1.9.4 (peer) - Geospatial geometry calculations
+ * - react-map-gl@^7.1 - Circle, Polygon, Popup, Tooltip components (MIT license)
+ * - maplibre-gl@^4.7 - Geospatial geometry calculations (BSD-3-Clause)
  * 
  * @example
  * ```tsx
@@ -38,7 +38,7 @@
  * ```
  */
 import React, { useState, useMemo, useEffect } from 'react';
-import { Circle, Polygon, Popup, Tooltip } from 'react-leaflet';
+import { CircleMarker as Circle, Polygon, Popup, Tooltip } from './map';
 
 interface HumidityVisibilityLayerProps {
   visible?: boolean;

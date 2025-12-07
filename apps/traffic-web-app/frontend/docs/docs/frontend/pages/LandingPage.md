@@ -84,7 +84,7 @@ export default function LandingPage() {
 ### TechnologyStack
 
 - Backend: Python, FastAPI, NGSI-LD, Stellio
-- Frontend: React, TypeScript, Leaflet, Zustand
+- Frontend: React, TypeScript, MapLibre GL, Zustand
 - Infrastructure: Docker, Kubernetes, Grafana
 
 ### DataModelsShowcase
