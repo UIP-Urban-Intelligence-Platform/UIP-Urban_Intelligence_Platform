@@ -132,7 +132,7 @@ print(json.dumps(entity, indent=2))
 **Output:**
 ```json
 {
-  "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20240115T103000Z",
+  "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20251125T103000Z",
   "type": "TrafficFlowObserved",
   "@context": [
     "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
@@ -601,7 +601,7 @@ if not validation.is_valid:
 
 ```python
 # Correct URN format
-"id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20240115T103000Z"
+"id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20251125T103000Z"
 
 # Include entity type, identifier, and timestamp
 ```

@@ -186,7 +186,7 @@ Comprehensive documentation for all data models, schemas, and standards used in 
 
 ```json
 {
-  "id": "urn:ngsi-ld:TrafficAccident:ACC_20240115_001",
+  "id": "urn:ngsi-ld:TrafficAccident:ACC_20251125_001",
   "type": "TrafficAccident",
   "@context": [
     "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
@@ -250,8 +250,8 @@ Comprehensive documentation for all data models, schemas, and standards used in 
   "images": {
     "type": "Property",
     "value": [
-      "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20240115_001_1.jpg",
-      "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20240115_001_2.jpg"
+      "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20251125_001_1.jpg",
+      "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20251125_001_2.jpg"
     ]
   },
   "description": {
@@ -306,7 +306,7 @@ Comprehensive documentation for all data models, schemas, and standards used in 
 
 ```json
 {
-  "id": "urn:ngsi-ld:TrafficFlowObserved:TFO_20240115_CAM_001",
+  "id": "urn:ngsi-ld:TrafficFlowObserved:TFO_20251125_CAM_001",
   "type": "TrafficFlowObserved",
   "@context": [
     "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
@@ -482,7 +482,7 @@ Comprehensive documentation for all data models, schemas, and standards used in 
 
 ```json
 {
-  "id": "urn:ngsi-ld:WeatherObserved:WEATHER_20240115_1030",
+  "id": "urn:ngsi-ld:WeatherObserved:WEATHER_20251125_1030",
   "type": "WeatherObserved",
   "@context": [
     "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
@@ -568,7 +568,7 @@ Comprehensive documentation for all data models, schemas, and standards used in 
 
 ```json
 {
-  "id": "urn:ngsi-ld:AirQualityObserved:AQI_20240115_1030",
+  "id": "urn:ngsi-ld:AirQualityObserved:AQI_20251125_1030",
   "type": "AirQualityObserved",
   "@context": [
     "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
@@ -680,7 +680,7 @@ Comprehensive documentation for all data models, schemas, and standards used in 
 
 ```json
 {
-  "id": "urn:ngsi-ld:CitizenReport:CR_20240115_001",
+  "id": "urn:ngsi-ld:CitizenReport:CR_20251125_001",
   "type": "CitizenReport",
   "@context": [
     "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
@@ -724,7 +724,7 @@ Comprehensive documentation for all data models, schemas, and standards used in 
   "images": {
     "type": "Property",
     "value": [
-      "https://storage.traffic.hcmc.gov.vn/citizen-reports/CR_20240115_001_1.jpg"
+      "https://storage.traffic.hcmc.gov.vn/citizen-reports/CR_20251125_001_1.jpg"
     ]
   },
   "reporter": {
@@ -737,7 +737,7 @@ Comprehensive documentation for all data models, schemas, and standards used in 
   },
   "refAccident": {
     "type": "Relationship",
-    "object": "urn:ngsi-ld:TrafficAccident:ACC_20240115_001"
+    "object": "urn:ngsi-ld:TrafficAccident:ACC_20251125_001"
   }
 }
 ```
@@ -783,7 +783,7 @@ traffic:AccidentDetectionProcedure
 ### Observation Example
 
 ```turtle
-traffic:Observation_20240115_103000
+traffic:Observation_20251125_103000
     a sosa:Observation ;
     sosa:madeBySensor traffic:CAM_001 ;
     sosa:hasFeatureOfInterest traffic:RoadSegment_001 ;
@@ -812,7 +812,7 @@ traffic:WeatherStation_001
     geo:long "106.7009"^^xsd:float ;
     traffic:stationName "District 1 Weather Station" .
 
-traffic:WeatherObservation_20240115_103000
+traffic:WeatherObservation_20251125_103000
     a sosa:Observation ;
     sosa:madeBySensor traffic:WeatherStation_001 ;
     sosa:observedProperty traffic:Temperature ;
@@ -835,7 +835,7 @@ traffic:AQIStation_001
     geo:long "106.7009"^^xsd:float ;
     traffic:stationName "District 1 AQI Station" .
 
-traffic:AQIObservation_20240115_103000
+traffic:AQIObservation_20251125_103000
     a sosa:Observation ;
     sosa:madeBySensor traffic:AQIStation_001 ;
     sosa:observedProperty traffic:AQI ;

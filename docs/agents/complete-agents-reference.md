@@ -1285,7 +1285,7 @@ from src.agents.notification.incident_report_generator_agent import IncidentRepo
 agent = IncidentReportGenerator()
 
 # Generate report
-report = agent.generate_report(incident_id="ACC_20240115_001")
+report = agent.generate_report(incident_id="ACC_20251125_001")
 
 # Export PDF
 pdf_path = agent.export_pdf(report, output_path="reports/accident_001.pdf")

@@ -145,7 +145,7 @@ print(sosa_observation.serialize(format="turtle"))
 @prefix qudt: <http://qudt.org/schema/qudt/> .
 @prefix ex: <http://hcmc-traffic.example.org/> .
 
-ex:Observation_CAM_001_20240115T103000Z a sosa:Observation ;
+ex:Observation_CAM_001_20251125T103000Z a sosa:Observation ;
     sosa:madeBySensor ex:Sensor_CAM_001 ;
     sosa:hasFeatureOfInterest ex:RoadSegment_D1 ;
     sosa:observedProperty ex:VehicleCount ;

@@ -183,7 +183,7 @@ GET /traffic/flow
 {
   "observations": [
     {
-      "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20240115T103000Z",
+      "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20251125T103000Z",
       "camera_id": "CAM_001",
       "timestamp": "2025-11-29T10:30:00Z",
       "location": {"lat": 10.7769, "lon": 106.7009},
@@ -246,7 +246,7 @@ GET /accidents
 {
   "accidents": [
     {
-      "id": "ACC_20240115_001",
+      "id": "ACC_20251125_001",
       "timestamp": "2025-11-29T10:30:00Z",
       "location": {
         "lat": 10.7769,
@@ -275,7 +275,7 @@ GET /accidents/{accident_id}
 
 ```json
 {
-  "id": "ACC_20240115_001",
+  "id": "ACC_20251125_001",
   "timestamp": "2025-11-29T10:30:00Z",
   "location": {
     "lat": 10.7769,
@@ -307,8 +307,8 @@ GET /accidents/{accident_id}
     }
   ],
   "images": [
-    "https://api.traffic.example.com/images/accidents/ACC_20240115_001_1.jpg",
-    "https://api.traffic.example.com/images/accidents/ACC_20240115_001_2.jpg"
+    "https://api.traffic.example.com/images/accidents/ACC_20251125_001_1.jpg",
+    "https://api.traffic.example.com/images/accidents/ACC_20251125_001_2.jpg"
   ]
 }
 ```
@@ -341,7 +341,7 @@ POST /accidents
 
 ```json
 {
-  "id": "ACC_20240115_002",
+  "id": "ACC_20251125_002",
   "status": "created",
   "verification_status": "pending"
 }
@@ -519,7 +519,7 @@ POST /citizen-reports
 
 ```json
 {
-  "id": "CR_20240115_001",
+  "id": "CR_20251125_001",
   "status": "submitted",
   "verification_status": "pending",
   "priority": "high"

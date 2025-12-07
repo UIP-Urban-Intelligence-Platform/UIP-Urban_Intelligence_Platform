@@ -302,7 +302,7 @@ curl -X GET "https://api.traffic.hcmc.gov.vn/v1/cameras/CAM_001/latest-image" \
   "offset": 0,
   "accidents": [
     {
-      "id": "ACC_20240115_001",
+      "id": "ACC_20251125_001",
       "timestamp": "2025-11-29T10:30:00Z",
       "location": {
         "lat": 10.7769,
@@ -318,7 +318,7 @@ curl -X GET "https://api.traffic.hcmc.gov.vn/v1/cameras/CAM_001/latest-image" \
       "detection_method": "yolox_x",
       "confidence": 0.95,
       "images": [
-        "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20240115_001_1.jpg"
+        "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20251125_001_1.jpg"
       ]
     }
   ]
@@ -353,7 +353,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "ACC_20240115_001",
+  "id": "ACC_20251125_001",
   "timestamp": "2025-11-29T10:30:00Z",
   "location": {
     "lat": 10.7769,
@@ -369,7 +369,7 @@ def get_accidents_today(severity=None):
   "detection_method": "yolox_x",
   "confidence": 0.95,
   "images": [
-    "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20240115_001_1.jpg"
+    "https://storage.traffic.hcmc.gov.vn/accidents/ACC_20251125_001_1.jpg"
   ],
   "timeline": [
     {
@@ -421,7 +421,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "ACC_20240115_CR_001",
+  "id": "ACC_20251125_CR_001",
   "status": "submitted",
   "verification_status": "pending",
   "message": "Report submitted successfully. Thank you for your contribution."
@@ -728,7 +728,7 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "CR_20240115_001",
+  "id": "CR_20251125_001",
   "status": "submitted",
   "verification_status": "pending",
   "estimated_verification_time": "5-10 minutes"
@@ -742,11 +742,11 @@ def get_accidents_today(severity=None):
 **Response:**
 ```json
 {
-  "id": "CR_20240115_001",
+  "id": "CR_20251125_001",
   "status": "verified",
   "verification_status": "confirmed",
   "verified_at": "2025-11-29T10:35:00Z",
-  "linked_accident_id": "ACC_20240115_001"
+  "linked_accident_id": "ACC_20251125_001"
 }
 ```
 
@@ -918,7 +918,7 @@ asyncio.run(connect_websocket())
   "type": "alert",
   "timestamp": "2025-11-29T10:30:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "severity": "severe",
     "location": {
       "lat": 10.7769,

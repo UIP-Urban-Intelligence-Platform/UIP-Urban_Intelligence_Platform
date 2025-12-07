@@ -82,7 +82,7 @@ agent = EntityPublisherAgent()
 
 # Create traffic flow entity
 entity = {
-    "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20240115T103000Z",
+    "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20251125T103000Z",
     "type": "TrafficFlowObserved",
     "location": {
         "type": "GeoProperty",

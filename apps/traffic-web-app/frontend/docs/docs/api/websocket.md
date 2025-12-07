@@ -165,7 +165,7 @@ ws.send(JSON.stringify({
   "type": "accidents.new",
   "timestamp": "2025-11-29T10:30:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "location": {"lat": 10.7769, "lon": 106.7009},
     "severity": "moderate",
     "confidence": 0.92,
@@ -179,7 +179,7 @@ ws.send(JSON.stringify({
   "type": "accidents.update",
   "timestamp": "2025-11-29T10:35:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "status": "investigating",
     "emergency_services": "en_route"
   }
@@ -190,7 +190,7 @@ ws.send(JSON.stringify({
   "type": "accidents.resolved",
   "timestamp": "2025-11-29T11:30:00Z",
   "data": {
-    "id": "ACC_20240115_001",
+    "id": "ACC_20251125_001",
     "resolution": "cleared",
     "duration": 60
   }
