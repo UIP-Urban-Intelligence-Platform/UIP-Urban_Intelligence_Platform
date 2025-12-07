@@ -1,19 +1,18 @@
 /**
+ * @file test-agents-realistic.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-agents-realistic
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 1.0.0
+ * @license MIT
+ * @description Realistic Agent Test Suite - Tests agents with realistic mock data
+ * to demonstrate actual use cases and validate agent behavior.
+ *
  * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 UIP Team. All rights reserved.
  *
  * UIP - Urban Intelligence Platform
- * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
- *
- * @module apps/traffic-web-app/backend/tests/integration/test-agents-realistic
- * @author UIP Team
- * @created 2025-11-26
- * @modified 2025-12-06
- * @version 1.0.0
- *
- * @description
- * Realistic Agent Test Suite - Tests agents with realistic mock data
- * to demonstrate actual use cases and validate agent behavior.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 // Load environment variables first

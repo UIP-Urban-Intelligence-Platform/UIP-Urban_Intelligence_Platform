@@ -3,7 +3,7 @@
  *
  * UIP - Urban Intelligence Platform
  * Copyright (c) 2025 UIP Team. All rights reserved.
- * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  *
  * SPDX-License-Identifier: MIT
  *

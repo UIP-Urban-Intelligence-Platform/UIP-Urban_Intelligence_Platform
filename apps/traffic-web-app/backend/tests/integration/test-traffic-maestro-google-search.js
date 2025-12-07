@@ -1,19 +1,18 @@
 /**
+ * @file test-traffic-maestro-google-search.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-traffic-maestro-google-search
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 2.0.0
+ * @license MIT
+ * @description Test Google Custom Search integration in TrafficMaestroAgent -
+ * Tests the searchHCMCEvents() method.
+ *
  * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 UIP Team. All rights reserved.
  *
  * UIP - Urban Intelligence Platform
- * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
- *
- * @module apps/traffic-web-app/backend/tests/integration/test-traffic-maestro-google-search
- * @author UIP Team
- * @created 2025-11-26
- * @modified 2025-12-06
- * @version 2.0.0
- *
- * @description
- * Test Google Custom Search integration in TrafficMaestroAgent -
- * Tests the searchHCMCEvents() method.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 require('dotenv').config();

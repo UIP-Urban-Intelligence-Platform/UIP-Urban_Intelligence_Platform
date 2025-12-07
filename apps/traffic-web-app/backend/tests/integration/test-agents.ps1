@@ -2,12 +2,13 @@
 # Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # Module: tests.integration.test-agents
-# Author: Nguyen Nhat Quang
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-26
 # Version: 1.0.0
+# License: MIT
 # Description: Test Enhanced Agents Script - API key rotation tests
 
 Write-Host ""

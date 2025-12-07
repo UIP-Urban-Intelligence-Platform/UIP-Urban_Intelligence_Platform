@@ -1,20 +1,19 @@
 /**
+ * @file test-calendar-hcmc-events.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-calendar-hcmc-events
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 1.0.0
+ * @license MIT
+ * @description Test Google Calendar API - Search for HCMC Events.
+ * Find all possible public calendars with events in Ho Chi Minh City, Vietnam
+ * to enhance TrafficMaestroAgent's event awareness.
+ *
  * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 UIP Team. All rights reserved.
  *
  * UIP - Urban Intelligence Platform
- * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
- *
- * @module apps/traffic-web-app/backend/tests/integration/test-calendar-hcmc-events
- * @author UIP Team
- * @created 2025-11-26
- * @modified 2025-12-06
- * @version 1.0.0
- *
- * @description
- * Test Google Calendar API - Search for HCMC Events.
- * Find all possible public calendars with events in Ho Chi Minh City, Vietnam
- * to enhance TrafficMaestroAgent's event awareness.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 require('dotenv').config();

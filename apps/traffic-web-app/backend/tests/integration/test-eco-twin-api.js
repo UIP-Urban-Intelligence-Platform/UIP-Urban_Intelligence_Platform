@@ -1,19 +1,18 @@
 /**
+ * @file test-eco-twin-api.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-eco-twin-api
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 2.0.0
+ * @license MIT
+ * @description Test Script for EcoTwinAgent API Endpoints - Tests chat, dispersion,
+ * forecast, and health check endpoints.
+ *
  * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 UIP Team. All rights reserved.
  *
  * UIP - Urban Intelligence Platform
- * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
- *
- * @module apps/traffic-web-app/backend/tests/integration/test-eco-twin-api
- * @author UIP Team
- * @created 2025-11-26
- * @modified 2025-12-06
- * @version 2.0.0
- *
- * @description
- * Test Script for EcoTwinAgent API Endpoints - Tests chat, dispersion,
- * forecast, and health check endpoints.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 const API_BASE_URL = 'http://localhost:5000';

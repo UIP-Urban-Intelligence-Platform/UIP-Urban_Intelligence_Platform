@@ -1,19 +1,18 @@
 /**
+ * @file test-airquality-endpoint.js
+ * @module apps/traffic-web-app/backend/tests/integration/test-airquality-endpoint
+ * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
+ * @created 2025-11-26
+ * @version 1.0.0
+ * @license MIT
+ * @description Test script for Air Quality API endpoint - Tests basic data retrieval,
+ * AQI level filtering, color code validation, and error handling.
+ *
  * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 UIP Team. All rights reserved.
  *
  * UIP - Urban Intelligence Platform
- * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
- *
- * @module apps/traffic-web-app/backend/tests/integration/test-airquality-endpoint
- * @author UIP Team
- * @created 2025-11-26
- * @modified 2025-12-06
- * @version 1.0.0
- *
- * @description
- * Test script for Air Quality API endpoint - Tests basic data retrieval,
- * AQI level filtering, color code validation, and error handling.
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  */
 
 const axios = require('axios');

@@ -2,13 +2,14 @@
 # Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # Module: check-health.ps1
-# Author: Nguyen Nhat Quang
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-26
 # Modified: 2025-11-26
 # Version: 2.0.0
+# License: MIT
 # Description: Backend Health Check Script
 
 Write-Host "=== HCMC Traffic Backend Health Check ===" -ForegroundColor Cyan
@@ -22,7 +23,8 @@ $backendProcess = Get-Process node -ErrorAction SilentlyContinue | Where-Object 
 
 if ($backendProcess) {
     Write-Host "OK Backend process found (PID: $($backendProcess.Id))" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "X Backend process NOT found" -ForegroundColor Red
     Write-Host "  Start backend with: cd backend; npm run dev" -ForegroundColor Yellow
     exit 1
@@ -47,7 +49,8 @@ try {
             Write-Host "    $status $($conn.Name): $($conn.Value.healthy)" -ForegroundColor $color
         }
     }
-} catch {
+}
+catch {
     Write-Host "X HTTP Server NOT responding" -ForegroundColor Red
     Write-Host "  Error: $_" -ForegroundColor Red
     exit 1
@@ -58,7 +61,8 @@ Write-Host "`n[3] Checking WebSocket server (port 5001)..." -ForegroundColor Yel
 $wsPort = Test-NetConnection -ComputerName localhost -Port 5001 -InformationLevel Quiet -WarningAction SilentlyContinue
 if ($wsPort) {
     Write-Host "OK WebSocket server listening on port 5001" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "X WebSocket server NOT listening on port 5001" -ForegroundColor Red
 }
 
@@ -70,7 +74,8 @@ try {
     $cameraCount = if ($cameraData.data) { $cameraData.data.Count } else { 0 }
     
     Write-Host "OK Cameras API responding ($cameraCount cameras)" -ForegroundColor Green
-} catch {
+}
+catch {
     Write-Host "X Cameras API failed: $_" -ForegroundColor Red
 }
 

@@ -2,13 +2,14 @@
 # Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # Module: apps/traffic-web-app/backend/config/agents/eco-twin.yaml
-# Author: UIP Team
+# Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-26
 # Modified: 2025-12-06
 # Version: 3.0.0
+# License: MIT
 #
 # Description: Eco-Twin Simulator Agent Configuration
 # Domain-agnostic configuration for environmental health monitoring.
