@@ -3,7 +3,7 @@
 # Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # Monitoring Setup Script - PRODUCTION READY
 # Configures Prometheus and Grafana monitoring with real deployments.
@@ -13,6 +13,7 @@
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-25
 # Version: 1.0.0
+# License: MIT
 # Description: Monitoring setup script for the traffic monitoring system
 set -e
 
