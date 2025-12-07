@@ -977,6 +977,7 @@ class ReportGenerator:
         file_path = base_path / f"{report_id}.pdf"
 
         try:
+            from reportlab.lib import colors
             from reportlab.lib.pagesizes import A4
             from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
             from reportlab.lib.units import cm, mm
@@ -989,7 +990,6 @@ class ReportGenerator:
                 Table,
                 TableStyle,
             )
-            from reportlab.lib import colors
 
             # Build PDF using reportlab (BSD license - 100% MIT compatible)
             doc = SimpleDocTemplate(

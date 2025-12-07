@@ -56,11 +56,11 @@ ignore = [
     "F541",  # f-string missing placeholders
     "F811",  # Redefinition of unused import
     "F841",  # Local variable assigned but never used
+    "B007",  # Loop control variable not used - common pattern in data processing
+    "B904",  # raise without from - simplified exception handling
+    "B905",  # zip without strict - legacy Python 3.9 compatibility
+    "W291",  # Trailing whitespace - handled by editor/formatter
 ]
-
-# McCabe complexity (match flake8 max-complexity = 35)
-[lint.mccabe]
-max-complexity = 35
 
 # Allow fix for all enabled rules
 fixable = ["ALL"]
@@ -68,6 +68,10 @@ unfixable = []
 
 # Allow unused variables when underscore-prefixed
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# McCabe complexity (match flake8 max-complexity = 35)
+[lint.mccabe]
+max-complexity = 35
 
 # Per-file ignores (migrated from .flake8)
 [lint.per-file-ignores]

@@ -73,21 +73,21 @@ References:
 """
 
 import asyncio
+import io
 import json
 import logging
 import os
 import time
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
 import aiohttp
 import yaml
 from PIL import Image
-import io
 
 # Import environment variable expansion helper
 from src.core.config_loader import expand_env_var
@@ -458,9 +458,9 @@ class YOLOXDetector:
         """Load YOLOX model"""
         try:
             import torch
+            from yolox.data.data_augment import ValTransform
             from yolox.exp import get_exp
             from yolox.utils import postprocess
-            from yolox.data.data_augment import ValTransform
 
             # Store for later use
             self.postprocess = postprocess
@@ -517,8 +517,8 @@ class YOLOXDetector:
             return self._mock_detect(image)
 
         try:
-            import torch
             import numpy as np
+            import torch
 
             # Ensure image is RGB (some cameras return grayscale)
             if image.mode != "RGB":
@@ -1845,8 +1845,9 @@ class CVAnalysisAgent:
         logger.info("🔍 Starting citizen report verification cycle")
 
         try:
-            import requests
             from urllib.parse import quote
+
+            import requests
 
             # Step 1: Query Stellio for unverified reports
             stellio_url = self.config.citizen_verification_stellio_url

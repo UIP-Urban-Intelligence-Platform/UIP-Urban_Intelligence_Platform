@@ -66,14 +66,15 @@ Example Request:
     }
 """
 
-import os
 import json
-import uuid
 import logging
-import yaml
+import os
+import uuid
 from datetime import datetime
-from typing import Optional, Dict, Any, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import yaml
 
 # Load environment variables from .env file
 from dotenv import load_dotenv
@@ -85,11 +86,11 @@ from src.core.config_loader import expand_env_var
 
 # FastAPI & Uvicorn
 try:
-    from fastapi import FastAPI, BackgroundTasks, HTTPException, status
-    from fastapi.responses import JSONResponse
-    from fastapi.middleware.cors import CORSMiddleware
-    from pydantic import BaseModel, Field, field_validator
     import uvicorn
+    from fastapi import BackgroundTasks, FastAPI, HTTPException, status
+    from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.responses import JSONResponse
+    from pydantic import BaseModel, Field, field_validator
 
     FASTAPI_AVAILABLE = True
 except ImportError:
