@@ -3,15 +3,22 @@ sidebar_position: 1
 ---
 
 <!--
+============================================================================
 SPDX-License-Identifier: MIT
 Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
 
 UIP - Urban Intelligence Platform
 Troubleshooting guide documentation.
 
-Module: apps/traffic-web-app/frontend/docs/docs/guides/troubleshooting.md
-Author: UIP Team
+File: docs/guides/troubleshooting.md
+Module: Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+Description: Troubleshooting guide for UIP system.
+============================================================================
 -->
 
 # Troubleshooting Guide
@@ -471,7 +478,7 @@ docker-compose logs backend > logs/backend-$(date +%Y%m%d).log
 
 If you can't resolve your issue:
 
-1. **Search existing issues**: [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+1. **Search existing issues**: [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
 2. **Create a new issue** with:
    - Steps to reproduce
    - Expected vs actual behavior

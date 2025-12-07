@@ -3,15 +3,24 @@ sidebar_position: 7
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-CameraDetailModal Component Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/frontend/components/CameraDetailModal.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: frontend/components/CameraDetailModal.md
+Module: Frontend Components - CameraDetailModal
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  CameraDetailModal component documentation - modal dialog for displaying
+  detailed camera information and live feed.
+============================================================================
 -->
 
 # CameraDetailModal

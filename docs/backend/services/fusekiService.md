@@ -8,8 +8,24 @@ keywords: [fuseki, sparql, rdf, triplestore, linked data, geonames, dbpedia]
 ---
 
 <!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+============================================================================
+File: backend/services/fusekiService.md
+Module: Backend Services - FusekiService
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  FusekiService documentation for SPARQL triplestore client providing
+  query execution and LOD linkset enrichment.
+============================================================================
 -->
 
 # FusekiService - SPARQL Triplestore Client

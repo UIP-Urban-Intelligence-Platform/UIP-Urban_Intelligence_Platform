@@ -3,15 +3,24 @@ sidebar_position: 21
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-PatternZones Component Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/frontend/components/PatternZones.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: frontend/components/PatternZones.md
+Module: Frontend Components - PatternZones
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  PatternZones component documentation - map layer component for
+  visualizing detected traffic patterns as zones.
+============================================================================
 -->
 
 # PatternZones

@@ -8,11 +8,23 @@ keywords: [license, compliance, hippocratic, LGPL, GPL, ethical, special]
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: special-notes.md
+Module: docs.licenses
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Special considerations and compliance notes for specific licenses.
+============================================================================
 -->
 
 # Special License Notes
@@ -76,19 +88,20 @@ These packages have been **removed** from the project to achieve 100% MIT-compat
 
 | Package | Version | Usage |
 |---------|---------|-------|
-| pyphen | 0.17.2 | Hyphenation (triple-licensed) |
 | tqdm | 4.67.1 | Progress bars (dual-licensed) |
+| certifi | 2025.11.12 | CA certificates |
+| pathspec | 0.12.1 | Path matching |
 
-### Triple/Dual License Options
-
-**pyphen:** GPL-2.0+ / LGPL-2.1+ / **MPL-1.1** ← Selected
+### License Selection
 
 **tqdm:** MPL-2.0 / **MIT** ← Selected
+
+> **Note (2025-12):** pyphen has been **removed** from the project (was GPL/LGPL dependency of weasyprint).
 
 ### Compliance
 
 ```text
-This project uses the MIT or MPL-1.1 license option where available,
+This project uses the MIT license option where available,
 avoiding any copyleft obligations.
 ```
 
@@ -210,8 +223,8 @@ jobs:
 
 For questions about licensing or third-party dependencies:
 
-- **Repository:** [UIP-Urban_Intelligence_Platform](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform)
-- **Issues:** [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+- **Repository:** [UIP-Urban_Intelligence_Platform](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform)
+- **Issues:** [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
 - **License File:** [LICENSE](../../../../../LICENSE)
 - **Full Third-Party Licenses:** [THIRD_PARTY_LICENSES.md](../../../../../THIRD_PARTY_LICENSES.md)
 

@@ -1,13 +1,22 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Alert dispatcher agent documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/notification/alert-dispatcher.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/notification/alert-dispatcher.md
+Module: Notification - Alert Dispatcher Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Alert Dispatcher Agent documentation for real-time distribution of
+  traffic alerts to multiple channels including email, SMS, and webhooks.
+============================================================================
 -->
 
 # Alert Dispatcher Agent

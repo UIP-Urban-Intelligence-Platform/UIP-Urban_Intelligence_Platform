@@ -3,15 +3,24 @@ sidebar_position: 3
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Incident Report Generator Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/notification/incident-report-generator.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/notification/incident-report-generator.md
+Module: Notification - Incident Report Generator Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Incident Report Generator Agent documentation for creating detailed
+  incident reports for documentation and analysis.
+============================================================================
 -->
 
 # Incident Report Generator Agent

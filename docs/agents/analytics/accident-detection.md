@@ -1,13 +1,22 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Accident detection agent documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/analytics/accident-detection.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/analytics/accident-detection.md
+Module: Analytics - Accident Detection Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Accident detection agent documentation using YOLOX-X computer vision
+  model to analyze camera feeds in real-time for traffic accident detection.
+============================================================================
 -->
 
 # Accident Detection Agent

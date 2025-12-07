@@ -5,8 +5,23 @@ description: Centralized TypeScript type definitions for the frontend applicatio
 ---
 
 {/*
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+============================================================================
+File: index.md
+Module: docs.frontend.types
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Centralized TypeScript type definitions for the frontend application.
+============================================================================
 */}
 
 # Types Index

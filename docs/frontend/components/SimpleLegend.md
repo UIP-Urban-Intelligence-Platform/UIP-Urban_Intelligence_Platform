@@ -3,15 +3,24 @@ sidebar_position: 26
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-SimpleLegend Component Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/frontend/components/SimpleLegend.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: frontend/components/SimpleLegend.md
+Module: Frontend Components - SimpleLegend
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  SimpleLegend component documentation - simplified legend component
+  for basic map symbology.
+============================================================================
 -->
 
 # SimpleLegend

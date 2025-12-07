@@ -3,15 +3,22 @@ sidebar_position: 2
 ---
 
 <!--
+============================================================================
 SPDX-License-Identifier: MIT
 Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
 
 UIP - Urban Intelligence Platform
 Docker deployment setup documentation.
 
-Module: apps/traffic-web-app/frontend/docs/docs/installation/docker-setup.md
-Author: UIP Team
+File: docs/installation/docker-setup.md
+Module: Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+Description: Docker setup guide for UIP system.
+============================================================================
 -->
 
 # Docker Setup
@@ -35,7 +42,7 @@ Docker Compose provides a streamlined way to deploy the entire UIP stack with a 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 ```
 
@@ -276,4 +283,4 @@ For production, consider:
 
 ---
 
-Need help? Check our [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues).
+Need help? Check our [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues).

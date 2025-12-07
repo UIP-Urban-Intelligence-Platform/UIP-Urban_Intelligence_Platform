@@ -3,15 +3,24 @@ sidebar_position: 4
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-NGSI-LD to RDF Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/rdf-linked-data/ngsi-ld-to-rdf.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/rdf-linked-data/ngsi-ld-to-rdf.md
+Module: RDF Linked Data - NGSI-LD to RDF Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  NGSI-LD to RDF Agent documentation for converting NGSI-LD entities to
+  pure RDF/Turtle format.
+============================================================================
 -->
 
 # NGSI-LD to RDF Agent

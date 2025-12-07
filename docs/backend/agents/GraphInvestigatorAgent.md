@@ -4,10 +4,26 @@ title: GraphInvestigator Agent
 description: Multimodal incident analysis with GraphRAG and computer vision
 ---
 
-{/*
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
-*/}
+============================================================================
+File: backend/agents/GraphInvestigatorAgent.md
+Module: Backend Agents - GraphInvestigator Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  GraphInvestigator Agent documentation for multimodal incident analysis
+  with GraphRAG and computer vision capabilities.
+============================================================================
+-->
 
 # GraphInvestigator Agent
 

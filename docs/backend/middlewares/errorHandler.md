@@ -8,8 +8,24 @@ keywords: [error-handler, middleware, express, exception, structured-errors]
 ---
 
 <!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+============================================================================
+File: backend/middlewares/errorHandler.md
+Module: Backend Middlewares - Error Handler
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Error Handler Middleware documentation for global Express error handling
+  with structured error responses and logging.
+============================================================================
 -->
 
 # Error Handler Middleware

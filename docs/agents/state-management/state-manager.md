@@ -3,15 +3,24 @@ sidebar_position: 1
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-State Manager Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/state-management/state-manager.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/state-management/state-manager.md
+Module: State Management - State Manager Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  State Manager Agent documentation for centralized state management
+  for traffic entities across the platform.
+============================================================================
 -->
 
 # State Manager Agent

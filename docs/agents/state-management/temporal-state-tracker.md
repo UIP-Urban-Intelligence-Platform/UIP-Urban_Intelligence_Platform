@@ -3,15 +3,24 @@ sidebar_position: 4
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Temporal State Tracker Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/state-management/temporal-state-tracker.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/state-management/temporal-state-tracker.md
+Module: State Management - Temporal State Tracker Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Temporal State Tracker Agent documentation for maintaining time-series
+  state data with NGSI-LD temporal compliance.
+============================================================================
 -->
 
 # Temporal State Tracker Agent

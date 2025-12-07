@@ -3,15 +3,24 @@ sidebar_position: 1
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Health Check Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/monitoring/health-check.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/monitoring/health-check.md
+Module: Monitoring - Health Check Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Health Check Agent documentation for comprehensive health monitoring
+  of all services, data quality, and performance metrics.
+============================================================================
 -->
 
 # Health Check Agent

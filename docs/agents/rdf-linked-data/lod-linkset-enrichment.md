@@ -3,15 +3,24 @@ sidebar_position: 3
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-LOD Linkset Enrichment Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/rdf-linked-data/lod-linkset-enrichment.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/rdf-linked-data/lod-linkset-enrichment.md
+Module: RDF Linked Data - LOD Linkset Enrichment Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  LOD Linkset Enrichment Agent documentation for creating links to
+  external Linked Open Data sources.
+============================================================================
 -->
 
 # LOD Linkset Enrichment Agent

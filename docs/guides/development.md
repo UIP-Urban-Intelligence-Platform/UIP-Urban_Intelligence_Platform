@@ -1,13 +1,20 @@
 <!--
+============================================================================
 SPDX-License-Identifier: MIT
 Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
 
 UIP - Urban Intelligence Platform
 Development workflow documentation.
 
-Module: apps/traffic-web-app/frontend/docs/docs/guides/development.md
-Author: UIP Team
+File: docs/guides/development.md
+Module: Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+Description: Development workflow guide for UIP project.
+============================================================================
 -->
 
 # Development Workflow
@@ -29,7 +36,7 @@ Complete guide for local development, debugging, testing, and preparing contribu
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 ```
 
@@ -479,9 +486,9 @@ Visit: `http://localhost:3001`
 # Code formatting
 black . --line-length 100
 
-# Linting
-flake8 src/
-pylint src/
+# Linting with Ruff (replaces flake8/pylint)
+ruff check src/
+ruff check --fix src/
 
 # Type checking
 mypy src/

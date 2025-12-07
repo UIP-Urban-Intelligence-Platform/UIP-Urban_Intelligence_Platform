@@ -8,8 +8,24 @@ keywords: [stellio, ngsi-ld, context broker, entity, cache, axios, http pooling]
 ---
 
 <!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+============================================================================
+File: backend/services/stellioService.md
+Module: Backend Services - StellioService
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  StellioService documentation for high-performance Stellio Context Broker
+  client with NGSI-LD entity querying and caching.
+============================================================================
 -->
 
 # StellioService - NGSI-LD Client

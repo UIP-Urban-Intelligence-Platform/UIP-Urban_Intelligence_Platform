@@ -8,8 +8,24 @@ keywords: [neo4j, graph, cypher, relationships, traversal, accidents]
 ---
 
 <!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+============================================================================
+File: backend/services/neo4jService.md
+Module: Backend Services - Neo4jService
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Neo4jService documentation for graph database client providing entity
+  relationship querying and semantic network analysis.
+============================================================================
 -->
 
 # Neo4jService - Graph Database Client

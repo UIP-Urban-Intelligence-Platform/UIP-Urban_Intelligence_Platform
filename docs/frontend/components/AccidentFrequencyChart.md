@@ -3,15 +3,24 @@ sidebar_position: 4
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-AccidentFrequencyChart Component Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/frontend/components/AccidentFrequencyChart.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: frontend/components/AccidentFrequencyChart.md
+Module: Frontend Components - AccidentFrequencyChart
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  AccidentFrequencyChart component documentation - displays accident
+  frequency data over time using charts.
+============================================================================
 -->
 
 # AccidentFrequencyChart

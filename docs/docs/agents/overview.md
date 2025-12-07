@@ -1,13 +1,20 @@
 <!--
+============================================================================
 SPDX-License-Identifier: MIT
 Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
 
 UIP - Urban Intelligence Platform
 Agent system overview documentation.
 
-Module: docs/docs/agents/overview.md
-Author: UIP Team
+File: docs/docs/agents/overview.md
+Module: Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+Description: Overview documentation for UIP agent system.
+============================================================================
 -->
 
 # Agent System Overview

@@ -1,13 +1,22 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Congestion detection agent documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/analytics/congestion-detection.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/analytics/congestion-detection.md
+Module: Analytics - Congestion Detection Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Congestion detection agent documentation for real-time traffic flow
+  monitoring and congestion level classification.
+============================================================================
 -->
 
 # Congestion Detection Agent

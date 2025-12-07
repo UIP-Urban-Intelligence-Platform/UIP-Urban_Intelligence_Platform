@@ -3,15 +3,23 @@ sidebar_position: 3
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Local development setup documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/installation/local-setup.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: local-setup.md
+Module: docs.installation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Local development setup documentation.
+============================================================================
 -->
 
 # Local Development Setup
@@ -45,7 +53,7 @@ See [Prerequisites](prerequisites) for detailed installation instructions.
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 ```
 
@@ -252,7 +260,7 @@ npm test
 ```bash
 # Python (backend)
 black src/
-isort src/
+ruff check --fix src/
 
 # TypeScript (frontend)
 cd apps/traffic-web-app/frontend
@@ -339,4 +347,4 @@ docker-compose restart mongo
 
 ---
 
-Need help? Check the [Troubleshooting Guide](../guides/troubleshooting) or open an [issue](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues).
+Need help? Check the [Troubleshooting Guide](../guides/troubleshooting) or open an [issue](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues).

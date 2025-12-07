@@ -3,15 +3,24 @@ sidebar_position: 17
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-HistoricalViewBanner Component Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/frontend/components/HistoricalViewBanner.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: frontend/components/HistoricalViewBanner.md
+Module: Frontend Components - HistoricalViewBanner
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  HistoricalViewBanner component documentation - banner component
+  indicating that the user is viewing historical data.
+============================================================================
 -->
 
 # HistoricalViewBanner

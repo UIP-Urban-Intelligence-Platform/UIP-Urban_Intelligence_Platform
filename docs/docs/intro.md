@@ -1,13 +1,20 @@
 <!--
+============================================================================
 SPDX-License-Identifier: MIT
 Copyright (c) 2025 UIP Team. All rights reserved.
+============================================================================
 
 UIP - Urban Intelligence Platform
 Getting started documentation.
 
-Module: docs/docs/intro.md
-Author: UIP Team
+File: docs/docs/intro.md
+Module: Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+Description: Getting started guide for UIP system.
+============================================================================
 -->
 
 # Getting Started with HCMC Traffic Monitoring System
@@ -55,7 +62,7 @@ The HCMC Traffic Monitoring System is a **multi-agent orchestration platform** t
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Start all services

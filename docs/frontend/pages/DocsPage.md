@@ -4,10 +4,26 @@ title: DocsPage
 description: Documentation reader with sidebar navigation and markdown rendering
 ---
 
-{/*
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
-*/}
+============================================================================
+File: frontend/pages/DocsPage.md
+Module: Frontend Pages - DocsPage
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  DocsPage component documentation - interactive documentation page
+  with Docusaurus-style navigation and markdown rendering.
+============================================================================
+-->
 
 # DocsPage Component
 

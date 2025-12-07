@@ -5,15 +5,23 @@ sidebar_position: 1
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Introduction documentation page.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/intro.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: docs/intro.md
+Module: Introduction Page
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Main introduction documentation page for UIP.
+============================================================================
 -->
 
 # UIP - Urban Intelligence Platform
@@ -86,7 +94,7 @@ Get started in **3 steps** (5 minutes):
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # 2. Configure environment

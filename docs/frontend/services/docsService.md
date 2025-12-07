@@ -4,10 +4,26 @@ title: Docs Service
 description: Documentation content loader and navigation management
 ---
 
-{/*
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
-*/}
+============================================================================
+File: frontend/services/docsService.md
+Module: Frontend Services - Docs Service
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Docs Service documentation - service for loading and managing
+  documentation content from markdown files.
+============================================================================
+-->
 
 # Docs Service
 

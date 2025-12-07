@@ -1,13 +1,22 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Complete data models and standards reference.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/data-models/complete-standards.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: data-models/complete-standards.md
+Module: Data Models - Complete Standards Reference
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Complete data models and standards reference including NGSI-LD entities,
+  SOSA/SSN sensor ontologies, and FIWARE Smart Data Models.
+============================================================================
 -->
 
 # Complete Data Models & Standards Reference

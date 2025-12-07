@@ -4,10 +4,26 @@ title: LandingPage
 description: Marketing and onboarding entry point for new users
 ---
 
-{/*
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
-*/}
+============================================================================
+File: frontend/pages/LandingPage.md
+Module: Frontend Pages - LandingPage
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  LandingPage component documentation - marketing and onboarding entry
+  point showcasing platform features and live demo.
+============================================================================
+-->
 
 # LandingPage Component
 

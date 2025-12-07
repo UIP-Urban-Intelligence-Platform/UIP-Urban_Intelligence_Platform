@@ -3,15 +3,24 @@ sidebar_position: 2
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Performance Monitor Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/monitoring/performance-monitor.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/monitoring/performance-monitor.md
+Module: Monitoring - Performance Monitor Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Performance Monitor Agent documentation for tracking system performance
+  metrics and providing optimization recommendations.
+============================================================================
 -->
 
 # Performance Monitor Agent

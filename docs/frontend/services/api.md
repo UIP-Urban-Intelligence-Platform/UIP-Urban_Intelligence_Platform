@@ -4,10 +4,26 @@ title: API Service
 description: Axios-based HTTP client for all backend REST endpoints
 ---
 
-{/*
+<!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
-*/}
+============================================================================
+File: frontend/services/api.md
+Module: Frontend Services - API
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  API service documentation - Axios-based HTTP client providing typed
+  API methods for all backend endpoints.
+============================================================================
+-->
 
 # API Service
 

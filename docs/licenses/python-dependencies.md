@@ -8,11 +8,23 @@ keywords: [python, dependencies, licenses, pip, torch, fastapi, opencv]
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: python-dependencies.md
+Module: docs.licenses
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Complete list of Python dependencies and their MIT-compatible licenses.
+============================================================================
 -->
 
 # Python Dependencies Licenses
@@ -219,11 +231,9 @@ Complete documentation of all **168 Python packages** used in the UIP - Urban In
 
 | Package | Version | License | SPDX ID | Description |
 |---------|---------|---------|---------|-------------|
-| weasyprint | 67.0 | BSD | `BSD-3-Clause` | HTML to PDF |
-| reportlab | 4.4.5 | BSD | `BSD-3-Clause` | PDF generation |
-| pyphen | 0.17.2 | GPL/LGPL/MPL-1.1 | `MPL-1.1` | Hyphenation |
+| reportlab | 4.4.5 | BSD | `BSD-3-Clause` | PDF generation (pure Python) |
 
-> pyphen is triple-licensed. This project uses MPL-1.1 option.
+> **Migration Note (2025-12):** weasyprint and pyphen have been **removed** from the project. weasyprint had pyphen (GPL/LGPL) as a dependency, making it incompatible with MIT licensing. PDF generation now uses pure reportlab (BSD license).
 
 ---
 

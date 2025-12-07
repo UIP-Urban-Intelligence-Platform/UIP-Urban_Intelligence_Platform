@@ -1,13 +1,22 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Citizen report agent documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/analytics/citizen-report.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/analytics/citizen-report.md
+Module: Analytics - Citizen Report Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Citizen report agent documentation for processing user-submitted traffic
+  reports with AI validation and analysis.
+============================================================================
 -->
 
 # Citizen Report Agent

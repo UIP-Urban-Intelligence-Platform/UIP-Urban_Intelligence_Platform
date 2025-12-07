@@ -3,15 +3,24 @@ sidebar_position: 5
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Smart Data Models Validation Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/rdf-linked-data/smart-data-models-validation.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/rdf-linked-data/smart-data-models-validation.md
+Module: RDF Linked Data - Smart Data Models Validation Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Smart Data Models Validation Agent documentation for validating entities
+  against FIWARE Smart Data Models schemas.
+============================================================================
 -->
 
 # Smart Data Models Validation Agent

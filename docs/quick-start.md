@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Quick start guide.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/quick-start.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: docs/quick-start.md
+Module: Quick Start Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Get the UIP running in 5 minutes.
+============================================================================
 -->
 
 # Quick Start Guide
@@ -34,7 +42,7 @@ Before starting, ensure you have:
 ## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 ```
 
@@ -269,7 +277,7 @@ Now that your system is running:
 ## 🆘 Need Help?
 
 - 📋 [Troubleshooting Guide](guides/troubleshooting)
-- 💬 [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+- 💬 [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
 - 📧 Email: `nguyennhatquang522004@gmail.com`
 
 ---

@@ -3,15 +3,23 @@ sidebar_position: 2
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Docusaurus tutorial - Create a document.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/tutorial-basics/create-a-document.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: create-a-document.md
+Module: docs.tutorial-basics
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Docusaurus tutorial - Create a document.
+============================================================================
 -->
 
 # Create a Document

@@ -3,15 +3,24 @@ sidebar_position: 4
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Image Refresh Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/data-collection/image-refresh.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/data-collection/image-refresh.md
+Module: Data Collection - Image Refresh Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Image Refresh Agent documentation for managing periodic refresh of
+  traffic camera images for real-time monitoring.
+============================================================================
 -->
 
 # Image Refresh Agent

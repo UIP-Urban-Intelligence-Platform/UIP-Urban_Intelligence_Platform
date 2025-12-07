@@ -8,8 +8,24 @@ keywords: [agent, ai, eco-twin, graph-investigator, traffic-maestro, gemini]
 ---
 
 <!--
+============================================================================
+UIP - Urban Intelligence Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
 SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team
+============================================================================
+File: backend/routes/agent.md
+Module: Backend Routes - Agent Routes
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Agent Routes documentation for REST API endpoints for interacting with
+  AI agents - EcoTwin, GraphInvestigator, and TrafficMaestro.
+============================================================================
 -->
 
 # Agent Routes

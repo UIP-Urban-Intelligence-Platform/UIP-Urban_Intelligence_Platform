@@ -3,15 +3,24 @@ sidebar_position: 3
 ---
 
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-External Data Collector Agent Documentation.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/agents/data-collection/external-data-collector.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: agents/data-collection/external-data-collector.md
+Module: Data Collection - External Data Collector Agent
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  External Data Collector Agent documentation for fetching data from
+  external APIs and integrating it into the platform.
+============================================================================
 -->
 
 # External Data Collector Agent

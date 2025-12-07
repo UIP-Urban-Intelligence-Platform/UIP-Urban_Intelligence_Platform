@@ -1,13 +1,22 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Complete testing and quality guide.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: apps/traffic-web-app/frontend/docs/docs/testing/complete-testing-guide.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: testing/complete-testing-guide.md
+Module: Testing - Complete Quality Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Complete testing and quality guide covering unit tests, integration tests,
+  E2E tests, performance testing, and code quality standards.
+============================================================================
 -->
 
 # Complete Testing & Quality Guide
@@ -19,7 +28,7 @@ Comprehensive testing strategy for the HCMC Traffic Management System covering u
 **Testing Stack:**
 - **Python**: pytest, pytest-cov, pytest-asyncio, pytest-mock, Locust
 - **TypeScript/JavaScript**: Jest, React Testing Library, Playwright, Cypress
-- **Code Quality**: ESLint, Pylint, Black, Prettier, mypy, SonarQube
+- **Code Quality**: ESLint, Ruff, Black, Prettier, mypy, SonarQube
 - **CI/CD**: GitHub Actions, Pre-commit hooks
 
 ---
@@ -828,20 +837,23 @@ module.exports = {
 };
 ```
 
-### Pylint Configuration
+### Ruff Configuration (Replaces Pylint, Flake8, isort)
 
-```ini
-# .pylintrc
-[MASTER]
-max-line-length=120
-disable=
-    C0111,  # missing-docstring
-    R0903,  # too-few-public-methods
-    R0913,  # too-many-arguments
+```toml
+# ruff.toml
+[tool.ruff]
+line-length = 120
+target-version = "py310"
 
-[TYPECHECK]
-generated-members=cv2.*,torch.*
+[tool.ruff.lint]
+select = ["E", "F", "W", "C90", "I", "N", "B", "S"]
+ignore = ["E501", "S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
 ```
+
+> **Note (2025-12):** Migrated from pylint/flake8/isort to Ruff for 10-100x faster linting.
 
 ---
 
@@ -868,17 +880,12 @@ repos:
       - id: black
         language_version: python3.9
   
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.0
     hooks:
-      - id: isort
-        args: ["--profile", "black"]
-  
-  - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        args: ['--max-line-length=120']
+      - id: ruff
+        args: ['--fix']
+      - id: ruff-format
   
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.3.0
