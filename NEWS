@@ -3,14 +3,15 @@ SPDX-License-Identifier: MIT
 Copyright (c) 2025 UIP Team. All rights reserved.
 
 UIP - Urban Intelligence Platform
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 Release History and User-Visible Changes
 
 Module: NEWS
 Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 Version: 2.0.0
-Repository: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+License: MIT
+Repository: https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 -->
 
 NEWS -- History of user-visible changes
@@ -80,8 +81,8 @@ See also the CHANGELOG at docs/CHANGELOG.md for detailed technical changes.
 
 Release Announcement Channels:
 - Mailing List: uip-urban-intelligence@googlegroups.com
-- GitHub Discussions: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions
-- GitHub Releases: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/releases
+- GitHub Discussions: https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions
+- GitHub Releases: https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/releases
 
 Subscribe to receive release notifications:
 1. GitHub: Watch → Custom → Releases

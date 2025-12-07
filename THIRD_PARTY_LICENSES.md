@@ -1,12 +1,24 @@
-# Third-Party Licenses
-
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
+
+SPDX-License-Identifier: MIT
+============================================================================
+File: THIRD_PARTY_LICENSES.md
+Module: UIP Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
+Version: 1.0.0
+License: MIT
+
+Description:
+  Complete documentation of third-party licenses used in UIP.
+============================================================================
 -->
+
+# Third-Party Licenses
 
 This document contains the licenses and notices for third-party software included in or used by the UIP - Urban Intelligence Platform project.
 
@@ -145,11 +157,9 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 
 | Package | Version | License | Description |
 |---------|---------|---------|-------------|
-| weasyprint | 67.0 | BSD | HTML to PDF converter |
-| reportlab | 4.4.5 | BSD | PDF generation |
-| pyphen | 0.17.2 | GPL/LGPL/MPL-1.1* | Hyphenation library |
+| reportlab | 4.4.5 | BSD-3-Clause | Pure Python PDF generation |
 
-> *pyphen is triple-licensed. This project uses the MPL-1.1 option which is MIT-compatible.
+> **Migration Note (2025-12):** weasyprint and pyphen have been **removed** from the project. weasyprint had pyphen (GPL/LGPL) as a dependency. PDF generation now uses pure reportlab (BSD license).
 
 ### Development Tools (Not Distributed)
 
@@ -258,18 +268,12 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 
 ## Special License Notes
 
-### 1. Pyphen (Python) - Triple License
+### 1. ~~Pyphen (Python)~~ (REMOVED - December 2025)
 
-**Package:** pyphen v0.17.2  
-**Declared License:** GPL-2.0+ / LGPL-2.1+ / MPL-1.1  
-**License Used:** MPL-1.1  
+**Package:** ~~pyphen v0.17.2~~ **REMOVED**  
+**Former License:** GPL-2.0+ / LGPL-2.1+ / MPL-1.1  
 
-Pyphen offers a tri-license option. This project uses the Mozilla Public License 1.1 option, which is compatible with MIT. The MPL-1.1 allows:
-
-- Commercial use
-- Modification
-- Distribution
-- Sublicensing
+This package has been **removed** from the project to achieve 100% MIT-compatible licensing. pyphen was a dependency of weasyprint. PDF generation now uses pure reportlab (BSD license).
 
 ### 2. ~~JSTS (NPM) - Eclipse License~~ (REMOVED - December 2025)
 
@@ -566,8 +570,8 @@ Special thanks to:
 
 For questions about licensing or third-party dependencies:
 
-- **Project Repository:** <https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform>
-- **Issue Tracker:** <https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues>
+- **Project Repository:** <https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform>
+- **Issue Tracker:** <https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues>
 
 ---
 

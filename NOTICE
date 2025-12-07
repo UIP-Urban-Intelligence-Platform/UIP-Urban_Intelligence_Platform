@@ -79,17 +79,16 @@ This project incorporates or depends on the following third-party software:
     Used for: React components for interactive vector tile maps
     Note: Replaced react-leaflet (Hippocratic) for 100% MIT compatibility
 
-13. WeasyPrint / Pyphen
-    License: BSD (WeasyPrint), GPL/LGPL/MPL tri-license (Pyphen)
-    <https://weasyprint.org/>
-    Used for: PDF report generation
-    Note: Using MPL 1.1 license option for Pyphen (MIT-compatible)
+13. reportlab
+    License: BSD-3-Clause
+    <https://www.reportlab.com/>
+    Used for: PDF report generation (pure Python, no external dependencies)
+    Note: Migrated from weasyprint/pyphen (Dec 2025) for 100% MIT compatibility
 
-14. JSTS (JavaScript Topology Suite)
-    License: EDL-1.0 / EPL-1.0 dual license
+14. ~~JSTS (JavaScript Topology Suite)~~ REMOVED (December 2025)
+    Former License: EDL-1.0 / EPL-1.0 dual license
     <https://github.com/bjornharrtell/jsts>
-    Used for: Geometry operations
-    Note: Eclipse licenses are MIT-compatible for commercial use
+    Note: Removed for MIT compatibility, replaced with MapLibre GL JS native features
 
 ================================================================================
                          LICENSE COMPATIBILITY
@@ -142,5 +141,4 @@ For full license texts of third-party dependencies, please refer to:
 - Neo4j Driver: <https://github.com/neo4j/neo4j-python-driver/blob/5.0/LICENSE>
 - react-map-gl: <https://github.com/visgl/react-map-gl/blob/master/LICENSE>
 - MapLibre GL JS: <https://github.com/maplibre/maplibre-gl-js/blob/main/LICENSE.txt>
-- WeasyPrint: <https://github.com/Kozea/WeasyPrint/blob/main/LICENSE>
-- JSTS: <https://github.com/bjornharrtell/jsts/blob/master/LICENSE>
+- reportlab: <https://hg.reportlab.com/hg-public/reportlab/file/tip/LICENSE.txt>

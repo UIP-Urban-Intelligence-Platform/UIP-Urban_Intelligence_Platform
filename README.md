@@ -1,13 +1,22 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: README.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: README.md
+Module: Project Main Documentation
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-15
 Version: 2.0.0
+License: MIT
+
+Description:
+  Main documentation and entry point for the UIP project.
+  Multi-Agent Linked Open Data Pipeline for Smart Traffic Management.
+============================================================================
 -->
 
 <p align="center">
@@ -21,16 +30,16 @@ Version: 2.0.0
 </p>
 
 <p align="center">
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml">
-    <img src="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml/badge.svg" alt="Tests">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml">
+    <img src="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml/badge.svg" alt="Tests">
   </a>
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml">
-    <img src="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml/badge.svg" alt="Lint">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml">
+    <img src="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml/badge.svg" alt="Lint">
   </a>
-  <a href="https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform">
-    <img src="https://codecov.io/gh/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/branch/main/graph/badge.svg" alt="codecov">
+  <a href="https://codecov.io/gh/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform">
+    <img src="https://codecov.io/gh/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/branch/main/graph/badge.svg" alt="codecov">
   </a>
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/blob/main/LICENSE">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
   </a>
 </p>
@@ -51,13 +60,13 @@ Version: 2.0.0
 </p>
 
 <p align="center">
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions">
     <img src="https://img.shields.io/badge/GitHub-Discussions-blue?logo=github" alt="Discussions">
   </a>
   <a href="https://groups.google.com/g/uip-platform">
     <img src="https://img.shields.io/badge/Mailing%20List-Google%20Groups-red?logo=google" alt="Mailing List">
   </a>
-  <a href="https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki">
+  <a href="https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/wiki">
     <img src="https://img.shields.io/badge/Wiki-Documentation-green?logo=gitbook" alt="Wiki">
   </a>
 </p>
@@ -276,7 +285,7 @@ Resources → Advanced:
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Copy environment configuration
@@ -305,7 +314,7 @@ docker-compose ps
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # Create Python virtual environment
@@ -329,7 +338,7 @@ This project supports standard GNU Make targets for building and installing:
 
 ```bash
 # Clone repository
-git clone https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform.git
+git clone https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform.git
 cd UIP-Urban_Intelligence_Platform
 
 # View all available targets
@@ -1208,7 +1217,7 @@ Download the complete `.env.example` template:
 
 ```bash
 # Download from repository
-curl -O https://raw.githubusercontent.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/main/.env.example
+curl -O https://raw.githubusercontent.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/main/.env.example
 
 # Or copy from the repository root
 cp .env.example .env
@@ -1323,10 +1332,10 @@ Join our community to get help, share ideas, and connect with other users:
 
 | Channel | Description | Link |
 |---------|-------------|------|
-| 💬 **GitHub Discussions** | Q&A, ideas, and general discussion | [Join Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions) |
+| 💬 **GitHub Discussions** | Q&A, ideas, and general discussion | [Join Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions) |
 | 📧 **Mailing List** | Announcements & release notifications | [Google Groups](https://groups.google.com/g/uip-platform) |
-| 📖 **Wiki** | Comprehensive documentation | [GitHub Wiki](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/wiki) |
-| 🐛 **Issues** | Bug reports & feature requests | [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues) |
+| 📖 **Wiki** | Comprehensive documentation | [GitHub Wiki](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/wiki) |
+| 🐛 **Issues** | Bug reports & feature requests | [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues) |
 
 ### Discussion Categories
 
@@ -1493,12 +1502,12 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 |---------|-------------|------|
 | 📧 **Mailing List** | Announcements & discussions | [uip-platform@googlegroups.com](https://groups.google.com/g/uip-platform) |
 | 💬 **Discord** | Real-time chat & support | [Join Discord](https://discord.gg/uip-platform) |
-| 💬 **Discussions** | Q&A & community | [GitHub Discussions](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/discussions) |
+| 💬 **Discussions** | Q&A & community | [GitHub Discussions](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/discussions) |
 
 ### Other Resources
 
 - 📖 **Documentation**: [docs/](docs/)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues)
 - 📧 **Email**: nguyennhatquang522004@gmail.com
 
 ---

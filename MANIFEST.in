@@ -2,7 +2,7 @@
 # Copyright (c) 2025 UIP Team. All rights reserved.
 #
 # UIP - Urban Intelligence Platform
-# https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # Package manifest file for source distribution
 #
@@ -48,7 +48,6 @@ include Makefile
 include justrun.ps1
 include .env.example
 include pytest.ini
-include .flake8
 include .pre-commit-config.yaml
 include .gitattributes
 include .gitignore
