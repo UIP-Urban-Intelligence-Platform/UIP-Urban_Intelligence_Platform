@@ -1,13 +1,21 @@
 <!--
-SPDX-License-Identifier: MIT
-Copyright (c) 2025 UIP Team. All rights reserved.
-
+============================================================================
 UIP - Urban Intelligence Platform
-Docker scripts quick reference guide.
+Copyright (c) 2025 UIP Team. All rights reserved.
+https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
-Module: guides/DOCKER_SCRIPTS_GUIDE.md
-Author: UIP Team
+SPDX-License-Identifier: MIT
+============================================================================
+File: guides/DOCKER_SCRIPTS_GUIDE.md
+Module: Docker Scripts Guide
+Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
+Created: 2025-11-20
 Version: 1.0.0
+License: MIT
+
+Description:
+  Docker scripts quick reference guide.
+============================================================================
 -->
 
 # Docker Scripts - Quick Reference Guide
