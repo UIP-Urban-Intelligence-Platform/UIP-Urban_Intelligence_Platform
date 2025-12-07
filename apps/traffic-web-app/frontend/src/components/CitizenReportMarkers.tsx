@@ -33,14 +33,13 @@
  * - Infrastructure: Blue marker
  * 
  * @dependencies
- * - react-leaflet@^4.2: Map markers
- * - leaflet@^1.9: Icon creation
+ * - react-map-gl@^7.1: MapLibre GL React bindings (MIT license)
+ * - maplibre-gl@^4.7: Interactive maps (BSD-3-Clause)
  * - date-fns@^2.30: Date formatting
  */
 
 import React, { useEffect, useCallback } from 'react';
-import { Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
+import { Marker, Popup, useMap, DivIcon, latLngBounds } from './map';
 import { CitizenReport, ReportType } from '../types/citizenReport';
 import { format } from 'date-fns';
 
@@ -58,7 +57,7 @@ const REPORT_COLORS: Record<ReportType, string> = {
     other: '#8B5CF6' // Purple
 };
 
-// Create custom marker icon
+// Create custom marker icon - MapLibre compatible
 const createMarkerIcon = (reportType: ReportType, aiVerified: boolean) => {
     const color = REPORT_COLORS[reportType];
     const opacity = aiVerified ? 1 : 0.6;
@@ -75,7 +74,7 @@ const createMarkerIcon = (reportType: ReportType, aiVerified: boolean) => {
     </svg>
   `;
 
-    return L.divIcon({
+    return new DivIcon({
         html: svgIcon,
         className: 'custom-marker-icon',
         iconSize: [32, 42],
@@ -115,16 +114,17 @@ export const CitizenReportMarkers: React.FC<CitizenReportMarkersProps> = ({
     // Center map on first report if available
     useEffect(() => {
         if (reports.length > 0 && map) {
-            const bounds = L.latLngBounds(
-                reports.map(r => [r.latitude, r.longitude])
+            const bounds = latLngBounds(
+                reports.map(r => [r.latitude, r.longitude] as [number, number])
             );
-            map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+            // Use toBoundsLike() to get the proper format for fitBounds
+            map.fitBounds(bounds.toBoundsLike(), { padding: [50, 50], maxZoom: 14 });
         }
     }, [reports, map]);
 
     const handleMarkerClick = useCallback((report: CitizenReport) => {
         onReportClick?.(report);
-        map.setView([report.latitude, report.longitude], 15, { animate: true });
+        map.setView([report.latitude, report.longitude], 15);
     }, [map, onReportClick]);
 
     return (
@@ -179,7 +179,7 @@ export const CitizenReportMarkers: React.FC<CitizenReportMarkersProps> = ({
                                         alt="Report evidence"
                                         className="w-full h-40 object-cover rounded-lg border border-gray-200"
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Image+Not+Available';
+                                            (e.target as HTMLImageElement).src = 'https://placehold.co/400x300/1f2937/ffffff?text=Không+Có+Ảnh';
                                         }}
                                     />
                                 </div>

@@ -10,58 +10,89 @@
  * @module apps/traffic-web-app/frontend/src/components/AQIHeatmap
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
- * @modified 2025-11-27
- * @version 2.0.0
+ * @modified 2025-12-07
+ * @version 3.0.0
  * @license MIT
  * 
  * @description
- * AQI Heatmap Component - Visualizes air quality data using Leaflet heatmap layer.
+ * AQI Heatmap Component - Visualizes air quality data using MapLibre GL native heatmap.
  * Displays AQI intensity across the city with color-coded heat gradients.
  * 
  * Features:
- * - Dynamic heatmap rendering using leaflet.heat plugin
+ * - Native MapLibre GL heatmap rendering (no Leaflet plugin required)
  * - AQI intensity-based color gradients (green to red)
- * - Configurable radius and blur for heat points
+ * - Configurable radius and intensity for heat points
  * - Real-time updates from air quality sensors
  * - Performance optimized with memoization
+ * - 100% MIT/BSD-3 compatible (no GPL dependencies)
  * 
  * @dependencies
- * - react-leaflet@^4.2: Leaflet React integration
- * - leaflet.heat@^0.2: Heatmap plugin
- * - leaflet@^1.9: Mapping library
+ * - react-map-gl@^7.1: MIT License
+ * - maplibre-gl@^4.7: BSD-3-Clause License
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet.heat';
+import React, { useMemo } from 'react';
+import { Source, Layer } from 'react-map-gl/maplibre';
 import { useTrafficStore } from '../store/trafficStore';
+import type { HeatmapLayerSpecification } from 'maplibre-gl';
 
 interface AQIHeatmapProps {
   visible?: boolean;
 }
 
-declare module 'leaflet' {
-  function heatLayer(
-    latlngs: Array<[number, number, number]>,
-    options?: {
-      radius?: number;
-      blur?: number;
-      maxZoom?: number;
-      max?: number;
-      gradient?: Record<number, string>;
-    }
-  ): L.Layer;
-}
+// Heatmap layer configuration
+const heatmapLayerStyle: Omit<HeatmapLayerSpecification, 'id' | 'source'> = {
+  type: 'heatmap',
+  paint: {
+    // Increase weight based on intensity (AQI normalized to 0-1)
+    'heatmap-weight': ['get', 'intensity'],
+    // Increase intensity as zoom level increases
+    'heatmap-intensity': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      0, 1,
+      14, 3
+    ],
+    // Color gradient from green (low AQI) to purple (hazardous)
+    'heatmap-color': [
+      'interpolate',
+      ['linear'],
+      ['heatmap-density'],
+      0, 'rgba(0, 255, 0, 0)',
+      0.2, 'rgba(0, 255, 0, 0.5)',
+      0.4, 'rgba(255, 255, 0, 0.6)',
+      0.6, 'rgba(255, 136, 0, 0.7)',
+      0.8, 'rgba(255, 0, 0, 0.8)',
+      1, 'rgba(128, 0, 128, 0.9)'
+    ],
+    // Adjust radius by zoom level
+    'heatmap-radius': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      0, 2,
+      14, 30
+    ],
+    // Transition from heatmap to circle layer at zoom 14
+    'heatmap-opacity': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      13, 1,
+      15, 0.8
+    ]
+  }
+};
 
 const AQIHeatmap: React.FC<AQIHeatmapProps> = ({ visible = true }) => {
-  const map = useMap();
   const { airQuality } = useTrafficStore();
-  const [heatLayer, setHeatLayer] = useState<L.Layer | null>(null);
-  // Note: Legend UI removed - AQI levels displayed in Sidebar (Map Legend section)
+  const sourceId = 'aqi-heatmap-source';
+  const layerId = 'aqi-heatmap-layer';
 
-  const heatmapData = useMemo(() => {
-    return airQuality
+  // Convert air quality data to GeoJSON format
+  const geojsonData = useMemo(() => {
+    const features = airQuality
       .filter((aq) =>
         aq?.location?.latitude != null &&
         aq?.location?.longitude != null &&
@@ -70,53 +101,33 @@ const AQIHeatmap: React.FC<AQIHeatmapProps> = ({ visible = true }) => {
         aq.aqi != null &&
         !isNaN(aq.aqi)
       )
-      .map((aq) => {
-        const intensity = Math.min(aq.aqi / 300, 1);
-        return [aq.location.latitude, aq.location.longitude, intensity] as [number, number, number];
-      });
+      .map((aq) => ({
+        type: 'Feature' as const,
+        properties: {
+          // Normalize AQI to 0-1 intensity (assuming max AQI of 300)
+          intensity: Math.min(aq.aqi / 300, 1),
+          aqi: aq.aqi
+        },
+        geometry: {
+          type: 'Point' as const,
+          coordinates: [aq.location.longitude, aq.location.latitude]
+        }
+      }));
+
+    return {
+      type: 'FeatureCollection' as const,
+      features
+    };
   }, [airQuality]);
 
-  useEffect(() => {
-    if (!map || !visible || heatmapData.length === 0) {
-      if (heatLayer) {
-        map.removeLayer(heatLayer);
-        setHeatLayer(null);
-      }
-      return;
-    }
-
-    if (heatLayer) {
-      map.removeLayer(heatLayer);
-    }
-
-    const newHeatLayer = L.heatLayer(heatmapData, {
-      radius: 30,
-      blur: 20,
-      maxZoom: 14,
-      max: 1.0,
-      gradient: {
-        0.0: '#00ff00',
-        0.3: '#ffff00',
-        0.6: '#ff8800',
-        0.8: '#ff0000',
-        1.0: '#800080',
-      },
-    });
-
-    newHeatLayer.addTo(map);
-    setHeatLayer(newHeatLayer);
-
-    return () => {
-      if (newHeatLayer) {
-        map.removeLayer(newHeatLayer);
-      }
-    };
-  }, [map, visible, heatmapData]);
+  if (!visible || geojsonData.features.length === 0) {
+    return null;
+  }
 
   return (
-    <>
-      {/* Legend removed - AQI levels shown in Sidebar (Map Legend section) */}
-    </>
+    <Source id={sourceId} type="geojson" data={geojsonData}>
+      <Layer id={layerId} {...heatmapLayerStyle} />
+    </Source>
   );
 };
 

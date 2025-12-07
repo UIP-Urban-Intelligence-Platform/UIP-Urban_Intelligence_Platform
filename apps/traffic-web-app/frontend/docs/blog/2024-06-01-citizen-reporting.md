@@ -291,7 +291,8 @@ async def process_images(files: List[UploadFile]) -> List[str]:
 // components/CitizenReportForm.tsx
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MapContainer, Marker, useMapEvents } from 'react-leaflet';
+// Using MIT-licensed react-map-gl + MapLibre GL JS
+import { MapContainer, Marker, useMapEvents } from './map';
 
 const reportSchema = z.object({
   type: z.enum(['accident', 'congestion', 'road_damage', ...]),

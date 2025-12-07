@@ -1,0 +1,8 @@
+{
+    "label": "Graph Database",
+    "position": 9,
+    "link": {
+        "type": "generated-index",
+        "description": "Agents for Neo4j graph database synchronization and queries."
+    }
+}

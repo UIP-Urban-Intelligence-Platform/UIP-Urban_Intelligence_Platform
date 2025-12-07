@@ -57,7 +57,7 @@ const features = [
     {
         icon: Brain,
         title: '28 AI Agents',
-        description: 'Multi-agent system với 8 categories: Data Collection, Transformation, Analytics, Context Management, RDF/LOD, Notification, Monitoring & Integration',
+        description: 'Multi-agent system with 8 categories: Data Collection, Transformation, Analytics, Context Management, RDF/LOD, Notification, Monitoring & Integration',
         gradient: 'from-blue-500 to-cyan-500',
         stats: '8 Categories',
     },
@@ -71,21 +71,21 @@ const features = [
     {
         icon: Activity,
         title: 'Real-time Monitoring',
-        description: 'WebSocket-based real-time updates với Stellio Context Broker, temporal queries, và geo-spatial analysis',
+        description: 'WebSocket-based real-time updates with Stellio Context Broker, temporal queries, and geo-spatial analysis',
         gradient: 'from-green-500 to-emerald-500',
         stats: 'Sub-second',
     },
     {
         icon: Eye,
         title: 'Computer Vision',
-        description: 'YOLOX-powered vehicle detection, accident detection, congestion analysis với AI verification',
+        description: 'YOLOX-powered vehicle detection, accident detection, congestion analysis with AI verification',
         gradient: 'from-orange-500 to-red-500',
         stats: 'YOLOX',
     },
     {
         icon: GitBranch,
         title: 'Linked Open Data',
-        description: '5-star LOD compliance với SOSA/SSN ontologies, Apache Jena Fuseki triplestore, và SPARQL endpoint',
+        description: '5-star LOD compliance with SOSA/SSN ontologies, Apache Jena Fuseki triplestore, and SPARQL endpoint',
         gradient: 'from-indigo-500 to-blue-500',
         stats: '5-Star LOD',
     },
@@ -99,21 +99,21 @@ const features = [
     {
         icon: Users,
         title: 'Citizen Science',
-        description: 'FastAPI-based citizen reporting với AI verification, weather/AQ enrichment, và accuracy tracking',
+        description: 'FastAPI-based citizen reporting with AI verification, weather/AQ enrichment, and accuracy tracking',
         gradient: 'from-teal-500 to-cyan-500',
         stats: 'Community',
     },
     {
         icon: Globe,
         title: 'Neo4j Graph DB',
-        description: 'Graph-based relationship mapping, Cypher queries cho pattern detection, và temporal graph analysis',
+        description: 'Graph-based relationship mapping, Cypher queries for pattern detection, and temporal graph analysis',
         gradient: 'from-violet-500 to-purple-500',
         stats: 'Graph DB',
     },
     {
         icon: TrendingUp,
         title: 'Predictive Analytics',
-        description: 'Time-series pattern recognition, congestion prediction, event impact analysis với Ticketmaster integration',
+        description: 'Time-series pattern recognition, congestion prediction, event impact analysis with Ticketmaster integration',
         gradient: 'from-amber-500 to-yellow-500',
         stats: 'ML-Powered',
     },
@@ -134,7 +134,7 @@ const features = [
     {
         icon: Cpu,
         title: 'Microservices',
-        description: 'Docker containerized services: Stellio, PostgreSQL, Fuseki, Neo4j, Redis, Kafka với Docker Compose orchestration',
+        description: 'Docker containerized services: Stellio, PostgreSQL, Fuseki, Neo4j, Redis, Kafka with Docker Compose orchestration',
         gradient: 'from-cyan-500 to-blue-500',
         stats: '6 Services',
     },
@@ -172,12 +172,12 @@ export default function FeaturesSection() {
                 >
                     <h2 className="text-5xl md:text-6xl font-bold mb-6">
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900">
-                            Tính năng nổi bật
+                            Key Features
                         </span>
                     </h2>
                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                        Hệ thống được xây dựng với công nghệ tiên tiến nhất, đảm bảo hiệu suất cao,
-                        khả năng mở rộng và tuân thủ chuẩn quốc tế
+                        Built with cutting-edge technology, ensuring high performance,
+                        scalability, and international standards compliance
                     </p>
                 </motion.div>
 
@@ -221,7 +221,7 @@ export default function FeaturesSection() {
 
                                 {/* Hover Indicator */}
                                 <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-400 group-hover:text-blue-600 transition-colors duration-300">
-                                    <span>Tìm hiểu thêm</span>
+                                    <span>Learn more</span>
                                     <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
@@ -240,7 +240,7 @@ export default function FeaturesSection() {
                     className="mt-20 text-center"
                 >
                     <button className="group px-8 py-4 bg-slate-900 text-white rounded-full font-semibold text-lg hover:bg-slate-800 transition-all duration-300">
-                        Xem tài liệu kỹ thuật
+                        View Technical Documentation
                         <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
                     </button>
                 </motion.div>

@@ -27,52 +27,52 @@ property_mappings:
   name:
     target: "cameraName"
     type: "Property"
-  
+
   code:
     target: "cameraNum"
     type: "Property"
-  
+
   ptz:
     target: "cameraType"
     type: "Property"
-    transform: "boolean_to_ptz"  # True→PTZ, False→Fixed
-  
+    transform: "boolean_to_ptz" # True→PTZ, False→Fixed
+
   cam_type:
     target: "cameraUsage"
     type: "Property"
-    transform: "uppercase"  # tth→TRAFFIC
-  
+    transform: "uppercase" # tth→TRAFFIC
+
   url:
     target: "streamUrl"
     type: "Property"
-  
+
   image:
     target: "imageUrl"
     type: "Property"
-  
+
   image_url_x4:
     target: "imageSnapshot"
     type: "Property"
     description: "High resolution camera snapshot URL"
-  
+
   address:
     target: "address"
     type: "Property"
     description: "Street address or intersection location"
-  
+
   description:
     target: "description"
     type: "Property"
-  
+
   status:
     target: "status"
     type: "Property"
-  
+
   updated_at:
     target: "dateLastValueReported"
     type: "Property"
     transform: "iso_datetime"
-  
+
   last_update:
     target: "dateModified"
     type: "Property"
@@ -85,8 +85,26 @@ geo_property:
   format: "Point"
   type: "GeoProperty"
 
-# Relationship Mappings (if any)
-relationships: []
+# Relationship Mappings for Camera entity
+# Following NGSI-LD Smart Data Models standards
+# These create bidirectional links with WeatherObserved and AirQualityObserved
+# Reference: https://github.com/smart-data-models/dataModel.Device
+relationships:
+  # Link to WeatherObserved observation point
+  # This relationship is dynamically created during transformation
+  # when weather data exists for the camera
+  - target: "refWeatherObserved"
+    type: "Relationship"
+    dynamic: true # Generated during transform, not from source field
+    description: "Reference to the WeatherObserved entity associated with this Camera"
+
+  # Link to AirQualityObserved observation point
+  # This relationship is dynamically created during transformation
+  # when air quality data exists for the camera
+  - target: "refAirQualityObserved"
+    type: "Relationship"
+    dynamic: true # Generated during transform, not from source field
+    description: "Reference to the AirQualityObserved entity associated with this Camera"
 
 # NGSI-LD Context URLs
 context_urls:
@@ -99,10 +117,10 @@ transforms:
     type: "boolean_map"
     true_value: "PTZ"
     false_value: "Fixed"
-  
+
   uppercase:
     type: "string_uppercase"
-  
+
   iso_datetime:
     type: "datetime_format"
     output_format: "iso8601"
@@ -113,10 +131,10 @@ validation:
     - "id"
     - "type"
     - "@context"
-  
+
   required_properties:
     - "location"
-  
+
   geo_constraints:
     latitude_range: [-90, 90]
     longitude_range: [-180, 180]
@@ -124,8 +142,8 @@ validation:
 # Processing Options
 processing:
   batch_size: 100
-  source_file: 'data/cameras_enriched.json'  # UPDATED: Read from enriched file
-  output_file: 'data/ngsi_ld_entities.json'
+  source_file: "data/cameras_enriched.json" # UPDATED: Read from enriched file
+  output_file: "data/ngsi_ld_entities.json"
   validate_output: true
   pretty_print: true
 
@@ -136,51 +154,51 @@ weather_mappings:
   entity_type: "WeatherObserved"
   uri_prefix: "urn:ngsi-ld:WeatherObserved:"
   ref_device_prefix: "urn:ngsi-ld:Camera:"
-  source_field: "weather"  # Extract data from "weather" key in enriched entity
-  
+  source_field: "weather" # Extract data from "weather" key in enriched entity
+
   property_mappings:
     temperature:
       target: "temperature"
       type: "Property"
       unit: "CEL"
-    
+
     humidity:
       target: "relativeHumidity"
       type: "Property"
       unit: "P1"
-    
+
     wind_speed:
       target: "windSpeed"
       type: "Property"
       unit: "MTS"
-    
+
     rain_1h:
       target: "precipitation"
       type: "Property"
       unit: "MMT"
       default: 0.0
-    
+
     description:
       target: "weatherType"
       type: "Property"
-    
+
     pressure:
       target: "atmosphericPressure"
       type: "Property"
       unit: "A97"
-    
+
     clouds:
       target: "cloudiness"
       type: "Property"
       unit: "P1"
-  
+
   # Weather observations use same location as camera
   geo_property:
     source: ["latitude", "longitude"]
     target: "location"
     format: "Point"
     type: "GeoProperty"
-  
+
   context_urls:
     - "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
     - "https://smart-data-models.github.io/dataModel.Weather/context.jsonld"
@@ -192,84 +210,83 @@ airquality_mappings:
   entity_type: "AirQualityObserved"
   uri_prefix: "urn:ngsi-ld:AirQualityObserved:"
   ref_device_prefix: "urn:ngsi-ld:Camera:"
-  source_field: "air_quality"  # Extract data from "air_quality" key in enriched entity
-  
+  source_field: "air_quality" # Extract data from "air_quality" key in enriched entity
+
   property_mappings:
     aqi:
       target: "airQualityIndex"
       type: "Property"
-    
+
     pm25:
       target: "pm25"
       type: "Property"
       unit: "GQ"
-    
+
     pm10:
       target: "pm10"
       type: "Property"
       unit: "GQ"
-    
+
     co:
       target: "co"
       type: "Property"
       unit: "GP"
-    
+
     o3:
       target: "o3"
       type: "Property"
       unit: "GQ"
-    
+
     no2:
       target: "no2"
       type: "Property"
       unit: "GQ"
-    
+
     so2:
       target: "so2"
       type: "Property"
       unit: "GQ"
-    
+
     nh3:
       target: "nh3"
       type: "Property"
       unit: "GQ"
       description: "Ammonia concentration (bonus pollutant from OpenWeatherMap)"
-    
+
     aqi_category:
       target: "airQualityCategory"
       type: "Property"
       description: "Air quality category (Good/Fair/Moderate/Poor/Very Poor)"
-    
+
     aqi_index:
       target: "airQualityIndexValue"
       type: "Property"
       description: "Numeric AQI value from OpenWeatherMap (1-5)"
-    
+
     source:
       target: "dataProvider"
       type: "Property"
       description: "Data source provider (OpenWeatherMap)"
-    
+
     location_name:
       target: "stationName"
       type: "Property"
-    
+
     distance_km:
       target: "distanceFromDevice"
       type: "Property"
       unit: "KMT"
-  
+
   # Air quality observations use same location as camera
   geo_property:
     source: ["latitude", "longitude"]
     target: "location"
     format: "Point"
     type: "GeoProperty"
-  
+
   context_urls:
     - "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
     - "https://smart-data-models.github.io/dataModel.Environment/context.jsonld"
-
 # Example: Healthcare domain mapping (commented - activate when needed)
 # entity_type: "MedicalDevice"
 # uri_prefix: "urn:ngsi-ld:MedicalDevice:"

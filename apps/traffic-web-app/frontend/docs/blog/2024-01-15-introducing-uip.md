@@ -69,7 +69,7 @@ Tuân thủ các tiêu chuẩn quốc tế:
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Frontend Layer                            │
-│  React 18 + TypeScript + Leaflet + Recharts                 │
+│  React 18 + TypeScript + MapLibre GL + Recharts             │
 ├─────────────────────────────────────────────────────────────┤
 │                    API Gateway                               │
 │  Node.js Express + Python FastAPI                           │

@@ -57,6 +57,7 @@ export interface Camera {
   };
   status: 'active' | 'inactive' | 'maintenance' | 'online' | 'offline';
   streamUrl?: string;
+  imageSnapshot?: string; // Camera snapshot image URL from HCM Traffic Portal
   lastUpdate: string;
   dateModified?: string;
   district?: string; // District information

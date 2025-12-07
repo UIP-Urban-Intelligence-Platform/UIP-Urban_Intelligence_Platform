@@ -22,7 +22,7 @@ The HCMC Traffic Monitoring System is a **multi-agent orchestration platform** t
 - 🤖 **Detects accidents** using YOLOX computer vision
 - 📊 **Analyzes patterns** with advanced analytics agents
 - 🌐 **Publishes Linked Open Data** following NGSI-LD and SOSA/SSN standards
-- 🗺️ **Visualizes data** on an interactive React + Leaflet map
+- 🗺️ **Visualizes data** on an interactive React + MapLibre GL map
 - 📱 **Collects citizen reports** via mobile-friendly forms
 
 ## 🏗️ Architecture Overview
@@ -102,7 +102,7 @@ npm run dev
 - State management and caching
 
 ### 🗺️ Interactive Map Interface
-- **Leaflet-based** traffic visualization
+- **MapLibre GL** traffic visualization
 - Multiple overlay layers (weather, AQI, speed zones)
 - Real-time updates via WebSocket
 - Advanced filtering and search
@@ -147,7 +147,7 @@ npm run dev
 ### Frontend
 - **React 18.2** - UI framework
 - **TypeScript 5.2** - Type safety
-- **Leaflet** - Map visualization
+- **MapLibre GL JS** - Map visualization
 - **Zustand** - State management
 - **Recharts** - Data visualization
 

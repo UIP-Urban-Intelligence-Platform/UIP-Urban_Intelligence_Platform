@@ -95,7 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Frontend Application (PR [#53](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/pull/53)-[#57](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/pull/57))
 - Complete Dashboard and Landing pages implementation
-- Interactive Leaflet map with multiple overlay layers:
+- Interactive MapLibre GL map with multiple overlay layers:
   - Camera markers and heatmap visualization
   - Weather, environmental and traffic pattern overlays
   - Accident markers with detail modals
@@ -524,7 +524,7 @@ This project benefits from the following open source technologies:
 - **[Neo4j](https://neo4j.com/)** - Graph database platform
 - **[YOLOv8](https://docs.ultralytics.com/)** - Computer vision models
 - **[React](https://react.dev/)** - Frontend UI framework
-- **[Leaflet](https://leafletjs.com/)** - Interactive maps library
+- **[MapLibre GL JS](https://maplibre.org/)** - Interactive maps library
 
 ---
 

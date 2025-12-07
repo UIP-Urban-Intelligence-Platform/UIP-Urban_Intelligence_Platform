@@ -70,12 +70,14 @@ This project incorporates or depends on the following third-party software:
     <https://stellio.io>
     Used for: NGSI-LD context broker
 
-12. React-Leaflet
-    License: Hippocratic License 2.1
-    Copyright (c) 2020 Paul Le Cam and contributors
-    <https://github.com/PaulLeCam/react-leaflet>
-    Used for: React components for Leaflet maps
-    Note: Ethical source license, compatible for non-harmful use cases
+12. react-map-gl + MapLibre GL JS
+    License: MIT (react-map-gl), BSD-3-Clause (MapLibre GL JS)
+    Copyright (c) 2019 Uber Technologies, Inc. (react-map-gl)
+    Copyright (c) 2020-2024 MapLibre contributors
+    <https://github.com/visgl/react-map-gl>
+    <https://github.com/maplibre/maplibre-gl-js>
+    Used for: React components for interactive vector tile maps
+    Note: Replaced react-leaflet (Hippocratic) for 100% MIT compatibility
 
 13. WeasyPrint / Pyphen
     License: BSD (WeasyPrint), GPL/LGPL/MPL tri-license (Pyphen)
@@ -102,12 +104,12 @@ All third-party dependencies use licenses compatible with MIT:
 - ISC License: Compatible with MIT
 - MPL 1.1/2.0: Compatible with MIT
 - EPL-1.0/EDL-1.0: Compatible with MIT for commercial use
-- Hippocratic 2.1: Compatible for ethical/non-harmful use cases
 
-Development-only tools (not distributed):
+All development tools now use MIT-compatible licenses:
+- ruff (MIT): Replaces pylint/flake8/isort - faster and MIT-licensed
 
-- GPL-2.0 (pylint): Dev tool only, not bundled
-- LGPL-2.1 (astroid): Dev tool only, not bundled
+Note: react-leaflet (Hippocratic-2.1) was replaced with react-map-gl + MapLibre GL JS
+in December 2025 to achieve 100% MIT-compatible licensing.
 
 ================================================================================
                          LICENSE AUDIT SUMMARY
@@ -138,6 +140,7 @@ For full license texts of third-party dependencies, please refer to:
 - asyncpg: <https://github.com/MagicStack/asyncpg/blob/master/LICENSE>
 - OpenCV: <https://github.com/opencv/opencv/blob/master/LICENSE>
 - Neo4j Driver: <https://github.com/neo4j/neo4j-python-driver/blob/5.0/LICENSE>
-- React-Leaflet: <https://github.com/PaulLeCam/react-leaflet/blob/master/LICENSE>
+- react-map-gl: <https://github.com/visgl/react-map-gl/blob/master/LICENSE>
+- MapLibre GL JS: <https://github.com/maplibre/maplibre-gl-js/blob/main/LICENSE.txt>
 - WeasyPrint: <https://github.com/Kozea/WeasyPrint/blob/main/LICENSE>
 - JSTS: <https://github.com/bjornharrtell/jsts/blob/master/LICENSE>

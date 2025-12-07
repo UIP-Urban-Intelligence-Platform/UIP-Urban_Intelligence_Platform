@@ -1,0 +1,81 @@
+---
+sidebar_position: 9
+---
+
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+CitizenReportFilterPanel Component Documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/frontend/components/CitizenReportFilterPanel.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
+# CitizenReportFilterPanel
+
+A filter panel component for filtering citizen reports by various criteria.
+
+## 📋 Overview
+
+| Property | Value |
+|----------|-------|
+| **File** | `src/components/CitizenReportFilterPanel.tsx` |
+| **Type** | React Functional Component |
+| **Author** | UIP Team |
+| **Version** | 1.0.0 |
+
+## 🎯 Purpose
+
+- Filter citizen reports by type, status, date
+- Search reports by keyword
+- Sort reports by various fields
+- Apply geographic filters
+
+## 🚀 Usage
+
+```tsx
+import { CitizenReportFilterPanel } from '@/components/CitizenReportFilterPanel';
+
+function ReportsPage() {
+  const [filters, setFilters] = useState({});
+
+  return (
+    <CitizenReportFilterPanel
+      filters={filters}
+      onFilterChange={setFilters}
+      onReset={() => setFilters({})}
+    />
+  );
+}
+```
+
+## 📦 Props
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `filters` | `ReportFilters` | Yes | - | Current filter state |
+| `onFilterChange` | `(filters: ReportFilters) => void` | Yes | - | Filter change handler |
+| `onReset` | `() => void` | No | - | Reset filters handler |
+| `collapsed` | `boolean` | No | `false` | Panel collapsed state |
+
+## 🔧 Filter Options
+
+| Filter | Type | Options |
+|--------|------|---------|
+| Report Type | Multi-select | Accident, Congestion, Hazard, etc. |
+| Status | Multi-select | Pending, Verified, Resolved |
+| Date Range | Date picker | Start/End dates |
+| Severity | Single-select | All, Critical, High, Medium, Low |
+
+## 📖 Related Components
+
+- [CitizenReportForm](CitizenReportForm) - Submit reports
+- [CitizenReportMap](CitizenReportMap) - Map view
+- [CitizenReportMarkers](CitizenReportMarkers) - Map markers
+
+---
+
+See the [complete components reference](../complete-components-reference) for all available components.

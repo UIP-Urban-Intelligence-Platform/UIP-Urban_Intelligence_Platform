@@ -49,7 +49,7 @@ const dataModels = [
         name: 'Camera',
         color: 'blue',
         gradient: 'from-blue-500 to-cyan-500',
-        description: '40 camera entities với sosa:Sensor type',
+        description: '40 camera entities with sosa:Sensor type',
         details: 'Monitors: vehicleType, speed, location, timestamp. Relationships: sosa:observes, sosa:isHostedBy, sosa:madeObservation',
         entities: 40,
         updateFreq: '30-60s',
@@ -60,8 +60,8 @@ const dataModels = [
         name: 'WeatherObserved',
         color: 'purple',
         gradient: 'from-purple-500 to-pink-500',
-        description: '80 entities từ OpenWeatherMap API',
-        details: 'Properties: temperature, humidity, pressure, windSpeed, weatherType. External API integration với real-time updates',
+        description: '80 entities from OpenWeatherMap API',
+        details: 'Properties: temperature, humidity, pressure, windSpeed, weatherType. External API integration with real-time updates',
         entities: 80,
         updateFreq: '10min',
     },
@@ -71,8 +71,8 @@ const dataModels = [
         name: 'AirQualityObserved',
         color: 'green',
         gradient: 'from-green-500 to-emerald-500',
-        description: '80 entities từ OpenAQ v3 API',
-        details: 'Pollutants: PM2.5, PM10, NO2, O3, CO, SO2. AQI calculation và health advisory generation',
+        description: '80 entities from OpenAQ v3 API',
+        details: 'Pollutants: PM2.5, PM10, NO2, O3, CO, SO2. AQI calculation and health advisory generation',
         entities: 80,
         updateFreq: '1hour',
     },
@@ -93,8 +93,8 @@ const dataModels = [
         name: 'RoadAccident',
         color: 'red',
         gradient: 'from-red-500 to-pink-500',
-        description: 'Anomaly detection từ AI agents',
-        details: 'Severity levels, location, timestamp, affected vehicles. AI verification với AccidentDetector agent',
+        description: 'Anomaly detection from AI agents',
+        details: 'Severity levels, location, timestamp, affected vehicles. AI verification with AccidentDetector agent',
         entities: 'Event-based',
         updateFreq: 'On-demand',
     },
@@ -105,7 +105,7 @@ const dataModels = [
         color: 'indigo',
         gradient: 'from-indigo-500 to-purple-500',
         description: 'Time-series pattern analysis',
-        details: 'Historical patterns, peak hours, congestion zones. ML-powered prediction với Pattern Recognition Agent',
+        details: 'Historical patterns, peak hours, congestion zones. ML-powered prediction with Pattern Recognition Agent',
         entities: 'Analytical',
         updateFreq: '15min',
     },
@@ -126,7 +126,7 @@ const dataModels = [
         name: 'Platform',
         color: 'teal',
         gradient: 'from-teal-500 to-cyan-500',
-        description: 'HCMC Traffic System singleton',
+        description: 'UIP System singleton',
         details: 'sosa:Platform representing entire system. Hosts all sensors, defines coverage area, system metadata',
         entities: 1,
         updateFreq: 'Static',
@@ -138,7 +138,7 @@ const dataModels = [
         color: 'pink',
         gradient: 'from-pink-500 to-rose-500',
         description: 'Mobile app citizen reports',
-        details: 'Category, description, imageSnapshot, location. AI verification với YOLOX, weather/AQ context enrichment',
+        details: 'Category, description, imageSnapshot, location. AI verification with YOLOX, weather/AQ context enrichment',
         entities: 'Community',
         updateFreq: 'User-driven',
     },
@@ -149,7 +149,7 @@ const dataModels = [
         color: 'violet',
         gradient: 'from-violet-500 to-purple-500',
         description: 'Citizen reporter profiles',
-        details: 'userId, reportCount, verifiedReportCount, accuracyRate. Gamification và reputation tracking',
+        details: 'userId, reportCount, verifiedReportCount, accuracyRate. Gamification and reputation tracking',
         entities: 'Community',
         updateFreq: 'On-report',
     },
@@ -196,8 +196,8 @@ export default function DataModelsShowcase() {
                         </span>
                     </h2>
                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                        Mô hình dữ liệu tuân thủ chuẩn NGSI-LD và SOSA/SSN ontologies,
-                        đảm bảo khả năng tương tác và tích hợp với hệ thống quốc tế
+                        Data models compliant with NGSI-LD and SOSA/SSN ontologies,
+                        ensuring interoperability and integration with international systems
                     </p>
                 </motion.div>
 

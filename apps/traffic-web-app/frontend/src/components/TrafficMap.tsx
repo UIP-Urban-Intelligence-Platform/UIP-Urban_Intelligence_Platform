@@ -1,5 +1,5 @@
 /**
- * Traffic Map - Interactive Leaflet Map with Overlays
+ * Traffic Map - Interactive MapLibre GL Map with Overlays
  *
  * UIP - Urban Intelligence Platform
  * Copyright (c) 2025 UIP Team. All rights reserved.
@@ -16,7 +16,7 @@
  * 
  * @description
  * Core map component providing interactive traffic visualization with 8 overlay layers,
- * real-time updates, and geo-spatial filtering. Built on Leaflet with React wrappers.
+ * real-time updates, and geo-spatial filtering. Built on MapLibre GL JS with React wrappers.
  * 
  * Map Overlays (8 layers):
  * 1. Camera Markers: Traffic cameras with image popups and intensity indicators
@@ -47,8 +47,8 @@
  * - Canvas-based heatmaps
  * 
  * @dependencies
- * - react-leaflet@^4.2: React bindings for Leaflet
- * - leaflet@^1.9: Interactive map library
+ * - react-map-gl@^7.1: React bindings for MapLibre GL JS (MIT license)
+ * - maplibre-gl@^4.7: Interactive map library (BSD-3-Clause)
  * - Zustand store for state management
  * 
  * @example
@@ -60,10 +60,10 @@
  * />
  */
 
-import React, { useState, useRef, useImperativeHandle, forwardRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useImperativeHandle, forwardRef, useEffect, useCallback } from 'react';
+// MIT-compatible map components (react-map-gl + MapLibre GL JS)
 import {
   MapContainer,
-  TileLayer,
   Marker,
   Popup,
   Polyline,
@@ -71,9 +71,10 @@ import {
   ScaleControl,
   ZoomControl,
   Tooltip,
-  useMap
-} from 'react-leaflet';
-import { Icon, LatLngExpression, Map as LeafletMap } from 'leaflet';
+  useMap,
+  useMapEvents,
+} from './map';
+import type { LatLngExpression, MapInstance } from './map';
 import { useTrafficStore } from '../store/trafficStore';
 import { Camera, Accident, Weather, AirQuality, TrafficPattern } from '../types';
 import { format, subHours, parseISO } from 'date-fns';
@@ -104,24 +105,34 @@ import { CitizenReportMarkers } from './CitizenReportMarkers';
 import { citizenReportService } from '../services/citizenReportService';
 import { CitizenReport } from '../types/citizenReport';
 import useWebSocket from '../hooks/useWebSocket';
-import 'leaflet/dist/leaflet.css';
+// Note: MapLibre GL CSS is automatically imported by MapContainer
 
 const { BaseLayer } = LayersControl;
 
-const createCameraIcon = (status: string = 'active'): Icon => {
+// Icon helper for markers (MapLibre uses image URLs directly)
+interface IconConfig {
+  iconUrl: string;
+  shadowUrl?: string;
+  iconSize?: [number, number];
+  iconAnchor?: [number, number];
+  popupAnchor?: [number, number];
+  shadowSize?: [number, number];
+}
+
+const createCameraIcon = (status: string = 'active'): IconConfig => {
   // Note: Future versions may include type-specific icons (PTZ/Static/Dome)
   const color = status === 'active' || status === 'online' ? 'blue' : 'red';
-  return new Icon({
+  return {
     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
     shadowUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png`,
     iconSize: [35, 57],  // Tăng từ [25, 41] lên 40% để dễ nhìn hơn
     iconAnchor: [17, 57],  // Điều chỉnh anchor point
     popupAnchor: [1, -50],  // Điều chỉnh popup position
     shadowSize: [57, 57],  // Tăng shadow size
-  });
+  };
 };
 
-const accidentIconBySeverity = (severity: string): Icon => {
+const accidentIconBySeverity = (severity: string): IconConfig => {
   const colorMap: Record<string, string> = {
     'fatal': 'black',
     'severe': 'red',
@@ -129,26 +140,26 @@ const accidentIconBySeverity = (severity: string): Icon => {
     'minor': 'yellow',
   };
   const color = colorMap[severity] || 'red';
-  return new Icon({
+  return {
     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
     shadowUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png`,
     iconSize: [35, 57],
     iconAnchor: [17, 57],
     popupAnchor: [1, -50],
     shadowSize: [57, 57],
-  });
+  };
 };
 
-const weatherIcon = new Icon({
+const weatherIcon: IconConfig = {
   iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png`,
   shadowUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png`,
   iconSize: [35, 57],
   iconAnchor: [17, 57],
   popupAnchor: [1, -50],
   shadowSize: [57, 57],
-});
+};
 
-const airQualityIconByLevel = (level: string): Icon => {
+const airQualityIconByLevel = (level: string): IconConfig => {
   const colorMap: Record<string, string> = {
     'good': 'green',
     'moderate': 'yellow',
@@ -157,14 +168,29 @@ const airQualityIconByLevel = (level: string): Icon => {
     'hazardous': 'violet',
   };
   const color = colorMap[level] || 'grey';
-  return new Icon({
+  return {
     iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
     shadowUrl: `https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png`,
     iconSize: [35, 57],
     iconAnchor: [17, 57],
     popupAnchor: [1, -50],
     shadowSize: [57, 57],
+  };
+};
+
+// Map Click Handler Component for capturing location when citizen form is open
+const MapClickHandler: React.FC<{
+  onLocationSelect: (lat: number, lng: number) => void;
+  enabled: boolean;
+}> = ({ onLocationSelect, enabled }) => {
+  useMapEvents({
+    click: (e: { latlng: { lat: number; lng: number } }) => {
+      if (enabled) {
+        onLocationSelect(e.latlng.lat, e.latlng.lng);
+      }
+    },
   });
+  return null;
 };
 
 const TrafficMap = forwardRef<any, {}>((_props, ref) => {
@@ -202,7 +228,13 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
   const [selectedCameraForModal, setSelectedCameraForModal] = useState<Camera | null>(null);
   // InvestigatorPanel camera state (separate from CameraDetailModal)
   const [selectedCameraForInvestigator, setSelectedCameraForInvestigator] = useState<Camera | null>(null);
-  const mapRef = useRef<LeafletMap | null>(null);
+  const mapRef = useRef<MapInstance | null>(null);
+
+  // 🔧 FIX: Move InvestigatorPanel AI data state to TrafficMap level to persist across re-renders
+  const [investigatorRealData, setInvestigatorRealData] = useState<any>(null);
+  const [investigatorLoading, setInvestigatorLoading] = useState(false);
+  const lastFetchedCameraRef = useRef<string | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Memoized callbacks for InvestigatorPanel to prevent re-render loop
   const handleCameraChange = useCallback((cameraId: string) => {
@@ -218,87 +250,113 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
     useTrafficStore.getState().updateFilters({ showInvestigator: false });
   }, []);
 
-  // InvestigatorPanelWithAI - Wrapper component with REAL AI Vision + LOD Cloud data
-  const InvestigatorPanelWithAI: React.FC<{
-    targetCamera: Camera;
-    cameraList: Array<{ id: string; name: string }>;
-    onCameraChange: (cameraId: string) => void;
-    onClose: () => void;
-  }> = ({ targetCamera, cameraList, onCameraChange, onClose }) => {
-    // 🆕 NEW: Real AI data state (no more mock!)
-    const [realData, setRealData] = useState<any>(null);
-    const [loading, setLoading] = useState(false);
+  // 🔧 FIX: Fetch InvestigatorPanel AI data at TrafficMap level to persist across re-renders
+  useEffect(() => {
+    const targetCamera = selectedCameraForInvestigator || cameras[0];
+    if (!filters.showInvestigator || !targetCamera) {
+      return;
+    }
 
-    // 🆕 NEW: Fetch REAL AI Vision + Real LOD Cloud data
-    useEffect(() => {
-      const fetchRealAIData = async () => {
-        setLoading(true);
-        try {
-          console.log(`🔍 [NEW] Fetching real AI Vision data for camera: ${targetCamera.id}`);
+    // 🔧 FIX: Skip if already fetched this camera and have data
+    if (lastFetchedCameraRef.current === targetCamera.id && investigatorRealData) {
+      console.log(`⏭️ Skipping duplicate fetch for camera: ${targetCamera.id}`);
+      return;
+    }
 
-          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-          const response = await fetch(`${API_URL}/api/agents/graph-investigator/analyze-camera-with-vision`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              cameraId: targetCamera.id,
-              cameraName: targetCamera.name || targetCamera.cameraName || 'Unknown'
-              // imageBase64: optional - backend will use demo image if not provided
-            })
+    // Cancel previous request if exists
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+
+    const fetchRealAIData = async () => {
+      // 🔧 FIX: Only show loading spinner if NO data exists yet (first load)
+      if (!investigatorRealData) {
+        setInvestigatorLoading(true);
+      }
+
+      try {
+        console.log(`🔍 [NEW] Fetching real AI Vision data for camera: ${targetCamera.id}`);
+        lastFetchedCameraRef.current = targetCamera.id;
+
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const response = await fetch(`${API_URL}/api/agents/graph-investigator/analyze-camera-with-vision`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cameraId: targetCamera.id,
+            cameraName: targetCamera.name || targetCamera.cameraName || 'Unknown'
+          }),
+          signal: abortControllerRef.current?.signal
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          console.log(`✅ Received real AI data:`, {
+            detections: result.data.detections.length,
+            trafficLevel: result.data.trafficLevel,
+            aqi: result.data.aqi.value,
+            temp: result.data.weather.temperature
           });
 
-          const result = await response.json();
+          // Transform detections to include colors for rendering
+          const colors = ['#00FF00', '#FF0000', '#FFFF00', '#00FFFF', '#FF00FF'];
+          const colorMap: Record<string, string> = {
+            'Xe cộ': '#00FF00',
+            'Xe máy': '#FFFF00',
+            'Xe tải': '#FF0000',
+            'Xe buýt': '#00FFFF',
+            'Người đi bộ': '#FF00FF'
+          };
 
-          if (result.success) {
-            console.log(`✅ Received real AI data:`, {
-              detections: result.data.detections.length,
-              trafficLevel: result.data.trafficLevel,
-              aqi: result.data.aqi.value,
-              temp: result.data.weather.temperature
-            });
+          const detectionsWithColors = result.data.detections.map((d: any, i: number) => ({
+            ...d,
+            box: {
+              x: d.box.x * 640,
+              y: d.box.y * 480,
+              width: d.box.width * 640,
+              height: d.box.height * 480
+            },
+            color: colorMap[d.label] || colors[i % colors.length]
+          }));
 
-            // Transform detections to include colors for rendering
-            const colors = ['#00FF00', '#FF0000', '#FFFF00', '#00FFFF', '#FF00FF'];
-            const colorMap: Record<string, string> = {
-              'Xe cộ': '#00FF00',
-              'Xe máy': '#FFFF00',
-              'Xe tải': '#FF0000',
-              'Xe buýt': '#00FFFF',
-              'Người đi bộ': '#FF00FF'
-            };
-
-            const detectionsWithColors = result.data.detections.map((d: any, i: number) => ({
-              ...d,
-              // Convert normalized coordinates (0-1) to pixel coordinates
-              box: {
-                x: d.box.x * 640,      // Assuming 640x480 image
-                y: d.box.y * 480,
-                width: d.box.width * 640,
-                height: d.box.height * 480
-              },
-              color: colorMap[d.label] || colors[i % colors.length]
-            }));
-
-            setRealData({
-              detections: detectionsWithColors,
-              trafficLevel: result.data.trafficLevel,
-              weather: result.data.weather,
-              aqi: result.data.aqi,
-              analysis: result.data.analysis,
-              imageAnalyzed: result.data.imageAnalyzed
-            });
-          } else {
-            console.error('❌ Failed to fetch real AI data:', result.error);
-          }
-        } catch (error) {
-          console.error('❌ Error fetching real AI data:', error);
-        } finally {
-          setLoading(false);
+          setInvestigatorRealData({
+            cameraId: targetCamera.id,
+            detections: detectionsWithColors,
+            trafficLevel: result.data.trafficLevel,
+            weather: result.data.weather,
+            aqi: result.data.aqi,
+            analysis: result.data.analysis,
+            imageAnalyzed: result.data.imageAnalyzed
+          });
+        } else {
+          console.error('❌ Failed to fetch real AI data:', result.error);
         }
-      };
+      } catch (error: any) {
+        if (error.name === 'AbortError') {
+          console.log('🔄 Request aborted');
+          return;
+        }
+        console.error('❌ Error fetching real AI data:', error);
+      } finally {
+        setInvestigatorLoading(false);
+      }
+    };
 
-      fetchRealAIData();
-    }, [targetCamera.id]);
+    fetchRealAIData();
+
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, [filters.showInvestigator, selectedCameraForInvestigator?.id, cameras[0]?.id]);
+
+  // Helper function to render InvestigatorPanel
+  const renderInvestigatorPanel = useCallback((targetCamera: Camera, cameraList: Array<{ id: string; name: string }>) => {
+    const realData = investigatorRealData;
+    const loading = investigatorLoading;
 
     // Use REAL data if available, otherwise show loading state
     const detections = realData?.detections || [];
@@ -335,15 +393,22 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
           },
           timestamp: new Date().toISOString(),
           snapshot: {
-            url: targetCamera.streamUrl || 'https://via.placeholder.com/640x480',
+            // 🔧 FIX: Use streamUrl (which now includes imageSnapshot fallback from backend)
+            // Proxy through backend to bypass CORS for HCM Traffic Portal
+            url: (() => {
+              const originalUrl = targetCamera.streamUrl;
+              if (originalUrl && originalUrl.includes('giaothong.hochiminhcity.gov.vn')) {
+                // Use backend proxy to bypass CORS
+                return `/api/cameras/proxy/image?url=${encodeURIComponent(originalUrl)}`;
+              }
+              return originalUrl || 'https://placehold.co/640x480/1f2937/ffffff?text=No+Camera+Stream';
+            })(),
             width: 640,
             height: 480
           },
-          // 🆕 REAL AI detections with bounding boxes from Gemini Vision
           aiDetections: detections,
           externalNews: [],
           sensorData: [
-            // 🆕 REAL traffic level calculated from detection count
             {
               type: 'traffic',
               label: 'Giao thông',
@@ -351,7 +416,6 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
               severity: trafficSeverity,
               icon: '🚦'
             },
-            // 🆕 REAL AQI from Stellio AirQualityObserved entities
             {
               type: 'airquality',
               label: 'Chất lượng không khí',
@@ -359,7 +423,6 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
               severity: aqiSeverity,
               icon: '🌫️'
             },
-            // 🆕 REAL weather from Stellio WeatherObserved entities
             {
               type: 'weather',
               label: 'Thời tiết',
@@ -369,7 +432,6 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
             }
           ],
           verdict: {
-            // 🆕 REAL Gemini AI-generated analysis
             summary: verdict.summary,
             confidence: verdict.confidence,
             severity: verdict.severity,
@@ -379,11 +441,11 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
         }}
         isLoading={loading}
         availableCameras={cameraList}
-        onCameraChange={onCameraChange}
-        onClose={onClose}
+        onCameraChange={handleCameraChange}
+        onClose={handleInvestigatorClose}
       />
     );
-  };
+  }, [investigatorRealData, investigatorLoading, handleCameraChange, handleInvestigatorClose]);
 
   // Sync InvestigatorPanel camera when toggling showInvestigator
   useEffect(() => {
@@ -416,6 +478,7 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
 
   // Citizen Reports state
   const [citizenReports, setCitizenReports] = useState<CitizenReport[]>([]);
+  const [citizenReportLocation, setCitizenReportLocation] = useState<{ lat: number; lng: number } | null>(null);
 
   // Fetch citizen reports
   const fetchCitizenReports = useCallback(async () => {
@@ -442,6 +505,50 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
       fetchCitizenReports();
     }, 1000);
   };
+
+  // =====================================================
+  // PREDICTIVE TIMELINE DATA (Real API)
+  // =====================================================
+
+  const [predictiveData, setPredictiveData] = useState<{
+    predictions: any[];
+    events: any[];
+    actions: any[];
+    metadata?: any;
+  } | null>(null);
+  const [predictiveLoading, setPredictiveLoading] = useState(false);
+
+  // Fetch predictive timeline data when showPredictive is enabled
+  const fetchPredictiveData = useCallback(async () => {
+    setPredictiveLoading(true);
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_BASE_URL}/api/agents/traffic-maestro/predictive-timeline`);
+      const result = await response.json();
+
+      if (result.success && result.data) {
+        console.log('📊 Predictive data loaded:', {
+          predictions: result.data.predictions?.length || 0,
+          events: result.data.events?.length || 0,
+          actions: result.data.actions?.length || 0,
+          source: result.data.metadata?.dataSource
+        });
+        setPredictiveData(result.data);
+      } else {
+        console.warn('Failed to load predictive data:', result.error);
+      }
+    } catch (error) {
+      console.error('Error fetching predictive data:', error);
+    } finally {
+      setPredictiveLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (filters.showPredictive) {
+      fetchPredictiveData();
+    }
+  }, [filters.showPredictive, fetchPredictiveData]);
 
   // =====================================================
   // HEALTH ADVISOR HANDLERS
@@ -599,8 +706,7 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
           if (bestAQI.location?.lat && bestAQI.location?.lng) {
             mapRef.current.setView(
               [bestAQI.location.lat, bestAQI.location.lng],
-              15,
-              { animate: true, duration: 1 }
+              15
             );
           }
         }
@@ -637,20 +743,14 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
   // Handle view on map from modal
   const handleViewOnMap = (camera: Camera) => {
     if (mapRef.current) {
-      mapRef.current.setView([camera.location.latitude, camera.location.longitude], 16, {
-        animate: true,
-        duration: 1
-      });
+      mapRef.current.setView([camera.location.latitude, camera.location.longitude], 16);
     }
   };
 
   // Handle zoom to camera from FilterPanel
   const handleZoomToCamera = (camera: Camera) => {
     if (mapRef.current) {
-      mapRef.current.setView([camera.location.latitude, camera.location.longitude], 16, {
-        animate: true,
-        duration: 1
-      });
+      mapRef.current.setView([camera.location.latitude, camera.location.longitude], 16);
     }
   };
 
@@ -664,9 +764,8 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
       mapRef.current.fitBounds(
         [[bounds.minLat, bounds.minLng], [bounds.maxLat, bounds.maxLng]],
         {
-          padding: [50, 50],
-          animate: true,
-          duration: 1
+          padding: 50,
+          maxZoom: 15
         }
       );
     }
@@ -839,21 +938,23 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
         className="z-0"
         zoomControl={false}
       >
+        {/* Map Click Handler for Citizen Report Location */}
+        <MapClickHandler
+          onLocationSelect={(lat, lng) => setCitizenReportLocation({ lat, lng })}
+          enabled={filters.showCitizenForm}
+        />
+
         <ZoomControl position="topright" />
         <ScaleControl position="bottomleft" />
 
         <LayersControl position="topright">
           <BaseLayer checked name="OpenStreetMap">
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
+            {/* Base layer is set via mapStyle in MapContainer */}
+            {null}
           </BaseLayer>
           <BaseLayer name="Satellite">
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              attribution='Tiles &copy; Esri'
-            />
+            {/* Satellite layer - would require changing mapStyle */}
+            {null}
           </BaseLayer>
         </LayersControl>
 
@@ -1339,20 +1440,6 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
         />
       )}
 
-      {/* Time Machine Toggle Button */}
-      <button
-        onClick={() => setShowTimeMachine(!showTimeMachine)}
-        className="fixed bottom-8 right-8 z-[9998] bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2.5 transition-all duration-300 hover:shadow-xl"
-        title="Time Machine"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span className="font-medium">
-          {showTimeMachine ? 'Hide' : 'Show'} Time Machine
-        </span>
-      </button>
-
       {/* Historical View Banner */}
       {historicalData && (
         <HistoricalViewBanner
@@ -1382,7 +1469,11 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
           <div className="relative w-full max-w-2xl">
             <CitizenReportForm
               onReportSubmitted={handleCitizenReportSubmit}
-              onClose={() => useTrafficStore.getState().updateFilters({ showCitizenForm: false })}
+              onClose={() => {
+                useTrafficStore.getState().updateFilters({ showCitizenForm: false });
+                setCitizenReportLocation(null);
+              }}
+              initialLocation={citizenReportLocation || undefined}
             />
           </div>
         </div>
@@ -1460,118 +1551,47 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
           );
         }
 
-        // Use useMemo to prevent infinite re-render loop
-        const targetCamera = useMemo(
-          () => selectedCameraForInvestigator || cameras[0],
-          [selectedCameraForInvestigator, cameras]
-        );
+        // 🔧 FIX: Don't use hooks inside IIFE - use regular variables instead
+        const targetCamera = selectedCameraForInvestigator || cameras[0];
         console.log('✅ Rendering InvestigatorPanel with camera:', targetCamera.id);
 
-        // Prepare camera list for dropdown - memoized to prevent re-creation
-        const cameraList = useMemo(
-          () => cameras.map(cam => ({
-            id: cam.id,
-            name: cam.name || cam.cameraName || cam.id
-          })),
-          [cameras]
-        );
+        // Prepare camera list for dropdown
+        const cameraList = cameras.map(cam => ({
+          id: cam.id,
+          name: cam.name || cam.cameraName || cam.id
+        }));
 
-        return (
-          <InvestigatorPanelWithAI
-            targetCamera={targetCamera}
-            cameraList={cameraList}
-            onCameraChange={handleCameraChange}
-            onClose={handleInvestigatorClose}
-          />
-        );
+        return renderInvestigatorPanel(targetCamera, cameraList);
       })()}
 
       {filters.showPredictive && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9994] w-[90vw] max-w-6xl max-h-[45vh] overflow-hidden rounded-xl shadow-2xl bg-white">
-          <PredictiveTimeline
-            predictions={[
-              {
-                timestamp: new Date().toISOString(),
-                currentCongestion: 45,
-                predictedCongestion: 65,
-                confidence: 0.82,
-                contributingEvents: ['event1'],
-                factors: { baselineTraffic: 40, eventImpact: 15, weatherImpact: 5, historicalPattern: 5 }
-              },
-              {
-                timestamp: new Date(Date.now() + 3600000).toISOString(),
-                currentCongestion: 45,
-                predictedCongestion: 75,
-                confidence: 0.75,
-                contributingEvents: ['event2'],
-                factors: { baselineTraffic: 50, eventImpact: 20, weatherImpact: 3, historicalPattern: 2 }
-              }
-            ]}
-            events={[
-              {
-                id: 'event1',
-                type: 'concert',
-                name: 'Đêm nhạc tại Nhà hát Thành phố',
-                venue: 'Nhà hát Thành phố, Quận 1',
-                startTime: new Date(Date.now() + 1800000).toISOString(),
-                endTime: new Date(Date.now() + 7200000).toISOString(),
-                estimatedAttendees: 5000,
-                impactRadius: 2000,
-                location: { lat: 10.7769, lng: 106.7009 },
-                riskScore: 75
-              },
-              {
-                id: 'event2',
-                type: 'sports',
-                name: 'Trận đấu bóng đá V-League',
-                venue: 'Sân vận động Thống Nhất',
-                startTime: new Date(Date.now() + 3600000).toISOString(),
-                endTime: new Date(Date.now() + 9000000).toISOString(),
-                estimatedAttendees: 15000,
-                impactRadius: 3000,
-                location: { lat: 10.7874, lng: 106.6938 },
-                riskScore: 85
-              },
-              {
-                id: 'event3',
-                type: 'conference',
-                name: 'Hội nghị Công nghệ HCMC 2025',
-                venue: 'Trung tâm Hội nghị Sài Gòn',
-                startTime: new Date(Date.now() + 5400000).toISOString(),
-                endTime: new Date(Date.now() + 14400000).toISOString(),
-                estimatedAttendees: 3000,
-                impactRadius: 1500,
-                location: { lat: 10.7624, lng: 106.6820 },
-                riskScore: 60
-              }
-            ]}
-            actions={[
-              {
-                id: '1',
-                type: 'green_wave',
-                label: 'Kích hoạt Sóng Xanh',
-                description: 'Tối ưu hóa đèn tín hiệu giao thông để giảm tắc nghẽn',
-                targetArea: 'Quận 1',
-                estimatedImpact: 'Giảm 15% tắc nghẽn',
-                requiredRiskLevel: 60,
-                icon: '🚦',
-                status: 'available'
-              },
-              {
-                id: '2',
-                type: 'alert',
-                label: 'Gửi Cảnh báo Công chúng',
-                description: 'Thông báo cho người dân về tình trạng giao thông',
-                targetArea: 'Toàn thành phố',
-                estimatedImpact: 'Tăng nhận thức 40%',
-                requiredRiskLevel: 70,
-                icon: '📢',
-                status: 'available'
-              }
-            ]}
-            onClose={() => useTrafficStore.getState().updateFilters({ showPredictive: false })}
-            onRefresh={() => console.log('Refreshing predictive data...')}
-          />
+        <div className="fixed inset-0 z-[9994] flex items-center justify-center bg-black/30 backdrop-blur-sm">
+          <div className="w-[85vw] max-w-5xl max-h-[80vh] overflow-hidden rounded-xl shadow-2xl bg-white">
+            {predictiveLoading ? (
+              <div className="flex items-center justify-center p-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500"></div>
+                <span className="ml-4 text-gray-600">Đang tải dữ liệu dự đoán...</span>
+              </div>
+            ) : (
+              <PredictiveTimeline
+                predictions={predictiveData?.predictions || []}
+                events={predictiveData?.events || []}
+                onClose={() => useTrafficStore.getState().updateFilters({ showPredictive: false })}
+                onRefresh={fetchPredictiveData}
+              />
+            )}
+            {/* Data source indicator */}
+            {predictiveData?.metadata && (
+              <div className="absolute bottom-4 right-4 text-xs text-gray-500 bg-white/80 px-2 py-1 rounded">
+                📊 Nguồn: {predictiveData.metadata.dataSource === 'live-cameras'
+                  ? `Camera thực (${predictiveData.metadata.camerasAnalyzed} cameras)`
+                  : 'Đang tải...'}
+                {predictiveData.metadata.hotspotsDetected > 0 && (
+                  <span> • 🔥 {predictiveData.metadata.hotspotsDetected} điểm nóng</span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>

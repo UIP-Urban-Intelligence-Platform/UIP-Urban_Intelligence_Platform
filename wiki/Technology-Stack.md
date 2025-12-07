@@ -164,10 +164,12 @@ Complete list of technologies, frameworks, and tools used in UIP - Urban Intelli
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Leaflet | 1.9+ | Maps |
-| React-Leaflet | 4.2+ | React map wrapper |
+| MapLibre GL JS | 4.7+ | Interactive vector tile maps (BSD-3-Clause) |
+| react-map-gl | 7.1+ | React bindings for MapLibre (MIT) |
 | Recharts | 2.8+ | Charts |
 | Lucide React | 0.294+ | Icons |
+
+> **Note:** Migrated from React-Leaflet (Hippocratic) to react-map-gl + MapLibre GL JS in December 2025 for 100% MIT compatibility.
 
 ### Forms & Validation
 

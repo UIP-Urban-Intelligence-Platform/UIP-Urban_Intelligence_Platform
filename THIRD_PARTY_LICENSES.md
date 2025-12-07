@@ -43,10 +43,10 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 | 0BSD | 0 | 1 | 1 | 2 |
 | PSF/Python-2.0 | 3 | 1 | 1 | 5 |
 | MPL-2.0 | 2 | 0 | 0 | 2 |
-| EPL/EDL | 0 | 2 | 0 | 2 |
-| Hippocratic-2.1 | 0 | 0 | 2 | 2 |
 | Other Permissive | 4 | 4 | 5 | 13 |
-| **Total** | **168** | **772** | **524** | **1,464** |
+| **Total** | **168** | **772** | **520** | **1,460** |
+
+> **Migration Note (2025-12):** EPL/EDL packages (@turf/jsts, jsts) and Hippocratic-2.1 packages (react-leaflet) have been **removed** and replaced with MIT-compatible alternatives.
 
 > Note: Some packages may have dual/multiple licenses (e.g., "MIT OR CC0-1.0"). They are counted once in their primary category.
 
@@ -67,11 +67,8 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 | BlueOak-1.0.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
 | CC-BY-3.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
 | CC-BY-4.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
-| EPL-1.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
-| EDL-1.0 | ✅ Yes | ✅ Allowed | ✅ Allowed | ✅ Allowed |
-| Hippocratic-2.1 | ✅ Yes* | ✅ Allowed | ✅ Allowed | ✅ Allowed |
 
-> *Hippocratic-2.1 requires ethical use compliance. This project fully complies.
+> **Note:** All non-MIT licenses (EPL/EDL, Hippocratic-2.1) have been removed in December 2025 migration.
 
 ---
 
@@ -162,13 +159,10 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 | pytest-asyncio | 1.3.0 | Apache-2.0 | Async testing |
 | pytest-cov | 7.0.0 | MIT | Coverage plugin |
 | black | 25.11.0 | MIT | Code formatter |
-| isort | 7.0.0 | MIT | Import sorter |
-| flake8 | 7.3.0 | MIT | Linting |
+| ruff | 0.14.8 | MIT | Linting & import sorting (replaces pylint, flake8, isort) |
 | mypy | 1.19.0 | MIT | Type checking |
-| pylint | 4.0.4 | GPL-2.0** | Linting |
-| astroid | 4.0.2 | LGPL-2.1** | AST library |
 
-> **These are development-only tools and are NOT included in production distributions.
+> ✅ All development tools are now 100% MIT-compatible.
 
 ---
 
@@ -196,10 +190,8 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 | Package | Version | License | Description |
 |---------|---------|---------|-------------|
 | @turf/turf | 7.x | MIT | Geospatial analysis |
-| @turf/jsts | 2.7.2 | EPL-1.0/EDL-1.0* | Geometry operations |
-| jsts | 2.7.1 | EPL-1.0/EDL-1.0* | JavaScript Topology Suite |
 
-> *Eclipse Public License and Eclipse Distribution License are compatible with commercial use and MIT.
+> **Migration Note (2025-12):** @turf/jsts and jsts (EPL-1.0/EDL-1.0) have been **removed** to achieve 100% MIT-compatible licensing.
 
 ### Utilities
 
@@ -234,13 +226,10 @@ All third-party dependencies use licenses that are compatible with the MIT Licen
 
 | Package | Version | License | Description |
 |---------|---------|---------|-------------|
-| leaflet | 1.9.4 | BSD-2-Clause | Interactive maps |
-| react-leaflet | 4.2.1 | Hippocratic-2.1* | React Leaflet components |
-| @react-leaflet/core | 2.1.0 | Hippocratic-2.1* | React Leaflet core |
-| leaflet.heat | 0.2.0 | BSD | Heatmap plugin |
-| react-leaflet-cluster | 2.1.0 | MIT | Marker clustering |
+| react-map-gl | 7.1.9 | MIT | React bindings for MapLibre GL JS |
+| maplibre-gl | 4.7.1 | BSD-3-Clause | Interactive vector tile maps |
 
-> *Hippocratic License 2.1 allows all MIT-like permissions (use, modify, distribute, commercial) with an additional ethical use requirement. This project's use case (smart city traffic monitoring) fully complies with ethical requirements.
+> **Migration Note (2025-12):** react-leaflet (Hippocratic-2.1) was replaced with react-map-gl + MapLibre GL JS to achieve 100% MIT-compatible licensing.
 
 ### UI Components
 
@@ -282,54 +271,49 @@ Pyphen offers a tri-license option. This project uses the Mozilla Public License
 - Distribution
 - Sublicensing
 
-### 2. JSTS (NPM) - Eclipse License
+### 2. ~~JSTS (NPM) - Eclipse License~~ (REMOVED - December 2025)
 
-**Package:** jsts v2.7.1, @turf/jsts v2.7.2  
-**License:** (EDL-1.0 OR EPL-1.0)  
+**Packages:** ~~jsts v2.7.1, @turf/jsts v2.7.2~~ **REMOVED**  
+**Former License:** (EDL-1.0 OR EPL-1.0)  
 
-The Eclipse Distribution License and Eclipse Public License are permissive licenses that allow:
+These packages have been **removed** from the project to achieve 100% MIT-compatible licensing. The functionality previously provided by JSTS has been replaced with native MapLibre GL JS features and MIT-licensed alternatives.
 
-- Commercial use
-- Modification
-- Distribution
-- Patent use
+### 3. MapLibre GL JS (NPM) - BSD-3-Clause License
 
-### 3. React-Leaflet (NPM) - Hippocratic License
+**Package:** maplibre-gl v4.7.1  
+**License:** BSD-3-Clause  
 
-**Package:** react-leaflet v4.2.1, @react-leaflet/core v2.1.0  
-**License:** Hippocratic-2.1  
+MapLibre GL JS is an open-source fork of Mapbox GL JS, providing:
 
-The Hippocratic License 2.1 is an ethical source license that grants MIT-like permissions with additional requirements:
-
-**Permissions (Same as MIT):**
+**Permissions:**
 
 - ✅ Commercial use
 - ✅ Modification
 - ✅ Distribution
 - ✅ Private use
 
-**Additional Requirement:**
+**Requirements:**
 
-- Must not use for activities that violate Human Rights Laws
+- Include copyright notice in distributions
+- Cannot use contributor names for endorsement
 
-**UIP Compliance:**  
-This project (smart city traffic monitoring for public safety) fully complies with ethical use requirements. The system is designed to:
+**react-map-gl (MIT License):**
 
-- Improve traffic safety
-- Reduce accidents
-- Enhance urban mobility
-- Benefit public welfare
+**Package:** react-map-gl v7.1.9  
+**License:** MIT  
 
-### 4. Development-Only GPL/LGPL Packages
+React wrapper for MapLibre GL JS from Vis.gl, providing:
 
-The following packages are licensed under GPL/LGPL but are **NOT distributed** with the production application:
+- ✅ Full MIT permissions
+- React component API for MapLibre GL
 
-| Package | License | Purpose |
-|---------|---------|---------|
-| pylint | GPL-2.0 | Code linting (development only) |
-| astroid | LGPL-2.1 | AST analysis (development only) |
+### 4. All Licenses are MIT-Compatible
 
-These tools are used only during development and are excluded from all production builds, Docker images, and distributions.
+As of v1.0, all dependencies (both production and development) use MIT-compatible licenses:
+- **Production**: MIT, BSD-3-Clause, Apache-2.0, ISC, MPL-1.1
+- **Development**: MIT, Apache-2.0
+
+Previously used GPL-licensed tools (pylint, astroid) have been replaced with MIT-licensed alternatives (ruff).
 
 ---
 

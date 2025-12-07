@@ -28,12 +28,12 @@
  * - AQI standard thresholds
  * 
  * @dependencies
- * - react-leaflet@^4.2: Circle markers
- * - leaflet@^1.9: Map integration
+ * - react-map-gl@^7.1: Circle markers (MIT license)
+ * - maplibre-gl@^4.7: Map integration (BSD-3-Clause)
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { CircleMarker, Popup, Tooltip } from 'react-leaflet';
+import { CircleMarker, Popup, Tooltip } from './map';
 
 interface PollutantCirclesProps {
   visible?: boolean;

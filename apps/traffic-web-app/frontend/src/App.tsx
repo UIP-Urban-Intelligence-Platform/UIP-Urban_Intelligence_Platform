@@ -49,17 +49,23 @@ import { NotificationProvider } from './components/NotificationProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 import './index.css';
 
+// App Routes component
+const AppRoutes: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/docs/*" element={<DocsPage />} />
+    </Routes>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <NotificationProvider maxToasts={3}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/docs/*" element={<DocsPage />} />
-            <Route path="/docs" element={<DocsPage />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </NotificationProvider>
     </ErrorBoundary>

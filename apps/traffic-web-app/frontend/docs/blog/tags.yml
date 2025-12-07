@@ -90,10 +90,10 @@ typescript:
   permalink: /typescript
   description: TypeScript programming
 
-leaflet:
-  label: Leaflet
-  permalink: /leaflet
-  description: Leaflet.js maps and geospatial
+maplibre:
+  label: MapLibre
+  permalink: /maplibre
+  description: MapLibre GL JS vector tile maps
 
 # Backend Tags
 backend:

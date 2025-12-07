@@ -178,8 +178,8 @@ sequenceDiagram
 ### Frontend Layer
 
 | Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **TrafficMap** | Leaflet | Interactive map with 1,000+ markers |
+|-----------|-----------|----------|
+| **TrafficMap** | MapLibre GL | Interactive map with 1,000+ markers |
 | **Analytics Dashboard** | Recharts | 7 chart types for data visualization |
 | **Citizen Reports** | React Forms | User-submitted traffic reports |
 | **State Management** | Zustand | Global state (cameras, accidents, filters) |

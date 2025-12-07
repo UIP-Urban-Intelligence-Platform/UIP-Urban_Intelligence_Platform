@@ -10,42 +10,112 @@
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Version: 1.0.0
 
+# ============================================================================
+# Core Documentation Files
+# ============================================================================
 include README.md
 include LICENSE
 include COPYING
 include NEWS
+include NOTICE
 include AUTHORS.md
 include CHANGELOG.md
 include CONTRIBUTORS.md
 include DISCUSSIONS.md
+include THIRD_PARTY_LICENSES.md
+include JUSTRUN.md
+
+
+# ============================================================================
+# GitHub Community Files
+# ============================================================================
 include .github/CONTRIBUTING.md
 include .github/CODE_OF_CONDUCT.md
 include .github/SECURITY.md
+include .github/SUPPORT.md
+include .github/CODEOWNERS
+include .github/FUNDING.yml
+include .github/dependabot.yml
+include .github/labeler.yml
+include .github/pull_request_template.md
+
+# ============================================================================
+# Build & Configuration Files
+# ============================================================================
 include pyproject.toml
 include setup.py
+include Makefile
+include justrun.ps1
 include .env.example
 include pytest.ini
+include .flake8
+include .pre-commit-config.yaml
+include .gitattributes
+include .gitignore
+include .dockerignore
+
+# ============================================================================
+# Docker Files
+# ============================================================================
 include docker-compose.yml
 include Dockerfile
+recursive-include docker *.yml *.yaml *.Dockerfile Dockerfile*
 
-recursive-include config *.yaml *.yml
-recursive-include templates *.html *.jinja2
-recursive-include docs *.md *.rst
+# ============================================================================
+# Requirements Files
+# ============================================================================
+recursive-include requirements *.txt
+
+# ============================================================================
+# Source Code & Configuration
+# ============================================================================
 recursive-include src *.py
+recursive-include config *.yaml *.yml *.json
+recursive-include templates *.html *.jinja2
+recursive-include agents *.py *.yaml
 
+# ============================================================================
+# Documentation
+# ============================================================================
+recursive-include docs *.md *.rst *.txt
+recursive-include wiki *.md
+recursive-include guides *.md
+
+# ============================================================================
+# Assets (exclude large model files)
+# ============================================================================
+recursive-include assets/images *.png *.jpg *.jpeg *.svg *.ico
+
+# ============================================================================
 # Exclude unnecessary files
+# ============================================================================
 global-exclude __pycache__
 global-exclude *.py[cod]
 global-exclude *.so
 global-exclude .DS_Store
 global-exclude *.swp
 global-exclude *.log
+global-exclude *.pth
+global-exclude *.pt
+global-exclude *.bin
+global-exclude *.onnx
 
+# ============================================================================
+# Prune directories (not included in distribution)
+# ============================================================================
 prune tests
-prune .github
+prune test_data
+prune test_output
 prune scripts
 prune data
 prune logs
+prune reports
 prune htmlcov
+prune coverage.xml
 prune .pytest_cache
 prune .mypy_cache
+prune .venv
+prune .vscode
+prune .git
+prune apps
+prune assets/models

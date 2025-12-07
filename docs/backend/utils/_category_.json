@@ -1,0 +1,17 @@
+{
+    "label": "Utils",
+    "position": 5,
+    "link": {
+        "type": "generated-index",
+        "title": "Utility Modules",
+        "description": "Utility functions for API key rotation, logging, health checks, validators, and data transformations.",
+        "keywords": [
+            "utils",
+            "utilities",
+            "logger",
+            "health-check",
+            "api-key",
+            "validators"
+        ]
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "label": "Integration",
+    "position": 6,
+    "link": {
+        "type": "generated-index",
+        "description": "Agents for integrating with external services and providing unified APIs."
+    }
+}

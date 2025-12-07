@@ -31,7 +31,7 @@
  * - citizenReportService: API client for report submission
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Camera, MapPin, Upload, X, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { citizenReportService } from '../services/citizenReportService';
 import { ReportType } from '../types/citizenReport';
@@ -61,6 +61,14 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
     const [isGettingLocation, setIsGettingLocation] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    // Update location when initialLocation prop changes (e.g., user clicks on map)
+    useEffect(() => {
+        if (initialLocation) {
+            setLatitude(Number(initialLocation.lat.toFixed(6)));
+            setLongitude(Number(initialLocation.lng.toFixed(6)));
+        }
+    }, [initialLocation]);
+
     const reportTypes: { value: ReportType; label: string; icon: string }[] = [
         { value: 'traffic_jam', label: 'Traffic Jam', icon: '🚦' },
         { value: 'accident', label: 'Accident', icon: '🚨' },
@@ -71,6 +79,8 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
 
     const handleGetCurrentLocation = () => {
         setIsGettingLocation(true);
+        setErrorMessage(''); // Clear previous error
+
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -80,12 +90,31 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                 },
                 (error) => {
                     console.error('Error getting location:', error);
-                    setErrorMessage('Failed to get current location. Please enter manually.');
                     setIsGettingLocation(false);
+
+                    // Provide specific error messages based on error code
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            setErrorMessage('Location access denied. Please click on the map to select your location, or enter coordinates manually.');
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            setErrorMessage('Location unavailable. Please click on the map to select your location.');
+                            break;
+                        case error.TIMEOUT:
+                            setErrorMessage('Location request timed out. Please try again or click on the map.');
+                            break;
+                        default:
+                            setErrorMessage('Failed to get location. Please click on the map or enter manually.');
+                    }
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 60000
                 }
             );
         } else {
-            setErrorMessage('Geolocation is not supported by your browser');
+            setErrorMessage('Geolocation is not supported by your browser. Please click on the map to select location.');
             setIsGettingLocation(false);
         }
     };
@@ -246,7 +275,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                         type="text"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-400"
                         placeholder="Enter your user ID"
                         required
                     />
@@ -284,16 +313,19 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900 bg-white placeholder-gray-400"
                         placeholder="Provide additional details about the incident..."
                     />
                 </div>
 
                 {/* Location */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                         Location
                     </label>
+                    <p className="text-xs text-gray-500 mb-2">
+                        💡 Tip: You can click on the map behind this form to select location
+                    </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
                         <div>
                             <input
@@ -301,7 +333,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                                 step="0.000001"
                                 value={latitude}
                                 onChange={(e) => setLatitude(Number(e.target.value))}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-400"
                                 placeholder="Latitude"
                                 required
                             />
@@ -312,7 +344,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                                 step="0.000001"
                                 value={longitude}
                                 onChange={(e) => setLongitude(Number(e.target.value))}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-400"
                                 placeholder="Longitude"
                                 required
                             />

@@ -27,13 +27,12 @@
  * - Precipitation intensity markers
  * 
  * @dependencies
- * - react-leaflet@^4.2: Map markers
- * - leaflet@^1.9: Custom icons
+ * - react-map-gl@^7.1: Map markers (MIT license)
+ * - maplibre-gl@^4.7: Custom icons (BSD-3-Clause)
  */
 
 import React, { useState } from 'react';
-import { CircleMarker, Marker, Popup } from 'react-leaflet';
-import { Icon, DivIcon } from 'leaflet';
+import { CircleMarker, Marker, Popup, Icon, DivIcon } from './map';
 import { useTrafficStore } from '../store/trafficStore';
 import { Weather } from '../types';
 

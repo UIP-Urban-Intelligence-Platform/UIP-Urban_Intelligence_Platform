@@ -28,7 +28,7 @@ The frontend is a modern Single Page Application (SPA):
 | React Query | 5.x | Data Fetching |
 | Zustand | 4.x | State Management |
 | React Router | 6.x | Routing |
-| Leaflet | 1.x | Maps |
+| MapLibre GL | 4.x | Maps |
 | Socket.IO | 4.x | Real-time |
 | Recharts | 2.x | Charts |
 
@@ -145,7 +145,8 @@ export const TrafficStats: React.FC = () => {
 
 ```tsx
 // src/components/map/TrafficMap.tsx
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+// Using MIT-licensed react-map-gl + MapLibre GL JS
+import { MapContainer, Marker, Popup } from './map';
 
 export const TrafficMap: React.FC = () => {
   const { cameras } = useCameras();

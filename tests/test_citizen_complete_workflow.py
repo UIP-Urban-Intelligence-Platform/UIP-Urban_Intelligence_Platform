@@ -60,7 +60,7 @@ def send_citizen_report():
         "description": "Tai nạn giao thông - Test AI verification với YOLOX",
         "latitude": 10.7769,
         "longitude": 106.7009,
-        "imageUrl": r"D:\\olp\\Builder-Layer-End\\data\\cache\\images\\0a4a8e14ac85d9b23831aeca35c27576.jpg",
+        "imageUrl": r"data\\cache\\images\\0a4a8e14ac85d9b23831aeca35c27576.jpg",
     }
 
     print(f"📤 Sending POST to {CITIZEN_API}")

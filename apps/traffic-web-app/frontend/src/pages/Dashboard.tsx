@@ -27,7 +27,7 @@
  * - Auto-refresh with configurable intervals
  * 
  * Components:
- * - TrafficMap: Leaflet map with camera markers, heatmaps, zones
+ * - TrafficMap: MapLibre GL map with camera markers, heatmaps, zones
  * - Sidebar: Layer toggles, filters, AI agent panels
  * - AnalyticsDashboard: Charts for congestion, accidents, AQI trends
  * 

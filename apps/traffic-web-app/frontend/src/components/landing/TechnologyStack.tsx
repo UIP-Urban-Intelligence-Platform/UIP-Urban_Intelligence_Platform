@@ -45,8 +45,8 @@ const technologies = [
         category: 'Context Broker',
         icon: Server,
         items: [
-            { name: 'Stellio', version: 'v2.26.1', description: 'NGSI-LD Context Broker với temporal queries', color: 'blue' },
-            { name: 'PostgreSQL', version: 'v14', description: 'Backend storage cho Stellio', color: 'indigo' },
+            { name: 'Stellio', version: 'v2.26.1', description: 'NGSI-LD Context Broker with temporal queries', color: 'blue' },
+            { name: 'PostgreSQL', version: 'v14', description: 'Backend storage for Stellio', color: 'indigo' },
         ],
         gradient: 'from-blue-500 to-indigo-500',
     },
@@ -54,8 +54,8 @@ const technologies = [
         category: 'Semantic Web',
         icon: Network,
         items: [
-            { name: 'Apache Jena Fuseki', version: 'Latest', description: 'RDF triplestore với SPARQL endpoint', color: 'purple' },
-            { name: 'SOSA/SSN', version: 'W3C', description: 'Ontology cho sensor networks', color: 'violet' },
+            { name: 'Apache Jena Fuseki', version: 'Latest', description: 'RDF triplestore with SPARQL endpoint', color: 'purple' },
+            { name: 'SOSA/SSN', version: 'W3C', description: 'Ontology for sensor networks', color: 'violet' },
         ],
         gradient: 'from-purple-500 to-violet-500',
     },
@@ -143,12 +143,12 @@ export default function TechnologyStack() {
                 >
                     <h2 className="text-5xl md:text-6xl font-bold mb-6">
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900">
-                            Công nghệ tiên tiến
+                            Advanced Technology
                         </span>
                     </h2>
                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                        Được xây dựng trên nền tảng công nghệ hàng đầu thế giới,
-                        đảm bảo hiệu suất, khả năng mở rộng và tuân thủ chuẩn quốc tế
+                        Built on world-leading technology platforms,
+                        ensuring performance, scalability, and international standards compliance
                     </p>
                 </motion.div>
 
@@ -216,14 +216,14 @@ export default function TechnologyStack() {
                 >
                     <div className="text-center">
                         <h3 className="text-3xl font-bold text-white mb-4">
-                            Kiến trúc Microservices
+                            Microservices Architecture
                         </h3>
                         <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-                            6 Docker services được orchestrate với Docker Compose:
+                            6 Docker services orchestrated with Docker Compose:
                             Stellio, PostgreSQL, Fuseki, Neo4j, Redis, Kafka + Zookeeper
                         </p>
                         <button className="px-8 py-4 bg-white text-slate-900 rounded-full font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                            Xem sơ đồ kiến trúc
+                            View Architecture Diagram
                         </button>
                     </div>
                 </motion.div>

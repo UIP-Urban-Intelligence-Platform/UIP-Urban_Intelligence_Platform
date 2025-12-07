@@ -1,0 +1,232 @@
+---
+id: special-notes
+title: Special License Notes
+sidebar_label: Special Notes
+sidebar_position: 5
+description: Special considerations and compliance notes for specific licenses used in the UIP project.
+keywords: [license, compliance, hippocratic, LGPL, GPL, ethical, special]
+---
+
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+-->
+
+# Special License Notes
+
+This document details special considerations and compliance notes for specific licenses used in the UIP - Urban Intelligence Platform.
+
+---
+
+## 1. ~~Hippocratic License 2.1~~ (REMOVED - December 2025)
+
+:::warning Migration Complete
+The react-leaflet packages (Hippocratic-2.1) have been **replaced** with MIT-compatible alternatives:
+
+| Old Package | New Package | License |
+|-------------|-------------|---------|
+| react-leaflet | react-map-gl | MIT |
+| @react-leaflet/core | maplibre-gl | BSD-3-Clause |
+| leaflet.heat | Native MapLibre heatmap | BSD-3-Clause |
+| react-leaflet-cluster | Native MapLibre clustering | BSD-3-Clause |
+
+**Result:** 100% MIT-compatible frontend licensing achieved.
+:::
+
+## 2. BSD-3-Clause License (MapLibre GL JS)
+
+### Packages Affected
+
+| Package | Version | Usage |
+|---------|---------|-------|
+| maplibre-gl | 4.7.1 | Interactive vector tile maps |
+
+### License Summary
+
+This use case **fully complies** with Hippocratic License ethical requirements.
+:::
+
+---
+
+## ~~2. Eclipse Public License (EPL-1.0) / Eclipse Distribution License (EDL-1.0)~~ (REMOVED - December 2025)
+
+### ~~Packages Affected~~ **REMOVED**
+
+| Package | Version | Status |
+|---------|---------|--------|
+| ~~jsts~~ | ~~2.7.1~~ | **REMOVED** |
+| ~~@turf/jsts~~ | ~~2.7.2~~ | **REMOVED** |
+
+:::warning Migration Complete
+These packages have been **removed** from the project to achieve 100% MIT-compatible licensing.
+
+**Replacement:** Native MapLibre GL JS features and MIT-licensed @turf/turf functions.
+
+**Result:** No EPL/EDL dependencies remain in the project.
+:::
+
+---
+
+## 3. Mozilla Public License 2.0 (MPL-2.0)
+
+### Packages Affected
+
+| Package | Version | Usage |
+|---------|---------|-------|
+| pyphen | 0.17.2 | Hyphenation (triple-licensed) |
+| tqdm | 4.67.1 | Progress bars (dual-licensed) |
+
+### Triple/Dual License Options
+
+**pyphen:** GPL-2.0+ / LGPL-2.1+ / **MPL-1.1** ← Selected
+
+**tqdm:** MPL-2.0 / **MIT** ← Selected
+
+### Compliance
+
+```text
+This project uses the MIT or MPL-1.1 license option where available,
+avoiding any copyleft obligations.
+```
+
+---
+
+## 4. Development-Only GPL/LGPL Packages
+
+### ✅ All Development Tools Now MIT-Licensed
+
+Previously used GPL/LGPL packages have been **replaced with MIT alternatives**:
+
+| Old Package | License | Replaced By | New License |
+|-------------|---------|-------------|-------------|
+| pylint | GPL-2.0 | ruff | MIT |
+| astroid | LGPL-2.1 | (removed) | N/A |
+| flake8 | MIT | ruff | MIT |
+| isort | MIT | ruff | MIT |
+
+### Benefits of Ruff (MIT)
+
+- **10-100x faster** than pylint/flake8
+- **Single tool** replaces multiple linters
+- **100% MIT licensed** - no copyleft concerns
+- Used by FastAPI, Pandas, PyTorch, Pydantic
+
+```bash
+# New linting command (MIT licensed)
+ruff check src/ tests/ --line-length=100
+```
+
+---
+
+## 5. LGPL Packages (Library Linking)
+
+### Packages Affected
+
+| Package | Version | License | Compliance |
+|---------|---------|---------|------------|
+| psycopg2-binary | 2.9.10 | LGPL-3.0 | ✅ Dynamic linking |
+
+### LGPL Compliance
+
+LGPL allows proprietary applications to **link** to LGPL libraries without copyleft obligations, provided:
+
+1. The LGPL library is linked dynamically (✅ pip install)
+2. Users can replace the LGPL library (✅ standard pip)
+3. License and source availability is communicated (✅ this document)
+
+---
+
+## 6. Creative Commons Licenses
+
+### CC-BY-3.0 / CC-BY-4.0
+
+| Package | License | Attribution |
+|---------|---------|-------------|
+| caniuse-lite | CC-BY-4.0 | Data from caniuse.com |
+| spdx-license-ids | CC0-1.0 | SPDX data |
+
+### Attribution Requirement
+
+```text
+Browser compatibility data from caniuse.com (https://caniuse.com)
+Licensed under CC-BY-4.0
+```
+
+---
+
+## 7. Python Software Foundation License
+
+### Packages Affected
+
+| Package | Version | License |
+|---------|---------|---------|
+| typing-extensions | 4.x | PSF-2.0 |
+| python-dateutil | 2.x | Apache-2.0/PSF |
+
+### Compliance
+
+PSF-2.0 is a permissive license similar to BSD, fully MIT-compatible.
+
+---
+
+## License Compliance Checklist
+
+### Before Each Release
+
+- [ ] Run `pip-licenses --fail-on="GPL;AGPL"`
+- [ ] Run `npx license-checker --failOn "GPL;LGPL;AGPL"`
+- [ ] Verify dev-only packages excluded from production
+- [ ] Update THIRD_PARTY_LICENSES.md if dependencies changed
+- [ ] Verify SPDX headers in all source files
+
+### Automated Verification
+
+```yaml
+# .github/workflows/license-check.yml
+name: License Check
+on: [push, pull_request]
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pip-licenses
+      - run: pip-licenses --fail-on="GPL;AGPL"
+  
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npx license-checker --production --failOn "GPL;LGPL;AGPL"
+```
+
+---
+
+## Contact for License Questions
+
+For questions about licensing or third-party dependencies:
+
+- **Repository:** [UIP-Urban_Intelligence_Platform](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform)
+- **Issues:** [GitHub Issues](https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues)
+- **License File:** [LICENSE](../../../../../LICENSE)
+- **Full Third-Party Licenses:** [THIRD_PARTY_LICENSES.md](../../../../../THIRD_PARTY_LICENSES.md)
+
+---
+
+## Related Documentation
+
+- [Overview](./overview.md) - License summary
+- [Python Dependencies](./python-dependencies.md) - Python licenses
+- [NPM Dependencies](./npm-dependencies.md) - NPM licenses
+- [License Texts](./license-texts.md) - Full license texts
+
+## External References
+
+- [SPDX License List](https://spdx.org/licenses/)
+- [OSI Approved Licenses](https://opensource.org/licenses)
+- [Hippocratic License](https://firstdonoharm.dev/)
+- [FOSSA License Compliance](https://fossa.com/)

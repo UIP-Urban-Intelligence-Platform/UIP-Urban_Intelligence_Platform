@@ -88,12 +88,18 @@ class WebSocketService {
         }
       };
 
-      this.ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
+      this.ws.onerror = (_error) => {
+        // Suppress error logging for intentional close or connection refused (expected on reconnect)
+        if (!this.isIntentionalClose) {
+          console.warn('WebSocket connection issue, will retry...');
+        }
       };
 
       this.ws.onclose = (event) => {
-        console.log('WebSocket disconnected', event.code, event.reason);
+        // Only log abnormal closures
+        if (event.code !== 1000 && event.code !== 1001 && !this.isIntentionalClose) {
+          console.log('WebSocket disconnected, code:', event.code);
+        }
         useTrafficStore.getState().setIsConnected(false);
         this.stopHeartbeat();
 

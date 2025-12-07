@@ -276,7 +276,7 @@ workflow:
           module: "src.agents.analytics.cv_analysis_agent"
           enabled: true
           required: true
-          timeout: 300
+          timeout: 7200  # FIXED: Increased to 2 hours (700 cameras × ~8s each = ~90 min)
           config:
             input_file: "data/cameras_enriched.json"  # FIXED: Use enriched cameras with location data
             output_file: "data/observations.json"

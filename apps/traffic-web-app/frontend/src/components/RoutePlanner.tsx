@@ -332,8 +332,8 @@ const RoutePlanner: React.FC<RoutePlannerProps> = ({ onRouteSelect, onRoutesCalc
               value={originInput}
               onChange={(e) => setOriginInput(e.target.value)}
               onFocus={() => setShowOriginSuggestions(true)}
-              placeholder="Search for starting location..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="VD: Quận 1, Bến Thành, Nguyễn Huệ..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder:text-gray-400"
             />
             {loadingSuggestions && showOriginSuggestions && (
               <div className="absolute right-3 top-2.5">
@@ -370,8 +370,8 @@ const RoutePlanner: React.FC<RoutePlannerProps> = ({ onRouteSelect, onRoutesCalc
               value={destinationInput}
               onChange={(e) => setDestinationInput(e.target.value)}
               onFocus={() => setShowDestinationSuggestions(true)}
-              placeholder="Search for destination..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="VD: Phú Mỹ Hưng, Tân Sơn Nhất..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder:text-gray-400"
             />
             {loadingSuggestions && showDestinationSuggestions && (
               <div className="absolute right-3 top-2.5">
@@ -404,7 +404,7 @@ const RoutePlanner: React.FC<RoutePlannerProps> = ({ onRouteSelect, onRoutesCalc
               onClick={() => setPreference('fastest')}
               className={`px-3 py-2 rounded-lg border-2 transition-all ${preference === 'fastest'
                 ? 'border-blue-500 bg-blue-50 text-blue-700'
-                : 'border-gray-200 hover:border-gray-300'
+                : 'border-gray-200 hover:border-gray-300 text-gray-700'
                 }`}
             >
               <Clock className="w-4 h-4 mx-auto mb-1" />
@@ -414,7 +414,7 @@ const RoutePlanner: React.FC<RoutePlannerProps> = ({ onRouteSelect, onRoutesCalc
               onClick={() => setPreference('healthiest')}
               className={`px-3 py-2 rounded-lg border-2 transition-all ${preference === 'healthiest'
                 ? 'border-green-500 bg-green-50 text-green-700'
-                : 'border-gray-200 hover:border-gray-300'
+                : 'border-gray-200 hover:border-gray-300 text-gray-700'
                 }`}
             >
               <Leaf className="w-4 h-4 mx-auto mb-1" />
@@ -424,7 +424,7 @@ const RoutePlanner: React.FC<RoutePlannerProps> = ({ onRouteSelect, onRoutesCalc
               onClick={() => setPreference('safest')}
               className={`px-3 py-2 rounded-lg border-2 transition-all ${preference === 'safest'
                 ? 'border-purple-500 bg-purple-50 text-purple-700'
-                : 'border-gray-200 hover:border-gray-300'
+                : 'border-gray-200 hover:border-gray-300 text-gray-700'
                 }`}
             >
               <Shield className="w-4 h-4 mx-auto mb-1" />

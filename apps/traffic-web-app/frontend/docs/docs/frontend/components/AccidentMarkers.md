@@ -1,0 +1,79 @@
+---
+sidebar_position: 5
+---
+
+<!--
+SPDX-License-Identifier: MIT
+Copyright (c) 2025 UIP Team. All rights reserved.
+
+UIP - Urban Intelligence Platform
+AccidentMarkers Component Documentation.
+
+Module: apps/traffic-web-app/frontend/docs/docs/frontend/components/AccidentMarkers.md
+Author: UIP Team
+Version: 1.0.0
+-->
+
+# AccidentMarkers
+
+Map markers component for displaying accident locations with severity indicators.
+
+## 📋 Overview
+
+| Property | Value |
+|----------|-------|
+| **File** | `src/components/AccidentMarkers.tsx` |
+| **Type** | React Functional Component |
+| **Author** | UIP Team |
+| **Version** | 1.0.0 |
+
+## 🎯 Purpose
+
+- Display accident locations on the map
+- Color-coded severity indicators (critical, high, medium, low)
+- Clickable markers with popup details
+- Real-time updates for new accidents
+
+## 🚀 Usage
+
+```tsx
+import { AccidentMarkers } from '@/components/AccidentMarkers';
+
+function MapComponent() {
+  return (
+    <MapContainer>
+      <AccidentMarkers
+        accidents={accidentList}
+        onMarkerClick={handleAccidentClick}
+      />
+    </MapContainer>
+  );
+}
+```
+
+## 📦 Props
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `accidents` | `Accident[]` | Yes | - | List of accidents |
+| `onMarkerClick` | `(accident: Accident) => void` | No | - | Click handler |
+| `showPopup` | `boolean` | No | `true` | Show popup on click |
+| `filterSeverity` | `string[]` | No | `[]` | Filter by severity |
+
+## 🎨 Severity Colors
+
+| Severity | Color | Icon |
+|----------|-------|------|
+| Critical | 🔴 Red | `AlertCircle` |
+| High | 🟠 Orange | `AlertTriangle` |
+| Medium | 🟡 Yellow | `Alert` |
+| Low | 🟢 Green | `Info` |
+
+## 📖 Related Components
+
+- [TrafficMap](TrafficMap) - Parent map component
+- [CitizenReportMarkers](CitizenReportMarkers) - Report markers
+
+---
+
+See the [complete components reference](../complete-components-reference) for all available components.

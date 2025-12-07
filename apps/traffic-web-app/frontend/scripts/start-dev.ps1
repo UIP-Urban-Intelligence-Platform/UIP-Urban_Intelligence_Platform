@@ -8,10 +8,12 @@
 # Module: start-dev.ps1
 # Author: Nguyen Nhat Quang
 # Created: 2025-11-26
-# Modified: 2025-11-26
-# Version: 2.0.0
+# Modified: 2025-12-06
+# Version: 2.0.1
 # Description: Start Development Server for Traffic Web App Frontend
 
-Set-Location "D:\olp\finalpush\Builder-Layer-End\apps\traffic-web-app\frontend"
+# Get script directory and navigate to frontend folder
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location (Join-Path $ScriptDir "..")
 npm run dev
 

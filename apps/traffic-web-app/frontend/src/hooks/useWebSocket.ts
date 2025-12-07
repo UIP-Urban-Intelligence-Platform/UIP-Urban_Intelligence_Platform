@@ -338,7 +338,10 @@ export const useWebSocket = (config: WebSocketConfig) => {
       ws.onmessage = handleMessage;
 
       ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
+        // Only log error if not due to intentional disconnect (React Strict Mode double mount)
+        if (wsRef.current && wsRef.current.readyState !== WebSocket.CLOSING) {
+          console.warn('WebSocket error:', error);
+        }
         setState(prev => ({
           ...prev,
           error: new Error('WebSocket connection error'),
@@ -347,7 +350,10 @@ export const useWebSocket = (config: WebSocketConfig) => {
       };
 
       ws.onclose = (event) => {
-        console.log('WebSocket closed:', event.code, event.reason);
+        // Don't log normal closures or React Strict Mode cleanup
+        if (event.code !== 1000 && event.code !== 1001) {
+          console.log('WebSocket closed:', event.code, event.reason || 'No reason');
+        }
         setState(prev => ({
           ...prev,
           connected: false,
@@ -357,12 +363,15 @@ export const useWebSocket = (config: WebSocketConfig) => {
         store.setIsConnected(false);
         stopHeartbeat();
 
-        // Attempt reconnect if not manually closed
-        if (event.code !== 1000 && reconnectAttemptsRef.current < maxReconnectAttempts) {
+        // Attempt reconnect if not manually closed and not React Strict Mode cleanup
+        if (event.code !== 1000 && event.code !== 1001 && reconnectAttemptsRef.current < maxReconnectAttempts) {
           reconnectAttemptsRef.current++;
           const delay = getReconnectDelay();
 
-          console.log(`Reconnecting in ${delay}ms... (attempt ${reconnectAttemptsRef.current})`);
+          // Only log reconnection on first few attempts
+          if (reconnectAttemptsRef.current <= 3) {
+            console.log(`Reconnecting in ${delay}ms... (attempt ${reconnectAttemptsRef.current})`);
+          }
 
           setState(prev => ({
             ...prev,
@@ -435,9 +444,13 @@ export const useWebSocket = (config: WebSocketConfig) => {
 
   // Connect on mount
   useEffect(() => {
-    connect();
+    // Small delay to handle React Strict Mode double mount gracefully
+    const connectTimeout = setTimeout(() => {
+      connect();
+    }, 100);
 
     return () => {
+      clearTimeout(connectTimeout);
       disconnect();
     };
   }, [url]); // Only reconnect if URL changes

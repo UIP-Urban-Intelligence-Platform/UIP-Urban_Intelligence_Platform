@@ -153,8 +153,8 @@ export default function LiveDemoSection() {
                         </span>
                     </h2>
                     <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                        WebSocket-based live updates với sub-second latency.
-                        Dữ liệu được xử lý bởi 28 AI agents và cập nhật real-time
+                        WebSocket-based live updates with sub-second latency.
+                        Data processed by 28 AI agents and updated in real-time
                     </p>
                 </motion.div>
 

@@ -2,7 +2,7 @@
 slug: frontend-architecture
 title: 🎨 Kiến trúc Frontend của UIP với React 18
 authors: [nguyendinhanhtuan]
-tags: [uip, frontend, react, typescript, leaflet, technical]
+tags: [uip, frontend, react, typescript, maplibre, technical]
 ---
 
 <!--
@@ -42,7 +42,7 @@ Dashboard của UIP cần đáp ứng:
 │  Framework    │  React 18.2 + TypeScript        │
 │  Build Tool   │  Vite 5.0                       │
 │  Styling      │  Tailwind CSS + Framer Motion   │
-│  Maps         │  Leaflet + React-Leaflet        │
+│  Maps         │  MapLibre GL JS + react-map-gl  │
 │  Charts       │  Recharts                       │
 │  State        │  Zustand                        │
 │  Real-time    │  WebSocket + React Query        │
@@ -80,7 +80,8 @@ src/
 
 ```tsx
 // components/TrafficMap.tsx
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+// Using MIT-licensed react-map-gl + MapLibre GL JS
+import { MapContainer, useMap } from './map';
 import { useTrafficStore } from '@/store/trafficStore';
 import { CameraMarkers } from './map/CameraMarkers';
 import { AccidentMarkers } from './map/AccidentMarkers';
@@ -135,7 +136,8 @@ export const TrafficMap: React.FC = () => {
 
 ```tsx
 // Marker Clustering for 1000+ cameras
-import MarkerClusterGroup from 'react-leaflet-cluster';
+// Note: Using direct rendering (MapLibre handles clustering via supercluster)
+import { Marker, Popup } from './map';
 
 const CameraMarkers: React.FC<{ cameras: Camera[] }> = ({ cameras }) => {
   // Memoize markers to prevent re-render

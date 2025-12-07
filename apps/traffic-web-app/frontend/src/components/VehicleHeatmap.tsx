@@ -10,47 +10,30 @@
  * @module apps/traffic-web-app/frontend/src/components/VehicleHeatmap
  * @author Nguyễn Nhật Quang
  * @created 2025-11-27
- * @modified 2025-11-27
- * @version 2.0.0
+ * @modified 2025-12-07
+ * @version 3.0.0
  * @license MIT
  * 
  * @description
- * Vehicle Heatmap Component - Visualizes traffic density using vehicle flow observations.
+ * Vehicle Heatmap Component - Visualizes traffic density using MapLibre GL native heatmap.
  * Displays vehicle intensity heatmap with configurable gradient and radius.
  * 
  * Features:
+ * - Native MapLibre GL heatmap rendering (no Leaflet plugin required)
  * - Real-time vehicle density visualization
  * - Color gradient from blue (low) to red (high density)
  * - Configurable heat radius and intensity
- * - Automatic layer cleanup on unmount
  * - Performance optimized rendering
+ * - 100% MIT/BSD-3 compatible (no GPL dependencies)
  * 
  * @dependencies
- * - react-leaflet@^4.2: Leaflet React integration
- * - leaflet.heat@^0.2: Heatmap visualization
- * - leaflet@^1.9: Mapping library
+ * - react-map-gl@^7.1: MIT License
+ * - maplibre-gl@^4.7: BSD-3-Clause License
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet.heat';
-
-declare module 'leaflet' {
-  function heatLayer(
-    latlngs: [number, number, number][],
-    options?: HeatLayerOptions
-  ): any;
-
-  interface HeatLayerOptions {
-    minOpacity?: number;
-    maxZoom?: number;
-    max?: number;
-    radius?: number;
-    blur?: number;
-    gradient?: { [key: number]: string };
-  }
-}
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { Source, Layer } from 'react-map-gl/maplibre';
+import type { HeatmapLayerSpecification } from 'maplibre-gl';
 
 interface VehicleHeatmapProps {
   visible?: boolean;
@@ -75,27 +58,54 @@ interface VehicleHeatmapResponse {
   };
 }
 
+// Heatmap layer configuration - traffic density colors (blue to red)
+const heatmapLayerStyle: Omit<HeatmapLayerSpecification, 'id' | 'source'> = {
+  type: 'heatmap',
+  paint: {
+    // Increase weight based on intensity
+    'heatmap-weight': ['get', 'intensity'],
+    // Increase intensity as zoom level increases
+    'heatmap-intensity': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      0, 1,
+      18, 3
+    ],
+    // Color gradient from blue (low) to red (high density)
+    'heatmap-color': [
+      'interpolate',
+      ['linear'],
+      ['heatmap-density'],
+      0, 'rgba(0, 0, 255, 0)',
+      0.2, 'rgba(0, 0, 255, 0.5)',
+      0.5, 'rgba(255, 255, 0, 0.7)',
+      0.8, 'rgba(255, 165, 0, 0.8)',
+      1, 'rgba(255, 0, 0, 0.9)'
+    ],
+    // Adjust radius by zoom level
+    'heatmap-radius': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      0, 5,
+      14, 40
+    ],
+    // Opacity adjustments
+    'heatmap-opacity': [
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      13, 1,
+      18, 0.8
+    ]
+  }
+};
+
 export const VehicleHeatmap: React.FC<VehicleHeatmapProps> = ({ visible = false }) => {
-  // Early return BEFORE any hooks
-  if (!visible) return null;
-
-  const map = useMap();
   const [heatmapData, setHeatmapData] = useState<HeatmapPoint[]>([]);
-  const [heatLayer, setHeatLayer] = useState<any>(null);
-
-  // Heatmap configuration
-  const heatmapConfig = {
-    radius: 40,
-    blur: 25,
-    maxZoom: 18,
-    max: 1.0,
-    gradient: {
-      0.0: 'blue',
-      0.5: 'yellow',
-      0.8: 'orange',
-      1.0: 'red',
-    },
-  };
+  const sourceId = 'vehicle-heatmap-source';
+  const layerId = 'vehicle-heatmap-layer';
 
   const fetchHeatmapData = useCallback(async () => {
     try {
@@ -122,27 +132,9 @@ export const VehicleHeatmap: React.FC<VehicleHeatmapProps> = ({ visible = false 
     }
   }, [visible, fetchHeatmapData]);
 
-  useEffect(() => {
-    if (!map || !visible) {
-      if (heatLayer) {
-        map?.removeLayer(heatLayer);
-        setHeatLayer(null);
-      }
-      return;
-    }
-
-    // Remove existing layer
-    if (heatLayer) {
-      map.removeLayer(heatLayer);
-    }
-
-    if (heatmapData.length === 0) {
-      return;
-    }
-
-    // Convert data to leaflet.heat format: [lat, lng, intensity]
-    // Filter out invalid coordinates
-    const heatPoints: [number, number, number][] = heatmapData
+  // Convert heatmap data to GeoJSON format
+  const geojsonData = useMemo(() => {
+    const features = heatmapData
       .filter(point =>
         point?.lat != null &&
         point?.lng != null &&
@@ -151,34 +143,31 @@ export const VehicleHeatmap: React.FC<VehicleHeatmapProps> = ({ visible = false 
         !isNaN(point.lng) &&
         !isNaN(point.intensity)
       )
-      .map(point => [
-        point.lat,
-        point.lng,
-        point.intensity,
-      ]);
+      .map(point => ({
+        type: 'Feature' as const,
+        properties: {
+          intensity: point.intensity
+        },
+        geometry: {
+          type: 'Point' as const,
+          coordinates: [point.lng, point.lat]
+        }
+      }));
 
-    // Don't create heatmap if no valid points
-    if (heatPoints.length === 0) {
-      return;
-    }
-
-    // Create heat layer
-    const newHeatLayer = L.heatLayer(heatPoints, heatmapConfig);
-    newHeatLayer.addTo(map);
-    setHeatLayer(newHeatLayer);
-
-    return () => {
-      if (newHeatLayer) {
-        map.removeLayer(newHeatLayer);
-      }
+    return {
+      type: 'FeatureCollection' as const,
+      features
     };
-  }, [map, heatmapData, visible]);
+  }, [heatmapData]);
+
+  if (!visible || geojsonData.features.length === 0) {
+    return null;
+  }
 
   return (
-    <>
-      {/* Control Panel removed - toggle available in Sidebar (Layer Visibility -> Vehicle Heatmap) */}
-      {/* Heatmap layer is controlled via useEffect */}
-    </>
+    <Source id={sourceId} type="geojson" data={geojsonData}>
+      <Layer id={layerId} {...heatmapLayerStyle} />
+    </Source>
   );
 };
 
