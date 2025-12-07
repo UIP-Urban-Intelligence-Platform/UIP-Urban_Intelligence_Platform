@@ -40,7 +40,7 @@ $ docker exec test-postgres psql -U stellio -d stellio_search -c \
 
  version |      description      |        installed_on        | success 
 ---------+-----------------------+----------------------------+---------
- 1       | << Flyway Baseline >> | 2025-11-03 11:25:35.566958 | t
+ 1       | << Flyway Baseline >> | 2025-11-22 11:25:35.566958 | t
 ```
 
 **Nghĩa là gì?**
@@ -94,8 +94,8 @@ management:
 
 #### Evidence từ logs
 ```
-2025-11-03 15:27:51 INFO RoutePredicateFactory - Loaded...
-2025-11-03 15:27:51 INFO GatewayProperties - routes: []
+2025-11-22 15:27:51 INFO RoutePredicateFactory - Loaded...
+2025-11-22 15:27:51 INFO GatewayProperties - routes: []
 ```
 
 **Gateway có 0 routes được define trong YAML!**

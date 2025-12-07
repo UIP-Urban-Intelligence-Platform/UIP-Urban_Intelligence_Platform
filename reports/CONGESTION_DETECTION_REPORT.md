@@ -129,11 +129,11 @@ congestion_detection:
 {
   "urn:ngsi-ld:Camera:Cam001": {
     "congested": true,
-    "first_breach_ts": "2025-01-15T10:30:00Z",
-    "last_update_ts": "2025-01-15T10:32:15Z",
+    "first_breach_ts": "2025-11-20T10:30:00Z",
+    "last_update_ts": "2025-11-20T10:32:15Z",
     "history": [
-      {"ts": "2025-01-15T10:30:00Z", "congested": false},
-      {"ts": "2025-01-15T10:32:15Z", "congested": true}
+      {"ts": "2025-11-20T10:30:00Z", "congested": false},
+      {"ts": "2025-11-20T10:32:15Z", "congested": true}
     ]
   }
 }
@@ -327,7 +327,7 @@ def process_observations_file(self, input_file: str) -> List[Dict[str, Any]]:
     "congested": {
         "type": "Property",
         "value": true,  # or false
-        "observedAt": "2025-01-15T10:32:15Z"
+        "observedAt": "2025-11-20T10:32:15Z"
     }
 }
 ```
@@ -342,7 +342,7 @@ Link: <https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld>; rel="http:/
     "congested": {
         "type": "Property",
         "value": true,
-        "observedAt": "2025-01-15T10:32:15Z"
+        "observedAt": "2025-11-20T10:32:15Z"
     }
 }
 ```
@@ -366,8 +366,8 @@ def _alert(self, camera_ref: str, entity: Dict[str, Any], observed_at: str) -> N
     Alert format:
     {
         "camera": "urn:ngsi-ld:Camera:Cam001",
-        "observedAt": "2025-01-15T10:32:15Z",
-        "message": "Congestion detected for urn:ngsi-ld:Camera:Cam001 at 2025-01-15T10:32:15Z"
+        "observedAt": "2025-11-20T10:32:15Z",
+        "message": "Congestion detected for urn:ngsi-ld:Camera:Cam001 at 2025-11-20T10:32:15Z"
     }
     """
 ```
@@ -861,7 +861,7 @@ python -c "from agents.analytics.congestion_detection_agent import CongestionCon
 python -c "
 from agents.analytics.congestion_detection_agent import StateStore
 store = StateStore('test_state.json')
-store.update('urn:ngsi-ld:Camera:Test', True, None, '2025-01-15T10:00:00Z')
+store.update('urn:ngsi-ld:Camera:Test', True, None, '2025-11-20T10:00:00Z')
 store.save()
 print('State file created')
 "
@@ -1002,18 +1002,18 @@ agent.register_plugin(MyCustomPlugin())
   "occupancy": {
     "type": "Property",
     "value": 0.75,
-    "observedAt": "2025-01-15T10:00:00Z"
+    "observedAt": "2025-11-20T10:00:00Z"
   },
   "averageSpeed": {
     "type": "Property",
     "value": 12.5,
     "unitCode": "KMH",
-    "observedAt": "2025-01-15T10:00:00Z"
+    "observedAt": "2025-11-20T10:00:00Z"
   },
   "intensity": {
     "type": "Property",
     "value": 0.8,
-    "observedAt": "2025-01-15T10:00:00Z"
+    "observedAt": "2025-11-20T10:00:00Z"
   }
 }
 ```
@@ -1026,7 +1026,7 @@ agent.register_plugin(MyCustomPlugin())
   "congested": {
     "type": "Property",
     "value": true,
-    "observedAt": "2025-01-15T10:02:00Z"
+    "observedAt": "2025-11-20T10:02:00Z"
   },
   "location": {...},
   "name": {...}
@@ -1119,6 +1119,6 @@ python -c "from agents.analytics.congestion_detection_agent import CongestionCon
 
 ---
 
-**Report Generated:** 2025-01-15  
+**Report Generated:** 2025-11-20  
 **Version:** 1.0  
 **Status:** ✅ Production Ready

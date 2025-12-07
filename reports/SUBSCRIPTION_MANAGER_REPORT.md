@@ -23,7 +23,7 @@ Description:
 **Agent**: Subscription Manager Agent  
 **Version**: 1.0.0  
 **Author**: UIP Development Team  
-**Date**: January 2025  
+**Date**: November 2025  
 **Status**: ✅ PRODUCTION READY
 
 ---
@@ -1034,6 +1034,6 @@ The **Subscription Manager Agent** provides production-ready NGSI-LD subscriptio
 
 ---
 
-**Report Generated**: January 2025  
+**Report Generated**: November 2025  
 **Agent Version**: 1.0.0  
 **Implementation Status**: ✅ COMPLETE

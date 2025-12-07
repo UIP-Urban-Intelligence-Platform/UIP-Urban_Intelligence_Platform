@@ -20,7 +20,7 @@ Description:
 
 # 🎯 API RATE LIMIT FIX - HOÀN TẤT 100%
 
-**Date:** November 12, 2025  
+**Date:** November 27, 2025  
 **Status:** ✅ **100% COMPLETE - RATE LIMIT 429 ĐÃ ĐƯỢC GIẢI QUYẾT**  
 **Result:** 🎉 **100% DATA COLLECTION - TẤT CẢ 40 CAMERAS SẼ LẤY ĐẦY ĐỦ DATA**
 
@@ -30,7 +30,7 @@ Description:
 
 ### Triệu chứng
 ```
-2025-11-12 12:45:57 - ExternalDataCollector - WARNING - Measurements API rate limit (429)
+2025-11-27 12:45:57 - ExternalDataCollector - WARNING - Measurements API rate limit (429)
 Response: {"detail":"Too many requests"}
 RetryHandler - WARNING - Rate limit (429) hit on attempt 1/3, waiting 120s before retry...
 ```
@@ -225,7 +225,7 @@ delay = 180.0  # ✅ 3 minutes để API recovery hoàn toàn
       "pm25": 45.2,
       "category": "Moderate"
     },
-    "enrichment_timestamp": "2025-11-12T12:50:00Z"
+    "enrichment_timestamp": "2025-11-27T12:50:00Z"
   },
   ...  # 39 more cameras with full data
 ]

@@ -357,7 +357,7 @@ severity_thresholds:
     "type": "Property",
     "value": {
       "@type": "DateTime",
-      "@value": "2025-02-05T16:30:45Z"
+      "@value": "2025-11-25T16:30:45Z"
     }
   },
   "severity": {
@@ -592,7 +592,7 @@ accident_detection:
 ```json
 [
   {
-    "timestamp": "2025-02-05T16:30:45Z",
+    "timestamp": "2025-11-25T16:30:45Z",
     "camera": "urn:ngsi-ld:Camera:Cam001",
     "severity": "severe",
     "confidence": 0.95,
@@ -1151,7 +1151,7 @@ graph TD
 ```json
 [
   {
-    "timestamp": "2025-02-05T16:30:45Z",
+    "timestamp": "2025-11-25T16:30:45Z",
     "severity": "severe",
     "confidence": 0.95,
     "camera": "urn:ngsi-ld:Camera:Cam001",
@@ -1191,7 +1191,7 @@ graph TD
 
 ---
 
-**Report Generated**: February 5, 2025  
+**Report Generated**: November 20, 2025  
 **Agent Version**: 1.0.0  
 **Test Status**: ✅ 21/21 Passing (100%)  
 **Coverage**: 80%

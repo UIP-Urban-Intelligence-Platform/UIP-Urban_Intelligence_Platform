@@ -471,10 +471,10 @@ Output files:      4
 
 **Validation Results:**
 ```
-2025-11-01 14:35:32,690 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.ttl (370 triples)
-2025-11-01 14:35:32,745 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.nt (370 triples)
-2025-11-01 14:35:32,817 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.rdf (370 triples)
-2025-11-01 14:35:32,889 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.jsonld (370 triples)
+2025-11-20 14:35:32,690 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.ttl (370 triples)
+2025-11-20 14:35:32,745 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.nt (370 triples)
+2025-11-20 14:35:32,817 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.rdf (370 triples)
+2025-11-20 14:35:32,889 - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.jsonld (370 triples)
 ```
 
 ---
@@ -785,26 +785,26 @@ tests/rdf_linked_data/test_ngsi_ld_to_rdf_agent.py::TestValidation::test_uri_enc
 
 ### Production Run Log
 ```
-2025-11-01 14:35:32,439 - __main__ - INFO - Initializing NGSI-LD to RDF Agent
-2025-11-01 14:35:32,453 - __main__ - INFO - Loaded 25 namespace definitions
-2025-11-01 14:35:32,454 - __main__ - INFO - Starting NGSI-LD to RDF conversion from: data/validated_entities.json
-2025-11-01 14:35:32,455 - __main__ - INFO - Loaded 42 entities to convert
-2025-11-01 14:35:32,467 - __main__ - INFO - Parsed 42/42 entities into 370 triples
-2025-11-01 14:35:32,471 - __main__ - INFO - RDF graph validation passed: 370 triples
-2025-11-01 14:35:32,505 - __main__ - INFO - Serialized RDF to turtle: data\rdf\Camera_20251101_073532.ttl
-2025-11-01 14:35:32,523 - __main__ - INFO - Serialized RDF to nt: data\rdf\Camera_20251101_073532.nt
-2025-11-01 14:35:32,544 - __main__ - INFO - Serialized RDF to xml: data\rdf\Camera_20251101_073532.rdf
-2025-11-01 14:35:32,638 - __main__ - INFO - Serialized RDF to json-ld: data\rdf\Camera_20251101_073532.jsonld
-2025-11-01 14:35:32,690 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.ttl (370 triples)
-2025-11-01 14:35:32,745 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.nt (370 triples)
-2025-11-01 14:35:32,817 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.rdf (370 triples)
-2025-11-01 14:35:32,889 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.jsonld (370 triples)
-2025-11-01 14:35:32,901 - __main__ - INFO - Conversion statistics saved to: data\rdf\conversion_stats.json
+2025-11-20 14:35:32,439 - __main__ - INFO - Initializing NGSI-LD to RDF Agent
+2025-11-20 14:35:32,453 - __main__ - INFO - Loaded 25 namespace definitions
+2025-11-20 14:35:32,454 - __main__ - INFO - Starting NGSI-LD to RDF conversion from: data/validated_entities.json
+2025-11-20 14:35:32,455 - __main__ - INFO - Loaded 42 entities to convert
+2025-11-20 14:35:32,467 - __main__ - INFO - Parsed 42/42 entities into 370 triples
+2025-11-20 14:35:32,471 - __main__ - INFO - RDF graph validation passed: 370 triples
+2025-11-20 14:35:32,505 - __main__ - INFO - Serialized RDF to turtle: data\rdf\Camera_20251101_073532.ttl
+2025-11-20 14:35:32,523 - __main__ - INFO - Serialized RDF to nt: data\rdf\Camera_20251101_073532.nt
+2025-11-20 14:35:32,544 - __main__ - INFO - Serialized RDF to xml: data\rdf\Camera_20251101_073532.rdf
+2025-11-20 14:35:32,638 - __main__ - INFO - Serialized RDF to json-ld: data\rdf\Camera_20251101_073532.jsonld
+2025-11-20 14:35:32,690 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.ttl (370 triples)
+2025-11-20 14:35:32,745 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.nt (370 triples)
+2025-11-20 14:35:32,817 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.rdf (370 triples)
+2025-11-20 14:35:32,889 - __main__ - INFO - Successfully parsed RDF file: data\rdf\Camera_20251101_073532.jsonld (370 triples)
+2025-11-20 14:35:32,901 - __main__ - INFO - Conversion statistics saved to: data\rdf\conversion_stats.json
 ```
 
 ---
 
-**Report Generated:** 2025-11-01  
+**Report Generated:** 2025-11-20  
 **Agent Version:** 1.0.0  
 **Python Version:** 3.10.0  
 **RDFLib Version:** 7.4.0  

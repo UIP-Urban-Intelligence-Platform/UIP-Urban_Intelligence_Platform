@@ -39,7 +39,7 @@ Kafka offsets: 2-43 (partition 0)
 
 **Bằng chứng từ logs**:
 ```
-2025-11-03 16:09:14 [ntainer#0-0-C-1] DEBUG EntityEventListenerService - processMessage
+2025-11-22 16:09:14 [ntainer#0-0-C-1] DEBUG EntityEventListenerService - processMessage
 - Processing message: {"operationType": "ENTITY_CREATE", "entityId": "urn:ngsi-ld:Camera:TTH 406"...}
 - Processing message: {"operationType": "ENTITY_CREATE", "entityId": "urn:ngsi-ld:ObservableProperty:TrafficFlow"...}
 [... 40 more entities ...]
@@ -100,7 +100,7 @@ $ Invoke-WebRequest -Uri "http://localhost:8082/ngsi-ld/v1/entities?type=Camera"
 ERROR: Unable to connect to the remote server
 
 # Logs show Netty started nhưng không expose REST endpoints
-2025-11-03 15:28:03 INFO - Netty started on port 8082
+2025-11-22 15:28:03 INFO - Netty started on port 8082
 ```
 
 **Nguyên nhân**:

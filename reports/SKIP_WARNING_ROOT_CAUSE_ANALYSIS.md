@@ -20,15 +20,15 @@ Description:
 
 # PHÂN TÍCH NGUỒN GỐC CÁC WARNING VỀ SKIPPING
 
-**Ngày tạo:** 2025-11-12  
-**Ngày cập nhật:** 2025-11-12 (Implementation completed)  
+**Ngày tạo:** 2025-11-27  
+**Ngày cập nhật:** 2025-11-27 (Implementation completed)  
 **Mục đích:** Xác định nguồn gốc và nguyên nhân của các log WARNING về skipping trong quá trình chạy orchestrator
 
 ---
 
 ## ⚡ TRẠNG THÁI TRIỂN KHAI (IMPLEMENTATION STATUS)
 
-### ✅ Neo4j Timing Issue - **RESOLVED 100%** (2025-11-12)
+### ✅ Neo4j Timing Issue - **RESOLVED 100%** (2025-11-27)
 
 **Vấn đề:** Neo4j Property/Label Warnings - Pattern recognition query trước khi Neo4j sync xong
 
@@ -351,8 +351,8 @@ def _load_entities(self, input_file: str) -> List[Dict[str, Any]]:
 ### 📋 Ví dụ từ log:
 
 ```
-2025-11-12 02:00:59 - ngsi_ld_to_rdf_agent - WARNING - Empty entity list in data/updated_cameras.json
-2025-11-12 02:00:59 - ngsi_ld_to_rdf_agent - WARNING - No entities to convert - empty input file
+2025-11-27 02:00:59 - ngsi_ld_to_rdf_agent - WARNING - Empty entity list in data/updated_cameras.json
+2025-11-27 02:00:59 - ngsi_ld_to_rdf_agent - WARNING - No entities to convert - empty input file
 ```
 
 ### 🌊 Luồng thực thi:
@@ -388,9 +388,9 @@ def _load_entities(self, input_file: str) -> List[Dict[str, Any]]:
 
 ```python
 # From: stellio_state_query_agent output
-2025-11-12 02:00:59 - stellio_state_query_agent - INFO - Retrieved 0 entities from Stellio
-2025-11-12 02:00:59 - stellio_state_query_agent - WARNING - No entities found matching query
-2025-11-12 02:00:59 - stellio_state_query_agent - INFO - Saved 0 entities to: data/updated_cameras.json
+2025-11-27 02:00:59 - stellio_state_query_agent - INFO - Retrieved 0 entities from Stellio
+2025-11-27 02:00:59 - stellio_state_query_agent - WARNING - No entities found matching query
+2025-11-27 02:00:59 - stellio_state_query_agent - INFO - Saved 0 entities to: data/updated_cameras.json
 ```
 
 ---
@@ -595,8 +595,8 @@ def _load_entities(self, source_file: Optional[str] = None) -> List[Dict]:
 Agent query Stellio để lấy danh sách cameras có `congested=true`, nhưng không tìm thấy:
 
 ```
-2025-11-12 02:00:59 - stellio_state_query_agent - INFO - Retrieved 0 entities from Stellio
-2025-11-12 02:00:59 - stellio_state_query_agent - WARNING - No entities found matching query
+2025-11-27 02:00:59 - stellio_state_query_agent - INFO - Retrieved 0 entities from Stellio
+2025-11-27 02:00:59 - stellio_state_query_agent - WARNING - No entities found matching query
 ```
 
 ### ⚙️ Code query:
@@ -847,7 +847,7 @@ if not os.path.exists(input_file):
 
 ### 📈 Metrics: Skip Reasons Distribution
 
-Từ log run gần nhất (2025-11-12 02:00):
+Từ log run gần nhất (2025-11-27 02:00):
 
 ```
 Total phases: 10

@@ -139,10 +139,10 @@ The **State Updater Agent** is a production-ready, domain-agnostic real-time ent
     "imageSnapshot": {
       "type": "Property",
       "value": "https://example.com/image.jpg",
-      "observedAt": "2025-11-01T10:00:00Z"
+      "observedAt": "2025-11-20T10:00:00Z"
     }
   },
-  "timestamp": "2025-11-01T10:00:00Z",
+  "timestamp": "2025-11-20T10:00:00Z",
   "event_id": "evt-12345",
   "metadata": {
     "source": "sensor-123",
@@ -216,7 +216,7 @@ Content-Type: application/json
   "intensity": {
     "type": "Property",
     "value": 0.75,
-    "observedAt": "2025-11-01T10:00:00Z"
+    "observedAt": "2025-11-20T10:00:00Z"
   }
 }
 ```
@@ -709,7 +709,7 @@ The **State Updater Agent** successfully delivers:
 
 ---
 
-**Report Generated**: November 1, 2025  
+**Report Generated**: November 20, 2025  
 **Agent Version**: 1.0.0  
 **Test Status**: ✅ 50/50 Passing (100%)  
 **Coverage**: 63%

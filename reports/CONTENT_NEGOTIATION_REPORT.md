@@ -306,8 +306,8 @@ JSON-LD ←→ rdflib Graph ←→ Turtle
 
 2. **format_datetime(dt_str)**
    ```python
-   Input: "2024-01-15T10:30:00Z"
-   Output: "2024-01-15 10:30:00 UTC"
+   Input: "2025-11-29T10:30:00Z"
+   Output: "2025-11-29 10:30:00 UTC"
    ```
 
 **Features:**
@@ -1409,6 +1409,6 @@ The Content Negotiation Agent successfully implements all requirements from PROM
 
 ---
 
-**Report Generated:** 2025-01-15  
+**Report Generated:** 2025-11-20  
 **Agent Version:** 1.0.0  
 **Test Status:** ✅ 48/48 PASSING

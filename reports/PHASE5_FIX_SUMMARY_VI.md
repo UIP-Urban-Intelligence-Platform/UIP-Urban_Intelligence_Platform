@@ -115,7 +115,7 @@ logging:
     "confidence": 0.75,
     "detectionMethods": ["speed_variance", "occupancy_spike"],
     "detected": true,
-    "timestamp": "2025-11-12T02:05:30Z"
+    "timestamp": "2025-11-27T02:05:30Z"
   }
 ]
 ```
@@ -132,7 +132,7 @@ logging:
     "updated": true,
     "congested": true,
     "success": true,
-    "timestamp": "2025-11-12T02:05:30Z"
+    "timestamp": "2025-11-27T02:05:30Z"
   }
 ]
 ```

@@ -257,8 +257,8 @@ The **Incident Report Generator Agent** is a domain-agnostic, template-based rep
    {
        'location': 'Test Road - Main Street',
        'severity': 'moderate',
-       'detection_time': '2025-11-01T10:00:00Z',
-       'estimated_clearance': '2025-11-01T10:45:00Z',
+       'detection_time': '2025-11-20T10:00:00Z',
+       'estimated_clearance': '2025-11-20T10:45:00Z',
        'affected_area': '500m radius',
        'camera_id': 'CAM-001',
        'description': 'Road accident detected...'
@@ -403,7 +403,7 @@ def generate_report_for_incident(accident_id, entity_data):
 
 1. **Health Check** - `GET /health`
    ```json
-   {"status": "healthy", "timestamp": "2025-11-01T10:00:00Z"}
+   {"status": "healthy", "timestamp": "2025-11-20T10:00:00Z"}
    ```
 
 2. **Statistics** - `GET /stats`
@@ -947,7 +947,7 @@ GET /health
 ```json
 {
     "status": "healthy",
-    "timestamp": "2025-11-01T10:00:00Z"
+    "timestamp": "2025-11-20T10:00:00Z"
 }
 ```
 
@@ -984,12 +984,12 @@ GET /api/reports/{report_id}?format={json|pdf|html}
 {
     "report_id": "RPT-20251101-100000-001",
     "accident_id": "urn:ngsi-ld:RoadAccident:001",
-    "generated_at": "2025-11-01T10:00:00Z",
+    "generated_at": "2025-11-20T10:00:00Z",
     "summary": {
         "location": "Test Road - Main Street",
         "severity": "moderate",
-        "detection_time": "2025-11-01T09:55:00Z",
-        "estimated_clearance": "2025-11-01T10:45:00Z",
+        "detection_time": "2025-11-20T09:55:00Z",
+        "estimated_clearance": "2025-11-20T10:45:00Z",
         "affected_area": "500m radius",
         "camera_id": "CAM-001",
         "description": "Road accident detected with moderate severity"
@@ -1050,7 +1050,7 @@ Content-Type: application/json
         "severity": {"value": "moderate"},
         "location": {"value": {"type": "Point", "coordinates": [106.6297, 10.8231]}},
         "cameraId": {"value": "CAM-001"},
-        "detectionTime": {"value": "2025-11-01T10:00:00Z"}
+        "detectionTime": {"value": "2025-11-20T10:00:00Z"}
     }
 }
 ```
@@ -1242,7 +1242,7 @@ curl http://localhost:8081/health
 
 Expected:
 ```json
-{"status": "healthy", "timestamp": "2025-11-01T10:00:00Z"}
+{"status": "healthy", "timestamp": "2025-11-20T10:00:00Z"}
 ```
 
 #### 2. Generate Test Report
@@ -1258,7 +1258,7 @@ curl -X POST http://localhost:8081/api/reports/generate \
       "roadName": {"value": "Test Road - Main Street"},
       "location": {"value": {"type": "Point", "coordinates": [106.6297, 10.8231]}},
       "cameraId": {"value": "CAM-001"},
-      "detectionTime": {"value": "2025-11-01T10:00:00Z"}
+      "detectionTime": {"value": "2025-11-20T10:00:00Z"}
     }
   }'
 ```
