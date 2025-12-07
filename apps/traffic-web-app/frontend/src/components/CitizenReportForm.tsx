@@ -59,13 +59,54 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
     const [errorMessage, setErrorMessage] = useState('');
     const [reportId, setReportId] = useState<string | null>(null);
     const [isGettingLocation, setIsGettingLocation] = useState(false);
+    const [locationPermission, setLocationPermission] = useState<'granted' | 'denied' | 'prompt' | 'unknown'>('unknown');
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Check geolocation permission status on mount (don't auto-get to avoid loops)
+    useEffect(() => {
+        const checkPermission = async () => {
+            // Check if running on HTTPS or localhost (required for geolocation)
+            const isSecureContext = window.isSecureContext ||
+                window.location.protocol === 'https:' ||
+                window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1';
+
+            if (!isSecureContext) {
+                console.warn('⚠️ Geolocation requires HTTPS or localhost');
+                setLocationPermission('denied');
+                return;
+            }
+
+            if ('permissions' in navigator) {
+                try {
+                    const result = await navigator.permissions.query({ name: 'geolocation' });
+                    setLocationPermission(result.state as 'granted' | 'denied' | 'prompt');
+                    console.log('📍 Initial permission state:', result.state);
+
+                    // Listen for permission changes (but don't auto-trigger location)
+                    result.onchange = () => {
+                        const newState = result.state as 'granted' | 'denied' | 'prompt';
+                        setLocationPermission(newState);
+                        console.log('🔄 Geolocation permission changed to:', newState);
+                    };
+                } catch (err) {
+                    console.warn('⚠️ Could not query geolocation permission:', err);
+                    setLocationPermission('unknown');
+                }
+            } else {
+                setLocationPermission('unknown');
+            }
+        };
+
+        checkPermission();
+    }, []);
 
     // Update location when initialLocation prop changes (e.g., user clicks on map)
     useEffect(() => {
         if (initialLocation) {
             setLatitude(Number(initialLocation.lat.toFixed(6)));
             setLongitude(Number(initialLocation.lng.toFixed(6)));
+            setErrorMessage(''); // Clear error when location is set from map
         }
     }, [initialLocation]);
 
@@ -78,43 +119,111 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
     ];
 
     const handleGetCurrentLocation = () => {
+        // Check if running on secure context (HTTPS or localhost)
+        const isSecureContext = window.isSecureContext ||
+            window.location.protocol === 'https:' ||
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1';
+
+        if (!isSecureContext) {
+            setErrorMessage(`📍 GPS requires HTTPS. Please click on the map to select location.`);
+            return;
+        }
+
         setIsGettingLocation(true);
         setErrorMessage(''); // Clear previous error
 
         if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(
+            console.log('🔍 Attempting to get geolocation...', {
+                protocol: window.location.protocol,
+                hostname: window.location.hostname,
+                isSecureContext: window.isSecureContext,
+                currentPermission: locationPermission
+            });
+
+            let locationFound = false;
+            let watchId: number | null = null;
+
+            // Set a timeout to stop watching after 10 seconds
+            const timeoutId = setTimeout(() => {
+                if (!locationFound && watchId !== null) {
+                    navigator.geolocation.clearWatch(watchId);
+                    setIsGettingLocation(false);
+                    setErrorMessage(`📍 Không thể lấy vị trí GPS.
+
+🗺️ Vui lòng click trực tiếp vào bản đồ phía sau form này để chọn vị trí!
+
+💡 Nếu muốn dùng GPS, hãy kiểm tra:
+• Windows Settings → Privacy → Location → ON
+• Tắt VPN/Privacy extensions
+• Mở trang trong Incognito mode`);
+                }
+            }, 10000);
+
+            // Use watchPosition for better compatibility
+            watchId = navigator.geolocation.watchPosition(
                 (position) => {
+                    if (locationFound) return;
+                    locationFound = true;
+
+                    clearTimeout(timeoutId);
+                    if (watchId !== null) {
+                        navigator.geolocation.clearWatch(watchId);
+                    }
+
+                    console.log('✅ Geolocation success:', {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    });
+
                     setLatitude(Number(position.coords.latitude.toFixed(6)));
                     setLongitude(Number(position.coords.longitude.toFixed(6)));
                     setIsGettingLocation(false);
+                    setLocationPermission('granted');
+                    setErrorMessage(`✅ Đã lấy vị trí GPS (độ chính xác: ${Math.round(position.coords.accuracy)}m)`);
+
+                    // Clear success message after 3 seconds
+                    setTimeout(() => setErrorMessage(''), 3000);
                 },
                 (error) => {
-                    console.error('Error getting location:', error);
+                    if (locationFound) return;
+                    locationFound = true;
+
+                    clearTimeout(timeoutId);
+                    if (watchId !== null) {
+                        navigator.geolocation.clearWatch(watchId);
+                    }
+
+                    console.error('❌ Geolocation error:', {
+                        code: error.code,
+                        message: error.message
+                    });
+
                     setIsGettingLocation(false);
 
-                    // Provide specific error messages based on error code
-                    switch (error.code) {
-                        case error.PERMISSION_DENIED:
-                            setErrorMessage('Location access denied. Please click on the map to select your location, or enter coordinates manually.');
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            setErrorMessage('Location unavailable. Please click on the map to select your location.');
-                            break;
-                        case error.TIMEOUT:
-                            setErrorMessage('Location request timed out. Please try again or click on the map.');
-                            break;
-                        default:
-                            setErrorMessage('Failed to get location. Please click on the map or enter manually.');
+                    // Simple, actionable error message
+                    if (error.code === 1) { // PERMISSION_DENIED
+                        setLocationPermission('denied');
                     }
+
+                    setErrorMessage(`📍 Không thể lấy vị trí GPS.
+
+🗺️ Vui lòng click trực tiếp vào bản đồ phía sau form này để chọn vị trí!
+
+💡 Nếu muốn dùng GPS, hãy kiểm tra:
+• Windows Settings → Privacy → Location → ON
+• Tắt VPN/Privacy extensions  
+• Mở trang trong Incognito mode`);
                 },
                 {
-                    enableHighAccuracy: true,
+                    enableHighAccuracy: false,
                     timeout: 10000,
-                    maximumAge: 60000
+                    maximumAge: 300000 // Accept cached position up to 5 minutes
                 }
             );
         } else {
-            setErrorMessage('Geolocation is not supported by your browser. Please click on the map to select location.');
+            setErrorMessage('📍 Browser không hỗ trợ GPS. Vui lòng click vào bản đồ để chọn vị trí.');
             setIsGettingLocation(false);
         }
     };
@@ -264,6 +373,20 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                 </div>
             )}
 
+            {/* Location Error Message */}
+            {submitStatus !== 'error' && errorMessage && (
+                <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                        <p className="font-semibold text-amber-800">Location Notice</p>
+                        <p className="text-sm text-amber-700 whitespace-pre-line">{errorMessage}</p>
+                        <p className="text-xs text-amber-600 mt-2">
+                            💡 Alternative: Click anywhere on the map behind this form to set your location.
+                        </p>
+                    </div>
+                </div>
+            )}
+
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* User ID */}
@@ -323,11 +446,17 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                         Location
                     </label>
-                    <p className="text-xs text-gray-500 mb-2">
-                        💡 Tip: You can click on the map behind this form to select location
-                    </p>
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                        <p className="text-sm text-blue-700 font-medium">
+                            🗺️ Cách chọn vị trí: Click trực tiếp vào bản đồ phía sau form này!
+                        </p>
+                        <p className="text-xs text-blue-600 mt-1">
+                            Hoặc nhấn nút GPS bên dưới (có thể không hoạt động trên một số máy tính)
+                        </p>
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
                         <div>
+                            <label className="text-xs text-gray-500 mb-1 block">Latitude</label>
                             <input
                                 type="number"
                                 step="0.000001"
@@ -339,6 +468,7 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                             />
                         </div>
                         <div>
+                            <label className="text-xs text-gray-500 mb-1 block">Longitude</label>
                             <input
                                 type="number"
                                 step="0.000001"
@@ -350,19 +480,22 @@ export const CitizenReportForm: React.FC<CitizenReportFormProps> = ({
                             />
                         </div>
                     </div>
-                    <button
-                        type="button"
-                        onClick={handleGetCurrentLocation}
-                        disabled={isGettingLocation}
-                        className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors disabled:opacity-50"
-                    >
-                        {isGettingLocation ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                            <MapPin className="w-4 h-4" />
-                        )}
-                        {isGettingLocation ? 'Getting location...' : 'Use Current Location'}
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                        <button
+                            type="button"
+                            onClick={handleGetCurrentLocation}
+                            disabled={isGettingLocation}
+                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors disabled:opacity-50 border border-gray-300"
+                            title="Thử lấy vị trí từ GPS (có thể không hoạt động)"
+                        >
+                            {isGettingLocation ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                                <MapPin className="w-4 h-4" />
+                            )}
+                            {isGettingLocation ? 'Đang lấy GPS...' : 'Thử GPS'}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Image Upload */}

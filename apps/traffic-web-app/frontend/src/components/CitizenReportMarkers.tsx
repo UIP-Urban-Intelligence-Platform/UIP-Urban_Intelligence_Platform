@@ -63,14 +63,15 @@ const createMarkerIcon = (reportType: ReportType, aiVerified: boolean) => {
     const opacity = aiVerified ? 1 : 0.6;
 
     const svgIcon = `
-    <svg width="32" height="42" viewBox="0 0 32 42" xmlns="http://www.w3.org/2000/svg">
+    <svg width="32" height="42" viewBox="0 0 32 42" xmlns="http://www.w3.org/2000/svg" style="cursor: pointer; pointer-events: auto;">
       <path d="M16 0C7.163 0 0 7.163 0 16c0 8.837 16 26 16 26s16-17.163 16-26C32 7.163 24.837 0 16 0z" 
             fill="${color}" 
             opacity="${opacity}" 
             stroke="#fff" 
-            stroke-width="2"/>
-      <circle cx="16" cy="16" r="6" fill="#fff"/>
-      ${!aiVerified ? '<circle cx="16" cy="16" r="3" fill="#fbbf24"/>' : ''}
+            stroke-width="2"
+            style="pointer-events: auto;"/>
+      <circle cx="16" cy="16" r="6" fill="#fff" style="pointer-events: auto;"/>
+      ${!aiVerified ? '<circle cx="16" cy="16" r="3" fill="#fbbf24" style="pointer-events: auto;"/>' : ''}
     </svg>
   `;
 
@@ -105,183 +106,296 @@ const getAQIInfo = (aqi: number) => {
     return { level: 'Hazardous', color: 'text-red-800' };
 };
 
+// Validate if coordinates are valid
+// Latitude: -90 to 90, Longitude: -180 to 180
+const isValidCoordinates = (lat: number, lng: number): boolean => {
+    if (typeof lat !== 'number' || typeof lng !== 'number' || isNaN(lat) || isNaN(lng)) {
+        return false;
+    }
+    // Check standard ranges
+    if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+        return true;
+    }
+    // Check if swapped (lng in lat position, lat in lng position)
+    if (lng >= -90 && lng <= 90 && lat >= -180 && lat <= 180) {
+        return true; // Will be handled by getNormalizedCoordinates
+    }
+    return false;
+};
+
+// Get normalized coordinates - auto-swap if needed
+const getNormalizedCoordinates = (lat: number, lng: number): [number, number] => {
+    // Valid case
+    if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+        return [lat, lng];
+    }
+    // Swapped case
+    if (lng >= -90 && lng <= 90 && lat >= -180 && lat <= 180) {
+        return [lng, lat];
+    }
+    // Fallback (should not reach here if isValidCoordinates was called first)
+    return [lat, lng];
+};
+
+// Popup content component - receives onPopupClose from Marker
+interface PopupContentProps {
+    report: CitizenReport;
+    onPopupClose?: () => void;
+}
+
+const PopupContent: React.FC<PopupContentProps> = ({ report, onPopupClose }) => {
+    return (
+        <div className="citizen-report-popup relative">
+            {/* Close Button */}
+            <button
+                className="absolute top-2 right-2 z-10 w-7 h-7 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50 text-white/80 hover:text-white transition-all duration-200 backdrop-blur-sm"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    // Use the callback from Marker to properly close popup and reset state
+                    onPopupClose?.();
+                }}
+                aria-label="Close popup"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            {/* Header with gradient */}
+            <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 px-4 py-3">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                            <span className="text-xl">{getReportTypeEmoji(report.reportType)}</span>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-white text-base capitalize drop-shadow-sm">
+                                {report.reportType.replace('_', ' ')}
+                            </h3>
+                            <p className="text-xs text-white/80">
+                                {format(new Date(report.dateObserved), 'MMM dd, yyyy HH:mm')}
+                            </p>
+                        </div>
+                    </div>
+                    {report.aiVerified ? (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-400/90 text-white text-xs font-semibold rounded-full shadow-lg backdrop-blur-sm">
+                            ✓ Verified
+                        </span>
+                    ) : (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-400/90 text-white text-xs font-semibold rounded-full shadow-lg backdrop-blur-sm">
+                            ⏳ Pending
+                        </span>
+                    )}
+                </div>
+            </div>
+
+            {/* Image */}
+            {report.imageUrl && (
+                <div className="relative">
+                    <img
+                        src={report.imageUrl}
+                        alt="Report evidence"
+                        className="w-full h-44 object-cover"
+                        onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://placehold.co/400x300/1f2937/ffffff?text=No+Image';
+                        }}
+                    />
+                    {report.aiVerified && (
+                        <div className="absolute bottom-2 right-2 bg-black/70 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg">
+                            {(report.aiConfidence * 100).toFixed(0)}% AI confidence
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Content */}
+            <div className="p-4 space-y-3 bg-slate-800/50">
+                {/* Description */}
+                {report.description && (
+                    <div className="bg-slate-700/50 rounded-lg p-3 border border-slate-600/30">
+                        <p className="text-sm text-slate-200 italic leading-relaxed">"{report.description}"</p>
+                    </div>
+                )}
+
+                {/* Location Info */}
+                <div className="bg-slate-700/50 rounded-lg p-3 space-y-2 border border-slate-600/30">
+                    <div className="flex items-center gap-2 text-sm">
+                        <span className="text-red-400">📍</span>
+                        <span className="font-medium text-slate-300">Location:</span>
+                        <span className="text-slate-400 font-mono text-xs">
+                            {report.latitude.toFixed(5)}, {report.longitude.toFixed(5)}
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                        <span className="text-blue-400">👤</span>
+                        <span className="font-medium text-slate-300">User:</span>
+                        <span className="text-slate-400">{report.userId}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                        <span className="text-purple-400">🆔</span>
+                        <span className="font-medium text-slate-300">Report ID:</span>
+                        <span className="text-slate-500 font-mono text-xs">{report.reportId.substring(0, 8)}...</span>
+                    </div>
+                </div>
+
+                {/* Weather & Air Quality Grid */}
+                <div className="grid grid-cols-2 gap-3">
+                    {/* Weather Context */}
+                    {report.weatherContext && (
+                        <div className="bg-sky-900/40 rounded-lg p-3 border border-sky-700/40">
+                            <div className="flex items-center gap-1.5 mb-2">
+                                <span className="text-base">🌤️</span>
+                                <span className="font-semibold text-sky-300 text-sm">Weather</span>
+                            </div>
+                            <div className="space-y-1.5 text-xs">
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">Temp:</span>
+                                    <span className="font-semibold text-slate-200">
+                                        {report.weatherContext.temperature.toFixed(1)}°C
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">Condition:</span>
+                                    <span className="font-medium text-slate-200 capitalize">
+                                        {report.weatherContext.condition}
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">Humidity:</span>
+                                    <span className="font-medium text-slate-200">
+                                        {report.weatherContext.humidity}%
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">Wind:</span>
+                                    <span className="font-medium text-slate-200">
+                                        {report.weatherContext.windSpeed} m/s
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Air Quality Context */}
+                    {report.airQualityContext && (
+                        <div className="bg-violet-900/40 rounded-lg p-3 border border-violet-700/40">
+                            <div className="flex items-center gap-1.5 mb-2">
+                                <span className="text-base">🌫️</span>
+                                <span className="font-semibold text-violet-300 text-sm">Air Quality</span>
+                            </div>
+                            <div className="space-y-1.5 text-xs">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-slate-400">AQI:</span>
+                                    <span className={`font-bold px-1.5 py-0.5 rounded ${getAQIInfo(report.airQualityContext.aqi).color}`}>
+                                        {report.airQualityContext.aqi}
+                                    </span>
+                                </div>
+                                <div className="text-center">
+                                    <span className={`text-xs font-medium ${getAQIInfo(report.airQualityContext.aqi).color}`}>
+                                        ({getAQIInfo(report.airQualityContext.aqi).level})
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">PM2.5:</span>
+                                    <span className="font-medium text-slate-200">
+                                        {report.airQualityContext.pm25.toFixed(1)} μg/m³
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">PM10:</span>
+                                    <span className="font-medium text-slate-200">
+                                        {report.airQualityContext.pm10.toFixed(1)} μg/m³
+                                    </span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-400">Main:</span>
+                                    <span className="font-medium text-slate-200 uppercase">
+                                        {report.airQualityContext.dominantPollutant}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export const CitizenReportMarkers: React.FC<CitizenReportMarkersProps> = ({
     reports,
     onReportClick
 }) => {
     const map = useMap();
+    // Track if initial fit bounds has been done to prevent zoom reset on data refresh
+    const hasInitialFitRef = React.useRef(false);
 
-    // Center map on first report if available
+    // Filter out reports with invalid coordinates
+    const validReports = React.useMemo(() => {
+        return reports.filter(report => {
+            const isValid = isValidCoordinates(report.latitude, report.longitude);
+            if (!isValid) {
+                console.warn(`Skipping report ${report.id} with invalid coordinates: lat=${report.latitude}, lng=${report.longitude}`);
+            }
+            return isValid;
+        });
+    }, [reports]);
+
+    // Center map on first report - ONLY on initial load, not on data refresh
     useEffect(() => {
-        if (reports.length > 0 && map) {
-            const bounds = latLngBounds(
-                reports.map(r => [r.latitude, r.longitude] as [number, number])
-            );
-            // Use toBoundsLike() to get the proper format for fitBounds
-            map.fitBounds(bounds.toBoundsLike(), { padding: [50, 50], maxZoom: 14 });
+        // Skip if already done initial fit or no reports
+        if (hasInitialFitRef.current || validReports.length === 0 || !map) {
+            return;
         }
-    }, [reports, map]);
+
+        try {
+            const coordinates = validReports.map(r => getNormalizedCoordinates(r.latitude, r.longitude));
+            console.log('📍 CitizenReportMarkers - Initial fit bounds with coordinates:', coordinates);
+
+            const bounds = latLngBounds(coordinates);
+            const boundsLike = bounds.toBoundsLike();
+            console.log('📍 CitizenReportMarkers - Bounds:', {
+                sw: bounds.getSouthWest(),
+                ne: bounds.getNorthEast(),
+                boundsLike
+            });
+
+            // Use toBoundsLike() to get the proper format for fitBounds
+            map.fitBounds(boundsLike, { padding: [50, 50], maxZoom: 14 });
+
+            // Mark as done - won't fit bounds again on data refresh
+            hasInitialFitRef.current = true;
+        } catch (error) {
+            console.warn('Failed to fit bounds:', error);
+        }
+    }, [validReports, map]);
 
     const handleMarkerClick = useCallback((report: CitizenReport) => {
         onReportClick?.(report);
-        map.setView([report.latitude, report.longitude], 15);
+        const [lat, lng] = getNormalizedCoordinates(report.latitude, report.longitude);
+        map.setView([lat, lng], 15);
     }, [map, onReportClick]);
 
     return (
         <>
-            {reports.map((report) => (
-                <Marker
-                    key={report.id}
-                    position={[report.latitude, report.longitude]}
-                    icon={createMarkerIcon(report.reportType, report.aiVerified)}
-                    eventHandlers={{
-                        click: () => handleMarkerClick(report)
-                    }}
-                >
-                    <Popup className="citizen-report-popup" maxWidth={400}>
-                        <div className="p-2 min-w-[300px]">
-                            {/* Header */}
-                            <div className="flex items-start justify-between mb-3 pb-2 border-b border-gray-200">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-2xl">{getReportTypeEmoji(report.reportType)}</span>
-                                    <div>
-                                        <h3 className="font-bold text-gray-800 capitalize">
-                                            {report.reportType.replace('_', ' ')}
-                                        </h3>
-                                        <p className="text-xs text-gray-500">
-                                            {format(new Date(report.dateObserved), 'MMM dd, yyyy HH:mm')}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col items-end gap-1">
-                                    {report.aiVerified ? (
-                                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">
-                                            ✓ Verified
-                                        </span>
-                                    ) : (
-                                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded">
-                                            ⏳ Pending
-                                        </span>
-                                    )}
-                                    {report.aiVerified && (
-                                        <span className="text-xs text-gray-600">
-                                            {(report.aiConfidence * 100).toFixed(0)}% confidence
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Image */}
-                            {report.imageUrl && (
-                                <div className="mb-3">
-                                    <img
-                                        src={report.imageUrl}
-                                        alt="Report evidence"
-                                        className="w-full h-40 object-cover rounded-lg border border-gray-200"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://placehold.co/400x300/1f2937/ffffff?text=Không+Có+Ảnh';
-                                        }}
-                                    />
-                                </div>
-                            )}
-
-                            {/* Description */}
-                            {report.description && (
-                                <div className="mb-3">
-                                    <p className="text-sm text-gray-700 italic">"{report.description}"</p>
-                                </div>
-                            )}
-
-                            {/* Location */}
-                            <div className="mb-3 p-2 bg-gray-50 rounded text-xs space-y-1">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-gray-600">📍 Location:</span>
-                                    <span className="text-gray-700">
-                                        {report.latitude.toFixed(5)}, {report.longitude.toFixed(5)}
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-gray-600">👤 User:</span>
-                                    <span className="text-gray-700">{report.userId}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="font-semibold text-gray-600">🆔 Report ID:</span>
-                                    <span className="text-gray-700 font-mono">{report.reportId.substring(0, 8)}...</span>
-                                </div>
-                            </div>
-
-                            {/* Weather Context */}
-                            {report.weatherContext && (
-                                <div className="mb-3 p-2 bg-blue-50 rounded text-xs space-y-1">
-                                    <div className="font-semibold text-blue-800 mb-1">🌤️ Weather</div>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <div>
-                                            <span className="text-gray-600">Temp:</span>
-                                            <span className="ml-1 text-gray-800 font-medium">
-                                                {report.weatherContext.temperature.toFixed(1)}°C
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-600">Condition:</span>
-                                            <span className="ml-1 text-gray-800 font-medium">
-                                                {report.weatherContext.condition}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-600">Humidity:</span>
-                                            <span className="ml-1 text-gray-800 font-medium">
-                                                {report.weatherContext.humidity}%
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-600">Wind:</span>
-                                            <span className="ml-1 text-gray-800 font-medium">
-                                                {report.weatherContext.windSpeed} m/s {report.weatherContext.windDirection}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Air Quality Context */}
-                            {report.airQualityContext && (
-                                <div className="p-2 bg-purple-50 rounded text-xs space-y-1">
-                                    <div className="font-semibold text-purple-800 mb-1">🌫️ Air Quality</div>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <div>
-                                            <span className="text-gray-600">AQI:</span>
-                                            <span className={`ml-1 font-bold ${getAQIInfo(report.airQualityContext.aqi).color}`}>
-                                                {report.airQualityContext.aqi}
-                                            </span>
-                                            <span className="ml-1 text-gray-600 text-xs">
-                                                ({getAQIInfo(report.airQualityContext.aqi).level})
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-600">PM2.5:</span>
-                                            <span className="ml-1 text-gray-800 font-medium">
-                                                {report.airQualityContext.pm25.toFixed(1)} μg/m³
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-600">PM10:</span>
-                                            <span className="ml-1 text-gray-800 font-medium">
-                                                {report.airQualityContext.pm10.toFixed(1)} μg/m³
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-600">Main:</span>
-                                            <span className="ml-1 text-gray-800 font-medium uppercase">
-                                                {report.airQualityContext.dominantPollutant}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </Popup>
-                </Marker>
-            ))}
+            {validReports.map((report) => {
+                const [lat, lng] = getNormalizedCoordinates(report.latitude, report.longitude);
+                return (
+                    <Marker
+                        key={report.id}
+                        position={[lat, lng]}
+                        icon={createMarkerIcon(report.reportType, report.aiVerified)}
+                        eventHandlers={{
+                            click: () => handleMarkerClick(report)
+                        }}
+                    >
+                        <Popup maxWidth={400} closeButton={false}>
+                            <PopupContent report={report} />
+                        </Popup>
+                    </Marker>
+                );
+            })}
         </>
     );
 };

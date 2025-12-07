@@ -64,18 +64,51 @@ export interface MarkerProps {
     };
 }
 
+// Validate coordinates are within valid ranges
+// Latitude: -90 to 90, Longitude: -180 to 180
+function validateCoordinates(lat: number, lng: number): [number, number] {
+    // Check if values are valid numbers
+    if (typeof lat !== 'number' || typeof lng !== 'number' || isNaN(lat) || isNaN(lng)) {
+        throw new Error(`Invalid coordinates: lat=${lat}, lng=${lng}`);
+    }
+
+    // Check if latitude is within valid range
+    if (lat < -90 || lat > 90) {
+        // If longitude is within latitude range, values might be swapped
+        if (lng >= -90 && lng <= 90) {
+            console.warn(`Coordinates appear to be swapped. Swapping lat=${lat} with lng=${lng}`);
+            return [lat, lng]; // Return as [lng, lat] - they were swapped in input
+        }
+        throw new Error(`Invalid latitude value: ${lat}. Must be between -90 and 90`);
+    }
+
+    // Check if longitude is within valid range
+    if (lng < -180 || lng > 180) {
+        throw new Error(`Invalid longitude value: ${lng}. Must be between -180 and 180`);
+    }
+
+    return [lng, lat]; // Return as [lng, lat] for MapLibre
+}
+
 // Convert position to [lng, lat] for MapLibre
 function getCoordinates(position: LatLngExpression): [number, number] {
+    let lat: number;
+    let lng: number;
+
     if (Array.isArray(position)) {
-        return [position[1], position[0]]; // [lng, lat]
+        // Leaflet format: [lat, lng]
+        [lat, lng] = position;
+    } else if ('lat' in position && 'lng' in position) {
+        lat = position.lat;
+        lng = position.lng;
+    } else if ('latitude' in position && 'longitude' in position) {
+        lat = position.latitude;
+        lng = position.longitude;
+    } else {
+        throw new Error('Invalid position format');
     }
-    if ('lat' in position && 'lng' in position) {
-        return [position.lng, position.lat];
-    }
-    if ('latitude' in position && 'longitude' in position) {
-        return [position.longitude, position.latitude];
-    }
-    throw new Error('Invalid position format');
+
+    return validateCoordinates(lat, lng);
 }
 
 // Get icon options from icon prop
@@ -108,13 +141,39 @@ export const Marker: React.FC<MarkerProps> = ({
     const iconOptions = getIconOptions(icon);
     const [showPopup, setShowPopup] = useState(false);
 
-    // Calculate anchor offset
-    const anchor = useMemo(() => {
-        if (iconOptions.iconAnchor) {
-            return iconOptions.iconAnchor.join(' ') as any;
+    // Calculate anchor for MapLibre GL
+    // MapLibre only accepts: 'center', 'top', 'bottom', 'left', 'right',
+    // 'top-left', 'top-right', 'bottom-left', 'bottom-right'
+    // We use 'center' and handle offset manually in the marker content
+    const anchor = useMemo((): 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' => {
+        if (iconOptions.iconAnchor && iconOptions.iconSize) {
+            const [anchorX, anchorY] = iconOptions.iconAnchor;
+            const [width, height] = iconOptions.iconSize;
+
+            // Determine anchor position based on relative anchor point
+            const xRatio = anchorX / width;
+            const yRatio = anchorY / height;
+
+            // Map to closest valid anchor string
+            if (yRatio >= 0.8) {
+                // Anchor near bottom
+                if (xRatio <= 0.3) return 'bottom-left';
+                if (xRatio >= 0.7) return 'bottom-right';
+                return 'bottom';
+            } else if (yRatio <= 0.2) {
+                // Anchor near top
+                if (xRatio <= 0.3) return 'top-left';
+                if (xRatio >= 0.7) return 'top-right';
+                return 'top';
+            } else {
+                // Anchor near center vertically
+                if (xRatio <= 0.3) return 'left';
+                if (xRatio >= 0.7) return 'right';
+                return 'center';
+            }
         }
         return 'bottom';
-    }, [iconOptions.iconAnchor]);
+    }, [iconOptions.iconAnchor, iconOptions.iconSize]);
 
     // Handle click events
     const handleClick = useCallback((e: any) => {
@@ -130,7 +189,11 @@ export const Marker: React.FC<MarkerProps> = ({
                 <div
                     dangerouslySetInnerHTML={{ __html: iconOptions.html }}
                     className={iconOptions.className || ''}
-                    style={{ opacity }}
+                    style={{
+                        opacity,
+                        cursor: 'pointer',
+                        pointerEvents: 'auto',
+                    }}
                 />
             );
         }
@@ -143,20 +206,22 @@ export const Marker: React.FC<MarkerProps> = ({
             return (
                 <div
                     style={{
-                        position: 'relative',
+                        width: `${width}px`,
+                        height: `${height}px`,
                         opacity,
                         cursor: 'pointer',
+                        pointerEvents: 'auto',
+                        // Use transform to position the anchor point correctly
+                        transform: `translate(-${anchorX}px, -${anchorY}px)`,
                     }}
                 >
                     <img
                         src={iconOptions.iconUrl}
                         alt="marker"
                         style={{
-                            width: `${width}px`,
-                            height: `${height}px`,
-                            position: 'absolute',
-                            left: `-${anchorX}px`,
-                            top: `-${anchorY}px`,
+                            width: '100%',
+                            height: '100%',
+                            display: 'block',
                         }}
                     />
                 </div>
@@ -215,9 +280,17 @@ export const Marker: React.FC<MarkerProps> = ({
                     anchor="bottom"
                     onClose={() => setShowPopup(false)}
                     closeOnClick={false}
+                    closeButton={popupChild.props.closeButton ?? true}
                     offset={iconOptions.popupAnchor ? [iconOptions.popupAnchor[0], -iconOptions.popupAnchor[1]] : [0, -41]}
+                    maxWidth={popupChild.props.maxWidth ? `${popupChild.props.maxWidth}px` : undefined}
                 >
-                    {popupChild.props.children}
+                    {/* Clone children and inject onClose callback for custom close buttons */}
+                    {React.isValidElement(popupChild.props.children)
+                        ? React.cloneElement(popupChild.props.children as React.ReactElement, {
+                            onPopupClose: () => setShowPopup(false)
+                        })
+                        : popupChild.props.children
+                    }
                 </RMGPopup>
             )}
         </>

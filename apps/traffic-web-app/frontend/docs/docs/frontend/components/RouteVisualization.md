@@ -74,10 +74,10 @@ function MapComponent() {
 
 | Speed | Color |
 |-------|-------|
-| Free flow (>50 km/h) | 🟢 Green |
+| Free flow (&gt;50 km/h) | 🟢 Green |
 | Moderate (30-50 km/h) | 🟡 Yellow |
 | Slow (15-30 km/h) | 🟠 Orange |
-| Congested (<15 km/h) | 🔴 Red |
+| Congested (&lt;15 km/h) | 🔴 Red |
 
 ## 📖 Related Components
 

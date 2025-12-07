@@ -66,6 +66,10 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 
+# Fix Windows asyncio event loop issue (must be before aiohttp import)
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 import aiohttp
 import yaml
 
@@ -696,4 +700,8 @@ async def main(config: Dict = None):
 
 
 if __name__ == "__main__":
+    import platform
+    # Fix Windows asyncio event loop issue with aiohttp
+    if platform.system() == 'Windows':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(main())

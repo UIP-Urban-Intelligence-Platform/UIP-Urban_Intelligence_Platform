@@ -1,10 +1,10 @@
 {
   "summary": {
-    "total_entities": 0,
-    "valid": 0,
+    "total_entities": 701,
+    "valid": 701,
     "invalid": 0,
-    "validation_rate": 0,
-    "average_lod_stars": 0
+    "validation_rate": 100.0,
+    "average_lod_stars": 5.0
   },
   "lod_distribution": {
     "0_stars": 0,
@@ -12,8 +12,8 @@
     "2_stars": 0,
     "3_stars": 0,
     "4_stars": 0,
-    "5_stars": 0
+    "5_stars": 701
   },
   "errors": [],
-  "timestamp": "2025-12-06T02:18:20.678685"
+  "timestamp": "2025-12-08T00:20:22.157833"
 }

@@ -62,6 +62,8 @@ import multiAgentRoutes from './routes/multiAgentRoutes';
 import citizenRoutes from './routes/citizenRoutes';
 import { WebSocketService } from './services/websocketService';
 import { DataAggregator } from './services/dataAggregator';
+import { observationSyncService } from './services/observationSyncService';
+import { getAccidentSyncService } from './services/accidentSyncService';
 import { checkAllConnections } from './utils/healthCheck';
 
 dotenv.config();
@@ -177,7 +179,7 @@ async function startServer() {
     });
 
     // Start HTTP server (Express API + WebSocket on same port)
-    httpServer.listen(PORT, () => {
+    httpServer.listen(PORT, async () => {
       logger.info(`✓ HTTP Server running on port ${PORT}`);
       logger.info(`✓ WebSocket Server running on port ${PORT} (mounted on HTTP server)`);
       logger.info(`✓ CORS enabled for: ${allowedOrigins.join(', ')}`);
@@ -185,6 +187,23 @@ async function startServer() {
       // Start data aggregation
       dataAggregator.start();
       logger.info('✓ Data aggregation service started');
+
+      // Auto-sync observations to Stellio for real-time traffic data
+      logger.info('🔄 Checking Stellio for ItemFlowObserved data...');
+      const stellioAvailable = await observationSyncService.checkStellioConnection();
+      if (stellioAvailable) {
+        // Sync observations on startup and every 5 minutes
+        observationSyncService.startPeriodicSync(5);
+        logger.info('✓ Observation sync service started (every 5 minutes)');
+
+        // Auto-sync accidents to Stellio
+        logger.info('🚨 Starting Accident sync service...');
+        const accidentSyncService = getAccidentSyncService();
+        accidentSyncService.startPeriodicSync(2); // Every 2 minutes for accidents
+        logger.info('✓ Accident sync service started (every 2 minutes)');
+      } else {
+        logger.warn('⚠️ Stellio not available, observation sync disabled');
+      }
 
       logger.info('='.repeat(50));
       logger.info('Server initialization complete!');
@@ -203,6 +222,8 @@ startServer();
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received, shutting down gracefully');
   dataAggregator.stop();
+  observationSyncService.stopPeriodicSync();
+  getAccidentSyncService().stopPeriodicSync();
   httpServer.close(() => {
     logger.info('HTTP server closed');
     wss.close(() => {
@@ -215,6 +236,8 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
   logger.info('SIGINT received, shutting down gracefully');
   dataAggregator.stop();
+  observationSyncService.stopPeriodicSync();
+  getAccidentSyncService().stopPeriodicSync();
   httpServer.close(() => {
     logger.info('HTTP server closed');
     wss.close(() => {

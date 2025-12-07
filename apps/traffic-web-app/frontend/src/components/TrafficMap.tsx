@@ -74,7 +74,7 @@ import {
   useMap,
   useMapEvents,
 } from './map';
-import type { LatLngExpression, MapInstance } from './map';
+import type { LatLngExpression, MapInstance, MapStyleType } from './map';
 import { useTrafficStore } from '../store/trafficStore';
 import { Camera, Accident, Weather, AirQuality, TrafficPattern } from '../types';
 import { format, subHours, parseISO } from 'date-fns';
@@ -105,6 +105,7 @@ import { CitizenReportMarkers } from './CitizenReportMarkers';
 import { citizenReportService } from '../services/citizenReportService';
 import { CitizenReport } from '../types/citizenReport';
 import useWebSocket from '../hooks/useWebSocket';
+import ClusteredMarkers from './ClusteredMarkers';
 // Note: MapLibre GL CSS is automatically imported by MapContainer
 
 const { BaseLayer } = LayersControl;
@@ -193,6 +194,64 @@ const MapClickHandler: React.FC<{
   return null;
 };
 
+// Map Event Handler for tracking zoom and bounds (used for clustering)
+const MapBoundsHandler: React.FC<{
+  onZoomChange: (zoom: number) => void;
+  onBoundsChange: (bounds: { west: number; south: number; east: number; north: number }) => void;
+}> = ({ onZoomChange, onBoundsChange }) => {
+  useMapEvents({
+    moveend: (e: any) => {
+      const map = e.target;
+      if (map) {
+        const zoom = map.getZoom();
+        const bounds = map.getBounds();
+        if (bounds) {
+          onZoomChange(zoom);
+          onBoundsChange({
+            west: bounds.getWest(),
+            south: bounds.getSouth(),
+            east: bounds.getEast(),
+            north: bounds.getNorth(),
+          });
+        }
+      }
+    },
+    zoomend: (e: any) => {
+      const map = e.target;
+      if (map) {
+        const zoom = map.getZoom();
+        const bounds = map.getBounds();
+        if (bounds) {
+          onZoomChange(zoom);
+          onBoundsChange({
+            west: bounds.getWest(),
+            south: bounds.getSouth(),
+            east: bounds.getEast(),
+            north: bounds.getNorth(),
+          });
+        }
+      }
+    },
+    load: (e: any) => {
+      const map = e.target;
+      if (map) {
+        const zoom = map.getZoom();
+        const bounds = map.getBounds();
+        if (bounds) {
+          onZoomChange(zoom);
+          onBoundsChange({
+            west: bounds.getWest(),
+            south: bounds.getSouth(),
+            east: bounds.getEast(),
+            north: bounds.getNorth(),
+          });
+        }
+      }
+    },
+  });
+  return null;
+};
+
 const TrafficMap = forwardRef<any, {}>((_props, ref) => {
   const {
     cameras,
@@ -229,6 +288,13 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
   // InvestigatorPanel camera state (separate from CameraDetailModal)
   const [selectedCameraForInvestigator, setSelectedCameraForInvestigator] = useState<Camera | null>(null);
   const mapRef = useRef<MapInstance | null>(null);
+
+  // Map style state for switching between OSM, Satellite, Terrain
+  const [mapStyleType, setMapStyleType] = useState<MapStyleType>('osm');
+
+  // Clustering state: zoom level and map bounds
+  const [mapZoom, setMapZoom] = useState<number>(13);
+  const [mapBounds, setMapBounds] = useState<{ west: number; south: number; east: number; north: number } | null>(null);
 
   // 🔧 FIX: Move InvestigatorPanel AI data state to TrafficMap level to persist across re-renders
   const [investigatorRealData, setInvestigatorRealData] = useState<any>(null);
@@ -937,6 +1003,7 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
         style={{ height: '100%', width: '100%' }}
         className="z-0"
         zoomControl={false}
+        mapStyleType={mapStyleType}
       >
         {/* Map Click Handler for Citizen Report Location */}
         <MapClickHandler
@@ -944,132 +1011,49 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
           enabled={filters.showCitizenForm}
         />
 
+        {/* Map Bounds Handler for Clustering */}
+        <MapBoundsHandler
+          onZoomChange={(zoom) => setMapZoom(zoom)}
+          onBoundsChange={(bounds) => setMapBounds(bounds)}
+        />
+
         <ZoomControl position="topright" />
         <ScaleControl position="bottomleft" />
 
-        <LayersControl position="topright">
+        <LayersControl
+          position="topright"
+          onBaseLayerChange={(_layerName, styleType) => {
+            console.log('🗺️ Switching map style to:', styleType);
+            setMapStyleType(styleType);
+          }}
+        >
           <BaseLayer checked name="OpenStreetMap">
             {/* Base layer is set via mapStyle in MapContainer */}
             {null}
           </BaseLayer>
           <BaseLayer name="Satellite">
-            {/* Satellite layer - would require changing mapStyle */}
+            {/* Satellite layer from ESRI */}
+            {null}
+          </BaseLayer>
+          <BaseLayer name="Terrain">
+            {/* Terrain layer from OpenTopoMap */}
             {null}
           </BaseLayer>
         </LayersControl>
 
-        {/* Cameras - Controlled by Sidebar filters */}
-        {filters.showCameras && (
-          <>
-            {(() => {
-              const filteredCameras = cameras.filter((camera: Camera) => {
-                const lat = camera?.location?.latitude || (camera?.location as any)?.lat;
-                const lng = camera?.location?.longitude || (camera?.location as any)?.lng;
-                return lat != null && lng != null && !isNaN(lat) && !isNaN(lng);
-              });
-
-              console.log('🎥 Camera Rendering:', {
-                total: cameras.length,
-                filtered: filteredCameras.length,
-                showCameras: filters.showCameras,
-                sample: cameras[0]
-              });
-
-              return filteredCameras.map((camera: Camera) => {
-                const lat = camera.location.latitude || (camera.location as any).lat;
-                const lng = camera.location.longitude || (camera.location as any).lng;
-                const nearbyWeather = getWeatherAtLocation(lat, lng);
-                const nearbyAQI = getAQIAtLocation(lat, lng);
-                const recentAccidents = getRecentAccidentsCount(lat, lng);
-
-                return (
-                  <Marker
-                    key={camera.id}
-                    position={[lat, lng]}
-                    icon={createCameraIcon(camera.status)}
-                    eventHandlers={{
-                      click: () => handleCameraClick(camera),
-                    }}
-                  >
-                    <Tooltip direction="top" offset={[0, -40]} opacity={0.9}>
-                      <strong>{camera.name}</strong>
-                    </Tooltip>
-                    <Popup>
-                      <div className="p-3 min-w-[280px]">
-                        <h3 className="font-bold text-lg mb-2">{camera.name}</h3>
-                        <p className="text-sm text-gray-600 mb-2">{camera.location.address}</p>
-
-                        <div className="space-y-1 mb-3">
-                          <p className="text-sm">
-                            <span className="font-semibold">Type:</span> {camera.type || 'Static'}
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Status:</span>{' '}
-                            <span
-                              className={`font-semibold ${camera.status === 'active' || camera.status === 'online'
-                                ? 'text-green-600'
-                                : camera.status === 'inactive' || camera.status === 'offline'
-                                  ? 'text-red-600'
-                                  : 'text-yellow-600'
-                                }`}
-                            >
-                              {camera.status}
-                            </span>
-                          </p>
-                        </div>
-
-                        {nearbyWeather && (
-                          <div className="border-t pt-2 mb-2">
-                            <p className="text-xs font-semibold text-gray-700 mb-1">Current Weather:</p>
-                            <p className="text-sm">{nearbyWeather.temperature}°C, {nearbyWeather.condition}</p>
-                            <p className="text-xs text-gray-600">Humidity: {nearbyWeather.humidity}%</p>
-                          </div>
-                        )}
-
-                        {nearbyAQI && (
-                          <div className="border-t pt-2 mb-2">
-                            <p className="text-xs font-semibold text-gray-700 mb-1">Air Quality:</p>
-                            <p className="text-sm">
-                              AQI: <span style={{ color: getAQIColor(nearbyAQI.level), fontWeight: 'bold' }}>
-                                {nearbyAQI.aqi}
-                              </span> ({nearbyAQI.level})
-                            </p>
-                          </div>
-                        )}
-
-                        <div className="border-t pt-2">
-                          <p className="text-sm">
-                            <span className="font-semibold">Recent Accidents (24h):</span>{' '}
-                            <span className={recentAccidents > 0 ? 'text-red-600 font-bold' : 'text-green-600'}>
-                              {recentAccidents}
-                            </span>
-                          </p>
-                        </div>
-
-                        {camera.streamUrl && (
-                          <a
-                            href={camera.streamUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block mt-3 text-center bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 text-sm font-medium transition-colors shadow-sm"
-                          >
-                            View Stream
-                          </a>
-                        )}
-
-                        <button
-                          onClick={() => handleCameraClick(camera)}
-                          className="block w-full mt-2 text-center bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm font-medium transition-all"
-                        >
-                          View Details
-                        </button>
-                      </div>
-                    </Popup>
-                  </Marker>
-                );
-              });
-            })()}
-          </>
+        {/* Cameras - Controlled by Sidebar filters with Clustering Support */}
+        {filters.showCameras && mapBounds && (
+          <ClusteredMarkers
+            cameras={cameras}
+            zoom={mapZoom}
+            bounds={[mapBounds.west, mapBounds.south, mapBounds.east, mapBounds.north]}
+            onCameraClick={handleCameraClick}
+            mapRef={mapRef}
+            getWeatherAtLocation={getWeatherAtLocation}
+            getAQIAtLocation={getAQIAtLocation}
+            getRecentAccidentsCount={getRecentAccidentsCount}
+            getAQIColor={getAQIColor}
+          />
         )}
 
         {/* Accidents - Controlled by Sidebar filters */}
@@ -1108,7 +1092,7 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
                       {accident.severity.toUpperCase()} - {accident.type}
                     </Tooltip>
                     <Popup>
-                      <div className="p-3 min-w-[260px]">
+                      <div className="p-3 min-w-[260px] bg-white text-gray-900">
                         <h3 className="font-bold text-lg mb-2 text-red-600">Accident</h3>
                         <p className="text-sm text-gray-600 mb-2">{accident.location.address}</p>
 
@@ -1197,8 +1181,8 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
                       {w.temperature}°C - {w.condition}
                     </Tooltip>
                     <Popup>
-                      <div className="p-3 min-w-[240px]">
-                        <h3 className="font-bold text-lg mb-2">Weather</h3>
+                      <div className="p-3 min-w-[240px] bg-white text-gray-900">
+                        <h3 className="font-bold text-lg mb-2 text-sky-600">Weather</h3>
                         <p className="text-sm text-gray-600 mb-2">{w.location.district}</p>
 
                         <div className="space-y-1">
@@ -1269,8 +1253,8 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
                       AQI: {aq.aqi} ({aq.level})
                     </Tooltip>
                     <Popup>
-                      <div className="p-3 min-w-[240px]">
-                        <h3 className="font-bold text-lg mb-2">Air Quality</h3>
+                      <div className="p-3 min-w-[240px] bg-white text-gray-900">
+                        <h3 className="font-bold text-lg mb-2 text-amber-600">Air Quality</h3>
                         <p className="text-sm text-gray-600 mb-2">{aq.location.station}</p>
 
                         <div className="space-y-1">
@@ -1348,8 +1332,8 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
                     }}
                   >
                     <Popup>
-                      <div className="p-3 min-w-[240px]">
-                        <h3 className="font-bold text-lg mb-2">Traffic Pattern</h3>
+                      <div className="p-3 min-w-[240px] bg-white text-gray-900">
+                        <h3 className="font-bold text-lg mb-2 text-purple-600">Traffic Pattern</h3>
                         {pattern.roadSegment && (
                           <p className="text-sm text-gray-600 mb-2">{pattern.roadSegment}</p>
                         )}

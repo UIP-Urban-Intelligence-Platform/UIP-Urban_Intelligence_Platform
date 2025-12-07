@@ -105,6 +105,10 @@ import argparse
 from datetime import datetime
 from typing import Optional
 
+# Fix Windows asyncio event loop issue
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 # Add project root to path (go up 2 levels from scripts/pipeline/)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, PROJECT_ROOT)
@@ -476,7 +480,7 @@ Examples:
     args = parser.parse_args()
     
     print("=" * 70)
-    print("REAL DATA GENERATOR - Live Camera → YOLOX → Neo4j → Analytics")
+    print("REAL DATA GENERATOR - Live Camera -> YOLOX -> Neo4j -> Analytics")
     print("=" * 70)
     print(f"Runs: {args.runs}, Delay: {args.delay}s")
     print(f"Skip Refresh: {args.skip_refresh}, Skip CV: {args.skip_cv}")

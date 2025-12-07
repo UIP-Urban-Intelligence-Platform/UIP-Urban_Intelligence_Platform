@@ -96,11 +96,43 @@ export function useMap(): MapInstance {
 
                 case 'fitBounds':
                     return (bounds: [[number, number], [number, number]], options?: { padding?: number | number[]; maxZoom?: number }) => {
-                        // Convert Leaflet bounds [[south, west], [north, east]] to MapLibre [[west, south], [east, north]]
-                        const mlBounds: [[number, number], [number, number]] = [
-                            [bounds[0][1], bounds[0][0]],
-                            [bounds[1][1], bounds[1][0]],
-                        ];
+                        // bounds can be either:
+                        // - Leaflet format: [[lat, lng], [lat, lng]] where lat is in [-90, 90]
+                        // - MapLibre format: [[lng, lat], [lng, lat]] where first value is lng in [-180, 180]
+
+                        // Detect format by checking if first value of first point is a valid longitude (> 90 or < -90)
+                        // or if second value is a valid latitude (within [-90, 90])
+                        const [[a, b], [c, d]] = bounds;
+
+                        let mlBounds: [[number, number], [number, number]];
+
+                        // If first value looks like longitude (outside lat range but inside lng range)
+                        // Then it's already MapLibre format [[lng, lat], [lng, lat]]
+                        const firstIsLng = (a < -90 || a > 90) && (a >= -180 && a <= 180);
+                        const secondIsLat = b >= -90 && b <= 90;
+
+                        if (firstIsLng || (secondIsLat && Math.abs(a) > Math.abs(b))) {
+                            // Already MapLibre format [[lng, lat], [lng, lat]]
+                            mlBounds = bounds;
+                        } else {
+                            // Leaflet format [[lat, lng], [lat, lng]] - convert to [[lng, lat], [lng, lat]]
+                            mlBounds = [
+                                [b, a], // [lng, lat]
+                                [d, c], // [lng, lat]
+                            ];
+                        }
+
+                        // Validate before calling fitBounds
+                        const [[lng1, lat1], [lng2, lat2]] = mlBounds;
+                        if (lat1 < -90 || lat1 > 90 || lat2 < -90 || lat2 > 90) {
+                            console.error('Invalid bounds latitude:', { mlBounds, original: bounds });
+                            return;
+                        }
+                        if (lng1 < -180 || lng1 > 180 || lng2 < -180 || lng2 > 180) {
+                            console.error('Invalid bounds longitude:', { mlBounds, original: bounds });
+                            return;
+                        }
+
                         actualMap.fitBounds(mlBounds, {
                             padding: typeof options?.padding === 'number' ? options.padding : 50,
                             maxZoom: options?.maxZoom,

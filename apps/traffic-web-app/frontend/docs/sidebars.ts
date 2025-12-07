@@ -183,6 +183,177 @@ const sidebars: SidebarsConfig = {
                         'frontend/components/TrafficMap',
                         'frontend/components/AnalyticsDashboard',
                         'frontend/components/CitizenReportForm',
+                        'frontend/components/Sidebar',
+                        'frontend/components/ErrorBoundary',
+                        'frontend/components/NotificationProvider',
+                        'frontend/components/ConnectionStatus',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Map Components',
+                    items: [
+                        'frontend/components/AccidentMarkers',
+                        'frontend/components/CitizenReportMarkers',
+                        'frontend/components/CitizenReportMap',
+                        'frontend/components/CitizenReportFilterPanel',
+                        'frontend/components/AQIHeatmap',
+                        'frontend/components/VehicleHeatmap',
+                        'frontend/components/SpeedZones',
+                        'frontend/components/PatternZones',
+                        'frontend/components/CorrelationLines',
+                        'frontend/components/PollutantCircles',
+                        'frontend/components/HumidityVisibilityLayer',
+                        'frontend/components/WeatherOverlay',
+                        'frontend/components/MapLegend',
+                        'frontend/components/SimpleLegend',
+                        'frontend/components/CircleDrawTool',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'UI Components',
+                    items: [
+                        'frontend/components/CameraDetailModal',
+                        'frontend/components/FilterPanel',
+                        'frontend/components/CorrelationPanel',
+                        'frontend/components/HistoricalViewBanner',
+                        'frontend/components/TimeMachine',
+                        'frontend/components/AccidentFrequencyChart',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Route Components',
+                    items: [
+                        'frontend/components/RoutePlanner',
+                        'frontend/components/RouteVisualization',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Hooks',
+                    items: [
+                        'frontend/hooks/useWebSocket',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Pages',
+                    items: [
+                        'frontend/pages/Dashboard',
+                        'frontend/pages/DocsPage',
+                        'frontend/pages/LandingPage',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Services',
+                    items: [
+                        'frontend/services/api',
+                        'frontend/services/citizenReportService',
+                        'frontend/services/docsService',
+                        'frontend/services/websocket',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Store',
+                    items: [
+                        'frontend/store/trafficStore',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Types',
+                    items: [
+                        'frontend/types/index',
+                        'frontend/types/citizenReport',
+                    ],
+                },
+            ],
+        },
+        {
+            type: 'category',
+            label: '⚙️ Backend',
+            collapsed: false,
+            link: {
+                type: 'doc',
+                id: 'backend/overview',
+            },
+            items: [
+                'backend/overview',
+                {
+                    type: 'category',
+                    label: 'Agents',
+                    items: [
+                        'backend/agents/EcoTwinAgent',
+                        'backend/agents/GraphInvestigatorAgent',
+                        'backend/agents/TrafficMaestroAgent',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Routes',
+                    items: [
+                        'backend/routes/routes-overview',
+                        'backend/routes/accident-routes',
+                        'backend/routes/agent-routes',
+                        'backend/routes/air-quality-routes',
+                        'backend/routes/analytics-routes',
+                        'backend/routes/camera-routes',
+                        'backend/routes/correlation-routes',
+                        'backend/routes/geocoding-routes',
+                        'backend/routes/historical-routes',
+                        'backend/routes/multi-agent-routes',
+                        'backend/routes/pattern-routes',
+                        'backend/routes/routing-routes',
+                        'backend/routes/weather-routes',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Services',
+                    items: [
+                        'backend/services/data-aggregator',
+                        'backend/services/fuseki-service',
+                        'backend/services/generic-ngsi-service',
+                        'backend/services/neo4j-service',
+                        'backend/services/postgres-service',
+                        'backend/services/stellio-service',
+                        'backend/services/websocket-service',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Config',
+                    items: [
+                        'backend/config/config-loader',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Middlewares',
+                    items: [
+                        'backend/middlewares/error-handler',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Utils',
+                    items: [
+                        'backend/utils/api-key-rotation',
+                        'backend/utils/health-check',
+                        'backend/utils/logger',
+                        'backend/utils/transformations',
+                        'backend/utils/validators',
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Types',
+                    items: [
+                        'backend/types/types-index',
                     ],
                 },
             ],
@@ -219,6 +390,18 @@ const sidebars: SidebarsConfig = {
             collapsed: false,
             items: [
                 'testing/complete-testing-guide',
+            ],
+        },
+        {
+            type: 'category',
+            label: '📄 Licenses',
+            collapsed: true,
+            items: [
+                'licenses/licenses-overview',
+                'licenses/license-texts',
+                'licenses/npm-dependencies',
+                'licenses/python-dependencies',
+                'licenses/special-notes',
             ],
         },
         {

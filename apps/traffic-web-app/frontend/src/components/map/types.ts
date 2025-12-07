@@ -81,6 +81,29 @@ export interface LatLngBounds {
     toBoundsLike(): [[number, number], [number, number]];
 }
 
+// Helper function to validate and normalize coordinates
+// Returns [lat, lng] with valid values, auto-swapping if needed
+function normalizeCoordinates(lat: number, lng: number): [number, number] | null {
+    // Check for invalid numbers
+    if (typeof lat !== 'number' || typeof lng !== 'number' || isNaN(lat) || isNaN(lng)) {
+        return null;
+    }
+
+    // Valid case: lat in [-90, 90] and lng in [-180, 180]
+    if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+        return [lat, lng];
+    }
+
+    // Check if swapped: lng (as lat) in [-90, 90] and lat (as lng) in [-180, 180]
+    if (lng >= -90 && lng <= 90 && lat >= -180 && lat <= 180) {
+        console.warn(`Coordinates appear swapped: [${lat}, ${lng}] -> [${lng}, ${lat}]`);
+        return [lng, lat]; // Return swapped
+    }
+
+    // Invalid coordinates
+    return null;
+}
+
 // LatLngBounds implementation
 class LatLngBoundsImpl implements LatLngBounds {
     private sw: { lat: number; lng: number };
@@ -93,24 +116,43 @@ class LatLngBoundsImpl implements LatLngBounds {
 
         let minLat = Infinity, maxLat = -Infinity;
         let minLng = Infinity, maxLng = -Infinity;
+        let validCount = 0;
 
         for (const pos of positions) {
-            let lat: number, lng: number;
+            let rawLat: number, rawLng: number;
             if (Array.isArray(pos)) {
-                [lat, lng] = pos;
+                [rawLat, rawLng] = pos;
             } else if ('lat' in pos && 'lng' in pos) {
-                lat = pos.lat;
-                lng = pos.lng;
+                rawLat = pos.lat;
+                rawLng = pos.lng;
             } else if ('latitude' in pos && 'longitude' in pos) {
-                lat = pos.latitude;
-                lng = pos.longitude;
+                rawLat = pos.latitude;
+                rawLng = pos.longitude;
             } else {
                 continue;
             }
+
+            // Normalize and validate coordinates
+            const normalized = normalizeCoordinates(rawLat, rawLng);
+            if (!normalized) {
+                console.warn(`Skipping invalid coordinates: [${rawLat}, ${rawLng}]`);
+                continue;
+            }
+
+            const [lat, lng] = normalized;
             minLat = Math.min(minLat, lat);
             maxLat = Math.max(maxLat, lat);
             minLng = Math.min(minLng, lng);
             maxLng = Math.max(maxLng, lng);
+            validCount++;
+        }
+
+        // If no valid coordinates, use default bounds (HCMC area)
+        if (validCount === 0) {
+            console.warn('No valid coordinates found, using default bounds (HCMC)');
+            this.sw = { lat: 10.7, lng: 106.6 };
+            this.ne = { lat: 10.9, lng: 106.8 };
+            return;
         }
 
         this.sw = { lat: minLat, lng: minLng };

@@ -15,11 +15,14 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useRef, useCallback, forwardRef, useImperativeHandle, ReactNode } from 'react';
+import React, { useRef, useCallback, forwardRef, useImperativeHandle, ReactNode, useState } from 'react';
 import Map, { MapRef, ViewStateChangeEvent, MapLayerMouseEvent } from 'react-map-gl/maplibre';
 import { MapProvider, useMapContext } from './MapContext';
 import type { LatLngExpression } from './types';
 import 'maplibre-gl/dist/maplibre-gl.css';
+
+// Map style type
+export type MapStyleType = 'osm' | 'satellite' | 'terrain';
 
 // OpenStreetMap tile style for MapLibre
 const OSM_STYLE = {
@@ -47,6 +50,69 @@ const OSM_STYLE = {
     ],
 };
 
+// Satellite style using ESRI World Imagery (free, no API key required)
+const SATELLITE_STYLE = {
+    version: 8 as const,
+    sources: {
+        satellite: {
+            type: 'raster' as const,
+            tiles: [
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            ],
+            tileSize: 256,
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        },
+    },
+    layers: [
+        {
+            id: 'satellite',
+            type: 'raster' as const,
+            source: 'satellite',
+            minzoom: 0,
+            maxzoom: 19,
+        },
+    ],
+};
+
+// Terrain style using OpenTopoMap
+const TERRAIN_STYLE = {
+    version: 8 as const,
+    sources: {
+        terrain: {
+            type: 'raster' as const,
+            tiles: [
+                'https://a.tile.opentopomap.org/{z}/{x}/{y}.png',
+                'https://b.tile.opentopomap.org/{z}/{x}/{y}.png',
+                'https://c.tile.opentopomap.org/{z}/{x}/{y}.png',
+            ],
+            tileSize: 256,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+        },
+    },
+    layers: [
+        {
+            id: 'terrain',
+            type: 'raster' as const,
+            source: 'terrain',
+            minzoom: 0,
+            maxzoom: 17,
+        },
+    ],
+};
+
+// Get map style by type
+export const getMapStyle = (styleType: MapStyleType) => {
+    switch (styleType) {
+        case 'satellite':
+            return SATELLITE_STYLE;
+        case 'terrain':
+            return TERRAIN_STYLE;
+        case 'osm':
+        default:
+            return OSM_STYLE;
+    }
+};
+
 export interface MapContainerRef {
     getMap: () => MapRef | null;
     flyTo: (center: LatLngExpression, zoom?: number) => void;
@@ -72,6 +138,7 @@ export interface MapContainerProps {
     scrollWheelZoom?: boolean;
     doubleClickZoom?: boolean;
     dragging?: boolean;
+    mapStyleType?: MapStyleType;
     whenCreated?: (map: MapRef) => void;
     whenReady?: () => void;
     onClick?: (e: { latlng: { lat: number; lng: number } }) => void;
@@ -92,6 +159,7 @@ const MapContainerInner = forwardRef<MapContainerRef, MapContainerProps>(({
     scrollWheelZoom = true,
     doubleClickZoom = true,
     dragging = true,
+    mapStyleType = 'osm',
     whenCreated,
     whenReady,
     onClick,
@@ -100,6 +168,9 @@ const MapContainerInner = forwardRef<MapContainerRef, MapContainerProps>(({
 }, ref) => {
     const mapRef = useRef<MapRef>(null);
     const { setMap, setIsLoaded } = useMapContext();
+
+    // Get current map style based on styleType
+    const currentMapStyle = getMapStyle(mapStyleType);
 
     // Convert center to [lng, lat] format
     const getInitialCenter = (): [number, number] => {
@@ -203,7 +274,7 @@ const MapContainerInner = forwardRef<MapContainerRef, MapContainerProps>(({
                     zoom: zoom,
                 }}
                 style={{ width: '100%', height: '100%', ...style }}
-                mapStyle={OSM_STYLE}
+                mapStyle={currentMapStyle}
                 minZoom={minZoom}
                 maxZoom={maxZoom}
                 scrollZoom={scrollWheelZoom}

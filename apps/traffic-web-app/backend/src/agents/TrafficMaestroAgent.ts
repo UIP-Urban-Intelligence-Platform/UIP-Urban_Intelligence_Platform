@@ -735,17 +735,34 @@ export class TrafficMaestroAgent {
         maxDistanceMeters: number
     ): Promise<Array<{ camera: Camera; distance: number }>> {
         try {
-            // Fetch ALL cameras from Stellio (no limit)
+            // Fetch ALL cameras from Stellio using pagination (max 100 per request)
             const stellioUrl = process.env.STELLIO_URL || 'http://localhost:8080';
-            const response = await axios.get(`${stellioUrl}/ngsi-ld/v1/entities`, {
-                params: {
-                    type: 'Camera',
-                    limit: 1000 // NGSI-LD max, effectively gets all cameras
-                },
-                headers: { 'Accept': 'application/ld+json' }
-            });
+            const STELLIO_MAX_LIMIT = 100;
+            let allCameras: any[] = [];
+            let offset = 0;
+            let hasMore = true;
 
-            const cameras = response.data || [];
+            while (hasMore) {
+                const response = await axios.get(`${stellioUrl}/ngsi-ld/v1/entities`, {
+                    params: {
+                        type: 'Camera',
+                        limit: STELLIO_MAX_LIMIT,
+                        offset: offset
+                    },
+                    headers: { 'Accept': 'application/ld+json' }
+                });
+
+                const batch = response.data || [];
+                allCameras = allCameras.concat(batch);
+
+                if (batch.length < STELLIO_MAX_LIMIT) {
+                    hasMore = false;
+                } else {
+                    offset += STELLIO_MAX_LIMIT;
+                }
+            }
+
+            const cameras = allCameras;
 
             // Calculate distances and filter
             const nearbyCameras = cameras
@@ -1222,8 +1239,21 @@ export class TrafficMaestroAgent {
     /**
      * Helper: Estimate event end time
      */
-    private estimateEndTime(startTime: string, durationHours: number): string {
+    private estimateEndTime(startTime: string | undefined, durationHours: number): string {
+        // Handle invalid or undefined startTime
+        if (!startTime) {
+            const defaultEnd = new Date(Date.now() + durationHours * 60 * 60 * 1000);
+            return defaultEnd.toISOString();
+        }
+
         const start = new Date(startTime);
+
+        // Check if date is valid
+        if (isNaN(start.getTime())) {
+            const defaultEnd = new Date(Date.now() + durationHours * 60 * 60 * 1000);
+            return defaultEnd.toISOString();
+        }
+
         const end = new Date(start.getTime() + durationHours * 60 * 60 * 1000);
         return end.toISOString();
     }

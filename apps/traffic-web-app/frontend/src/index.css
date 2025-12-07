@@ -51,6 +51,26 @@ body {
   width: 100%;
 }
 
+/* Custom marker icon - ensure clickable */
+.custom-marker-icon {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+.custom-marker-icon svg {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+.custom-marker-icon svg * {
+  pointer-events: auto !important;
+}
+
+/* MapLibre marker element */
+.maplibregl-marker {
+  cursor: pointer !important;
+}
+
 .marker-cluster-small {
   background-color: rgba(181, 226, 140, 0.6);
 }
@@ -225,4 +245,61 @@ body {
 .slider-purple::-moz-range-thumb:hover {
   background: #7e22ce;
   transform: scale(1.1);
+}
+
+/* MapLibre GL Popup Styles */
+.maplibregl-popup {
+  max-width: none !important;
+  z-index: 1000 !important;
+}
+
+.maplibregl-popup-content {
+  padding: 0 !important;
+  background: white !important;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: white !important;
+}
+
+.maplibregl-popup-close-button {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  width: 24px !important;
+  height: 24px !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  border-radius: 50% !important;
+  font-size: 18px !important;
+  line-height: 24px !important;
+  text-align: center !important;
+  color: #666 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  z-index: 10 !important;
+}
+
+.maplibregl-popup-close-button:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: #333 !important;
+}
+
+/* Citizen Report Popup specific styles */
+.citizen-report-popup {
+  min-width: 340px;
+  max-width: 380px;
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
 }

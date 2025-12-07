@@ -34,6 +34,7 @@
 import { Router, Request, Response } from 'express';
 import { GraphInvestigatorAgent } from '../agents/GraphInvestigatorAgent';
 import { TrafficMaestroAgent } from '../agents/TrafficMaestroAgent';
+import { observationSyncService } from '../services/observationSyncService';
 import { logger } from '../utils/logger';
 
 const router = Router();
@@ -71,6 +72,12 @@ const refreshPredictiveCache = async () => {
     logger.info('🔄 Refreshing predictive timeline cache in background...');
 
     try {
+        // Ensure observations are synced to Stellio first
+        const stellioAvailable = await observationSyncService.checkStellioConnection();
+        if (stellioAvailable) {
+            await observationSyncService.syncObservationsToStellion();
+        }
+
         const agent = getTrafficMaestro();
         const trafficAnalysis = await agent.analyzeAllCamerasTraffic();
 

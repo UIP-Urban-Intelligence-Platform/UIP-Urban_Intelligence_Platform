@@ -72,10 +72,10 @@ function MapComponent() {
 ## 🎨 Visualization
 
 | Condition | Display |
-|-----------|---------|
-| Low Visibility (<1km) | 🌫️ Dense fog overlay |
+|-----------|----------|
+| Low Visibility (&lt;1km) | 🌫️ Dense fog overlay |
 | Medium Visibility (1-5km) | ⛅ Light mist |
-| High Humidity (>80%) | 💧 Blue tint |
+| High Humidity (&gt;80%) | 💧 Blue tint |
 
 ## 📖 Related Components
 

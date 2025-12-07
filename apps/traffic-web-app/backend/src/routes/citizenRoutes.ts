@@ -41,14 +41,39 @@ const STELLIO_URL = process.env.STELLIO_URL || 'http://localhost:8080';
  */
 function transformEntity(entity: any) {
     const id = entity.id?.split(':').pop() || '';
+
+    // Extract coordinates from GeoJSON format
+    // GeoJSON: coordinates = [longitude, latitude]
+    const coords = entity.location?.value?.coordinates;
+    let latitude = coords?.[1];
+    let longitude = coords?.[0];
+
+    // Validate and normalize coordinates
+    // If invalid, use default HCMC center
+    if (typeof latitude !== 'number' || typeof longitude !== 'number' ||
+        isNaN(latitude) || isNaN(longitude) ||
+        latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+        // Check if coordinates are swapped
+        if (coords && coords[0] >= -90 && coords[0] <= 90 && coords[1] >= -180 && coords[1] <= 180) {
+            // Swapped: [lat, lng] instead of [lng, lat]
+            latitude = coords[0];
+            longitude = coords[1];
+        } else {
+            // Invalid coordinates - use HCMC default
+            console.warn(`Invalid coordinates for entity ${id}: [${coords}], using HCMC default`);
+            latitude = 10.762622;
+            longitude = 106.660172;
+        }
+    }
+
     return {
         id,
         reportId: id,
         userId: entity.reportedBy?.object?.split(':').pop() || 'unknown',
         reportType: entity.category?.value || 'other',
         description: entity.description?.value || '',
-        latitude: entity.location?.value?.coordinates?.[1] || 0,
-        longitude: entity.location?.value?.coordinates?.[0] || 0,
+        latitude,
+        longitude,
         imageUrl: entity.imageSnapshot?.value || '',
         dateObserved: entity.dateObserved?.value || new Date().toISOString(),
         createdAt: entity.dateObserved?.value || new Date().toISOString(),
@@ -127,16 +152,34 @@ router.get('/', async (req: Request, res: Response) => {
  */
 router.get('/stats', async (req: Request, res: Response) => {
     try {
-        const response = await axios.get(`${STELLIO_URL}/ngsi-ld/v1/entities`, {
-            params: {
-                type: 'CitizenObservation',
-                limit: 10000
-            },
-            headers: { 'Accept': 'application/json' },
-            timeout: 30000
-        });
+        // Fetch all CitizenObservation entities using pagination (Stellio max limit is 100)
+        const STELLIO_MAX_LIMIT = 100;
+        let allReports: any[] = [];
+        let offset = 0;
+        let hasMore = true;
 
-        const reports = (response.data || []).map(transformEntity);
+        while (hasMore) {
+            const response = await axios.get(`${STELLIO_URL}/ngsi-ld/v1/entities`, {
+                params: {
+                    type: 'CitizenObservation',
+                    limit: STELLIO_MAX_LIMIT,
+                    offset: offset
+                },
+                headers: { 'Accept': 'application/json' },
+                timeout: 30000
+            });
+
+            const batch = (response.data || []).map(transformEntity);
+            allReports = allReports.concat(batch);
+
+            if (batch.length < STELLIO_MAX_LIMIT) {
+                hasMore = false;
+            } else {
+                offset += STELLIO_MAX_LIMIT;
+            }
+        }
+
+        const reports = allReports;
         const now = new Date();
         const last24h = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 

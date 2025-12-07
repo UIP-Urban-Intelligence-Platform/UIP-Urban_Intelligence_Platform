@@ -47,8 +47,13 @@ export { Polygon } from './Polygon';
 export { CircleMarker } from './CircleMarker';
 export { Tooltip } from './Tooltip';
 export { LayersControl, BaseLayer, Overlay } from './LayersControl';
+export type { MapStyleType } from './LayersControl';
 export { ScaleControl } from './ScaleControl';
 export { ZoomControl } from './ZoomControl';
+
+// Map styles
+export { getMapStyle } from './MapContainer';
+export type { MapStyleType as MapContainerStyleType } from './MapContainer';
 
 // Hooks
 export { useMap } from './useMap';

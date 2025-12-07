@@ -1,1 +1,1834 @@
-[]
+[
+  {
+    "camera": "urn:ngsi-ld:Camera:0",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:28:29.896866Z",
+    "last_update_ts": "2025-12-07T16:28:29.896866Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:2",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:28:38.123981Z",
+    "last_update_ts": "2025-12-07T16:28:38.123981Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:3",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:28:41.762015Z",
+    "last_update_ts": "2025-12-07T16:28:41.762015Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:4",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:28:45.936513Z",
+    "last_update_ts": "2025-12-07T16:28:45.936513Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:6",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:28:53.578448Z",
+    "last_update_ts": "2025-12-07T16:28:53.578448Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:8",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:01.332582Z",
+    "last_update_ts": "2025-12-07T16:29:01.332582Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:9",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:05.242704Z",
+    "last_update_ts": "2025-12-07T16:29:05.242704Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:10",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:09.176150Z",
+    "last_update_ts": "2025-12-07T16:29:09.176150Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:12",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:16.772428Z",
+    "last_update_ts": "2025-12-07T16:29:16.772428Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:13",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:20.643890Z",
+    "last_update_ts": "2025-12-07T16:29:20.643890Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:16",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:31.957714Z",
+    "last_update_ts": "2025-12-07T16:29:31.957714Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:17",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:35.605939Z",
+    "last_update_ts": "2025-12-07T16:29:35.605939Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:20",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:46.997069Z",
+    "last_update_ts": "2025-12-07T16:29:46.997069Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:21",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:29:51.175833Z",
+    "last_update_ts": "2025-12-07T16:29:51.175833Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:27",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:30:14.343637Z",
+    "last_update_ts": "2025-12-07T16:30:14.343637Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:28",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:30:18.572989Z",
+    "last_update_ts": "2025-12-07T16:30:18.572989Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:29",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:30:23.160551Z",
+    "last_update_ts": "2025-12-07T16:30:23.160551Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:32",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:30:35.314205Z",
+    "last_update_ts": "2025-12-07T16:30:35.314205Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:38",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:30:58.344838Z",
+    "last_update_ts": "2025-12-07T16:30:58.344838Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:40",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:05.982308Z",
+    "last_update_ts": "2025-12-07T16:31:05.982308Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:41",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:09.692043Z",
+    "last_update_ts": "2025-12-07T16:31:09.692043Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:47",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:28.662760Z",
+    "last_update_ts": "2025-12-07T16:31:28.662760Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:48",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:32.444935Z",
+    "last_update_ts": "2025-12-07T16:31:32.444935Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:49",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:36.215471Z",
+    "last_update_ts": "2025-12-07T16:31:36.215471Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:50",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:40.054197Z",
+    "last_update_ts": "2025-12-07T16:31:40.054197Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:51",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:43.830413Z",
+    "last_update_ts": "2025-12-07T16:31:43.830413Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:52",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:47.662633Z",
+    "last_update_ts": "2025-12-07T16:31:47.662633Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:55",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:31:59.580458Z",
+    "last_update_ts": "2025-12-07T16:31:59.580458Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:58",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:32:11.132680Z",
+    "last_update_ts": "2025-12-07T16:32:11.132680Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:59",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:32:16.584153Z",
+    "last_update_ts": "2025-12-07T16:32:16.584153Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:62",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:32:27.657806Z",
+    "last_update_ts": "2025-12-07T16:32:27.657806Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:65",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:32:39.752782Z",
+    "last_update_ts": "2025-12-07T16:32:39.752782Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:66",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:32:43.460663Z",
+    "last_update_ts": "2025-12-07T16:32:43.460663Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:68",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:32:50.930212Z",
+    "last_update_ts": "2025-12-07T16:32:50.930212Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:69",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:32:54.634537Z",
+    "last_update_ts": "2025-12-07T16:32:54.634537Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:78",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:33:29.011237Z",
+    "last_update_ts": "2025-12-07T16:33:29.011237Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:80",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:33:36.393899Z",
+    "last_update_ts": "2025-12-07T16:33:36.393899Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:82",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:33:44.815019Z",
+    "last_update_ts": "2025-12-07T16:33:44.815019Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:85",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:33:56.053665Z",
+    "last_update_ts": "2025-12-07T16:33:56.053665Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:86",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:34:00.069874Z",
+    "last_update_ts": "2025-12-07T16:34:00.069874Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:88",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:34:07.679767Z",
+    "last_update_ts": "2025-12-07T16:34:07.679767Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:89",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:34:11.354558Z",
+    "last_update_ts": "2025-12-07T16:34:11.354558Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:100",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:34:46.503712Z",
+    "last_update_ts": "2025-12-07T16:34:46.503712Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:101",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:34:50.509129Z",
+    "last_update_ts": "2025-12-07T16:34:50.509129Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:102",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:34:57.440530Z",
+    "last_update_ts": "2025-12-07T16:34:57.440530Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:105",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:35:08.800738Z",
+    "last_update_ts": "2025-12-07T16:35:08.800738Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:112",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:35:35.294060Z",
+    "last_update_ts": "2025-12-07T16:35:35.294060Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:117",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:35:55.291785Z",
+    "last_update_ts": "2025-12-07T16:35:55.291785Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:118",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:35:59.228728Z",
+    "last_update_ts": "2025-12-07T16:35:59.228728Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:123",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:36:18.834703Z",
+    "last_update_ts": "2025-12-07T16:36:18.834703Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:126",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:36:30.359804Z",
+    "last_update_ts": "2025-12-07T16:36:30.359804Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:127",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:36:34.458493Z",
+    "last_update_ts": "2025-12-07T16:36:34.458493Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:130",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:36:45.825042Z",
+    "last_update_ts": "2025-12-07T16:36:45.825042Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:134",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:37:01.315573Z",
+    "last_update_ts": "2025-12-07T16:37:01.315573Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:136",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:37:08.730141Z",
+    "last_update_ts": "2025-12-07T16:37:08.730141Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:138",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:37:16.679728Z",
+    "last_update_ts": "2025-12-07T16:37:16.679728Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:140",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:37:24.059465Z",
+    "last_update_ts": "2025-12-07T16:37:24.059465Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:141",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:37:27.805750Z",
+    "last_update_ts": "2025-12-07T16:37:27.805750Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:143",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:37:35.342199Z",
+    "last_update_ts": "2025-12-07T16:37:35.342199Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:149",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:37:58.294818Z",
+    "last_update_ts": "2025-12-07T16:37:58.294818Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:153",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:14.223885Z",
+    "last_update_ts": "2025-12-07T16:38:14.223885Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:154",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:18.147776Z",
+    "last_update_ts": "2025-12-07T16:38:18.147776Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:155",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:22.039956Z",
+    "last_update_ts": "2025-12-07T16:38:22.039956Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:156",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:25.897863Z",
+    "last_update_ts": "2025-12-07T16:38:25.897863Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:157",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:29.598964Z",
+    "last_update_ts": "2025-12-07T16:38:29.598964Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:160",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:37.093669Z",
+    "last_update_ts": "2025-12-07T16:38:37.093669Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:161",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:41.055137Z",
+    "last_update_ts": "2025-12-07T16:38:41.055137Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:163",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:49.053812Z",
+    "last_update_ts": "2025-12-07T16:38:49.053812Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:164",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:53.040477Z",
+    "last_update_ts": "2025-12-07T16:38:53.040477Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:165",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:38:56.998927Z",
+    "last_update_ts": "2025-12-07T16:38:56.998927Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:166",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:39:00.989731Z",
+    "last_update_ts": "2025-12-07T16:39:00.989731Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:173",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:39:28.267859Z",
+    "last_update_ts": "2025-12-07T16:39:28.267859Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:174",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:39:32.018576Z",
+    "last_update_ts": "2025-12-07T16:39:32.018576Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:177",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:39:43.426729Z",
+    "last_update_ts": "2025-12-07T16:39:43.426729Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:181",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:40:00.224627Z",
+    "last_update_ts": "2025-12-07T16:40:00.224627Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:186",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:40:19.170893Z",
+    "last_update_ts": "2025-12-07T16:40:19.170893Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:199",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:41:08.768008Z",
+    "last_update_ts": "2025-12-07T16:41:08.768008Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:201",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:41:16.420690Z",
+    "last_update_ts": "2025-12-07T16:41:16.420690Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:204",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:41:29.821675Z",
+    "last_update_ts": "2025-12-07T16:41:29.821675Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:208",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:41:44.983092Z",
+    "last_update_ts": "2025-12-07T16:41:44.983092Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:209",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:41:48.857114Z",
+    "last_update_ts": "2025-12-07T16:41:48.857114Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:212",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:41:56.506890Z",
+    "last_update_ts": "2025-12-07T16:41:56.506890Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:220",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:42:23.067684Z",
+    "last_update_ts": "2025-12-07T16:42:23.067684Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:225",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:42:42.693170Z",
+    "last_update_ts": "2025-12-07T16:42:42.693170Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:230",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:43:03.218380Z",
+    "last_update_ts": "2025-12-07T16:43:03.218380Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:235",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:43:22.129050Z",
+    "last_update_ts": "2025-12-07T16:43:22.129050Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:239",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:43:37.217991Z",
+    "last_update_ts": "2025-12-07T16:43:37.217991Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:241",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:43:44.846920Z",
+    "last_update_ts": "2025-12-07T16:43:44.846920Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:243",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:43:52.731190Z",
+    "last_update_ts": "2025-12-07T16:43:52.731190Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:244",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:43:56.875749Z",
+    "last_update_ts": "2025-12-07T16:43:56.875749Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:245",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:00.747116Z",
+    "last_update_ts": "2025-12-07T16:44:00.747116Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:246",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:04.465099Z",
+    "last_update_ts": "2025-12-07T16:44:04.465099Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:247",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:08.237864Z",
+    "last_update_ts": "2025-12-07T16:44:08.237864Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:248",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:11.990895Z",
+    "last_update_ts": "2025-12-07T16:44:11.990895Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:251",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:23.517034Z",
+    "last_update_ts": "2025-12-07T16:44:23.517034Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:256",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:39.119438Z",
+    "last_update_ts": "2025-12-07T16:44:39.119438Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:257",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:42.774706Z",
+    "last_update_ts": "2025-12-07T16:44:42.774706Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:258",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:46.455942Z",
+    "last_update_ts": "2025-12-07T16:44:46.455942Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:259",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:44:50.506833Z",
+    "last_update_ts": "2025-12-07T16:44:50.506833Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:264",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:45:09.091426Z",
+    "last_update_ts": "2025-12-07T16:45:09.091426Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:269",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:45:24.603683Z",
+    "last_update_ts": "2025-12-07T16:45:24.603683Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:275",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:45:46.962786Z",
+    "last_update_ts": "2025-12-07T16:45:46.962786Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:276",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:45:50.843436Z",
+    "last_update_ts": "2025-12-07T16:45:50.843436Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:278",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:45:58.345804Z",
+    "last_update_ts": "2025-12-07T16:45:58.345804Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:280",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:46:05.856766Z",
+    "last_update_ts": "2025-12-07T16:46:05.856766Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:283",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:46:17.801910Z",
+    "last_update_ts": "2025-12-07T16:46:17.801910Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:284",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:46:21.599677Z",
+    "last_update_ts": "2025-12-07T16:46:21.599677Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:294",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:46:56.860533Z",
+    "last_update_ts": "2025-12-07T16:46:56.860533Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:300",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:47:20.187860Z",
+    "last_update_ts": "2025-12-07T16:47:20.187860Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:303",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:47:31.415978Z",
+    "last_update_ts": "2025-12-07T16:47:31.415978Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:304",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:47:35.287767Z",
+    "last_update_ts": "2025-12-07T16:47:35.287767Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:314",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:48:14.202057Z",
+    "last_update_ts": "2025-12-07T16:48:14.202057Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:317",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:48:26.112585Z",
+    "last_update_ts": "2025-12-07T16:48:26.112585Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:334",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:49:19.946001Z",
+    "last_update_ts": "2025-12-07T16:49:19.946001Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:338",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:49:34.479585Z",
+    "last_update_ts": "2025-12-07T16:49:34.479585Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:339",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:49:38.110089Z",
+    "last_update_ts": "2025-12-07T16:49:38.110089Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:347",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:50:08.210555Z",
+    "last_update_ts": "2025-12-07T16:50:08.210555Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:349",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:50:15.482199Z",
+    "last_update_ts": "2025-12-07T16:50:15.482199Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:351",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:50:22.751448Z",
+    "last_update_ts": "2025-12-07T16:50:22.751448Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:355",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:50:37.466127Z",
+    "last_update_ts": "2025-12-07T16:50:37.466127Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:365",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:51:10.551695Z",
+    "last_update_ts": "2025-12-07T16:51:10.551695Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:367",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:51:17.872554Z",
+    "last_update_ts": "2025-12-07T16:51:17.872554Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:372",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:51:37.566770Z",
+    "last_update_ts": "2025-12-07T16:51:37.566770Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:373",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:51:41.567662Z",
+    "last_update_ts": "2025-12-07T16:51:41.567662Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:382",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:52:15.225823Z",
+    "last_update_ts": "2025-12-07T16:52:15.225823Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:384",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:52:18.835323Z",
+    "last_update_ts": "2025-12-07T16:52:18.835323Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:387",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:52:30.180690Z",
+    "last_update_ts": "2025-12-07T16:52:30.180690Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:396",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:53:00.595283Z",
+    "last_update_ts": "2025-12-07T16:53:00.595283Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:397",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:53:04.259511Z",
+    "last_update_ts": "2025-12-07T16:53:04.259511Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:398",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:53:08.102366Z",
+    "last_update_ts": "2025-12-07T16:53:08.102366Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:403",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:53:27.870643Z",
+    "last_update_ts": "2025-12-07T16:53:27.870643Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:411",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:53:57.765653Z",
+    "last_update_ts": "2025-12-07T16:53:57.765653Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:418",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:54:24.891186Z",
+    "last_update_ts": "2025-12-07T16:54:24.891186Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:422",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:54:39.883384Z",
+    "last_update_ts": "2025-12-07T16:54:39.883384Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:426",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:54:55.232812Z",
+    "last_update_ts": "2025-12-07T16:54:55.232812Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:427",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:54:59.085591Z",
+    "last_update_ts": "2025-12-07T16:54:59.085591Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:431",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:55:10.338507Z",
+    "last_update_ts": "2025-12-07T16:55:10.338507Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:432",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:55:14.383117Z",
+    "last_update_ts": "2025-12-07T16:55:14.383117Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:433",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:55:18.094824Z",
+    "last_update_ts": "2025-12-07T16:55:18.094824Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:436",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:55:29.384905Z",
+    "last_update_ts": "2025-12-07T16:55:29.384905Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:437",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:55:33.375653Z",
+    "last_update_ts": "2025-12-07T16:55:33.375653Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:438",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:55:37.208511Z",
+    "last_update_ts": "2025-12-07T16:55:37.208511Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:443",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:55:52.400923Z",
+    "last_update_ts": "2025-12-07T16:55:52.400923Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:447",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:56:07.763242Z",
+    "last_update_ts": "2025-12-07T16:56:07.763242Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:448",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:56:11.768106Z",
+    "last_update_ts": "2025-12-07T16:56:11.768106Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:452",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:56:27.120388Z",
+    "last_update_ts": "2025-12-07T16:56:27.120388Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:457",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:56:46.775450Z",
+    "last_update_ts": "2025-12-07T16:56:46.775450Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:462",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:57:06.395561Z",
+    "last_update_ts": "2025-12-07T16:57:06.395561Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:466",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:57:21.913199Z",
+    "last_update_ts": "2025-12-07T16:57:21.913199Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:473",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:57:49.093704Z",
+    "last_update_ts": "2025-12-07T16:57:49.093704Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:475",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:57:56.979985Z",
+    "last_update_ts": "2025-12-07T16:57:56.979985Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:477",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:58:04.640443Z",
+    "last_update_ts": "2025-12-07T16:58:04.640443Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:480",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:58:17.252584Z",
+    "last_update_ts": "2025-12-07T16:58:17.252584Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:483",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:58:30.032947Z",
+    "last_update_ts": "2025-12-07T16:58:30.032947Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:487",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:58:46.600658Z",
+    "last_update_ts": "2025-12-07T16:58:46.600658Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:488",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:58:50.296536Z",
+    "last_update_ts": "2025-12-07T16:58:50.296536Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:496",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:59:20.795656Z",
+    "last_update_ts": "2025-12-07T16:59:20.795656Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:497",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:59:24.366780Z",
+    "last_update_ts": "2025-12-07T16:59:24.366780Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:498",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:59:28.003826Z",
+    "last_update_ts": "2025-12-07T16:59:28.003826Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:503",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:59:46.398873Z",
+    "last_update_ts": "2025-12-07T16:59:46.398873Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:506",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T16:59:57.491643Z",
+    "last_update_ts": "2025-12-07T16:59:57.491643Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:509",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:00:09.698238Z",
+    "last_update_ts": "2025-12-07T17:00:09.698238Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:510",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:00:13.286475Z",
+    "last_update_ts": "2025-12-07T17:00:13.286475Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:511",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:00:17.048138Z",
+    "last_update_ts": "2025-12-07T17:00:17.048138Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:515",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:00:32.110979Z",
+    "last_update_ts": "2025-12-07T17:00:32.110979Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:518",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:00:42.768004Z",
+    "last_update_ts": "2025-12-07T17:00:42.768004Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:519",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:00:46.255939Z",
+    "last_update_ts": "2025-12-07T17:00:46.255939Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:523",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:01:01.526157Z",
+    "last_update_ts": "2025-12-07T17:01:01.526157Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:527",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:01:17.112790Z",
+    "last_update_ts": "2025-12-07T17:01:17.112790Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:530",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:01:27.571319Z",
+    "last_update_ts": "2025-12-07T17:01:27.571319Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:533",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:01:40.628879Z",
+    "last_update_ts": "2025-12-07T17:01:40.628879Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:534",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:02:15.189026Z",
+    "last_update_ts": "2025-12-07T17:02:15.189026Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:535",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:02:19.005926Z",
+    "last_update_ts": "2025-12-07T17:02:19.005926Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:536",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:02:23.363340Z",
+    "last_update_ts": "2025-12-07T17:02:23.363340Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:538",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:02:31.498402Z",
+    "last_update_ts": "2025-12-07T17:02:31.498402Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:540",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:02:38.948303Z",
+    "last_update_ts": "2025-12-07T17:02:38.948303Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:545",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:02:57.748073Z",
+    "last_update_ts": "2025-12-07T17:02:57.748073Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:546",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:03:01.504074Z",
+    "last_update_ts": "2025-12-07T17:03:01.504074Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:548",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:03:09.326408Z",
+    "last_update_ts": "2025-12-07T17:03:09.326408Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:557",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:03:40.762902Z",
+    "last_update_ts": "2025-12-07T17:03:40.762902Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:564",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:08.144622Z",
+    "last_update_ts": "2025-12-07T17:04:08.144622Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:565",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:12.856088Z",
+    "last_update_ts": "2025-12-07T17:04:12.856088Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:566",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:17.953872Z",
+    "last_update_ts": "2025-12-07T17:04:17.953872Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:568",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:26.998665Z",
+    "last_update_ts": "2025-12-07T17:04:26.998665Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:569",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:31.329021Z",
+    "last_update_ts": "2025-12-07T17:04:31.329021Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:570",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:35.184396Z",
+    "last_update_ts": "2025-12-07T17:04:35.184396Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:573",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:47.647271Z",
+    "last_update_ts": "2025-12-07T17:04:47.647271Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:574",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:04:51.291601Z",
+    "last_update_ts": "2025-12-07T17:04:51.291601Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:578",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:05:05.960438Z",
+    "last_update_ts": "2025-12-07T17:05:05.960438Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:583",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:05:24.178976Z",
+    "last_update_ts": "2025-12-07T17:05:24.178976Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:587",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:05:34.689612Z",
+    "last_update_ts": "2025-12-07T17:05:34.689612Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:588",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:05:38.113870Z",
+    "last_update_ts": "2025-12-07T17:05:38.113870Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:589",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:05:41.726310Z",
+    "last_update_ts": "2025-12-07T17:05:41.726310Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:600",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:06:20.165025Z",
+    "last_update_ts": "2025-12-07T17:06:20.165025Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:604",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:06:26.806238Z",
+    "last_update_ts": "2025-12-07T17:06:26.806238Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:606",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:06:34.366996Z",
+    "last_update_ts": "2025-12-07T17:06:34.366996Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:618",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:07:21.695405Z",
+    "last_update_ts": "2025-12-07T17:07:21.695405Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:619",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:07:26.080034Z",
+    "last_update_ts": "2025-12-07T17:07:26.080034Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:620",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:07:30.876619Z",
+    "last_update_ts": "2025-12-07T17:07:30.876619Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:625",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:07:52.322250Z",
+    "last_update_ts": "2025-12-07T17:07:52.322250Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:626",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:07:57.086667Z",
+    "last_update_ts": "2025-12-07T17:07:57.086667Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:632",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:08:24.950702Z",
+    "last_update_ts": "2025-12-07T17:08:24.950702Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:633",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:08:28.779101Z",
+    "last_update_ts": "2025-12-07T17:08:28.779101Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:636",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:08:42.024984Z",
+    "last_update_ts": "2025-12-07T17:08:42.024984Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:637",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:08:46.167209Z",
+    "last_update_ts": "2025-12-07T17:08:46.167209Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:644",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:09:09.655856Z",
+    "last_update_ts": "2025-12-07T17:09:09.655856Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:645",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:09:13.383310Z",
+    "last_update_ts": "2025-12-07T17:09:13.383310Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:646",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:09:17.167852Z",
+    "last_update_ts": "2025-12-07T17:09:17.167852Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:654",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:09:44.217223Z",
+    "last_update_ts": "2025-12-07T17:09:44.217223Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:656",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:09:50.446749Z",
+    "last_update_ts": "2025-12-07T17:09:50.446749Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:658",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:09:57.104531Z",
+    "last_update_ts": "2025-12-07T17:09:57.104531Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:663",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:10:13.997737Z",
+    "last_update_ts": "2025-12-07T17:10:13.997737Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:668",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:10:30.759948Z",
+    "last_update_ts": "2025-12-07T17:10:30.759948Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:671",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:10:41.482297Z",
+    "last_update_ts": "2025-12-07T17:10:41.482297Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:678",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:11:06.550556Z",
+    "last_update_ts": "2025-12-07T17:11:06.550556Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:680",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:11:10.634901Z",
+    "last_update_ts": "2025-12-07T17:11:10.634901Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:683",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:11:25.861444Z",
+    "last_update_ts": "2025-12-07T17:11:25.861444Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:685",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:11:35.955247Z",
+    "last_update_ts": "2025-12-07T17:11:35.955247Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:687",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:11:43.667211Z",
+    "last_update_ts": "2025-12-07T17:11:43.667211Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:689",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:11:50.790661Z",
+    "last_update_ts": "2025-12-07T17:11:50.790661Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:695",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:12:11.583095Z",
+    "last_update_ts": "2025-12-07T17:12:11.583095Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:701",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:12:33.956495Z",
+    "last_update_ts": "2025-12-07T17:12:33.956495Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:705",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:12:49.211509Z",
+    "last_update_ts": "2025-12-07T17:12:49.211509Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:708",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:13:01.296725Z",
+    "last_update_ts": "2025-12-07T17:13:01.296725Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:712",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:13:16.826641Z",
+    "last_update_ts": "2025-12-07T17:13:16.826641Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:715",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:13:28.072998Z",
+    "last_update_ts": "2025-12-07T17:13:28.072998Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:716",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:13:31.943216Z",
+    "last_update_ts": "2025-12-07T17:13:31.943216Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:719",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:13:42.826979Z",
+    "last_update_ts": "2025-12-07T17:13:42.826979Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  },
+  {
+    "camera": "urn:ngsi-ld:Camera:720",
+    "congested": true,
+    "first_breach_ts": "2025-12-07T17:13:46.695341Z",
+    "last_update_ts": "2025-12-07T17:13:46.695341Z",
+    "patch_success": false,
+    "timestamp": "2025-12-07T17:15:06Z"
+  }
+]
