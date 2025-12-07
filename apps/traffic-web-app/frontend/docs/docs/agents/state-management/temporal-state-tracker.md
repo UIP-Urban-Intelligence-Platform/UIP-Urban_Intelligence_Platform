@@ -55,7 +55,7 @@ tracker.record_state(
     entity_id="urn:ngsi-ld:TrafficCamera:CAM_001",
     attribute="status",
     value="active",
-    observed_at="2025-01-15T10:30:00Z"
+    observed_at="2025-11-29T10:30:00Z"
 )
 ```
 
@@ -65,15 +65,15 @@ tracker.record_state(
 # Get state at specific time
 state = tracker.get_state_at(
     entity_id="urn:ngsi-ld:TrafficCamera:CAM_001",
-    timestamp="2025-01-15T10:00:00Z"
+    timestamp="2025-11-29T10:00:00Z"
 )
 
 # Get state history
 history = tracker.get_history(
     entity_id="urn:ngsi-ld:TrafficCamera:CAM_001",
     attribute="vehicleCount",
-    start_time="2025-01-15T00:00:00Z",
-    end_time="2025-01-15T23:59:59Z"
+    start_time="2025-11-29T00:00:00Z",
+    end_time="2025-11-29T23:59:59Z"
 )
 ```
 
@@ -91,8 +91,8 @@ aggregated = tracker.aggregate(
 
 # Result: hourly averages
 # [
-#     {"time": "2025-01-15T00:00:00Z", "value": 45.2},
-#     {"time": "2025-01-15T01:00:00Z", "value": 23.8},
+#     {"time": "2025-11-29T00:00:00Z", "value": 45.2},
+#     {"time": "2025-11-29T01:00:00Z", "value": 23.8},
 #     ...
 # ]
 ```
@@ -138,12 +138,12 @@ temporal_state_tracker:
     {
       "type": "Property",
       "value": 42,
-      "observedAt": "2025-01-15T10:30:00Z"
+      "observedAt": "2025-11-29T10:30:00Z"
     },
     {
       "type": "Property",
       "value": 45,
-      "observedAt": "2025-01-15T10:31:00Z"
+      "observedAt": "2025-11-29T10:31:00Z"
     }
   ]
 }
@@ -154,8 +154,8 @@ temporal_state_tracker:
 | Parameter | Description | Example |
 |-----------|-------------|---------|
 | `timerel` | Temporal relation | `before`, `after`, `between` |
-| `timeAt` | Reference time | `2025-01-15T10:00:00Z` |
-| `endTimeAt` | End time for `between` | `2025-01-15T12:00:00Z` |
+| `timeAt` | Reference time | `2025-11-29T10:00:00Z` |
+| `endTimeAt` | End time for `between` | `2025-11-29T12:00:00Z` |
 | `timeproperty` | Property to use | `observedAt`, `createdAt` |
 
 ## 📈 Analytics Queries

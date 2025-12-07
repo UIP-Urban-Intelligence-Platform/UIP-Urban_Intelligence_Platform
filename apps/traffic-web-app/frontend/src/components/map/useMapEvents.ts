@@ -2,7 +2,7 @@
  * @file useMapEvents.ts
  * @module apps/traffic-web-app/frontend/src/components/map/useMapEvents
  * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
- * @created 2025-01-01
+ * @created 2025-11-20
  * @version 1.0.0
  * @license MIT
  * @description Hook for handling map events with Leaflet-compatible API.

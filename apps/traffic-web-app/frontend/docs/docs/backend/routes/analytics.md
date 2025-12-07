@@ -68,7 +68,7 @@ Get overall traffic summary.
       "averageAqi": 85,
       "category": "Moderate"
     },
-    "timestamp": "2025-01-15T10:30:00.000Z"
+    "timestamp": "2025-11-29T10:30:00.000Z"
   }
 }
 ```

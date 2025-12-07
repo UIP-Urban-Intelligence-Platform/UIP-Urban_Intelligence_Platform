@@ -60,7 +60,7 @@ ngsi_entity = {
     "vehicleCount": {
         "type": "Property",
         "value": 42,
-        "observedAt": "2025-01-15T10:30:00Z"
+        "observedAt": "2025-11-29T10:30:00Z"
     }
 }
 

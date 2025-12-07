@@ -216,7 +216,7 @@ for entity_type, score in report.by_entity_type.items():
 
 ```json
 {
-  "timestamp": "2025-01-15T10:00:00Z",
+  "timestamp": "2025-11-29T10:00:00Z",
   "overall_quality_score": 97.5,
   "metrics": {
     "completeness": 98.2,

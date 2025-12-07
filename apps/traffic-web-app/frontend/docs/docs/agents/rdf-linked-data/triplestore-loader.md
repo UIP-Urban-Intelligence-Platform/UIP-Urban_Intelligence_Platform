@@ -152,7 +152,7 @@ INSERT DATA {
     GRAPH <http://hcmc-traffic.example.org/graph/traffic> {
         ex:Observation_001 a sosa:Observation ;
             sosa:madeBySensor ex:Sensor_CAM_001 ;
-            sosa:resultTime "2024-01-15T10:30:00Z"^^xsd:dateTime ;
+            sosa:resultTime "2025-11-29T10:30:00Z"^^xsd:dateTime ;
             sosa:hasSimpleResult 45 .
     }
 }
@@ -236,7 +236,7 @@ WHERE {
          sosa:hasSimpleResult ?value ;
          sosa:hasFeatureOfInterest ?location ;
          sosa:resultTime ?time .
-    FILTER(?time >= "2024-01-15T00:00:00Z"^^xsd:dateTime)
+    FILTER(?time >= "2025-11-29T00:00:00Z"^^xsd:dateTime)
 }
 GROUP BY ?location
 ORDER BY DESC(?avgFlow)

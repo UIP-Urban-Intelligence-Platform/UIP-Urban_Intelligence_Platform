@@ -637,7 +637,7 @@ Need help? Check:
 
 ---
 
-**Last Updated:** January 15, 2025  
+**Last Updated:** November 20, 2025  
 **Version:** 1.2.0  
 **Status:** ✅ Production Ready (Including WebSocket & Correlation APIs)
 

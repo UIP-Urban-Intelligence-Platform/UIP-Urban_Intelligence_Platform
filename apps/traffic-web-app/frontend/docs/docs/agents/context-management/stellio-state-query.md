@@ -87,8 +87,8 @@ history = await query.temporal_query(
     entity_id="urn:ngsi-ld:TrafficCamera:CAM_001",
     attrs=["vehicleCount", "avgSpeed"],
     timerel="between",
-    timeAt="2025-01-15T00:00:00Z",
-    endTimeAt="2025-01-15T23:59:59Z"
+    timeAt="2025-11-29T00:00:00Z",
+    endTimeAt="2025-11-29T23:59:59Z"
 )
 ```
 

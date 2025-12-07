@@ -86,7 +86,7 @@ accident = manager.create_accident({
     "location": {"lat": 10.762, "lon": 106.660},
     "severity": "moderate",
     "detected_by": "CAM_025",
-    "timestamp": "2025-01-15T10:30:00Z"
+    "timestamp": "2025-11-29T10:30:00Z"
 })
 ```
 
@@ -118,7 +118,7 @@ manager.transition(
     accident_id="ACC_001",
     to_state="resolved",
     metadata={
-        "resolution_time": "2025-01-15T11:00:00Z",
+        "resolution_time": "2025-11-29T11:00:00Z",
         "lane_cleared": True
     }
 )

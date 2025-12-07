@@ -134,7 +134,7 @@ entities = agent.query_entities(
     },
     time_query={
         "timerel": "after",
-        "time": "2024-01-15T10:00:00Z"
+        "time": "2025-11-29T10:00:00Z"
     }
 )
 ```

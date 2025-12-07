@@ -216,7 +216,7 @@ const cameras = [
     name: 'District 1 - Nguyen Hue',
     location: { lat: 10.7769, lon: 106.7009 },
     status: 'active',
-    last_update: '2024-01-15T10:30:00Z'
+    last_update: '2025-11-29T10:30:00Z'
   }
 ];
 
@@ -567,7 +567,7 @@ import FilterPanel from '@/components/FilterPanel';
 const [filters, setFilters] = useState({
   categories: ['accidents', 'congestion'],
   severity: ['moderate', 'severe'],
-  dateRange: [new Date('2024-01-01'), new Date('2024-01-31')]
+  dateRange: [new Date('2025-11-20'), new Date('2025-12-05')]
 });
 
 <FilterPanel
@@ -835,8 +835,8 @@ import TimeMachine from '@/components/TimeMachine';
 const [currentTime, setCurrentTime] = useState(new Date());
 
 <TimeMachine
-  startDate={new Date('2024-01-01')}
-  endDate={new Date('2024-01-31')}
+  startDate={new Date('2025-11-20')}
+  endDate={new Date('2025-12-05')}
   currentTime={currentTime}
   onTimeChange={setCurrentTime}
   playbackSpeed={1}
@@ -1222,8 +1222,8 @@ interface PresetRange {
 import DateRangePicker from '@/components/DateRangePicker';
 
 const [dateRange, setDateRange] = useState<[Date, Date]>([
-  new Date('2024-01-01'),
-  new Date('2024-01-31')
+  new Date('2025-11-20'),
+  new Date('2025-12-05')
 ]);
 
 const presets = [

@@ -450,7 +450,7 @@ curl http://localhost:5000/api/correlations/accident-pattern
 curl http://localhost:5000/api/analytics/hotspots
 
 # Check historical AQI
-curl "http://localhost:5000/api/historical/aqi?startDate=2024-01-01&endDate=2024-12-31"
+curl "http://localhost:5000/api/historical/aqi?startDate=2025-11-20&endDate=2025-12-05"
 ```
 
 ## Production Deployment

@@ -490,8 +490,8 @@ agent = PatternRecognitionAgent()
 
 # Detect patterns
 patterns = agent.detect_patterns(
-    start_time=datetime(2024, 1, 1),
-    end_time=datetime(2024, 1, 31)
+    start_time=datetime(2025, 11, 20),
+    end_time=datetime(2025, 12, 5)
 )
 
 for pattern in patterns:
@@ -1083,7 +1083,7 @@ entity = agent.get_entity("urn:ngsi-ld:TrafficFlowObserved:001")
 history = agent.query_temporal(
     entity_id="urn:ngsi-ld:TrafficFlowObserved:001",
     time_rel="after",
-    time="2024-01-15T00:00:00Z"
+    time="2025-11-29T00:00:00Z"
 )
 
 # Geo query
@@ -1124,8 +1124,8 @@ agent.store_temporal_data(entity_id="...", attribute="intensity", value=45)
 data = agent.query_time_range(
     entity_id="...",
     attribute="intensity",
-    start_time=datetime(2024, 1, 1),
-    end_time=datetime(2024, 1, 31)
+    start_time=datetime(2025, 11, 20),
+    end_time=datetime(2025, 12, 5)
 )
 
 # Aggregations

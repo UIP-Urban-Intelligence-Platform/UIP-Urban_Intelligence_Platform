@@ -267,7 +267,7 @@ const prediction = await maestro.predictEventImpact({
     eventName: 'Taylor Swift Concert',
     venueName: 'Phu Tho Stadium',
     venueLocation: { lat: 10.7628, lon: 106.6615 },
-    eventDate: '2024-12-31T20:00:00Z',
+    eventDate: '2025-12-05T20:00:00Z',
     expectedAttendees: 25000,
     eventType: 'concert',
     horizonHours: 6
@@ -277,7 +277,7 @@ console.log('Impact Severity:', prediction.impactPrediction.severity);
 // "severe"
 
 console.log('Peak Time:', prediction.impactPrediction.peakCongestionTime);
-// "2024-12-31T18:30:00Z"
+// "2025-12-05T18:30:00Z"
 
 console.log('Affected Roads:', prediction.affectedRoads.map(r => r.roadName));
 // ["Ly Thuong Kiet", "3/2 Street", "Nguyen Thi Minh Khai"]

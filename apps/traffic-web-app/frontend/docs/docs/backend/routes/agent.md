@@ -94,7 +94,7 @@ Get personalized environmental health advice based on location and user profile.
       "Tập luyện trong nhà"
     ],
     "riskLevel": "moderate",
-    "timestamp": "2025-01-15T10:30:00.000Z"
+    "timestamp": "2025-11-29T10:30:00.000Z"
   }
 }
 ```
@@ -143,14 +143,14 @@ Generate environmental forecasts for the next 6-24 hours.
     "forecast": {
       "hourly": [
         {
-          "time": "2025-01-15T11:00:00.000Z",
+          "time": "2025-11-29T11:00:00.000Z",
           "aqi": 120,
           "pm25": 42,
           "temperature": 33,
           "recommendation": "Moderate outdoor activity OK"
         },
         {
-          "time": "2025-01-15T12:00:00.000Z",
+          "time": "2025-11-29T12:00:00.000Z",
           "aqi": 135,
           "pm25": 48,
           "temperature": 34,
@@ -162,7 +162,7 @@ Generate environmental forecasts for the next 6-24 hours.
       "worstTimeForOutdoor": "2:00 PM - 5:00 PM"
     },
     "published": true,
-    "publishedTo": "urn:ngsi-ld:AQIForecast:d1-2025-01-15"
+    "publishedTo": "urn:ngsi-ld:AQIForecast:d1-2025-11-29"
   }
 }
 ```
@@ -208,7 +208,7 @@ Analyze AQI dispersion from a point source using Gaussian plume model.
       ]
     },
     "model": "Gaussian Plume",
-    "timestamp": "2025-01-15T10:30:00.000Z"
+    "timestamp": "2025-11-29T10:30:00.000Z"
   }
 }
 ```

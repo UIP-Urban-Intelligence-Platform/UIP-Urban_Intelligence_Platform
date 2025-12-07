@@ -2,7 +2,7 @@
  * @file MapContext.tsx
  * @module apps/traffic-web-app/frontend/src/components/map/MapContext
  * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
- * @created 2025-01-01
+ * @created 2025-11-20
  * @version 1.0.0
  * @license MIT
  * @description Map Context - Shared Map State Provider

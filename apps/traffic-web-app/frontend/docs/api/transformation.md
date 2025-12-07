@@ -84,7 +84,7 @@ sosa_data = mapper.map_to_sosa(ngsi_ld_entity)
   "@type": "sosa:Observation",
   "sosa:madeBySensor": {"@id": "urn:ngsi-ld:Camera:CAM001"},
   "sosa:observedProperty": {"@id": "http://example.org/traffic#TrafficFlow"},
-  "sosa:resultTime": "2024-01-15T10:30:00Z",
+  "sosa:resultTime": "2025-11-29T10:30:00Z",
   "sosa:hasSimpleResult": 120,
   "qudt:unit": {"@id": "http://qudt.org/vocab/unit/NUM-PER-HR"}
 }

@@ -68,13 +68,13 @@ Get historical traffic metrics.
   "success": true,
   "data": [
     {
-      "timestamp": "2025-01-14T08:00:00.000Z",
+      "timestamp": "2025-11-28T08:00:00.000Z",
       "averageSpeed": 28.5,
       "vehicleCount": 1250,
       "congestionLevel": "high"
     },
     {
-      "timestamp": "2025-01-14T09:00:00.000Z",
+      "timestamp": "2025-11-28T09:00:00.000Z",
       "averageSpeed": 32.1,
       "vehicleCount": 980,
       "congestionLevel": "moderate"

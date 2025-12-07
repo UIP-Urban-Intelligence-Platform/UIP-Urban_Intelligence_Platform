@@ -145,7 +145,7 @@ for alert in alerts:
 ```python
 # Analyze weather impact on traffic
 correlation = agent.analyze_weather_traffic_impact(
-    date_range=("2024-01-01", "2024-01-31"),
+    date_range=("2025-11-20", "2025-12-05"),
     location="District 1"
 )
 
@@ -431,7 +431,7 @@ def test_weather_traffic_correlation():
     
     # Analyze past month
     correlation = weather_agent.analyze_weather_traffic_impact(
-        date_range=("2024-01-01", "2024-01-31"),
+        date_range=("2025-11-20", "2025-12-05"),
         location="District 1"
     )
     

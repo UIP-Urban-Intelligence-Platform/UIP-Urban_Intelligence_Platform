@@ -83,7 +83,7 @@ List all air quality observations.
       "no2": 28.5,
       "co": 0.8,
       "so2": 12.0,
-      "observedAt": "2025-01-15T10:30:00.000Z"
+      "observedAt": "2025-11-29T10:30:00.000Z"
     }
   ]
 }
@@ -124,7 +124,7 @@ Get current air quality for a specific location.
       "sensitive": "Limit outdoor exertion",
       "children": "Reduce prolonged outdoor activity"
     },
-    "observedAt": "2025-01-15T10:30:00.000Z"
+    "observedAt": "2025-11-29T10:30:00.000Z"
   }
 }
 ```

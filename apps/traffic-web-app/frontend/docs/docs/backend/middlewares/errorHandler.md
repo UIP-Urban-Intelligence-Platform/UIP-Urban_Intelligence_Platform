@@ -214,7 +214,7 @@ router.post('/cameras', async (req, res, next) => {
     "code": "NOT_FOUND",
     "details": null
   },
-  "timestamp": "2025-01-15T10:30:00.000Z",
+  "timestamp": "2025-11-29T10:30:00.000Z",
   "path": "/api/cameras/urn:ngsi-ld:Camera:001"
 }
 ```
@@ -228,7 +228,7 @@ router.post('/cameras', async (req, res, next) => {
     "code": "SERVICE_UNAVAILABLE",
     "stack": "Error: Database connection failed\n    at Neo4jService.connect..."
   },
-  "timestamp": "2025-01-15T10:30:00.000Z",
+  "timestamp": "2025-11-29T10:30:00.000Z",
   "path": "/api/correlation/graph"
 }
 ```

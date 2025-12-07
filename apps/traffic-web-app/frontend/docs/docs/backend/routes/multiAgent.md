@@ -69,7 +69,7 @@ Investigate an incident using multimodal analysis: internal context (Stellio + N
     "investigation": {
       "accidentId": "urn:ngsi-ld:RoadAccident:001",
       "severity": "high",
-      "timestamp": "2025-01-15T10:30:00.000Z"
+      "timestamp": "2025-11-29T10:30:00.000Z"
     },
     "internalContext": {
       "stellioData": {
@@ -142,8 +142,8 @@ Predict traffic impact from upcoming events using external event APIs (Ticketmas
     "lng": 106.7030
   },
   "timeRange": {
-    "start": "2025-01-15T00:00:00.000Z",
-    "end": "2025-01-16T00:00:00.000Z"
+    "start": "2025-11-29T00:00:00.000Z",
+    "end": "2025-11-30T00:00:00.000Z"
   }
 }
 ```
@@ -159,7 +159,7 @@ Predict traffic impact from upcoming events using external event APIs (Ticketmas
         "id": "event-001",
         "name": "K-Pop Concert",
         "venue": "Phu Tho Stadium",
-        "startTime": "2025-01-15T19:00:00.000Z",
+        "startTime": "2025-11-29T19:00:00.000Z",
         "expectedAttendance": 25000
       }
     ],

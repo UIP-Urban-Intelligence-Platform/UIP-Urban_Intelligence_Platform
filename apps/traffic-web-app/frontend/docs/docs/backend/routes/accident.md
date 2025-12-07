@@ -79,7 +79,7 @@ List all accidents with optional filters.
       "type": "collision",
       "severity": "serious",
       "description": "Multi-vehicle collision",
-      "timestamp": "2025-01-15T10:30:00.000Z",
+      "timestamp": "2025-11-29T10:30:00.000Z",
       "resolved": false,
       "casualties": 2
     }
@@ -109,7 +109,7 @@ Get currently unresolved accidents.
   ],
   "meta": {
     "activeCount": 3,
-    "timestamp": "2025-01-15T10:30:00.000Z"
+    "timestamp": "2025-11-29T10:30:00.000Z"
   }
 }
 ```

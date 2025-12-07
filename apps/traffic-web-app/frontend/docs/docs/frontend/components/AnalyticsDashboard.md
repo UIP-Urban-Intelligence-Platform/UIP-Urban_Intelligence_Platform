@@ -160,8 +160,8 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({
 
 ```tsx
 const [dateRange, setDateRange] = useState<DateRange>({
-  start: new Date('2024-01-01'),
-  end: new Date('2024-01-31')
+  start: new Date('2025-11-20'),
+  end: new Date('2025-12-05')
 });
 
 <DateRangePicker value={dateRange} onChange={setDateRange} />

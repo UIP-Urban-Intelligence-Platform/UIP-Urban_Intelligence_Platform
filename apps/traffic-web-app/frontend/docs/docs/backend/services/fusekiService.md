@@ -220,7 +220,7 @@ WHERE {
                traffic:date ?date ;
                traffic:averageSpeed ?avgSpeed ;
                traffic:vehicleCount ?vehicleCount .
-  FILTER(?date >= "2025-01-01T00:00:00Z"^^xsd:dateTime)
+  FILTER(?date >= "2025-11-20T00:00:00Z"^^xsd:dateTime)
 }
 ORDER BY ?date
 ```

@@ -69,7 +69,7 @@ await handler.send_alert(
 await handler.send_report(
     recipients=["management@city.gov"],
     report_type="daily_summary",
-    date="2025-01-15",
+    date="2025-11-29",
     attachments=["report.pdf"]
 )
 ```

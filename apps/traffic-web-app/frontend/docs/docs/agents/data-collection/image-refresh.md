@@ -79,7 +79,7 @@ status = await agent.get_status()
 #     "active": 145,
 #     "failed": 3,
 #     "offline": 2,
-#     "last_refresh": "2025-01-15T10:30:00Z"
+#     "last_refresh": "2025-11-29T10:30:00Z"
 # }
 ```
 

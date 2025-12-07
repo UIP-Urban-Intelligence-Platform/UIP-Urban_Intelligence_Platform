@@ -118,7 +118,7 @@ invalidator.invalidate_many([
 ])
 
 # Invalidate by pattern
-invalidator.invalidate_pattern("observation:2025-01-*")
+invalidator.invalidate_pattern("observation:2025-11-*")
 ```
 
 ### Event-Driven Invalidation

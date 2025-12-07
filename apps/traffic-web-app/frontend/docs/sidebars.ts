@@ -2,7 +2,7 @@
  * @file sidebars.ts
  * @module apps/traffic-web-app/frontend/docs/sidebars
  * @author Nguyễn Nhật Quang <nguyennhatquang522004@gmail.com>
- * @created 2025-01-01
+ * @created 2025-11-20
  * @version 1.0.0
  * @license MIT
  * @description Sidebar configuration for Docusaurus documentation site

@@ -127,7 +127,7 @@ agent = SOSASSNMapperAgent()
 # Transform sensor observation
 observation_data = {
     "sensor_id": "CAM_001",
-    "timestamp": "2024-01-15T10:30:00Z",
+    "timestamp": "2025-11-29T10:30:00Z",
     "property": "vehicle_count",
     "value": 45,
     "location": {"lat": 10.7769, "lon": 106.7009}
@@ -150,10 +150,10 @@ ex:Observation_CAM_001_20240115T103000Z a sosa:Observation ;
     sosa:hasFeatureOfInterest ex:RoadSegment_D1 ;
     sosa:observedProperty ex:VehicleCount ;
     sosa:hasSimpleResult 45 ;
-    sosa:resultTime "2024-01-15T10:30:00Z"^^xsd:dateTime ;
+    sosa:resultTime "2025-11-29T10:30:00Z"^^xsd:dateTime ;
     sosa:phenomenonTime [
         a time:Instant ;
-        time:inXSDDateTimeStamp "2024-01-15T10:30:00Z"^^xsd:dateTimeStamp
+        time:inXSDDateTimeStamp "2025-11-29T10:30:00Z"^^xsd:dateTimeStamp
     ] .
 
 ex:Sensor_CAM_001 a sosa:Sensor ;
@@ -186,7 +186,7 @@ platform = agent.create_platform(
     name="District 1 Traffic Station",
     location={"lat": 10.7769, "lon": 106.7009},
     hosts_sensors=["CAM_001", "CAM_002", "SPEED_SENSOR_001"],
-    deployment_date="2023-01-15"
+    deployment_date="2025-11-20"
 )
 ```
 
@@ -197,9 +197,9 @@ platform = agent.create_platform(
 collection = agent.create_observation_collection(
     sensor_id="CAM_001",
     observations=[
-        {"timestamp": "2024-01-15T10:00:00Z", "value": 42},
-        {"timestamp": "2024-01-15T10:15:00Z", "value": 48},
-        {"timestamp": "2024-01-15T10:30:00Z", "value": 45}
+        {"timestamp": "2025-11-29T10:00:00Z", "value": 42},
+        {"timestamp": "2025-11-29T10:15:00Z", "value": 48},
+        {"timestamp": "2025-11-29T10:30:00Z", "value": 45}
     ],
     property="vehicle_count"
 )
@@ -225,7 +225,7 @@ Map sensor data to SOSA observation.
 ```python
 obs = agent.map_to_sosa_observation({
     "sensor_id": "CAM_001",
-    "timestamp": "2024-01-15T10:30:00Z",
+    "timestamp": "2025-11-29T10:30:00Z",
     "property": "vehicle_count",
     "value": 45
 })
@@ -353,7 +353,7 @@ observation = agent.map_to_sosa_observation({
     "sensor_id": "CAM_001",
     "property": "vehicle_count",
     "value": 45,
-    "timestamp": "2024-01-15T10:30:00Z"
+    "timestamp": "2025-11-29T10:30:00Z"
 })
 ```
 
@@ -578,7 +578,7 @@ def test_observation_mapping():
     
     data = {
         "sensor_id": "CAM_TEST",
-        "timestamp": "2024-01-15T10:30:00Z",
+        "timestamp": "2025-11-29T10:30:00Z",
         "property": "vehicle_count",
         "value": 45
     }

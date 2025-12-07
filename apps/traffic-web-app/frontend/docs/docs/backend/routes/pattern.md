@@ -77,7 +77,7 @@ List all traffic patterns.
       "vehicleCount": 150,
       "occupancy": 0.75,
       "congestionLevel": "high",
-      "observedAt": "2025-01-15T10:30:00.000Z"
+      "observedAt": "2025-11-29T10:30:00.000Z"
     }
   ]
 }
@@ -106,7 +106,7 @@ Get current congestion hotspots.
   ],
   "meta": {
     "totalHotspots": 5,
-    "timestamp": "2025-01-15T10:30:00.000Z"
+    "timestamp": "2025-11-29T10:30:00.000Z"
   }
 }
 ```

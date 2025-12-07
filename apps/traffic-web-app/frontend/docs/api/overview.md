@@ -63,7 +63,7 @@ Check API server health.
 ```json
 {
   "status": "healthy",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "services": {
     "neo4j": "up",
     "fuseki": "up",
@@ -100,7 +100,7 @@ Get all camera locations.
         "coordinates": [106.7009, 10.7769]
       },
       "status": "active",
-      "lastUpdate": "2024-01-15T10:30:00Z",
+      "lastUpdate": "2025-11-29T10:30:00Z",
       "imageUrl": "https://cameras.hcmc.gov.vn/CAM_001/latest.jpg"
     }
   ]
@@ -132,7 +132,7 @@ Get specific camera details.
     "coordinates": [106.7009, 10.7769]
   },
   "status": "active",
-  "lastUpdate": "2024-01-15T10:30:00Z",
+  "lastUpdate": "2025-11-29T10:30:00Z",
   "imageUrl": "https://cameras.hcmc.gov.vn/CAM_001/latest.jpg",
   "metadata": {
     "resolution": "1920x1080",
@@ -142,7 +142,7 @@ Get specific camera details.
   "recentAccidents": [
     {
       "id": "ACC_123",
-      "timestamp": "2024-01-15T09:15:00Z",
+      "timestamp": "2025-11-29T09:15:00Z",
       "severity": "high"
     }
   ]
@@ -194,7 +194,7 @@ Get accident data.
         "type": "Point",
         "coordinates": [106.7009, 10.7769]
       },
-      "timestamp": "2024-01-15T09:15:00Z",
+      "timestamp": "2025-11-29T09:15:00Z",
       "cameraId": "CAM_001",
       "detectedBy": "yolox",
       "confidence": 0.92,
@@ -213,7 +213,7 @@ Get accident data.
 curl http://localhost:8001/api/accidents?status=active
 
 # Get high-severity accidents in last hour
-curl "http://localhost:8001/api/accidents?severity=high&startTime=2024-01-15T09:00:00Z"
+curl "http://localhost:8001/api/accidents?severity=high&startTime=2025-11-29T09:00:00Z"
 ```
 
 ---
@@ -233,7 +233,7 @@ Get specific accident details.
     "type": "Point",
     "coordinates": [106.7009, 10.7769]
   },
-  "timestamp": "2024-01-15T09:15:00Z",
+  "timestamp": "2025-11-29T09:15:00Z",
   "resolvedAt": null,
   "cameraId": "CAM_001",
   "detectedBy": "yolox",
@@ -256,7 +256,7 @@ Get specific accident details.
   "emergencyServicesNotified": true,
   "updates": [
     {
-      "timestamp": "2024-01-15T09:20:00Z",
+      "timestamp": "2025-11-29T09:20:00Z",
       "status": "emergency_services_dispatched",
       "message": "Ambulance and police en route"
     }
@@ -276,7 +276,7 @@ Get current weather data for Ho Chi Minh City.
 ```json
 {
   "location": "Ho Chi Minh City",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "temperature": 32.5,
   "humidity": 75,
   "conditions": "partly_cloudy",
@@ -300,7 +300,7 @@ Get weather forecast (next 7 days).
   "location": "Ho Chi Minh City",
   "forecast": [
     {
-      "date": "2024-01-16",
+      "date": "2025-11-30",
       "tempMin": 25,
       "tempMax": 34,
       "conditions": "sunny",
@@ -322,7 +322,7 @@ Get current air quality data.
 ```json
 {
   "location": "Ho Chi Minh City",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "aqi": 78,
   "level": "moderate",
   "pm25": 35,
@@ -359,7 +359,7 @@ Get traffic flow data.
       "normalSpeed": 40,
       "congestionLevel": "medium",
       "vehicleCount": 245,
-      "timestamp": "2024-01-15T10:30:00Z"
+      "timestamp": "2025-11-29T10:30:00Z"
     }
   ]
 }
@@ -392,7 +392,7 @@ Submit a citizen traffic report.
 {
   "id": "REPORT_456",
   "status": "pending",
-  "submittedAt": "2024-01-15T10:32:00Z",
+  "submittedAt": "2025-11-29T10:32:00Z",
   "verificationStatus": "in_progress",
   "message": "Report received. Verification in progress."
 }
@@ -422,8 +422,8 @@ Get citizen report status.
   "id": "REPORT_456",
   "type": "accident",
   "status": "verified",
-  "submittedAt": "2024-01-15T10:32:00Z",
-  "verifiedAt": "2024-01-15T10:35:00Z",
+  "submittedAt": "2025-11-29T10:32:00Z",
+  "verifiedAt": "2025-11-29T10:35:00Z",
   "verificationMethod": "yolox",
   "confidence": 0.88,
   "location": {

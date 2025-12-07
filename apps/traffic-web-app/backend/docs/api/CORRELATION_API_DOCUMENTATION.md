@@ -448,7 +448,7 @@ curl http://localhost:5000/api/correlations/accident-pattern | jq '.data.byPatte
 ### Query Parameters
 ```typescript
 // Filter by date range
-GET /api/correlations/accident-pattern?from=2024-01-01&to=2024-01-31
+GET /api/correlations/accident-pattern?from=2025-11-20&to=2025-12-05
 
 // Filter by camera
 GET /api/correlations/accident-pattern?camera=Camera:001

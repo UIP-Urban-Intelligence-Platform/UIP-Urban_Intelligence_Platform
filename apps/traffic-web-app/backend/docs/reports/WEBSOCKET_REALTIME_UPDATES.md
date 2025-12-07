@@ -59,7 +59,7 @@ Sent immediately when client connects.
     "accidents": [...],
     "patterns": [...]
   },
-  "timestamp": "2024-01-15T10:30:00.000Z"
+  "timestamp": "2025-11-29T10:30:00.000Z"
 }
 ```
 
@@ -78,7 +78,7 @@ Sent when specific entities change in Stellio.
       "location": {"lat": 10.7771, "lng": 106.7010}
     }
   ],
-  "timestamp": "2024-01-15T10:31:00.000Z"
+  "timestamp": "2025-11-29T10:31:00.000Z"
 }
 ```
 
@@ -96,10 +96,10 @@ Sent when specific entities change in Stellio.
       "windSpeed": 12,
       "windDirection": "NE",
       "condition": "Partly Cloudy",
-      "timestamp": "2024-01-15T10:31:00.000Z"
+      "timestamp": "2025-11-29T10:31:00.000Z"
     }
   ],
-  "timestamp": "2024-01-15T10:31:00.000Z"
+  "timestamp": "2025-11-29T10:31:00.000Z"
 }
 ```
 
@@ -119,10 +119,10 @@ Sent when specific entities change in Stellio.
       "so2": 12,
       "o3": 40,
       "level": "moderate",
-      "timestamp": "2024-01-15T10:31:00.000Z"
+      "timestamp": "2025-11-29T10:31:00.000Z"
     }
   ],
-  "timestamp": "2024-01-15T10:31:00.000Z"
+  "timestamp": "2025-11-29T10:31:00.000Z"
 }
 ```
 
@@ -137,10 +137,10 @@ Sent when specific entities change in Stellio.
       "type": "Collision",
       "severity": "moderate",
       "vehicles": 2,
-      "dateDetected": "2024-01-15T10:31:00.000Z"
+      "dateDetected": "2025-11-29T10:31:00.000Z"
     }
   ],
-  "timestamp": "2024-01-15T10:31:00.000Z"
+  "timestamp": "2025-11-29T10:31:00.000Z"
 }
 ```
 
@@ -159,7 +159,7 @@ Sent when specific entities change in Stellio.
       "avgVehicleCount": 120
     }
   ],
-  "timestamp": "2024-01-15T10:31:00.000Z"
+  "timestamp": "2025-11-29T10:31:00.000Z"
 }
 ```
 
@@ -178,7 +178,7 @@ Special high-priority messages for critical events.
     "camera": "urn:ngsi-ld:Camera:001",
     "message": "Severe accident detected: Multi-Vehicle at camera urn:ngsi-ld:Camera:001"
   },
-  "timestamp": "2024-01-15T10:32:00.000Z"
+  "timestamp": "2025-11-29T10:32:00.000Z"
 }
 ```
 
@@ -195,7 +195,7 @@ Special high-priority messages for critical events.
     "station": "District 3 Station",
     "message": "High AQI detected at District 3 Station: 165"
   },
-  "timestamp": "2024-01-15T10:33:00.000Z"
+  "timestamp": "2025-11-29T10:33:00.000Z"
 }
 ```
 
@@ -205,7 +205,7 @@ Server sends ping every 10 seconds to check client connection.
 ```json
 {
   "type": "ping",
-  "timestamp": "2024-01-15T10:34:00.000Z"
+  "timestamp": "2025-11-29T10:34:00.000Z"
 }
 ```
 
@@ -280,11 +280,11 @@ patternsCache: Map<string, EntityCache>
 
 ### Example Flow
 ```
-1. Initial: Camera:001 with dateModified="2024-01-15T10:00:00Z" cached
-2. Poll 1 (10:00:30): Camera:001 still has dateModified="2024-01-15T10:00:00Z" → No broadcast
-3. Poll 2 (10:01:00): Camera:001 still has dateModified="2024-01-15T10:00:00Z" → No broadcast
+1. Initial: Camera:001 with dateModified="2025-11-29T10:00:00Z" cached
+2. Poll 1 (10:00:30): Camera:001 still has dateModified="2025-11-29T10:00:00Z" → No broadcast
+3. Poll 2 (10:01:00): Camera:001 still has dateModified="2025-11-29T10:00:00Z" → No broadcast
 4. Camera status changes in Stellio at 10:01:15
-5. Poll 3 (10:01:30): Camera:001 now has dateModified="2024-01-15T10:01:15Z" → BROADCAST!
+5. Poll 3 (10:01:30): Camera:001 now has dateModified="2025-11-29T10:01:15Z" → BROADCAST!
 6. Cache updated with new timestamp
 ```
 
@@ -486,8 +486,8 @@ Future enhancement to replay historical updates:
 // Request updates from last hour
 ws.send(JSON.stringify({
   type: 'playback',
-  from: '2024-01-15T09:00:00Z',
-  to: '2024-01-15T10:00:00Z'
+  from: '2025-11-29T09:00:00Z',
+  to: '2025-11-29T10:00:00Z'
 }));
 ```
 

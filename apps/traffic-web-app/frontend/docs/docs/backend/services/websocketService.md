@@ -231,7 +231,7 @@ wsService.broadcast({
 {
   "type": "connection",
   "message": "Connected to HCMC Traffic Monitoring System",
-  "timestamp": "2025-01-15T10:30:00.000Z",
+  "timestamp": "2025-11-29T10:30:00.000Z",
   "heartbeatInterval": 10000
 }
 ```
@@ -248,7 +248,7 @@ wsService.broadcast({
     "accidents": [...],
     "patterns": [...]
   },
-  "timestamp": "2025-01-15T10:30:00.000Z"
+  "timestamp": "2025-11-29T10:30:00.000Z"
 }
 ```
 
@@ -266,7 +266,7 @@ wsService.broadcast({
       "status": "active"
     }
   ],
-  "timestamp": "2025-01-15T10:30:30.000Z"
+  "timestamp": "2025-11-29T10:30:30.000Z"
 }
 ```
 
@@ -281,7 +281,7 @@ wsService.broadcast({
     "severity": "high",
     "location": { "latitude": 10.77, "longitude": 106.70 }
   },
-  "timestamp": "2025-01-15T10:31:00.000Z"
+  "timestamp": "2025-11-29T10:31:00.000Z"
 }
 ```
 

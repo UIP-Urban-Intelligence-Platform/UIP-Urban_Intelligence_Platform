@@ -81,7 +81,7 @@ GET /cameras
         "address": "Nguyen Hue St, District 1"
       },
       "status": "active",
-      "last_update": "2024-01-15T10:30:00Z",
+      "last_update": "2025-11-29T10:30:00Z",
       "capabilities": ["image", "video", "thermal"]
     }
   ],
@@ -114,7 +114,7 @@ GET /cameras/{camera_id}
   "status": "active",
   "stream_url": "rtsp://camera.example.com/stream/CAM_001",
   "last_image": "https://api.traffic.example.com/images/CAM_001/latest.jpg",
-  "last_update": "2024-01-15T10:30:00Z",
+  "last_update": "2025-11-29T10:30:00Z",
   "metadata": {
     "resolution": "1920x1080",
     "fps": 30,
@@ -150,8 +150,8 @@ GET /cameras/{camera_id}/stats
 {
   "camera_id": "CAM_001",
   "period": {
-    "start": "2024-01-15T00:00:00Z",
-    "end": "2024-01-15T23:59:59Z"
+    "start": "2025-11-29T00:00:00Z",
+    "end": "2025-11-29T23:59:59Z"
   },
   "stats": {
     "total_vehicles": 15420,
@@ -185,7 +185,7 @@ GET /traffic/flow
     {
       "id": "urn:ngsi-ld:TrafficFlowObserved:CAM_001:20240115T103000Z",
       "camera_id": "CAM_001",
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-11-29T10:30:00Z",
       "location": {"lat": 10.7769, "lon": 106.7009},
       "intensity": 45,
       "average_speed": 35.5,
@@ -211,7 +211,7 @@ GET /traffic/realtime
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "zones": [
     {
       "zone_id": "ZONE_001",
@@ -247,7 +247,7 @@ GET /accidents
   "accidents": [
     {
       "id": "ACC_20240115_001",
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-11-29T10:30:00Z",
       "location": {
         "lat": 10.7769,
         "lon": 106.7009,
@@ -276,7 +276,7 @@ GET /accidents/{accident_id}
 ```json
 {
   "id": "ACC_20240115_001",
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {
     "lat": 10.7769,
     "lon": 106.7009,
@@ -296,12 +296,12 @@ GET /accidents/{accident_id}
   },
   "timeline": [
     {
-      "timestamp": "2024-01-15T10:30:00Z",
+      "timestamp": "2025-11-29T10:30:00Z",
       "event": "Accident detected",
       "source": "CV Agent"
     },
     {
-      "timestamp": "2024-01-15T10:31:30Z",
+      "timestamp": "2025-11-29T10:31:30Z",
       "event": "Emergency services notified",
       "source": "Alert Dispatcher"
     }
@@ -362,7 +362,7 @@ GET /weather/current
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {"lat": 10.7769, "lon": 106.7009},
   "temperature": 32.5,
   "humidity": 75,
@@ -394,7 +394,7 @@ GET /weather/forecast
 {
   "forecast": [
     {
-      "timestamp": "2024-01-15T11:00:00Z",
+      "timestamp": "2025-11-29T11:00:00Z",
       "temperature": 33.0,
       "precipitation_probability": 20,
       "conditions": "Partly Cloudy"
@@ -418,7 +418,7 @@ GET /air-quality
 
 ```json
 {
-  "timestamp": "2024-01-15T10:30:00Z",
+  "timestamp": "2025-11-29T10:30:00Z",
   "location": {"lat": 10.7769, "lon": 106.7009},
   "aqi": 85,
   "category": "Moderate",
@@ -454,8 +454,8 @@ GET /analytics/zones/{zone_id}
 {
   "zone_id": "ZONE_001",
   "period": {
-    "start": "2024-01-15T00:00:00Z",
-    "end": "2024-01-15T23:59:59Z"
+    "start": "2025-11-29T00:00:00Z",
+    "end": "2025-11-29T23:59:59Z"
   },
   "metrics": {
     "total_vehicles": 45320,

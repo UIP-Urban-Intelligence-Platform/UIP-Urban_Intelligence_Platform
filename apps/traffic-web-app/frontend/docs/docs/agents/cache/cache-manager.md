@@ -124,7 +124,7 @@ cache_manager.set("observation:OBS_001", observation)
 cache_manager.set("query:accidents:severe", results, ttl=60)
 
 # Aggregation caching
-cache_manager.set("stats:hourly:2025-01-15T10", hourly_stats)
+cache_manager.set("stats:hourly:2025-11-29T10", hourly_stats)
 ```
 
 ## ⚙️ Configuration

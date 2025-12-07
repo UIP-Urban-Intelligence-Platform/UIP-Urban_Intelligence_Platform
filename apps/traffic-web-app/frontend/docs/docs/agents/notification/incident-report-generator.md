@@ -73,7 +73,7 @@ report = await generator.generate_accident_report(
 ```python
 # Generate daily summary
 summary = await generator.generate_daily_summary(
-    date="2025-01-15",
+    date="2025-11-29",
     zones=["district_1", "district_3"],
     format="html"
 )
@@ -85,8 +85,8 @@ summary = await generator.generate_daily_summary(
 # Generate reports for date range
 reports = await generator.generate_batch(
     report_type="congestion",
-    start_date="2025-01-01",
-    end_date="2025-01-15",
+    start_date="2025-11-20",
+    end_date="2025-11-29",
     output_dir="reports/"
 )
 ```
