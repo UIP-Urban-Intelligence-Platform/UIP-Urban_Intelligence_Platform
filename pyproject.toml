@@ -7,7 +7,7 @@
 # Module: pyproject.toml
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Version: 2.0.0
-# Repository: https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+# Repository: https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
@@ -57,9 +57,8 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "black>=23.11.0",
-    "flake8>=6.1.0",
+    "ruff>=0.1.0",
     "mypy>=1.7.1",
-    "pylint>=3.0.2",
     "types-PyYAML>=6.0.12.12",
     "types-aiofiles>=23.2.0.0",
 ]
@@ -71,10 +70,10 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform"
-Documentation = "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/docs"
-Repository = "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform"
-Issues = "https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform/issues"
+Homepage = "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform"
+Documentation = "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/docs"
+Repository = "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform"
+Issues = "https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/issues"
 
 [project.scripts]
 uip-orchestrator = "orchestrator:main"
@@ -107,6 +106,8 @@ extend-exclude = '''
 )/
 '''
 
+# NOTE: isort config kept for backward compatibility
+# Ruff now handles import sorting via [lint.isort] in ruff.toml
 [tool.isort]
 profile = "black"
 line_length = 88
@@ -158,6 +159,8 @@ module = [
 ]
 ignore_missing_imports = true
 
+# NOTE: pylint config kept for backward compatibility
+# Ruff now handles linting via ruff.toml (10-100x faster)
 [tool.pylint.main]
 py-version = "3.9"
 ignore = [".venv", "build", "dist"]
