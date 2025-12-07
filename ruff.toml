@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 # Ruff Configuration for UIP - Urban Intelligence Platform
 # https://docs.astral.sh/ruff/configuration/
+# Replaces: flake8, isort, pyupgrade, autoflake
 
 # Exclude commonly ignored directories
 exclude = [
@@ -31,24 +32,35 @@ exclude = [
     "coverage.xml",
 ]
 
-# Same as Black
-line-length = 100
+# Match flake8 max-line-length = 127
+line-length = 127
 indent-width = 4
 
 # Assume Python 3.10
 target-version = "py310"
 
 [lint]
-# Enable pycodestyle (E), Pyflakes (F), isort (I), and flake8-bugbear (B)
-select = ["E", "F", "I", "B", "W"]
+# Enable pycodestyle (E), Pyflakes (F), isort (I), flake8-bugbear (B), McCabe (C90)
+select = ["E", "F", "I", "B", "W", "C90"]
 
-# Ignore specific rules
+# Ignore specific rules (migrated from .flake8)
 ignore = [
     "E203",  # Whitespace before ':' (conflicts with Black)
+    "E402",  # Module level import not at top of file
     "E501",  # Line too long (handled by line-length)
-    "W503",  # Line break before binary operator
-    "F401",  # Unused imports (will fix separately)
+    "E712",  # Comparison to True/False
+    "E721",  # Do not compare types
+    "E722",  # Do not use bare 'except'
+    "F401",  # Unused imports (intentional re-exports)
+    "F402",  # Import shadowed by loop variable
+    "F541",  # f-string missing placeholders
+    "F811",  # Redefinition of unused import
+    "F841",  # Local variable assigned but never used
 ]
+
+# McCabe complexity (match flake8 max-complexity = 35)
+[lint.mccabe]
+max-complexity = 35
 
 # Allow fix for all enabled rules
 fixable = ["ALL"]
@@ -56,6 +68,15 @@ unfixable = []
 
 # Allow unused variables when underscore-prefixed
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Per-file ignores (migrated from .flake8)
+[lint.per-file-ignores]
+"**/__init__.py" = ["F401"]  # Allow unused imports in __init__.py
+"src/orchestrator.py" = ["C901"]  # Allow complexity
+"src/agents/analytics/*.py" = ["C901"]
+"src/agents/monitoring/*.py" = ["C901"]
+"src/agents/rdf_linked_data/*.py" = ["C901"]
+"src/core/*.py" = ["C901"]
 
 [lint.isort]
 # Match isort defaults
