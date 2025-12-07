@@ -80,7 +80,9 @@ from rdflib import RDF, XSD, Graph, Literal, Namespace, URIRef
 from rdflib.util import guess_format
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -182,28 +184,38 @@ class ConfigLoader:
             if "output" not in self.config:
                 self.config["output"] = {}
             self.config["output"]["output_dir"] = os.environ["RDF_OUTPUT_DIR"]
-            logger.info(f"Output directory overridden from environment: {self.config['output']['output_dir']}")
+            logger.info(
+                f"Output directory overridden from environment: {self.config['output']['output_dir']}"
+            )
 
         # Chunk size override
         if "RDF_CHUNK_SIZE" in os.environ:
             if "processing" not in self.config:
                 self.config["processing"] = {}
             self.config["processing"]["chunk_size"] = int(os.environ["RDF_CHUNK_SIZE"])
-            logger.info(f"Chunk size overridden from environment: {self.config['processing']['chunk_size']}")
+            logger.info(
+                f"Chunk size overridden from environment: {self.config['processing']['chunk_size']}"
+            )
 
         # Validation override
         if "RDF_VALIDATE" in os.environ:
             if "processing" not in self.config:
                 self.config["processing"] = {}
-            self.config["processing"]["validate_rdf"] = os.environ["RDF_VALIDATE"].lower() in ["true", "1", "yes"]
-            logger.info(f"RDF validation overridden from environment: {self.config['processing']['validate_rdf']}")
+            self.config["processing"]["validate_rdf"] = os.environ[
+                "RDF_VALIDATE"
+            ].lower() in ["true", "1", "yes"]
+            logger.info(
+                f"RDF validation overridden from environment: {self.config['processing']['validate_rdf']}"
+            )
 
         # Log level override
         if "RDF_LOG_LEVEL" in os.environ:
             if "logging" not in self.config:
                 self.config["logging"] = {}
             self.config["logging"]["level"] = os.environ["RDF_LOG_LEVEL"]
-            logger.info(f"Log level overridden from environment: {self.config['logging']['level']}")
+            logger.info(
+                f"Log level overridden from environment: {self.config['logging']['level']}"
+            )
 
     def _validate_config(self) -> None:
         """
@@ -225,7 +237,9 @@ class ConfigLoader:
         # Validate output formats
         for fmt in self.config["output_formats"]:
             if "format" not in fmt or "extension" not in fmt:
-                raise ValueError("Each output format must have 'format' and 'extension' fields")
+                raise ValueError(
+                    "Each output format must have 'format' and 'extension' fields"
+                )
 
         # Validate namespaces are valid URIs
         for prefix, uri in self.config["namespaces"].items():
@@ -371,7 +385,9 @@ class JSONLDParser:
                 logger.error(f"Error parsing entity {entity.get('id', 'unknown')}: {e}")
                 continue
 
-        logger.info(f"Parsed {success_count}/{len(entities)} entities into {len(graph)} triples")
+        logger.info(
+            f"Parsed {success_count}/{len(entities)} entities into {len(graph)} triples"
+        )
         return graph
 
     def _parse_entity(self, graph: Graph, entity: Dict[str, Any]) -> bool:
@@ -539,8 +555,13 @@ class RDFSerializer:
             extension = format_config["extension"]
 
             # Build filename
-            filename_template = self.output_config.get("filename_template", "{entity_type}_{timestamp}")
-            filename = filename_template.format(entity_type=entity_type, timestamp=timestamp) + extension
+            filename_template = self.output_config.get(
+                "filename_template", "{entity_type}_{timestamp}"
+            )
+            filename = (
+                filename_template.format(entity_type=entity_type, timestamp=timestamp)
+                + extension
+            )
 
             output_path = output_dir / filename
 
@@ -554,7 +575,9 @@ class RDFSerializer:
 
         return output_files
 
-    def _serialize_to_file(self, graph: Graph, output_path: Path, format_name: str) -> None:
+    def _serialize_to_file(
+        self, graph: Graph, output_path: Path, format_name: str
+    ) -> None:
         """
         Serialize RDF graph to a specific file format.
 
@@ -661,13 +684,17 @@ class RDFValidator:
                     try:
                         float(o.value)
                     except ValueError:
-                        errors.append(f"Invalid numeric literal: {o.value} (type: {o.datatype})")
+                        errors.append(
+                            f"Invalid numeric literal: {o.value} (type: {o.datatype})"
+                        )
 
                 elif o.datatype in [XSD.integer, XSD.int, XSD.long]:
                     try:
                         int(o.value)
                     except ValueError:
-                        errors.append(f"Invalid integer literal: {o.value} (type: {o.datatype})")
+                        errors.append(
+                            f"Invalid integer literal: {o.value} (type: {o.datatype})"
+                        )
 
     def _validate_uris(self, graph: Graph, errors: List[str]) -> None:
         """
@@ -712,7 +739,9 @@ class RDFValidator:
             graph = Graph()
             graph.parse(file_path, format=format_name)
 
-            logger.info(f"Successfully parsed RDF file: {file_path} ({len(graph)} triples)")
+            logger.info(
+                f"Successfully parsed RDF file: {file_path} ({len(graph)} triples)"
+            )
             return True, []
 
         except Exception as e:
@@ -819,11 +848,15 @@ class NGSILDToRDFAgent:
 
         # Validate RDF graph
         if self.config.get("processing", {}).get("validate_rdf", True):
-            is_valid, validation_errors = self.validator.validate_graph(graph, len(entities))
+            is_valid, validation_errors = self.validator.validate_graph(
+                graph, len(entities)
+            )
 
             if not is_valid:
                 logger.warning(f"RDF validation found {len(validation_errors)} issues")
-                self.statistics.errors.extend([{"stage": "validation", "error": err} for err in validation_errors])
+                self.statistics.errors.extend(
+                    [{"stage": "validation", "error": err} for err in validation_errors]
+                )
 
         # Serialize to output formats
         try:
@@ -863,7 +896,9 @@ class NGSILDToRDFAgent:
             json.JSONDecodeError: If input file is not valid JSON
         """
         if not os.path.exists(input_file):
-            logger.warning(f"Input file not found: {input_file} - returning empty entity list")
+            logger.warning(
+                f"Input file not found: {input_file} - returning empty entity list"
+            )
             return []
 
         try:
@@ -914,7 +949,9 @@ class NGSILDToRDFAgent:
             format_name = guess_format(output_file)
 
             if format_name:
-                is_valid, errors = self.validator.validate_file(output_file, format_name)
+                is_valid, errors = self.validator.validate_file(
+                    output_file, format_name
+                )
 
                 if not is_valid:
                     logger.warning(f"Output file validation failed: {output_file}")
@@ -935,7 +972,9 @@ class NGSILDToRDFAgent:
             return
 
         output_dir = Path(self.config.get("output", {}).get("output_dir", "data/rdf"))
-        stats_filename = self.config.get("output", {}).get("stats_filename", "conversion_stats.json")
+        stats_filename = self.config.get("output", {}).get(
+            "stats_filename", "conversion_stats.json"
+        )
         stats_path = output_dir / stats_filename
 
         stats_dict = {
@@ -1024,7 +1063,9 @@ def main(config: Dict = None):
         agent = NGSILDToRDFAgent(config_path="config/namespaces.yaml")
 
         # Convert entities
-        stats = agent.convert(input_file="data/validated_entities.json", entity_type="Camera")
+        stats = agent.convert(
+            input_file="data/validated_entities.json", entity_type="Camera"
+        )
 
         # Print summary
         print("\n" + "=" * 80)

@@ -120,7 +120,9 @@ class BackendConfig:
     url: str
     timeout: int = 30
     headers: Dict[str, str] = field(default_factory=dict)
-    retry: Dict[str, int] = field(default_factory=lambda: {"max_attempts": 3, "backoff_factor": 2})
+    retry: Dict[str, int] = field(
+        default_factory=lambda: {"max_attempts": 3, "backoff_factor": 2}
+    )
 
     def format_url(self, **kwargs) -> str:
         """Format URL with placeholders"""
@@ -338,7 +340,9 @@ class FormatConverter:
             self.logger.error(f"Failed to serialize to RDF/XML: {e}")
             raise ValueError(f"RDF/XML serialization failed: {e}")
 
-    def graph_to_jsonld(self, graph: Graph, context: Optional[str] = None) -> Dict[str, Any]:
+    def graph_to_jsonld(
+        self, graph: Graph, context: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         Convert rdflib Graph to JSON-LD format.
 
@@ -374,7 +378,9 @@ class FormatConverter:
             self.logger.error(f"Failed to serialize to JSON-LD: {e}")
             raise ValueError(f"JSON-LD serialization failed: {e}")
 
-    def convert_to_format(self, data: Dict[str, Any], target_format: str, base_uri: Optional[str] = None) -> Any:
+    def convert_to_format(
+        self, data: Dict[str, Any], target_format: str, base_uri: Optional[str] = None
+    ) -> Any:
         """
         Convert data to target format.
 
@@ -456,7 +462,9 @@ class HTMLRenderer:
         self.env.filters["format_coordinates"] = format_coordinates
         self.env.filters["format_datetime"] = format_datetime
 
-    def render(self, template_name: str, entity_data: Dict[str, Any], base_url: str = "") -> str:
+    def render(
+        self, template_name: str, entity_data: Dict[str, Any], base_url: str = ""
+    ) -> str:
         """
         Render entity as HTML.
 
@@ -562,7 +570,9 @@ class ContentNegotiationConfig:
                 '{"timestamp": "%(asctime)s", "level": "%(levelname)s", "name": "%(name)s", "message": "%(message)s"}'
             )
         else:
-            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+            formatter = logging.Formatter(
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            )
 
         # File handler
         from logging.handlers import RotatingFileHandler
@@ -685,7 +695,9 @@ class ContentNegotiationAgent:
         self.html_renderer = HTMLRenderer(template_dir, template_config)
 
         # HTTP client for backend requests
-        self.client = httpx.AsyncClient(timeout=httpx.Timeout(30.0), follow_redirects=True)
+        self.client = httpx.AsyncClient(
+            timeout=httpx.Timeout(30.0), follow_redirects=True
+        )
 
         # Statistics
         self.stats = {"requests": 0, "format_usage": {}, "errors": 0, "cache_hits": 0}
@@ -776,7 +788,9 @@ class ContentNegotiationAgent:
 
         for attempt in range(max_attempts):
             try:
-                response = await self.client.get(url, headers=backend_config.headers, timeout=backend_config.timeout)
+                response = await self.client.get(
+                    url, headers=backend_config.headers, timeout=backend_config.timeout
+                )
 
                 if response.status_code == 200:
                     data = response.json()
@@ -791,7 +805,9 @@ class ContentNegotiationAgent:
                     self.logger.warning(f"Stellio returned {response.status_code}")
 
             except httpx.TimeoutException:
-                self.logger.warning(f"Stellio timeout (attempt {attempt + 1}/{max_attempts})")
+                self.logger.warning(
+                    f"Stellio timeout (attempt {attempt + 1}/{max_attempts})"
+                )
                 if attempt < max_attempts - 1:
                     await asyncio.sleep(backoff**attempt)
                     continue
@@ -801,7 +817,9 @@ class ContentNegotiationAgent:
                 )
             except httpx.RequestError as e:
                 self.logger.error(f"Stellio request error: {e}")
-                raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Backend error")
+                raise HTTPException(
+                    status_code=status.HTTP_502_BAD_GATEWAY, detail="Backend error"
+                )
 
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
@@ -857,7 +875,9 @@ class ContentNegotiationAgent:
                     self.logger.warning(f"Fuseki returned {response.status_code}")
 
             except httpx.TimeoutException:
-                self.logger.warning(f"Fuseki timeout (attempt {attempt + 1}/{max_attempts})")
+                self.logger.warning(
+                    f"Fuseki timeout (attempt {attempt + 1}/{max_attempts})"
+                )
                 if attempt < max_attempts - 1:
                     await asyncio.sleep(backoff**attempt)
                     continue
@@ -867,14 +887,18 @@ class ContentNegotiationAgent:
                 )
             except httpx.RequestError as e:
                 self.logger.error(f"Fuseki request error: {e}")
-                raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Backend error")
+                raise HTTPException(
+                    status_code=status.HTTP_502_BAD_GATEWAY, detail="Backend error"
+                )
 
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail="Failed to fetch from backend",
         )
 
-    async def get_entity_data(self, entity_id: str, format_config: FormatConfig, base_url: str = "") -> Tuple[Any, str]:
+    async def get_entity_data(
+        self, entity_id: str, format_config: FormatConfig, base_url: str = ""
+    ) -> Tuple[Any, str]:
         """
         Get entity data in requested format.
 
@@ -897,7 +921,9 @@ class ContentNegotiationAgent:
                     return json_ld_data, format_config.get_content_type()
                 else:
                     # Convert to requested format
-                    converted_data = self.converter.convert_to_format(json_ld_data, format_config.mime_type, base_url)
+                    converted_data = self.converter.convert_to_format(
+                        json_ld_data, format_config.mime_type, base_url
+                    )
                     return converted_data, format_config.get_content_type()
 
             elif format_config.source == "fuseki":
@@ -922,12 +948,16 @@ class ContentNegotiationAgent:
                     return rdfxml_data, format_config.get_content_type()
                 else:
                     # Unsupported format for fuseki source
-                    raise ValueError(f"Unsupported format for fuseki: {format_config.mime_type}")
+                    raise ValueError(
+                        f"Unsupported format for fuseki: {format_config.mime_type}"
+                    )
 
             elif format_config.source == "convert":
                 # Fetch JSON-LD and convert
                 json_ld_data = await self.fetch_from_stellio(entity_id)
-                converted_data = self.converter.convert_to_format(json_ld_data, format_config.mime_type, base_url)
+                converted_data = self.converter.convert_to_format(
+                    json_ld_data, format_config.mime_type, base_url
+                )
                 return converted_data, format_config.get_content_type()
 
             elif format_config.source == "template":
@@ -941,7 +971,9 @@ class ContentNegotiationAgent:
                 # Extract just filename from path
                 template_name = Path(template_name).name
 
-                html_data = self.html_renderer.render(template_name, json_ld_data, base_url)
+                html_data = self.html_renderer.render(
+                    template_name, json_ld_data, base_url
+                )
                 return html_data, format_config.get_content_type()
 
             else:
@@ -1017,7 +1049,9 @@ class ContentNegotiationAgent:
             return False
 
         # Check if matches non-information pattern
-        pattern = redirect_config.get("non_information_pattern", r"^/id/([^/]+)/([^/]+)$")
+        pattern = redirect_config.get(
+            "non_information_pattern", r"^/id/([^/]+)/([^/]+)$"
+        )
 
         if re.match(pattern, path):
             return True
@@ -1167,13 +1201,17 @@ def create_app(config_path: str) -> FastAPI:
         return ""
 
     @app.get("/id/{entity_type}/{entity_id}")
-    async def get_entity_non_information(entity_type: str, entity_id: str, request: Request):
+    async def get_entity_non_information(
+        entity_type: str, entity_id: str, request: Request
+    ):
         """
         Non-information resource endpoint.
         Returns 303 redirect to information resource.
         """
         # Validate user input to prevent URL injection
-        if not _validate_path_segment(entity_type) or not _validate_path_segment(entity_id):
+        if not _validate_path_segment(entity_type) or not _validate_path_segment(
+            entity_id
+        ):
             agent.logger.warning("Invalid entity_type or entity_id blocked")
             from fastapi.responses import JSONResponse
 
@@ -1246,11 +1284,16 @@ def create_app(config_path: str) -> FastAPI:
             # Build redirect to internal lookup endpoint
             # This URL contains NO user input - only server-generated token
             safe_redirect_path = f"/lookup/{internal_ref}"
-            redirect_url = f"{parsed_base.scheme}://{parsed_base.netloc}{safe_redirect_path}"
+            redirect_url = (
+                f"{parsed_base.scheme}://{parsed_base.netloc}{safe_redirect_path}"
+            )
 
             # Verify same-origin (defense in depth)
             parsed_redirect = urlparse(redirect_url)
-            if parsed_redirect.scheme != parsed_base.scheme or parsed_redirect.netloc != parsed_base.netloc:
+            if (
+                parsed_redirect.scheme != parsed_base.scheme
+                or parsed_redirect.netloc != parsed_base.netloc
+            ):
                 agent.logger.warning("Cross-origin redirect blocked")
                 return await get_entity_data(entity_type, entity_id, request)
 
@@ -1309,7 +1352,9 @@ def create_app(config_path: str) -> FastAPI:
             full_entity_id = f"urn:ngsi-ld:{entity_type}:{entity_id}"
             base_url = str(request.base_url).rstrip("/")
 
-            data, content_type = await agent.get_entity_data(full_entity_id, format_config, base_url)
+            data, content_type = await agent.get_entity_data(
+                full_entity_id, format_config, base_url
+            )
 
             # Build Link headers
             entity_url = f"{base_url}/id/{entity_type}/{entity_id}/data"
@@ -1363,7 +1408,9 @@ def create_app(config_path: str) -> FastAPI:
         except Exception as e:
             agent.stats["errors"] += 1
             agent.logger.error(f"Request failed: {e}")
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            )
 
     @app.get("/lookup/{ref_token}")
     async def lookup_redirect(ref_token: str, request: Request):
@@ -1374,7 +1421,9 @@ def create_app(config_path: str) -> FastAPI:
         """
         # Validate token format (only alphanumeric and URL-safe chars)
         if not re.match(r"^[A-Za-z0-9_-]{16,32}$", ref_token):
-            raise HTTPException(status_code=400, detail="Invalid reference token format")
+            raise HTTPException(
+                status_code=400, detail="Invalid reference token format"
+            )
 
         # Lookup in cache
         if not hasattr(agent, "_redirect_cache"):
@@ -1391,7 +1440,9 @@ def create_app(config_path: str) -> FastAPI:
         # Clean up old entries (prevent memory leak)
         if len(agent._redirect_cache) > 1000:
             # Remove oldest half
-            sorted_refs = sorted(agent._redirect_cache.items(), key=lambda x: x[1].get("timestamp", ""))
+            sorted_refs = sorted(
+                agent._redirect_cache.items(), key=lambda x: x[1].get("timestamp", "")
+            )
             for ref, _ in sorted_refs[: len(sorted_refs) // 2]:
                 del agent._redirect_cache[ref]
 

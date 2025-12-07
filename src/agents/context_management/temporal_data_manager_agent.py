@@ -82,7 +82,9 @@ NEO4J_AVAILABLE = False
 
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -121,7 +123,9 @@ class TemporalConfig:
         self.config = expand_env_var(self.config)
 
         if not self.config or "temporal_data_manager" not in self.config:
-            raise ValueError("Invalid configuration: 'temporal_data_manager' section not found")
+            raise ValueError(
+                "Invalid configuration: 'temporal_data_manager' section not found"
+            )
 
         self.temporal_manager = self.config["temporal_data_manager"]
         logger.info(f"Configuration loaded from {config_path}")
@@ -202,11 +206,15 @@ class TemporalDataStore:
         Returns:
             Full temporal URL
         """
-        endpoint_template = self.stellio_config.get("temporal_endpoint", "/ngsi-ld/v1/temporal/entities/{entity_id}/attrs")
+        endpoint_template = self.stellio_config.get(
+            "temporal_endpoint", "/ngsi-ld/v1/temporal/entities/{entity_id}/attrs"
+        )
         path = endpoint_template.format(entity_id=entity_id)
         return urljoin(self.base_url, path)
 
-    def post_temporal_instances(self, entity_id: str, instances: Dict[str, List[Dict[str, Any]]]) -> bool:
+    def post_temporal_instances(
+        self, entity_id: str, instances: Dict[str, List[Dict[str, Any]]]
+    ) -> bool:
         """
         POST temporal instances to Stellio.
 
@@ -231,10 +239,14 @@ class TemporalDataStore:
             response = self.session.post(url, json=instances, timeout=self.timeout)
 
             if 200 <= response.status_code < 300:
-                logger.debug(f"Stored {sum(len(v) for v in instances.values())} temporal instances for {entity_id}")
+                logger.debug(
+                    f"Stored {sum(len(v) for v in instances.values())} temporal instances for {entity_id}"
+                )
                 return True
             else:
-                logger.error(f"Failed to store temporal instances: {response.status_code} - {response.text}")
+                logger.error(
+                    f"Failed to store temporal instances: {response.status_code} - {response.text}"
+                )
                 return False
 
         except Exception as e:
@@ -272,7 +284,9 @@ class AggregationEngine:
 
         logger.info("Aggregation engine initialized")
 
-    def aggregate_observations(self, observations: List[Dict[str, Any]], resolution: str = "hourly") -> List[Dict[str, Any]]:
+    def aggregate_observations(
+        self, observations: List[Dict[str, Any]], resolution: str = "hourly"
+    ) -> List[Dict[str, Any]]:
         """
         Aggregate observations to specified resolution.
 
@@ -484,7 +498,8 @@ class RetentionManager:
 
         return {
             "detailed": now - timedelta(days=self.detailed_days),
-            "aggregated": now - timedelta(days=self.aggregated_start + self.aggregated_days),
+            "aggregated": now
+            - timedelta(days=self.aggregated_start + self.aggregated_days),
             "archived": now - timedelta(days=self.archived_start + self.archived_days),
             "deletion": now - timedelta(days=self.deletion_start),
         }
@@ -520,7 +535,9 @@ class ArchiveManager:
         self.filesystem_config = archived_config.get("filesystem", {})
 
         if self.storage == "filesystem":
-            self.base_path = Path(self.filesystem_config.get("base_path", "/data/archive"))
+            self.base_path = Path(
+                self.filesystem_config.get("base_path", "/data/archive")
+            )
             self.base_path.mkdir(parents=True, exist_ok=True)
 
         logger.info(f"Archive manager initialized: {self.storage}")
@@ -547,12 +564,21 @@ class ArchiveManager:
             entity_name = parts[-1]
 
         # Create path: base/entity_type/entity_name/YYYY/MM/DD.json.gz
-        path = self.base_path / entity_type / entity_name / str(date.year) / f"{date.month:02d}" / f"{date.day:02d}.json.gz"
+        path = (
+            self.base_path
+            / entity_type
+            / entity_name
+            / str(date.year)
+            / f"{date.month:02d}"
+            / f"{date.day:02d}.json.gz"
+        )
         path.parent.mkdir(parents=True, exist_ok=True)
 
         return path
 
-    def archive_data(self, entity_id: str, date: datetime, observations: List[Dict[str, Any]]) -> bool:
+    def archive_data(
+        self, entity_id: str, date: datetime, observations: List[Dict[str, Any]]
+    ) -> bool:
         """
         Archive observations to cold storage.
 
@@ -590,7 +616,9 @@ class ArchiveManager:
             logger.error(f"Failed to archive data: {e}")
             return False
 
-    def retrieve_archived_data(self, entity_id: str, date: datetime) -> Optional[List[Dict[str, Any]]]:
+    def retrieve_archived_data(
+        self, entity_id: str, date: datetime
+    ) -> Optional[List[Dict[str, Any]]]:
         """
         Retrieve archived observations.
 
@@ -662,7 +690,9 @@ class TemporalDataManagerAgent:
 
         logger.info("Temporal Data Manager Agent initialized")
 
-    def store_temporal_observations(self, entity_id: str, observations: List[Dict[str, Any]]) -> bool:
+    def store_temporal_observations(
+        self, entity_id: str, observations: List[Dict[str, Any]]
+    ) -> bool:
         """
         Store temporal observations for entity.
 
@@ -686,7 +716,9 @@ class TemporalDataManagerAgent:
                 if attr_name == "observedAt":
                     continue
 
-                instances[attr_name].append({"type": "Property", "value": value, "observedAt": observed_at})
+                instances[attr_name].append(
+                    {"type": "Property", "value": value, "observedAt": observed_at}
+                )
 
         # POST to Stellio
         success = self.data_store.post_temporal_instances(entity_id, dict(instances))
@@ -696,7 +728,9 @@ class TemporalDataManagerAgent:
 
         return success
 
-    def run_cleanup(self, entity_id: str, observations: List[Dict[str, Any]]) -> Dict[str, int]:
+    def run_cleanup(
+        self, entity_id: str, observations: List[Dict[str, Any]]
+    ) -> Dict[str, int]:
         """
         Run cleanup process on observations.
 
@@ -730,10 +764,14 @@ class TemporalDataManagerAgent:
 
         # Aggregate old data
         if to_aggregate:
-            aggregated = self.aggregation_engine.aggregate_observations(to_aggregate, "hourly")
+            aggregated = self.aggregation_engine.aggregate_observations(
+                to_aggregate, "hourly"
+            )
             results["aggregated"] = len(aggregated)
             self.stats["observations_aggregated"] += len(to_aggregate)
-            logger.info(f"Aggregated {len(to_aggregate)} observations into {len(aggregated)} hourly aggregates")
+            logger.info(
+                f"Aggregated {len(to_aggregate)} observations into {len(aggregated)} hourly aggregates"
+            )
 
         # Archive aggregated data
         if to_archive:
@@ -746,7 +784,9 @@ class TemporalDataManagerAgent:
                 by_date[date].append(obs)
 
             for date, date_obs in by_date.items():
-                if self.archive_manager.archive_data(entity_id, datetime.combine(date, datetime.min.time()), date_obs):
+                if self.archive_manager.archive_data(
+                    entity_id, datetime.combine(date, datetime.min.time()), date_obs
+                ):
                     results["archived"] += len(date_obs)
                     self.stats["observations_archived"] += len(date_obs)
 

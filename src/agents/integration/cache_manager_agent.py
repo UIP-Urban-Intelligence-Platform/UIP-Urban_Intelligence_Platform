@@ -268,7 +268,9 @@ class CacheKeyGenerator:
         if headers and vary_by:
             for key in vary_by:
                 if key.lower() in [h.lower() for h in headers.keys()]:
-                    header_key = next(h for h in headers.keys() if h.lower() == key.lower())
+                    header_key = next(
+                        h for h in headers.keys() if h.lower() == key.lower()
+                    )
                     factors.append(f"{key}={headers[header_key]}")
 
         # Add body hash if specified
@@ -351,14 +353,19 @@ class CacheManagerConfig:
         logger.setLevel(getattr(logging, log_level))
 
         # Rotating file handler
-        file_handler = RotatingFileHandler(log_file, maxBytes=max_bytes, backupCount=backup_count)
+        file_handler = RotatingFileHandler(
+            log_file, maxBytes=max_bytes, backupCount=backup_count
+        )
 
         if log_format == "json":
             formatter = logging.Formatter(
-                '{"timestamp": "%(asctime)s", "level": "%(levelname)s", ' '"logger": "%(name)s", "message": "%(message)s"}'
+                '{"timestamp": "%(asctime)s", "level": "%(levelname)s", '
+                '"logger": "%(name)s", "message": "%(message)s"}'
             )
         else:
-            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+            formatter = logging.Formatter(
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            )
 
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
@@ -491,7 +498,9 @@ class CacheWarmer:
         # Sort URLs by priority
         sorted_urls = sorted(
             self.urls,
-            key=lambda x: {"high": 0, "medium": 1, "low": 2}.get(x.get("priority", "medium"), 1),
+            key=lambda x: {"high": 0, "medium": 1, "low": 2}.get(
+                x.get("priority", "medium"), 1
+            ),
         )
 
         # Warm cache concurrently (limited by max_concurrent)
@@ -523,7 +532,9 @@ class CacheWarmer:
                     return True
 
                 except Exception as e:
-                    self.logger.error(f"Failed to warm URL {url_config.get('url')}: {e}")
+                    self.logger.error(
+                        f"Failed to warm URL {url_config.get('url')}: {e}"
+                    )
                     return False
 
         # Execute warming tasks
@@ -604,7 +615,9 @@ class CacheInvalidator:
                 deleted = await self.cache_manager.cleanup_expired(batch_size)
 
                 if deleted > 0:
-                    self.logger.info(f"Time-based invalidation: removed {deleted} expired entries")
+                    self.logger.info(
+                        f"Time-based invalidation: removed {deleted} expired entries"
+                    )
 
             except asyncio.CancelledError:
                 break
@@ -630,7 +643,11 @@ class CacheInvalidator:
         """
         # Find matching webhook strategy
         webhook_strategy = next(
-            (s for s in self.strategies if s["type"] == "webhook" and s.get("enabled", True)),
+            (
+                s
+                for s in self.strategies
+                if s["type"] == "webhook" and s.get("enabled", True)
+            ),
             None,
         )
 
@@ -638,7 +655,9 @@ class CacheInvalidator:
             return 0
 
         # Find event configuration
-        event_config = next((e for e in webhook_strategy.get("events", []) if e["event"] == event), None)
+        event_config = next(
+            (e for e in webhook_strategy.get("events", []) if e["event"] == event), None
+        )
 
         if not event_config:
             return 0
@@ -662,7 +681,8 @@ class CacheInvalidator:
             total_deleted += deleted
 
         self.logger.info(
-            f"Invalidated {total_deleted} entries for event '{event}' " f"(entity_id={entity_id}, entity_type={entity_type})"
+            f"Invalidated {total_deleted} entries for event '{event}' "
+            f"(entity_id={entity_id}, entity_type={entity_type})"
         )
 
         return total_deleted
@@ -731,7 +751,9 @@ class CacheManagerAgent:
 
         # Cache policies
         self.policies = self.config.get_policies()
-        self.default_policy = next((p for p in self.policies if p.name == "default"), None)
+        self.default_policy = next(
+            (p for p in self.policies if p.name == "default"), None
+        )
 
         # Components
         self.warmer: Optional[CacheWarmer] = None
@@ -742,7 +764,9 @@ class CacheManagerAgent:
 
         # Memory tracking
         self.memory_config = self.config.get_memory_config()
-        self.max_memory_bytes = self._parse_memory_size(self.memory_config.get("max_memory", "512MB"))
+        self.max_memory_bytes = self._parse_memory_size(
+            self.memory_config.get("max_memory", "512MB")
+        )
         self.max_keys = self.memory_config.get("max_keys", 10000)
 
         self.logger.info("Cache Manager Agent initialized")
@@ -805,7 +829,9 @@ class CacheManagerAgent:
             host=os.environ.get("REDIS_HOST") or redis_config.get("host", "localhost"),
             port=int(os.environ.get("REDIS_PORT") or redis_config.get("port", 6379)),
             db=redis_config.get("db", 0),
-            password=os.environ.get("REDIS_PASSWORD") or redis_config.get("password") or None,
+            password=os.environ.get("REDIS_PASSWORD")
+            or redis_config.get("password")
+            or None,
             max_connections=redis_config.get("max_connections", 50),
             socket_timeout=redis_config.get("socket_timeout", 5),
             socket_connect_timeout=redis_config.get("socket_connect_timeout", 5),
@@ -945,7 +971,10 @@ class CacheManagerAgent:
 
             self.stats.sets += 1
 
-            self.logger.debug(f"Cache SET: {cache_key} (size={len(value)}, ttl={ttl}s, " f"compressed={compressed})")
+            self.logger.debug(
+                f"Cache SET: {cache_key} (size={len(value)}, ttl={ttl}s, "
+                f"compressed={compressed})"
+            )
 
             return True
 
@@ -998,7 +1027,9 @@ class CacheManagerAgent:
             deleted = 0
 
             while True:
-                cursor, keys = await self.redis.scan(cursor=cursor, match=f"cache:*", count=1000)
+                cursor, keys = await self.redis.scan(
+                    cursor=cursor, match=f"cache:*", count=1000
+                )
 
                 if keys:
                     deleted += await self.redis.delete(*keys)
@@ -1008,7 +1039,9 @@ class CacheManagerAgent:
 
             if deleted > 0:
                 self.stats.deletes += deleted
-                self.logger.info(f"Invalidated {deleted} entries matching pattern: {pattern}")
+                self.logger.info(
+                    f"Invalidated {deleted} entries matching pattern: {pattern}"
+                )
 
             return deleted
 
@@ -1086,7 +1119,11 @@ class CacheManagerAgent:
                 "used_memory_human": used_memory_human,
                 "peak_memory_bytes": peak_memory,
                 "max_memory_bytes": self.max_memory_bytes,
-                "usage_ratio": (used_memory / self.max_memory_bytes if self.max_memory_bytes > 0 else 0),
+                "usage_ratio": (
+                    used_memory / self.max_memory_bytes
+                    if self.max_memory_bytes > 0
+                    else 0
+                ),
             }
 
         except Exception as e:
@@ -1140,8 +1177,20 @@ class CacheManagerAgent:
                         "keys_count": keys_count,
                         "memory_usage": memory_usage,
                     },
-                    "warmer": {"status": ("enabled" if self.warmer and self.warmer.enabled else "disabled")},
-                    "invalidator": {"status": ("enabled" if self.invalidator and self.invalidator.enabled else "disabled")},
+                    "warmer": {
+                        "status": (
+                            "enabled"
+                            if self.warmer and self.warmer.enabled
+                            else "disabled"
+                        )
+                    },
+                    "invalidator": {
+                        "status": (
+                            "enabled"
+                            if self.invalidator and self.invalidator.enabled
+                            else "disabled"
+                        )
+                    },
                 },
                 "statistics": self.stats.to_dict(),
             }
@@ -1207,12 +1256,18 @@ try:
             )
 
         @app.post("/cache/invalidate")
-        async def invalidate_webhook(request: Request, x_webhook_secret: Optional[str] = Header(None)):
+        async def invalidate_webhook(
+            request: Request, x_webhook_secret: Optional[str] = Header(None)
+        ):
             """Webhook endpoint for cache invalidation"""
             # Validate webhook secret
             invalidation_config = cache_manager.config.get_invalidation_config()
             webhook_strategy = next(
-                (s for s in invalidation_config.get("strategies", []) if s["type"] == "webhook"),
+                (
+                    s
+                    for s in invalidation_config.get("strategies", [])
+                    if s["type"] == "webhook"
+                ),
                 None,
             )
 
@@ -1221,7 +1276,9 @@ try:
                 expected_secret = auth_config.get("secret")
 
                 if expected_secret and x_webhook_secret != expected_secret:
-                    raise HTTPException(status_code=401, detail="Invalid webhook secret")
+                    raise HTTPException(
+                        status_code=401, detail="Invalid webhook secret"
+                    )
 
             # Parse request body
             body = await request.json()
@@ -1233,7 +1290,9 @@ try:
                 raise HTTPException(status_code=400, detail="Missing 'event' field")
 
             # Invalidate cache
-            deleted = await cache_manager.invalidator.invalidate_by_event(event, entity_id, entity_type)
+            deleted = await cache_manager.invalidator.invalidate_by_event(
+                event, entity_id, entity_type
+            )
 
             return JSONResponse(
                 content={
@@ -1245,12 +1304,18 @@ try:
             )
 
         @app.post("/cache/invalidate/tag")
-        async def invalidate_tag(request: Request, x_webhook_secret: Optional[str] = Header(None)):
+        async def invalidate_tag(
+            request: Request, x_webhook_secret: Optional[str] = Header(None)
+        ):
             """Invalidate cache by tag"""
             # Validate secret
             invalidation_config = cache_manager.config.get_invalidation_config()
             tag_strategy = next(
-                (s for s in invalidation_config.get("strategies", []) if s["type"] == "tag_based"),
+                (
+                    s
+                    for s in invalidation_config.get("strategies", [])
+                    if s["type"] == "tag_based"
+                ),
                 None,
             )
 
@@ -1274,12 +1339,18 @@ try:
             return JSONResponse(content={"deleted": deleted, "tag": tag})
 
         @app.post("/cache/invalidate/pattern")
-        async def invalidate_pattern(request: Request, x_webhook_secret: Optional[str] = Header(None)):
+        async def invalidate_pattern(
+            request: Request, x_webhook_secret: Optional[str] = Header(None)
+        ):
             """Invalidate cache by pattern"""
             # Validate secret
             invalidation_config = cache_manager.config.get_invalidation_config()
             pattern_strategy = next(
-                (s for s in invalidation_config.get("strategies", []) if s["type"] == "pattern_based"),
+                (
+                    s
+                    for s in invalidation_config.get("strategies", [])
+                    if s["type"] == "pattern_based"
+                ),
                 None,
             )
 

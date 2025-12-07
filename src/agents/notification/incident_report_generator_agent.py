@@ -76,7 +76,9 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -160,9 +162,13 @@ class Neo4jQueryExecutor:
         """
         self.enabled = config.get("enabled", False)
         # Priority: environment variables > config > defaults
-        self.uri = os.environ.get("NEO4J_URL") or config.get("uri", "bolt://localhost:7687")
+        self.uri = os.environ.get("NEO4J_URL") or config.get(
+            "uri", "bolt://localhost:7687"
+        )
         self.username = os.environ.get("NEO4J_USER") or config.get("username", "neo4j")
-        self.password = os.environ.get("NEO4J_PASSWORD") or config.get("password", "password")
+        self.password = os.environ.get("NEO4J_PASSWORD") or config.get(
+            "password", "password"
+        )
         self.database = config.get("database", "neo4j")
         self.queries = config.get("queries", {})
 
@@ -172,7 +178,9 @@ class Neo4jQueryExecutor:
             try:
                 from neo4j import GraphDatabase
 
-                self.driver = GraphDatabase.driver(self.uri, auth=(self.username, self.password))
+                self.driver = GraphDatabase.driver(
+                    self.uri, auth=(self.username, self.password)
+                )
                 logger.info("Connected to Neo4j database")
             except ImportError:
                 logger.warning("neo4j package not installed - Neo4j queries disabled")
@@ -181,7 +189,9 @@ class Neo4jQueryExecutor:
                 logger.error(f"Failed to connect to Neo4j: {e}")
                 self.enabled = False
 
-    def execute_query(self, query_name: str, parameters: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def execute_query(
+        self, query_name: str, parameters: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """
         Execute named query with parameters.
 
@@ -247,9 +257,13 @@ class ReportDataCollector:
         # Stellio configuration - Priority: environment variables > config > defaults
         self.stellio_config = self.data_sources.get("stellio", {})
         self.stellio_enabled = self.stellio_config.get("enabled", False)
-        self.stellio_base_url = os.environ.get("STELLIO_URL") or self.stellio_config.get("base_url", "http://localhost:8080")
+        self.stellio_base_url = os.environ.get(
+            "STELLIO_URL"
+        ) or self.stellio_config.get("base_url", "http://localhost:8080")
 
-    def collect_incident_data(self, accident_id: str, entity_data: Dict[str, Any]) -> Dict[str, Any]:
+    def collect_incident_data(
+        self, accident_id: str, entity_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Collect all data for incident report.
 
@@ -273,7 +287,9 @@ class ReportDataCollector:
         }
 
         # Extract basic information
-        detection_time = entity_data.get("detectionTime", {}).get("value", datetime.utcnow().isoformat())
+        detection_time = entity_data.get("detectionTime", {}).get(
+            "value", datetime.utcnow().isoformat()
+        )
         camera_id = entity_data.get("cameraId", {}).get("value", "")
         location = entity_data.get("location", {}).get("value", {})
 
@@ -284,8 +300,14 @@ class ReportDataCollector:
 
         # Get timeline data
         if camera_id:
-            start_time = (datetime.fromisoformat(detection_time.replace("Z", "")) - timedelta(minutes=5)).isoformat()
-            end_time = (datetime.fromisoformat(detection_time.replace("Z", "")) + timedelta(minutes=30)).isoformat()
+            start_time = (
+                datetime.fromisoformat(detection_time.replace("Z", ""))
+                - timedelta(minutes=5)
+            ).isoformat()
+            end_time = (
+                datetime.fromisoformat(detection_time.replace("Z", ""))
+                + timedelta(minutes=30)
+            ).isoformat()
 
             timeline_data = self.neo4j.execute_query(
                 "timeline",
@@ -301,7 +323,10 @@ class ReportDataCollector:
         if location and isinstance(location, dict):
             coordinates = location.get("coordinates", [])
             if len(coordinates) >= 2:
-                start_time = (datetime.fromisoformat(detection_time.replace("Z", "")) - timedelta(hours=24)).isoformat()
+                start_time = (
+                    datetime.fromisoformat(detection_time.replace("Z", ""))
+                    - timedelta(hours=24)
+                ).isoformat()
                 end_time = datetime.utcnow().isoformat()
 
                 related_data = self.neo4j.execute_query(
@@ -334,7 +359,9 @@ class ReportDataCollector:
                         "end_date": end_date,
                     },
                 )
-                data["historical_patterns"] = historical_data[0] if historical_data else {}
+                data["historical_patterns"] = (
+                    historical_data[0] if historical_data else {}
+                )
 
         # Get weather context
         weather_data = self.neo4j.execute_query(
@@ -373,7 +400,9 @@ class VisualizationGenerator:
         self.charts_enabled = self.charts_config.get("enabled", True)
         self.maps_enabled = self.maps_config.get("enabled", False)
 
-    def generate_speed_timeline_chart(self, timeline_data: List[Dict[str, Any]]) -> Optional[str]:
+    def generate_speed_timeline_chart(
+        self, timeline_data: List[Dict[str, Any]]
+    ) -> Optional[str]:
         """
         Generate speed timeline chart.
 
@@ -411,7 +440,9 @@ class VisualizationGenerator:
             )
             plt.xlabel("Time", fontsize=12)
             plt.ylabel("Speed (km/h)", fontsize=12)
-            plt.title("Speed Profile Before/After Incident", fontsize=14, fontweight="bold")
+            plt.title(
+                "Speed Profile Before/After Incident", fontsize=14, fontweight="bold"
+            )
             plt.grid(True, alpha=0.3)
             plt.tight_layout()
 
@@ -429,7 +460,9 @@ class VisualizationGenerator:
             logger.error(f"Failed to generate speed timeline chart: {e}")
             return None
 
-    def generate_speed_variance_chart(self, timeline_data: List[Dict[str, Any]]) -> Optional[str]:
+    def generate_speed_variance_chart(
+        self, timeline_data: List[Dict[str, Any]]
+    ) -> Optional[str]:
         """
         Generate speed variance bar chart.
 
@@ -482,7 +515,9 @@ class VisualizationGenerator:
             logger.error(f"Failed to generate speed variance chart: {e}")
             return None
 
-    def generate_map(self, location: Dict[str, Any], affected_cameras: List[Dict[str, Any]]) -> Optional[str]:
+    def generate_map(
+        self, location: Dict[str, Any], affected_cameras: List[Dict[str, Any]]
+    ) -> Optional[str]:
         """
         Generate incident location map.
 
@@ -611,14 +646,22 @@ class ReportGenerator:
         charts = []
 
         # Speed timeline chart
-        speed_chart = self.viz_gen.generate_speed_timeline_chart(data.get("timeline", []))
+        speed_chart = self.viz_gen.generate_speed_timeline_chart(
+            data.get("timeline", [])
+        )
         if speed_chart:
-            charts.append({"title": "Speed Profile Before/After Incident", "data": speed_chart})
+            charts.append(
+                {"title": "Speed Profile Before/After Incident", "data": speed_chart}
+            )
 
         # Speed variance chart
-        variance_chart = self.viz_gen.generate_speed_variance_chart(data.get("timeline", []))
+        variance_chart = self.viz_gen.generate_speed_variance_chart(
+            data.get("timeline", [])
+        )
         if variance_chart:
-            charts.append({"title": "Speed Variance Distribution", "data": variance_chart})
+            charts.append(
+                {"title": "Speed Variance Distribution", "data": variance_chart}
+            )
 
         report_data["charts"] = charts
 
@@ -655,7 +698,9 @@ class ReportGenerator:
 
         return results
 
-    def _build_report_data(self, data: Dict[str, Any], report_id: str) -> Dict[str, Any]:
+    def _build_report_data(
+        self, data: Dict[str, Any], report_id: str
+    ) -> Dict[str, Any]:
         """
         Build structured report data.
 
@@ -672,8 +717,12 @@ class ReportGenerator:
         summary = {
             "location": entity_data.get("roadName", {}).get("value", "Unknown"),
             "severity": entity_data.get("severity", {}).get("value", "moderate"),
-            "detection_time": entity_data.get("detectionTime", {}).get("value", datetime.utcnow().isoformat()),
-            "estimated_clearance": (datetime.utcnow() + timedelta(minutes=30)).isoformat(),
+            "detection_time": entity_data.get("detectionTime", {}).get(
+                "value", datetime.utcnow().isoformat()
+            ),
+            "estimated_clearance": (
+                datetime.utcnow() + timedelta(minutes=30)
+            ).isoformat(),
             "camera_id": entity_data.get("cameraId", {}).get("value", ""),
             "description": f"Traffic incident detected on {entity_data.get('roadName', {}).get('value', 'Unknown')}",
         }
@@ -698,7 +747,11 @@ class ReportGenerator:
 
             timeline.append(
                 {
-                    "time": (event_time.split("T")[-1][:5] if "T" in event_time else event_time),
+                    "time": (
+                        event_time.split("T")[-1][:5]
+                        if "T" in event_time
+                        else event_time
+                    ),
                     "event": event,
                 }
             )
@@ -706,7 +759,11 @@ class ReportGenerator:
         # Impact section
         impact = {
             "affected_cameras": [],
-            "avg_speed_drop": (entity_data.get("avgSpeed", {}).get("value", 0) * 0.45 if entity_data.get("avgSpeed") else 45),
+            "avg_speed_drop": (
+                entity_data.get("avgSpeed", {}).get("value", 0) * 0.45
+                if entity_data.get("avgSpeed")
+                else 45
+            ),
             "congestion_duration": "30 minutes",
             "estimated_vehicles_affected": 150,
         }
@@ -804,12 +861,18 @@ class ReportGenerator:
             File path
         """
         storage_config = self.config.get_storage_config()
-        base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
+        base_path = Path(
+            storage_config.get("filesystem", {}).get(
+                "base_path", "data/incident_reports"
+            )
+        )
 
         # Create subdirectories by date
         if storage_config.get("filesystem", {}).get("subdirs_by_date", True):
             now = datetime.utcnow()
-            base_path = base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
+            base_path = (
+                base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
+            )
 
         base_path.mkdir(parents=True, exist_ok=True)
 
@@ -827,7 +890,9 @@ class ReportGenerator:
 
         return str(file_path)
 
-    def _generate_html(self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]) -> str:
+    def _generate_html(
+        self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]
+    ) -> str:
         """
         Generate HTML format report.
 
@@ -846,12 +911,18 @@ class ReportGenerator:
         html_content = template.render(**data)
 
         storage_config = self.config.get_storage_config()
-        base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
+        base_path = Path(
+            storage_config.get("filesystem", {}).get(
+                "base_path", "data/incident_reports"
+            )
+        )
 
         # Create subdirectories by date
         if storage_config.get("filesystem", {}).get("subdirs_by_date", True):
             now = datetime.utcnow()
-            base_path = base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
+            base_path = (
+                base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
+            )
 
         base_path.mkdir(parents=True, exist_ok=True)
 
@@ -866,7 +937,9 @@ class ReportGenerator:
 
         return str(file_path)
 
-    def _generate_pdf(self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]) -> str:
+    def _generate_pdf(
+        self, data: Dict[str, Any], report_id: str, format_config: Dict[str, Any]
+    ) -> str:
         """
         Generate PDF format report.
 
@@ -885,12 +958,18 @@ class ReportGenerator:
         html_content = template.render(**data)
 
         storage_config = self.config.get_storage_config()
-        base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
+        base_path = Path(
+            storage_config.get("filesystem", {}).get(
+                "base_path", "data/incident_reports"
+            )
+        )
 
         # Create subdirectories by date
         if storage_config.get("filesystem", {}).get("subdirs_by_date", True):
             now = datetime.utcnow()
-            base_path = base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
+            base_path = (
+                base_path / str(now.year) / f"{now.month:02d}" / f"{now.day:02d}"
+            )
 
         base_path.mkdir(parents=True, exist_ok=True)
 
@@ -916,34 +995,31 @@ class ReportGenerator:
             doc = SimpleDocTemplate(
                 str(file_path),
                 pagesize=A4,
-                rightMargin=2*cm,
-                leftMargin=2*cm,
-                topMargin=2*cm,
-                bottomMargin=2*cm
+                rightMargin=2 * cm,
+                leftMargin=2 * cm,
+                topMargin=2 * cm,
+                bottomMargin=2 * cm,
             )
 
             # Define styles
             styles = getSampleStyleSheet()
             title_style = ParagraphStyle(
-                'CustomTitle',
-                parent=styles['Heading1'],
+                "CustomTitle",
+                parent=styles["Heading1"],
                 fontSize=24,
-                textColor=colors.HexColor('#e74c3c'),
-                spaceAfter=20
+                textColor=colors.HexColor("#e74c3c"),
+                spaceAfter=20,
             )
             heading_style = ParagraphStyle(
-                'CustomHeading',
-                parent=styles['Heading2'],
+                "CustomHeading",
+                parent=styles["Heading2"],
                 fontSize=16,
-                textColor=colors.HexColor('#2c3e50'),
+                textColor=colors.HexColor("#2c3e50"),
                 spaceAfter=12,
-                spaceBefore=20
+                spaceBefore=20,
             )
             normal_style = ParagraphStyle(
-                'CustomNormal',
-                parent=styles['Normal'],
-                fontSize=11,
-                leading=14
+                "CustomNormal", parent=styles["Normal"], fontSize=11, leading=14
             )
 
             # Build story (content)
@@ -951,93 +1027,121 @@ class ReportGenerator:
 
             # Title
             story.append(Paragraph("🚨 INCIDENT REPORT", title_style))
-            story.append(Spacer(1, 10*mm))
+            story.append(Spacer(1, 10 * mm))
 
             # Report metadata
-            story.append(Paragraph(f"<b>Report ID:</b> {data.get('report_id', 'N/A')}", normal_style))
-            story.append(Paragraph(f"<b>Generated:</b> {data.get('generated_at', 'N/A')}", normal_style))
-            story.append(Paragraph(f"<b>Incident ID:</b> {data.get('accident_id', 'N/A')}", normal_style))
-            story.append(Paragraph(f"<b>Severity:</b> {data.get('severity', 'N/A').upper()}", normal_style))
-            story.append(Spacer(1, 10*mm))
+            story.append(
+                Paragraph(
+                    f"<b>Report ID:</b> {data.get('report_id', 'N/A')}", normal_style
+                )
+            )
+            story.append(
+                Paragraph(
+                    f"<b>Generated:</b> {data.get('generated_at', 'N/A')}", normal_style
+                )
+            )
+            story.append(
+                Paragraph(
+                    f"<b>Incident ID:</b> {data.get('accident_id', 'N/A')}",
+                    normal_style,
+                )
+            )
+            story.append(
+                Paragraph(
+                    f"<b>Severity:</b> {data.get('severity', 'N/A').upper()}",
+                    normal_style,
+                )
+            )
+            story.append(Spacer(1, 10 * mm))
 
             # Executive Summary
-            summary = data.get('summary', {})
+            summary = data.get("summary", {})
             story.append(Paragraph("Executive Summary", heading_style))
             summary_data = [
-                ['Location', summary.get('location', 'N/A')],
-                ['Detection Time', summary.get('detection_time', 'N/A')],
-                ['Camera ID', summary.get('camera_id', 'N/A')],
-                ['Estimated Clearance', summary.get('clearance_estimate', 'N/A')],
-                ['Affected Vehicles', str(summary.get('affected_vehicles', 0))],
+                ["Location", summary.get("location", "N/A")],
+                ["Detection Time", summary.get("detection_time", "N/A")],
+                ["Camera ID", summary.get("camera_id", "N/A")],
+                ["Estimated Clearance", summary.get("clearance_estimate", "N/A")],
+                ["Affected Vehicles", str(summary.get("affected_vehicles", 0))],
             ]
-            summary_table = Table(summary_data, colWidths=[5*cm, 10*cm])
-            summary_table.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (0, -1), colors.HexColor('#ecf0f1')),
-                ('TEXTCOLOR', (0, 0), (-1, -1), colors.HexColor('#2c3e50')),
-                ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
-                ('FONTSIZE', (0, 0), (-1, -1), 10),
-                ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
-                ('TOPPADDING', (0, 0), (-1, -1), 8),
-                ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#ddd')),
-            ]))
+            summary_table = Table(summary_data, colWidths=[5 * cm, 10 * cm])
+            summary_table.setStyle(
+                TableStyle(
+                    [
+                        ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#ecf0f1")),
+                        ("TEXTCOLOR", (0, 0), (-1, -1), colors.HexColor("#2c3e50")),
+                        ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
+                        ("FONTSIZE", (0, 0), (-1, -1), 10),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
+                        ("TOPPADDING", (0, 0), (-1, -1), 8),
+                        ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#ddd")),
+                    ]
+                )
+            )
             story.append(summary_table)
-            story.append(Spacer(1, 10*mm))
+            story.append(Spacer(1, 10 * mm))
 
             # Timeline section
-            timeline = data.get('timeline', [])
+            timeline = data.get("timeline", [])
             if timeline:
                 story.append(Paragraph("Timeline of Events", heading_style))
                 for event in timeline:
-                    story.append(Paragraph(
-                        f"<b>{event.get('time', 'N/A')}</b>: {event.get('event', 'N/A')}",
-                        normal_style
-                    ))
-                    story.append(Spacer(1, 2*mm))
-                story.append(Spacer(1, 8*mm))
+                    story.append(
+                        Paragraph(
+                            f"<b>{event.get('time', 'N/A')}</b>: {event.get('event', 'N/A')}",
+                            normal_style,
+                        )
+                    )
+                    story.append(Spacer(1, 2 * mm))
+                story.append(Spacer(1, 8 * mm))
 
             # Recommendations
-            recommendations = data.get('recommendations', [])
+            recommendations = data.get("recommendations", [])
             if recommendations:
                 story.append(Paragraph("Recommendations", heading_style))
                 for rec in recommendations:
                     story.append(Paragraph(f"• {rec}", normal_style))
-                    story.append(Spacer(1, 2*mm))
-                story.append(Spacer(1, 8*mm))
+                    story.append(Spacer(1, 2 * mm))
+                story.append(Spacer(1, 8 * mm))
 
             # Charts (if available)
-            charts = data.get('charts', {})
+            charts = data.get("charts", {})
             if charts:
                 story.append(PageBreak())
                 story.append(Paragraph("Visual Analysis", heading_style))
                 for chart_name, chart_data in charts.items():
-                    if chart_data and 'data' in chart_data:
+                    if chart_data and "data" in chart_data:
                         try:
                             # Chart data is base64 encoded
-                            img_data = base64.b64decode(chart_data['data'])
+                            img_data = base64.b64decode(chart_data["data"])
                             img_buffer = io.BytesIO(img_data)
-                            img = Image(img_buffer, width=15*cm, height=10*cm)
+                            img = Image(img_buffer, width=15 * cm, height=10 * cm)
                             story.append(img)
-                            story.append(Paragraph(
-                                f"<i>{chart_data.get('title', chart_name)}</i>",
-                                normal_style
-                            ))
-                            story.append(Spacer(1, 5*mm))
+                            story.append(
+                                Paragraph(
+                                    f"<i>{chart_data.get('title', chart_name)}</i>",
+                                    normal_style,
+                                )
+                            )
+                            story.append(Spacer(1, 5 * mm))
                         except Exception as e:
                             logger.warning(f"Failed to embed chart {chart_name}: {e}")
 
             # Footer
-            story.append(Spacer(1, 20*mm))
+            story.append(Spacer(1, 20 * mm))
             footer_style = ParagraphStyle(
-                'Footer',
-                parent=styles['Normal'],
+                "Footer",
+                parent=styles["Normal"],
                 fontSize=8,
-                textColor=colors.HexColor('#7f8c8d'),
-                alignment=1  # Center
+                textColor=colors.HexColor("#7f8c8d"),
+                alignment=1,  # Center
             )
-            story.append(Paragraph(
-                "UIP - Urban Intelligence Platform | Generated automatically",
-                footer_style
-            ))
+            story.append(
+                Paragraph(
+                    "UIP - Urban Intelligence Platform | Generated automatically",
+                    footer_style,
+                )
+            )
 
             # Build PDF
             doc.build(story)
@@ -1076,7 +1180,9 @@ class NotificationSender:
         self.email_enabled = self.email_config.get("enabled", False)
         self.webhook_enabled = self.webhook_config.get("enabled", False)
 
-    def send_email_notification(self, report_data: Dict[str, Any], pdf_path: Optional[str] = None):
+    def send_email_notification(
+        self, report_data: Dict[str, Any], pdf_path: Optional[str] = None
+    ):
         """
         Send email notification with report attachment.
 
@@ -1102,7 +1208,9 @@ class NotificationSender:
         from jinja2 import Environment
 
         safe_env = Environment(autoescape=True)
-        subject_template = self.email_config.get("subject_template", "Incident Report: {{report_id}}")
+        subject_template = self.email_config.get(
+            "subject_template", "Incident Report: {{report_id}}"
+        )
         subject = safe_env.from_string(subject_template).render(**report_data)
 
         # Build body - use Environment with autoescape for security
@@ -1111,7 +1219,9 @@ class NotificationSender:
 
         # Create message
         msg = MIMEMultipart()
-        msg["From"] = f"{self.email_config.get('from_name', 'Report System')} <{self.email_config.get('from_addr', '')}>"
+        msg["From"] = (
+            f"{self.email_config.get('from_name', 'Report System')} <{self.email_config.get('from_addr', '')}>"
+        )
         msg["To"] = ", ".join(recipients)
         msg["Subject"] = subject
 
@@ -1121,17 +1231,27 @@ class NotificationSender:
         if pdf_path and Path(pdf_path).exists():
             with open(pdf_path, "rb") as f:
                 pdf_attachment = MIMEApplication(f.read(), _subtype="pdf")
-                pdf_attachment.add_header("Content-Disposition", "attachment", filename=Path(pdf_path).name)
+                pdf_attachment.add_header(
+                    "Content-Disposition", "attachment", filename=Path(pdf_path).name
+                )
                 msg.attach(pdf_attachment)
 
         # Send email
         try:
             # Priority: environment variables > config > defaults
-            smtp_host = os.environ.get("SMTP_HOST") or self.email_config.get("smtp_host", "localhost")
-            smtp_port = int(os.environ.get("SMTP_PORT") or self.email_config.get("smtp_port", 25))
+            smtp_host = os.environ.get("SMTP_HOST") or self.email_config.get(
+                "smtp_host", "localhost"
+            )
+            smtp_port = int(
+                os.environ.get("SMTP_PORT") or self.email_config.get("smtp_port", 25)
+            )
             use_tls = self.email_config.get("use_tls", False)
-            username = os.environ.get("SMTP_USERNAME") or self.email_config.get("username", "")
-            password = os.environ.get("SMTP_PASSWORD") or self.email_config.get("password", "")
+            username = os.environ.get("SMTP_USERNAME") or self.email_config.get(
+                "username", ""
+            )
+            password = os.environ.get("SMTP_PASSWORD") or self.email_config.get(
+                "password", ""
+            )
 
             with smtplib.SMTP(smtp_host, smtp_port) as server:
                 if use_tls:
@@ -1183,7 +1303,9 @@ class IncidentReportGenerator:
 
         logger.info("Incident report generator initialized")
 
-    def generate_report_for_incident(self, accident_id: str, entity_data: Dict[str, Any]) -> Dict[str, Any]:
+    def generate_report_for_incident(
+        self, accident_id: str, entity_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Generate report for incident entity.
 
@@ -1207,9 +1329,15 @@ class IncidentReportGenerator:
             report_data = {
                 "report_id": results["report_id"],
                 "accident_id": accident_id,
-                "severity": data["entity_data"].get("severity", {}).get("value", "moderate"),
-                "location": data["entity_data"].get("roadName", {}).get("value", "Unknown"),
-                "detection_time": data["entity_data"].get("detectionTime", {}).get("value", ""),
+                "severity": data["entity_data"]
+                .get("severity", {})
+                .get("value", "moderate"),
+                "location": data["entity_data"]
+                .get("roadName", {})
+                .get("value", "Unknown"),
+                "detection_time": data["entity_data"]
+                .get("detectionTime", {})
+                .get("value", ""),
                 "summary": f"Incident detected at {data['entity_data'].get('roadName', {}).get('value', 'Unknown')}",
                 "report_url": f"http://localhost:8081/api/reports/{results['report_id']}",
             }
@@ -1246,7 +1374,11 @@ class IncidentReportGenerator:
             format_type = request.args.get("format", "json")
 
             storage_config = self.config.get_storage_config()
-            base_path = Path(storage_config.get("filesystem", {}).get("base_path", "data/incident_reports"))
+            base_path = Path(
+                storage_config.get("filesystem", {}).get(
+                    "base_path", "data/incident_reports"
+                )
+            )
 
             # Search for report file
             report_file = None

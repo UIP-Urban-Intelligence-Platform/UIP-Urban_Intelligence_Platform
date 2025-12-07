@@ -72,7 +72,9 @@ class CongestionStateManagerAgent:
             extra={"thresholds": self._thresholds},
         )
 
-    def create_zone(self, zone_id: str, name: str, road_segments: List[str], capacity: int) -> Dict[str, Any]:
+    def create_zone(
+        self, zone_id: str, name: str, road_segments: List[str], capacity: int
+    ) -> Dict[str, Any]:
         """
         Create new traffic monitoring zone.
 
@@ -158,7 +160,9 @@ class CongestionStateManagerAgent:
             return None
         return self._zones.get(zone_id)
 
-    def get_congested_zones(self, min_level: str = CongestionLevel.MODERATE.value) -> List[Dict[str, Any]]:
+    def get_congested_zones(
+        self, min_level: str = CongestionLevel.MODERATE.value
+    ) -> List[Dict[str, Any]]:
         """
         Get zones with congestion level >= specified threshold.
 
@@ -181,7 +185,11 @@ class CongestionStateManagerAgent:
 
         min_index = level_order.index(min_level)
 
-        return [zone for zone in self._zones.values() if level_order.index(zone["current_level"]) >= min_index]
+        return [
+            zone
+            for zone in self._zones.values()
+            if level_order.index(zone["current_level"]) >= min_index
+        ]
 
     def get_congestion_trends(self, zone_id: str, hours: int = 24) -> Dict[str, Any]:
         """
@@ -199,7 +207,9 @@ class CongestionStateManagerAgent:
 
         cutoff = datetime.now() - timedelta(hours=hours)
         history = [
-            entry for entry in self._congestion_history[zone_id] if datetime.fromisoformat(entry["timestamp"]) >= cutoff
+            entry
+            for entry in self._congestion_history[zone_id]
+            if datetime.fromisoformat(entry["timestamp"]) >= cutoff
         ]
 
         if not history:
@@ -274,11 +284,15 @@ class CongestionStateManagerAgent:
         alerts = []
         for zone_id, zone in self._zones.items():
             # Calculate utilization
-            utilization = zone["vehicle_count"] / zone["capacity"] if zone["capacity"] > 0 else 0
+            utilization = (
+                zone["vehicle_count"] / zone["capacity"] if zone["capacity"] > 0 else 0
+            )
 
             # Determine new level based on utilization
             new_level = CongestionLevel.FREE_FLOW.value
-            for level, threshold in sorted(self._thresholds.items(), key=lambda x: x[1]):
+            for level, threshold in sorted(
+                self._thresholds.items(), key=lambda x: x[1]
+            ):
                 if utilization >= threshold:
                     new_level = level
 

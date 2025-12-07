@@ -78,7 +78,9 @@ class ImageRefreshAgent:
     YAML configuration without code changes.
     """
 
-    def __init__(self, config_path: str = "config/data_sources.yaml", domain: str = "cameras"):
+    def __init__(
+        self, config_path: str = "config/data_sources.yaml", domain: str = "cameras"
+    ):
         """
         Initialize the Image Refresh Agent.
 
@@ -131,13 +133,18 @@ class ImageRefreshAgent:
 
         if self.domain not in config_data:
             available_domains = list(config_data.keys())
-            raise ValueError(f"Domain '{self.domain}' not found in configuration. " f"Available domains: {available_domains}")
+            raise ValueError(
+                f"Domain '{self.domain}' not found in configuration. "
+                f"Available domains: {available_domains}"
+            )
 
         domain_config = config_data[self.domain]
 
         # Validate required fields
         required_fields = ["source_file", "output_file", "url_template", "params"]
-        missing_fields = [field for field in required_fields if field not in domain_config]
+        missing_fields = [
+            field for field in required_fields if field not in domain_config
+        ]
         if missing_fields:
             raise ValueError(f"Missing required configuration fields: {missing_fields}")
 
@@ -177,7 +184,9 @@ class ImageRefreshAgent:
         """Setup graceful shutdown handlers for SIGTERM and SIGINT."""
 
         def signal_handler(signum, frame):
-            self.logger.info(f"Received signal {signum}, initiating graceful shutdown...")
+            self.logger.info(
+                f"Received signal {signum}, initiating graceful shutdown..."
+            )
             self.shutdown_event.set()
 
         signal.signal(signal.SIGTERM, signal_handler)
@@ -246,7 +255,9 @@ class ImageRefreshAgent:
             query_params = parse_qs(parsed.query, keep_blank_values=True)
 
             # Flatten lists to single values (taking first value if multiple)
-            params_dict = {key: values[0] if values else "" for key, values in query_params.items()}
+            params_dict = {
+                key: values[0] if values else "" for key, values in query_params.items()
+            }
 
             return base_url, params_dict
 
@@ -262,7 +273,9 @@ class ImageRefreshAgent:
         """
         return str(int(time.time() * 1000))
 
-    def rebuild_url(self, base_url: str, params: Dict[str, str], timestamp_param: str = "t") -> str:
+    def rebuild_url(
+        self, base_url: str, params: Dict[str, str], timestamp_param: str = "t"
+    ) -> str:
         """
         Rebuild URL with updated timestamp parameter.
 
@@ -286,7 +299,9 @@ class ImageRefreshAgent:
             return f"{base_url}?{query_string}"
         return base_url
 
-    def extract_url_field(self, item: Dict[str, Any], field_patterns: List[str] = None) -> Optional[str]:
+    def extract_url_field(
+        self, item: Dict[str, Any], field_patterns: List[str] = None
+    ) -> Optional[str]:
         """
         Extract URL field from data item using configurable patterns.
 
@@ -316,7 +331,9 @@ class ImageRefreshAgent:
 
         return None
 
-    async def verify_url_accessible(self, session: aiohttp.ClientSession, url: str) -> bool:
+    async def verify_url_accessible(
+        self, session: aiohttp.ClientSession, url: str
+    ) -> bool:
         """
         Verify URL is accessible using HTTP HEAD request with retry logic.
 
@@ -352,13 +369,17 @@ class ImageRefreshAgent:
                     if 200 <= response.status < 400:
                         return True
                     else:
-                        self.logger.warning(f"URL returned status {response.status}: {url}")
+                        self.logger.warning(
+                            f"URL returned status {response.status}: {url}"
+                        )
                         return False
 
             except asyncio.TimeoutError:
                 wait_time = backoff_base**attempt
                 if attempt < max_retries - 1:
-                    self.logger.debug(f"Timeout on attempt {attempt + 1}/{max_retries}, retrying in {wait_time}s: {url}")
+                    self.logger.debug(
+                        f"Timeout on attempt {attempt + 1}/{max_retries}, retrying in {wait_time}s: {url}"
+                    )
                     await asyncio.sleep(wait_time)
                 else:
                     self.logger.warning(f"Timeout after {max_retries} attempts: {url}")
@@ -366,10 +387,14 @@ class ImageRefreshAgent:
             except aiohttp.ClientError as e:
                 wait_time = backoff_base**attempt
                 if attempt < max_retries - 1:
-                    self.logger.debug(f"Client error on attempt {attempt + 1}/{max_retries}, retrying in {wait_time}s: {e}")
+                    self.logger.debug(
+                        f"Client error on attempt {attempt + 1}/{max_retries}, retrying in {wait_time}s: {e}"
+                    )
                     await asyncio.sleep(wait_time)
                 else:
-                    self.logger.warning(f"Client error after {max_retries} attempts: {url} - {e}")
+                    self.logger.warning(
+                        f"Client error after {max_retries} attempts: {url} - {e}"
+                    )
 
             except Exception as e:
                 self.logger.error(f"Unexpected error verifying URL: {url} - {e}")
@@ -378,7 +403,9 @@ class ImageRefreshAgent:
         # Return False after all retries exhausted
         return False
 
-    async def process_item(self, session: aiohttp.ClientSession, item: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def process_item(
+        self, session: aiohttp.ClientSession, item: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
         """
         Process a single data item: parse URL, update timestamp, verify accessibility.
 
@@ -400,7 +427,9 @@ class ImageRefreshAgent:
             # Extract URL from item
             url = self.extract_url_field(item)
             if not url:
-                self.logger.warning(f"No URL field found in item: {item.get('id', 'unknown')}")
+                self.logger.warning(
+                    f"No URL field found in item: {item.get('id', 'unknown')}"
+                )
                 return None
 
             # Parse URL
@@ -432,8 +461,12 @@ class ImageRefreshAgent:
             else:
                 updated_item["refresh_status"] = "success_unverified"
                 updated_item["verification_status"] = "timeout_or_unreachable"
-                self.stats["successful_updates"] += 1  # URL was refreshed, just not verified
-                self.logger.info(f"URL refreshed but not verified: {item.get('id', 'unknown')}")
+                self.stats[
+                    "successful_updates"
+                ] += 1  # URL was refreshed, just not verified
+                self.logger.info(
+                    f"URL refreshed but not verified: {item.get('id', 'unknown')}"
+                )
 
             return updated_item
 
@@ -442,7 +475,9 @@ class ImageRefreshAgent:
             self.stats["failed_updates"] += 1
             return None
 
-    async def process_batch(self, session: aiohttp.ClientSession, batch: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    async def process_batch(
+        self, session: aiohttp.ClientSession, batch: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """
         Process a batch of items concurrently.
 
@@ -486,7 +521,9 @@ class ImageRefreshAgent:
         connector = aiohttp.TCPConnector(limit=100, limit_per_host=10)
         timeout = aiohttp.ClientTimeout(total=self.config["request_timeout"])
 
-        async with aiohttp.ClientSession(connector=connector, timeout=timeout) as session:
+        async with aiohttp.ClientSession(
+            connector=connector, timeout=timeout
+        ) as session:
             # Process in batches
             for i in range(0, len(source_data), batch_size):
                 if self.shutdown_event.is_set():
@@ -497,12 +534,17 @@ class ImageRefreshAgent:
                 batch_num = (i // batch_size) + 1
                 total_batches = (len(source_data) + batch_size - 1) // batch_size
 
-                self.logger.info(f"Processing batch {batch_num}/{total_batches} " f"({len(batch)} items)...")
+                self.logger.info(
+                    f"Processing batch {batch_num}/{total_batches} "
+                    f"({len(batch)} items)..."
+                )
 
                 refreshed_batch = await self.process_batch(session, batch)
                 all_refreshed.extend(refreshed_batch)
 
-                self.logger.info(f"Batch {batch_num} complete: {len(refreshed_batch)}/{len(batch)} successful")
+                self.logger.info(
+                    f"Batch {batch_num} complete: {len(refreshed_batch)}/{len(batch)} successful"
+                )
 
         self.stats["end_time"] = datetime.utcnow()
         return all_refreshed
@@ -534,7 +576,9 @@ class ImageRefreshAgent:
     def log_statistics(self) -> None:
         """Log processing statistics."""
         if self.stats["start_time"] and self.stats["end_time"]:
-            duration = (self.stats["end_time"] - self.stats["start_time"]).total_seconds()
+            duration = (
+                self.stats["end_time"] - self.stats["start_time"]
+            ).total_seconds()
         else:
             duration = 0
 
@@ -547,7 +591,9 @@ class ImageRefreshAgent:
         self.logger.info(f"Failed updates: {self.stats['failed_updates']}")
         self.logger.info(f"Processing time: {duration:.2f} seconds")
         if self.stats["total_processed"] > 0:
-            success_rate = (self.stats["successful_updates"] / self.stats["total_processed"]) * 100
+            success_rate = (
+                self.stats["successful_updates"] / self.stats["total_processed"]
+            ) * 100
             self.logger.info(f"Success rate: {success_rate:.2f}%")
         self.logger.info("=" * 60)
 
@@ -567,7 +613,10 @@ class ImageRefreshAgent:
     async def run_continuous(self) -> None:
         """Run continuous refresh cycles at configured interval."""
         interval = self.config["refresh_interval"]
-        self.logger.info(f"Starting continuous refresh for domain: {self.domain} " f"(interval: {interval}s)")
+        self.logger.info(
+            f"Starting continuous refresh for domain: {self.domain} "
+            f"(interval: {interval}s)"
+        )
 
         while not self.shutdown_event.is_set():
             try:

@@ -62,7 +62,9 @@ class StateManagerAgent:
             config: Configuration dictionary with store settings
         """
         self.config = config or {}
-        self.enabled = self.config.get("enabled", False)  # Disabled by default for safety
+        self.enabled = self.config.get(
+            "enabled", False
+        )  # Disabled by default for safety
 
         # In-memory fallback store
         self._state_store: Dict[str, Any] = {}
@@ -78,10 +80,16 @@ class StateManagerAgent:
                 import os
 
                 # Priority: environment variables > config > defaults
-                redis_host = os.environ.get("REDIS_HOST") or self.config.get("redis_host", "localhost")
-                redis_port = int(os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379))
+                redis_host = os.environ.get("REDIS_HOST") or self.config.get(
+                    "redis_host", "localhost"
+                )
+                redis_port = int(
+                    os.environ.get("REDIS_PORT") or self.config.get("redis_port", 6379)
+                )
                 redis_db = self.config.get("redis_db", 0)
-                redis_password = os.environ.get("REDIS_PASSWORD") or self.config.get("redis_password")
+                redis_password = os.environ.get("REDIS_PASSWORD") or self.config.get(
+                    "redis_password"
+                )
 
                 # Create connection pool for better performance
                 pool = ConnectionPool(
@@ -163,7 +171,10 @@ class StateManagerAgent:
         if version is not None:
             current_version = self._state_versions.get(key, 0)
             if current_version != version:
-                logger.warning(f"State version conflict for key '{key}': " f"expected {version}, got {current_version}")
+                logger.warning(
+                    f"State version conflict for key '{key}': "
+                    f"expected {version}, got {current_version}"
+                )
                 return False
 
         # Update state
@@ -199,7 +210,9 @@ class StateManagerAgent:
             return {}
 
         # Clean expired states first
-        expired_keys = [key for key, expiry in self._state_ttl.items() if datetime.now() > expiry]
+        expired_keys = [
+            key for key, expiry in self._state_ttl.items() if datetime.now() > expiry
+        ]
         for key in expired_keys:
             self._cleanup_expired_state(key)
 

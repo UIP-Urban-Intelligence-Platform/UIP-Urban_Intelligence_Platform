@@ -101,7 +101,9 @@ def validate_rdf(input_file: str, shapes_file: str = None):
 
 def main():
     """Main CLI entry point."""
-    parser = argparse.ArgumentParser(description="RDF SHACL validation - Production Ready")
+    parser = argparse.ArgumentParser(
+        description="RDF SHACL validation - Production Ready"
+    )
     parser.add_argument("input_file", help="RDF file to validate (Turtle format)")
     parser.add_argument("--shapes", help="SHACL shapes file (Turtle format)")
 

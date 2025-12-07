@@ -95,7 +95,9 @@ class KafkaEntityPublisherAgent:
         self.kafka_servers = os.environ.get("KAFKA_BOOTSTRAP_SERVERS") or config.get(
             "kafka_bootstrap_servers", "localhost:9092"
         )
-        self.kafka_topic = os.environ.get("KAFKA_TOPIC") or config.get("kafka_topic", "cim.entity._CatchAll")
+        self.kafka_topic = os.environ.get("KAFKA_TOPIC") or config.get(
+            "kafka_topic", "cim.entity._CatchAll"
+        )
         self.producer = None
 
     def connect(self):
@@ -116,7 +118,9 @@ class KafkaEntityPublisherAgent:
             logger.error(f"✗ Failed to connect to Kafka: {e}")
             return False
 
-    def _create_entity_event(self, entity: Dict[str, Any], operation: str = "ENTITY_CREATE") -> Dict[str, Any]:
+    def _create_entity_event(
+        self, entity: Dict[str, Any], operation: str = "ENTITY_CREATE"
+    ) -> Dict[str, Any]:
         """
         Create a Kafka event message for an entity operation
 
@@ -169,12 +173,15 @@ class KafkaEntityPublisherAgent:
             record_metadata = future.get(timeout=10)
 
             logger.info(
-                f"✓ Published {entity_id} to partition {record_metadata.partition} " f"at offset {record_metadata.offset}"
+                f"✓ Published {entity_id} to partition {record_metadata.partition} "
+                f"at offset {record_metadata.offset}"
             )
             return True
 
         except Exception as e:
-            logger.error(f"✗ Failed to publish entity {entity.get('id', 'unknown')}: {e}")
+            logger.error(
+                f"✗ Failed to publish entity {entity.get('id', 'unknown')}: {e}"
+            )
             return False
 
     def publish_entities(self, entities: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -216,7 +223,9 @@ class KafkaEntityPublisherAgent:
                 published += 1
             else:
                 failed += 1
-                failed_entities.append({"id": entity_id, "type": entity.get("type", "unknown")})
+                failed_entities.append(
+                    {"id": entity_id, "type": entity.get("type", "unknown")}
+                )
 
         # Flush to ensure all messages are sent
         logger.info("Flushing Kafka producer...")
@@ -232,7 +241,9 @@ class KafkaEntityPublisherAgent:
             "success_rate": success_rate,
         }
 
-        logger.info(f"✓ Kafka publishing complete: {published}/{total} entities ({success_rate:.1f}% success rate)")
+        logger.info(
+            f"✓ Kafka publishing complete: {published}/{total} entities ({success_rate:.1f}% success rate)"
+        )
 
         return results
 

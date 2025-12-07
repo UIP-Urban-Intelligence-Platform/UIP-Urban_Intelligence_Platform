@@ -85,7 +85,9 @@ except ImportError:
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -128,7 +130,9 @@ class AccidentConfig:
 
     def get_severity_thresholds(self) -> Dict[str, float]:
         """Return severity classification thresholds"""
-        return self.config["accident_detection"].get("severity_thresholds", {"minor": 0.3, "moderate": 0.6, "severe": 0.9})
+        return self.config["accident_detection"].get(
+            "severity_thresholds", {"minor": 0.3, "moderate": 0.6, "severe": 0.9}
+        )
 
     def get_filtering(self) -> Dict[str, Any]:
         """Return false positive filtering configuration"""
@@ -179,7 +183,9 @@ class StateStore:
                 with open(self.path, "r", encoding="utf-8") as f:
                     self.data = json.load(f)
             except Exception as e:
-                logger.warning(f"Failed to load state file {self.path}: {e}, starting fresh")
+                logger.warning(
+                    f"Failed to load state file {self.path}: {e}, starting fresh"
+                )
                 self.data = {}
         else:
             self.data = {}
@@ -191,7 +197,9 @@ class StateStore:
                 with open(self.history_path, "r", encoding="utf-8") as f:
                     self.history = json.load(f)
             except Exception as e:
-                logger.warning(f"Failed to load history file {self.history_path}: {e}, starting fresh")
+                logger.warning(
+                    f"Failed to load history file {self.history_path}: {e}, starting fresh"
+                )
                 self.history = []
         else:
             self.history = []
@@ -253,7 +261,9 @@ class DetectionMethod(ABC):
         self.weight = float(config.get("weight", 1.0))
 
     @abstractmethod
-    def detect(self, observations: List[Dict[str, Any]], camera_ref: str) -> Tuple[bool, float, str]:
+    def detect(
+        self, observations: List[Dict[str, Any]], camera_ref: str
+    ) -> Tuple[bool, float, str]:
         """
         Detect anomaly in observations.
 
@@ -274,7 +284,9 @@ class SpeedVarianceDetector(DetectionMethod):
         self.threshold = float(config.get("threshold", 3.0))
         self.window_size = int(config.get("window_size", 10))
 
-    def detect(self, observations: List[Dict[str, Any]], camera_ref: str) -> Tuple[bool, float, str]:
+    def detect(
+        self, observations: List[Dict[str, Any]], camera_ref: str
+    ) -> Tuple[bool, float, str]:
         """Detect abnormal speed variance indicating collision"""
         if len(observations) < self.window_size:
             return (
@@ -335,7 +347,9 @@ class OccupancySpikeDetector(DetectionMethod):
         self.spike_factor = float(config.get("spike_factor", 2.0))
         self.baseline_window = int(config.get("baseline_window", 20))
 
-    def detect(self, observations: List[Dict[str, Any]], camera_ref: str) -> Tuple[bool, float, str]:
+    def detect(
+        self, observations: List[Dict[str, Any]], camera_ref: str
+    ) -> Tuple[bool, float, str]:
         """Detect sudden increase in occupancy"""
         if len(observations) < self.baseline_window + 1:
             return (
@@ -396,7 +410,9 @@ class SuddenStopDetector(DetectionMethod):
         self.time_window = int(config.get("time_window", 30))
         self.min_initial_speed = float(config.get("min_initial_speed", 20))
 
-    def detect(self, observations: List[Dict[str, Any]], camera_ref: str) -> Tuple[bool, float, str]:
+    def detect(
+        self, observations: List[Dict[str, Any]], camera_ref: str
+    ) -> Tuple[bool, float, str]:
         """Detect sudden speed drop indicating collision"""
         if len(observations) < 2:
             return (False, 0.0, "insufficient_data")
@@ -464,7 +480,9 @@ class PatternAnomalyDetector(DetectionMethod):
         super().__init__("pattern_anomaly", config)
         self.threshold = float(config.get("intensity_threshold", 2.5))
 
-    def detect(self, observations: List[Dict[str, Any]], camera_ref: str) -> Tuple[bool, float, str]:
+    def detect(
+        self, observations: List[Dict[str, Any]], camera_ref: str
+    ) -> Tuple[bool, float, str]:
         """Detect abnormal traffic intensity patterns"""
         if len(observations) < 10:
             return (False, 0.0, f"insufficient_data: {len(observations)}/10")
@@ -481,7 +499,9 @@ class PatternAnomalyDetector(DetectionMethod):
 
         # Calculate mean and std dev
         mean_intensity = sum(intensities) / len(intensities)
-        variance = sum((i - mean_intensity) ** 2 for i in intensities) / len(intensities)
+        variance = sum((i - mean_intensity) ** 2 for i in intensities) / len(
+            intensities
+        )
         std_dev = variance**0.5
 
         if std_dev == 0:
@@ -546,7 +566,9 @@ class AccidentDetectionAgent:
         self.entity_cfg = self.config.get_entity_config()
 
         stellio = self.config.get_stellio()
-        self.stellio_base = stellio.get("base_url") or os.environ.get("STELLIO_BASE_URL")
+        self.stellio_base = stellio.get("base_url") or os.environ.get(
+            "STELLIO_BASE_URL"
+        )
         self.create_endpoint = stellio.get("create_endpoint")
         self.batch_create = bool(stellio.get("batch_create", True))
         self.max_workers = int(stellio.get("max_workers", 4))
@@ -554,7 +576,9 @@ class AccidentDetectionAgent:
         self.session = requests.Session()
 
         # Observation buffers per camera
-        self.observations_buffer: Dict[str, deque] = defaultdict(lambda: deque(maxlen=50))
+        self.observations_buffer: Dict[str, deque] = defaultdict(
+            lambda: deque(maxlen=50)
+        )
 
         # MongoDB helper (optional)
         self._mongodb_helper = None
@@ -598,7 +622,9 @@ class AccidentDetectionAgent:
             entities = []
 
         results: List[Dict[str, Any]] = []
-        to_create: List[Tuple[str, Dict[str, Any]]] = []  # (camera_ref, accident_entity)
+        to_create: List[Tuple[str, Dict[str, Any]]] = (
+            []
+        )  # (camera_ref, accident_entity)
 
         # Group observations by camera and update buffers
         camera_observations: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
@@ -617,7 +643,9 @@ class AccidentDetectionAgent:
                 # Run all detection methods
                 detections = []
                 for detector in self.detectors:
-                    detected, confidence, reason = detector.detect(recent_obs, camera_ref)
+                    detected, confidence, reason = detector.detect(
+                        recent_obs, camera_ref
+                    )
                     if detected:
                         detections.append(
                             {
@@ -639,9 +667,15 @@ class AccidentDetectionAgent:
                     continue
 
                 # Aggregate detections using weighted average
-                total_weighted_confidence = sum(d["confidence"] * d["weight"] for d in detections)
+                total_weighted_confidence = sum(
+                    d["confidence"] * d["weight"] for d in detections
+                )
                 total_weight = sum(d["weight"] for d in detections)
-                avg_confidence = total_weighted_confidence / total_weight if total_weight > 0 else 0.0
+                avg_confidence = (
+                    total_weighted_confidence / total_weight
+                    if total_weight > 0
+                    else 0.0
+                )
                 methods_used = [d["method"] for d in detections]
                 combined_reason = "; ".join(d["reason"] for d in detections)
 
@@ -702,7 +736,9 @@ class AccidentDetectionAgent:
 
             except Exception as e:
                 logger.error(f"Error processing camera {camera_ref}: {e}")
-                results.append({"camera": camera_ref, "detected": False, "error": str(e)})
+                results.append(
+                    {"camera": camera_ref, "detected": False, "error": str(e)}
+                )
 
         # Create entities in Stellio
         creation_results: List[Dict[str, Any]] = []
@@ -710,7 +746,10 @@ class AccidentDetectionAgent:
             if self.batch_create:
                 # Batch creation with ThreadPoolExecutor
                 with ThreadPoolExecutor(max_workers=self.max_workers) as exe:
-                    futures = {exe.submit(self._post_entity, entity): (cam, entity) for cam, entity in to_create}
+                    futures = {
+                        exe.submit(self._post_entity, entity): (cam, entity)
+                        for cam, entity in to_create
+                    }
                     for fut in as_completed(futures):
                         cam, entity = futures[fut]
                         try:
@@ -736,16 +775,22 @@ class AccidentDetectionAgent:
                             if self._mongodb_helper and self._mongodb_helper.enabled:
                                 try:
                                     if self._mongodb_helper.insert_entity(entity):
-                                        logger.info(f"✅ Published RoadAccident to MongoDB: {entity['id']}")
+                                        logger.info(
+                                            f"✅ Published RoadAccident to MongoDB: {entity['id']}"
+                                        )
                                 except Exception as e:
-                                    logger.warning(f"MongoDB publish failed (non-critical): {e}")
+                                    logger.warning(
+                                        f"MongoDB publish failed (non-critical): {e}"
+                                    )
 
                             # Generate alert if configured
                             severity = entity.get("severity", {}).get("value")
                             if self._should_generate_alert(severity):
                                 self._alert(cam, entity)
                         else:
-                            logger.error(f"Failed to create entity {entity['id']}: {error}")
+                            logger.error(
+                                f"Failed to create entity {entity['id']}: {error}"
+                            )
             else:
                 # Sequential creation
                 for cam, entity in to_create:
@@ -766,9 +811,13 @@ class AccidentDetectionAgent:
                         if self._mongodb_helper and self._mongodb_helper.enabled:
                             try:
                                 if self._mongodb_helper.insert_entity(entity):
-                                    logger.info(f"✅ Published RoadAccident to MongoDB: {entity['id']}")
+                                    logger.info(
+                                        f"✅ Published RoadAccident to MongoDB: {entity['id']}"
+                                    )
                             except Exception as e:
-                                logger.warning(f"MongoDB publish failed (non-critical): {e}")
+                                logger.warning(
+                                    f"MongoDB publish failed (non-critical): {e}"
+                                )
 
                         severity = entity.get("severity", {}).get("value")
                         if self._should_generate_alert(severity):
@@ -822,7 +871,9 @@ class AccidentDetectionAgent:
             with open(accidents_file, "w", encoding="utf-8") as f:
                 json.dump(accident_entities, f, indent=2, ensure_ascii=False)
 
-            logger.info(f"✅ Saved {len(accident_entities)} accidents to {accidents_file}")
+            logger.info(
+                f"✅ Saved {len(accident_entities)} accidents to {accidents_file}"
+            )
         except Exception as e:
             logger.error(f"Failed to write accidents file {accidents_file}: {e}")
 
@@ -838,7 +889,9 @@ class AccidentDetectionAgent:
             return eid
         return None
 
-    def _should_alert(self, camera_ref: str, confidence: float, num_methods: int) -> bool:
+    def _should_alert(
+        self, camera_ref: str, confidence: float, num_methods: int
+    ) -> bool:
         """Apply filtering rules to determine if alert should be raised"""
         # Check minimum confidence
         min_conf = float(self.filtering.get("min_confidence", 0.5))
@@ -970,11 +1023,15 @@ class AccidentDetectionAgent:
 
         # Add metadata if configured
         if self.entity_cfg.get("include_metadata", True):
-            entity["@context"] = "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+            entity["@context"] = (
+                "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+            )
 
         return entity
 
-    def _extract_location(self, observation: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def _extract_location(
+        self, observation: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
         """Extract location from observation"""
         loc = observation.get("location")
         if isinstance(loc, dict):
@@ -991,7 +1048,9 @@ class AccidentDetectionAgent:
                 return prop["observedAt"]
         return now_iso()
 
-    def _post_entity(self, entity: Dict[str, Any]) -> Tuple[bool, Optional[int], Optional[str]]:
+    def _post_entity(
+        self, entity: Dict[str, Any]
+    ) -> Tuple[bool, Optional[int], Optional[str]]:
         """POST entity to Stellio"""
         if not self.stellio_base:
             return (False, None, "Stellio base URL not configured")
@@ -1079,10 +1138,14 @@ def main(config: Optional[Dict[str, Any]] = None):
     detections = [r for r in results if r.get("detected")]
     created = [r for r in results if r.get("created") and r.get("success")]
 
-    logger.info(f"Processed {len(results)} cameras, {len(detections)} accidents detected, {len(created)} entities created")
+    logger.info(
+        f"Processed {len(results)} cameras, {len(detections)} accidents detected, {len(created)} entities created"
+    )
 
     for result in created:
-        logger.info(f"  {result['camera']}: {result['severity']} (confidence={result['confidence']:.2f})")
+        logger.info(
+            f"  {result['camera']}: {result['severity']} (confidence={result['confidence']:.2f})"
+        )
 
 
 if __name__ == "__main__":

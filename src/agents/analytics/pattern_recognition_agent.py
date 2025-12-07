@@ -87,7 +87,9 @@ try:
     PANDAS_AVAILABLE = True
 except ImportError:
     PANDAS_AVAILABLE = False
-    logging.warning("pandas/numpy not available - install with: pip install pandas numpy")
+    logging.warning(
+        "pandas/numpy not available - install with: pip install pandas numpy"
+    )
 
 # Statsmodels for ARIMA
 try:
@@ -209,18 +211,28 @@ class Neo4jConnector:
             config: Neo4j configuration dictionary
         """
         if not NEO4J_AVAILABLE:
-            raise ImportError("neo4j package required - install with: pip install neo4j")
+            raise ImportError(
+                "neo4j package required - install with: pip install neo4j"
+            )
 
         self.config = config
 
         # Read from environment variables first, fallback to config file
-        self.uri = os.environ.get("NEO4J_URL") or config.get("uri", "bolt://localhost:7687")
+        self.uri = os.environ.get("NEO4J_URL") or config.get(
+            "uri", "bolt://localhost:7687"
+        )
 
-        neo4j_user = os.environ.get("NEO4J_USER") or config.get("auth", {}).get("username", "neo4j")
-        neo4j_password = os.environ.get("NEO4J_PASSWORD") or config.get("auth", {}).get("password", "")
+        neo4j_user = os.environ.get("NEO4J_USER") or config.get("auth", {}).get(
+            "username", "neo4j"
+        )
+        neo4j_password = os.environ.get("NEO4J_PASSWORD") or config.get("auth", {}).get(
+            "password", ""
+        )
         self.auth = (neo4j_user, neo4j_password)
 
-        self.database = os.environ.get("NEO4J_DATABASE") or config.get("database", "neo4j")
+        self.database = os.environ.get("NEO4J_DATABASE") or config.get(
+            "database", "neo4j"
+        )
 
         self.driver: Optional[Driver] = None
         self._connect()
@@ -231,7 +243,9 @@ class Neo4jConnector:
             self.driver = GraphDatabase.driver(
                 self.uri,
                 auth=self.auth,
-                max_connection_lifetime=self.config.get("max_connection_lifetime", 3600),
+                max_connection_lifetime=self.config.get(
+                    "max_connection_lifetime", 3600
+                ),
                 connection_timeout=self.config.get("connection_timeout", 30),
             )
             # Verify connectivity
@@ -613,7 +627,9 @@ class TimeSeriesAnalyzer:
         if std_val == 0:
             return [(ts, val, 0.0) for ts, val in zip(timestamps, values)]
 
-        z_scores = [(ts, val, (val - mean_val) / std_val) for ts, val in zip(timestamps, values)]
+        z_scores = [
+            (ts, val, (val - mean_val) / std_val) for ts, val in zip(timestamps, values)
+        ]
 
         return z_scores
 
@@ -656,7 +672,9 @@ class PatternDetector:
         intensity_threshold = rush_config.get("intensity_threshold", 0.7)
         occupancy_threshold = rush_config.get("occupancy_threshold", 0.6)
 
-        threshold = intensity_threshold if metric == "intensity" else occupancy_threshold
+        threshold = (
+            intensity_threshold if metric == "intensity" else occupancy_threshold
+        )
 
         hourly_stats = self.analyzer.get_hourly_aggregates(metric)
 
@@ -707,7 +725,9 @@ class PatternDetector:
                         "timestamp": timestamp.isoformat(),
                         "value": value,
                         "z_score": z_score,
-                        "severity": ("high" if abs(z_score) > threshold * 1.5 else "medium"),
+                        "severity": (
+                            "high" if abs(z_score) > threshold * 1.5 else "medium"
+                        ),
                     }
                 )
 
@@ -729,21 +749,32 @@ class PatternDetector:
             return {}
 
         # Separate weekdays (0-4) and weekends (5-6)
-        weekday_values = [stats["mean"] for day, stats in weekday_stats.items() if day < 5]
-        weekend_values = [stats["mean"] for day, stats in weekday_stats.items() if day >= 5]
+        weekday_values = [
+            stats["mean"] for day, stats in weekday_stats.items() if day < 5
+        ]
+        weekend_values = [
+            stats["mean"] for day, stats in weekday_stats.items() if day >= 5
+        ]
 
         result = {
-            "weekday_stats": {day: stats for day, stats in weekday_stats.items() if day < 5},
-            "weekend_stats": {day: stats for day, stats in weekday_stats.items() if day >= 5},
+            "weekday_stats": {
+                day: stats for day, stats in weekday_stats.items() if day < 5
+            },
+            "weekend_stats": {
+                day: stats for day, stats in weekday_stats.items() if day >= 5
+            },
         }
 
         if weekday_values and weekend_values:
             result["comparison"] = {
                 "weekday_avg": statistics.mean(weekday_values),
                 "weekend_avg": statistics.mean(weekend_values),
-                "difference": statistics.mean(weekday_values) - statistics.mean(weekend_values),
+                "difference": statistics.mean(weekday_values)
+                - statistics.mean(weekend_values),
                 "pattern": (
-                    "weekday_higher" if statistics.mean(weekday_values) > statistics.mean(weekend_values) else "weekend_higher"
+                    "weekday_higher"
+                    if statistics.mean(weekday_values) > statistics.mean(weekend_values)
+                    else "weekend_higher"
                 ),
             }
 
@@ -871,7 +902,11 @@ class ForecastEngine:
             fitted = model.fit()
             forecast_result = fitted.forecast(steps=1)
 
-            forecast = float(forecast_result[0]) if hasattr(forecast_result, "__getitem__") else float(forecast_result)
+            forecast = (
+                float(forecast_result[0])
+                if hasattr(forecast_result, "__getitem__")
+                else float(forecast_result)
+            )
             confidence = self.config.get("confidence_level", 0.75)
 
             return {
@@ -881,7 +916,9 @@ class ForecastEngine:
                 "order": (p, d, q),
             }
         except Exception as e:
-            logging.warning(f"ARIMA forecast failed: {e}. Using moving average fallback.")
+            logging.warning(
+                f"ARIMA forecast failed: {e}. Using moving average fallback."
+            )
             return self._moving_average_forecast(metric)
 
 
@@ -908,7 +945,9 @@ class PatternRecognitionAgent:
 
         # HTTP session for Stellio
         self.session = requests.Session()
-        self.session.headers.update({"Content-Type": "application/ld+json", "Accept": "application/ld+json"})
+        self.session.headers.update(
+            {"Content-Type": "application/ld+json", "Accept": "application/ld+json"}
+        )
 
         # Setup logging
         logging.basicConfig(
@@ -917,7 +956,9 @@ class PatternRecognitionAgent:
         )
         self.logger = logging.getLogger("PatternRecognitionAgent")
 
-    def analyze_camera_patterns(self, camera_id: str, time_window: str = "7_days") -> Dict[str, Any]:
+    def analyze_camera_patterns(
+        self, camera_id: str, time_window: str = "7_days"
+    ) -> Dict[str, Any]:
         """
         Analyze patterns for a single camera.
 
@@ -969,7 +1010,9 @@ class PatternRecognitionAgent:
         metrics = analysis_config["metrics"]
 
         try:
-            data = self.neo4j.query_temporal_data(camera_id, start_time, end_time, metrics)
+            data = self.neo4j.query_temporal_data(
+                camera_id, start_time, end_time, metrics
+            )
         except Exception as e:
             self.logger.error(f"Failed to query Neo4j for camera {camera_id}: {e}")
             return {
@@ -981,7 +1024,9 @@ class PatternRecognitionAgent:
 
         if not data:
             # CRITICAL FIX: Change to DEBUG level - this is expected when no historical data exists yet
-            self.logger.debug(f"No data found for camera {camera_id} in window {time_window}")
+            self.logger.debug(
+                f"No data found for camera {camera_id} in window {time_window}"
+            )
             return {
                 "status": "no_data",
                 "reason": "No observations found in time window",
@@ -1014,9 +1059,13 @@ class PatternRecognitionAgent:
         # Anomalies
         anomaly_config = patterns_config.get("anomaly_detection", {})
         if anomaly_config.get("enabled", True):
-            anomaly_threshold = anomaly_config.get("z_score_threshold", anomaly_config.get("threshold", 2.5))
+            anomaly_threshold = anomaly_config.get(
+                "z_score_threshold", anomaly_config.get("threshold", 2.5)
+            )
             min_samples = anomaly_config.get("min_samples", 30)
-            anomalies = detector.detect_anomalies("intensity", anomaly_threshold, min_samples)
+            anomalies = detector.detect_anomalies(
+                "intensity", anomaly_threshold, min_samples
+            )
             results["anomalies"] = anomalies
 
         # Weekly patterns
@@ -1034,7 +1083,9 @@ class PatternRecognitionAgent:
 
         return results
 
-    def create_pattern_entity(self, camera_id: str, pattern_type: str, analysis_results: Dict[str, Any]) -> Dict[str, Any]:
+    def create_pattern_entity(
+        self, camera_id: str, pattern_type: str, analysis_results: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Create TrafficPattern NGSI-LD entity.
 
@@ -1095,7 +1146,10 @@ class PatternRecognitionAgent:
             }
 
         # Add weekly patterns
-        if "weekly_patterns" in analysis_results and analysis_results["weekly_patterns"]:
+        if (
+            "weekly_patterns" in analysis_results
+            and analysis_results["weekly_patterns"]
+        ):
             entity["weeklyPattern"] = {
                 "type": "Property",
                 "value": analysis_results["weekly_patterns"].get("comparison", {}),
@@ -1125,7 +1179,9 @@ class PatternRecognitionAgent:
                 self.logger.info(f"Created entity: {entity['id']}")
                 return True
             else:
-                self.logger.error(f"Failed to create entity: {response.status_code} {response.text}")
+                self.logger.error(
+                    f"Failed to create entity: {response.status_code} {response.text}"
+                )
                 return False
         except Exception as e:
             self.logger.error(f"Error posting entity: {e}")
@@ -1211,7 +1267,9 @@ class PatternRecognitionAgent:
         }
 
         entity_config = self.config.get_entity_config()
-        pattern_types = entity_config.get("pattern_types", ["hourly", "daily", "weekly"])
+        pattern_types = entity_config.get(
+            "pattern_types", ["hourly", "daily", "weekly"]
+        )
 
         for camera_id in cameras:
             try:
@@ -1232,7 +1290,9 @@ class PatternRecognitionAgent:
 
                 # Create entities for each pattern type
                 for pattern_type in pattern_types:
-                    entity = self.create_pattern_entity(camera_id, pattern_type, analysis)
+                    entity = self.create_pattern_entity(
+                        camera_id, pattern_type, analysis
+                    )
                     if self.post_entity(entity):
                         results["entities_created"] += 1
 
@@ -1288,7 +1348,9 @@ def main(config: Optional[Dict[str, Any]] = None):
         time_window = config.get("time_window", "7_days")
     else:
         parser = argparse.ArgumentParser(description="Pattern Recognition Agent")
-        parser.add_argument("--config", required=True, help="Path to configuration file")
+        parser.add_argument(
+            "--config", required=True, help="Path to configuration file"
+        )
         parser.add_argument("--camera", help="Process specific camera ID")
         parser.add_argument(
             "--time-window",
@@ -1312,7 +1374,10 @@ def main(config: Optional[Dict[str, Any]] = None):
         else:
             # Process all cameras
             results = agent.process_all_cameras(time_window)
-            print(f"Processed {results['cameras_processed']} cameras, " f"created {results['entities_created']} entities")
+            print(
+                f"Processed {results['cameras_processed']} cameras, "
+                f"created {results['entities_created']} entities"
+            )
     finally:
         agent.close()
 

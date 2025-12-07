@@ -95,7 +95,9 @@ except ImportError:
 
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -302,7 +304,9 @@ class KafkaEventSource:
             RuntimeError: If kafka-python is not installed
         """
         if not KAFKA_AVAILABLE:
-            raise RuntimeError("kafka-python package is required for Kafka event source")
+            raise RuntimeError(
+                "kafka-python package is required for Kafka event source"
+            )
 
         self.config = config
         self.topic = config.get("topic", "camera-updates")
@@ -357,7 +361,9 @@ class KafkaEventSource:
             for topic_partition, msgs in messages.items():
                 for msg in msgs:
                     try:
-                        event = UpdateEvent.from_dict(msg.value, source=f"kafka:{self.topic}")
+                        event = UpdateEvent.from_dict(
+                            msg.value, source=f"kafka:{self.topic}"
+                        )
                         events.append(event)
                     except Exception as e:
                         logger.error(f"Failed to parse Kafka message: {e}")
@@ -424,7 +430,10 @@ class WebhookEventSource:
 
                 # Validate payload
                 validation_config = self.config.get("validation", {})
-                if validation_config.get("require_entity_id") and "entity_id" not in data:
+                if (
+                    validation_config.get("require_entity_id")
+                    and "entity_id" not in data
+                ):
                     return jsonify({"error": "Missing entity_id"}), 400
 
                 if validation_config.get("require_updates") and "updates" not in data:
@@ -540,7 +549,9 @@ class EventSourceManager:
                 except Exception as e:
                     logger.warning(f"Failed to initialize webhook source: {e}")
 
-        logger.info(f"Event source manager initialized with {len(self.sources)} sources")
+        logger.info(
+            f"Event source manager initialized with {len(self.sources)} sources"
+        )
 
     def start(self) -> None:
         """Start all event sources."""
@@ -567,7 +578,11 @@ class EventSourceManager:
         for source in self.sources:
             try:
                 events = source.consume(
-                    timeout_ms=(int(timeout_s * 1000) if isinstance(source, KafkaEventSource) else timeout_s)
+                    timeout_ms=(
+                        int(timeout_s * 1000)
+                        if isinstance(source, KafkaEventSource)
+                        else timeout_s
+                    )
                 )
                 all_events.extend(events)
             except Exception as e:
@@ -618,7 +633,9 @@ class EntityUpdater:
         self.max_retry_attempts = retry_config.get("max_attempts", 3)
         self.backoff_factor = retry_config.get("backoff_factor", 2)
         self.max_backoff = retry_config.get("max_backoff", 30)
-        self.retry_on_status = retry_config.get("retry_on_status", [408, 429, 500, 502, 503, 504])
+        self.retry_on_status = retry_config.get(
+            "retry_on_status", [408, 429, 500, 502, 503, 504]
+        )
         self.jitter = retry_config.get("jitter", True)
 
         # Create HTTP session with connection pooling
@@ -640,7 +657,9 @@ class EntityUpdater:
             Full PATCH URL
         """
         endpoints = self.stellio_config.get("endpoints", {})
-        patch_template = endpoints.get("patch_entity", "/ngsi-ld/v1/entities/{entity_id}/attrs")
+        patch_template = endpoints.get(
+            "patch_entity", "/ngsi-ld/v1/entities/{entity_id}/attrs"
+        )
 
         path = patch_template.format(entity_id=entity_id)
         return urljoin(self.base_url, path)
@@ -681,9 +700,13 @@ class EntityUpdater:
                     expected_type = constraints.get("type")
                     if expected_type == "string" and not isinstance(field_value, str):
                         return False, f"Field {field} must be string"
-                    elif expected_type == "number" and not isinstance(field_value, (int, float)):
+                    elif expected_type == "number" and not isinstance(
+                        field_value, (int, float)
+                    ):
                         return False, f"Field {field} must be number"
-                    elif expected_type == "boolean" and not isinstance(field_value, bool):
+                    elif expected_type == "boolean" and not isinstance(
+                        field_value, bool
+                    ):
                         return False, f"Field {field} must be boolean"
 
                     # Range validation
@@ -737,7 +760,10 @@ class EntityUpdater:
             latency_ms = (time.time() - start_time) * 1000
 
             # Check if retry needed
-            if response.status_code in self.retry_on_status and retry_count < self.max_retry_attempts:
+            if (
+                response.status_code in self.retry_on_status
+                and retry_count < self.max_retry_attempts
+            ):
                 # Calculate backoff delay
                 delay = min(self.backoff_factor**retry_count, self.max_backoff)
 
@@ -758,7 +784,9 @@ class EntityUpdater:
             success = 200 <= response.status_code < 300
 
             if not success:
-                logger.error(f"PATCH failed for {event.entity_id}: {response.status_code} - {response.text}")
+                logger.error(
+                    f"PATCH failed for {event.entity_id}: {response.status_code} - {response.text}"
+                )
 
             return UpdateResult(
                 success=success,
@@ -870,7 +898,11 @@ class StateUpdaterAgent:
         unique_events = []
 
         # Clean old entries
-        self.seen_events = {eid: ts for eid, ts in self.seen_events.items() if current_time - ts < self.dedup_window}
+        self.seen_events = {
+            eid: ts
+            for eid, ts in self.seen_events.items()
+            if current_time - ts < self.dedup_window
+        }
 
         # Filter duplicates
         for event in events:
@@ -1009,12 +1041,16 @@ class StateUpdaterAgent:
         if total_updates > 0:
             success_rate = (self.stats["updates_processed"] / total_updates) * 100
             avg_latency = (
-                self.stats["total_latency_ms"] / self.stats["updates_processed"] if self.stats["updates_processed"] > 0 else 0
+                self.stats["total_latency_ms"] / self.stats["updates_processed"]
+                if self.stats["updates_processed"] > 0
+                else 0
             )
 
             logger.info("=== State Updater Agent Statistics ===")
             logger.info(f"Total updates: {total_updates}")
-            logger.info(f"Successful: {self.stats['updates_processed']} ({success_rate:.1f}%)")
+            logger.info(
+                f"Successful: {self.stats['updates_processed']} ({success_rate:.1f}%)"
+            )
             logger.info(f"Failed: {self.stats['updates_failed']}")
             logger.info(f"Deduplicated: {self.stats['updates_deduped']}")
             logger.info(f"Average latency: {avg_latency:.2f}ms")
@@ -1041,7 +1077,9 @@ def main():
     """Main entry point for State Updater Agent."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="State Updater Agent - Real-time entity state updater")
+    parser = argparse.ArgumentParser(
+        description="State Updater Agent - Real-time entity state updater"
+    )
     parser.add_argument(
         "--config",
         type=str,

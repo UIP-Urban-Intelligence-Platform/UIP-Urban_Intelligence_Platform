@@ -114,7 +114,9 @@ class MongoDBHelper:
         self.config = self._load_config()
         self.client: Optional[MongoClient] = None
         self.db = None
-        self.enabled = self.config.get("mongodb", {}).get("publishing", {}).get("enabled", True)
+        self.enabled = (
+            self.config.get("mongodb", {}).get("publishing", {}).get("enabled", True)
+        )
 
         if not self.enabled:
             logger.info("MongoDB publishing is disabled in config")
@@ -122,7 +124,9 @@ class MongoDBHelper:
     def _load_config(self) -> Dict[str, Any]:
         """Load MongoDB configuration from YAML file."""
         if not self.config_path.exists():
-            logger.warning(f"MongoDB config not found: {self.config_path}, using defaults")
+            logger.warning(
+                f"MongoDB config not found: {self.config_path}, using defaults"
+            )
             return self._get_default_config()
 
         try:
@@ -192,7 +196,9 @@ class MongoDBHelper:
                     socket.gethostbyname(host)
                 except socket.gaierror:
                     # 'mongodb' hostname not found, use localhost
-                    logger.debug("MongoDB hostname 'mongodb' not found, using 'localhost' instead")
+                    logger.debug(
+                        "MongoDB hostname 'mongodb' not found, using 'localhost' instead"
+                    )
                     host = "localhost"
 
             uri = f"mongodb://{username}:{password}@{host}:{port}/?authSource={auth_source}"
@@ -202,8 +208,12 @@ class MongoDBHelper:
                 uri,
                 maxPoolSize=conn_config.get("max_pool_size", 50),
                 minPoolSize=conn_config.get("min_pool_size", 10),
-                connectTimeoutMS=conn_config.get("connect_timeout_ms", 10000),  # 10s for initial connection
-                serverSelectionTimeoutMS=conn_config.get("server_selection_timeout_ms", 10000),  # 10s timeout
+                connectTimeoutMS=conn_config.get(
+                    "connect_timeout_ms", 10000
+                ),  # 10s for initial connection
+                serverSelectionTimeoutMS=conn_config.get(
+                    "server_selection_timeout_ms", 10000
+                ),  # 10s timeout
                 socketTimeoutMS=conn_config.get("socket_timeout_ms", 10000),
                 retryWrites=conn_config.get("retry_writes", True),
                 retryReads=conn_config.get("retry_reads", True),
@@ -263,7 +273,9 @@ class MongoDBHelper:
                 # Create geospatial indexes
                 for idx in geospatial_indexes:
                     try:
-                        collection.create_index([(idx["field"], GEOSPHERE)], name=idx.get("name"))
+                        collection.create_index(
+                            [(idx["field"], GEOSPHERE)], name=idx.get("name")
+                        )
                     except Exception as e:
                         logger.debug(f"Geospatial index error: {e}")
 
@@ -271,7 +283,9 @@ class MongoDBHelper:
                 entity_indexes = index_config.get(collection_name, [])
                 for idx in entity_indexes:
                     try:
-                        collection.create_index([(idx["field"], ASCENDING)], name=idx.get("name"))
+                        collection.create_index(
+                            [(idx["field"], ASCENDING)], name=idx.get("name")
+                        )
                     except Exception as e:
                         logger.debug(f"Entity-specific index error: {e}")
 
@@ -326,10 +340,14 @@ class MongoDBHelper:
 
             # Upsert (update if exists, insert if not)
             # Use $set to preserve all NGSI-LD fields
-            result = collection.update_one({"id": entity["id"]}, {"$set": entity_with_meta}, upsert=True)
+            result = collection.update_one(
+                {"id": entity["id"]}, {"$set": entity_with_meta}, upsert=True
+            )
 
             if result.upserted_id or result.modified_count > 0:
-                logger.debug(f"✅ Inserted/Updated entity: {entity['id']} to {collection_name}")
+                logger.debug(
+                    f"✅ Inserted/Updated entity: {entity['id']} to {collection_name}"
+                )
                 return True
 
             return False
@@ -407,11 +425,15 @@ class MongoDBHelper:
                 inserted = result.upserted_count + result.modified_count
                 success_count += inserted
 
-                logger.info(f"✅ Batch inserted {inserted} {entity_type} entities to {collection_name}")
+                logger.info(
+                    f"✅ Batch inserted {inserted} {entity_type} entities to {collection_name}"
+                )
 
             except BulkWriteError as bwe:
                 # Partial success
-                success_count += bwe.details.get("nInserted", 0) + bwe.details.get("nModified", 0)
+                success_count += bwe.details.get("nInserted", 0) + bwe.details.get(
+                    "nModified", 0
+                )
                 fail_count += len(bwe.details.get("writeErrors", []))
                 logger.warning(f"Bulk write partial failure: {bwe.details}")
             except PyMongoError as e:
@@ -423,7 +445,9 @@ class MongoDBHelper:
 
         return success_count, fail_count
 
-    def find_entity(self, entity_id: str, entity_type: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    def find_entity(
+        self, entity_id: str, entity_type: Optional[str] = None
+    ) -> Optional[Dict[str, Any]]:
         """
         Find entity by ID.
 
@@ -443,13 +467,17 @@ class MongoDBHelper:
                 collection_name = self.get_collection_name(entity_type)
                 if collection_name:
                     collection = self.db[collection_name]
-                    return collection.find_one({"id": entity_id}, {"_id": 0, "_insertedAt": 0})
+                    return collection.find_one(
+                        {"id": entity_id}, {"_id": 0, "_insertedAt": 0}
+                    )
 
             # Otherwise search all collections
             collections_config = self.config["mongodb"].get("collections", {})
             for collection_name in collections_config.values():
                 collection = self.db[collection_name]
-                entity = collection.find_one({"id": entity_id}, {"_id": 0, "_insertedAt": 0})
+                entity = collection.find_one(
+                    {"id": entity_id}, {"_id": 0, "_insertedAt": 0}
+                )
                 if entity:
                     return entity
 
@@ -503,14 +531,18 @@ class MongoDBHelper:
                 }
             }
 
-            results = list(collection.find(query, {"_id": 0, "_insertedAt": 0}).limit(limit))
+            results = list(
+                collection.find(query, {"_id": 0, "_insertedAt": 0}).limit(limit)
+            )
             return results
 
         except PyMongoError as e:
             logger.error(f"MongoDB geospatial query error: {e}")
             return []
 
-    def count_entities(self, entity_type: str, filter_query: Optional[Dict] = None) -> int:
+    def count_entities(
+        self, entity_type: str, filter_query: Optional[Dict] = None
+    ) -> int:
         """
         Count entities in collection.
 

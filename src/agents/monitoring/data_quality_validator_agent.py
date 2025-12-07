@@ -67,7 +67,9 @@ import yaml
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -112,7 +114,9 @@ class DataQualityConfig:
     def _validate_config(self):
         """Validate configuration structure and required fields."""
         if "data_quality_validator" not in self.config:
-            raise ValueError("Missing 'data_quality_validator' root key in configuration")
+            raise ValueError(
+                "Missing 'data_quality_validator' root key in configuration"
+            )
 
         validator_config = self.config["data_quality_validator"]
 
@@ -128,7 +132,9 @@ class DataQualityConfig:
         """Get schema validation configuration."""
         return self.config["data_quality_validator"].get("schema_validation", {})
 
-    def get_business_rules(self, entity_type: Optional[str] = None) -> List[Dict[str, Any]]:
+    def get_business_rules(
+        self, entity_type: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """
         Get business rules, optionally filtered by entity type.
 
@@ -229,11 +235,17 @@ class SchemaValidator:
                 if isinstance(expected_type, list):
                     valid_types = [self._normalize_type_name(t) for t in expected_type]
                     if actual_type not in valid_types:
-                        errors.append(f"Field '{field}' has invalid type '{actual_type}', " f"expected one of {valid_types}")
+                        errors.append(
+                            f"Field '{field}' has invalid type '{actual_type}', "
+                            f"expected one of {valid_types}"
+                        )
                 else:
                     expected_type_norm = self._normalize_type_name(expected_type)
                     if actual_type != expected_type_norm:
-                        errors.append(f"Field '{field}' has invalid type '{actual_type}', " f"expected '{expected_type_norm}'")
+                        errors.append(
+                            f"Field '{field}' has invalid type '{actual_type}', "
+                            f"expected '{expected_type_norm}'"
+                        )
 
         # Validate NGSI-LD property structures
         property_structure = self.schema_config.get("property_structure", {})
@@ -256,7 +268,9 @@ class SchemaValidator:
         }
         return type_map.get(type_name.lower(), type_name)
 
-    def _validate_property_structures(self, entity: Dict[str, Any], structure_config: Dict[str, Any]) -> List[str]:
+    def _validate_property_structures(
+        self, entity: Dict[str, Any], structure_config: Dict[str, Any]
+    ) -> List[str]:
         """Validate NGSI-LD property structures."""
         errors = []
 
@@ -273,13 +287,16 @@ class SchemaValidator:
                 # Validate required keys
                 for req_key in required_keys:
                     if req_key not in value:
-                        errors.append(f"Property '{key}' missing required key '{req_key}'")
+                        errors.append(
+                            f"Property '{key}' missing required key '{req_key}'"
+                        )
 
                 # Validate property type
                 if "type" in value and valid_types:
                     if value["type"] not in valid_types:
                         errors.append(
-                            f"Property '{key}' has invalid type '{value['type']}', " f"expected one of {valid_types}"
+                            f"Property '{key}' has invalid type '{value['type']}', "
+                            f"expected one of {valid_types}"
                         )
 
         return errors
@@ -302,7 +319,9 @@ class BusinessRulesEngine:
         self.http_timeout = config.get_performance_config().get("http_timeout", 5)
         self.http_cache = {}
 
-    def evaluate_rules(self, entity: Dict[str, Any], entity_type: Optional[str] = None) -> List[Dict[str, Any]]:
+    def evaluate_rules(
+        self, entity: Dict[str, Any], entity_type: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """
         Evaluate all business rules for an entity.
 
@@ -322,7 +341,9 @@ class BusinessRulesEngine:
 
         return results
 
-    def _evaluate_rule(self, entity: Dict[str, Any], rule: Dict[str, Any]) -> Dict[str, Any]:
+    def _evaluate_rule(
+        self, entity: Dict[str, Any], rule: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Evaluate a single business rule.
 
@@ -344,7 +365,10 @@ class BusinessRulesEngine:
         # Check if field exists
         if field_value is None:
             # Field doesn't exist - check if rule requires it
-            has_exists_rule = any("exists(" in expr.get("expression", "") for expr in rule.get("rules", []))
+            has_exists_rule = any(
+                "exists(" in expr.get("expression", "")
+                for expr in rule.get("rules", [])
+            )
 
             if has_exists_rule:
                 # Let the exists() check handle it
@@ -446,7 +470,9 @@ class BusinessRulesEngine:
         except (KeyError, IndexError, ValueError, TypeError):
             return None
 
-    def _evaluate_expression(self, expression: str, field_value: Any, entity: Dict[str, Any]) -> bool:
+    def _evaluate_expression(
+        self, expression: str, field_value: Any, entity: Dict[str, Any]
+    ) -> bool:
         """
         Evaluate a business rule expression.
 
@@ -473,7 +499,9 @@ class BusinessRulesEngine:
         # Evaluate logical operators
         return self._evaluate_logical_expression(expression, context)
 
-    def _create_evaluation_context(self, field_value: Any, entity: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_evaluation_context(
+        self, field_value: Any, entity: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Create evaluation context with all available values."""
         # Extract simple field name from value
         field_names = []
@@ -566,7 +594,9 @@ class BusinessRulesEngine:
                 return status_code
 
         try:
-            response = requests.head(url, timeout=self.http_timeout, allow_redirects=True)
+            response = requests.head(
+                url, timeout=self.http_timeout, allow_redirects=True
+            )
             status_code = response.status_code
 
             # Cache result
@@ -576,7 +606,9 @@ class BusinessRulesEngine:
         except requests.RequestException:
             return 0
 
-    def _replace_field_references(self, expression: str, context: Dict[str, Any]) -> str:
+    def _replace_field_references(
+        self, expression: str, context: Dict[str, Any]
+    ) -> str:
         """Replace field references with their values."""
         # Replace field references
         for field_name, field_value in context.items():
@@ -592,10 +624,14 @@ class BusinessRulesEngine:
                 )
             elif isinstance(field_value, bool):
                 # Boolean values
-                expression = re.sub(r"\b" + re.escape(field_name) + r"\b", str(field_value), expression)
+                expression = re.sub(
+                    r"\b" + re.escape(field_name) + r"\b", str(field_value), expression
+                )
             elif isinstance(field_value, (int, float)):
                 # Numeric values
-                expression = re.sub(r"\b" + re.escape(field_name) + r"\b", str(field_value), expression)
+                expression = re.sub(
+                    r"\b" + re.escape(field_name) + r"\b", str(field_value), expression
+                )
             elif isinstance(field_value, list):
                 # Handle array indexing
                 for i, item in enumerate(field_value):
@@ -603,7 +639,9 @@ class BusinessRulesEngine:
 
         return expression
 
-    def _evaluate_logical_expression(self, expression: str, context: Dict[str, Any]) -> bool:
+    def _evaluate_logical_expression(
+        self, expression: str, context: Dict[str, Any]
+    ) -> bool:
         """Evaluate logical expression with operators."""
         try:
             # Handle MATCHES operator (regex matching)
@@ -657,7 +695,9 @@ class QualityScorer:
         self.config = config
         self.thresholds = config.get_quality_thresholds()
 
-    def calculate_score(self, schema_valid: bool, rule_results: List[Dict[str, Any]]) -> Tuple[float, str]:
+    def calculate_score(
+        self, schema_valid: bool, rule_results: List[Dict[str, Any]]
+    ) -> Tuple[float, str]:
         """
         Calculate quality score from validation results.
 
@@ -778,7 +818,9 @@ class DataCleaner:
 
         return cleaned_entity
 
-    def _fix_timezone(self, entity: Dict[str, Any], rule: Dict[str, Any]) -> Dict[str, Any]:
+    def _fix_timezone(
+        self, entity: Dict[str, Any], rule: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Convert timestamps to UTC timezone."""
         fields = rule.get("fields", [])
 
@@ -803,7 +845,9 @@ class DataCleaner:
 
         return entity
 
-    def _trim_whitespace(self, entity: Dict[str, Any], rule: Dict[str, Any]) -> Dict[str, Any]:
+    def _trim_whitespace(
+        self, entity: Dict[str, Any], rule: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Remove leading/trailing whitespace from string fields."""
 
         def trim_strings(obj):
@@ -818,7 +862,9 @@ class DataCleaner:
 
         return trim_strings(entity)
 
-    def _normalize_case(self, entity: Dict[str, Any], rule: Dict[str, Any], transform_func) -> Dict[str, Any]:
+    def _normalize_case(
+        self, entity: Dict[str, Any], rule: Dict[str, Any], transform_func
+    ) -> Dict[str, Any]:
         """Normalize case for specific fields."""
         fields = rule.get("fields", [])
 
@@ -835,15 +881,25 @@ class DataCleaner:
 
         def remove_null_values(obj):
             if isinstance(obj, dict):
-                return {k: remove_null_values(v) for k, v in obj.items() if v is not None and v != ""}
+                return {
+                    k: remove_null_values(v)
+                    for k, v in obj.items()
+                    if v is not None and v != ""
+                }
             elif isinstance(obj, list):
-                return [remove_null_values(item) for item in obj if item is not None and item != ""]
+                return [
+                    remove_null_values(item)
+                    for item in obj
+                    if item is not None and item != ""
+                ]
             else:
                 return obj
 
         return remove_null_values(entity)
 
-    def _fix_numeric_precision(self, entity: Dict[str, Any], rule: Dict[str, Any]) -> Dict[str, Any]:
+    def _fix_numeric_precision(
+        self, entity: Dict[str, Any], rule: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Round numeric values to specified precision."""
         fields = rule.get("fields", [])
         precision = rule.get("precision", 6)
@@ -853,7 +909,9 @@ class DataCleaner:
             if "[" in field_path:
                 # Extract array path and index
                 base_path = field_path[: field_path.index("[")]
-                index_str = field_path[field_path.index("[") + 1 : field_path.index("]")]
+                index_str = field_path[
+                    field_path.index("[") + 1 : field_path.index("]")
+                ]
                 index = int(index_str)
 
                 # Get the array
@@ -871,7 +929,9 @@ class DataCleaner:
 
         return entity
 
-    def _normalize_urls(self, entity: Dict[str, Any], rule: Dict[str, Any]) -> Dict[str, Any]:
+    def _normalize_urls(
+        self, entity: Dict[str, Any], rule: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Normalize URL formats."""
         field_patterns = rule.get("field_patterns", [])
 
@@ -883,7 +943,9 @@ class DataCleaner:
                 parsed = urlparse(url)
 
                 # Lowercase scheme and netloc
-                normalized = parsed._replace(scheme=parsed.scheme.lower(), netloc=parsed.netloc.lower())
+                normalized = parsed._replace(
+                    scheme=parsed.scheme.lower(), netloc=parsed.netloc.lower()
+                )
 
                 # Remove trailing slash from path
                 path = normalized.path.rstrip("/")
@@ -899,7 +961,10 @@ class DataCleaner:
                     full_key = f"{parent_key}.{key}" if parent_key else key
 
                     # Check if key matches patterns
-                    matches_pattern = any(re.search(pattern, full_key, re.IGNORECASE) for pattern in field_patterns)
+                    matches_pattern = any(
+                        re.search(pattern, full_key, re.IGNORECASE)
+                        for pattern in field_patterns
+                    )
 
                     if matches_pattern and isinstance(value, str):
                         obj[key] = normalize_url(value)
@@ -913,7 +978,9 @@ class DataCleaner:
         process_urls(entity)
         return entity
 
-    def _normalize_datetime(self, entity: Dict[str, Any], rule: Dict[str, Any]) -> Dict[str, Any]:
+    def _normalize_datetime(
+        self, entity: Dict[str, Any], rule: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Ensure datetime strings use ISO 8601 format with timezone."""
         field_patterns = rule.get("field_patterns", [])
 
@@ -940,7 +1007,10 @@ class DataCleaner:
                     full_key = f"{parent_key}.{key}" if parent_key else key
 
                     # Check if key matches patterns
-                    matches_pattern = any(re.search(pattern, full_key, re.IGNORECASE) for pattern in field_patterns)
+                    matches_pattern = any(
+                        re.search(pattern, full_key, re.IGNORECASE)
+                        for pattern in field_patterns
+                    )
 
                     if matches_pattern and isinstance(value, str):
                         obj[key] = normalize_dt(value)
@@ -1005,12 +1075,16 @@ class DataQualityValidatorAgent:
         self.integration_config = self.config.get_integration_config()
 
         # Create report directory
-        report_dir = self.reporting_config.get("report_directory", "logs/validation_reports")
+        report_dir = self.reporting_config.get(
+            "report_directory", "logs/validation_reports"
+        )
         Path(report_dir).mkdir(parents=True, exist_ok=True)
 
         logger.info("Data Quality Validator Agent initialized")
 
-    def validate_entity(self, entity: Dict[str, Any], auto_clean: bool = True) -> Dict[str, Any]:
+    def validate_entity(
+        self, entity: Dict[str, Any], auto_clean: bool = True
+    ) -> Dict[str, Any]:
         """
         Validate a single NGSI-LD entity.
 
@@ -1037,7 +1111,9 @@ class DataQualityValidatorAgent:
         rule_results = self.rules_engine.evaluate_rules(entity, entity_type)
 
         # Calculate quality score
-        quality_score, status = self.quality_scorer.calculate_score(schema_valid, rule_results)
+        quality_score, status = self.quality_scorer.calculate_score(
+            schema_valid, rule_results
+        )
 
         # Compile validation report
         report = {
@@ -1067,7 +1143,9 @@ class DataQualityValidatorAgent:
 
         return report
 
-    def validate_batch(self, entities: List[Dict[str, Any]], parallel: bool = True) -> List[Dict[str, Any]]:
+    def validate_batch(
+        self, entities: List[Dict[str, Any]], parallel: bool = True
+    ) -> List[Dict[str, Any]]:
         """
         Validate multiple entities in batch.
 
@@ -1085,7 +1163,9 @@ class DataQualityValidatorAgent:
         else:
             return self._validate_batch_sequential(entities)
 
-    def _validate_batch_sequential(self, entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _validate_batch_sequential(
+        self, entities: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Validate entities sequentially."""
         reports = []
         for entity in entities:
@@ -1093,13 +1173,18 @@ class DataQualityValidatorAgent:
             reports.append(report)
         return reports
 
-    def _validate_batch_parallel(self, entities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _validate_batch_parallel(
+        self, entities: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Validate entities in parallel using thread pool."""
         max_workers = self.performance_config.get("max_workers", 4)
         reports = []
 
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = {executor.submit(self.validate_entity, entity): entity for entity in entities}
+            futures = {
+                executor.submit(self.validate_entity, entity): entity
+                for entity in entities
+            }
 
             for future in as_completed(futures):
                 try:
@@ -1122,7 +1207,9 @@ class DataQualityValidatorAgent:
 
         return reports
 
-    def _format_rule_results(self, rule_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _format_rule_results(
+        self, rule_results: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Format rule results for report."""
         formatted = []
 
@@ -1142,7 +1229,9 @@ class DataQualityValidatorAgent:
 
         return formatted
 
-    def _compile_checks(self, rule_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _compile_checks(
+        self, rule_results: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
         """Compile checks summary for report."""
         checks = []
 
@@ -1160,7 +1249,9 @@ class DataQualityValidatorAgent:
 
         return checks
 
-    def _compile_errors(self, schema_errors: List[str], rule_results: List[Dict[str, Any]]) -> List[str]:
+    def _compile_errors(
+        self, schema_errors: List[str], rule_results: List[Dict[str, Any]]
+    ) -> List[str]:
         """Compile all errors from validation."""
         errors = []
 
@@ -1189,7 +1280,9 @@ class DataQualityValidatorAgent:
     def _save_report(self, report: Dict[str, Any]):
         """Save validation report to file."""
         try:
-            report_dir = self.reporting_config.get("report_directory", "logs/validation_reports")
+            report_dir = self.reporting_config.get(
+                "report_directory", "logs/validation_reports"
+            )
             report_format = self.reporting_config.get("report_format", "json")
 
             # Create filename with timestamp
@@ -1239,7 +1332,9 @@ class DataQualityValidatorAgent:
         warnings = sum(1 for r in reports if r["status"] == "WARNING")
         rejected = sum(1 for r in reports if r["status"] == "REJECT")
 
-        avg_score = sum(r["quality_score"] for r in reports) / total if total > 0 else 0.0
+        avg_score = (
+            sum(r["quality_score"] for r in reports) / total if total > 0 else 0.0
+        )
 
         return {
             "total_entities": total,
@@ -1267,7 +1362,9 @@ def main():
         help="Path to configuration file",
     )
     parser.add_argument("--entity", help="Path to entity JSON file to validate")
-    parser.add_argument("--batch", help="Path to JSON file containing array of entities")
+    parser.add_argument(
+        "--batch", help="Path to JSON file containing array of entities"
+    )
 
     args = parser.parse_args()
 

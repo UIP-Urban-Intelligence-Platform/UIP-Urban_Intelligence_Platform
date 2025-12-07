@@ -30,4 +30,3 @@ __author__ = "Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh
 __email__ = "nguyennhatquang522004@gmail.com"
 __license__ = "MIT"
 __copyright__ = "Copyright (c) 2025 UIP Team. All rights reserved."
-

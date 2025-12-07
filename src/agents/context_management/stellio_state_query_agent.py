@@ -61,7 +61,9 @@ import yaml
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -82,8 +84,12 @@ class StellioStateQueryAgent:
 
         # Get Stellio configuration - Priority: environment variables > config > defaults
         stellio_config = self.config.get("stellio", {})
-        self.base_url = os.environ.get("STELLIO_URL") or stellio_config.get("base_url", "http://localhost:8080")
-        self.query_endpoint = stellio_config.get("query_endpoint", "/ngsi-ld/v1/entities")
+        self.base_url = os.environ.get("STELLIO_URL") or stellio_config.get(
+            "base_url", "http://localhost:8080"
+        )
+        self.query_endpoint = stellio_config.get(
+            "query_endpoint", "/ngsi-ld/v1/entities"
+        )
         self.timeout = stellio_config.get("timeout", 30)
 
         # Session for HTTP requests
@@ -96,7 +102,9 @@ class StellioStateQueryAgent:
         """Load configuration from YAML file"""
         try:
             if not os.path.exists(self.config_path):
-                logger.warning(f"Config file not found: {self.config_path}, using defaults")
+                logger.warning(
+                    f"Config file not found: {self.config_path}, using defaults"
+                )
                 return {}
 
             with open(self.config_path, "r", encoding="utf-8") as f:
@@ -161,7 +169,9 @@ class StellioStateQueryAgent:
             logger.info(f"Parameters: {params}")
 
             # Execute query
-            response = self.session.get(url, params=params, headers=headers, timeout=self.timeout)
+            response = self.session.get(
+                url, params=params, headers=headers, timeout=self.timeout
+            )
 
             response.raise_for_status()
 
@@ -246,7 +256,9 @@ def main(config: Dict = None):
             agent = StellioStateQueryAgent(config_path)
 
             # Query entities
-            entities = agent.query_entities(entity_type=entity_type, query_filter=query_filter, limit=limit)
+            entities = agent.query_entities(
+                entity_type=entity_type, query_filter=query_filter, limit=limit
+            )
 
             if not entities:
                 logger.warning("No entities found matching query")
@@ -270,15 +282,23 @@ def main(config: Dict = None):
         # Command line execution
         import argparse
 
-        parser = argparse.ArgumentParser(description="Query Stellio for entities with state filters")
+        parser = argparse.ArgumentParser(
+            description="Query Stellio for entities with state filters"
+        )
         parser.add_argument(
             "--type",
             default="Camera",
             help="Entity type (e.g., Camera, ItemFlowObserved)",
         )
-        parser.add_argument("--filter", help='NGSI-LD query filter (e.g., "congested==true")')
-        parser.add_argument("--output", default="data/updated_cameras.json", help="Output file path")
-        parser.add_argument("--limit", type=int, default=1000, help="Maximum entities to retrieve")
+        parser.add_argument(
+            "--filter", help='NGSI-LD query filter (e.g., "congested==true")'
+        )
+        parser.add_argument(
+            "--output", default="data/updated_cameras.json", help="Output file path"
+        )
+        parser.add_argument(
+            "--limit", type=int, default=1000, help="Maximum entities to retrieve"
+        )
         parser.add_argument(
             "--config",
             default="config/stellio.yaml",
@@ -291,7 +311,9 @@ def main(config: Dict = None):
         agent = StellioStateQueryAgent(args.config)
 
         # Query entities
-        entities = agent.query_entities(entity_type=args.type, query_filter=args.filter, limit=args.limit)
+        entities = agent.query_entities(
+            entity_type=args.type, query_filter=args.filter, limit=args.limit
+        )
 
         if not entities:
             logger.warning("No entities found matching query")

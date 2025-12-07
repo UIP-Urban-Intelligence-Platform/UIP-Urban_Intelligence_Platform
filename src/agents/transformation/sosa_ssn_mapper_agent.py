@@ -109,7 +109,9 @@ class SOSARelationshipBuilder:
         """
         return {"type": "Relationship", "object": platform_uri}
 
-    def create_observation_relationship(self, observation_uri: str, observed_at: Optional[str] = None) -> Dict[str, Any]:
+    def create_observation_relationship(
+        self, observation_uri: str, observed_at: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         Create sosa:madeObservation relationship.
 
@@ -151,7 +153,9 @@ class SOSAEntityGenerator:
             NGSI-LD ObservableProperty entity
         """
         domain_type = self.observable_property_config.get("domain_type", "Unknown")
-        uri_prefix = self.observable_property_config.get("uri_prefix", "urn:ngsi-ld:ObservableProperty:")
+        uri_prefix = self.observable_property_config.get(
+            "uri_prefix", "urn:ngsi-ld:ObservableProperty:"
+        )
         properties = self.observable_property_config.get("properties", {})
 
         entity = {
@@ -335,7 +339,9 @@ class SOSASSNMapperAgent:
         self.config = self._load_config()
 
         # Initialize components
-        self.relationship_builder = SOSARelationshipBuilder(self.config.get("relationships", {}))
+        self.relationship_builder = SOSARelationshipBuilder(
+            self.config.get("relationships", {})
+        )
         self.entity_generator = SOSAEntityGenerator(self.config)
         self.validator = SOSAValidator(self.config.get("validation", {}))
 
@@ -405,7 +411,9 @@ class SOSASSNMapperAgent:
         )
         self.logger = logging.getLogger("SOSASSNMapper")
 
-    def load_ngsi_ld_entities(self, source_file: Optional[str] = None) -> List[Dict[str, Any]]:
+    def load_ngsi_ld_entities(
+        self, source_file: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """
         Load NGSI-LD entities from JSON file.
 
@@ -462,7 +470,9 @@ class SOSASSNMapperAgent:
 
         return (False, "none")
 
-    def enhance_with_sosa_type(self, entity: Dict[str, Any], enhancement_type: str = "sensor") -> None:
+    def enhance_with_sosa_type(
+        self, entity: Dict[str, Any], enhancement_type: str = "sensor"
+    ) -> None:
         """
         Add sosa:Sensor or sosa:Observation type to entity.
 
@@ -496,11 +506,15 @@ class SOSASSNMapperAgent:
         # Generate ObservableProperty URI
         observable_config = self.config["observable_property"]
         domain_type = observable_config.get("domain_type", "Unknown")
-        uri_prefix = observable_config.get("uri_prefix", "urn:ngsi-ld:ObservableProperty:")
+        uri_prefix = observable_config.get(
+            "uri_prefix", "urn:ngsi-ld:ObservableProperty:"
+        )
         target_uri = f"{uri_prefix}{domain_type}"
 
         # Create relationship
-        relationship = self.relationship_builder.create_observes_relationship(target_uri)
+        relationship = self.relationship_builder.create_observes_relationship(
+            target_uri
+        )
         entity["sosa:observes"] = relationship
 
     def add_hosted_by_relationship(self, entity: Dict[str, Any]) -> None:
@@ -511,7 +525,9 @@ class SOSASSNMapperAgent:
             entity: NGSI-LD entity (modified in place)
         """
         platform_id = self.config["platform"]["id"]
-        relationship = self.relationship_builder.create_hosted_by_relationship(platform_id)
+        relationship = self.relationship_builder.create_hosted_by_relationship(
+            platform_id
+        )
         entity["sosa:isHostedBy"] = relationship
 
     def add_made_observation_relationship(self, entity: Dict[str, Any]) -> None:
@@ -625,7 +641,8 @@ class SOSASSNMapperAgent:
                         # Only validate sensors (Camera), not observations
                         if not self.validator.validate_entity(enhanced):
                             self.logger.warning(
-                                f"Validation errors for {enhanced.get('id', 'unknown')}: " f"{self.validator.get_errors()}"
+                                f"Validation errors for {enhanced.get('id', 'unknown')}: "
+                                f"{self.validator.get_errors()}"
                             )
                             self.stats["validation_errors"] += 1
 
@@ -640,7 +657,9 @@ class SOSASSNMapperAgent:
                         self.stats["observations_enhanced"] += 1
 
             except Exception as e:
-                self.logger.error(f"Error enhancing entity {entity.get('id', 'unknown')}: {e}")
+                self.logger.error(
+                    f"Error enhancing entity {entity.get('id', 'unknown')}: {e}"
+                )
                 # Include original entity if enhancement fails
                 enhanced_entities.append(entity)
 
@@ -667,7 +686,9 @@ class SOSASSNMapperAgent:
             batch_num = (i // batch_size) + 1
             total_batches = (len(entities) + batch_size - 1) // batch_size
 
-            self.logger.info(f"Processing batch {batch_num}/{total_batches} ({len(batch)} entities)...")
+            self.logger.info(
+                f"Processing batch {batch_num}/{total_batches} ({len(batch)} entities)..."
+            )
             enhanced_batch = self.process_batch(batch)
             all_enhanced.extend(enhanced_batch)
 
@@ -683,10 +704,14 @@ class SOSASSNMapperAgent:
         support_entities = []
 
         # Generate ObservableProperty if configured
-        if self.config.get("processing", {}).get("generate_observable_properties", True):
+        if self.config.get("processing", {}).get(
+            "generate_observable_properties", True
+        ):
             observable_property = self.entity_generator.generate_observable_property()
             support_entities.append(observable_property)
-            self.logger.info(f"Generated ObservableProperty: {observable_property['id']}")
+            self.logger.info(
+                f"Generated ObservableProperty: {observable_property['id']}"
+            )
 
         # Generate Platform if configured
         if self.config.get("processing", {}).get("generate_platform", True):
@@ -696,7 +721,9 @@ class SOSASSNMapperAgent:
 
         return support_entities
 
-    def save_output(self, entities: List[Dict[str, Any]], output_file: Optional[str] = None) -> None:
+    def save_output(
+        self, entities: List[Dict[str, Any]], output_file: Optional[str] = None
+    ) -> None:
         """
         Save enhanced entities to JSON file.
 
@@ -726,12 +753,16 @@ class SOSASSNMapperAgent:
         self.logger.info(f"Total entities processed: {self.stats['total_entities']}")
         self.logger.info(f"Enhanced with SOSA: {self.stats['enhanced_entities']}")
         self.logger.info(f"  - Sensors (Camera): {self.stats['sensors_enhanced']}")
-        self.logger.info(f"  - Observations (Weather/AirQuality): {self.stats['observations_enhanced']}")
+        self.logger.info(
+            f"  - Observations (Weather/AirQuality): {self.stats['observations_enhanced']}"
+        )
         self.logger.info(f"Validation errors: {self.stats['validation_errors']}")
         self.logger.info(f"Processing time: {self.stats['processing_time']:.2f}s")
 
         if self.stats["total_entities"] > 0:
-            success_rate = (self.stats["enhanced_entities"] / self.stats["total_entities"]) * 100
+            success_rate = (
+                self.stats["enhanced_entities"] / self.stats["total_entities"]
+            ) * 100
             self.logger.info(f"Enhancement rate: {success_rate:.1f}%")
 
         if self.stats["processing_time"] > 0:
@@ -740,7 +771,9 @@ class SOSASSNMapperAgent:
 
         self.logger.info("=" * 60)
 
-    def run(self, source_file: Optional[str] = None, output_file: Optional[str] = None) -> None:
+    def run(
+        self, source_file: Optional[str] = None, output_file: Optional[str] = None
+    ) -> None:
         """
         Run SOSA/SSN mapping process.
 
@@ -795,13 +828,17 @@ def main(config: Dict = None):
             return {"status": "failed", "error": str(e)}
 
     # Command line execution
-    parser = argparse.ArgumentParser(description="SOSA/SSN Mapper Agent - Enhance NGSI-LD entities with SOSA/SSN ontology")
+    parser = argparse.ArgumentParser(
+        description="SOSA/SSN Mapper Agent - Enhance NGSI-LD entities with SOSA/SSN ontology"
+    )
     parser.add_argument(
         "--config",
         default="config/sosa_mappings.yaml",
         help="Path to SOSA mappings configuration file",
     )
-    parser.add_argument("--source", help="Source NGSI-LD entities file (overrides config)")
+    parser.add_argument(
+        "--source", help="Source NGSI-LD entities file (overrides config)"
+    )
     parser.add_argument("--output", help="Output file (overrides config)")
 
     args = parser.parse_args()

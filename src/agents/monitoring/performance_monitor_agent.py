@@ -129,7 +129,9 @@ class PerformanceMonitorConfig:
                 config = yaml.safe_load(f)
 
             if not config or "performance_monitor" not in config:
-                raise ValueError("Invalid configuration: missing 'performance_monitor' section")
+                raise ValueError(
+                    "Invalid configuration: missing 'performance_monitor' section"
+                )
 
             return config
 
@@ -161,14 +163,22 @@ class PerformanceMonitorConfig:
             backupCount=log_config.get("backup_count", 5),
         )
         file_handler.setFormatter(
-            logging.Formatter(log_config.get("format", "%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+            logging.Formatter(
+                log_config.get(
+                    "format", "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+                )
+            )
         )
         logger.addHandler(file_handler)
 
         # Console handler
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(
-            logging.Formatter(log_config.get("format", "%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+            logging.Formatter(
+                log_config.get(
+                    "format", "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+                )
+            )
         )
         logger.addHandler(console_handler)
 
@@ -180,7 +190,9 @@ class PerformanceMonitorConfig:
 
     def get_enabled_collectors(self) -> List[str]:
         """Get list of enabled metric collectors."""
-        return self.config["performance_monitor"].get("enabled_collectors", ["system", "application", "neo4j"])
+        return self.config["performance_monitor"].get(
+            "enabled_collectors", ["system", "application", "neo4j"]
+        )
 
     def get_system_metrics(self) -> List[Dict[str, Any]]:
         """Get system metrics configuration."""
@@ -303,13 +315,21 @@ class SystemMetricsCollector:
                         time_delta = current_time - self.prev_timestamp
 
                         if metric_name == "disk_io_read_bytes":
-                            metrics[metric_name] = (current_io.read_bytes - self.prev_disk_io.read_bytes) / time_delta
+                            metrics[metric_name] = (
+                                current_io.read_bytes - self.prev_disk_io.read_bytes
+                            ) / time_delta
                         elif metric_name == "disk_io_write_bytes":
-                            metrics[metric_name] = (current_io.write_bytes - self.prev_disk_io.write_bytes) / time_delta
+                            metrics[metric_name] = (
+                                current_io.write_bytes - self.prev_disk_io.write_bytes
+                            ) / time_delta
                         elif metric_name == "disk_io_read_count":
-                            metrics[metric_name] = (current_io.read_count - self.prev_disk_io.read_count) / time_delta
+                            metrics[metric_name] = (
+                                current_io.read_count - self.prev_disk_io.read_count
+                            ) / time_delta
                         elif metric_name == "disk_io_write_count":
-                            metrics[metric_name] = (current_io.write_count - self.prev_disk_io.write_count) / time_delta
+                            metrics[metric_name] = (
+                                current_io.write_count - self.prev_disk_io.write_count
+                            ) / time_delta
 
                     self.prev_disk_io = current_io
 
@@ -333,17 +353,31 @@ class SystemMetricsCollector:
                                 prev_stats = self.prev_net_io[interface]
 
                                 if metric_name == "network_bytes_sent":
-                                    value = (current_stats.bytes_sent - prev_stats.bytes_sent) / time_delta
+                                    value = (
+                                        current_stats.bytes_sent - prev_stats.bytes_sent
+                                    ) / time_delta
                                 elif metric_name == "network_bytes_recv":
-                                    value = (current_stats.bytes_recv - prev_stats.bytes_recv) / time_delta
+                                    value = (
+                                        current_stats.bytes_recv - prev_stats.bytes_recv
+                                    ) / time_delta
                                 elif metric_name == "network_packets_sent":
-                                    value = (current_stats.packets_sent - prev_stats.packets_sent) / time_delta
+                                    value = (
+                                        current_stats.packets_sent
+                                        - prev_stats.packets_sent
+                                    ) / time_delta
                                 elif metric_name == "network_packets_recv":
-                                    value = (current_stats.packets_recv - prev_stats.packets_recv) / time_delta
+                                    value = (
+                                        current_stats.packets_recv
+                                        - prev_stats.packets_recv
+                                    ) / time_delta
                                 elif metric_name == "network_errors_in":
-                                    value = (current_stats.errin - prev_stats.errin) / time_delta
+                                    value = (
+                                        current_stats.errin - prev_stats.errin
+                                    ) / time_delta
                                 elif metric_name == "network_errors_out":
-                                    value = (current_stats.errout - prev_stats.errout) / time_delta
+                                    value = (
+                                        current_stats.errout - prev_stats.errout
+                                    ) / time_delta
 
                                 net_metrics.append(
                                     {
@@ -419,7 +453,9 @@ class ApplicationMetricsCollector:
             key = f"agent_error_count:{agent_name}:{error_type}"
             self.counters[key] += 1
 
-    def record_api_request(self, endpoint: str, method: str, duration: float, status: int):
+    def record_api_request(
+        self, endpoint: str, method: str, duration: float, status: int
+    ):
         """
         Record API request metrics.
 
@@ -476,7 +512,9 @@ class ApplicationMetricsCollector:
             counter_key = f"queue_items_processed:{queue_name}"
             self.counters[counter_key] += 1
 
-    def record_entity_processing(self, entity_type: str, operation: str, duration: float):
+    def record_entity_processing(
+        self, entity_type: str, operation: str, duration: float
+    ):
         """
         Record entity processing metrics.
 
@@ -565,9 +603,15 @@ class Neo4jMetricsCollector:
             import os
 
             # Priority: environment variables > config > defaults
-            uri = os.environ.get("NEO4J_URL") or self.neo4j_config.get("uri", "bolt://localhost:7687")
-            user = os.environ.get("NEO4J_USER") or self.neo4j_config.get("user", "neo4j")
-            password = os.environ.get("NEO4J_PASSWORD") or self.neo4j_config.get("password", "password")
+            uri = os.environ.get("NEO4J_URL") or self.neo4j_config.get(
+                "uri", "bolt://localhost:7687"
+            )
+            user = os.environ.get("NEO4J_USER") or self.neo4j_config.get(
+                "user", "neo4j"
+            )
+            password = os.environ.get("NEO4J_PASSWORD") or self.neo4j_config.get(
+                "password", "password"
+            )
 
             pool_config = self.neo4j_config.get("connection_pool", {})
 
@@ -596,7 +640,9 @@ class Neo4jMetricsCollector:
             Dictionary of metric name to value(s)
         """
         if not self.driver:
-            self.logger.warning("Neo4j driver not initialized, skipping metrics collection")
+            self.logger.warning(
+                "Neo4j driver not initialized, skipping metrics collection"
+            )
             return {}
 
         metrics = {}
@@ -787,7 +833,9 @@ class PrometheusExporter:
                             **self.default_labels,
                             **{k: v for k, v in item.items() if k != "value"},
                         }
-                        self.gauges[metric_name].labels(**label_values).set(item["value"])
+                        self.gauges[metric_name].labels(**label_values).set(
+                            item["value"]
+                        )
                 else:
                     # Single value metric
                     self.gauges[metric_name].labels(**self.default_labels).set(value)
@@ -800,7 +848,9 @@ class PrometheusExporter:
                             **{k: v for k, v in item.items() if k != "value"},
                         }
                         # Counter.inc() for rate metrics
-                        self.counters[metric_name].labels(**label_values).inc(item["value"])
+                        self.counters[metric_name].labels(**label_values).inc(
+                            item["value"]
+                        )
                 else:
                     self.counters[metric_name].labels(**self.default_labels).inc(value)
 
@@ -864,7 +914,9 @@ class PrometheusExporter:
                             **self.default_labels,
                             **{k: v for k, v in item.items() if k != "value"},
                         }
-                        self.gauges[metric_name].labels(**label_values).set(item["value"])
+                        self.gauges[metric_name].labels(**label_values).set(
+                            item["value"]
+                        )
                 else:
                     self.gauges[metric_name].labels(**self.default_labels).set(value)
 
@@ -875,7 +927,9 @@ class PrometheusExporter:
                             **self.default_labels,
                             **{k: v for k, v in item.items() if k != "value"},
                         }
-                        self.counters[metric_name].labels(**label_values).inc(item["value"])
+                        self.counters[metric_name].labels(**label_values).inc(
+                            item["value"]
+                        )
                 else:
                     self.counters[metric_name].labels(**self.default_labels).inc(value)
 
@@ -886,7 +940,9 @@ class PrometheusExporter:
 
         try:
             start_http_server(port, addr=host, registry=self.registry)
-            self.logger.info(f"Prometheus metrics exposed on http://{host}:{port}/metrics")
+            self.logger.info(
+                f"Prometheus metrics exposed on http://{host}:{port}/metrics"
+            )
         except Exception as e:
             self.logger.error(f"Failed to start Prometheus HTTP server: {e}")
 
@@ -929,7 +985,9 @@ class AlertManager:
         # Historical data for aggregations
         self.metric_history = defaultdict(lambda: deque(maxlen=1000))
 
-    def record_metric_value(self, metric_name: str, value: float, timestamp: float = None):
+    def record_metric_value(
+        self, metric_name: str, value: float, timestamp: float = None
+    ):
         """
         Record metric value for alert evaluation.
 
@@ -941,7 +999,9 @@ class AlertManager:
         if timestamp is None:
             timestamp = time.time()
 
-        self.metric_history[metric_name].append({"value": value, "timestamp": timestamp})
+        self.metric_history[metric_name].append(
+            {"value": value, "timestamp": timestamp}
+        )
 
     def evaluate_rules(self) -> List[Dict[str, Any]]:
         """
@@ -976,7 +1036,11 @@ class AlertManager:
 
             # Apply aggregation if specified
             if aggregation:
-                recent_values = [item["value"] for item in history if current_time - item["timestamp"] <= duration]
+                recent_values = [
+                    item["value"]
+                    for item in history
+                    if current_time - item["timestamp"] <= duration
+                ]
 
                 if not recent_values:
                     continue
@@ -984,9 +1048,17 @@ class AlertManager:
                 if aggregation == "p50":
                     value = statistics.median(recent_values)
                 elif aggregation == "p95":
-                    value = statistics.quantiles(recent_values, n=20)[18] if len(recent_values) >= 20 else max(recent_values)
+                    value = (
+                        statistics.quantiles(recent_values, n=20)[18]
+                        if len(recent_values) >= 20
+                        else max(recent_values)
+                    )
                 elif aggregation == "p99":
-                    value = statistics.quantiles(recent_values, n=100)[98] if len(recent_values) >= 100 else max(recent_values)
+                    value = (
+                        statistics.quantiles(recent_values, n=100)[98]
+                        if len(recent_values) >= 100
+                        else max(recent_values)
+                    )
                 elif aggregation == "mean":
                     value = statistics.mean(recent_values)
                 elif aggregation == "max":
@@ -1003,7 +1075,11 @@ class AlertManager:
                     else:
                         window = 300  # Default 5 minutes
 
-                    window_values = [item["value"] for item in history if current_time - item["timestamp"] <= window]
+                    window_values = [
+                        item["value"]
+                        for item in history
+                        if current_time - item["timestamp"] <= window
+                    ]
 
                     if len(window_values) >= 2:
                         value = sum(window_values) / window
@@ -1052,7 +1128,9 @@ class AlertManager:
                         "threshold": threshold,
                         "condition": condition,
                         "severity": rule.get("severity", "warning"),
-                        "message": rule.get("message", f"{metric_name} {condition} {threshold}"),
+                        "message": rule.get(
+                            "message", f"{metric_name} {condition} {threshold}"
+                        ),
                         "timestamp": current_time,
                     }
 
@@ -1089,7 +1167,9 @@ class AlertManager:
             try:
                 if channel_type == "log":
                     level = channel.get("level", "warning").upper()
-                    log_method = getattr(self.logger, level.lower(), self.logger.warning)
+                    log_method = getattr(
+                        self.logger, level.lower(), self.logger.warning
+                    )
                     log_method(
                         f"ALERT [{alert['severity']}]: {alert['message']} (value={alert['value']:.2f}, threshold={alert['threshold']})"
                     )
@@ -1097,7 +1177,9 @@ class AlertManager:
                 elif channel_type == "kafka":
                     # Send to Kafka topic (implementation depends on existing Kafka setup)
                     topic = channel.get("topic", "system-alerts")
-                    self.logger.info(f"Would send alert to Kafka topic '{topic}': {alert['message']}")
+                    self.logger.info(
+                        f"Would send alert to Kafka topic '{topic}': {alert['message']}"
+                    )
 
                 elif channel_type == "webhook":
                     # Send to webhook URL
@@ -1109,7 +1191,9 @@ class AlertManager:
                         self.logger.info(f"Sent alert to webhook: {url}")
 
             except Exception as e:
-                self.logger.error(f"Failed to send notification via {channel_type}: {e}")
+                self.logger.error(
+                    f"Failed to send notification via {channel_type}: {e}"
+                )
 
     def get_active_alerts(self) -> List[Dict[str, Any]]:
         """Get list of currently active alerts."""
@@ -1161,7 +1245,9 @@ class TrendAnalysisEngine:
             os.makedirs(path, exist_ok=True)
             self.storage_path = path
         else:
-            self.logger.warning(f"Storage backend '{backend}' not yet implemented, using in-memory only")
+            self.logger.warning(
+                f"Storage backend '{backend}' not yet implemented, using in-memory only"
+            )
 
     def record_metric(self, metric_name: str, value: float, timestamp: float = None):
         """
@@ -1175,7 +1261,9 @@ class TrendAnalysisEngine:
         if timestamp is None:
             timestamp = time.time()
 
-        self.metric_history[metric_name].append({"value": value, "timestamp": timestamp})
+        self.metric_history[metric_name].append(
+            {"value": value, "timestamp": timestamp}
+        )
 
     def get_trend_statistics(self, metric_name: str, window: str) -> Dict[str, float]:
         """
@@ -1197,7 +1285,9 @@ class TrendAnalysisEngine:
 
         # Get values in window
         values = [
-            item["value"] for item in self.metric_history[metric_name] if current_time - item["timestamp"] <= window_seconds
+            item["value"]
+            for item in self.metric_history[metric_name]
+            if current_time - item["timestamp"] <= window_seconds
         ]
 
         if not values:
@@ -1384,7 +1474,9 @@ class PerformanceMonitorAgent:
         self.exporter.start_http_server()
 
         # Start collection thread
-        self.collection_thread = threading.Thread(target=self._collection_loop, daemon=True)
+        self.collection_thread = threading.Thread(
+            target=self._collection_loop, daemon=True
+        )
         self.collection_thread.start()
 
         self.logger.info("Performance monitor agent started")
@@ -1448,7 +1540,9 @@ class PerformanceMonitorAgent:
         collection_duration = time.time() - collection_start
         self.logger.debug(f"Metrics collection completed in {collection_duration:.2f}s")
 
-    def _record_for_analysis(self, system_metrics: Dict, app_metrics: Dict, neo4j_metrics: Dict):
+    def _record_for_analysis(
+        self, system_metrics: Dict, app_metrics: Dict, neo4j_metrics: Dict
+    ):
         """Record metrics for alerting and trend analysis."""
         current_time = time.time()
 
@@ -1466,7 +1560,9 @@ class PerformanceMonitorAgent:
 
     def _detect_anomalies(self):
         """Detect anomalies in tracked metrics."""
-        tracked_metrics = self.config.get_trend_analysis_config().get("tracked_metrics", [])
+        tracked_metrics = self.config.get_trend_analysis_config().get(
+            "tracked_metrics", []
+        )
 
         for metric_config in tracked_metrics:
             metric_name = metric_config["metric"]
@@ -1501,7 +1597,9 @@ class PerformanceMonitorAgent:
         }
 
         # Add trend statistics for tracked metrics
-        tracked_metrics = self.config.get_trend_analysis_config().get("tracked_metrics", [])
+        tracked_metrics = self.config.get_trend_analysis_config().get(
+            "tracked_metrics", []
+        )
         summary["trends"] = {}
 
         for metric_config in tracked_metrics:

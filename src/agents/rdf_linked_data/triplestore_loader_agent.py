@@ -77,7 +77,9 @@ from rdflib import Graph, URIRef
 from src.core.config_loader import expand_env_var
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -201,7 +203,9 @@ class ConfigLoader:
         required_endpoints = ["data", "sparql"]
         for endpoint in required_endpoints:
             if endpoint not in endpoints:
-                raise ValueError(f"Missing required endpoint 'fuseki.endpoints.{endpoint}'")
+                raise ValueError(
+                    f"Missing required endpoint 'fuseki.endpoints.{endpoint}'"
+                )
 
         # Validate upload config
         if "upload" in fuseki:
@@ -209,7 +213,9 @@ class ConfigLoader:
             if "supported_formats" in upload:
                 for fmt in upload["supported_formats"]:
                     if "format" not in fmt or "mime_type" not in fmt:
-                        raise ValueError("Invalid format definition in upload.supported_formats")
+                        raise ValueError(
+                            "Invalid format definition in upload.supported_formats"
+                        )
 
         logger.debug("Fuseki configuration validation passed")
 
@@ -336,8 +342,12 @@ class FusekiClient:
         self.retry_delay = self.upload_config.get("retry_delay", 2)
 
         # Build full endpoint URLs
-        self.data_url = f"{self.base_url}{self.endpoints['data'].format(dataset=self.dataset)}"
-        self.sparql_url = f"{self.base_url}{self.endpoints['sparql'].format(dataset=self.dataset)}"
+        self.data_url = (
+            f"{self.base_url}{self.endpoints['data'].format(dataset=self.dataset)}"
+        )
+        self.sparql_url = (
+            f"{self.base_url}{self.endpoints['sparql'].format(dataset=self.dataset)}"
+        )
         self.update_url = f"{self.base_url}{self.endpoints.get('update', '/{dataset}/update').format(dataset=self.dataset)}"
 
         # Authentication
@@ -386,7 +396,9 @@ class FusekiClient:
                     logger.info(f"Dataset '{self.dataset}' exists")
                     return True
                 else:
-                    logger.warning(f"Dataset '{self.dataset}' not found in: {dataset_names}")
+                    logger.warning(
+                        f"Dataset '{self.dataset}' not found in: {dataset_names}"
+                    )
                     logger.warning(f"Attempting to create dataset '{self.dataset}'...")
                     return self._create_dataset()
             else:
@@ -433,24 +445,34 @@ class FusekiClient:
                 time.sleep(1)  # Give Fuseki time to initialize dataset
 
                 list_url = f"{self.base_url}/$/datasets"
-                verify_response = requests.get(list_url, auth=self.auth_tuple, timeout=10)
+                verify_response = requests.get(
+                    list_url, auth=self.auth_tuple, timeout=10
+                )
 
                 if verify_response.status_code == 200:
                     datasets_info = verify_response.json()
                     datasets = datasets_info.get("datasets", [])
-                    dataset_names = [ds.get("ds.name", "").lstrip("/") for ds in datasets]
+                    dataset_names = [
+                        ds.get("ds.name", "").lstrip("/") for ds in datasets
+                    ]
 
                     if self.dataset in dataset_names:
-                        logger.info(f"✅ Verified dataset '{self.dataset}' exists in Fuseki")
+                        logger.info(
+                            f"✅ Verified dataset '{self.dataset}' exists in Fuseki"
+                        )
                         return True
                     else:
-                        logger.error(f"Dataset '{self.dataset}' not found after creation")
+                        logger.error(
+                            f"Dataset '{self.dataset}' not found after creation"
+                        )
                         return False
                 else:
                     logger.warning("Could not verify dataset creation")
                     return True  # Assume success if create returned 200/201
             else:
-                logger.error(f"❌ Failed to create dataset: {response.status_code} - {response.text}")
+                logger.error(
+                    f"❌ Failed to create dataset: {response.status_code} - {response.text}"
+                )
                 return False
 
         except Exception as e:
@@ -522,7 +544,9 @@ class FusekiClient:
                         return True
                     else:
                         # HTTP errors are expected and handled by retry logic
-                        logger.debug(f"Upload attempt {attempt + 1} failed: {response.status_code} - {response.text}")
+                        logger.debug(
+                            f"Upload attempt {attempt + 1} failed: {response.status_code} - {response.text}"
+                        )
 
                         if attempt < self.retry_attempts - 1:
                             time.sleep(self.retry_delay)
@@ -533,7 +557,9 @@ class FusekiClient:
                     if attempt < self.retry_attempts - 1:
                         time.sleep(self.retry_delay)
 
-            logger.error(f"Failed to upload {file_path} after {self.retry_attempts} attempts")
+            logger.error(
+                f"Failed to upload {file_path} after {self.retry_attempts} attempts"
+            )
             return False
 
         except Exception as e:
@@ -578,7 +604,9 @@ class FusekiClient:
             if response.status_code == 200:
                 return response.json()
             else:
-                logger.error(f"SPARQL query failed: {response.status_code} - {response.text}")
+                logger.error(
+                    f"SPARQL query failed: {response.status_code} - {response.text}"
+                )
                 return None
 
         except Exception as e:
@@ -641,7 +669,9 @@ class NamedGraphManager:
         self.base_url = config["base_url"]
         self.dataset = config["dataset"]
 
-        logger.info(f"Initialized named graph manager with {len(self.named_graphs)} graphs")
+        logger.info(
+            f"Initialized named graph manager with {len(self.named_graphs)} graphs"
+        )
 
     def get_graph_for_file(self, file_path: str) -> Optional[str]:
         """
@@ -686,7 +716,9 @@ class SPARQLTester:
         self.client = fuseki_client
         self.test_queries = config.get("sparql", {}).get("test_queries", [])
 
-        logger.info(f"Initialized SPARQL tester with {len(self.test_queries)} test queries")
+        logger.info(
+            f"Initialized SPARQL tester with {len(self.test_queries)} test queries"
+        )
 
     def run_tests(self) -> Tuple[bool, List[str]]:
         """
@@ -723,7 +755,9 @@ class SPARQLTester:
                         continue
 
                     if expected_binding not in bindings[0]:
-                        errors.append(f"Test '{name}': Missing expected binding '{expected_binding}'")
+                        errors.append(
+                            f"Test '{name}': Missing expected binding '{expected_binding}'"
+                        )
                         continue
                 else:
                     errors.append(f"Test '{name}': Invalid result format")
@@ -761,7 +795,9 @@ class TriplestoreLoaderAgent:
 
         # Ensure dataset exists in Fuseki
         if not self.fuseki_client.ensure_dataset():
-            logger.warning("Could not verify/create dataset in Fuseki - uploads may fail")
+            logger.warning(
+                "Could not verify/create dataset in Fuseki - uploads may fail"
+            )
 
         # Statistics
         self.stats = None
@@ -799,7 +835,9 @@ class TriplestoreLoaderAgent:
 
             # Validate before upload
             if validate_before:
-                is_valid, error_msg, triple_count = self.validator.validate_file(file_path)
+                is_valid, error_msg, triple_count = self.validator.validate_file(
+                    file_path
+                )
                 if not is_valid:
                     errors.append(f"{file_path}: {error_msg}")
                     logger.error(f"Validation failed for {file_path}: {error_msg}")
@@ -889,7 +927,9 @@ class TriplestoreLoaderAgent:
         file_paths = [str(f) for f in dir_path.glob(pattern)]
 
         if not file_paths:
-            logger.warning(f"No files found matching pattern '{pattern}' in {directory}")
+            logger.warning(
+                f"No files found matching pattern '{pattern}' in {directory}"
+            )
 
         return self.load_rdf_files(file_paths, validate_before, validate_after)
 
@@ -940,12 +980,18 @@ class TriplestoreLoaderAgent:
                 logger.info(f"Found {len(file_paths)} files in {directory}")
                 all_file_paths.extend(file_paths)
             else:
-                logger.warning(f"No files found matching pattern '{pattern}' in {directory}")
+                logger.warning(
+                    f"No files found matching pattern '{pattern}' in {directory}"
+                )
 
         if not all_file_paths:
-            logger.warning(f"No RDF files found in any of {len(directories)} directories")
+            logger.warning(
+                f"No RDF files found in any of {len(directories)} directories"
+            )
         else:
-            logger.info(f"Total files to load: {len(all_file_paths)} from {len(directories)} directories")
+            logger.info(
+                f"Total files to load: {len(all_file_paths)} from {len(directories)} directories"
+            )
 
         return self.load_rdf_files(all_file_paths, validate_before, validate_after)
 
@@ -992,7 +1038,9 @@ def main(config: Dict = None):
             config_path = config.get("config_path", "config/fuseki.yaml")
             rdf_dir = config.get("input_dir", "data/rdf")  # Single dir or first dir
             pattern = config.get("pattern", "*.ttl")
-            mode = config.get("mode", "single")  # 'single' or 'multiple' or 'auto-discover'
+            mode = config.get(
+                "mode", "single"
+            )  # 'single' or 'multiple' or 'auto-discover'
 
             agent = TriplestoreLoaderAgent(config_path)
 
@@ -1000,7 +1048,11 @@ def main(config: Dict = None):
             if mode == "auto-discover":
                 logger.info("Auto-discovering RDF directories in data/...")
                 data_path = Path("data")
-                rdf_dirs = [str(d) for d in data_path.iterdir() if d.is_dir() and d.name.startswith("rdf")]
+                rdf_dirs = [
+                    str(d)
+                    for d in data_path.iterdir()
+                    if d.is_dir() and d.name.startswith("rdf")
+                ]
 
                 if not rdf_dirs:
                     logger.error("No RDF directories found in data/")
@@ -1062,7 +1114,11 @@ def main(config: Dict = None):
         # Auto-discover all RDF directories in data/
         logger.info("Auto-discovering RDF directories...")
         data_path = Path("data")
-        rdf_dirs = [str(d) for d in data_path.iterdir() if d.is_dir() and d.name.startswith("rdf")]
+        rdf_dirs = [
+            str(d)
+            for d in data_path.iterdir()
+            if d.is_dir() and d.name.startswith("rdf")
+        ]
 
         if not rdf_dirs:
             logger.error("No RDF directories found in data/")
