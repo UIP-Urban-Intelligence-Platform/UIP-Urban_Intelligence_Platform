@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'CitizenReportMarkers'
+title: 'CitizenReportMarkers'
 sidebar_position: 11
 ---
 

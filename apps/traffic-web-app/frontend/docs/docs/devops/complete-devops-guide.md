@@ -1,3 +1,8 @@
+---
+sidebar_label: 'DevOps & Deployment Guide'
+title: 'Complete DevOps & Deployment Guide'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

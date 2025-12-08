@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'PatternZones'
+title: 'PatternZones'
 sidebar_position: 21
 ---
 

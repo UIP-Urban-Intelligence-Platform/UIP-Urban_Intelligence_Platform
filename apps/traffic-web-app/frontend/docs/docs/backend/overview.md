@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'Backend Overview'
+title: 'Backend Overview'
 sidebar_position: 1
-title: Backend Overview
 description: Express API server with WebSocket support for real-time traffic monitoring
 ---
 
@@ -110,31 +111,31 @@ graph TB
 
 ```
 backend/src/
-├── server.ts           # Main Express server entry point
-├── agents/             # AI agents (3 files)
-│   ├── EcoTwinAgent.ts
-│   ├── GraphInvestigatorAgent.ts
-│   └── TrafficMaestroAgent.ts
-├── config/             # Configuration loader
-│   └── configLoader.ts
-├── middlewares/        # Express middlewares
-│   └── errorHandler.ts
-├── routes/             # API route handlers (12 files)
-│   ├── cameraRoutes.ts
-│   ├── weatherRoutes.ts
-│   ├── airQualityRoutes.ts
-│   └── ...
-├── services/           # Data services (7 files)
-│   ├── stellioService.ts
-│   ├── neo4jService.ts
-│   ├── fusekiService.ts
-│   └── ...
-├── types/              # TypeScript definitions
-│   └── index.ts
-└── utils/              # Utility functions (5 files)
-    ├── logger.ts
-    ├── healthCheck.ts
-    └── ...
+â”œâ”€â”€ server.ts           # Main Express server entry point
+â”œâ”€â”€ agents/             # AI agents (3 files)
+â”‚   â”œâ”€â”€ EcoTwinAgent.ts
+â”‚   â”œâ”€â”€ GraphInvestigatorAgent.ts
+â”‚   â””â”€â”€ TrafficMaestroAgent.ts
+â”œâ”€â”€ config/             # Configuration loader
+â”‚   â””â”€â”€ configLoader.ts
+â”œâ”€â”€ middlewares/        # Express middlewares
+â”‚   â””â”€â”€ errorHandler.ts
+â”œâ”€â”€ routes/             # API route handlers (12 files)
+â”‚   â”œâ”€â”€ cameraRoutes.ts
+â”‚   â”œâ”€â”€ weatherRoutes.ts
+â”‚   â”œâ”€â”€ airQualityRoutes.ts
+â”‚   â””â”€â”€ ...
+â”œâ”€â”€ services/           # Data services (7 files)
+â”‚   â”œâ”€â”€ stellioService.ts
+â”‚   â”œâ”€â”€ neo4jService.ts
+â”‚   â”œâ”€â”€ fusekiService.ts
+â”‚   â””â”€â”€ ...
+â”œâ”€â”€ types/              # TypeScript definitions
+â”‚   â””â”€â”€ index.ts
+â””â”€â”€ utils/              # Utility functions (5 files)
+    â”œâ”€â”€ logger.ts
+    â”œâ”€â”€ healthCheck.ts
+    â””â”€â”€ ...
 ```
 
 ## Technology Stack

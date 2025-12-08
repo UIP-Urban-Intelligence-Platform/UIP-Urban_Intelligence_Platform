@@ -23,8 +23,6 @@ Description:
   Frontend overview documentation.
 ============================================================================
 -->
-Version: 1.0.0
--->
 
 # Frontend Overview
 

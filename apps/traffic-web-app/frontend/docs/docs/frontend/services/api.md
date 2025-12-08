@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'API Service'
+title: 'API Service'
 sidebar_position: 1
-title: API Service
 description: Axios-based HTTP client for all backend REST endpoints
 ---
 

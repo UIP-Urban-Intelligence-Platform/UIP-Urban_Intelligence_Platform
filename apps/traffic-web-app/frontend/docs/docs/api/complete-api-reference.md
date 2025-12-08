@@ -1,3 +1,8 @@
+---
+sidebar_label: 'API Reference'
+title: 'Complete API Reference'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

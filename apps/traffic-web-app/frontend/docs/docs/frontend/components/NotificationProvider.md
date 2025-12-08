@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'NotificationProvider'
+title: 'NotificationProvider'
 sidebar_position: 20
 ---
 

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'CitizenReportMap'
+title: 'CitizenReportMap'
 sidebar_position: 10
 ---
 

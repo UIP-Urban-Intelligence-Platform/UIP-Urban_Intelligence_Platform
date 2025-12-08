@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Troubleshooting Guide'
+title: 'Troubleshooting Guide'
 sidebar_position: 1
 ---
 

@@ -1,3 +1,8 @@
+---
+sidebar_label: 'SOSA/SSN Mapper'
+title: 'SOSA/SSN Mapper Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

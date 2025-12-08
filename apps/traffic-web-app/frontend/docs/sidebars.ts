@@ -397,11 +397,11 @@ const sidebars: SidebarsConfig = {
             label: '📄 Licenses',
             collapsed: true,
             items: [
-                'licenses/licenses-overview',
-                'licenses/license-texts',
-                'licenses/npm-dependencies',
-                'licenses/python-dependencies',
-                'licenses/special-notes',
+                'third-party-deps/overview',
+                'third-party-deps/dependency-texts',
+                'third-party-deps/npm-dependencies',
+                'third-party-deps/python-dependencies',
+                'third-party-deps/special-notes',
             ],
         },
         {

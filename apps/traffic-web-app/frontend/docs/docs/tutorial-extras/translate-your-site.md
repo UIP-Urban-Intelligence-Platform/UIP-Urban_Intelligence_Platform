@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Translate your site'
+title: 'Translate your site'
 sidebar_position: 2
 ---
 

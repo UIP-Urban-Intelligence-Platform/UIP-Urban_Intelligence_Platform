@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'External Data Collector'
+title: 'External Data Collector Agent'
 sidebar_position: 3
 ---
 

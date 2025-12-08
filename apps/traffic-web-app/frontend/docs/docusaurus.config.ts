@@ -30,6 +30,7 @@ const config: Config = {
     projectName: 'UIP-Urban_Intelligence_Platform',
 
     onBrokenLinks: 'ignore',
+    onBrokenAnchors: 'ignore',
     onBrokenMarkdownLinks: 'ignore',
 
     i18n: {

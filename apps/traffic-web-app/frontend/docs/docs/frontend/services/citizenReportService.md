@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'Citizen Report Service'
+title: 'Citizen Report Service'
 sidebar_position: 2
-title: Citizen Report Service
 description: API client for crowdsourced citizen report submissions
 ---
 
@@ -34,7 +35,7 @@ The CitizenReportService handles all citizen-contributed data:
 
 - Report submissions with photo uploads
 - Report retrieval with advanced filtering
-- Status updates (pending → verified/rejected)
+- Status updates (pending â†’ verified/rejected)
 - Aggregated statistics
 - Direct integration with Stellio Context Broker
 

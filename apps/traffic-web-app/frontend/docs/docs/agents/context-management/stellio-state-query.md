@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Stellio State Query'
+title: 'Stellio State Query Agent'
 sidebar_position: 3
 ---
 

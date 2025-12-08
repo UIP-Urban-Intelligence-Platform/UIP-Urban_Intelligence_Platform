@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'AccidentMarkers'
+title: 'AccidentMarkers'
 sidebar_position: 5
 ---
 

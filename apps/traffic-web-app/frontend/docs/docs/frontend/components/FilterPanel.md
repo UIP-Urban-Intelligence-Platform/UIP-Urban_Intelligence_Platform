@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'FilterPanel'
+title: 'FilterPanel'
 sidebar_position: 16
 ---
 

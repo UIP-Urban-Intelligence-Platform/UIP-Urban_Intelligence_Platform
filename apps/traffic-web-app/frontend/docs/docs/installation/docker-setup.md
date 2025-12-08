@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Docker Setup'
+title: 'Docker Setup'
 sidebar_position: 2
 ---
 

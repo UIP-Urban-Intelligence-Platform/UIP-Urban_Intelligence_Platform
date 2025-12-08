@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Manage Docs Versions'
+title: 'Manage Docs Versions'
 sidebar_position: 1
 ---
 

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'HumidityVisibilityLayer'
+title: 'HumidityVisibilityLayer'
 sidebar_position: 18
 ---
 

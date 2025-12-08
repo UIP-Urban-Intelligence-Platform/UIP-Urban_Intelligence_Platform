@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Air Quality'
+title: 'Air Quality Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

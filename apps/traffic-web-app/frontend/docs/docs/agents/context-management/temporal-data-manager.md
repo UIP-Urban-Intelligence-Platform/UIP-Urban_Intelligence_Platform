@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Temporal Data Manager'
+title: 'Temporal Data Manager Agent'
 sidebar_position: 4
 ---
 

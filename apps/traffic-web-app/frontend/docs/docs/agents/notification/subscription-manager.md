@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Subscription Manager'
+title: 'Subscription Manager Agent'
 sidebar_position: 4
 ---
 

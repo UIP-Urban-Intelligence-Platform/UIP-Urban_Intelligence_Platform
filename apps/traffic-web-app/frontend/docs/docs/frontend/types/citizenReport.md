@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'Citizen Report Types'
+title: 'Citizen Report Types'
 sidebar_position: 1
-title: Citizen Report Types
 description: TypeScript interfaces for crowdsourced citizen reports
 ---
 

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Sidebar'
+title: 'Sidebar'
 sidebar_position: 25
 ---
 

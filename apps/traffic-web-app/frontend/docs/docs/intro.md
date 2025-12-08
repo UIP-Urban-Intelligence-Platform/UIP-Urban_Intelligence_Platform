@@ -1,6 +1,7 @@
 ---
+sidebar_label: 'Introduction'
+title: 'UIP - Urban Intelligence Platform'
 slug: /
-title: UIP - Urban Intelligence Platform
 sidebar_position: 1
 ---
 
@@ -22,8 +23,6 @@ License: MIT
 Description:
   Introduction documentation page.
 ============================================================================
--->
-Version: 1.0.0
 -->
 
 # UIP - Urban Intelligence Platform

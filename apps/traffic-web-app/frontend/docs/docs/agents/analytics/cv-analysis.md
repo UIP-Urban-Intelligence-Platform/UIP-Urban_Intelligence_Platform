@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Computer Vision Analysis'
+title: 'Computer Vision Analysis Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

@@ -1,3 +1,8 @@
+---
+sidebar_label: '🤝 Contributing Guide'
+title: '🤝 Contributing Guide'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Accident State Manager'
+title: 'Accident State Manager Agent'
 sidebar_position: 2
 ---
 

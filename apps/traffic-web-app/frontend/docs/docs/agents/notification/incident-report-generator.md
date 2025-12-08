@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Incident Report Generator'
+title: 'Incident Report Generator Agent'
 sidebar_position: 3
 ---
 

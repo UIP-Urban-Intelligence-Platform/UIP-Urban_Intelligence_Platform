@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'WebSocket Service'
+title: 'WebSocket Service'
 sidebar_position: 4
-title: WebSocket Service
 description: Real-time bidirectional communication client with auto-reconnection
 ---
 

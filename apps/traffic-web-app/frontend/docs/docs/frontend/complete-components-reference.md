@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Frontend Components Reference'
+title: 'Complete Frontend Components Reference'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

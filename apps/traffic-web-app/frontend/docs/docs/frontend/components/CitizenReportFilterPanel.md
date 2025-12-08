@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'CitizenReportFilterPanel'
+title: 'CitizenReportFilterPanel'
 sidebar_position: 9
 ---
 

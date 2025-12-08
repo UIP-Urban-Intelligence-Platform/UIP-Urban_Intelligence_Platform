@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Neo4j Query'
+title: 'Neo4j Query Agent'
 sidebar_position: 2
 ---
 

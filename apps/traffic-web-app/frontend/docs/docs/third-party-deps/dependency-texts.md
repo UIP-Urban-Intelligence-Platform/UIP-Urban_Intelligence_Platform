@@ -1,5 +1,4 @@
 ---
-id: license-texts
 title: Third-Party Dependency Licenses (MIT-Compatible)
 sidebar_label: Dependency Licenses
 sidebar_position: 4

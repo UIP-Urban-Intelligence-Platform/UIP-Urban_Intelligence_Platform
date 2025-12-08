@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'SpeedZones'
+title: 'SpeedZones'
 sidebar_position: 27
 ---
 

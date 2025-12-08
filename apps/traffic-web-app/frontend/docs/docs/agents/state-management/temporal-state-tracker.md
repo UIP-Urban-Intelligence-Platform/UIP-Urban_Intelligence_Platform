@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Temporal State Tracker'
+title: 'Temporal State Tracker Agent'
 sidebar_position: 4
 ---
 

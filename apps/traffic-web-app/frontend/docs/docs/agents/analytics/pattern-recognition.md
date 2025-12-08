@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Pattern Recognition'
+title: 'Pattern Recognition Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

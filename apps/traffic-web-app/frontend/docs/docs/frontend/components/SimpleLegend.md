@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'SimpleLegend'
+title: 'SimpleLegend'
 sidebar_position: 26
 ---
 

@@ -1,3 +1,8 @@
+---
+sidebar_label: 'TrafficMap'
+title: 'TrafficMap Component'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

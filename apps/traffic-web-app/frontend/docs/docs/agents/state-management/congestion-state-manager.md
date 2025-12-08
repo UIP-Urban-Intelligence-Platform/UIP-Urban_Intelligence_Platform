@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Congestion State Manager'
+title: 'Congestion State Manager Agent'
 sidebar_position: 3
 ---
 

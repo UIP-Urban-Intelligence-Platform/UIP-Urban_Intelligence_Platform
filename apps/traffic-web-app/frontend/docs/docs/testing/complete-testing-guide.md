@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Testing & Quality Guide'
+title: 'Complete Testing & Quality Guide'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

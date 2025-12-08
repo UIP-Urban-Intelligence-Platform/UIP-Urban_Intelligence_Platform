@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'MapLegend'
+title: 'MapLegend'
 sidebar_position: 19
 ---
 

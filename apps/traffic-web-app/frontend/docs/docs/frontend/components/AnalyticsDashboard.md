@@ -1,3 +1,8 @@
+---
+sidebar_label: 'AnalyticsDashboard'
+title: 'AnalyticsDashboard Component'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'API Gateway'
+title: 'API Gateway Agent'
 sidebar_position: 1
 ---
 

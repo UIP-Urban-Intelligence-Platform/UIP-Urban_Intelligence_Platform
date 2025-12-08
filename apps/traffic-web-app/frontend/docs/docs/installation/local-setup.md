@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Local Development Setup'
+title: 'Local Development Setup'
 sidebar_position: 3
 ---
 

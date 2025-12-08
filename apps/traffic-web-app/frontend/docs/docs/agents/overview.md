@@ -23,8 +23,6 @@ Description:
   Agent system overview documentation.
 ============================================================================
 -->
-Version: 1.0.0
--->
 
 # Agent System Overview
 

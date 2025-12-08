@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'Types Index'
+title: 'Types Index'
 sidebar_position: 2
-title: Types Index
 description: Centralized TypeScript type definitions for the frontend application
 ---
 

@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Citizen Report'
+title: 'Citizen Report Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

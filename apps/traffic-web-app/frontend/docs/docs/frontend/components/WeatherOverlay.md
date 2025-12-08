@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'WeatherOverlay'
+title: 'WeatherOverlay'
 sidebar_position: 30
 ---
 

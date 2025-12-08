@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'CameraDetailModal'
+title: 'CameraDetailModal'
 sidebar_position: 7
 ---
 

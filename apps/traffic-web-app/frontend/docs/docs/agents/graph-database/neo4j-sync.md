@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Neo4j Sync'
+title: 'Neo4j Sync Agent'
 sidebar_position: 1
 ---
 

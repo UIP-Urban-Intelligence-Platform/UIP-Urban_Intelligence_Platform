@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Smart Data Models Validation'
+title: 'Smart Data Models Validation Agent'
 sidebar_position: 5
 ---
 

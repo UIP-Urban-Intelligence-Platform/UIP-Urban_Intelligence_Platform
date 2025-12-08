@@ -1,4 +1,6 @@
----
+﻿---
+sidebar_label: 'Create a Blog Post'
+title: 'Create a Blog Post'
 sidebar_position: 3
 ---
 
@@ -34,15 +36,15 @@ Create a file at `blog/2021-02-28-greetings.md`:
 slug: greetings
 title: Greetings!
 authors:
-  - name: Nguyễn Nhật Quang
+  - name: Nguyá»…n Nháº­t Quang
     title: Lead Developer - UIP
     url: https://github.com/NguyenNhatquang522004
     image_url: https://github.com/NguyenNhatquang522004.png
-  - name: Nguyễn Việt Hoàng
+  - name: Nguyá»…n Viá»‡t HoÃ ng
     title: Full-Stack Developer - UIP
     url: https://github.com/JamesNguyen106
     image_url: https://github.com/JamesNguyen106.png
-  - name: Nguyễn Đình Anh Tuấn
+  - name: Nguyá»…n ÄÃ¬nh Anh Tuáº¥n
     title: Backend Developer - UIP
     url: https://github.com/NguyenDinhAnhTuan04
     image_url: https://github.com/NguyenDinhAnhTuan04.png

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Health Check'
+title: 'Health Check Agent'
 sidebar_position: 1
 ---
 

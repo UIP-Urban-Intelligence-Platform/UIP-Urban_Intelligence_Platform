@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'AccidentFrequencyChart'
+title: 'AccidentFrequencyChart'
 sidebar_position: 4
 ---
 

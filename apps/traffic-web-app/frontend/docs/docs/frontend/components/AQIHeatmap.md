@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'AQIHeatmap'
+title: 'AQIHeatmap'
 sidebar_position: 6
 ---
 

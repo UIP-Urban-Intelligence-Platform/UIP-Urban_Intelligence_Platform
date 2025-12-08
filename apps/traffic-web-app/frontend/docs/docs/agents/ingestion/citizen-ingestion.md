@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Citizen Ingestion'
+title: 'Citizen Ingestion Agent'
 sidebar_position: 1
 ---
 

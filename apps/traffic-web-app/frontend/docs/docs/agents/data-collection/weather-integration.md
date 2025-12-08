@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Weather Integration'
+title: 'Weather Integration Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

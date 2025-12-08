@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'PollutantCircles'
+title: 'PollutantCircles'
 sidebar_position: 22
 ---
 

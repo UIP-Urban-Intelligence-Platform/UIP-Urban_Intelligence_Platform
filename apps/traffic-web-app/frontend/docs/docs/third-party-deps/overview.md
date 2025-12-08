@@ -1,5 +1,4 @@
 ---
-id: licenses-overview
 title: Third-Party Licenses Overview
 sidebar_label: Overview
 sidebar_position: 1

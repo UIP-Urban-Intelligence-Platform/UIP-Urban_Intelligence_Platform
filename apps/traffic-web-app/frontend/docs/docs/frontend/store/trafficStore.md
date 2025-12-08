@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'Traffic Store'
+title: 'Traffic Store'
 sidebar_position: 1
-title: Traffic Store
 description: Centralized Zustand state management for the traffic application
 ---
 

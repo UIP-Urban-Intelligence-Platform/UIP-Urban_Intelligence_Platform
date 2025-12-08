@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Image Refresh'
+title: 'Image Refresh Agent'
 sidebar_position: 4
 ---
 

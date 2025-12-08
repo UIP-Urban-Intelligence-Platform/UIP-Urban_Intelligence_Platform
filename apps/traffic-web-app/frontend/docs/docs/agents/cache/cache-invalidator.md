@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Cache Invalidator'
+title: 'Cache Invalidator Agent'
 sidebar_position: 2
 ---
 

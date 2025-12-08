@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'LandingPage'
+title: 'LandingPage Component'
 sidebar_position: 3
-title: LandingPage
 description: Marketing and onboarding entry point for new users
 ---
 

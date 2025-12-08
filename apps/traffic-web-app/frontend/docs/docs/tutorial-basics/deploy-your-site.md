@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Deploy your site'
+title: 'Deploy your site'
 sidebar_position: 5
 ---
 

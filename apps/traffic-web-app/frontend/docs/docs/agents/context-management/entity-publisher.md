@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Entity Publisher'
+title: 'Entity Publisher Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

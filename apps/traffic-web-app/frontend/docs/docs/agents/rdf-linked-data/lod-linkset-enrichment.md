@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'LOD Linkset Enrichment'
+title: 'LOD Linkset Enrichment Agent'
 sidebar_position: 3
 ---
 

@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'useWebSocket Hook'
+title: 'useWebSocket Hook'
 sidebar_position: 1
-title: useWebSocket Hook
 description: React hook for WebSocket connection management with auto-reconnection
 ---
 

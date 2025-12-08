@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Triplestore Loader'
+title: 'Triplestore Loader Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

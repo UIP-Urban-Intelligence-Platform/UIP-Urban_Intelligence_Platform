@@ -1,3 +1,8 @@
+---
+sidebar_label: 'REST API Reference'
+title: 'REST API Reference'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

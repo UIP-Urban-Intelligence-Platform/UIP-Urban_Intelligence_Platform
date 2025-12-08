@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Email Notification Handler'
+title: 'Email Notification Handler Agent'
 sidebar_position: 2
 ---
 

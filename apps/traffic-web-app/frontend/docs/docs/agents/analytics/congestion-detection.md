@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Congestion Detection'
+title: 'Congestion Detection Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

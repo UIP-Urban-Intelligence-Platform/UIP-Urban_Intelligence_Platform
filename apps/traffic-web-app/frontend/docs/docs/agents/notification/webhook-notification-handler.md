@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Webhook Notification Handler'
+title: 'Webhook Notification Handler Agent'
 sidebar_position: 5
 ---
 

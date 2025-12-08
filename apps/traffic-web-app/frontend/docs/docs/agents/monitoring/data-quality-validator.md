@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Data Quality Validator'
+title: 'Data Quality Validator Agent'
 sidebar_position: 3
 ---
 

@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Alert Dispatcher'
+title: 'Alert Dispatcher Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

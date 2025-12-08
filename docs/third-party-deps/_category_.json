@@ -5,6 +5,13 @@
     "type": "generated-index",
     "title": "Third-Party Dependencies",
     "description": "Complete documentation of all third-party dependencies and their MIT-compatible licenses used in the UIP project.",
-    "keywords": ["licenses", "third-party", "dependencies", "MIT", "open-source", "compliance"]
+    "keywords": [
+      "licenses",
+      "third-party",
+      "dependencies",
+      "MIT",
+      "open-source",
+      "compliance"
+    ]
   }
 }

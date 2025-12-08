@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'TrafficMaestro'
+title: 'TrafficMaestro Agent'
 sidebar_position: 3
-title: TrafficMaestro Agent
 description: Predictive event-based congestion forecasting and traffic orchestration
 ---
 

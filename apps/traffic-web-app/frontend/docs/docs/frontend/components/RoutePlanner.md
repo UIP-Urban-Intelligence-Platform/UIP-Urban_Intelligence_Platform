@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'RoutePlanner'
+title: 'RoutePlanner'
 sidebar_position: 23
 ---
 

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'ErrorBoundary'
+title: 'ErrorBoundary'
 sidebar_position: 15
 ---
 

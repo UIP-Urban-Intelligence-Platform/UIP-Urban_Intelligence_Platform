@@ -1,3 +1,8 @@
+---
+sidebar_label: 'WebSocket API Reference'
+title: 'WebSocket API Reference'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

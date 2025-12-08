@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'RouteVisualization'
+title: 'RouteVisualization'
 sidebar_position: 24
 ---
 

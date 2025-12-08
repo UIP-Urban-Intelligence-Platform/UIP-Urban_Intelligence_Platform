@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'GraphInvestigator'
+title: 'GraphInvestigator Agent'
 sidebar_position: 2
-title: GraphInvestigator Agent
 description: Multimodal incident analysis with GraphRAG and computer vision
 ---
 

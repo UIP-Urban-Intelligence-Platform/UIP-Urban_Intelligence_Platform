@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'TimeMachine'
+title: 'TimeMachine'
 sidebar_position: 28
 ---
 

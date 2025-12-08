@@ -1,3 +1,8 @@
+---
+sidebar_label: 'CitizenReportForm'
+title: 'CitizenReportForm Component'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

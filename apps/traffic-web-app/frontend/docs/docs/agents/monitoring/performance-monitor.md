@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Performance Monitor'
+title: 'Performance Monitor Agent'
 sidebar_position: 2
 ---
 

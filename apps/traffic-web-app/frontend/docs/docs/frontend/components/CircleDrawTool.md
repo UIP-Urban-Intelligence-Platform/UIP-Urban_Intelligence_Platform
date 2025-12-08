@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'CircleDrawTool'
+title: 'CircleDrawTool'
 sidebar_position: 8
 ---
 

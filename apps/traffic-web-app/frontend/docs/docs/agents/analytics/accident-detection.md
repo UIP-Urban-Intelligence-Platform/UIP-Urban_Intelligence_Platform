@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Accident Detection'
+title: 'Accident Detection Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

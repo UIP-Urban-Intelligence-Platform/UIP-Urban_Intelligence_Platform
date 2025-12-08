@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Development Workflow'
+title: 'Development Workflow'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

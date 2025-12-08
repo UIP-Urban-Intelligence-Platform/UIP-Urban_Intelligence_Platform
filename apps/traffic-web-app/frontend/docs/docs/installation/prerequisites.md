@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Prerequisites'
+title: 'Prerequisites'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

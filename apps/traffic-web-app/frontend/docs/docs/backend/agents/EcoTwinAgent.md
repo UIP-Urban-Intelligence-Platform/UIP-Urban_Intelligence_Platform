@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'EcoTwin'
+title: 'EcoTwin Agent'
 sidebar_position: 1
-title: EcoTwin Agent
 description: Environmental health advisor with AQI dispersion modeling and personalized recommendations
 ---
 

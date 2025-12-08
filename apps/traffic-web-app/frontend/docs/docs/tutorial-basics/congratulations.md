@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Congratulations'
+title: 'Congratulations'
 sidebar_position: 6
 ---
 

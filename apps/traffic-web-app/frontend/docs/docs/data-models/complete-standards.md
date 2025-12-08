@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Data Models & Standards Reference'
+title: 'Complete Data Models & Standards Reference'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

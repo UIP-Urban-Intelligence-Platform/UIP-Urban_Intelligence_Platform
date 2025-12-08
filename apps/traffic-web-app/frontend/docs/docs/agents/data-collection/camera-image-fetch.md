@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Camera Image Fetch'
+title: 'Camera Image Fetch Agent'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

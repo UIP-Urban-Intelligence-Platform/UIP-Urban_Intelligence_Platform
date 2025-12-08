@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'HistoricalViewBanner'
+title: 'HistoricalViewBanner'
 sidebar_position: 17
 ---
 

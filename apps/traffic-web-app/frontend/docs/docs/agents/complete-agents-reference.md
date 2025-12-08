@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Agents Reference'
+title: 'Complete Agents Reference'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

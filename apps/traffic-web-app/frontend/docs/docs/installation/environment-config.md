@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Environment Configuration'
+title: 'Environment Configuration'
 sidebar_position: 4
 ---
 

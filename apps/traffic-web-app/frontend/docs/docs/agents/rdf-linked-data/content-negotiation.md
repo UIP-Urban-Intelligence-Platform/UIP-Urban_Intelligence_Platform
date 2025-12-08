@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Content Negotiation'
+title: 'Content Negotiation Agent'
 sidebar_position: 2
 ---
 

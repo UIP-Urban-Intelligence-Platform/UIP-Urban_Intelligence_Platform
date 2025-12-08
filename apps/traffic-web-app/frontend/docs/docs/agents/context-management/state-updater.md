@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'State Updater'
+title: 'State Updater Agent'
 sidebar_position: 2
 ---
 

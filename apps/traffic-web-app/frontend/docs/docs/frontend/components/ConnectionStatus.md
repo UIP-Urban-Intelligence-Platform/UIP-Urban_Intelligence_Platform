@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'ConnectionStatus'
+title: 'ConnectionStatus'
 sidebar_position: 12
 ---
 

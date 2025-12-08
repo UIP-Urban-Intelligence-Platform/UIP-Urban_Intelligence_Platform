@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'NGSI-LD to RDF'
+title: 'NGSI-LD to RDF Agent'
 sidebar_position: 4
 ---
 

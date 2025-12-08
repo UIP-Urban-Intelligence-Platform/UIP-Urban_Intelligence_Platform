@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'Dashboard Page'
+title: 'Dashboard Page'
 sidebar_position: 1
-title: Dashboard Page
 description: Main traffic monitoring interface integrating map, sidebar, and analytics
 ---
 

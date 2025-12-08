@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'State Manager'
+title: 'State Manager Agent'
 sidebar_position: 1
 ---
 

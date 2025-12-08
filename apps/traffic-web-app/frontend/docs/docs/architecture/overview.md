@@ -1,3 +1,8 @@
+---
+sidebar_label: 'System Architecture Overview'
+title: 'System Architecture Overview'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

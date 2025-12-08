@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'CorrelationPanel'
+title: 'CorrelationPanel'
 sidebar_position: 14
 ---
 

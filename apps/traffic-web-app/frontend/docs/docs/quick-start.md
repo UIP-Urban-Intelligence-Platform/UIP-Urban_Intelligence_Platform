@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Quick Start Guide'
+title: 'Quick Start Guide'
+---
+
 <!--
 ============================================================================
 UIP - Urban Intelligence Platform

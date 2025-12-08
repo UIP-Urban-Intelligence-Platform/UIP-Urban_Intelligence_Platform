@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'Docs Service'
+title: 'Docs Service'
 sidebar_position: 3
-title: Docs Service
 description: Documentation content loader and navigation management
 ---
 
@@ -81,23 +82,23 @@ The `docsNavigation` array defines the complete documentation hierarchy:
 export const docsNavigation: DocItem[] = [
     {
         id: 'intro',
-        title: 'Giới thiệu',
+        title: 'Giá»›i thiá»‡u',
         path: '/docs',
         order: 1,
     },
     {
         id: 'quick-start',
-        title: 'Bắt đầu nhanh',
+        title: 'Báº¯t Ä‘áº§u nhanh',
         path: '/docs/quick-start',
         order: 2,
     },
     {
         id: 'agents',
-        title: 'Hệ thống Agent',
+        title: 'Há»‡ thá»‘ng Agent',
         path: '/docs/agents',
         order: 5,
         children: [
-            { id: 'agents-overview', title: 'Tổng quan Agent', path: '/docs/agents/overview' },
+            { id: 'agents-overview', title: 'Tá»•ng quan Agent', path: '/docs/agents/overview' },
             {
                 id: 'agents-analytics', 
                 title: 'Analytics Agents', 
@@ -163,7 +164,7 @@ import {
 // Load content for current page
 const content = await loadDocContent('/docs/agents/overview');
 if (content) {
-    console.log(content.title);   // "Tổng quan Agent"
+    console.log(content.title);   // "Tá»•ng quan Agent"
     console.log(content.content); // Markdown content
 }
 
@@ -180,17 +181,17 @@ const { prev, next } = getPrevNextDocs('/docs/agents/overview');
 
 | Category | Description | Items |
 |----------|-------------|-------|
-| Giới thiệu | Introduction to the platform | 1 |
-| Bắt đầu nhanh | Quick start guide | 1 |
-| Cài đặt | Installation instructions | 1 |
-| Kiến trúc | System architecture | 1 |
-| Hệ thống Agent | Agent documentation | 14+ |
+| Giá»›i thiá»‡u | Introduction to the platform | 1 |
+| Báº¯t Ä‘áº§u nhanh | Quick start guide | 1 |
+| CÃ i Ä‘áº·t | Installation instructions | 1 |
+| Kiáº¿n trÃºc | System architecture | 1 |
+| Há»‡ thá»‘ng Agent | Agent documentation | 14+ |
 | Frontend | Component documentation | 3+ |
 | API | API reference | 3 |
 | Data Models | Standards & ontologies | 1 |
 | DevOps | DevOps guide | 1 |
 | Testing | Testing guide | 1 |
-| Hướng dẫn | Development guides | 3 |
+| HÆ°á»›ng dáº«n | Development guides | 3 |
 | Tutorial | Tutorial basics | 6 |
 
 ## Content Storage

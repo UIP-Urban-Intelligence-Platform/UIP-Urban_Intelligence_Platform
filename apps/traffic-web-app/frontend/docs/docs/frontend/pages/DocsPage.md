@@ -1,6 +1,7 @@
----
+﻿---
+sidebar_label: 'DocsPage'
+title: 'DocsPage Component'
 sidebar_position: 2
-title: DocsPage
 description: Documentation reader with sidebar navigation and markdown rendering
 ---
 

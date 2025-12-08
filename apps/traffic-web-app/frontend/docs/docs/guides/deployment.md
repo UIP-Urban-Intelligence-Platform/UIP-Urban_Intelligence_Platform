@@ -1,3 +1,8 @@
+---
+sidebar_label: 'Deployment Guide'
+title: 'Deployment Guide'
+---
+
 <!--
 ============================================================================
 SPDX-License-Identifier: MIT

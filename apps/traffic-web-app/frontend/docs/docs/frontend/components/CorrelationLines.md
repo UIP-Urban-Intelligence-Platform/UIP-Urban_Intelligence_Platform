@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'CorrelationLines'
+title: 'CorrelationLines'
 sidebar_position: 13
 ---
 

@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'VehicleHeatmap'
+title: 'VehicleHeatmap'
 sidebar_position: 29
 ---
 

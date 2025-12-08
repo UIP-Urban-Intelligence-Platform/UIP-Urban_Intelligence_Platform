@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Cache Manager'
+title: 'Cache Manager Agent'
 sidebar_position: 1
 ---
 
