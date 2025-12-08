@@ -361,8 +361,8 @@ private getNestedValue(obj: any, path: string): any {
 | `number` | String/Number | Number |
 | `boolean` | String/Boolean | Boolean |
 | `datetime` | ISO string | Date object |
-| `geojson` | GeoJSON object | { latitude, longitude } |
-| `coordinates` | [lon, lat] array | { latitude, longitude } |
+| `geojson` | GeoJSON object | `{ latitude, longitude }` |
+| `coordinates` | [lon, lat] array | `{ latitude, longitude }` |
 
 ```typescript
 private transformValue(value: any, type: string): any {

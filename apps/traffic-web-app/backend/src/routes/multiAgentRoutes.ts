@@ -113,11 +113,43 @@ const refreshPredictiveCache = async () => {
             isSimulated: hotspot.isSimulated ?? false // REAL data now
         }));
 
-        // Fetch external events from APIs (Ticketmaster, etc.)
+        // Fetch external events from APIs (Ticketmaster, Google Calendar, etc.)
         let externalEvents: any[] = [];
         try {
             const eventMappings = await agent.monitorExternalEvents();
-            externalEvents = eventMappings.slice(0, 10).map((mapping: any) => ({
+
+            // HCMC center coordinates
+            const HCMC_CENTER = { lat: 10.7769, lng: 106.7009 };
+            const MAX_DISTANCE_KM = 200; // Only include events within 200km of HCMC
+
+            // Helper function to calculate distance between two coordinates (Haversine formula)
+            const calculateDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+                const R = 6371; // Earth's radius in km
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLng = (lng2 - lng1) * Math.PI / 180;
+                const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                return R * c;
+            };
+
+            // Filter events to only include those near HCMC (Vietnam)
+            const vietnamEvents = eventMappings.filter((mapping: any) => {
+                const eventLat = mapping.event.venue?.location?.lat || 0;
+                const eventLng = mapping.event.venue?.location?.lng || 0;
+                const distance = calculateDistance(HCMC_CENTER.lat, HCMC_CENTER.lng, eventLat, eventLng);
+
+                // Keep events within 200km of HCMC or events from google-calendar (Vietnam holidays)
+                const isNearHCMC = distance <= MAX_DISTANCE_KM;
+                const isVietnamHoliday = mapping.event.source === 'google-calendar';
+
+                return isNearHCMC || isVietnamHoliday;
+            });
+
+            logger.info(`📅 Filtered to ${vietnamEvents.length} Vietnam-related events (from ${eventMappings.length} total)`);
+
+            externalEvents = vietnamEvents.slice(0, 10).map((mapping: any) => ({
                 id: mapping.event.id || `event-${Date.now()}-${Math.random()}`,
                 type: mapping.event.category || 'external_event',
                 name: `🎉 ${mapping.event.name}`,
@@ -130,7 +162,7 @@ const refreshPredictiveCache = async () => {
                 riskScore: mapping.surgeRisk?.score || 50,
                 source: 'external_api'
             }));
-            logger.info(`📅 Fetched ${externalEvents.length} external events`);
+            logger.info(`📅 Final external events: ${externalEvents.length}`);
         } catch (eventError) {
             logger.warn('Could not fetch external events:', eventError);
         }
@@ -651,24 +683,66 @@ router.get('/traffic-maestro/predictive-timeline', async (req: Request, res: Res
         const cacheAge = now - predictiveTimelineCache.timestamp;
         const isCacheValid = predictiveTimelineCache.data && cacheAge < CACHE_DURATION_MS;
 
-        // Return cached data immediately if valid (FAST!)
+        // Helper function to check if cache is from a different day (auto-invalidate old day cache)
+        const isCacheFromDifferentDay = (): boolean => {
+            if (!predictiveTimelineCache.data) return false;
+            const cachedDate = new Date(predictiveTimelineCache.timestamp).toDateString();
+            const currentDate = new Date().toDateString();
+            return cachedDate !== currentDate;
+        };
+
+        // Auto-clear cache when day changes
+        if (isCacheFromDifferentDay()) {
+            logger.info('🔄 Cache from different day detected, clearing old cache...');
+            predictiveTimelineCache.data = null;
+            predictiveTimelineCache.timestamp = 0;
+        }
+
+        // Helper function to update timestamps in cached data to current time
+        const updateCachedDataTimestamps = (cachedData: any) => {
+            const currentTime = new Date();
+            const updatedEvents = cachedData.events?.map((event: any) => {
+                if (event.type === 'traffic_hotspot') {
+                    // Update hotspot timestamps to current time
+                    return {
+                        ...event,
+                        startTime: currentTime.toISOString(),
+                        endTime: new Date(currentTime.getTime() + 2 * 3600000).toISOString(),
+                    };
+                }
+                return event;
+            }) || [];
+
+            return {
+                ...cachedData,
+                events: updatedEvents,
+                metadata: {
+                    ...cachedData.metadata,
+                    generatedAt: currentTime.toISOString(),
+                }
+            };
+        };
+
+        // Return cached data immediately if valid and NOT force refresh
         if (isCacheValid && !forceRefresh) {
             logger.info(`⚡ Returning cached predictive timeline (age: ${Math.round(cacheAge / 1000)}s)`);
+            const updatedData = updateCachedDataTimestamps(predictiveTimelineCache.data);
             return res.json({
                 success: true,
-                data: predictiveTimelineCache.data,
+                data: updatedData,
                 cached: true,
                 cacheAge: Math.round(cacheAge / 1000)
             });
         }
 
-        // If cache is loading, return stale data or loading state
-        if (predictiveTimelineCache.isLoading) {
+        // If cache is loading and NOT force refresh, return stale data or loading state
+        if (predictiveTimelineCache.isLoading && !forceRefresh) {
             if (predictiveTimelineCache.data) {
                 logger.info('⏳ Cache refresh in progress, returning stale data');
+                const updatedData = updateCachedDataTimestamps(predictiveTimelineCache.data);
                 return res.json({
                     success: true,
-                    data: predictiveTimelineCache.data,
+                    data: updatedData,
                     cached: true,
                     stale: true
                 });
@@ -685,23 +759,16 @@ router.get('/traffic-maestro/predictive-timeline', async (req: Request, res: Res
             });
         }
 
-        // No cache or force refresh - fetch new data
-        logger.info('📊 Fetching fresh predictive timeline (cache miss or force refresh)...');
+        // Force refresh OR no cache - fetch new data synchronously
+        logger.info(`📊 Fetching fresh predictive timeline (forceRefresh: ${forceRefresh})...`);
 
-        // Start background refresh
-        refreshPredictiveCache();
-
-        // If we have old cache, return it while refreshing
-        if (predictiveTimelineCache.data) {
-            return res.json({
-                success: true,
-                data: predictiveTimelineCache.data,
-                cached: true,
-                refreshing: true
-            });
+        // Clear old cache when force refresh
+        if (forceRefresh) {
+            predictiveTimelineCache.data = null;
+            predictiveTimelineCache.timestamp = 0;
         }
 
-        // First time load - need to wait
+        // Fetch data synchronously (wait for result)
         const agent = getTrafficMaestro();
         const trafficAnalysis = await agent.analyzeAllCamerasTraffic();
 
@@ -727,8 +794,9 @@ router.get('/traffic-maestro/predictive-timeline', async (req: Request, res: Res
             type: 'traffic_hotspot',
             name: `🔥 Kẹt xe: ${hotspot.cameraName}`,
             venue: hotspot.cameraName,
-            startTime: new Date().toISOString(),
+            startTime: hotspot.observedAt || new Date().toISOString(), // Use actual observation timestamp
             endTime: new Date(Date.now() + 2 * 3600000).toISOString(),
+            observedAt: hotspot.observedAt || new Date().toISOString(), // Timestamp when data was pushed to Stellio
             estimatedAttendees: hotspot.vehicleCount,
             impactRadius: 500,
             location: hotspot.location,
@@ -738,11 +806,42 @@ router.get('/traffic-maestro/predictive-timeline', async (req: Request, res: Res
             isSimulated: hotspot.isSimulated ?? false // REAL data now
         }));
 
-        // Fetch external events from APIs
+        // Fetch external events from APIs - FILTER FOR VIETNAM ONLY
         let externalEvents: any[] = [];
         try {
             const eventMappings = await agent.monitorExternalEvents();
-            externalEvents = eventMappings.slice(0, 10).map((mapping: any) => ({
+
+            // HCMC center coordinates
+            const HCMC_CENTER = { lat: 10.7769, lng: 106.7009 };
+            const MAX_DISTANCE_KM = 200; // Only include events within 200km of HCMC
+
+            // Helper function to calculate distance (Haversine formula)
+            const calcDistance = (lat1: number, lng1: number, lat2: number, lng2: number): number => {
+                const R = 6371;
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLng = (lng2 - lng1) * Math.PI / 180;
+                const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                return R * c;
+            };
+
+            // Filter: only keep events near HCMC or Vietnam holidays from Google Calendar
+            const vietnamEvents = eventMappings.filter((mapping: any) => {
+                const eventLat = mapping.event.venue?.location?.lat || 0;
+                const eventLng = mapping.event.venue?.location?.lng || 0;
+                const distance = calcDistance(HCMC_CENTER.lat, HCMC_CENTER.lng, eventLat, eventLng);
+
+                const isNearHCMC = distance <= MAX_DISTANCE_KM;
+                const isVietnamHoliday = mapping.event.source === 'google-calendar';
+
+                return isNearHCMC || isVietnamHoliday;
+            });
+
+            logger.info(`📅 Filtered to ${vietnamEvents.length} Vietnam events (from ${eventMappings.length} total)`);
+
+            externalEvents = vietnamEvents.slice(0, 10).map((mapping: any) => ({
                 id: mapping.event.id || `event-${Date.now()}-${Math.random()}`,
                 type: mapping.event.category || 'external_event',
                 name: `🎉 ${mapping.event.name}`,
@@ -755,7 +854,7 @@ router.get('/traffic-maestro/predictive-timeline', async (req: Request, res: Res
                 riskScore: mapping.surgeRisk?.score || 50,
                 source: 'external_api'
             }));
-            logger.info(`📅 Fetched ${externalEvents.length} external events`);
+            logger.info(`📅 Final external events: ${externalEvents.length}`);
         } catch (eventError) {
             logger.warn('Could not fetch external events:', eventError);
         }

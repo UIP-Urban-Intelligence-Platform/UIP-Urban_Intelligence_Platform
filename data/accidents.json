@@ -2608,5 +2608,2885 @@
       "type": "Property",
       "value": "DETR-CV-Analysis"
     }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:4-20251207T234018112093-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.781423091888,
+          10.7646823693643
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:40:18.112093Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.943
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:4"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:11-20251207T235423884484-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.790762543678,
+          10.796827763223
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:54:23.884484Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.457
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:11"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:12-20251207T235436826039-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.765716075897,
+          10.8349709243101
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:54:36.826039Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.65
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:12"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:12-20251207T235436826039-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.765716075897,
+          10.8349709243101
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:54:36.826039Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.576
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:12"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:18-20251207T235545533199-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.577017307281,
+          10.7304200365785
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:55:45.533199Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.407
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:18"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:22-20251207T235625233775-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.677197813988,
+          10.751960277381
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:56:25.233775Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.514
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:22"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:23-20251207T235637591725-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.7755866,
+          10.7701157
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:56:37.591725Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.924
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:23"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:27-20251207T235717355667-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.768741607666,
+          10.872081942303
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:57:17.355667Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.746
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:27"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:27-20251207T235717355667-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.768741607666,
+          10.872081942303
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:57:17.355667Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.453
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:27"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:27-20251207T235717355667-2",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.768741607666,
+          10.872081942303
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:57:17.355667Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.593
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:27"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:28-20251207T235738022371-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.654415130615,
+          10.8619248135124
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-07T23:57:38.022371Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.589
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:28"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:1-20251208T012442054575-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.677986383438,
+          10.8797100979598
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:24:42.054575Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.436
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:1"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:2-20251208T012446142954-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.713809967041,
+          10.8361932799182
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:24:46.142954Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.525
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:2"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:5-20251208T012500877910-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.593974232674,
+          10.7492355507977
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:25:00.877910Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.403
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:5"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:11-20251208T012641184978-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.790762543678,
+          10.796827763223
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:26:41.184978Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.449
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:11"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:19-20251208T012750432475-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.571368575096,
+          10.7590644777735
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:27:50.432475Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.489
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:19"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:23-20251208T012925087505-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.7755866,
+          10.7701157
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:29:25.087505Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.789
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:23"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:23-20251208T012925087505-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.7755866,
+          10.7701157
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:29:25.087505Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.791
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:23"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:23-20251208T012925087505-2",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.7755866,
+          10.7701157
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:29:25.087505Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.894
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:23"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:23-20251208T012925087505-3",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.7755866,
+          10.7701157
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:29:25.087505Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.446
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:23"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:27-20251208T013015619036-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.768741607666,
+          10.872081942303
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:30:15.619036Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.814
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:27"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:27-20251208T013015619036-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.768741607666,
+          10.872081942303
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:30:15.619036Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.712
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:27"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:28-20251208T013022376292-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.654415130615,
+          10.8619248135124
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:30:22.376292Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.527
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:28"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:28-20251208T013022376292-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.654415130615,
+          10.8619248135124
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:30:22.376292Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.685
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:28"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:33-20251208T013116363567-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.7367374897,
+          10.7409610852775
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:31:16.363567Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.916
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:33"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:33-20251208T013116363567-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.7367374897,
+          10.7409610852775
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:31:16.363567Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.882
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:33"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:39-20251208T013142696944-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.601693630219,
+          10.7235049089888
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:31:42.696944Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.591
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:39"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:46-20251208T013522608819-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.723862886429,
+          10.7526506780822
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:35:22.608819Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.712
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:46"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:46-20251208T013522608819-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.723862886429,
+          10.7526506780822
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:35:22.608819Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.638
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:46"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:61-20251208T013705038438-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.505670547485,
+          10.7937661942221
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:37:05.038438Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.895
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:61"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:63-20251208T013715194055-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.792302131653,
+          10.8208924000834
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:37:15.194055Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.695
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:63"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:63-20251208T013715194055-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.792302131653,
+          10.8208924000834
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:37:15.194055Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.549
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:63"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:63-20251208T013715194055-2",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.792302131653,
+          10.8208924000834
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:37:15.194055Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.834
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:63"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:79-20251208T013841908300-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.55412197113,
+          10.7860515343869
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:38:41.908300Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.959
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:79"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:81-20251208T013922220801-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.808030605316,
+          10.8735359428243
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:39:22.220801Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.972
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:81"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:83-20251208T013943781391-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.581823825836,
+          10.7489509551128
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:39:43.781391Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.696
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:83"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:91-20251208T014106309211-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.701128482819,
+          10.7709694352995
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:41:06.309211Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.419
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:91"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:93-20251208T014147503310-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.567468643188,
+          10.7629906888237
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:41:47.503310Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.727
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:93"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:93-20251208T014147503310-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.567468643188,
+          10.7629906888237
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:41:47.503310Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.498
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:93"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:93-20251208T014147503310-2",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.567468643188,
+          10.7629906888237
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:41:47.503310Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.489
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:93"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:93-20251208T014147503310-3",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.567468643188,
+          10.7629906888237
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:41:47.503310Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.661
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:93"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:93-20251208T014147503310-4",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.567468643188,
+          10.7629906888237
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:41:47.503310Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.569
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:93"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:96-20251208T014202961477-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.576770544052,
+          10.9836400150392
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:42:02.961477Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.541
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:96"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:106-20251208T014507768220-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.813673973084,
+          10.8502078623705
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:45:07.768220Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.876
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:106"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:106-20251208T014507768220-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.813673973084,
+          10.8502078623705
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:45:07.768220Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.493
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:106"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:110-20251208T014526783968-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.787940859795,
+          10.8672299545045
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:45:26.783968Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.867
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:110"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:121-20251208T014624527695-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.758962273598,
+          10.8752217316573
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:46:24.527695Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.685
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:121"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:122-20251208T014629591684-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.728331446648,
+          10.7525452734972
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:46:29.591684Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.644
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:122"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:125-20251208T014645814712-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.727387309074,
+          10.7990303873734
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:46:45.814712Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.47
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:125"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:129-20251208T014715524025-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.750985383987,
+          10.8758064874328
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:47:15.524025Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.495
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:129"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:129-20251208T014715524025-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.750985383987,
+          10.8758064874328
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:47:15.524025Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.819
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:129"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:129-20251208T014715524025-2",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.750985383987,
+          10.8758064874328
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:47:15.524025Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.641
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:129"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:129-20251208T014715524025-3",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.750985383987,
+          10.8758064874328
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:47:15.524025Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.671
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:129"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:136-20251208T014823329643-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.684375405312,
+          10.7596494601112
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:23.329643Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.412
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:136"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:137-20251208T014830938329-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.623339056969,
+          10.8556133114939
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:30.938329Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.457
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:137"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:137-20251208T014830938329-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.623339056969,
+          10.8556133114939
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:30.938329Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.592
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:137"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:137-20251208T014830938329-2",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.623339056969,
+          10.8556133114939
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:30.938329Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.632
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:137"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:137-20251208T014830938329-3",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.623339056969,
+          10.8556133114939
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:30.938329Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "moderate"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.658
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:137"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:137-20251208T014830938329-4",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.623339056969,
+          10.8556133114939
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:30.938329Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "severe"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.904
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:137"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:137-20251208T014830938329-5",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.623339056969,
+          10.8556133114939
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:30.938329Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.447
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:137"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:140-20251208T014845941966-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.759042739868,
+          10.865064709737
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:45.941966Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.415
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:140"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:140-20251208T014845941966-1",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.759042739868,
+          10.865064709737
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:48:45.941966Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.486
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:140"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:144-20251208T014904605822-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.670604944229,
+          10.846467192202
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:49:04.605822Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.473
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:144"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
+  },
+  {
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ],
+    "id": "urn:ngsi-ld:Accident:145-20251208T014909666314-0",
+    "type": "Accident",
+    "location": {
+      "type": "GeoProperty",
+      "value": {
+        "type": "Point",
+        "coordinates": [
+          106.729398965836,
+          10.7991621227557
+        ]
+      }
+    },
+    "accidentDate": {
+      "type": "Property",
+      "value": "2025-12-08T01:49:09.666314Z"
+    },
+    "severity": {
+      "type": "Property",
+      "value": "minor"
+    },
+    "confidence": {
+      "type": "Property",
+      "value": 0.497
+    },
+    "status": {
+      "type": "Property",
+      "value": "detected"
+    },
+    "detectedBy": {
+      "type": "Relationship",
+      "object": "urn:ngsi-ld:Camera:145"
+    },
+    "accidentType": {
+      "type": "Property",
+      "value": "traffic_accident"
+    },
+    "source": {
+      "type": "Property",
+      "value": "DETR-CV-Analysis"
+    }
   }
 ]

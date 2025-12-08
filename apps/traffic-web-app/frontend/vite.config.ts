@@ -49,7 +49,67 @@ export default defineConfig({
         target: 'http://localhost:5000',
         changeOrigin: true
       }
-    }
+    },
+    // Increase connection limits to avoid ERR_INSUFFICIENT_RESOURCES
+    hmr: {
+      overlay: true,
+    },
+    watch: {
+      usePolling: false,
+    },
   },
   assetsInclude: ['**/*.md'],
+
+  // Optimize dependency pre-bundling to reduce chunk count
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'axios',
+      'zustand',
+      'recharts',
+      'maplibre-gl',
+      'react-map-gl',
+      'lucide-react',
+      'framer-motion',
+      'date-fns',
+      'react-markdown',
+      'react-syntax-highlighter',
+      'supercluster',
+    ],
+    // Force pre-bundling to reduce runtime module requests
+    force: false,
+    esbuildOptions: {
+      // Increase memory limit for esbuild
+      target: 'es2020',
+    },
+  },
+
+  // Build optimization - consolidate chunks
+  build: {
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        // Manual chunk splitting to reduce number of chunks
+        manualChunks: {
+          // Core React vendor chunk
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          // UI libraries chunk
+          'vendor-ui': ['framer-motion', 'lucide-react', 'recharts'],
+          // Map libraries chunk
+          'vendor-map': ['maplibre-gl', 'react-map-gl', 'supercluster'],
+          // Markdown libraries chunk
+          'vendor-markdown': ['react-markdown', 'react-syntax-highlighter', 'remark-gfm', 'rehype-raw', 'gray-matter'],
+          // Utilities chunk
+          'vendor-utils': ['axios', 'zustand', 'date-fns'],
+        },
+      },
+    },
+    // Use esbuild for faster minification
+    minify: 'esbuild',
+    // Enable source maps for debugging
+    sourcemap: false,
+  },
 });

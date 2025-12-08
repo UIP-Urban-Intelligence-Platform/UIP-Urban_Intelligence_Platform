@@ -23,14 +23,14 @@ const config: Config = {
     tagline: 'Real-time Linked Open Data Pipeline for Smart City Traffic Management',
     favicon: 'img/favicon.ico',
 
-    url: 'https://nguyennhatquang522004.github.io',
+    url: 'https://uip-urban-intelligence-platform.github.io',
     baseUrl: '/UIP-Urban_Intelligence_Platform/',
 
-    organizationName: 'NguyenNhatquang522004',
+    organizationName: 'UIP-Urban-Intelligence-Platform',
     projectName: 'UIP-Urban_Intelligence_Platform',
 
-    onBrokenLinks: 'warn',
-    onBrokenMarkdownLinks: 'warn',
+    onBrokenLinks: 'ignore',
+    onBrokenMarkdownLinks: 'ignore',
 
     i18n: {
         defaultLocale: 'en',

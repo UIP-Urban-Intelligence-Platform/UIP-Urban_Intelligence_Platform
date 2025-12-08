@@ -585,12 +585,17 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
   const [predictiveLoading, setPredictiveLoading] = useState(false);
 
   // Fetch predictive timeline data when showPredictive is enabled
-  const fetchPredictiveData = useCallback(async () => {
+  const fetchPredictiveData = useCallback(async (forceRefresh = true) => {
+    console.log('⏳ fetchPredictiveData called, forceRefresh:', forceRefresh);
     setPredictiveLoading(true);
     try {
       const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${API_BASE_URL}/api/agents/traffic-maestro/predictive-timeline`);
+      const url = `${API_BASE_URL}/api/agents/traffic-maestro/predictive-timeline${forceRefresh ? '?forceRefresh=true' : ''}`;
+      console.log('🌐 Fetching from:', url);
+      const response = await fetch(url);
       const result = await response.json();
+
+      console.log('📦 API Response:', result);
 
       if (result.success && result.data) {
         console.log('📊 Predictive data loaded:', {
@@ -600,6 +605,7 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
           source: result.data.metadata?.dataSource
         });
         setPredictiveData(result.data);
+        console.log('✅ setPredictiveData called with data');
       } else {
         console.warn('Failed to load predictive data:', result.error);
       }
@@ -607,11 +613,13 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
       console.error('Error fetching predictive data:', error);
     } finally {
       setPredictiveLoading(false);
+      console.log('⏹️ Loading finished');
     }
   }, []);
 
   useEffect(() => {
     if (filters.showPredictive) {
+      console.log('🔄 showPredictive enabled, fetching data...');
       fetchPredictiveData();
     }
   }, [filters.showPredictive, fetchPredictiveData]);
@@ -1551,18 +1559,25 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
       {filters.showPredictive && (
         <div className="fixed inset-0 z-[9994] flex items-center justify-center bg-black/30 backdrop-blur-sm">
           <div className="w-[85vw] max-w-5xl max-h-[80vh] overflow-hidden rounded-xl shadow-2xl bg-white">
-            {predictiveLoading ? (
+            {predictiveLoading || !predictiveData ? (
               <div className="flex items-center justify-center p-8">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500"></div>
                 <span className="ml-4 text-gray-600">Đang tải dữ liệu dự đoán...</span>
               </div>
             ) : (
-              <PredictiveTimeline
-                predictions={predictiveData?.predictions || []}
-                events={predictiveData?.events || []}
-                onClose={() => useTrafficStore.getState().updateFilters({ showPredictive: false })}
-                onRefresh={fetchPredictiveData}
-              />
+              <>
+                {console.log('📊 Rendering PredictiveTimeline with:', {
+                  predictions: predictiveData?.predictions?.length || 0,
+                  events: predictiveData?.events?.length || 0,
+                  predictiveData: predictiveData
+                })}
+                <PredictiveTimeline
+                  predictions={predictiveData.predictions || []}
+                  events={predictiveData.events || []}
+                  onClose={() => useTrafficStore.getState().updateFilters({ showPredictive: false })}
+                  onRefresh={() => fetchPredictiveData(true)}
+                />
+              </>
             )}
             {/* Data source indicator */}
             {predictiveData?.metadata && (

@@ -105,6 +105,11 @@ import argparse
 from datetime import datetime
 from typing import Optional
 
+# Set HuggingFace to offline mode to avoid network calls for cached models
+# This prevents timeout errors when proxy/firewall blocks huggingface.co
+os.environ["HF_HUB_OFFLINE"] = "1"
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
+
 # Fix Windows asyncio event loop issue
 if sys.platform == 'win32':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())

@@ -767,14 +767,40 @@ class AccidentDetector:
         self._load_model()
 
     def _load_model(self) -> None:
-        """Load DETR accident detection model from HuggingFace."""
+        """Load DETR accident detection model from HuggingFace.
+        
+        Uses local_files_only=True first to avoid network calls when model is cached.
+        Falls back to downloading if model not found locally.
+        """
         try:
             import torch
             from transformers import AutoImageProcessor, AutoModelForObjectDetection
+            import os
 
-            # Load processor and model from HuggingFace
-            self.processor = AutoImageProcessor.from_pretrained(self.model_name)
-            self.model = AutoModelForObjectDetection.from_pretrained(self.model_name)
+            # Check if model is cached locally
+            cache_dir = os.path.join(os.path.expanduser("~"), ".cache", "huggingface", "hub")
+            model_cache_name = f"models--{self.model_name.replace('/', '--')}"
+            model_cached = os.path.exists(os.path.join(cache_dir, model_cache_name))
+
+            if model_cached:
+                # Use offline mode - model is already cached
+                logger.info(f"Loading DETR model from cache (offline mode)...")
+                try:
+                    self.processor = AutoImageProcessor.from_pretrained(
+                        self.model_name, local_files_only=True
+                    )
+                    self.model = AutoModelForObjectDetection.from_pretrained(
+                        self.model_name, local_files_only=True
+                    )
+                except Exception as cache_err:
+                    logger.warning(f"Cache load failed, trying online: {cache_err}")
+                    self.processor = AutoImageProcessor.from_pretrained(self.model_name)
+                    self.model = AutoModelForObjectDetection.from_pretrained(self.model_name)
+            else:
+                # Download model from HuggingFace
+                logger.info(f"Downloading DETR model from HuggingFace...")
+                self.processor = AutoImageProcessor.from_pretrained(self.model_name)
+                self.model = AutoModelForObjectDetection.from_pretrained(self.model_name)
 
             # Move to device
             if self.device == "cuda":
@@ -786,7 +812,7 @@ class AccidentDetector:
             self.model.eval()
 
             logger.info(f"✅ Loaded DETR accident detection model: {self.model_name}")
-            logger.info(f"   Device: {self.device}")
+            logger.info(f"   Device: {self.device}, Cached: {model_cached}")
             logger.info(f"   Confidence threshold: {self.confidence}")
             logger.info(f"   License: Apache-2.0 (MIT compatible)")
 

@@ -1480,9 +1480,24 @@ export class TrafficMaestroAgent {
 
             logger.info(`📊 Found ${allItemFlowObserved.length} ItemFlowObserved entities (REAL CV data)`);
 
-            // 3. Group by camera and get the LATEST observation for each camera
+            // 3. Filter for RECENT data only (within last 30 minutes for real-time)
+            const now = new Date();
+            const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
+
+            const recentObservations = allItemFlowObserved.filter((obs: any) => {
+                // Try to get timestamp from various fields
+                const obsTime = obs.observedAt || obs.dateObserved || obs.modifiedAt;
+                if (!obsTime) return true; // Keep if no timestamp (might be simulated)
+
+                const obsDate = new Date(obsTime);
+                return obsDate >= thirtyMinutesAgo;
+            });
+
+            logger.info(`📊 Filtered to ${recentObservations.length} RECENT observations (within 30 mins)`);
+
+            // 4. Group by camera and get the LATEST observation for each camera
             const latestByCamera = new Map<string, any>();
-            for (const obs of allItemFlowObserved) {
+            for (const obs of recentObservations) {
                 const cameraRef = obs.refDevice || '';
                 // Extract camera number: "urn:ngsi-ld:Camera:0" -> "0"
                 const cameraMatch = cameraRef.match(/Camera:(\d+)$/);
@@ -1571,17 +1586,18 @@ export class TrafficMaestroAgent {
                     congestionScore: c.congestionScore,
                     vehicleCount: c.trafficPattern?.vehicleCount || 0,
                     averageSpeed: c.trafficPattern?.averageSpeed || 0,
+                    observedAt: c.trafficPattern?.timestamp || new Date().toISOString(), // Timestamp when data was created
                     isSimulated: false // ALL data is REAL
                 }));
 
             logger.info(`🔥 Identified ${hotspots.length} hotspots (ALL REAL DATA)`);
 
             // 7. Generate time-based predictions
-            const now = new Date();
+            const currentTime = new Date();
             const predictions = [];
 
             for (let i = 0; i <= 8; i++) {
-                const timestamp = new Date(now.getTime() + i * 15 * 60 * 1000);
+                const timestamp = new Date(currentTime.getTime() + i * 15 * 60 * 1000);
                 const hourOfDay = timestamp.getHours();
                 const isRushHour = (hourOfDay >= 7 && hourOfDay <= 9) || (hourOfDay >= 17 && hourOfDay <= 19);
                 const rushHourBonus = isRushHour ? 15 : 0;

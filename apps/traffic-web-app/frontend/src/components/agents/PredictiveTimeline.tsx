@@ -124,7 +124,16 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
     autoRefreshInterval = 60
 }) => {
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [countdown, setCountdown] = useState(autoRefreshInterval);    // =====================================================
+    const [countdown, setCountdown] = useState(autoRefreshInterval);
+
+    // Debug logging
+    console.log('🔥 PredictiveTimeline props received:', {
+        predictions: predictions?.length || 0,
+        events: events?.length || 0,
+        eventsData: events?.slice(0, 3) // Log first 3 events
+    });
+
+    // =====================================================
     // AUTO-REFRESH TIMER
     // =====================================================
 
@@ -251,11 +260,15 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
     // =====================================================
 
     const hotspots = useMemo(() => {
-        return eventMarkers.filter(e => e.type === 'traffic_hotspot');
+        const result = eventMarkers.filter(e => e.type === 'traffic_hotspot');
+        console.log('🔥 Hotspots filtered:', result.length, 'from eventMarkers:', eventMarkers.length);
+        return result;
     }, [eventMarkers]);
 
     const externalEvents = useMemo(() => {
-        return eventMarkers.filter(e => e.type !== 'traffic_hotspot');
+        const result = eventMarkers.filter(e => e.type !== 'traffic_hotspot');
+        console.log('🎉 External events filtered:', result.length);
+        return result;
     }, [eventMarkers]);
 
     // =====================================================
@@ -379,6 +392,7 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
                                                         <div className="text-xs text-gray-500 mt-1 space-y-0.5">
                                                             <p>🚗 {event.vehicleCount || event.estimatedAttendees} xe • 🏎️ {event.averageSpeed?.toFixed(0) || '?'} km/h</p>
                                                             <p className="text-red-500 font-medium">⚠️ Đang kẹt xe</p>
+                                                            <p className="text-blue-600 font-medium">🕐 Phát hiện lúc: {(event.observedAt || event.startTime) ? new Date(event.observedAt || event.startTime).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' }) : 'N/A'}</p>
                                                         </div>
                                                     </div>
                                                 </div>

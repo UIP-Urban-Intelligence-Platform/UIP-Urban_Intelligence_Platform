@@ -43,328 +43,384 @@
 name: Deploy to Ubuntu VPS
 
 on:
-    # Trigger khi push lên branch main (nhánh chính để deploy)
-    # Nhánh Quang là nhánh phát triển, merge vào main khi muốn deploy
-    push:
-        branches:
-            - main
+  # Trigger khi push lên branch main hoặc tuan
+  push:
+    branches:
+      - main
+      - tuan
 
-    # Cho phép chạy thủ công từ GitHub Actions tab
-    workflow_dispatch:
-        inputs:
-            skip_orchestrator:
-                description: "Skip running orchestrator and CV sync"
-                required: false
-                default: "false"
-                type: boolean
-            full_restart:
-                description: "Full restart (stop all services first)"
-                required: false
-                default: "false"
-                type: boolean
+  # Cho phép chạy thủ công từ GitHub Actions tab
+  workflow_dispatch:
+    inputs:
+      skip_orchestrator:
+        description: "Skip running orchestrator and CV sync"
+        required: false
+        default: false
+        type: boolean
+      full_restart:
+        description: "Full restart (stop all services first)"
+        required: false
+        default: false
+        type: boolean
 
 env:
-    PROJECT_NAME: uip-urban-intelligence-platform
+  PROJECT_NAME: uip-urban-intelligence-platform
 
 jobs:
-    # ===========================================================================
-    # Job 1: Deploy code to VPS
-    # ===========================================================================
-    deploy:
-        name: 🚀 Deploy to VPS
-        runs-on: ubuntu-latest
+  # ===========================================================================
+  # Job 1: Deploy code to VPS
+  # ===========================================================================
+  deploy:
+    name: 🚀 Deploy to VPS
+    runs-on: ubuntu-latest
 
-        steps:
-            # Bước 1: Checkout code
-            - name: 📥 Checkout code
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0 # Fetch full history for proper sync
+    steps:
+      # Bước 1: Checkout code
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for proper sync
 
-            # Bước 2: Install sshpass (để dùng password SSH)
-            - name: 🔧 Install sshpass
-              run: sudo apt-get install -y sshpass
+      # Bước 2: Install sshpass (để dùng password SSH)
+      - name: 🔧 Install sshpass
+        run: sudo apt-get install -y sshpass
 
-            # Bước 3: Deploy code lên VPS bằng rsync
-            - name: 📤 Deploy code to VPS
-              env:
-                  VPS_HOST: ${{ secrets.VPS_HOST }}
-                  VPS_USER: ${{ secrets.VPS_USER }}
-                  VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-                  VPS_PORT: ${{ secrets.VPS_PORT }}
-              run: |
-                  echo "🚀 Deploying to VPS: $VPS_HOST"
+      # Bước 3: Deploy code lên VPS bằng rsync
+      - name: 📤 Deploy code to VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          echo "🚀 Deploying to VPS: $VPS_HOST"
 
-                  # Disable strict host key checking
-                  mkdir -p ~/.ssh
-                  echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          # Disable strict host key checking
+          mkdir -p ~/.ssh
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
-                  # Sync code using rsync với sshpass (password authentication)
-                  sshpass -p "$VPS_PASSWORD" rsync -avz --delete \
-                    --exclude '.git' \
-                    --exclude '.venv' \
-                    --exclude 'node_modules' \
-                    --exclude '__pycache__' \
-                    --exclude '*.pyc' \
-                    --exclude '.env' \
-                    --exclude 'logs/*' \
-                    --exclude 'data/cache/*' \
-                    --exclude 'test_output/*' \
-                    --exclude 'htmlcov' \
-                    --exclude 'coverage.xml' \
-                    --exclude '.pytest_cache' \
-                    --exclude 'assets/models/*.pth' \
-                    -e "ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no" \
-                    ./ ${VPS_USER}@${VPS_HOST}:/home/${VPS_USER}/builder-layer-end/
+          # Sync code using rsync với sshpass (password authentication)
+          sshpass -p "$VPS_PASSWORD" rsync -avz --delete \
+            --exclude '.git' \
+            --exclude '.venv' \
+            --exclude 'node_modules' \
+            --exclude '__pycache__' \
+            --exclude '*.pyc' \
+            --exclude '.env' \
+            --exclude 'logs/*' \
+            --exclude 'data/cache/*' \
+            --exclude 'test_output/*' \
+            --exclude 'htmlcov' \
+            --exclude 'coverage.xml' \
+            --exclude '.pytest_cache' \
+            --exclude 'assets/models/*.pth' \
+            -e "ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no" \
+            ./ ${VPS_USER}@${VPS_HOST}:/home/${VPS_USER}/builder-layer-end/
 
-                  echo "✅ Code deployed successfully!"
+          echo "✅ Code deployed successfully!"
 
-            # Bước 4: Cài đặt dependencies và khởi chạy project
-            - name: 🔧 Setup and Start Project
-              env:
-                  VPS_HOST: ${{ secrets.VPS_HOST }}
-                  VPS_USER: ${{ secrets.VPS_USER }}
-                  VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-                  VPS_PORT: ${{ secrets.VPS_PORT }}
-              run: |
-                  sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
-                    set -e
-                    
-                    echo "📁 Navigating to project directory..."
-                    cd /home/$USER/builder-layer-end
-                    
-                    echo "============================================"
-                    echo "  UIP - Urban Intelligence Platform"
-                    echo "  Auto Deployment from GitHub Actions"
-                    echo "============================================"
-                    
-                    # ==== Step 1: Create directories ====
-                    echo "📁 Creating directories..."
-                    mkdir -p logs data data/cache data/rdf reports test_output assets/models
-                    
-                    # ==== Step 2: Setup environment files ====
-                    echo "📄 Setting up environment files..."
-                    [ ! -f ".env" ] && [ -f ".env.example" ] && cp .env.example .env || true
-                    [ ! -f "apps/traffic-web-app/backend/.env" ] && [ -f "apps/traffic-web-app/backend/.env.example" ] && cp apps/traffic-web-app/backend/.env.example apps/traffic-web-app/backend/.env || true
-                    [ ! -f "apps/traffic-web-app/frontend/.env" ] && [ -f "apps/traffic-web-app/frontend/.env.example" ] && cp apps/traffic-web-app/frontend/.env.example apps/traffic-web-app/frontend/.env || true
-                    
-                    # ==== Step 3: Setup Python environment ====
-                    echo "🐍 Setting up Python environment..."
-                    [ ! -d ".venv" ] && python3 -m venv .venv
-                    source .venv/bin/activate
-                    pip install --upgrade pip setuptools wheel -q
-                    pip install -r requirements/base.txt -q 2>/dev/null || pip install -r requirements.txt -q 2>/dev/null || true
-                    pip show yolox > /dev/null 2>&1 || pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>/dev/null || echo "YOLOX install skipped"
-                    
-                    # ==== Step 4: Setup Node.js dependencies ====
-                    echo "📦 Setting up Node.js dependencies..."
-                    [ -d "apps/traffic-web-app/backend" ] && (cd apps/traffic-web-app/backend && npm install --silent 2>/dev/null || npm install)
-                    [ -d "apps/traffic-web-app/frontend" ] && (cd apps/traffic-web-app/frontend && npm install --silent 2>/dev/null || npm install)
-                    
-                    # ==== Step 5: Stop existing services ====
-                    echo "🛑 Stopping existing services..."
-                    pkill -f "main.py" 2>/dev/null || true
-                    pkill -f "orchestrator.py" 2>/dev/null || true
-                    pkill -f "run_cv_and_sync.py" 2>/dev/null || true
-                    pkill -f "npm run dev" 2>/dev/null || true
-                    pkill -f "vite" 2>/dev/null || true
-                    pm2 stop all 2>/dev/null || true
-                    sleep 3
-                    
-                    # ==== Step 6: Start Docker services ====
-                    echo "🐳 Starting Docker infrastructure..."
-                    if docker compose version > /dev/null 2>&1; then
-                      COMPOSE_CMD="docker compose"
-                    else
-                      COMPOSE_CMD="docker-compose"
-                    fi
-                    $COMPOSE_CMD up -d neo4j fuseki redis mongodb postgres kafka 2>&1 || true
-                    echo "Waiting for databases (60s)..."
-                    sleep 60
-                    $COMPOSE_CMD up -d stellio-api-gateway search-service subscription-service 2>&1 || true
-                    echo "Waiting for Stellio (30s)..."
-                    sleep 30
-                    
-                    # ==== Step 7: Run initial scripts (QUAN TRỌNG!) ====
-                    echo "🚀 Running initial scripts..."
-                    source .venv/bin/activate
-                    
-                    echo "Step 7a: Running orchestrator.py..."
-                    timeout 300 python3 orchestrator.py &
-                    sleep 15
-                    
-                    echo "Step 7b: Running run_cv_and_sync.py (initial sync)..."
-                    timeout 600 python3 scripts/pipeline/run_cv_and_sync.py --runs 1 --delay 0 2>/dev/null || true
-                    
-                    # ==== Step 8: Start main services (continuous mode) ====
-                    echo "🎯 Starting main services..."
-                    
-                    # Python backend
-                    nohup python3 main.py --run-orchestrator-now > logs/main_py.log 2>&1 &
-                    echo $! > logs/main_py.pid
-                    echo "✅ Python backend started"
-                    
-                    # CV Analysis Pipeline (continuous)
-                    nohup python3 scripts/pipeline/run_cv_and_sync.py --runs 9999 --delay 60 > logs/cv_sync.log 2>&1 &
-                    echo $! > logs/cv_sync.pid
-                    echo "✅ CV Analysis Pipeline started"
-                    
-                    # TypeScript Backend
-                    cd apps/traffic-web-app/backend
-                    nohup npm run dev > ../../../logs/ts_backend.log 2>&1 &
-                    echo $! > ../../../logs/ts_backend.pid
-                    cd /home/$USER/builder-layer-end
-                    echo "✅ TypeScript backend started"
-                    
-                    # React Frontend
-                    cd apps/traffic-web-app/frontend
-                    nohup npm run dev -- --host 0.0.0.0 > ../../../logs/frontend.log 2>&1 &
-                    echo $! > ../../../logs/frontend.pid
-                    cd /home/$USER/builder-layer-end
-                    echo "✅ React frontend started"
-                    
-                    echo ""
-                    echo "============================================"
-                    echo "  ✅ DEPLOYMENT COMPLETED!"
-                    echo "============================================"
-                    echo "Services running:"
-                    echo "  🌐 Main URL:  http://54.179.155.70 (via Nginx)"
-                    echo "  - Frontend:   http://54.179.155.70:5173"
-                    echo "  - Backend:    http://54.179.155.70:5000"
-                    echo "  - FastAPI:    http://54.179.155.70:8001"
-                    echo "  - Stellio:    http://54.179.155.70:8080"
-                    echo "  - Neo4j:      http://54.179.155.70:7474"
-                    echo "============================================"
-                  ENDSSH
+      # Bước 4: Setup Environment Files
+      - name: 📄 Setup Environment Files
+        timeout-minutes: 5
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          # ROOT .env API Keys
+          OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
+          OPENAQ_API_KEY: ${{ secrets.OPENAQ_API_KEY }}
+          GEONAMES_USERNAME: ${{ secrets.GEONAMES_USERNAME }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+          FUSEKI_PASSWORD: ${{ secrets.FUSEKI_PASSWORD }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          # BACKEND .env API Keys
+          TICKETMASTER_API_KEY: ${{ secrets.TICKETMASTER_API_KEY }}
+          MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+          GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
+          GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
+          GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            set -e
+            cd /home/$USER/builder-layer-end
+            
+            echo "📁 Creating directories..."
+            mkdir -p logs data data/cache data/rdf reports test_output assets/models
+            
+            update_env_var() {
+              local file=$1 key=$2 value=$3
+              [ -n "$value" ] && { grep -q "^$key=" "$file" 2>/dev/null && sed -i "s|^$key=.*|$key=$value|" "$file" || echo "$key=$value" >> "$file"; }
+            }
+          ENDSSH
 
-            # Bước 5: Health check
-            - name: 🏥 Health Check
-              env:
-                  VPS_HOST: ${{ secrets.VPS_HOST }}
-                  VPS_USER: ${{ secrets.VPS_USER }}
-                  VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-                  VPS_PORT: ${{ secrets.VPS_PORT }}
-              run: |
-                  echo "🏥 Running health check..."
-                  sleep 30
+          # Setup env files with secrets (separate SSH to pass vars)
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} "
+            cd /home/\$USER/builder-layer-end
+            
+            # Setup ROOT .env
+            [ ! -f .env ] && { [ -f .env.example ] && cp .env.example .env || touch .env; }
+            
+            update_env() { local f=\$1 k=\$2 v=\$3; [ -n \"\$v\" ] && { grep -q \"^\$k=\" \"\$f\" 2>/dev/null && sed -i \"s|^\$k=.*|\$k=\$v|\" \"\$f\" || echo \"\$k=\$v\" >> \"\$f\"; }; }
+            
+            update_env .env OPENWEATHERMAP_API_KEY '$OPENWEATHERMAP_API_KEY'
+            update_env .env OPENAQ_API_KEY '$OPENAQ_API_KEY'
+            update_env .env GEONAMES_USERNAME '$GEONAMES_USERNAME'
+            update_env .env NEO4J_PASSWORD '$NEO4J_PASSWORD'
+            update_env .env FUSEKI_PASSWORD '$FUSEKI_PASSWORD'
+            update_env .env POSTGRES_PASSWORD '$POSTGRES_PASSWORD'
+            update_env .env MONGODB_PASSWORD '$MONGODB_PASSWORD'
+            update_env .env REDIS_PASSWORD '$REDIS_PASSWORD'
+            update_env .env SECRET_KEY '$SECRET_KEY'
+            
+            # Setup BACKEND .env
+            BE=apps/traffic-web-app/backend/.env
+            [ ! -f \$BE ] && { [ -f apps/traffic-web-app/backend/.env.example ] && cp apps/traffic-web-app/backend/.env.example \$BE || touch \$BE; }
+            
+            update_env \$BE NEO4J_PASSWORD '$NEO4J_PASSWORD'
+            update_env \$BE FUSEKI_PASSWORD '$FUSEKI_PASSWORD'
+            update_env \$BE POSTGRES_PASSWORD '$POSTGRES_PASSWORD'
+            update_env \$BE TICKETMASTER_API_KEY '$TICKETMASTER_API_KEY'
+            update_env \$BE MAPBOX_API_KEY '$MAPBOX_API_KEY'
+            update_env \$BE GEMINI_API_KEY '$GEMINI_API_KEY'
+            update_env \$BE TAVILY_API_KEY '$TAVILY_API_KEY'
+            update_env \$BE OPENWEATHER_API_KEY '$OPENWEATHER_API_KEY'
+            update_env \$BE GOOGLE_CALENDAR_API_KEY '$GOOGLE_CALENDAR_API_KEY'
+            update_env \$BE GOOGLE_SEARCH_ENGINE_ID '$GOOGLE_SEARCH_ENGINE_ID'
+            update_env \$BE GOOGLE_SEARCH_API_KEY '$GOOGLE_SEARCH_API_KEY'
+            
+            # Setup FRONTEND .env
+            [ ! -f apps/traffic-web-app/frontend/.env ] && [ -f apps/traffic-web-app/frontend/.env.example ] && cp apps/traffic-web-app/frontend/.env.example apps/traffic-web-app/frontend/.env || true
+            
+            echo '✅ Environment files configured'
+          "
 
-                  sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
-                    cd /home/$USER/builder-layer-end
-                    
-                    echo "Checking services..."
-                    
-                    # Check Docker containers
-                    if docker ps --format '{{.Names}}' | grep -q "test-"; then
-                      echo "✅ Docker containers are running"
-                    else
-                      echo "⚠️ Some Docker containers may not be running"
-                    fi
-                    
-                    # Check Python processes
-                    if pgrep -f "main.py" > /dev/null; then
-                      echo "✅ Main Python service is running"
-                    else
-                      echo "⚠️ Main Python service is not running"
-                    fi
-                    
-                    # Check CV Analysis
-                    if pgrep -f "run_cv_and_sync.py" > /dev/null; then
-                      echo "✅ CV Analysis pipeline is running"
-                    else
-                      echo "⚠️ CV Analysis pipeline is not running"
-                    fi
-                    
-                    # Show running processes
-                    echo ""
-                    echo "📋 Running processes:"
-                    ps aux | grep -E "main.py|run_cv_and_sync|node" | grep -v grep || echo "No processes found"
-                  ENDSSH
+      # Bước 5: Setup Python Environment
+      - name: 🐍 Setup Python Environment
+        timeout-minutes: 10
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no \
+            -o ServerAliveInterval=30 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            set -e
+            cd /home/$USER/builder-layer-end
+            
+            echo "🐍 Setting up Python environment..."
+            [ ! -d ".venv" ] && python3 -m venv .venv
+            source .venv/bin/activate
+            pip install --upgrade pip setuptools wheel -q
+            pip install -r requirements/base.txt -q 2>/dev/null || pip install -r requirements.txt -q 2>/dev/null || true
+            pip show yolox > /dev/null 2>&1 || pip install git+https://github.com/Megvii-BaseDetection/YOLOX.git -q 2>/dev/null || echo "YOLOX install skipped"
+            
+            echo "✅ Python environment ready"
+          ENDSSH
 
-    # ===========================================================================
-    # Job 2: Deploy Docusaurus Docs to GitHub Pages
-    # ===========================================================================
-    deploy-docs:
-        name: 📚 Deploy Docs to GitHub Pages
-        runs-on: ubuntu-latest
-        needs: deploy
+      # Bước 6: Setup Node.js Dependencies
+      - name: 📦 Setup Node.js Dependencies
+        timeout-minutes: 10
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no \
+            -o ServerAliveInterval=30 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            set -e
+            cd /home/$USER/builder-layer-end
+            
+            echo "📦 Setting up Node.js dependencies..."
+            
+            if [ -d "apps/traffic-web-app/backend" ]; then
+              cd apps/traffic-web-app/backend
+              npm install --prefer-offline --no-audit 2>/dev/null || npm install || true
+              cd /home/$USER/builder-layer-end
+            fi
+            
+            if [ -d "apps/traffic-web-app/frontend" ]; then
+              cd apps/traffic-web-app/frontend
+              npm install --prefer-offline --no-audit 2>/dev/null || npm install || true
+              cd /home/$USER/builder-layer-end
+            fi
+            
+            echo "✅ Node.js dependencies ready"
+          ENDSSH
 
-        # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-        permissions:
-            pages: write
-            id-token: write
-            contents: read
+      # Bước 7: Start Docker Services
+      - name: 🐳 Start Docker Services
+        timeout-minutes: 5
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            cd /home/$USER/builder-layer-end
+            
+            echo "🛑 Stopping existing services..."
+            pkill -f "main.py" 2>/dev/null || true
+            pkill -f "orchestrator.py" 2>/dev/null || true
+            pkill -f "run_cv_and_sync.py" 2>/dev/null || true
+            pkill -f "npm run dev" 2>/dev/null || true
+            pkill -f "vite" 2>/dev/null || true
+            pm2 stop all 2>/dev/null || true
+            sleep 2
+            
+            echo "🐳 Starting Docker infrastructure..."
+            if docker compose version > /dev/null 2>&1; then
+              COMPOSE_CMD="docker compose"
+            else
+              COMPOSE_CMD="docker-compose"
+            fi
+            $COMPOSE_CMD up -d neo4j fuseki redis mongodb postgres kafka 2>&1 || true
+            
+            echo "✅ Docker services started"
+          ENDSSH
 
-        # Deploy to the github-pages environment
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
+      # Bước 8: Wait for Databases
+      - name: ⏳ Wait for Databases
+        run: |
+          echo "Waiting for databases to initialize (45s)..."
+          sleep 45
 
-        steps:
-            # Bước 1: Checkout code
-            - name: 📥 Checkout code
-              uses: actions/checkout@v4
+      # Bước 9: Start Stellio Services
+      - name: 🌐 Start Stellio Services
+        timeout-minutes: 3
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            cd /home/$USER/builder-layer-end
+            
+            if docker compose version > /dev/null 2>&1; then
+              COMPOSE_CMD="docker compose"
+            else
+              COMPOSE_CMD="docker-compose"
+            fi
+            $COMPOSE_CMD up -d stellio-api-gateway search-service subscription-service 2>&1 || true
+            
+            echo "✅ Stellio services started"
+          ENDSSH
 
-            # Bước 2: Setup Node.js
-            - name: 📦 Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-                  cache: "npm"
-                  cache-dependency-path: apps/traffic-web-app/frontend/docs/package-lock.json
+      # Bước 10: Wait for Stellio
+      - name: ⏳ Wait for Stellio
+        run: |
+          echo "Waiting for Stellio to initialize (20s)..."
+          sleep 20
 
-            # Bước 3: Install dependencies
-            - name: 📦 Install dependencies
-              working-directory: apps/traffic-web-app/frontend/docs
-              run: npm ci || npm install
+      # Bước 11: Start Application Services
+      - name: 🚀 Start Application Services
+        timeout-minutes: 5
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            cd /home/$USER/builder-layer-end
+            source .venv/bin/activate
+            
+            echo "🚀 Starting application services..."
+            
+            # Run orchestrator briefly (background)
+            nohup timeout 120 python3 orchestrator.py > logs/orchestrator.log 2>&1 &
+            
+            # Python backend
+            nohup python3 main.py --run-orchestrator-now > logs/main_py.log 2>&1 &
+            echo $! > logs/main_py.pid
+            echo "✅ Python backend started"
+            
+            # CV Analysis Pipeline
+            nohup python3 scripts/pipeline/run_cv_and_sync.py --runs 9999 --delay 60 > logs/cv_sync.log 2>&1 &
+            echo $! > logs/cv_sync.pid
+            echo "✅ CV Analysis Pipeline started"
+            
+            # TypeScript Backend
+            cd apps/traffic-web-app/backend
+            nohup npm run dev > ../../../logs/ts_backend.log 2>&1 &
+            echo $! > ../../../logs/ts_backend.pid
+            cd /home/$USER/builder-layer-end
+            echo "✅ TypeScript backend started"
+            
+            # React Frontend
+            cd apps/traffic-web-app/frontend
+            nohup npm run dev -- --host 0.0.0.0 > ../../../logs/frontend.log 2>&1 &
+            echo $! > ../../../logs/frontend.pid
+            cd /home/$USER/builder-layer-end
+            echo "✅ React frontend started"
+            
+            echo ""
+            echo "============================================"
+            echo "  ✅ ALL SERVICES STARTED!"
+            echo "============================================"
+          ENDSSH
 
-            # Bước 4: Build Docusaurus
-            - name: 🔨 Build Docusaurus
-              working-directory: apps/traffic-web-app/frontend/docs
-              run: npm run build
+      # Bước 12: Health check
+      - name: 🏥 Health Check
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+        run: |
+          echo "🏥 Running health check..."
+          sleep 15
 
-            # Bước 5: Setup Pages
-            - name: 📄 Setup Pages
-              uses: actions/configure-pages@v4
-
-            # Bước 6: Upload artifact
-            - name: 📤 Upload artifact
-              uses: actions/upload-pages-artifact@v3
-              with:
-                  path: apps/traffic-web-app/frontend/docs/build
-
-            # Bước 7: Deploy to GitHub Pages
-            - name: 🚀 Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
-
-    # ===========================================================================
-    # Job 3: Notify on completion (optional)
-    # ===========================================================================
-    notify:
-        name: 📢 Notify
-        runs-on: ubuntu-latest
-        needs: [deploy, deploy-docs]
-        if: always()
-
-        steps:
-            - name: 📢 Send notification
-              run: |
-                  echo "============================================"
-                  echo "  📢 Deployment Summary"
-                  echo "============================================"
-                  
-                  if [ "${{ needs.deploy.result }}" == "success" ]; then
-                    echo "✅ VPS Deployment: SUCCESS"
-                    echo "🌐 Project deployed to: ${{ secrets.VPS_HOST }}"
-                  else
-                    echo "❌ VPS Deployment: FAILED"
-                  fi
-                  
-                  if [ "${{ needs.deploy-docs.result }}" == "success" ]; then
-                    echo "✅ Docs Deployment: SUCCESS"
-                    echo "📚 Docs URL: https://uip-urban-intelligence-platform.github.io/UIP-Urban_Intelligence_Platform/"
-                  else
-                    echo "⚠️ Docs Deployment: FAILED or SKIPPED"
-                  fi
-                  
-                  echo "============================================"
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            cd /home/$USER/builder-layer-end
+            
+            echo "Checking services..."
+            
+            # Check Docker containers
+            if docker ps --format '{{.Names}}' | grep -q "test-"; then
+              echo "✅ Docker containers are running"
+            else
+              echo "⚠️ Some Docker containers may not be running"
+            fi
+            
+            # Check Python processes
+            if pgrep -f "main.py" > /dev/null; then
+              echo "✅ Main Python service is running"
+            else
+              echo "⚠️ Main Python service is not running"
+            fi
+            
+            # Check CV Analysis
+            if pgrep -f "run_cv_and_sync.py" > /dev/null; then
+              echo "✅ CV Analysis pipeline is running"
+            else
+              echo "⚠️ CV Analysis pipeline is not running"
+            fi
+            
+            # Show running processes
+            echo ""
+            echo "📋 Running processes:"
+            ps aux | grep -E "main.py|run_cv_and_sync|node" | grep -v grep || echo "No processes found"
+            
+            echo ""
+            echo "============================================"
+            echo "  ✅ VPS DEPLOYMENT COMPLETED!"
+            echo "============================================"
+            echo "🌐 Main URL:  http://${{ secrets.VPS_HOST }}"
+            echo "  - Frontend:   http://${{ secrets.VPS_HOST }}:5173"
+            echo "  - Backend:    http://${{ secrets.VPS_HOST }}:5000"
+            echo "  - FastAPI:    http://${{ secrets.VPS_HOST }}:8001"
+            echo "  - Stellio:    http://${{ secrets.VPS_HOST }}:8080"
+            echo "  - Neo4j:      http://${{ secrets.VPS_HOST }}:7474"
+            echo "============================================"
+          ENDSSH
