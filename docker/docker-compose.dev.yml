@@ -184,7 +184,7 @@ services:
     volumes:
       - fuseki-data-dev:/fuseki
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3030/$/ping"]
+      test: ["CMD", "curl", "-f", "http://localhost:3030/$$/ping"]
       interval: 10s
       timeout: 5s
       retries: 5
