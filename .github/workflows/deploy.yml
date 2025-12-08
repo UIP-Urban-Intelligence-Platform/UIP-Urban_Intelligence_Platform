@@ -89,6 +89,7 @@ jobs:
 
       # Bước 3: Stop all running services before deploy
       - name: 🛑 Stop All Running Services
+        continue-on-error: true
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
@@ -96,28 +97,48 @@ jobs:
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
           echo "🛑 Stopping all running services before deploy..."
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} "
-            echo '🛑 Stopping PM2 processes...'
-            pm2 stop all 2>/dev/null || true
-            pm2 delete all 2>/dev/null || true
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} bash << 'ENDSSH'
+            set +e  # Không exit khi có lỗi
             
-            echo '🛑 Killing application processes...'
-            pkill -f 'main.py' 2>/dev/null || true
-            pkill -f 'orchestrator.py' 2>/dev/null || true
-            pkill -f 'run_cv_and_sync.py' 2>/dev/null || true
-            pkill -f 'npm run dev' 2>/dev/null || true
-            pkill -f 'vite' 2>/dev/null || true
-            pkill -f 'node.*backend' 2>/dev/null || true
-            pkill -f 'node.*frontend' 2>/dev/null || true
-            pkill -f 'uvicorn' 2>/dev/null || true
-            pkill -f 'fastapi' 2>/dev/null || true
+            echo "🛑 Stopping PM2 processes..."
+            if command -v pm2 &> /dev/null; then
+              pm2 stop all 2>/dev/null
+              pm2 delete all 2>/dev/null
+              echo "  ✓ PM2 processes stopped"
+            else
+              echo "  - PM2 not installed, skipping"
+            fi
             
-            echo '🛑 Stopping Nginx...'
-            echo '$VPS_PASSWORD' | sudo -S systemctl stop nginx 2>/dev/null || true
+            echo "🛑 Killing application processes if running..."
             
-            sleep 3
-            echo '✅ All services stopped'
-          "
+            # Function to safely kill process
+            safe_kill() {
+              if pgrep -f "$1" > /dev/null 2>&1; then
+                pkill -f "$1" 2>/dev/null
+                echo "  ✓ Killed: $1"
+              fi
+            }
+            
+            safe_kill "main.py"
+            safe_kill "orchestrator.py"
+            safe_kill "run_cv_and_sync.py"
+            safe_kill "npm run dev"
+            safe_kill "vite"
+            safe_kill "uvicorn"
+            
+            echo "🛑 Stopping Nginx if running..."
+            if systemctl is-active --quiet nginx 2>/dev/null; then
+              echo "$VPS_PASSWORD" | sudo -S systemctl stop nginx 2>/dev/null
+              echo "  ✓ Nginx stopped"
+            else
+              echo "  - Nginx not running, skipping"
+            fi
+            
+            sleep 2
+            echo "✅ All services check completed"
+            exit 0
+          ENDSSH
+          echo "✅ Stop services step completed"
 
       # Bước 4: Deploy code lên VPS bằng rsync
       - name: 📤 Deploy code to VPS
