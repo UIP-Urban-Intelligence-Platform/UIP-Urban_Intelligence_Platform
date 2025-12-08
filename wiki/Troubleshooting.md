@@ -179,13 +179,13 @@ python -c "import src; print(src.__version__)"
 
 ```bash
 # 1. Download model
-python -c "from ultralytics import YOLO; YOLO('yolov8x.pt')"
+python -c "from yolox.exp import get_exp; exp = get_exp(None, 'yolox_x')"
 
 # 2. Check CUDA (for GPU)
 python -c "import torch; print(torch.cuda.is_available())"
 
 # 3. Force CPU if GPU issues
-export YOLO_DEVICE=cpu
+export YOLOX_DEVICE=cpu
 ```
 
 ---

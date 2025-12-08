@@ -24,7 +24,6 @@ on:
   push:
     branches:
       - main
-      - tuan
     paths:
       - "apps/traffic-web-app/frontend/docs/**"
       - ".github/workflows/deploy-docs.yml"

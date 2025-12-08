@@ -407,16 +407,16 @@ export const docsNavigation: DocItem[] = [
         ],
     },
     {
-        id: 'licenses',
-        title: 'Licenses',
-        path: '/docs/licenses',
+        id: 'third-party-deps',
+        title: 'Third-Party Dependencies',
+        path: '/docs/third-party-deps',
         order: 15,
         children: [
-            { id: 'licenses-overview', title: 'Overview', path: '/docs/licenses/overview' },
-            { id: 'license-texts', title: 'License Texts', path: '/docs/licenses/license-texts' },
-            { id: 'npm-dependencies', title: 'NPM Dependencies', path: '/docs/licenses/npm-dependencies' },
-            { id: 'python-dependencies', title: 'Python Dependencies', path: '/docs/licenses/python-dependencies' },
-            { id: 'special-notes', title: 'Special Notes', path: '/docs/licenses/special-notes' },
+            { id: 'deps-overview', title: 'Overview', path: '/docs/third-party-deps/overview' },
+            { id: 'dependency-texts', title: 'Dependency Texts', path: '/docs/third-party-deps/dependency-texts' },
+            { id: 'npm-dependencies', title: 'NPM Dependencies', path: '/docs/third-party-deps/npm-dependencies' },
+            { id: 'python-dependencies', title: 'Python Dependencies', path: '/docs/third-party-deps/python-dependencies' },
+            { id: 'special-notes', title: 'Special Notes', path: '/docs/third-party-deps/special-notes' },
         ],
     },
 ];
@@ -640,12 +640,12 @@ const docsMap: Record<string, () => Promise<string>> = {
     '/docs/backend/utils/transformations': () => import('../../docs/docs/backend/utils/transformations.md?raw').then(m => m.default),
     '/docs/backend/utils/validators': () => import('../../docs/docs/backend/utils/validators.md?raw').then(m => m.default),
 
-    // Licenses
-    '/docs/licenses/overview': () => import('../../docs/docs/licenses/overview.md?raw').then(m => m.default),
-    '/docs/licenses/license-texts': () => import('../../docs/docs/licenses/license-texts.md?raw').then(m => m.default),
-    '/docs/licenses/npm-dependencies': () => import('../../docs/docs/licenses/npm-dependencies.md?raw').then(m => m.default),
-    '/docs/licenses/python-dependencies': () => import('../../docs/docs/licenses/python-dependencies.md?raw').then(m => m.default),
-    '/docs/licenses/special-notes': () => import('../../docs/docs/licenses/special-notes.md?raw').then(m => m.default),
+    // Third-Party Dependencies
+    '/docs/third-party-deps/overview': () => import('../../docs/docs/third-party-deps/overview.md?raw').then(m => m.default),
+    '/docs/third-party-deps/dependency-texts': () => import('../../docs/docs/third-party-deps/dependency-texts.md?raw').then(m => m.default),
+    '/docs/third-party-deps/npm-dependencies': () => import('../../docs/docs/third-party-deps/npm-dependencies.md?raw').then(m => m.default),
+    '/docs/third-party-deps/python-dependencies': () => import('../../docs/docs/third-party-deps/python-dependencies.md?raw').then(m => m.default),
+    '/docs/third-party-deps/special-notes': () => import('../../docs/docs/third-party-deps/special-notes.md?raw').then(m => m.default),
 };
 
 /**

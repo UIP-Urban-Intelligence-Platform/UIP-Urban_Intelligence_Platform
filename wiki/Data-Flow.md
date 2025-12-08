@@ -43,7 +43,7 @@ flowchart TB
 
     subgraph Processing["⚙️ Processing Layer"]
         subgraph CV["Computer Vision"]
-            YOL[YOLOv8 Detection]
+            YOL[YOLOX Detection]
             TRK[Object Tracking]
         end
         subgraph Analysis["Analysis Agents"]
@@ -159,7 +159,7 @@ class CameraObserverAgent:
 flowchart LR
     subgraph Detection
         A[Raw Frame] --> B[Preprocessing]
-        B --> C[YOLOv8 Model]
+        B --> C[YOLOX Model]
         C --> D[Bounding Boxes]
     end
     
@@ -175,13 +175,13 @@ flowchart LR
     end
 ```
 
-### YOLOv8 Detection
+### YOLOX Detection
 
 ```python
 # agents/cv_detection_agent.py
 class CVDetectionAgent:
     def __init__(self):
-        self.model = YOLO('yolov8x.pt')
+        self.model = YOLOX('yolox_x')
         self.tracker = DeepSORT()
         
     async def process(self, frame_data: dict):

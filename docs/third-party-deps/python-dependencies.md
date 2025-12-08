@@ -71,9 +71,6 @@ Complete documentation of all **168 Python packages** used in the UIP - Urban In
 | Package | Version | License | SPDX ID | Description |
 |---------|---------|---------|---------|-------------|
 | yolox | 0.3.0 | Apache-2.0 | `Apache-2.0` | YOLOX object detection |
-| ultralytics | 8.3.0 | AGPL-3.0* | `AGPL-3.0` | YOLOv8 (dev only) |
-
-> *ultralytics is used only in development for model training. Production inference uses ONNX exports under Apache-2.0.
 
 ### Computer Vision
 

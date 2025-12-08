@@ -147,7 +147,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onToggl
   useEffect(() => {
     const fetchCongestionSummary = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/patterns/congestion-summary');
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/patterns/congestion-summary`);
         const result = await response.json();
         if (result.success) {
           setCongestionData(result.data);

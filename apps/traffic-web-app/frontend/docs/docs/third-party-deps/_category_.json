@@ -1,9 +1,9 @@
 {
-    "label": "Licenses",
+    "label": "Third-Party Dependencies",
     "position": 15,
     "link": {
         "type": "generated-index",
-        "title": "Third-Party Licenses",
+        "title": "Third-Party Dependencies",
         "description": "Complete documentation of all third-party dependencies and their MIT-compatible licenses used in the UIP project.",
         "keywords": [
             "licenses",

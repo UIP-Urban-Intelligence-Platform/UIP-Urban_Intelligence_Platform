@@ -15,14 +15,13 @@
 # ============================================================================
 include README.md
 include LICENSE
-include COPYING
 include NEWS
 include NOTICE
 include AUTHORS.md
 include CHANGELOG.md
 include CONTRIBUTORS.md
 include DISCUSSIONS.md
-include THIRD_PARTY_LICENSES.md
+include DEPENDENCIES.md
 include JUSTRUN.md
 
 

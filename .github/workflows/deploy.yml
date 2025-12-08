@@ -47,7 +47,6 @@ on:
   push:
     branches:
       - main
-      - tuan
 
   # Cho phép chạy thủ công từ GitHub Actions tab
   workflow_dispatch:

@@ -6,7 +6,8 @@
 #
 # Module: .github/CODEOWNERS
 # Author: UIP Team (Nguyễn Nhật Quang, Nguyễn Việt Hoàng, Nguyễn Đình Anh Tuấn)
-# Version: 1.0.0
+# Version: 2.0.0
+# Last Updated: 2025-12-08
 #
 # =============================================================================
 # CODEOWNERS - UIP (Urban Intelligence Platform)
@@ -43,10 +44,10 @@
 # Main entry points (Author: Nguyen Dinh Anh Tuan)
 /main.py @NguyenDinhAnhTuan04
 /orchestrator.py @NguyenDinhAnhTuan04
+/setup.py @NguyenDinhAnhTuan04
 
 # Build & Package configuration (Lead Developer)
 /pyproject.toml @NguyenNhatquang522004
-/setup.py @NguyenNhatquang522004
 /Makefile @NguyenNhatquang522004
 /MANIFEST.in @NguyenNhatquang522004
 /pytest.ini @NguyenNhatquang522004
@@ -62,10 +63,14 @@
 /src/utils/ @NguyenDinhAnhTuan04
 
 # CLI Module
-/src/cli/ @NguyenDinhAnhTuan04
-/src/cli/rdf/ @JamesNguyen106
+/src/cli/__init__.py @NguyenDinhAnhTuan04
+/src/cli/rdf/convert.py @JamesNguyen106
+/src/cli/rdf/validate.py @JamesNguyen106
+/src/cli/rdf/__init__.py @NguyenNhatquang522004
 /src/cli/graph/ @NguyenNhatquang522004
 /src/cli/cache/ @NguyenNhatquang522004
+/src/cli/monitoring/ @NguyenDinhAnhTuan04
+/src/cli/pipeline/ @NguyenDinhAnhTuan04
 
 # =============================================================================
 # AGENT SYSTEM - /src/agents/
@@ -98,6 +103,7 @@
 /src/agents/rdf_linked_data/lod_linkset_enrichment_agent.py @NguyenDinhAnhTuan04
 
 # Context Management Agents
+/src/agents/context_management/__init__.py @JamesNguyen106
 /src/agents/context_management/temporal_data_manager_agent.py @NguyenNhatquang522004
 /src/agents/context_management/stellio_state_query_agent.py @JamesNguyen106
 /src/agents/context_management/state_updater_agent.py @JamesNguyen106
@@ -114,6 +120,12 @@
 
 # Ingestion Agents (Author: Nguyen Dinh Anh Tuan)
 /src/agents/ingestion/ @NguyenDinhAnhTuan04
+
+# Cache Agents (Author: Nguyen Viet Hoang)
+/src/agents/cache/ @JamesNguyen106
+
+# Graph Database Agents (Author: Nguyen Viet Hoang)
+/src/agents/graph_database/ @JamesNguyen106
 
 # Kafka Publisher (Author: Nguyen Dinh Anh Tuan)
 /src/agents/kafka_entity_publisher_agent.py @NguyenDinhAnhTuan04
@@ -138,6 +150,7 @@
 /apps/traffic-web-app/frontend/src/services/websocket.ts @NguyenDinhAnhTuan04
 /apps/traffic-web-app/frontend/src/services/citizenReportService.ts @NguyenDinhAnhTuan04
 /apps/traffic-web-app/frontend/src/services/docsService.ts @NguyenNhatquang522004
+/apps/traffic-web-app/frontend/src/services/i18nService.ts @NguyenNhatquang522004
 
 # Pages
 /apps/traffic-web-app/frontend/src/pages/LandingPage.tsx @NguyenDinhAnhTuan04
@@ -149,6 +162,9 @@
 
 # Landing Page Components (Author: Nguyen Dinh Anh Tuan)
 /apps/traffic-web-app/frontend/src/components/landing/ @NguyenDinhAnhTuan04
+
+# Map Components (Author: Nguyen Nhat Quang)
+/apps/traffic-web-app/frontend/src/components/map/ @NguyenNhatquang522004
 
 # Map & Visualization Components (Author: Nguyen Nhat Quang)
 /apps/traffic-web-app/frontend/src/components/TrafficMap.tsx @NguyenNhatquang522004
@@ -197,6 +213,11 @@
 /apps/traffic-web-app/backend/src/utils/ @NguyenDinhAnhTuan04
 /apps/traffic-web-app/backend/src/services/ @NguyenDinhAnhTuan04
 /apps/traffic-web-app/backend/src/routes/ @NguyenDinhAnhTuan04
+/apps/traffic-web-app/backend/src/middlewares/ @NguyenDinhAnhTuan04
+/apps/traffic-web-app/backend/src/config/ @NguyenDinhAnhTuan04
+
+# Backend Agents (Author: Nguyen Nhat Quang)
+/apps/traffic-web-app/backend/src/agents/ @NguyenNhatquang522004
 
 # Backend Tests (Author: Nguyen Nhat Quang)
 /apps/traffic-web-app/backend/src/routes/__tests__/ @NguyenNhatquang522004
@@ -213,8 +234,12 @@
 
 # Test Base (Author: Nguyen Nhat Quang)
 /tests/__init__.py @NguyenNhatquang522004
+/tests/conftest.py @NguyenNhatquang522004
 /tests/unit/__init__.py @NguyenNhatquang522004
 /tests/integration/__init__.py @NguyenNhatquang522004
+
+# Ingestion Tests (Author: Nguyen Nhat Quang)
+/tests/ingestion/ @NguyenNhatquang522004
 
 # Unit Tests
 /tests/unit/test_sosa_mapper.py @NguyenDinhAnhTuan04
@@ -235,12 +260,38 @@
 /tests/test_congestion_debug.py @NguyenDinhAnhTuan04
 /tests/test_citizen_*.py @NguyenDinhAnhTuan04
 /tests/test_mongodb_deep_integrity.py @NguyenNhatquang522004
+/tests/integration/test_analytics_pipeline.py @NguyenNhatquang522004
+/tests/integration/test_cache_integration.py @NguyenNhatquang522004
+/tests/integration/test_fuseki_integration.py @NguyenNhatquang522004
+/tests/integration/test_kafka_integration.py @NguyenNhatquang522004
+/tests/integration/test_mongodb_publisher.py @NguyenNhatquang522004
+/tests/integration/test_neo4j_integration.py @NguyenNhatquang522004
+/tests/integration/test_notification_pipeline.py @NguyenNhatquang522004
+/tests/integration/test_workflow.py @NguyenNhatquang522004
+/tests/integration/test_rdf_pipeline.py @JamesNguyen106
+/tests/integration/test_stellio_integration.py @JamesNguyen106
+/tests/integration/test_transformation_pipeline.py @NguyenDinhAnhTuan04
 
 # =============================================================================
 # CONFIGURATION - /config/
 # =============================================================================
 
-# Agent Configurations (Author: Nguyen Dinh Anh Tuan)
+# Analytics & Pattern Config (Author: Nguyen Nhat Quang)
+/config/accident_config.yaml @NguyenNhatquang522004
+/config/alert_dispatcher_config.yaml @NguyenNhatquang522004
+/config/api_gateway_config.yaml @NguyenNhatquang522004
+/config/congestion_config.yaml @NguyenNhatquang522004
+/config/cv_config.yaml @NguyenNhatquang522004
+/config/data_quality_config.yaml @NguyenNhatquang522004
+/config/incident_report_config.yaml @NguyenNhatquang522004
+/config/lod_linkset_mappings.yaml @NguyenNhatquang522004
+/config/mongodb_config.yaml @NguyenNhatquang522004
+/config/pattern_config.yaml @NguyenNhatquang522004
+/config/pattern_recognition.yaml @NguyenNhatquang522004
+/config/subscriptions.yaml @NguyenNhatquang522004
+/config/gateway-application.yml @NguyenNhatquang522004
+
+# Agent & Core Config (Author: Nguyen Dinh Anh Tuan)
 /config/agents.yaml @NguyenDinhAnhTuan04
 /config/workflow.yaml @NguyenDinhAnhTuan04
 /config/validation.yaml @NguyenDinhAnhTuan04
@@ -252,41 +303,35 @@
 /config/data_sources.yaml @NguyenDinhAnhTuan04
 /config/performance_monitor_config.yaml @NguyenDinhAnhTuan04
 
-# Analytics & Pattern Config (Author: Nguyen Nhat Quang)
-/config/pattern_config.yaml @NguyenNhatquang522004
-/config/pattern_recognition.yaml @NguyenNhatquang522004
-/config/mongodb_config.yaml @NguyenNhatquang522004
-/config/lod_linkset_mappings.yaml @NguyenNhatquang522004
-/config/incident_report_config.yaml @NguyenNhatquang522004
-/config/subscriptions.yaml @NguyenNhatquang522004
-/config/gateway-application.yml @NguyenNhatquang522004
-
 # Integration Config (Author: Nguyen Viet Hoang)
 /config/stellio.yaml @JamesNguyen106
 /config/state_updater_config.yaml @JamesNguyen106
 /config/neo4j_sync.yaml @JamesNguyen106
 /config/fuseki.yaml @JamesNguyen106
+/config/cache_config.yaml @JamesNguyen106
+/config/content_negotiation_config.yaml @JamesNguyen106
+/config/integration_test_config.yaml @JamesNguyen106
 
 # =============================================================================
 # SCRIPTS - /scripts/
 # =============================================================================
 
-# Setup & Deploy Scripts (Author: Nguyen Nhat Quang)
-/scripts/setup_prod.sh @NguyenNhatquang522004
-/scripts/setup_dev.sh @NguyenNhatquang522004
-/scripts/deploy.sh @NguyenNhatquang522004
-/scripts/rollback.sh @NguyenNhatquang522004
-/scripts/health_check.sh @NguyenNhatquang522004
-/scripts/monitoring_setup.sh @NguyenNhatquang522004
+# Setup & Deploy Scripts (All Team - Lead: Nguyen Nhat Quang)
+/scripts/setup_prod.sh @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/scripts/setup_dev.sh @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/scripts/deploy.sh @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/scripts/rollback.sh @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/scripts/health_check.sh @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/scripts/monitoring_setup.sh @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 
-# Database Scripts (Author: Nguyen Nhat Quang)
-/scripts/database/ @NguyenNhatquang522004
+# Database Scripts (All Team)
+/scripts/database/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 
-# Pipeline Scripts (Author: Nguyen Nhat Quang)
-/scripts/pipeline/ @NguyenNhatquang522004
+# Pipeline Scripts (All Team)
+/scripts/pipeline/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 
-# Monitoring Scripts (Author: Nguyen Nhat Quang)
-/scripts/monitoring/ @NguyenNhatquang522004
+# Monitoring Scripts (All Team)
+/scripts/monitoring/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 
 # CV & Model Scripts (Author: Nguyen Nhat Quang)
 /scripts/download_yolox_weights.py @NguyenNhatquang522004
@@ -298,6 +343,8 @@
 # Citizen Feature Scripts (Author: Nguyen Dinh Anh Tuan)
 /scripts/seed_citizen_reports.py @NguyenDinhAnhTuan04
 /scripts/run_citizen_verification.py @NguyenDinhAnhTuan04
+
+
 
 # =============================================================================
 # DOCKER & DEVOPS
@@ -322,6 +369,7 @@
 # All Documentation - Team Collaboration
 /docs/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 /guides/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/wiki/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 /reports/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 *.md @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 
@@ -338,6 +386,12 @@
 # Data Files (All Team)
 /data/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 
+# Requirements (Lead Developer)
+/requirements/ @NguyenNhatquang522004
+
+# Templates (All Team)
+/templates/ @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+
 # =============================================================================
 # SPECIAL FILES - Require All Approvers
 # =============================================================================
@@ -353,6 +407,10 @@
 /CONTRIBUTORS.md @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 /CHANGELOG.md @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 /README.md @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/NOTICE @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/NEWS @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/THIRD_PARTY_LICENSES.md @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
+/DISCUSSIONS.md @NguyenNhatquang522004 @JamesNguyen106 @NguyenDinhAnhTuan04
 
 # =============================================================================
 # END OF CODEOWNERS

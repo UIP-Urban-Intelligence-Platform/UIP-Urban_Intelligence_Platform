@@ -116,7 +116,7 @@ This project is developed and maintained by:
   </tr>
 </table>
 
-> 📄 See [AUTHORS.md](AUTHORS.md) for detailed information and [CONTRIBUTORS.md](CONTRIBUTORS.md) for all contributors.
+> 📄 See [AUTHORS.md](AUTHORS.md) for detailed information, [CONTRIBUTORS.md](CONTRIBUTORS.md) for all contributors, and [CODEOWNERS](.github/CODEOWNERS) for code ownership rules.
 
 ---
 
@@ -221,6 +221,25 @@ This project is developed and maintained by:
 - **Smart Data Models**: TM Forum/FIWARE standardized data models
 - **LOD Cloud**: Integration with GeoNames, DBpedia, Wikidata
 
+---
+### 🔄 CI/CD Pipeline
+
+UIP uses **GitHub Actions** with 10 automated workflows:
+
+| Stage | Workflows | Description |
+|-------|-----------|-------------|
+| **CI** | `test.yml`, `lint.yml`, `integration-tests.yml` | Unit tests (Python 3.9-3.11), code quality (Ruff, Black, mypy), integration tests |
+| **Security** | `codeql.yml`, `dependency-review.yml` | SAST scanning, dependency vulnerability audit |
+| **CD** | `deploy.yml`, `deploy-docs.yml` | Auto-deploy to Ubuntu VPS, Docusaurus to GitHub Pages |
+| **Release** | `release.yml` | Semantic versioning, Docker images, PyPI publishing |
+| **Automation** | `auto-label.yml`, `stale.yml` | PR labeling, stale issue management |
+
+[![Tests](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml/badge.svg)](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/test.yml)
+[![Lint](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml/badge.svg)](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/lint.yml)
+[![CodeQL](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/codeql.yml/badge.svg)](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/codeql.yml)
+[![Deploy](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/deploy.yml/badge.svg)](https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform/actions/workflows/deploy.yml)
+
+> 📖 See [CI/CD Pipeline Wiki](wiki/CI-CD-Pipeline.md) for detailed workflow documentation.
 ---
 
 ## 🚀 Quick Start
@@ -407,191 +426,6 @@ python orchestrator.py --phase transformation
 # Dry run (validate without execution)
 python orchestrator.py --dry-run
 ```
-
----
-
-## 📁 Project Structure
-
-<details>
-<summary><strong>📂 Click to expand full project structure</strong></summary>
-
-```
-UIP-Urban_Intelligence_Platform/
-│
-├── 📂 src/                              # Python source code
-│   ├── agents/                          # Multi-agent system (38 agents in 12 categories)
-│   │   ├── analytics/                   # CV analysis, congestion, accidents (4)
-│   │   ├── cache/                       # Cache management (2)
-│   │   ├── context_management/          # Entity publishing, state (4)
-│   │   ├── data_collection/             # Image refresh, external data (2)
-│   │   ├── graph_database/              # Neo4j query, sync (2)
-│   │   ├── ingestion/                   # Citizen report ingestion (1)
-│   │   ├── integration/                 # API gateway, Neo4j sync (3)
-│   │   ├── monitoring/                  # Health checks, data quality (3)
-│   │   ├── notification/                # Alerts, webhooks, email (5)
-│   │   ├── rdf_linked_data/             # RDF conversion, triplestore (5)
-│   │   ├── state_management/            # State tracking (4)
-│   │   ├── transformation/              # NGSI-LD, SOSA/SSN mapping (2)
-│   │   └── kafka_entity_publisher_agent.py  # Kafka streaming (1)
-│   ├── core/                            # Core utilities
-│   │   ├── config_loader.py             # Configuration management
-│   │   ├── data_seeder.py               # Data seeding utilities
-│   │   ├── logger.py                    # Logging configuration
-│   │   └── utils.py                     # Common utilities
-│   ├── cli/                             # Command-line interface tools
-│   │   ├── cache/                       # Cache CLI commands
-│   │   ├── graph/                       # Graph database CLI
-│   │   ├── monitoring/                  # Monitoring CLI
-│   │   ├── pipeline/                    # Pipeline management CLI
-│   │   └── rdf/                         # RDF processing CLI
-│   ├── utils/                           # Helper utilities
-│   │   └── mongodb_helper.py            # MongoDB helper functions
-│   └── orchestrator.py                  # Workflow orchestrator
-│
-├── 📂 apps/                             # Web applications
-│   ├── shared/                          # Shared code between apps
-│   │   ├── configs/                     # Shared configurations
-│   │   └── types/                       # Shared TypeScript types
-│   └── traffic-web-app/                 # Main traffic web application
-│       ├── backend/                     # Express.js + TypeScript API
-│       │                                # (3 AI agents, 12 routes, 7 services)
-│       ├── frontend/                    # React + Vite + TailwindCSS
-│       │                                # (2 pages, 30+ components)
-│       └── docs/                        # Web app documentation
-│
-├── 📂 config/                           # YAML configuration files (31 files)
-│   ├── workflow.yaml                    # Orchestrator workflow definition
-│   ├── agents.yaml                      # Agent-specific configurations
-│   ├── ngsi_ld_mappings.yaml            # NGSI-LD entity mappings
-│   ├── sosa_mappings.yaml               # SOSA/SSN ontology mappings
-│   ├── stellio.yaml                     # Stellio Context Broker config
-│   ├── fuseki.yaml                      # Apache Jena Fuseki config
-│   ├── neo4j_sync.yaml                  # Neo4j synchronization config
-│   ├── mongodb_config.yaml              # MongoDB configuration
-│   ├── kafka_config.yaml                # Apache Kafka config
-│   └── ...                              # 22 more configuration files
-│
-├── 📂 tests/                            # Test suite
-│   ├── unit/                            # Unit tests
-│   ├── integration/                     # Integration tests
-│   ├── ingestion/                       # Ingestion tests
-│   └── conftest.py                      # Pytest fixtures & configuration
-│
-├── 📂 scripts/                          # Utility scripts
-│   ├── database/                        # Database initialization scripts
-│   ├── monitoring/                      # Monitoring setup scripts
-│   ├── pipeline/                        # Pipeline utilities
-│   ├── python/                          # Python utility scripts
-│   ├── node/                            # Node.js utility scripts
-│   ├── utilities/                       # General utilities
-│   ├── deploy.sh                        # Deployment script
-│   ├── rollback.sh                      # Rollback script
-│   └── health_check.sh                  # Health check script
-│
-├── 📂 docs/                             # Documentation (Docusaurus 3.0)
-│   ├── api/                             # API documentation
-│   ├── architecture/                    # Architecture guides
-│   ├── workflows/                       # Workflow documentation
-│   ├── data-access/                     # Data access guides
-│   ├── web-application/                 # Web app documentation
-│   ├── python-orchestrator/             # Orchestrator documentation
-│   ├── competition/                     # Competition materials
-│   ├── src/                             # Docusaurus source
-│   ├── docusaurus.config.ts             # Docusaurus configuration
-│   ├── sidebars.ts                      # Documentation sidebar
-│   └── package.json                     # Docs dependencies
-│
-├── 📂 .github/                          # GitHub configurations
-│   ├── workflows/                       # CI/CD pipelines (9 workflows)
-│   │   ├── test.yml                     # Unit & integration tests
-│   │   ├── lint.yml                     # Code linting
-│   │   ├── codeql.yml                   # Security analysis
-│   │   ├── deploy.yml                   # Deployment pipeline
-│   │   ├── release.yml                  # Release automation
-│   │   ├── integration-tests.yml        # Integration testing
-│   │   ├── dependency-review.yml        # Dependency review
-│   │   ├── auto-label.yml               # Auto labeling
-│   │   └── stale.yml                    # Stale issue management
-│   ├── ISSUE_TEMPLATE/                  # Issue templates
-│   ├── CODEOWNERS                       # Code ownership
-│   ├── CONTRIBUTING.md                  # Contribution guidelines
-│   ├── SECURITY.md                      # Security policy
-│   ├── SUPPORT.md                       # Support information
-│   ├── FUNDING.yml                      # Funding information
-│   ├── dependabot.yml                   # Dependabot configuration
-│   ├── labeler.yml                      # Label configuration
-│   └── pull_request_template.md         # PR template
-│
-├── 📂 requirements/                     # Python dependencies
-│   ├── base.txt                         # Base dependencies
-│   ├── dev.txt                          # Development dependencies
-│   ├── prod.txt                         # Production dependencies
-│   ├── test.txt                         # Testing dependencies
-│   └── citizen_science_deps.txt         # Citizen science features
-│
-├── 📂 docker/                           # Docker configurations
-│   ├── docker-compose.dev.yml           # Development Docker Compose
-│   ├── Dockerfile.test                  # Test container
-│   ├── Dockerfile.test.optimized        # Optimized test container
-│   └── reference/                       # Reference configurations
-│
-├── 📂 data/                             # Data files & cache
-│   ├── cache/                           # Cached data
-│   ├── rdf/                             # RDF exports
-│   ├── rdf_accidents/                   # Accident RDF data
-│   ├── rdf_observations/                # Observation RDF data
-│   ├── rdf_patterns/                    # Pattern RDF data
-│   ├── rdf_updates/                     # Update RDF data
-│   ├── reports/                         # Generated reports
-│   └── *.json                           # JSON data files
-│
-├── 📂 assets/                           # Static assets
-│   ├── models/                          # AI/ML models (YOLOX, DETR)
-│   └── images/                          # Image assets
-│
-├── 📂 examples/                         # Example files
-│   └── NGSI_LD_STRUCTURE_EXAMPLES.py    # NGSI-LD structure examples
-│
-├── 📂 guides/                           # User guides
-│   ├── QUICKSTART.md                    # Quick start guide
-│   ├── DATA_ACCESS_GUIDE.md             # Data access guide
-│   ├── SEED_DATA_GUIDE.md               # Seed data guide
-│   ├── DOCKER_SCRIPTS_GUIDE.md          # Docker scripts guide
-│   └── GUIDE_NEO4J_LOD_USAGE.md         # Neo4j LOD usage guide
-│
-├── 📂 templates/                        # HTML templates
-│   ├── entity.html                      # Entity template
-│   ├── incident_report.html             # Incident report template
-│   └── incident_web.html                # Web incident template
-│
-├── 📂 logs/                             # Application logs
-├── 📂 reports/                          # Generated reports
-├── 📂 runs/                             # Execution runs data
-├── 📂 test_data/                        # Test data files
-├── 📂 test_output/                      # Test output files
-│
-├── 📄 main.py                           # Unified entry point
-├── 📄 orchestrator.py                   # Orchestrator CLI
-├── 📄 justrun.ps1                       # Windows one-command runner
-├── 📄 docker-compose.yml                # Docker services (12 containers)
-├── 📄 Dockerfile                        # Application container
-├── 📄 pyproject.toml                    # Python project configuration (PEP 518)
-├── 📄 setup.py                          # Python package setup
-├── 📄 pytest.ini                        # Pytest configuration
-├── 📄 MANIFEST.in                       # Package manifest
-├── 📄 Makefile                          # Build automation
-├── 📄 .env.example                      # Environment template
-├── 📄 .gitignore                        # Git ignore rules
-├── 📄 .gitattributes                    # Git attributes
-├── 📄 .dockerignore                     # Docker ignore rules
-├── 📄 .pre-commit-config.yaml           # Pre-commit hooks
-├── 📄 LICENSE                           # MIT License
-├── 📄 JUSTRUN.md                        # One-command documentation
-├── 📄 EXECUTION_ORDER.md                # Execution order guide
-└── 📄 README.md                         # Project documentation
-```
-
-</details>
 
 ---
 
@@ -1227,9 +1061,11 @@ cp .env.example .env
 
 ### 🔗 Related Documentation
 
+- **📖 GitHub Pages**: [https://uip-urban-intelligence-platform.github.io/UIP-Urban_Intelligence_Platform/](https://uip-urban-intelligence-platform.github.io/UIP-Urban_Intelligence_Platform/)
 - **Configuration Guide**: [docs/data-access/](docs/data-access/)
 - **Deployment Guide**: [docs/deployment/](docs/deployment/)
 - **Security Policy**: [.github/SECURITY.md](.github/SECURITY.md)
+- **Code Owners**: [.github/CODEOWNERS](.github/CODEOWNERS)
 - **Docker Configuration**: [docker-compose.yml](docker-compose.yml)
 
 ---

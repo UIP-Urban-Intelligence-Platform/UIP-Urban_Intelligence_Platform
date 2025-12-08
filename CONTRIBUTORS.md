@@ -33,8 +33,8 @@ The following individuals are the core maintainers and primary contributors:
 | Avatar | Name | GitHub | Role | Contributions |
 |--------|------|--------|------|---------------|
 | 🧑‍💻 | **Nguyễn Nhật Quang** | [@NguyenNhatquang522004](https://github.com/NguyenNhatquang522004) | Lead Developer | Architecture, Backend, DevOps |
-| 🧑‍💻 | **Nguyễn Việt Hoàng** | [@JamesNguyen106](https://github.com/JamesNguyen106) | Full-Stack Developer | Frontend, API, Documentation |
-| 🧑‍💻 | **Nguyễn Đình Anh Tuấn** | [@NguyenDinhAnhTuan04](https://github.com/NguyenDinhAnhTuan04) | Backend Developer | Agents, Data, Testing |
+| 🧑‍💻 | **Nguyễn Việt Hoàng** | [@JamesNguyen106](https://github.com/JamesNguyen106) | Backend Developer | Agents, Data, Testing |
+| 🧑‍💻 | **Nguyễn Đình Anh Tuấn** | [@NguyenDinhAnhTuan04](https://github.com/NguyenDinhAnhTuan04) | Full-Stack Developer | Frontend, API, Documentation |
 
 ---
 
@@ -44,18 +44,18 @@ The following individuals are the core maintainers and primary contributors:
 
 | Component | Primary Contributors |
 |-----------|---------------------|
-| **Multi-Agent System** | Nguyễn Nhật Quang, Nguyễn Đình Anh Tuấn |
+| **Multi-Agent System** | Nguyễn Nhật Quang, Nguyễn Việt Hoàng |
 | **Orchestrator** | Nguyễn Nhật Quang |
-| **Traffic Web App** | Nguyễn Việt Hoàng |
-| **Frontend (React)** | Nguyễn Việt Hoàng |
-| **Backend (TypeScript)** | Nguyễn Việt Hoàng, Nguyễn Nhật Quang |
+| **Traffic Web App** | Nguyễn Đình Anh Tuấn |
+| **Frontend (React)** | Nguyễn Đình Anh Tuấn |
+| **Backend (TypeScript)** | Nguyễn Đình Anh Tuấn, Nguyễn Nhật Quang |
 | **NGSI-LD Integration** | Nguyễn Nhật Quang |
-| **RDF/Linked Data** | Nguyễn Nhật Quang, Nguyễn Đình Anh Tuấn |
+| **RDF/Linked Data** | Nguyễn Nhật Quang, Nguyễn Việt Hoàng |
 | **Computer Vision** | Nguyễn Nhật Quang |
 | **CI/CD Pipelines** | Nguyễn Nhật Quang |
 | **Docker Infrastructure** | Nguyễn Nhật Quang |
-| **Documentation** | Nguyễn Việt Hoàng, Nguyễn Nhật Quang |
-| **Testing** | Nguyễn Đình Anh Tuấn, Nguyễn Nhật Quang |
+| **Documentation** | Nguyễn Đình Anh Tuấn, Nguyễn Nhật Quang |
+| **Testing** | Nguyễn Việt Hoàng, Nguyễn Nhật Quang |
 
 ---
 
@@ -66,14 +66,14 @@ The following individuals are the core maintainers and primary contributors:
 The following people have contributed code to this project:
 
 1. **Nguyễn Nhật Quang** - Project founder, architect, backend systems
-2. **Nguyễn Việt Hoàng** - Full-stack development, UI/UX, documentation
-3. **Nguyễn Đình Anh Tuấn** - Backend development, data processing, testing
+2. **Nguyễn Việt Hoàng** - Backend development, data processing, testing
+3. **Nguyễn Đình Anh Tuấn** - Full-stack development, UI/UX, documentation
 
 ### Documentation Contributors
 
 - Nguyễn Nhật Quang - API documentation, architecture docs
-- Nguyễn Việt Hoàng - User guides, Docusaurus site
-- Nguyễn Đình Anh Tuấn - Technical specifications
+- Nguyễn Đình Anh Tuấn - User guides, Docusaurus site
+- Nguyễn Việt Hoàng - Technical specifications
 
 ### Bug Reporters & Testers
 
@@ -125,6 +125,6 @@ Submit a pull request! All contributors who have their PRs merged will be added 
 
 ---
 
-*Last updated: December 2025*
+*Last updated: December 8, 2025*
 
 Copyright (c) 2025 UIP - Urban Intelligence Platform Contributors
