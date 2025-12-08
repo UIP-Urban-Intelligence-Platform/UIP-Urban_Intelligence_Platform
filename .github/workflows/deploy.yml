@@ -87,7 +87,39 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y sshpass
 
-      # Bước 3: Deploy code lên VPS bằng rsync
+      # Bước 3: Stop all running services before deploy
+      - name: 🛑 Stop All Running Services
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          echo "🛑 Stopping all running services before deploy..."
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} "
+            echo '🛑 Stopping PM2 processes...'
+            pm2 stop all 2>/dev/null || true
+            pm2 delete all 2>/dev/null || true
+            
+            echo '🛑 Killing application processes...'
+            pkill -f 'main.py' 2>/dev/null || true
+            pkill -f 'orchestrator.py' 2>/dev/null || true
+            pkill -f 'run_cv_and_sync.py' 2>/dev/null || true
+            pkill -f 'npm run dev' 2>/dev/null || true
+            pkill -f 'vite' 2>/dev/null || true
+            pkill -f 'node.*backend' 2>/dev/null || true
+            pkill -f 'node.*frontend' 2>/dev/null || true
+            pkill -f 'uvicorn' 2>/dev/null || true
+            pkill -f 'fastapi' 2>/dev/null || true
+            
+            echo '🛑 Stopping Nginx...'
+            sudo systemctl stop nginx 2>/dev/null || true
+            
+            sleep 3
+            echo '✅ All services stopped'
+          "
+
+      # Bước 4: Deploy code lên VPS bằng rsync
       - name: 📤 Deploy code to VPS
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
@@ -117,7 +149,7 @@ jobs:
 
           echo "✅ Code deployed successfully!"
 
-      # Bước 4: Setup Environment Files
+      # Bước 5: Setup Environment Files
       - name: 📄 Setup Environment Files
         timeout-minutes: 5
         continue-on-error: true
@@ -219,7 +251,7 @@ jobs:
             echo "✅ Python environment ready"
           ENDSSH
 
-      # Bước 6: Setup Node.js Dependencies
+      # Bước 7: Setup Node.js Dependencies
       - name: 📦 Setup Node.js Dependencies
         timeout-minutes: 10
         env:
@@ -252,7 +284,7 @@ jobs:
             echo "✅ Node.js dependencies ready"
           ENDSSH
 
-      # Bước 7: Start Docker Services
+      # Bước 8: Start Docker Services
       - name: 🐳 Start Docker Services
         timeout-minutes: 5
         env:
@@ -263,15 +295,6 @@ jobs:
         run: |
           sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
-            
-            echo "🛑 Stopping existing services..."
-            pkill -f "main.py" 2>/dev/null || true
-            pkill -f "orchestrator.py" 2>/dev/null || true
-            pkill -f "run_cv_and_sync.py" 2>/dev/null || true
-            pkill -f "npm run dev" 2>/dev/null || true
-            pkill -f "vite" 2>/dev/null || true
-            pm2 stop all 2>/dev/null || true
-            sleep 2
             
             echo "🐳 Starting Docker infrastructure..."
             if docker compose version > /dev/null 2>&1; then
@@ -284,13 +307,13 @@ jobs:
             echo "✅ Docker services started"
           ENDSSH
 
-      # Bước 8: Wait for Databases
+      # Bước 9: Wait for Databases
       - name: ⏳ Wait for Databases
         run: |
           echo "Waiting for databases to initialize (45s)..."
           sleep 45
 
-      # Bước 9: Start Stellio Services
+      # Bước 10: Start Stellio Services
       - name: 🌐 Start Stellio Services
         timeout-minutes: 3
         env:
@@ -312,13 +335,13 @@ jobs:
             echo "✅ Stellio services started"
           ENDSSH
 
-      # Bước 10: Wait for Stellio
+      # Bước 11: Wait for Stellio
       - name: ⏳ Wait for Stellio
         run: |
           echo "Waiting for Stellio to initialize (20s)..."
           sleep 20
 
-      # Bước 11: Setup Nginx Reverse Proxy
+      # Bước 12: Setup Nginx Reverse Proxy
       - name: 🌐 Setup Nginx Reverse Proxy
         timeout-minutes: 3
         env:
@@ -413,7 +436,7 @@ jobs:
             echo "✅ Nginx reverse proxy configured"
           ENDSSH
 
-      # Bước 12: Setup PM2 Ecosystem
+      # Bước 13: Setup PM2 Ecosystem
       - name: 📋 Setup PM2 Ecosystem
         timeout-minutes: 2
         env:
@@ -432,7 +455,7 @@ jobs:
             echo '✅ PM2 ecosystem config created'
           "
 
-      # Bước 13: Start Application Services with PM2
+      # Bước 14: Start Application Services with PM2
       - name: 🚀 Start Application Services with PM2
         timeout-minutes: 3
         env:
@@ -445,16 +468,6 @@ jobs:
             cd /home/$USER/builder-layer-end
             
             echo "🚀 Starting all services with PM2..."
-            
-            # Stop all existing PM2 processes
-            pm2 stop all 2>/dev/null || true
-            pm2 delete all 2>/dev/null || true
-            
-            # Kill any remaining processes
-            pkill -f "main.py" 2>/dev/null || true
-            pkill -f "orchestrator.py" 2>/dev/null || true
-            pkill -f "run_cv_and_sync.py" 2>/dev/null || true
-            sleep 2
             
             # Start all apps using PM2 ecosystem
             pm2 start ecosystem.config.js
@@ -471,7 +484,7 @@ jobs:
             pm2 list
           ENDSSH
 
-      # Bước 13: Health check
+      # Bước 15: Health check
       - name: 🏥 Health Check
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
