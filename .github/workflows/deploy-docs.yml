@@ -1,19 +1,21 @@
 # ============================================================================
 # UIP - Urban Intelligence Platform
-# Copyright (c) 2025 UIP Team. All rights reserved.
+# Copyright (c) 2024-2025 UIP Team. All rights reserved.
 # https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
 #
 # SPDX-License-Identifier: MIT
 # ============================================================================
 # File: .github/workflows/deploy-docs.yml
-# Module: GitHub Actions Workflow - Deploy Documentation
+# Module: GitHub Actions Workflow - Deploy Docusaurus Documentation
 # Author: Nguyen Nhat Quang (Lead), Nguyen Viet Hoang, Nguyen Dinh Anh Tuan
 # Created: 2025-11-20
-# Version: 1.0.0
+# Updated: 2025-12-08
+# Version: 2.0.0
 # License: MIT
 #
 # Description:
 #   Builds Docusaurus docs and deploys to GitHub Pages.
+#   Docs URL: https://uip-urban-intelligence-platform.github.io/UIP-Urban_Intelligence_Platform/
 # ============================================================================
 
 name: Deploy Documentation
@@ -22,9 +24,9 @@ on:
   push:
     branches:
       - main
-      - Quang
+      - tuan
     paths:
-      - 'docs/**'
+      - 'apps/traffic-web-app/frontend/docs/**'
       - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
@@ -41,43 +43,43 @@ concurrency:
 
 jobs:
   build:
-    name: Build Documentation
+    name: 🔨 Build Documentation
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: docs
+        working-directory: apps/traffic-web-app/frontend/docs
 
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: docs/package-lock.json
+          cache-dependency-path: apps/traffic-web-app/frontend/docs/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
+      - name: 📦 Install dependencies
+        run: npm ci || npm install
 
-      - name: Build documentation
+      - name: 🔨 Build documentation
         run: npm run build
         env:
           NODE_ENV: production
 
-      - name: Setup Pages
+      - name: 📄 Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
+      - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/build
+          path: apps/traffic-web-app/frontend/docs/build
 
   deploy:
-    name: Deploy to GitHub Pages
+    name: 🚀 Deploy to GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -85,11 +87,16 @@ jobs:
     needs: build
 
     steps:
-      - name: Deploy to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Output deployment URL
+      - name: 📢 Output deployment URL
         run: |
-          echo "📚 Documentation deployed to: ${{ steps.deployment.outputs.page_url }}"
-          echo "🌐 Access at: https://nguyennhatquang522004.github.io/UIP-Urban_Intelligence_Platform/"
+          echo "============================================"
+          echo "  📚 Documentation Deployed!"
+          echo "============================================"
+          echo "📌 URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "🌐 Access at: https://uip-urban-intelligence-platform.github.io/UIP-Urban_Intelligence_Platform/"
+          echo "============================================"
+

@@ -411,93 +411,16 @@ jobs:
             echo ""
             echo "📋 Running processes:"
             ps aux | grep -E "main.py|run_cv_and_sync|node" | grep -v grep || echo "No processes found"
+            
+            echo ""
+            echo "============================================"
+            echo "  ✅ VPS DEPLOYMENT COMPLETED!"
+            echo "============================================"
+            echo "🌐 Main URL:  http://${{ secrets.VPS_HOST }}"
+            echo "  - Frontend:   http://${{ secrets.VPS_HOST }}:5173"
+            echo "  - Backend:    http://${{ secrets.VPS_HOST }}:5000"
+            echo "  - FastAPI:    http://${{ secrets.VPS_HOST }}:8001"
+            echo "  - Stellio:    http://${{ secrets.VPS_HOST }}:8080"
+            echo "  - Neo4j:      http://${{ secrets.VPS_HOST }}:7474"
+            echo "============================================"
           ENDSSH
-
-  # ===========================================================================
-  # Job 2: Deploy Docusaurus Docs to GitHub Pages
-  # ===========================================================================
-  deploy-docs:
-    name: 📚 Deploy Docs to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: deploy
-
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
-    permissions:
-      pages: write
-      id-token: write
-      contents: read
-
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      # Bước 1: Checkout code
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      # Bước 2: Setup Node.js
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-          cache-dependency-path: apps/traffic-web-app/frontend/docs/package-lock.json
-
-      # Bước 3: Install dependencies
-      - name: 📦 Install dependencies
-        working-directory: apps/traffic-web-app/frontend/docs
-        run: npm ci || npm install
-
-      # Bước 4: Build Docusaurus
-      - name: 🔨 Build Docusaurus
-        working-directory: apps/traffic-web-app/frontend/docs
-        run: npm run build
-
-      # Bước 5: Setup Pages
-      - name: 📄 Setup Pages
-        uses: actions/configure-pages@v4
-
-      # Bước 6: Upload artifact
-      - name: 📤 Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: apps/traffic-web-app/frontend/docs/build
-
-      # Bước 7: Deploy to GitHub Pages
-      - name: 🚀 Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  # ===========================================================================
-  # Job 3: Notify on completion (optional)
-  # ===========================================================================
-  notify:
-    name: 📢 Notify
-    runs-on: ubuntu-latest
-    needs: [deploy, deploy-docs]
-    if: always()
-
-    steps:
-      - name: 📢 Send notification
-        run: |
-          echo "============================================"
-          echo "  📢 Deployment Summary"
-          echo "============================================"
-
-          if [ "${{ needs.deploy.result }}" == "success" ]; then
-            echo "✅ VPS Deployment: SUCCESS"
-            echo "🌐 Project deployed to: ${{ secrets.VPS_HOST }}"
-          else
-            echo "❌ VPS Deployment: FAILED"
-          fi
-
-          if [ "${{ needs.deploy-docs.result }}" == "success" ]; then
-            echo "✅ Docs Deployment: SUCCESS"
-            echo "📚 Docs URL: https://uip-urban-intelligence-platform.github.io/UIP-Urban_Intelligence_Platform/"
-          else
-            echo "⚠️ Docs Deployment: FAILED or SKIPPED"
-          fi
-
-          echo "============================================"
