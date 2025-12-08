@@ -113,7 +113,7 @@ jobs:
             pkill -f 'fastapi' 2>/dev/null || true
             
             echo '🛑 Stopping Nginx...'
-            sudo systemctl stop nginx 2>/dev/null || true
+            echo '$VPS_PASSWORD' | sudo -S systemctl stop nginx 2>/dev/null || true
             
             sleep 3
             echo '✅ All services stopped'
@@ -350,91 +350,92 @@ jobs:
           VPS_PORT: ${{ secrets.VPS_PORT }}
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
-            echo "🌐 Setting up Nginx reverse proxy..."
+          # Create nginx config locally first
+          cat > /tmp/nginx_uip.conf << 'NGINXCONF'
+          server {
+              listen 80;
+              server_name _;
+              
+              location / {
+                  proxy_pass http://127.0.0.1:5173;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade $http_upgrade;
+                  proxy_set_header Connection 'upgrade';
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+                  proxy_cache_bypass $http_upgrade;
+                  proxy_read_timeout 86400;
+              }
+              
+              location /api/ {
+                  proxy_pass http://127.0.0.1:5000/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+                  proxy_read_timeout 300;
+                  proxy_connect_timeout 300;
+              }
+              
+              location /fastapi/ {
+                  proxy_pass http://127.0.0.1:8001/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+                  proxy_read_timeout 300;
+                  proxy_connect_timeout 300;
+              }
+              
+              location /ngsi-ld/ {
+                  proxy_pass http://127.0.0.1:8080/ngsi-ld/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+              }
+              
+              location /neo4j/ {
+                  proxy_pass http://127.0.0.1:7474/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+              }
+          }
+          NGINXCONF
+          
+          # Upload nginx config to VPS
+          sshpass -p "$VPS_PASSWORD" scp -P ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /tmp/nginx_uip.conf ${VPS_USER}@${VPS_HOST}:/tmp/nginx_uip.conf
+          
+          # Setup nginx on VPS
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} "
+            echo '🌐 Setting up Nginx reverse proxy...'
             
             # Install Nginx if not exists
             if ! command -v nginx &> /dev/null; then
-              sudo apt-get update
-              sudo apt-get install -y nginx
+              echo '$VPS_PASSWORD' | sudo -S apt-get update
+              echo '$VPS_PASSWORD' | sudo -S apt-get install -y nginx
             fi
             
-            # Create Nginx config for UIP
-            sudo tee /etc/nginx/sites-available/uip << 'NGINX_CONFIG'
-            server {
-                listen 80;
-                server_name _;
-                
-                # Frontend - React (default)
-                location / {
-                    proxy_pass http://127.0.0.1:5173;
-                    proxy_http_version 1.1;
-                    proxy_set_header Upgrade $http_upgrade;
-                    proxy_set_header Connection 'upgrade';
-                    proxy_set_header Host $host;
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                    proxy_cache_bypass $http_upgrade;
-                    proxy_read_timeout 86400;
-                }
-                
-                # TypeScript Backend API
-                location /api/ {
-                    proxy_pass http://127.0.0.1:5000/;
-                    proxy_http_version 1.1;
-                    proxy_set_header Host $host;
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                    proxy_read_timeout 300;
-                    proxy_connect_timeout 300;
-                }
-                
-                # FastAPI Backend
-                location /fastapi/ {
-                    proxy_pass http://127.0.0.1:8001/;
-                    proxy_http_version 1.1;
-                    proxy_set_header Host $host;
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                    proxy_read_timeout 300;
-                    proxy_connect_timeout 300;
-                }
-                
-                # Stellio NGSI-LD API
-                location /ngsi-ld/ {
-                    proxy_pass http://127.0.0.1:8080/ngsi-ld/;
-                    proxy_http_version 1.1;
-                    proxy_set_header Host $host;
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                }
-                
-                # Neo4j Browser (optional)
-                location /neo4j/ {
-                    proxy_pass http://127.0.0.1:7474/;
-                    proxy_http_version 1.1;
-                    proxy_set_header Host $host;
-                    proxy_set_header X-Real-IP $remote_addr;
-                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                    proxy_set_header X-Forwarded-Proto $scheme;
-                }
-            }
-            NGINX_CONFIG
-            
-            # Enable site
-            sudo ln -sf /etc/nginx/sites-available/uip /etc/nginx/sites-enabled/
-            sudo rm -f /etc/nginx/sites-enabled/default
+            # Copy config to nginx sites
+            echo '$VPS_PASSWORD' | sudo -S cp /tmp/nginx_uip.conf /etc/nginx/sites-available/uip
+            echo '$VPS_PASSWORD' | sudo -S ln -sf /etc/nginx/sites-available/uip /etc/nginx/sites-enabled/
+            echo '$VPS_PASSWORD' | sudo -S rm -f /etc/nginx/sites-enabled/default
             
             # Test and reload Nginx
-            sudo nginx -t && sudo systemctl reload nginx
-            sudo systemctl enable nginx
+            echo '$VPS_PASSWORD' | sudo -S nginx -t
+            echo '$VPS_PASSWORD' | sudo -S systemctl reload nginx || echo '$VPS_PASSWORD' | sudo -S systemctl start nginx
+            echo '$VPS_PASSWORD' | sudo -S systemctl enable nginx
             
-            echo "✅ Nginx reverse proxy configured"
-          ENDSSH
+            echo '✅ Nginx reverse proxy configured'
+          "
 
       # Bước 13: Setup PM2 Ecosystem
       - name: 📋 Setup PM2 Ecosystem
