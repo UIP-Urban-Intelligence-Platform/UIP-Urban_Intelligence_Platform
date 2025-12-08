@@ -467,14 +467,14 @@ jobs:
           VPS_PORT: ${{ secrets.VPS_PORT }}
           VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          # Create ecosystem config with orchestrator and cv-analysis
-          ECOSYSTEM_CONFIG='module.exports = { apps: [ { name: "orchestrator", script: "orchestrator.py", interpreter: ".venv/bin/python3", cwd: "/home/deepminds/builder-layer-end", autorestart: false, max_restarts: 1, watch: false, env: { PYTHONUNBUFFERED: "1" } }, { name: "main-api", script: "main.py", interpreter: ".venv/bin/python3", cwd: "/home/deepminds/builder-layer-end", autorestart: true, max_restarts: 10, watch: false, env: { PYTHONUNBUFFERED: "1" } }, { name: "cv-analysis", script: "scripts/pipeline/run_cv_and_sync.py", args: "--runs 9999 --delay 60", interpreter: ".venv/bin/python3", cwd: "/home/deepminds/builder-layer-end", autorestart: true, max_restarts: 10, watch: false, env: { PYTHONUNBUFFERED: "1" } }, { name: "ts-backend", script: "npm", args: "run dev", cwd: "/home/deepminds/builder-layer-end/apps/traffic-web-app/backend", autorestart: true, max_restarts: 10, watch: false }, { name: "react-frontend", script: "npm", args: "run dev -- --host 0.0.0.0", cwd: "/home/deepminds/builder-layer-end/apps/traffic-web-app/frontend", autorestart: true, max_restarts: 10, watch: false } ] };'
+          # Create ecosystem config with orchestrator using cron_restart (runs every hour at minute 0)
+          ECOSYSTEM='module.exports={apps:[{name:"orchestrator",script:"orchestrator.py",interpreter:".venv/bin/python3",cwd:"/home/deepminds/builder-layer-end",cron_restart:"0 * * * *",autorestart:false,watch:false,env:{PYTHONUNBUFFERED:"1"}},{name:"main-api",script:"main.py",interpreter:".venv/bin/python3",cwd:"/home/deepminds/builder-layer-end",autorestart:true,max_restarts:10,watch:false,env:{PYTHONUNBUFFERED:"1"}},{name:"cv-analysis",script:"scripts/pipeline/run_cv_and_sync.py",args:"--runs 9999 --delay 60",interpreter:".venv/bin/python3",cwd:"/home/deepminds/builder-layer-end",autorestart:true,max_restarts:10,watch:false,env:{PYTHONUNBUFFERED:"1"}},{name:"ts-backend",script:"npm",args:"run dev",cwd:"/home/deepminds/builder-layer-end/apps/traffic-web-app/backend",autorestart:true,max_restarts:10,watch:false},{name:"react-frontend",script:"npm",args:"run dev -- --host 0.0.0.0",cwd:"/home/deepminds/builder-layer-end/apps/traffic-web-app/frontend",autorestart:true,max_restarts:10,watch:false}]};'
           
           sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} "
             cd /home/\$USER/builder-layer-end
             which pm2 > /dev/null 2>&1 || npm install -g pm2
-            echo '$ECOSYSTEM_CONFIG' > ecosystem.config.js
-            echo '✅ PM2 ecosystem config created with orchestrator and cv-analysis'
+            echo '$ECOSYSTEM' > ecosystem.config.js
+            echo '✅ PM2 ecosystem config created - orchestrator runs every hour (cron: 0 * * * *)'
           "
 
       # Bước 14: Start Application Services with PM2
