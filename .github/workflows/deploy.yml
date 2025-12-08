@@ -81,23 +81,74 @@ jobs:
         with:
           fetch-depth: 0 # Fetch full history for proper sync
 
-      # Bước 2: Install sshpass (để dùng password SSH)
-      - name: 🔧 Install sshpass
-        run: sudo apt-get install -y sshpass
+      # Bước 2: Install sshpass for password authentication
+      - name: 🔑 Install sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
 
-      # Bước 3: Deploy code lên VPS bằng rsync
+      # Bước 3: Stop all running services before deploy
+      - name: 🛑 Stop All Running Services
+        continue-on-error: true
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          echo "🛑 Stopping all running services before deploy..."
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} bash << 'ENDSSH'
+            set +e  # Không exit khi có lỗi
+            
+            echo "🛑 Stopping PM2 processes..."
+            if command -v pm2 &> /dev/null; then
+              pm2 stop all 2>/dev/null
+              pm2 delete all 2>/dev/null
+              echo "  ✓ PM2 processes stopped"
+            else
+              echo "  - PM2 not installed, skipping"
+            fi
+            
+            echo "🛑 Killing application processes if running..."
+            
+            # Function to safely kill process
+            safe_kill() {
+              if pgrep -f "$1" > /dev/null 2>&1; then
+                pkill -f "$1" 2>/dev/null
+                echo "  ✓ Killed: $1"
+              fi
+            }
+            
+            safe_kill "main.py"
+            safe_kill "orchestrator.py"
+            safe_kill "run_cv_and_sync.py"
+            safe_kill "npm run dev"
+            safe_kill "vite"
+            safe_kill "uvicorn"
+            
+            echo "🛑 Stopping Nginx if running..."
+            if systemctl is-active --quiet nginx 2>/dev/null; then
+              echo "$VPS_PASSWORD" | sudo -S systemctl stop nginx 2>/dev/null
+              echo "  ✓ Nginx stopped"
+            else
+              echo "  - Nginx not running, skipping"
+            fi
+            
+            sleep 2
+            echo "✅ All services check completed"
+            exit 0
+          ENDSSH
+          echo "✅ Stop services step completed"
+
+      # Bước 4: Deploy code lên VPS bằng rsync
       - name: 📤 Deploy code to VPS
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
           echo "🚀 Deploying to VPS: $VPS_HOST"
-
-          # Disable strict host key checking
-          mkdir -p ~/.ssh
-          echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
           # Sync code using rsync với sshpass (password authentication)
           sshpass -p "$VPS_PASSWORD" rsync -avz --delete \
@@ -114,18 +165,18 @@ jobs:
             --exclude 'coverage.xml' \
             --exclude '.pytest_cache' \
             --exclude 'assets/models/*.pth' \
-            -e "ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no" \
+            -e "ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
             ./ ${VPS_USER}@${VPS_HOST}:/home/${VPS_USER}/builder-layer-end/
 
           echo "✅ Code deployed successfully!"
 
-      # Bước 4: Setup Environment Files
+      # Bước 5: Setup Environment Files
       - name: 📄 Setup Environment Files
         timeout-minutes: 5
+        continue-on-error: true
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
           # ROOT .env API Keys
           OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
@@ -146,22 +197,19 @@ jobs:
           GOOGLE_CALENDAR_API_KEY: ${{ secrets.GOOGLE_CALENDAR_API_KEY }}
           GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
-            set -e
-            cd /home/$USER/builder-layer-end
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+            cd /home/$USER/builder-layer-end || exit 1
             
             echo "📁 Creating directories..."
             mkdir -p logs data data/cache data/rdf reports test_output assets/models
             
-            update_env_var() {
-              local file=$1 key=$2 value=$3
-              [ -n "$value" ] && { grep -q "^$key=" "$file" 2>/dev/null && sed -i "s|^$key=.*|$key=$value|" "$file" || echo "$key=$value" >> "$file"; }
-            }
+            echo "✅ Directories created"
           ENDSSH
 
           # Setup env files with secrets (separate SSH to pass vars)
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} "
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} "
             cd /home/\$USER/builder-layer-end
             
             # Setup ROOT .env
@@ -207,12 +255,11 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no \
-            -o ServerAliveInterval=30 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
-            set -e
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ServerAliveInterval=30 -o ServerAliveCountMax=10 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             echo "🐍 Setting up Python environment..."
@@ -225,21 +272,23 @@ jobs:
             echo "✅ Python environment ready"
           ENDSSH
 
-      # Bước 6: Setup Node.js Dependencies
+      # Bước 7: Setup Node.js Dependencies
       - name: 📦 Setup Node.js Dependencies
         timeout-minutes: 10
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no \
-            -o ServerAliveInterval=30 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
-            set -e
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ServerAliveInterval=30 -o ServerAliveCountMax=10 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             echo "📦 Setting up Node.js dependencies..."
+            
+            # Install PM2 globally if not exists
+            which pm2 > /dev/null 2>&1 || npm install -g pm2
             
             if [ -d "apps/traffic-web-app/backend" ]; then
               cd apps/traffic-web-app/backend
@@ -256,26 +305,17 @@ jobs:
             echo "✅ Node.js dependencies ready"
           ENDSSH
 
-      # Bước 7: Start Docker Services
+      # Bước 8: Start Docker Services
       - name: 🐳 Start Docker Services
         timeout-minutes: 5
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
-            
-            echo "🛑 Stopping existing services..."
-            pkill -f "main.py" 2>/dev/null || true
-            pkill -f "orchestrator.py" 2>/dev/null || true
-            pkill -f "run_cv_and_sync.py" 2>/dev/null || true
-            pkill -f "npm run dev" 2>/dev/null || true
-            pkill -f "vite" 2>/dev/null || true
-            pm2 stop all 2>/dev/null || true
-            sleep 2
             
             echo "🐳 Starting Docker infrastructure..."
             if docker compose version > /dev/null 2>&1; then
@@ -288,22 +328,22 @@ jobs:
             echo "✅ Docker services started"
           ENDSSH
 
-      # Bước 8: Wait for Databases
+      # Bước 9: Wait for Databases
       - name: ⏳ Wait for Databases
         run: |
           echo "Waiting for databases to initialize (45s)..."
           sleep 45
 
-      # Bước 9: Start Stellio Services
+      # Bước 10: Start Stellio Services
       - name: 🌐 Start Stellio Services
         timeout-minutes: 3
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             if docker compose version > /dev/null 2>&1; then
@@ -316,74 +356,174 @@ jobs:
             echo "✅ Stellio services started"
           ENDSSH
 
-      # Bước 10: Wait for Stellio
+      # Bước 11: Wait for Stellio
       - name: ⏳ Wait for Stellio
         run: |
           echo "Waiting for Stellio to initialize (20s)..."
           sleep 20
 
-      # Bước 11: Start Application Services
-      - name: 🚀 Start Application Services
-        timeout-minutes: 5
+      # Bước 12: Setup Nginx Reverse Proxy
+      - name: 🌐 Setup Nginx Reverse Proxy
+        timeout-minutes: 3
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          # Create nginx config locally first
+          cat > /tmp/nginx_uip.conf << 'NGINXCONF'
+          server {
+              listen 80;
+              server_name _;
+              
+              location / {
+                  proxy_pass http://127.0.0.1:5173;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade $http_upgrade;
+                  proxy_set_header Connection 'upgrade';
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+                  proxy_cache_bypass $http_upgrade;
+                  proxy_read_timeout 86400;
+              }
+              
+              location /api/ {
+                  proxy_pass http://127.0.0.1:5000/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+                  proxy_read_timeout 300;
+                  proxy_connect_timeout 300;
+              }
+              
+              location /fastapi/ {
+                  proxy_pass http://127.0.0.1:8001/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+                  proxy_read_timeout 300;
+                  proxy_connect_timeout 300;
+              }
+              
+              location /ngsi-ld/ {
+                  proxy_pass http://127.0.0.1:8080/ngsi-ld/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+              }
+              
+              location /neo4j/ {
+                  proxy_pass http://127.0.0.1:7474/;
+                  proxy_http_version 1.1;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
+              }
+          }
+          NGINXCONF
+          
+          # Upload nginx config to VPS
+          sshpass -p "$VPS_PASSWORD" scp -P ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /tmp/nginx_uip.conf ${VPS_USER}@${VPS_HOST}:/tmp/nginx_uip.conf
+          
+          # Setup nginx on VPS
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} "
+            echo '🌐 Setting up Nginx reverse proxy...'
+            
+            # Install Nginx if not exists
+            if ! command -v nginx &> /dev/null; then
+              echo '$VPS_PASSWORD' | sudo -S apt-get update
+              echo '$VPS_PASSWORD' | sudo -S apt-get install -y nginx
+            fi
+            
+            # Copy config to nginx sites
+            echo '$VPS_PASSWORD' | sudo -S cp /tmp/nginx_uip.conf /etc/nginx/sites-available/uip
+            echo '$VPS_PASSWORD' | sudo -S ln -sf /etc/nginx/sites-available/uip /etc/nginx/sites-enabled/
+            echo '$VPS_PASSWORD' | sudo -S rm -f /etc/nginx/sites-enabled/default
+            
+            # Test and reload Nginx
+            echo '$VPS_PASSWORD' | sudo -S nginx -t
+            echo '$VPS_PASSWORD' | sudo -S systemctl reload nginx || echo '$VPS_PASSWORD' | sudo -S systemctl start nginx
+            echo '$VPS_PASSWORD' | sudo -S systemctl enable nginx
+            
+            echo '✅ Nginx reverse proxy configured'
+          "
+
+      # Bước 13: Setup PM2 Ecosystem
+      - name: 📋 Setup PM2 Ecosystem
+        timeout-minutes: 2
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          # Create ecosystem config with orchestrator using cron_restart (runs every hour at minute 0)
+          ECOSYSTEM='module.exports={apps:[{name:"orchestrator",script:"orchestrator.py",interpreter:".venv/bin/python3",cwd:"/home/deepminds/builder-layer-end",cron_restart:"0 * * * *",autorestart:false,watch:false,env:{PYTHONUNBUFFERED:"1"}},{name:"main-api",script:"main.py",interpreter:".venv/bin/python3",cwd:"/home/deepminds/builder-layer-end",autorestart:true,max_restarts:10,watch:false,env:{PYTHONUNBUFFERED:"1"}},{name:"cv-analysis",script:"scripts/pipeline/run_cv_and_sync.py",args:"--runs 9999 --delay 60",interpreter:".venv/bin/python3",cwd:"/home/deepminds/builder-layer-end",autorestart:true,max_restarts:10,watch:false,env:{PYTHONUNBUFFERED:"1"}},{name:"ts-backend",script:"npm",args:"run dev",cwd:"/home/deepminds/builder-layer-end/apps/traffic-web-app/backend",autorestart:true,max_restarts:10,watch:false},{name:"react-frontend",script:"npm",args:"run dev -- --host 0.0.0.0",cwd:"/home/deepminds/builder-layer-end/apps/traffic-web-app/frontend",autorestart:true,max_restarts:10,watch:false}]};'
+          
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} "
+            cd /home/\$USER/builder-layer-end
+            which pm2 > /dev/null 2>&1 || npm install -g pm2
+            echo '$ECOSYSTEM' > ecosystem.config.js
+            echo '✅ PM2 ecosystem config created - orchestrator runs every hour (cron: 0 * * * *)'
+          "
+
+      # Bước 14: Start Application Services with PM2
+      - name: 🚀 Start Application Services with PM2
+        timeout-minutes: 3
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
-            source .venv/bin/activate
             
-            echo "🚀 Starting application services..."
+            echo "🚀 Starting all services with PM2..."
             
-            # Run orchestrator briefly (background)
-            nohup timeout 120 python3 orchestrator.py > logs/orchestrator.log 2>&1 &
+            # Start all apps using PM2 ecosystem
+            pm2 start ecosystem.config.js
             
-            # Python backend
-            nohup python3 main.py --run-orchestrator-now > logs/main_py.log 2>&1 &
-            echo $! > logs/main_py.pid
-            echo "✅ Python backend started"
+            # Save PM2 process list (auto-restart on reboot)
+            pm2 save
             
-            # CV Analysis Pipeline
-            nohup python3 scripts/pipeline/run_cv_and_sync.py --runs 9999 --delay 60 > logs/cv_sync.log 2>&1 &
-            echo $! > logs/cv_sync.pid
-            echo "✅ CV Analysis Pipeline started"
-            
-            # TypeScript Backend
-            cd apps/traffic-web-app/backend
-            nohup npm run dev > ../../../logs/ts_backend.log 2>&1 &
-            echo $! > ../../../logs/ts_backend.pid
-            cd /home/$USER/builder-layer-end
-            echo "✅ TypeScript backend started"
-            
-            # React Frontend
-            cd apps/traffic-web-app/frontend
-            nohup npm run dev -- --host 0.0.0.0 > ../../../logs/frontend.log 2>&1 &
-            echo $! > ../../../logs/frontend.pid
-            cd /home/$USER/builder-layer-end
-            echo "✅ React frontend started"
+            # Setup PM2 startup script (runs PM2 on system boot)
+            pm2 startup systemd -u $USER --hp /home/$USER 2>/dev/null || true
             
             echo ""
-            echo "============================================"
-            echo "  ✅ ALL SERVICES STARTED!"
-            echo "============================================"
+            echo "✅ All services started with PM2!"
+            echo ""
+            pm2 list
           ENDSSH
 
-      # Bước 12: Health check
+      # Bước 15: Health check
       - name: 🏥 Health Check
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
         run: |
           echo "🏥 Running health check..."
           sleep 15
 
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
-            cd /home/$USER/builder-layer-end
+          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -T ${VPS_USER}@${VPS_HOST} << ENDSSH
+            cd /home/\$USER/builder-layer-end
             
+            echo "📊 PM2 Status:"
+            pm2 list
+            
+            echo ""
             echo "Checking services..."
             
             # Check Docker containers
@@ -393,34 +533,28 @@ jobs:
               echo "⚠️ Some Docker containers may not be running"
             fi
             
-            # Check Python processes
-            if pgrep -f "main.py" > /dev/null; then
-              echo "✅ Main Python service is running"
-            else
-              echo "⚠️ Main Python service is not running"
-            fi
-            
-            # Check CV Analysis
-            if pgrep -f "run_cv_and_sync.py" > /dev/null; then
-              echo "✅ CV Analysis pipeline is running"
-            else
-              echo "⚠️ CV Analysis pipeline is not running"
-            fi
-            
-            # Show running processes
+            # Check PM2 processes status
             echo ""
-            echo "📋 Running processes:"
-            ps aux | grep -E "main.py|run_cv_and_sync|node" | grep -v grep || echo "No processes found"
+            echo "📋 PM2 Process Status:"
+            pm2 list --no-color 2>/dev/null | grep -E "online|stopped|errored" || echo "PM2 processes checked"
             
             echo ""
             echo "============================================"
             echo "  ✅ VPS DEPLOYMENT COMPLETED!"
             echo "============================================"
-            echo "🌐 Main URL:  http://${{ secrets.VPS_HOST }}"
-            echo "  - Frontend:   http://${{ secrets.VPS_HOST }}:5173"
-            echo "  - Backend:    http://${{ secrets.VPS_HOST }}:5000"
-            echo "  - FastAPI:    http://${{ secrets.VPS_HOST }}:8001"
-            echo "  - Stellio:    http://${{ secrets.VPS_HOST }}:8080"
-            echo "  - Neo4j:      http://${{ secrets.VPS_HOST }}:7474"
+            echo "🌐 Service URLs:"
+            echo "  - Main Site:  http://$VPS_HOST/"
+            echo "  - Frontend:   http://$VPS_HOST:5173"
+            echo "  - Backend:    http://$VPS_HOST:5000"
+            echo "  - FastAPI:    http://$VPS_HOST:8001"
+            echo "  - Stellio:    http://$VPS_HOST:8080"
+            echo "  - Neo4j:      http://$VPS_HOST:7474"
+            echo "============================================"
+            echo ""
+            echo "📝 PM2 Commands:"
+            echo "  pm2 logs          - View all logs"
+            echo "  pm2 logs <name>   - View specific app logs"
+            echo "  pm2 restart all   - Restart all apps"
+            echo "  pm2 monit         - Monitor dashboard"
             echo "============================================"
           ENDSSH
