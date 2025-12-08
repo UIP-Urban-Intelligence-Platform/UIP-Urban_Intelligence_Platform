@@ -273,7 +273,7 @@ class WeatherEnricher:
                     if response.status == 200:
                         data = await response.json()
                         logger.info(
-                            f"Weather API: Successfully fetched data for ({lat}, {lon})"
+                            "Weather API: Successfully fetched weather data"
                         )
                         return {
                             "temperature": data["main"]["temp"],
@@ -366,7 +366,7 @@ class AirQualityEnricher:
 
                     location_id = data["results"][0]["id"]
                     logger.info(
-                        f"AirQuality API: Found station {location_id} near ({lat}, {lon})"
+                        "AirQuality API: Found nearby station"
                     )
 
                 # Step 2: Get latest measurements
@@ -522,14 +522,14 @@ class NGSILDTransformer:
             response = self.session.post(url, json=entity, timeout=10)
 
             if response.status_code in [201, 204]:
-                logger.info(f"✅ Published {entity['id']} to Stellio")
+                logger.info("✅ Published entity to Stellio")
 
                 # Optionally publish to MongoDB (non-blocking)
                 if self._mongodb_helper and self._mongodb_helper.enabled:
                     try:
                         if self._mongodb_helper.insert_entity(entity):
                             logger.info(
-                                f"✅ Published CitizenObservation to MongoDB: {entity['id']}"
+                                "✅ Published CitizenObservation to MongoDB"
                             )
                     except Exception as e:
                         logger.warning(f"MongoDB publish failed (non-critical): {e}")
@@ -568,7 +568,7 @@ async def process_citizen_report_background(
         aq_enricher: Air quality API client
         transformer: NGSI-LD transformer and Stellio publisher
     """
-    logger.info(f"🚀 Processing report: {report.reportType} from user {report.userId}")
+    logger.info(f"🚀 Processing report: {report.reportType}")
 
     try:
         # Step 1: Fetch enrichment data in parallel
@@ -578,20 +578,20 @@ async def process_citizen_report_background(
         )
 
         logger.info(
-            f"📊 Enrichment complete: Weather={weather_data.get('temperature')}°C, AQI={aq_data.get('aqi')}"
+            "📊 Enrichment complete"
         )
 
         # Step 2: Transform to NGSI-LD
         entity = transformer.transform(report, weather_data, aq_data)
-        logger.info(f"🔄 Transformed to NGSI-LD: {entity['id']}")
+        logger.info("🔄 Transformed to NGSI-LD entity")
 
         # Step 3: Publish to Stellio
         success = transformer.publish_to_stellio(entity)
 
         if success:
-            logger.info(f"✅ Report processing complete: {entity['id']}")
+            logger.info("✅ Report processing complete")
         else:
-            logger.error(f"❌ Failed to publish report: {entity['id']}")
+            logger.error("❌ Failed to publish report")
 
     except Exception as e:
         logger.error(f"💥 Background task failed: {e}", exc_info=True)
@@ -658,7 +658,7 @@ if FASTAPI_AVAILABLE:
         Returns:
             202 Accepted with report ID
         """
-        logger.info(f"📥 Received report: {report.reportType} from {report.userId}")
+        logger.info(f"📥 Received report: {report.reportType}")
 
         # Generate report ID for tracking
         report_id = str(uuid.uuid4())
