@@ -81,26 +81,29 @@ jobs:
         with:
           fetch-depth: 0 # Fetch full history for proper sync
 
-      # Bước 2: Install sshpass (để dùng password SSH)
-      - name: 🔧 Install sshpass
-        run: sudo apt-get install -y sshpass
+      # Bước 2: Setup SSH Key
+      - name: 🔑 Setup SSH Key
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$VPS_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+          echo "UserKnownHostsFile /dev/null" >> ~/.ssh/config
+          chmod 644 ~/.ssh/config
 
       # Bước 3: Deploy code lên VPS bằng rsync
       - name: 📤 Deploy code to VPS
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
           echo "🚀 Deploying to VPS: $VPS_HOST"
 
-          # Disable strict host key checking
-          mkdir -p ~/.ssh
-          echo "StrictHostKeyChecking no" >> ~/.ssh/config
-
-          # Sync code using rsync với sshpass (password authentication)
-          sshpass -p "$VPS_PASSWORD" rsync -avz --delete \
+          # Sync code using rsync với SSH key
+          rsync -avz --delete \
             --exclude '.git' \
             --exclude '.venv' \
             --exclude 'node_modules' \
@@ -114,7 +117,7 @@ jobs:
             --exclude 'coverage.xml' \
             --exclude '.pytest_cache' \
             --exclude 'assets/models/*.pth' \
-            -e "ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no" \
+            -e "ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
             ./ ${VPS_USER}@${VPS_HOST}:/home/${VPS_USER}/builder-layer-end/
 
           echo "✅ Code deployed successfully!"
@@ -126,7 +129,6 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
           # ROOT .env API Keys
           OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
@@ -148,7 +150,7 @@ jobs:
           GOOGLE_SEARCH_ENGINE_ID: ${{ secrets.GOOGLE_SEARCH_ENGINE_ID }}
           GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end || exit 1
             
             echo "📁 Creating directories..."
@@ -158,7 +160,7 @@ jobs:
           ENDSSH
 
           # Setup env files with secrets (separate SSH to pass vars)
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} "
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} "
             cd /home/\$USER/builder-layer-end
             
             # Setup ROOT .env
@@ -204,10 +206,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no \
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
             -o ServerAliveInterval=30 -o ServerAliveCountMax=10 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
@@ -227,10 +228,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no \
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
             -o ServerAliveInterval=30 -o ServerAliveCountMax=10 ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
@@ -260,10 +260,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             echo "🛑 Stopping existing services..."
@@ -298,10 +297,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             if docker compose version > /dev/null 2>&1; then
@@ -326,10 +324,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             # Install PM2 globally if not exists
@@ -423,10 +420,9 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             echo "🚀 Starting all services with PM2..."
@@ -461,13 +457,12 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
           VPS_PORT: ${{ secrets.VPS_PORT }}
         run: |
           echo "🏥 Running health check..."
           sleep 15
 
-          sshpass -p "$VPS_PASSWORD" ssh -p ${VPS_PORT:-22} -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
+          ssh -p ${VPS_PORT:-22} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${VPS_USER}@${VPS_HOST} << 'ENDSSH'
             cd /home/$USER/builder-layer-end
             
             echo "📊 PM2 Status:"
