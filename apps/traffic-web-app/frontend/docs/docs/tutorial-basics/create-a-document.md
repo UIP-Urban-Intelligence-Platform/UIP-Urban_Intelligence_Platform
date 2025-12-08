@@ -1,4 +1,6 @@
 ---
+sidebar_label: 'Create a Document'
+title: 'Create a Document'
 sidebar_position: 2
 ---
 
