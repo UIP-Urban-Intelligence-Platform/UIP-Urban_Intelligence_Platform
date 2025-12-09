@@ -136,8 +136,8 @@ Phase Analytics Data Loop completed
 ### Mock Traffic Pattern
 ```json
 {
-  "id": "urn:ngsi-ld:TrafficFlowPattern:mock-0-...",
-  "type": "TrafficFlowPattern",
+  "id": "urn:ngsi-ld:TrafficPattern:mock-0-...",
+  "type": "TrafficPattern",
   "name": "Mock Pattern 0: Rush Hour",
   "patternType": "temporal",
   "confidence": 0.7,

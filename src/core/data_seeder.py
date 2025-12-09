@@ -173,8 +173,8 @@ class DataSeeder:
 
         for i in range(count):
             entity = {
-                "id": f"urn:ngsi-ld:TrafficFlowPattern:mock-{i}-{datetime.now().strftime('%Y%m%d%H%M%S')}",
-                "type": "TrafficFlowPattern",
+                "id": f"urn:ngsi-ld:TrafficPattern:mock-{i}-{datetime.now().strftime('%Y%m%d%H%M%S')}",
+                "type": "TrafficPattern",
                 "name": {
                     "type": "Property",
                     "value": f"Mock Pattern {i}: {'Rush Hour' if i % 2 == 0 else 'Off-Peak'}",

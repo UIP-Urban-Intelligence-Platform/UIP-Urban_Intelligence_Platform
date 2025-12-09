@@ -17,7 +17,7 @@
 #   Production-ready configuration for Development Environment
 # ============================================================================
 
-version: '3.8'
+version: "3.8"
 
 services:
   orchestrator:
@@ -91,7 +91,8 @@ services:
       - neo4j-data-dev:/data
       - neo4j-logs-dev:/logs
     healthcheck:
-      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "dev_password", "RETURN 1"]
+      test:
+        ["CMD", "cypher-shell", "-u", "neo4j", "-p", "dev_password", "RETURN 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -130,7 +131,12 @@ services:
     depends_on:
       - zookeeper
     healthcheck:
-      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server=localhost:9092"]
+      test:
+        [
+          "CMD",
+          "kafka-broker-api-versions",
+          "--bootstrap-server=localhost:9092",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5

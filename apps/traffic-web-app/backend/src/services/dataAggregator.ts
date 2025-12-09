@@ -329,8 +329,8 @@ export class DataAggregator {
 
   private async fetchAndBroadcastPatterns(isInitial: boolean): Promise<void> {
     try {
-      // Fetch real TrafficFlowPattern entities from Stellio
-      const patterns: TrafficPattern[] = await this.stellioService.getTrafficFlowPatterns();
+      // Fetch real TrafficPattern entities from Stellio
+      const patterns: TrafficPattern[] = await this.stellioService.getTrafficPatterns();
 
       logger.debug(`Fetched ${patterns.length} traffic patterns from Stellio`);
       let updateCount = 0;

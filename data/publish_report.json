@@ -1,10 +1,10 @@
 {
-  "timestamp": "2025-12-07T16:27:41.498395Z",
+  "timestamp": "2025-12-09T12:03:42.690351Z",
   "total_entities": 2092,
   "successful": 2092,
   "failed": 0,
   "success_rate": 100.0,
-  "duration_seconds": 153.17,
+  "duration_seconds": 252.09,
   "error_count": 0,
-  "throughput": 13.66
+  "throughput": 8.3
 }

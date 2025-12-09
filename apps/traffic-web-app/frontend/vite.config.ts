@@ -43,14 +43,15 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5173,  // Default Vite port (matches justrun.ps1)
+    port: 5173,  
+    host: true,  
+    allowedHosts: true,  
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true
       }
     },
-    // Increase connection limits to avoid ERR_INSUFFICIENT_RESOURCES
     hmr: {
       overlay: true,
     },

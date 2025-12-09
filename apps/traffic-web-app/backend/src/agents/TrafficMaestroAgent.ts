@@ -1337,13 +1337,13 @@ export class TrafficMaestroAgent {
                         name: 'ticketmaster',
                         apiUrl: 'https://app.ticketmaster.com/discovery/v2',
                         apiKeyEnv: 'TICKETMASTER_API_KEY',
-                        enabled: true
+                        enabled: false
                     },
                     {
                         name: 'google',
                         apiUrl: 'https://www.googleapis.com/calendar/v3',
                         apiKeyEnv: 'GOOGLE_EVENTS_API_KEY',
-                        enabled: false
+                        enabled: true
                     }
                 ],
                 filterCriteria: {

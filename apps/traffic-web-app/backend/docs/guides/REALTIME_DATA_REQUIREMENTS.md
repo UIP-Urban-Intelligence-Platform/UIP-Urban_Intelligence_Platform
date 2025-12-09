@@ -187,7 +187,7 @@ RETURN a
 
 ## 4. 🚦 DỮ LIỆU GIAO THÔNG (Traffic Patterns)
 
-### Entity Type: `TrafficPattern` hoặc `TrafficFlowPattern`
+### Entity Type: `TrafficPattern`
 ### Nguồn dữ liệu: Stellio Context Broker (port 8080)
 
 ### Các trường bắt buộc:
@@ -226,8 +226,6 @@ interface TrafficPattern {
 ### API để lấy dữ liệu:
 ```bash
 GET http://localhost:8080/ngsi-ld/v1/entities?type=TrafficPattern
-# hoặc
-GET http://localhost:8080/ngsi-ld/v1/entities?type=TrafficFlowPattern
 ```
 
 ### Nguồn tích hợp gợi ý:

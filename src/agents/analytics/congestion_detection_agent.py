@@ -67,10 +67,177 @@ import yaml
 
 from src.core.config_loader import expand_env_var
 
+# HTTP requests for real-time publishing
+import requests as http_requests
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
+
+
+# ============================================================
+# Real-time Stellio Publisher for CongestionObservation
+# ============================================================
+class CongestionRealtimePublisher:
+    """Real-time publisher to push CongestionObservation entities to Stellio immediately."""
+    
+    def __init__(self, stellio_url: str = None):
+        self.stellio_url = stellio_url or os.environ.get('STELLIO_URL', 'http://localhost:8080')
+        self.session = None
+        self._enabled = True
+        
+    def _get_session(self):
+        """Get or create HTTP session."""
+        if self.session is None:
+            self.session = http_requests.Session()
+            self.session.headers.update({
+                'Content-Type': 'application/ld+json',
+                'Accept': 'application/ld+json'
+            })
+        return self.session
+    
+    def publish_entities_batch(self, entities: List[Dict[str, Any]]) -> Tuple[int, int]:
+        """
+        Publish CongestionObservation entities to Stellio immediately.
+        
+        Args:
+            entities: List of NGSI-LD CongestionObservation entities
+            
+        Returns:
+            Tuple of (successful_count, failed_count)
+        """
+        if not entities or not self._enabled:
+            return 0, 0
+            
+        try:
+            session = self._get_session()
+            url = f"{self.stellio_url}/ngsi-ld/v1/entityOperations/upsert"
+            
+            response = session.post(url, json=entities, params={'options': 'update'}, timeout=30)
+            
+            if response.status_code in [200, 201, 204]:
+                logger.info(f"📤 REAL-TIME: Published {len(entities)} CongestionObservation entities to Stellio")
+                return len(entities), 0
+            elif response.status_code == 207:
+                logger.warning(f"📤 REAL-TIME: Partial success publishing CongestionObservation to Stellio")
+                return len(entities) // 2, len(entities) // 2
+            else:
+                logger.warning(f"📤 REAL-TIME: Failed to publish CongestionObservation: {response.status_code}")
+                return 0, len(entities)
+                
+        except Exception as e:
+            logger.warning(f"📤 REAL-TIME: Stellio publish error (non-critical): {e}")
+            return 0, len(entities)
+
+
+# Global real-time publisher instance
+_congestion_publisher: Optional[CongestionRealtimePublisher] = None
+
+def get_congestion_publisher() -> CongestionRealtimePublisher:
+    """Get singleton congestion publisher."""
+    global _congestion_publisher
+    if _congestion_publisher is None:
+        _congestion_publisher = CongestionRealtimePublisher()
+    return _congestion_publisher
+
+
+# ============================================================
+# NGSI-LD CongestionObservation Entity Generator
+# ============================================================
+class CongestionEntityGenerator:
+    """Generate NGSI-LD CongestionObservation entities."""
+    
+    @staticmethod
+    def create_congestion_observation(
+        camera_id: str,
+        congested: bool,
+        location: Dict[str, Any],
+        timestamp: str,
+        occupancy: Optional[float] = None,
+        average_speed: Optional[float] = None,
+        intensity: Optional[float] = None,
+        congestion_level: str = "unknown",
+    ) -> Dict[str, Any]:
+        """
+        Create NGSI-LD CongestionObservation entity.
+        
+        Args:
+            camera_id: Reference camera ID
+            congested: Whether congestion is detected
+            location: GeoJSON location
+            timestamp: ISO timestamp
+            occupancy: Occupancy value (0-1)
+            average_speed: Average speed in km/h
+            intensity: Traffic intensity (0-1)
+            congestion_level: "free", "moderate", "congested"
+            
+        Returns:
+            NGSI-LD entity dict
+        """
+        # Generate unique ID based on camera and timestamp
+        # Clean camera_id for use in entity ID
+        clean_camera = camera_id.replace("urn:ngsi-ld:Camera:", "").replace("%20", "_").replace(" ", "_")
+        ts_part = timestamp.replace(":", "").replace("-", "").replace("Z", "")[:14]
+        entity_id = f"urn:ngsi-ld:CongestionObservation:{clean_camera}:{ts_part}"
+        
+        entity = {
+            "id": entity_id,
+            "type": "CongestionObservation",
+            "@context": [
+                "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+            ],
+            "congested": {
+                "type": "Property",
+                "value": congested,
+                "observedAt": timestamp
+            },
+            "congestionLevel": {
+                "type": "Property",
+                "value": congestion_level,
+                "observedAt": timestamp
+            },
+            "refDevice": {
+                "type": "Relationship",
+                "object": camera_id
+            },
+            "dateObserved": {
+                "type": "Property",
+                "value": timestamp
+            }
+        }
+        
+        # Add location if available
+        if location:
+            entity["location"] = {
+                "type": "GeoProperty",
+                "value": location
+            }
+        
+        # Add optional metrics
+        if occupancy is not None:
+            entity["occupancy"] = {
+                "type": "Property",
+                "value": round(occupancy, 3),
+                "observedAt": timestamp
+            }
+        
+        if average_speed is not None:
+            entity["averageSpeed"] = {
+                "type": "Property",
+                "value": round(average_speed, 1),
+                "observedAt": timestamp,
+                "unitCode": "KMH"
+            }
+        
+        if intensity is not None:
+            entity["intensity"] = {
+                "type": "Property",
+                "value": round(intensity, 3),
+                "observedAt": timestamp
+            }
+        
+        return entity
 
 # Thread lock for file operations to prevent race conditions
 _alerts_file_lock = threading.Lock()
@@ -910,6 +1077,89 @@ class CongestionDetectionAgent:
             )
         except Exception as e:
             logger.error(f"Failed to write congestion file {congestion_file}: {e}")
+
+        # ============================================================
+        # 🚀 REAL-TIME: Create and publish CongestionObservation entities
+        # ============================================================
+        congestion_entities = []
+        
+        # Get real-time publisher
+        publisher = get_congestion_publisher()
+        
+        # Create NGSI-LD entities for each congestion event
+        for event in congestion_events:
+            camera_ref = event.get("camera", "")
+            congested = event.get("congested", False)
+            timestamp = event.get("last_update_ts") or event.get("timestamp") or now_iso()
+            
+            # Determine congestion level
+            if congested:
+                congestion_level = "congested"
+            else:
+                congestion_level = "free"
+            
+            # Try to get location from original entity
+            location = None
+            for ent in entities:
+                ent_camera = self.detector._get_camera_ref(ent)
+                if ent_camera == camera_ref:
+                    # Extract location from entity
+                    loc_prop = ent.get("location")
+                    if isinstance(loc_prop, dict):
+                        if "value" in loc_prop:
+                            location = loc_prop["value"]
+                        elif "coordinates" in loc_prop:
+                            location = loc_prop
+                    break
+            
+            # Create CongestionObservation entity
+            entity = CongestionEntityGenerator.create_congestion_observation(
+                camera_id=camera_ref,
+                congested=congested,
+                location=location,
+                timestamp=timestamp,
+                congestion_level=congestion_level,
+            )
+            
+            congestion_entities.append(entity)
+        
+        # Publish to Stellio if we have entities
+        if congestion_entities:
+            success_count, failed_count = publisher.publish_entities_batch(congestion_entities)
+            logger.info(f"🚀 Published {success_count} CongestionObservation entities to Stellio (failed: {failed_count})")
+            
+            # Also save to congestion_observations.json for backup
+            observations_file = output_config.get("observations_file", "data/congestion_observations.json")
+            try:
+                obs_path = Path(observations_file)
+                obs_path.parent.mkdir(parents=True, exist_ok=True)
+                
+                # Append to existing file or create new
+                existing = []
+                if obs_path.exists():
+                    try:
+                        with open(obs_path, 'r', encoding='utf-8') as f:
+                            existing = json.load(f)
+                    except:
+                        existing = []
+                
+                # Add new entities (deduplicate by id)
+                existing_ids = {e.get("id") for e in existing}
+                for ent in congestion_entities:
+                    if ent.get("id") not in existing_ids:
+                        existing.append(ent)
+                
+                # Keep only last 1000 entries
+                if len(existing) > 1000:
+                    existing = existing[-1000:]
+                
+                with open(obs_path, 'w', encoding='utf-8') as f:
+                    json.dump(existing, f, indent=2, ensure_ascii=False)
+                
+                logger.info(f"✅ Saved CongestionObservation entities to {observations_file}")
+            except Exception as e:
+                logger.error(f"Failed to save congestion observations: {e}")
+        
         return results
 
 

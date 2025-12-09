@@ -160,11 +160,35 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
   const handleAutocompleteSelect = (camera: any) => {
     setSearchQuery(camera.name || camera.cameraName || '');
     setShowAutocomplete(false);
+
+    // Normalize camera location data (handle both lat/lng and latitude/longitude)
+    const normalizedCamera = {
+      ...camera,
+      location: {
+        ...camera.location,
+        latitude: camera.location?.latitude || camera.location?.lat,
+        longitude: camera.location?.longitude || camera.location?.lng,
+        lat: camera.location?.lat || camera.location?.latitude,
+        lng: camera.location?.lng || camera.location?.longitude,
+      }
+    };
+
+    // Validate coordinates before zooming
+    const hasValidCoords = normalizedCamera.location?.latitude &&
+      normalizedCamera.location?.longitude &&
+      !isNaN(normalizedCamera.location.latitude) &&
+      !isNaN(normalizedCamera.location.longitude);
+
+    if (!hasValidCoords) {
+      console.error('Invalid camera coordinates:', camera);
+      return;
+    }
+
     if (onZoomToCamera) {
-      onZoomToCamera(camera);
+      onZoomToCamera(normalizedCamera);
     }
     if (onCameraSelect) {
-      onCameraSelect(camera);
+      onCameraSelect(normalizedCamera);
     }
   };
 
@@ -186,9 +210,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
   const basicLayers = [
     { key: 'showCameras' as const, label: 'Cameras', icon: Camera, count: cameras.length, color: 'text-blue-400' },
     { key: 'showAccidents' as const, label: 'Accidents', icon: AlertTriangle, count: accidents.length, color: 'text-red-400' },
-    { key: 'showWeather' as const, label: 'Weather', icon: Cloud, count: weather.length, color: 'text-sky-400' },
+    { key: 'showWeather' as const, label: 'Weather', icon: Cloud, count: weather.length, color: 'text-purple-400' },
     { key: 'showAirQuality' as const, label: 'Air Quality', icon: Wind, count: airQuality.length, color: 'text-amber-400' },
-    { key: 'showPatterns' as const, label: 'Traffic Patterns', icon: Activity, count: patterns.length, color: 'text-purple-400' },
+    //{ key: 'showPatterns' as const, label: 'Traffic Patterns', icon: Activity, count: patterns.length, color: 'text-purple-400' },
   ];
 
   const advancedLayers = [
@@ -293,32 +317,74 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
               <label className="block text-xs font-medium text-gray-600 mb-2">
                 Search Cameras
               </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  onFocus={() => setShowAutocomplete(searchQuery.trim() !== '')}
-                  onBlur={() => setTimeout(() => setShowAutocomplete(false), 200)}
-                  placeholder="Search by name or address..."
-                  className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-gray-900 placeholder-gray-400 text-sm transition-all"
-                />
-                <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+              <div className="relative flex gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    onFocus={() => setShowAutocomplete(searchQuery.trim() !== '')}
+                    onBlur={() => setTimeout(() => setShowAutocomplete(false), 200)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && autocompleteResults.length > 0) {
+                        handleAutocompleteSelect(autocompleteResults[0]);
+                      }
+                    }}
+                    placeholder="Search by name or address..."
+                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-gray-900 placeholder-gray-400 text-sm transition-all"
+                  />
+                  <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                </div>
+                <button
+                  onClick={() => {
+                    if (autocompleteResults.length > 0) {
+                      handleAutocompleteSelect(autocompleteResults[0]);
+                    }
+                  }}
+                  disabled={autocompleteResults.length === 0}
+                  className="px-4 py-2.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors text-sm font-medium flex items-center gap-1.5"
+                  title="Find camera on map"
+                >
+                  <Navigation className="w-4 h-4" />
+                  Find
+                </button>
               </div>
 
               {/* Autocomplete dropdown */}
               {showAutocomplete && autocompleteResults.length > 0 && (
                 <div className="absolute z-10 w-full mt-1.5 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
-                  {autocompleteResults.map((camera) => (
-                    <button
-                      key={camera.id}
-                      onClick={() => handleAutocompleteSelect(camera)}
-                      className="w-full text-left px-3 py-2.5 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
-                    >
-                      <div className="font-medium text-xs text-gray-900">{camera.name}</div>
-                      <div className="text-[10px] text-gray-500 truncate mt-0.5">{camera.location.address}</div>
-                    </button>
-                  ))}
+                  {autocompleteResults.map((camera) => {
+                    // Get location info with multiple fallbacks
+                    const lat = camera.location?.latitude || camera.location?.lat;
+                    const lng = camera.location?.longitude || camera.location?.lng;
+                    const address = camera.location?.address;
+                    const district = camera.district;
+
+                    // Build secondary text
+                    let secondaryText = '';
+                    if (address) {
+                      secondaryText = address;
+                    } else if (district) {
+                      secondaryText = district;
+                    } else if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
+                      secondaryText = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+                    } else {
+                      secondaryText = 'No location data';
+                    }
+
+                    return (
+                      <button
+                        key={camera.id}
+                        onClick={() => handleAutocompleteSelect(camera)}
+                        className="w-full text-left px-3 py-2.5 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
+                      >
+                        <div className="font-medium text-xs text-gray-900">{camera.name || camera.cameraName || 'Unknown Camera'}</div>
+                        <div className="text-[10px] text-gray-500 truncate mt-0.5">
+                          {secondaryText}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -490,7 +556,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onCameraSelect, onZoomToCamera, onZoo
             </div>
             <div className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Traffic Patterns</p>
+                {/* <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Traffic Patterns</p> */}
                 <Activity className="w-4 h-4 text-gray-400" />
               </div>
               <p className="text-3xl font-bold text-gray-900">{patterns.length}</p>

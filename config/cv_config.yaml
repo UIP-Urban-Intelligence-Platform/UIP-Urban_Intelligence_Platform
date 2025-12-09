@@ -21,181 +21,188 @@ cv_analysis:
   # Model configuration - YOLOX (Apache-2.0 License by Megvii)
   model:
     type: "yolox"
-    model_name: "yolox-x"           # YOLOX variant: yolox-nano, yolox-tiny, yolox-s, yolox-m, yolox-l, yolox-x
-    weights: "assets/models/yolox_x.pth"  # YOLOX-S weights (COCO pre-trained)
-    confidence: 0.1       # Very low threshold for dense traffic with many small vehicles (0.0-1.0)
-    iou_threshold: 0.45    # IoU threshold for NMS
-    device: "cpu"          # Device: "cpu" or "cuda" for GPU acceleration
-    max_det: 300           # Maximum detections per image
-  
+    model_name: "yolox-x" # YOLOX variant: yolox-nano, yolox-tiny, yolox-s, yolox-m, yolox-l, yolox-x
+    weights: "assets/models/yolox_x.pth" # YOLOX-S weights (COCO pre-trained)
+    confidence: 0.1 # Very low threshold for dense traffic with many small vehicles (0.0-1.0)
+    iou_threshold: 0.45 # IoU threshold for NMS
+    device: "cpu" # Device: "cpu" or "cuda" for GPU acceleration
+    max_det: 300 # Maximum detections per image
+
   # Accident Detection Configuration (DETR-based from HuggingFace)
   # Model: hilmantm/detr-traffic-accident-detection (Apache-2.0 License)
+  # NOTE: This model has HIGH false positive rate - use HIGH confidence threshold!
   accident_detection:
-    enabled: true                    # Enable CV-based accident detection
+    enabled: true # Enable CV-based accident detection
     model:
-      model_name: "hilmantm/detr-traffic-accident-detection"  # HuggingFace DETR model
-      confidence: 0.4                # Confidence threshold for accident detection (0.0-1.0)
-      device: "cpu"                  # Device: "cpu" or "cuda"
-      max_det: 10                    # Maximum accident detections per image
+      model_name: "hilmantm/detr-traffic-accident-detection" # HuggingFace DETR model
+      confidence: 0.75 # HIGH threshold to reduce false positives (was 0.4)
+      device: "cpu" # Device: "cpu" or "cuda"
+      max_det: 5 # Reduce max detections (was 10)
     # Accident severity estimation based on detection confidence
     severity_thresholds:
-      minor: 0.4                     # 0.4-0.6: Minor incident
-      moderate: 0.6                  # 0.6-0.8: Moderate accident
-      severe: 0.8                    # 0.8+: Severe accident
+      minor: 0.75 # 0.75-0.85: Minor incident (raised from 0.4)
+      moderate: 0.85 # 0.85-0.92: Moderate accident (raised from 0.6)
+      severe: 0.92 # 0.92+: Severe accident (raised from 0.8)
     # Alert configuration
     alert:
-      enabled: true                  # Enable accident alerts
-      min_confidence: 0.5            # Minimum confidence to trigger alert
-  
+      enabled: true # Enable accident alerts
+      min_confidence: 0.75 # Minimum confidence to trigger alert (raised from 0.5)
+
   # Citizen Report Verification Configuration
   # All connection values are read from environment variables (.env file)
   citizen_verification:
-    enabled: true                    # Enable AI verification of citizen reports
-    poll_interval: 30                # Query Stellio every 30 seconds for unverified reports
+    enabled: true # Enable AI verification of citizen reports
+    poll_interval: 30 # Query Stellio every 30 seconds for unverified reports
     stellio_url: "${STELLIO_URL:-http://localhost:8080}"
-    query: "type=CitizenObservation&q=aiVerified==false"  # Query for unverified reports
-    max_reports_per_batch: 10        # Process max 10 reports per poll
-    
+    query: "type=CitizenObservation&q=aiVerified==false" # Query for unverified reports
+    max_reports_per_batch: 10 # Process max 10 reports per poll
+
     # Verification rules per report type
     verification_rules:
       traffic_jam:
-        required_objects: ["car", "bus", "truck", "motorcycle"]  # At least one vehicle type
-        min_count: 5                 # Minimum 5 vehicles to confirm traffic jam
-        confidence_threshold: 0.3    # Lower confidence OK for dense traffic
-        
+        required_objects: ["car", "bus", "truck", "motorcycle"] # At least one vehicle type
+        min_count: 5 # Minimum 5 vehicles to confirm traffic jam
+        confidence_threshold: 0.3 # Lower confidence OK for dense traffic
+
       accident:
-        required_objects: ["car", "truck", "bus", "motorcycle"]  # Vehicles involved
-        min_count: 1                 # At least 1 vehicle visible
-        use_accident_model: true     # Use specialized accident detection model
-        confidence_threshold: 0.4    # Match accident model threshold
-        
+        required_objects: ["car", "truck", "bus", "motorcycle"] # Vehicles involved
+        min_count: 1 # At least 1 vehicle visible
+        use_accident_model: true # Use specialized accident detection model
+        confidence_threshold: 0.75 # HIGH threshold to reduce false positives (was 0.4)
+
       flood:
-        required_objects: []         # No specific object detection (visual analysis only)
+        required_objects: [] # No specific object detection (visual analysis only)
         min_count: 0
         confidence_threshold: 0.0
-        verification_strategy: "manual"  # Require manual verification
-        
+        verification_strategy: "manual" # Require manual verification
+
       road_damage:
-        required_objects: []         # No specific object detection
+        required_objects: [] # No specific object detection
         min_count: 0
         confidence_threshold: 0.0
-        verification_strategy: "manual"  # Require manual verification
-        
+        verification_strategy: "manual" # Require manual verification
+
       other:
-        required_objects: []         # Generic category
+        required_objects: [] # Generic category
         min_count: 0
         confidence_threshold: 0.0
-        verification_strategy: "manual"  # Default to manual verification
-    
+        verification_strategy: "manual" # Default to manual verification
+
     # Scoring algorithm
     scoring:
-      object_match_weight: 0.6       # Weight for detecting expected objects
-      count_match_weight: 0.3        # Weight for vehicle count matching threshold
-      confidence_weight: 0.1         # Weight for detection confidence
-      
+      object_match_weight: 0.6 # Weight for detecting expected objects
+      count_match_weight: 0.3 # Weight for vehicle count matching threshold
+      confidence_weight: 0.1 # Weight for detection confidence
+
     # Update behavior
     update:
-      patch_stellio: true            # PATCH entities with verification results
-      set_verified_status: true      # Update status to "verified" or "rejected"
-      include_ai_metadata: true      # Include AI detection details in metadata
-  
+      patch_stellio: true # PATCH entities with verification results
+      set_verified_status: true # Update status to "verified" or "rejected"
+      include_ai_metadata: true # Include AI detection details in metadata
+
   # Vehicle classification (COCO dataset classes)
   vehicle_classes:
-    - car          # Class ID: 2
-    - motorcycle   # Class ID: 3
-    - motorbike    # Class ID: 3 (alias)
-    - bus          # Class ID: 5
-    - train        # Class ID: 6
-    - truck        # Class ID: 7
-    - boat         # Class ID: 8
-    - bicycle      # Class ID: 1
-  
+    - car # Class ID: 2
+    - motorcycle # Class ID: 3
+    - motorbike # Class ID: 3 (alias)
+    - bus # Class ID: 5
+    - train # Class ID: 6
+    - truck # Class ID: 7
+    - boat # Class ID: 8
+    - bicycle # Class ID: 1
+
   # Person detection (for pedestrian analysis)
   person_classes:
-    - person       # Class ID: 0
-  
+    - person # Class ID: 0
+
   # Traffic metrics configuration
+  # IMPORTANT: Thresholds tuned for HCMC dense traffic conditions
+  # A typical intersection camera in HCMC sees 50-150 vehicles normally
   metrics:
-    intensity_threshold: 0.7        # >70% occupancy = congested
-    low_intensity_threshold: 0.3    # <30% occupancy = free flow
-    speed_estimation: "optical_flow"  # Method: "optical_flow", "distance_based", "none"
-    default_speed_kmh: 20.0         # Default speed when estimation unavailable
-    min_speed_kmh: 5.0              # Minimum speed (traffic jam)
-    max_speed_kmh: 80.0             # Maximum speed (highway)
-    max_vehicles_per_image: 15      # Max vehicles for 100% occupancy (test script compatibility)
-    occupancy_max_vehicles: 15      # Max vehicles for 100% occupancy (agent compatibility)
+    intensity_threshold: 0.75 # >75% occupancy = congested (raised from 0.7)
+    low_intensity_threshold: 0.40 # <40% occupancy = free flow (raised from 0.3)
+    speed_estimation: "optical_flow" # Method: "optical_flow", "distance_based", "none"
+    default_speed_kmh: 25.0 # Default speed when estimation unavailable (raised from 20)
+    min_speed_kmh: 5.0 # Minimum speed (traffic jam)
+    max_speed_kmh: 60.0 # Maximum speed - HCMC urban limit (reduced from 80)
+    max_vehicles_per_image: 100 # Max vehicles for 100% occupancy (raised from 15!)
+    occupancy_max_vehicles: 100 # Max vehicles for 100% occupancy (raised from 15!)
     congestion_thresholds:
-      free: 0.30                    # <30% = free flow
-      moderate: 0.60                # 30-60% = moderate congestion
-      congested: 0.60               # >60% = heavy congestion
-    
+      free: 0.40 # <40% = free flow (raised from 0.30)
+      moderate: 0.65 # 40-65% = moderate congestion (raised from 0.60)
+      congested: 0.75 # >75% = heavy congestion (raised from 0.60)
+
   # Processing configuration
-  batch_size: 1                     # Number of images to process in parallel (sequential for stability)
-  timeout: 180                      # HTTP request timeout (seconds) - 3 minutes for slow server
-  max_retries: 5                    # Max retry attempts for failed downloads
-  retry_delay: 10                   # Delay between retries (seconds)
-  
+  batch_size: 1 # Number of images to process in parallel (sequential for stability)
+  timeout: 180 # HTTP request timeout (seconds) - 3 minutes for slow server
+  max_retries: 5 # Max retry attempts for failed downloads
+  retry_delay: 10 # Delay between retries (seconds)
+
   # Connection optimization
   connection:
     # TCP connection pooling
-    pool_size: 10                   # Maximum number of connections in pool
-    pool_ttl: 300                   # Pool TTL in seconds (5 minutes)
-    keepalive_timeout: 60           # Keep connection alive for reuse (seconds)
-    
+    pool_size: 10 # Maximum number of connections in pool
+    pool_ttl: 300 # Pool TTL in seconds (5 minutes)
+    keepalive_timeout: 60 # Keep connection alive for reuse (seconds)
+
     # DNS caching
-    dns_cache_ttl: 600              # DNS cache TTL (10 minutes)
-    
+    dns_cache_ttl: 600 # DNS cache TTL (10 minutes)
+
     # Retry strategy
-    exponential_backoff: true       # Use exponential backoff for retries
-    backoff_factor: 2.0             # Multiply delay by this factor each retry
-    max_retry_delay: 60             # Maximum retry delay (seconds)
-    
+    exponential_backoff: true # Use exponential backoff for retries
+    backoff_factor: 2.0 # Multiply delay by this factor each retry
+    max_retry_delay: 60 # Maximum retry delay (seconds)
+
     # Browser-like headers
-    use_browser_headers: true       # Mimic browser requests
+    use_browser_headers: true # Mimic browser requests
     user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    
+
     # SSL/TLS settings
-    verify_ssl: true                # Verify SSL certificates
-    ssl_timeout: 30                 # SSL handshake timeout
-    
+    verify_ssl: true # Verify SSL certificates
+    ssl_timeout: 30 # SSL handshake timeout
+
     # Request optimization
-    follow_redirects: true          # Follow HTTP redirects
-    max_redirects: 3                # Maximum number of redirects
-    compress: true                  # Enable compression (gzip, deflate)
-    
+    follow_redirects: true # Follow HTTP redirects
+    max_redirects: 3 # Maximum number of redirects
+    compress: true # Enable compression (gzip, deflate)
+
   # Local caching (to avoid re-downloading same images)
+  # WARNING: Cache can fill disk quickly! Use aggressive cleanup settings for servers
   cache:
-    enabled: true                   # Enable local image caching
-    directory: "data/cache/images"  # Cache directory
-    ttl_minutes: 30                 # Cache TTL (30 minutes)
-    max_size_mb: 500                # Maximum cache size
-    cleanup_on_start: false         # Clean old cache on agent start
-  
+    enabled: true # Enable local image caching
+    directory: "data/cache/images" # Cache directory
+    ttl_minutes: 30 # Cleanup images older than 30 minutes
+    max_size_mb: 500 # Maximum cache size 500MB
+    cleanup_on_start: true # Clean old cache on agent start
+    cleanup_interval_minutes: 5 # Run cleanup every 5 minutes
+    delete_after_processing: false # Keep images until TTL/max_size cleanup
+    aggressive_cleanup: false # Normal cleanup mode
+
   # Image processing
   image:
-    resize_width: 640               # Resize width for inference (YOLOX default)
-    resize_height: 640              # Resize height for inference
-    max_file_size_mb: 10            # Maximum image file size
+    resize_width: 640 # Resize width for inference (YOLOX default)
+    resize_height: 640 # Resize height for inference
+    max_file_size_mb: 10 # Maximum image file size
     supported_formats:
       - jpg
       - jpeg
       - png
       - bmp
-  
+
   # Output configuration
   output:
     file: "data/observations.json"
-    format: "ngsi-ld"               # Output format: "ngsi-ld" or "json"
-    include_detections: true        # Include detailed detection results
-    include_confidence: true        # Include confidence scores
-    timestamp_format: "iso8601"     # Timestamp format
-  
+    format: "ngsi-ld" # Output format: "ngsi-ld" or "json"
+    include_detections: true # Include detailed detection results
+    include_confidence: true # Include confidence scores
+    timestamp_format: "iso8601" # Timestamp format
+
   # Logging configuration
   logging:
-    level: "INFO"                   # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    level: "INFO" # DEBUG, INFO, WARNING, ERROR, CRITICAL
     file: "logs/cv_analysis.log"
     format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    
+
   # Performance monitoring
   monitoring:
     enabled: true
@@ -217,7 +224,7 @@ domains:
     metrics:
       intensity_threshold: 0.7
       occupancy_max_vehicles: 50
-      
+
   # Parking lot domain
   parking:
     input_file: "data/parking/parking_cameras.json"
@@ -228,7 +235,7 @@ domains:
     metrics:
       intensity_threshold: 0.9
       occupancy_max_vehicles: 30
-      
+
   # Warehouse domain
   warehouse:
     input_file: "data/warehouse/warehouse_cameras.json"
@@ -240,7 +247,7 @@ domains:
     metrics:
       intensity_threshold: 0.5
       occupancy_max_vehicles: 20
-      
+
   # Retail domain
   retail:
     input_file: "data/retail/store_cameras.json"
@@ -249,7 +256,7 @@ domains:
       - person
     metrics:
       intensity_threshold: 0.6
-      occupancy_max_vehicles: 100  # Max people
+      occupancy_max_vehicles: 100 # Max people
 
 # COCO class mapping (YOLOX reference)
 # This is for documentation - actual detection uses class IDs

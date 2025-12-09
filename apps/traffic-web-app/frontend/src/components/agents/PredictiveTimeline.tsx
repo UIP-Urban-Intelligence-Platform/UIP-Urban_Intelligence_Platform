@@ -51,6 +51,8 @@ interface ExternalEvent {
     // Additional fields for traffic hotspots
     averageSpeed?: number;
     vehicleCount?: number;
+    cameraId?: string; // Camera ID for hotspot events
+    observedAt?: string; // Timestamp when hotspot was detected
     source?: string; // 'external_api' for Ticketmaster events
     isSimulated?: boolean; // true if data is simulated, false if from real CV analysis
 }interface CongestionPrediction {
@@ -389,6 +391,11 @@ export const PredictiveTimeline: React.FC<PredictiveTimelineProps> = ({
                                                     <div>
                                                         <p className="font-semibold" style={{ color: '#111827' }}>{event.name}</p>
                                                         <p className="text-xs text-gray-600">{event.venue}</p>
+                                                        {event.cameraId && (
+                                                            <p className="text-xs text-blue-700 font-mono bg-blue-50 px-1.5 py-0.5 rounded mt-0.5 inline-block">
+                                                                📷 {event.cameraId.replace('urn:ngsi-ld:Camera:', 'Cam #')}
+                                                            </p>
+                                                        )}
                                                         <div className="text-xs text-gray-500 mt-1 space-y-0.5">
                                                             <p>🚗 {event.vehicleCount || event.estimatedAttendees} xe • 🏎️ {event.averageSpeed?.toFixed(0) || '?'} km/h</p>
                                                             <p className="text-red-500 font-medium">⚠️ Đang kẹt xe</p>

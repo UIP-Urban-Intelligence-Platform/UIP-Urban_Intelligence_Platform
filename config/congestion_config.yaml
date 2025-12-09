@@ -17,21 +17,23 @@
 # ============================================================================
 
 congestion_detection:
+  # Thresholds tuned for HCMC dense traffic conditions
+  # Normal HCMC traffic: 50-100 vehicles, speed 20-40 km/h
   thresholds:
-    occupancy: 0.7
-    average_speed: 15  # km/h
-    intensity: 0.75
-  
+    occupancy: 0.75 # >75% occupancy triggers congestion (raised from 0.7)
+    average_speed: 10 # <10 km/h indicates severe congestion (lowered from 15)
+    intensity: 0.80 # >80% intensity (raised from 0.75)
+
   rules:
-    logic: "AND"  # occupancy > 0.7 AND speed < 15
-    min_duration: 0  # seconds (0 = immediate detection for demo/testing)
-  
+    logic: "AND" # ALL conditions must be met (occupancy > 0.75 AND speed < 10 AND intensity > 0.80)
+    min_duration: 60 # Require 60 seconds sustained before alerting (raised from 0)
+
   stellio:
     base_url: "${STELLIO_URL:-http://localhost:8080}"
     update_endpoint: "/ngsi-ld/v1/entities/{id}/attrs"
     batch_updates: true
     max_workers: 4
-    
+
   # PostgreSQL connection for camera ID mapping
   # All values are read from environment variables (.env file)
   postgres:
@@ -40,13 +42,13 @@ congestion_detection:
     database: "${POSTGRES_DATABASE:-stellio_search}"
     user: "${POSTGRES_USER:-stellio}"
     password: "${POSTGRES_PASSWORD:-stellio_test}"
-  
+
   # Camera enriched file for index->code mapping
   camera_enriched_file: "data/cameras_enriched.json"
-  
+
   alert:
     enabled: true
-    notify_on_change: true  # only when false→true
+    notify_on_change: true # only when false→true
 
   # State storage for congestion history and last known states
   state:
@@ -57,7 +59,8 @@ congestion_detection:
     # Output files
     congestion_file: "data/congestion.json"
     statistics_file: "data/congestion_statistics.json"
-    
+    observations_file: "data/congestion_observations.json" # NGSI-LD CongestionObservation entities
+
     # Output format
     format: "json"
     pretty_print: true

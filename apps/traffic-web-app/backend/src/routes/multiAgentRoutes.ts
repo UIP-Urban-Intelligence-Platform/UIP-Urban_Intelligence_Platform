@@ -102,6 +102,7 @@ const refreshPredictiveCache = async () => {
             type: 'traffic_hotspot',
             name: `🔥 Kẹt xe: ${hotspot.cameraName}`,
             venue: hotspot.cameraName,
+            cameraId: hotspot.cameraId, 
             startTime: new Date().toISOString(),
             endTime: new Date(Date.now() + 2 * 3600000).toISOString(),
             estimatedAttendees: hotspot.vehicleCount,
@@ -110,6 +111,7 @@ const refreshPredictiveCache = async () => {
             riskScore: hotspot.congestionScore,
             averageSpeed: hotspot.averageSpeed,
             vehicleCount: hotspot.vehicleCount,
+            observedAt: hotspot.observedAt, // Add timestamp when hotspot was detected
             isSimulated: hotspot.isSimulated ?? false // REAL data now
         }));
 

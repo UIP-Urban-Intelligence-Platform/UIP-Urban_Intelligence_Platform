@@ -74,12 +74,22 @@ interface NearbyAccident extends Accident {
   distance: number;
 }
 
+interface TrafficFlowData {
+  vehicleCount: number;
+  averageSpeed: number;
+  intensity: number;
+  occupancy: number;
+  congestionLevel: string;
+  timestamp: string;
+}
+
 const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, onViewOnMap }) => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [historicalAQI, setHistoricalAQI] = useState<HistoricalAQI[]>([]);
   const [historicalWeather, setHistoricalWeather] = useState<HistoricalWeather[]>([]);
   const [nearbyAccidents, setNearbyAccidents] = useState<NearbyAccident[]>([]);
+  const [trafficFlow, setTrafficFlow] = useState<TrafficFlowData | null>(null);
 
   const { weather, airQuality, accidents } = useTrafficStore();
 
@@ -194,7 +204,31 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
             }
           }
 
+          // If no historical data, add current AQI data as today's data
+          if (aqiHistory.length === 0 && currentAQI) {
+            const today = new Date().toISOString();
+            aqiHistory.push({
+              date: today.substring(0, 10),
+              aqi: Math.round(currentAQI.aqi || 0),
+              pm25: Math.round(currentAQI.pm25 || 0),
+              pm10: Math.round(currentAQI.pm10 || 0),
+              timestamp: today
+            });
+          }
+
           setHistoricalAQI(aqiHistory);
+        }
+      } else {
+        // Fallback: Use current AQI data if API fails
+        if (currentAQI) {
+          const today = new Date().toISOString();
+          setHistoricalAQI([{
+            date: today.substring(0, 10),
+            aqi: Math.round(currentAQI.aqi || 0),
+            pm25: Math.round(currentAQI.pm25 || 0),
+            pm10: Math.round(currentAQI.pm10 || 0),
+            timestamp: today
+          }]);
         }
       }
 
@@ -228,7 +262,31 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
             }
           }
 
+          // If no historical data, add current weather data as today's data
+          if (weatherHistory.length === 0 && currentWeather) {
+            const today = new Date().toISOString();
+            weatherHistory.push({
+              date: today.substring(0, 10),
+              temperature: Math.round((currentWeather.temperature || 0) * 10) / 10,
+              humidity: Math.round(currentWeather.humidity || 0),
+              rainfall: Math.round((currentWeather.rainfall || currentWeather.precipitation || 0) * 10) / 10,
+              timestamp: today
+            });
+          }
+
           setHistoricalWeather(weatherHistory);
+        }
+      } else {
+        // Fallback: Use current weather data if API fails
+        if (currentWeather) {
+          const today = new Date().toISOString();
+          setHistoricalWeather([{
+            date: today.substring(0, 10),
+            temperature: Math.round((currentWeather.temperature || 0) * 10) / 10,
+            humidity: Math.round(currentWeather.humidity || 0),
+            rainfall: Math.round((currentWeather.rainfall || currentWeather.precipitation || 0) * 10) / 10,
+            timestamp: today
+          }]);
         }
       }
     } catch (error) {
@@ -237,6 +295,42 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
       setIsRefreshing(false);
     }
   };
+
+  // Fetch latest traffic flow data for this camera
+  useEffect(() => {
+    const fetchTrafficFlow = async () => {
+      try {
+        const STELLIO_URL = import.meta.env.VITE_STELLIO_URL || 'http://localhost:8080';
+        const cameraId = camera.id.split(':').pop(); // Extract camera number from URN
+
+        const response = await fetch(
+          `${STELLIO_URL}/ngsi-ld/v1/entities?type=ItemFlowObserved&q=refDevice==${encodeURIComponent(camera.id)}&limit=1&options=keyValues`,
+          {
+            headers: { 'Accept': 'application/json' }
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.length > 0) {
+            const observation = data[0];
+            setTrafficFlow({
+              vehicleCount: observation.vehicleCount || 0,
+              averageSpeed: observation.averageSpeed || 0,
+              intensity: observation.intensity || 0,
+              occupancy: observation.occupancy || 0,
+              congestionLevel: observation.congestionLevel || 'unknown',
+              timestamp: observation.observedAt || new Date().toISOString()
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching traffic flow:', error);
+      }
+    };
+
+    fetchTrafficFlow();
+  }, [camera.id]);
 
   // Get nearby accidents (last 30 days)
   useEffect(() => {
@@ -585,13 +679,50 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
                   </h3>
                 </div>
                 <div className="p-4">
-                  <div className="bg-gray-50 p-6 rounded-lg text-center">
-                    <div className="text-4xl mb-2">🚦</div>
-                    <div className="text-lg text-gray-700">Real-time traffic data</div>
-                    <div className="text-sm text-gray-500 mt-2">
-                      Vehicle count and congestion level monitoring active
+                  {trafficFlow ? (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <div className="text-sm text-gray-600 mb-1">Vehicle Count</div>
+                        <div className="text-2xl font-bold text-blue-600">{trafficFlow.vehicleCount}</div>
+                        <div className="text-xs text-gray-500 mt-1">vehicles detected</div>
+                      </div>
+                      <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                        <div className="text-sm text-gray-600 mb-1">Average Speed</div>
+                        <div className="text-2xl font-bold text-purple-600">{trafficFlow.averageSpeed.toFixed(1)}</div>
+                        <div className="text-xs text-gray-500 mt-1">km/h</div>
+                      </div>
+                      <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                        <div className="text-sm text-gray-600 mb-1">Intensity</div>
+                        <div className="text-2xl font-bold text-orange-600">{(trafficFlow.intensity * 100).toFixed(0)}%</div>
+                        <div className="text-xs text-gray-500 mt-1">traffic density</div>
+                      </div>
+                      <div className={`p-4 rounded-lg border ${trafficFlow.congestionLevel === 'free' ? 'bg-green-50 border-green-200' :
+                          trafficFlow.congestionLevel === 'moderate' ? 'bg-yellow-50 border-yellow-200' :
+                            trafficFlow.congestionLevel === 'congested' ? 'bg-red-50 border-red-200' :
+                              'bg-gray-50 border-gray-200'
+                        }`}>
+                        <div className="text-sm text-gray-600 mb-1">Congestion</div>
+                        <div className={`text-2xl font-bold capitalize ${trafficFlow.congestionLevel === 'free' ? 'text-green-600' :
+                            trafficFlow.congestionLevel === 'moderate' ? 'text-yellow-600' :
+                              trafficFlow.congestionLevel === 'congested' ? 'text-red-600' :
+                                'text-gray-600'
+                          }`}>
+                          {trafficFlow.congestionLevel}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {new Date(trafficFlow.timestamp).toLocaleTimeString()}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="bg-gray-50 p-6 rounded-lg text-center">
+                      <div className="text-4xl mb-2">🚦</div>
+                      <div className="text-lg text-gray-700">No traffic data available</div>
+                      <div className="text-sm text-gray-500 mt-2">
+                        Waiting for real-time monitoring data...
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -764,10 +895,20 @@ const CameraDetailModal: React.FC<CameraDetailModalProps> = ({ camera, onClose, 
                     </>
                   ) : (
                     <div className="text-center py-12">
-                      <div className="text-6xl mb-4">✅</div>
-                      <div className="text-lg font-medium text-gray-900 mb-2">No Accidents Reported</div>
-                      <div className="text-sm text-gray-500">
-                        No accidents within 2km in the last 30 days
+                      <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+                        <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div className="text-xl font-semibold text-gray-900 mb-2">No Accidents Reported</div>
+                      <div className="text-sm text-gray-500 mb-4">
+                        No accidents within 2km radius in the last 30 days
+                      </div>
+                      <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Safe area - Continue monitoring</span>
                       </div>
                     </div>
                   )}

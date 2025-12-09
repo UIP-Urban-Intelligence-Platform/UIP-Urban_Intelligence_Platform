@@ -1,7 +1,7 @@
 [
   {
-    "id": "urn:ngsi-ld:TrafficFlowPattern:mock-0-20251118030419",
-    "type": "TrafficFlowPattern",
+    "id": "urn:ngsi-ld:TrafficPattern:mock-0-20251118030419",
+    "type": "TrafficPattern",
     "name": {
       "type": "Property",
       "value": "Mock Pattern 0: Rush Hour"
@@ -51,8 +51,8 @@
     ]
   },
   {
-    "id": "urn:ngsi-ld:TrafficFlowPattern:mock-1-20251118030419",
-    "type": "TrafficFlowPattern",
+    "id": "urn:ngsi-ld:TrafficPattern:mock-1-20251118030419",
+    "type": "TrafficPattern",
     "name": {
       "type": "Property",
       "value": "Mock Pattern 1: Off-Peak"
@@ -102,8 +102,8 @@
     ]
   },
   {
-    "id": "urn:ngsi-ld:TrafficFlowPattern:mock-2-20251118030419",
-    "type": "TrafficFlowPattern",
+    "id": "urn:ngsi-ld:TrafficPattern:mock-2-20251118030419",
+    "type": "TrafficPattern",
     "name": {
       "type": "Property",
       "value": "Mock Pattern 2: Rush Hour"

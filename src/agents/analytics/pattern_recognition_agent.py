@@ -451,6 +451,38 @@ class Neo4jConnector:
             result = session.run(query)
             return [record["camera_id"] for record in result]
 
+    def get_camera_location(self, camera_id: str) -> Optional[Dict[str, float]]:
+        """
+        Get camera location (latitude, longitude) from Neo4j.
+
+        Args:
+            camera_id: Camera entity ID
+
+        Returns:
+            Dictionary with latitude and longitude, or None if not found
+        """
+        if not self.driver:
+            raise ConnectionError("Not connected to Neo4j")
+
+        query = """
+        MATCH (c:Camera {id: $camera_id})
+        RETURN c.latitude AS latitude, c.longitude AS longitude
+        """
+
+        try:
+            with self.driver.session(database=self.database) as session:
+                result = session.run(query, camera_id=camera_id)
+                record = result.single()
+                if record and record["latitude"] is not None and record["longitude"] is not None:
+                    return {
+                        "latitude": float(record["latitude"]),
+                        "longitude": float(record["longitude"])
+                    }
+        except Exception as e:
+            logging.warning(f"Failed to get location for camera {camera_id}: {e}")
+
+        return None
+
 
 # ============================================================================
 # Time-Series Analyzer
@@ -1154,6 +1186,93 @@ class PatternRecognitionAgent:
                 "type": "Property",
                 "value": analysis_results["weekly_patterns"].get("comparison", {}),
             }
+
+        # Add location from camera (required for map visualization)
+        camera_location = self.neo4j.get_camera_location(camera_id)
+        if camera_location:
+            entity["location"] = {
+                "type": "GeoProperty",
+                "value": {
+                    "type": "Point",
+                    "coordinates": [
+                        camera_location["longitude"],
+                        camera_location["latitude"]
+                    ]
+                }
+            }
+            # Also add startPoint/endPoint for frontend compatibility
+            # (Using same point for both since pattern is camera-specific)
+            entity["startPoint"] = {
+                "type": "Property",
+                "value": {
+                    "latitude": camera_location["latitude"],
+                    "longitude": camera_location["longitude"]
+                }
+            }
+            entity["endPoint"] = {
+                "type": "Property",
+                "value": {
+                    "latitude": camera_location["latitude"],
+                    "longitude": camera_location["longitude"]
+                }
+            }
+
+        # Add congestion level based on analysis
+        if "rush_hours" in analysis_results and analysis_results["rush_hours"]:
+            # Determine congestion level from rush hour intensity
+            max_intensity = max(
+                (rh.get("intensity", 0) for rh in analysis_results["rush_hours"]),
+                default=0
+            )
+            if max_intensity >= 0.8:
+                congestion_level = "heavy"
+            elif max_intensity >= 0.6:
+                congestion_level = "moderate"
+            elif max_intensity >= 0.4:
+                congestion_level = "light"
+            else:
+                congestion_level = "free_flow"
+
+            entity["congestionLevel"] = {
+                "type": "Property",
+                "value": congestion_level
+            }
+
+        # Add average speed if available
+        if "statistics" in analysis_results:
+            stats = analysis_results["statistics"]
+            if "average_speed" in stats and stats["average_speed"].get("mean"):
+                entity["averageSpeed"] = {
+                    "type": "Property",
+                    "value": stats["average_speed"]["mean"],
+                    "unitCode": "KMH"
+                }
+            if "vehicle_count" in stats and stats["vehicle_count"].get("mean"):
+                entity["avgVehicleCount"] = {
+                    "type": "Property",
+                    "value": int(stats["vehicle_count"]["mean"])
+                }
+
+        # Add time range string for frontend display
+        if "rush_hours" in analysis_results and analysis_results["rush_hours"]:
+            hours = sorted([rh["hour"] for rh in analysis_results["rush_hours"]])
+            if hours:
+                entity["timeRange"] = {
+                    "type": "Property",
+                    "value": f"{hours[0]:02d}:00-{hours[-1]+1:02d}:00"
+                }
+
+        # Add affected cameras list
+        entity["affectedCameras"] = {
+            "type": "Property",
+            "value": [camera_id]
+        }
+
+        # Add timestamp
+        entity["timestamp"] = {
+            "type": "Property",
+            "value": datetime.now().isoformat() + "Z"
+        }
 
         return entity
 

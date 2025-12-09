@@ -752,15 +752,15 @@ class AccidentDetector:
         self.model = None
         self.processor = None
         self.device = config.get("device", "cpu")
-        self.confidence = config.get("confidence", 0.4)
-        self.max_det = config.get("max_det", 10)
+        self.confidence = config.get("confidence", 0.75)  # HIGH default to reduce false positives
+        self.max_det = config.get("max_det", 5)
         self.model_name = config.get(
             "model_name", "hilmantm/detr-traffic-accident-detection"
         )
 
-        # Severity thresholds
+        # Severity thresholds - HIGH values to reduce false positives
         self.severity_thresholds = config.get(
-            "severity_thresholds", {"minor": 0.4, "moderate": 0.6, "severe": 0.8}
+            "severity_thresholds", {"minor": 0.75, "moderate": 0.85, "severe": 0.92}
         )
 
         # Load model
@@ -978,13 +978,17 @@ class ImageDownloader:
         self.max_redirects = conn_config.get("max_redirects", 3)
         self.compress = conn_config.get("compress", True)
 
-        # Cache settings
+        # Cache settings - with aggressive cleanup options for low-disk servers
         cache_config = config.get("cache", {})
         self.cache_enabled = cache_config.get("enabled", True)
         self.cache_dir = Path(cache_config.get("directory", "data/cache/images"))
-        self.cache_ttl_minutes = cache_config.get("ttl_minutes", 30)
-        self.cache_max_size_mb = cache_config.get("max_size_mb", 500)
-        self.cleanup_on_start = cache_config.get("cleanup_on_start", False)
+        self.cache_ttl_minutes = cache_config.get("ttl_minutes", 5)  # Reduced default
+        self.cache_max_size_mb = cache_config.get("max_size_mb", 100)  # Reduced default
+        self.cleanup_on_start = cache_config.get("cleanup_on_start", True)  # Enabled by default
+        self.cleanup_interval_minutes = cache_config.get("cleanup_interval_minutes", 2)
+        self.delete_after_processing = cache_config.get("delete_after_processing", True)
+        self.aggressive_cleanup = cache_config.get("aggressive_cleanup", True)
+        self._last_cleanup_time = time.time()
 
         # Initialize cache
         if self.cache_enabled:
@@ -1053,6 +1057,63 @@ class ImageDownloader:
                     )
         except Exception as e:
             logger.warning(f"Cache size enforcement failed: {e}")
+
+    def _periodic_cleanup(self) -> None:
+        """Run periodic cleanup if interval has passed"""
+        if not self.cache_enabled:
+            return
+            
+        current_time = time.time()
+        interval_seconds = self.cleanup_interval_minutes * 60
+        
+        if current_time - self._last_cleanup_time >= interval_seconds:
+            logger.info("Running periodic cache cleanup...")
+            self._cleanup_old_cache()
+            self._enforce_cache_size_limit()
+            self._last_cleanup_time = current_time
+
+    def delete_cached_image(self, url: str) -> None:
+        """Delete a specific cached image after processing
+        
+        Args:
+            url: The URL of the image to delete from cache
+        """
+        if not self.cache_enabled or not self.delete_after_processing:
+            return
+            
+        try:
+            cache_key = self._get_cache_key(url)
+            cache_file = self.cache_dir / f"{cache_key}.jpg"
+            
+            if cache_file.exists():
+                cache_file.unlink()
+                logger.debug(f"Deleted processed cache file: {cache_key[:16]}...")
+        except Exception as e:
+            logger.debug(f"Failed to delete cache file: {e}")
+
+    def cleanup_all_cache(self) -> int:
+        """Force cleanup of ALL cache files (for emergency disk space recovery)
+        
+        Returns:
+            Number of files deleted
+        """
+        try:
+            cache_files = list(self.cache_dir.glob("*.jpg"))
+            removed_count = 0
+            
+            for cache_file in cache_files:
+                try:
+                    cache_file.unlink()
+                    removed_count += 1
+                except Exception:
+                    pass
+                    
+            logger.info(f"🧹 Emergency cleanup: removed {removed_count} cache files")
+            return removed_count
+        except Exception as e:
+            logger.error(f"Emergency cleanup failed: {e}")
+            return 0
+
 
     def _get_cache_key(self, url: str) -> str:
         """Generate cache key from URL"""
@@ -1368,12 +1429,14 @@ class MetricsCalculator:
             config: Metrics configuration dictionary
         """
         self.config = config
-        self.intensity_threshold = config.get("intensity_threshold", 0.7)
-        self.low_intensity_threshold = config.get("low_intensity_threshold", 0.3)
-        self.occupancy_max_vehicles = config.get("occupancy_max_vehicles", 50)
-        self.default_speed = config.get("default_speed_kmh", 20.0)
+        # Thresholds tuned for HCMC dense traffic (raised from 0.7/0.3)
+        self.intensity_threshold = config.get("intensity_threshold", 0.75)
+        self.low_intensity_threshold = config.get("low_intensity_threshold", 0.40)
+        # HCMC cameras typically see 50-150 vehicles (raised from 50)
+        self.occupancy_max_vehicles = config.get("occupancy_max_vehicles", 100)
+        self.default_speed = config.get("default_speed_kmh", 25.0)
         self.min_speed = config.get("min_speed_kmh", 5.0)
-        self.max_speed = config.get("max_speed_kmh", 80.0)
+        self.max_speed = config.get("max_speed_kmh", 60.0)  # HCMC urban limit
 
     def calculate(self, vehicle_count: int) -> TrafficMetrics:
         """
@@ -1840,6 +1903,14 @@ class CVAnalysisAgent:
                         f"Processed {camera_id}: {result.vehicle_count} vehicles, "
                         f"intensity={metrics.intensity}, speed={metrics.average_speed} km/h"
                     )
+                    
+                    # 🧹 DELETE cached image after processing to save disk space
+                    image_url = camera.get("image_url_x4", camera.get("imageSnapshot", ""))
+                    if image_url:
+                        self.downloader.delete_cached_image(image_url)
+            
+            # 🧹 Run periodic cleanup check after each batch
+            self.downloader._periodic_cleanup()
             
             # 🚀 REAL-TIME PUSH: Push batch entities to Stellio IMMEDIATELY after each batch
             if batch_entities:

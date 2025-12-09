@@ -881,20 +881,20 @@ export class StellioService {
   }
 
   /**
-   * Fetch TrafficFlowPattern entities from Stellio Context Broker
-   * Queries: GET /entities?type=TrafficFlowPattern with pagination
+   * Fetch TrafficPattern entities from Stellio Context Broker
+   * Queries: GET /entities?type=TrafficPattern with pagination
    * Transforms NGSI-LD response to TrafficPattern format
    * Derives locations from affected cameras
    * Uses offset-based pagination to fetch ALL patterns (Stellio max limit is 100)
    */
-  async getTrafficFlowPatterns(): Promise<TrafficPattern[]> {
+  async getTrafficPatterns(): Promise<TrafficPattern[]> {
     return this.retryRequest(async () => {
       try {
-        logger.debug('Fetching ALL TrafficFlowPatterns from Stellio');
+        logger.debug('Fetching ALL TrafficPatterns from Stellio');
 
-        // Use pagination to fetch ALL traffic flow patterns
-        const entities = await this.fetchAllPaginated('TrafficFlowPattern', 'keyValues');
-        logger.debug(`Fetched ${entities.length} TrafficFlowPattern entities from Stellio (paginated)`);
+        // Use pagination to fetch ALL traffic patterns
+        const entities = await this.fetchAllPaginated('TrafficPattern', 'keyValues');
+        logger.debug(`Fetched ${entities.length} TrafficPattern entities from Stellio (paginated)`);
 
         // Get all cameras to map locations
         const cameras = await this.getCameras();
@@ -971,16 +971,16 @@ export class StellioService {
           }
         }
 
-        logger.info(`Successfully transformed ${patterns.length} TrafficFlowPatterns`);
+        logger.info(`Successfully transformed ${patterns.length} TrafficPatterns`);
         return patterns;
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 404) {
-          logger.debug('No TrafficFlowPattern entities found in Stellio');
+          logger.debug('No TrafficPattern entities found in Stellio');
           return [];
         }
-        logger.error('Error fetching traffic flow patterns from Stellio:', error);
-        throw new Error('Failed to fetch traffic flow patterns from Stellio');
+        logger.error('Error fetching traffic patterns from Stellio:', error);
+        throw new Error('Failed to fetch traffic patterns from Stellio');
       }
-    }, 'getTrafficFlowPatterns');
+    }, 'getTrafficPatterns');
   }
 }

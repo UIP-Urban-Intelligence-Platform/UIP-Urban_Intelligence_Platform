@@ -352,6 +352,9 @@ export class GenericNgsiService {
       case 'parseTimeRange':
         return this.parseTimeRange(value);
 
+      case 'toLatLng':
+        return this.objectToLatLng(value);
+
       default:
         logger.warn(`Unknown transformation: ${transformName}`);
         return value;
@@ -370,6 +373,40 @@ export class GenericNgsiService {
       lng: coordinates[0],
       lat: coordinates[1]
     };
+  }
+
+  /**
+   * Transform object with latitude/longitude to {latitude, longitude, lat, lng}
+   * Supports both {latitude, longitude} and [lng, lat] formats
+   */
+  private objectToLatLng(value: any): { latitude: number; longitude: number; lat: number; lng: number } | null {
+    if (!value) return null;
+
+    // If it's already an object with latitude/longitude
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      const lat = value.latitude ?? value.lat;
+      const lng = value.longitude ?? value.lng;
+      if (lat != null && lng != null) {
+        return {
+          latitude: lat,
+          longitude: lng,
+          lat: lat,
+          lng: lng
+        };
+      }
+    }
+
+    // If it's GeoJSON coordinates [lng, lat]
+    if (Array.isArray(value) && value.length >= 2) {
+      return {
+        latitude: value[1],
+        longitude: value[0],
+        lat: value[1],
+        lng: value[0]
+      };
+    }
+
+    return null;
   }
 
   /**

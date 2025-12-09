@@ -1,15 +1,41 @@
 1/**
- * ClusteredMarkers Component - Marker Clustering Layer
+ * ClusteredMarkers Component - Camera Marker Clustering Layer
  *
  * UIP - Urban Intelligence Platform
  * Copyright (c) 2025 UIP Team. All rights reserved.
- * https://github.com/NguyenNhatquang522004/UIP-Urban_Intelligence_Platform
+ * https://github.com/UIP-Urban-Intelligence-Platform/UIP-Urban_Intelligence_Platform
  *
  * SPDX-License-Identifier: MIT
  *
+ * @module apps/traffic-web-app/frontend/src/components/ClusteredMarkers
+ * @author Nguyen Dinh Anh Tuan
+ * @created 2025-12-09
+ * @modified 2025-12-09
+ * @version 1.0.0
+ * @license MIT
+ *
  * @description
- * Component that renders clustered markers using Supercluster.
- * Automatically clusters nearby markers when zoomed out.
+ * Renders traffic camera markers with intelligent clustering using Supercluster algorithm.
+ * Automatically groups nearby cameras when zoomed out for better map performance and UX.
+ * Uses emoji-based DivIcon markers with status-based coloring.
+ *
+ * Features:
+ * - Marker clustering with configurable radius and zoom levels
+ * - 📹 Camera icon with status indicators (green/red/yellow)
+ * - Interactive popups with camera details and snapshots
+ * - Tooltips on hover with camera name and status
+ * - Cluster expansion on click
+ * - Responsive to map zoom and bounds changes
+ *
+ * Usage:
+ *   <ClusteredMarkers
+ *     cameras={cameras}
+ *     zoom={mapZoom}
+ *     bounds={[west, south, east, north]}
+ *     visible={filters.showCameras}
+ *   />
+ *
+ * @see {@link https://github.com/mapbox/supercluster|Supercluster Documentation}
  */
 
 import React, { useMemo, useCallback } from 'react';

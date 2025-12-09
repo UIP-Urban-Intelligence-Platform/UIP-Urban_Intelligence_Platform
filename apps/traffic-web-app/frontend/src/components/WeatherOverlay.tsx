@@ -55,12 +55,13 @@ const createRainIcon = (intensity: number): Icon => {
 };
 
 const WeatherOverlay: React.FC<WeatherOverlayProps> = ({ visible = true }) => {
-  // Early return BEFORE any hooks
-  if (!visible) return null;
-
+  // Hooks MUST be called before any early returns
   const { weather } = useTrafficStore();
   const [view, setView] = useState<WeatherView>('all');
   const [isPanelVisible, setIsPanelVisible] = useState(false); // Hidden - controls now in Sidebar
+
+  // Early return AFTER all hooks
+  if (!visible) return null;
 
   const getTemperatureColor = (temp: number): string => {
     if (temp <= 15) return '#0000ff';

@@ -196,7 +196,6 @@ export default function HeroSection() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto mb-12 leading-relaxed"
                     >
-                        <span className="font-semibold text-blue-600">NGSI-LD</span>
                         <span className="font-semibold text-orange-600"></span>
                         <span className="font-semibold text-yellow-600"></span>
 

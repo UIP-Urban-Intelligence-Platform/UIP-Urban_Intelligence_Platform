@@ -82,6 +82,13 @@ import AQIHeatmap from './AQIHeatmap';
 import WeatherOverlay from './WeatherOverlay';
 import AccidentMarkers from './AccidentMarkers';
 import PatternZones from './PatternZones';
+import ClusteredMarkers from './ClusteredMarkers';
+import ClusteredWeatherMarkers from './ClusteredWeatherMarkers';
+import ClusteredPatternMarkers from './ClusteredPatternMarkers';
+import ClusteredAQIMarkers from './ClusteredAQIMarkers';
+import ClusteredAccidentMarkers from './ClusteredAccidentMarkers';
+
+
 // Advanced components disabled - require API endpoints not available
 // import PollutantCircles from './PollutantCircles';
 // import HumidityVisibilityLayer from './HumidityVisibilityLayer';
@@ -105,7 +112,7 @@ import { CitizenReportMarkers } from './CitizenReportMarkers';
 import { citizenReportService } from '../services/citizenReportService';
 import { CitizenReport } from '../types/citizenReport';
 import useWebSocket from '../hooks/useWebSocket';
-import ClusteredMarkers from './ClusteredMarkers';
+
 // Note: MapLibre GL CSS is automatically imported by MapContainer
 
 const { BaseLayer } = LayersControl;
@@ -1064,331 +1071,46 @@ const TrafficMap = forwardRef<any, {}>((_props, ref) => {
           />
         )}
 
-        {/* Accidents - Controlled by Sidebar filters */}
-        {filters.showAccidents && (
-          <>
-            {(() => {
-              const filteredAccidents = accidents.filter((accident: Accident) => {
-                const lat = accident?.location?.latitude || (accident?.location as any)?.lat;
-                const lng = accident?.location?.longitude || (accident?.location as any)?.lng;
-                // Show all accidents regardless of resolved status
-                return lat != null && lng != null && !isNaN(lat) && !isNaN(lng);
-              });
-
-              console.log('🚨 Accident Rendering:', {
-                total: accidents.length,
-                filtered: filteredAccidents.length,
-                showAccidents: filters.showAccidents,
-                sample: accidents[0],
-                sampleLocation: accidents[0]?.location,
-                allAccidentLocations: accidents.slice(0, 3).map(a => a.location)
-              });
-
-              return filteredAccidents.map((accident: Accident) => {
-                const lat = accident.location.latitude || (accident.location as any).lat;
-                const lng = accident.location.longitude || (accident.location as any).lng;
-                return (
-                  <Marker
-                    key={accident.id}
-                    position={[lat, lng]}
-                    icon={accidentIconBySeverity(accident.severity)}
-                    eventHandlers={{
-                      click: () => setSelectedAccident(accident),
-                    }}
-                  >
-                    <Tooltip direction="top" offset={[0, -40]} opacity={0.9}>
-                      {accident.severity.toUpperCase()} - {accident.type}
-                    </Tooltip>
-                    <Popup>
-                      <div className="p-3 min-w-[260px] bg-white text-gray-900">
-                        <h3 className="font-bold text-lg mb-2 text-red-600">Accident</h3>
-                        <p className="text-sm text-gray-600 mb-2">{accident.location.address}</p>
-
-                        <div className="space-y-1 mb-2">
-                          <p className="text-sm">
-                            <span className="font-semibold">Type:</span> {accident.type}
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Severity:</span>{' '}
-                            <span
-                              className={`font-semibold ${accident.severity === 'fatal'
-                                ? 'text-black'
-                                : accident.severity === 'severe'
-                                  ? 'text-red-600'
-                                  : accident.severity === 'moderate'
-                                    ? 'text-orange-600'
-                                    : 'text-yellow-600'
-                                }`}
-                            >
-                              {accident.severity.toUpperCase()}
-                            </span>
-                          </p>
-                          {accident.vehicles !== undefined && (
-                            <p className="text-sm">
-                              <span className="font-semibold">Vehicles:</span> {accident.vehicles}
-                            </p>
-                          )}
-                          {accident.casualties !== undefined && accident.casualties > 0 && (
-                            <p className="text-sm font-semibold text-red-600">
-                              Casualties: {accident.casualties}
-                            </p>
-                          )}
-                          <p className="text-xs text-gray-500">
-                            {format(parseISO(accident.timestamp || accident.dateDetected || new Date().toISOString()), 'PPpp')}
-                          </p>
-                        </div>
-
-                        {accident.description && (
-                          <p className="text-sm mt-2 p-2 bg-gray-100 rounded">{accident.description}</p>
-                        )}
-                      </div>
-                    </Popup>
-                  </Marker>
-                );
-              });
-            })()}
-          </>
+        {/* Accidents - Controlled by Sidebar filters with Clustering */}
+        {filters.showAccidents && mapBounds && (
+          <ClusteredAccidentMarkers
+            accidents={accidents}
+            visible={filters.showAccidents}
+            zoom={mapZoom}
+            bounds={[mapBounds.west, mapBounds.south, mapBounds.east, mapBounds.north]}
+            onAccidentClick={(accident) => setSelectedAccident(accident)}
+          />
         )}
 
-        {/* Weather - Controlled by Sidebar filters */}
-        {filters.showWeather && (
-          <>
-            {(() => {
-              // Filter valid coordinates
-              const filteredWeather = weather.filter((w: Weather) => {
-                // Backend sends {lat, lng}, frontend types define {latitude, longitude}
-                const lat = (w?.location as any)?.lat || w?.location?.latitude;
-                const lng = (w?.location as any)?.lng || w?.location?.longitude;
-                return lat != null && lng != null && !isNaN(lat) && !isNaN(lng);
-              });
-
-              console.log('🌤️ Weather Rendering:', {
-                total: weather.length,
-                filtered: filteredWeather.length,
-                showWeather: filters.showWeather,
-                sample: filteredWeather[0],
-                allIds: filteredWeather.map(w => w.id),
-                allCoords: filteredWeather.map(w => ({
-                  id: w.id,
-                  lat: (w.location as any)?.lat || w.location?.latitude,
-                  lng: (w.location as any)?.lng || w.location?.longitude
-                }))
-              });
-
-              return filteredWeather.map((w: Weather, index: number) => {
-                // Backend sends location as {lat, lng}
-                const lat = (w.location as any).lat || w.location.latitude;
-                const lng = (w.location as any).lng || w.location.longitude;
-                return (
-                  <Marker
-                    key={`weather-${w.id}-${index}`}
-                    position={[lat, lng]}
-                    icon={weatherIcon}
-                  >
-                    <Tooltip direction="top" offset={[0, -40]} opacity={0.9}>
-                      {w.temperature}°C - {w.condition}
-                    </Tooltip>
-                    <Popup>
-                      <div className="p-3 min-w-[240px] bg-white text-gray-900">
-                        <h3 className="font-bold text-lg mb-2 text-sky-600">Weather</h3>
-                        <p className="text-sm text-gray-600 mb-2">{w.location.district}</p>
-
-                        <div className="space-y-1">
-                          <p className="text-sm">
-                            <span className="font-semibold">Temperature:</span> {w.temperature}°C
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Humidity:</span> {w.humidity}%
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Rainfall:</span> {w.rainfall}mm
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Wind:</span> {w.windSpeed}km/h {w.windDirection}
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Condition:</span> {w.condition}
-                          </p>
-                        </div>
-                      </div>
-                    </Popup>
-                  </Marker>
-                );
-              });
-            })()}
-          </>
+        {/* Weather - Controlled by Sidebar filters with Clustering */}
+        {filters.showWeather && mapBounds && (
+          <ClusteredWeatherMarkers
+            weather={weather}
+            visible={filters.showWeather}
+            zoom={mapZoom}
+            bounds={[mapBounds.west, mapBounds.south, mapBounds.east, mapBounds.north]}
+          />
         )}
 
-        {/* Air Quality - Controlled by Sidebar filters */}
-        {filters.showAirQuality && (
-          <>
-            {(() => {
-              // Filter valid coordinates
-              const filteredAQ = airQuality.filter((aq: AirQuality) => {
-                // Backend sends {lat, lng}, frontend types define {latitude, longitude}
-                const lat = (aq?.location as any)?.lat || aq?.location?.latitude;
-                const lng = (aq?.location as any)?.lng || aq?.location?.longitude;
-                return lat != null && lng != null && !isNaN(lat) && !isNaN(lng);
-              });
-
-              console.log('💨 Air Quality Rendering:', {
-                total: airQuality.length,
-                filtered: filteredAQ.length,
-                showAirQuality: filters.showAirQuality,
-                sample: filteredAQ[0],
-                allIds: filteredAQ.map(aq => aq.id),
-                allCoords: filteredAQ.map(aq => ({
-                  id: aq.id,
-                  lat: (aq.location as any)?.lat || aq.location?.latitude,
-                  lng: (aq.location as any)?.lng || aq.location?.longitude
-                })),
-                duplicateIds: filteredAQ.map(aq => aq.id).filter((id, index, arr) => arr.indexOf(id) !== index)
-              });
-
-              return filteredAQ.map((aq: AirQuality, index: number) => {
-                // Backend sends {lat, lng}, frontend types define {latitude, longitude}
-                const lat = (aq.location as any).lat || aq.location.latitude;
-                const lng = (aq.location as any).lng || aq.location.longitude;
-                // Add small offset to avoid exact overlap with weather marker at same location
-                const offsetLat = lat + 0.0003; // ~33 meters north
-                return (
-                  <Marker
-                    key={`airquality-${aq.id}-${index}`}
-                    position={[offsetLat, lng]}
-                    icon={airQualityIconByLevel(aq.level)}
-                  >
-                    <Tooltip direction="top" offset={[0, -40]} opacity={0.9}>
-                      AQI: {aq.aqi} ({aq.level})
-                    </Tooltip>
-                    <Popup>
-                      <div className="p-3 min-w-[240px] bg-white text-gray-900">
-                        <h3 className="font-bold text-lg mb-2 text-amber-600">Air Quality</h3>
-                        <p className="text-sm text-gray-600 mb-2">{aq.location.station}</p>
-
-                        <div className="space-y-1">
-                          <p className="text-sm">
-                            <span className="font-semibold">AQI:</span>{' '}
-                            <span
-                              className="font-semibold text-lg"
-                              style={{ color: getAQIColor(aq.level) }}
-                            >
-                              {aq.aqi}
-                            </span>
-                            {' '}({aq.level})
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">PM2.5:</span> {aq.pm25} µg/m³
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">PM10:</span> {aq.pm10} µg/m³
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">CO:</span> {aq.co} ppm
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">NO2:</span> {aq.no2} ppb
-                          </p>
-                        </div>
-                      </div>
-                    </Popup>
-                  </Marker>
-                );
-              });
-            })()}
-          </>
+        {/* Air Quality - Controlled by Sidebar filters with Clustering */}
+        {filters.showAirQuality && mapBounds && (
+          <ClusteredAQIMarkers
+            airQuality={airQuality}
+            visible={filters.showAirQuality}
+            zoom={mapZoom}
+            bounds={[mapBounds.west, mapBounds.south, mapBounds.east, mapBounds.north]}
+          />
         )}
 
-        {/* Traffic Patterns - Controlled by Sidebar filters */}
-        {filters.showPatterns && (
-          <>
-            {(() => {
-              const filteredPatterns = patterns.filter((pattern: TrafficPattern) => {
-                if (!pattern.location || !pattern.location.startPoint || !pattern.location.endPoint) return false;
-                const startLat = pattern.location.startPoint.latitude || (pattern.location.startPoint as any).lat;
-                const startLng = pattern.location.startPoint.longitude || (pattern.location.startPoint as any).lng;
-                const endLat = pattern.location.endPoint.latitude || (pattern.location.endPoint as any).lat;
-                const endLng = pattern.location.endPoint.longitude || (pattern.location.endPoint as any).lng;
-                return startLat != null && startLng != null && endLat != null && endLng != null &&
-                  !isNaN(startLat) && !isNaN(startLng) && !isNaN(endLat) && !isNaN(endLng);
-              });
-
-              console.log('🚦 Traffic Patterns Rendering:', {
-                total: patterns.length,
-                filtered: filteredPatterns.length,
-                showPatterns: filters.showPatterns,
-                sample: patterns[0]
-              });
-
-              return filteredPatterns.map((pattern: TrafficPattern) => {
-                const startLat = pattern.location!.startPoint.latitude || (pattern.location!.startPoint as any).lat;
-                const startLng = pattern.location!.startPoint.longitude || (pattern.location!.startPoint as any).lng;
-                const endLat = pattern.location!.endPoint.latitude || (pattern.location!.endPoint as any).lat;
-                const endLng = pattern.location!.endPoint.longitude || (pattern.location!.endPoint as any).lng;
-                const positions: LatLngExpression[] = [
-                  [startLat, startLng],
-                  [endLat, endLng],
-                ];
-                return (
-                  <Polyline
-                    key={pattern.id}
-                    positions={positions}
-                    color={getCongestionColor(pattern.congestionLevel)}
-                    weight={5}
-                    opacity={0.7}
-                    eventHandlers={{
-                      click: () => setSelectedPattern(pattern),
-                    }}
-                  >
-                    <Popup>
-                      <div className="p-3 min-w-[240px] bg-white text-gray-900">
-                        <h3 className="font-bold text-lg mb-2 text-purple-600">Traffic Pattern</h3>
-                        {pattern.roadSegment && (
-                          <p className="text-sm text-gray-600 mb-2">{pattern.roadSegment}</p>
-                        )}
-
-                        <div className="space-y-1">
-                          <p className="text-sm">
-                            <span className="font-semibold">Type:</span> {pattern.patternType}
-                          </p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Congestion:</span>{' '}
-                            <span
-                              className="font-semibold"
-                              style={{ color: getCongestionColor(pattern.congestionLevel) }}
-                            >
-                              {pattern.congestionLevel}
-                            </span>
-                          </p>
-                          {pattern.timeRange && (
-                            <p className="text-sm">
-                              <span className="font-semibold">Time:</span> {pattern.timeRange}
-                            </p>
-                          )}
-                          {pattern.averageSpeed !== undefined && (
-                            <p className="text-sm">
-                              <span className="font-semibold">Avg Speed:</span> {pattern.averageSpeed} km/h
-                            </p>
-                          )}
-                          {pattern.vehicleCount !== undefined && (
-                            <p className="text-sm">
-                              <span className="font-semibold">Vehicles:</span> {pattern.vehicleCount}
-                            </p>
-                          )}
-                          {pattern.predictions && (
-                            <p className="text-sm mt-2 p-2 bg-blue-50 rounded">
-                              <span className="font-semibold">Prediction:</span> {pattern.predictions.nextHour} km/h
-                              <br />
-                              <span className="text-xs">({(pattern.predictions.confidence * 100).toFixed(1)}% confidence)</span>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </Popup>
-                  </Polyline>
-                );
-              });
-            })()}
-          </>
+        {/* Traffic Patterns - Controlled by Sidebar filters with Clustering */}
+        {filters.showPatterns && mapBounds && (
+          <ClusteredPatternMarkers
+            patterns={patterns}
+            visible={filters.showPatterns}
+            zoom={mapZoom}
+            bounds={[mapBounds.west, mapBounds.south, mapBounds.east, mapBounds.north]}
+            onPatternClick={(pattern) => setSelectedPattern(pattern)}
+          />
         )}
 
         <AQIHeatmap visible={filters.showAQIHeatmap} />

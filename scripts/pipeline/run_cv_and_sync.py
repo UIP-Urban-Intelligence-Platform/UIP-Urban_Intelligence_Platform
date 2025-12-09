@@ -360,7 +360,7 @@ def run_pattern_recognition() -> bool:
     
     Executes the Pattern Recognition Agent to identify traffic patterns
     such as rush hours, daily/weekly trends, and anomalies. Creates
-    TrafficFlowPattern entities in Stellio.
+    TrafficPattern entities in Stellio.
     
     Returns:
         bool: True if analysis completed successfully, False otherwise.

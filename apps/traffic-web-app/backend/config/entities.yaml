@@ -478,14 +478,28 @@ entities:
         required: true
       avgSpeed:
         ngsiPath: "avgSpeed.value"
+        alternativePaths:
+          - "averageSpeed.value"
         type: "number"
-        required: true
+        required: false
+        default: 0
         unit: "km/h"
       congestionLevel:
         ngsiPath: "congestionLevel.value"
         type: "string"
-        required: true
-        enum: ["high", "medium", "low"]
+        required: false
+        default: "free_flow"
+        enum:
+          [
+            "free_flow",
+            "light",
+            "moderate",
+            "heavy",
+            "severe",
+            "high",
+            "medium",
+            "low",
+          ]
       confidence:
         ngsiPath: "confidence.value"
         type: "number"
@@ -495,8 +509,56 @@ entities:
       affectedCameras:
         ngsiPath: "affectedCameras.value"
         type: "array"
-        required: true
+        required: false
+        default: []
         itemType: "string"
+      # Location fields for map visualization
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: false
+        transform: "coordinatesToLatLng"
+      startPoint:
+        ngsiPath: "startPoint.value"
+        alternativePaths:
+          - "location.value.coordinates"
+        type: "object"
+        required: false
+        transform: "toLatLng"
+      endPoint:
+        ngsiPath: "endPoint.value"
+        alternativePaths:
+          - "location.value.coordinates"
+        type: "object"
+        required: false
+        transform: "toLatLng"
+      roadSegment:
+        ngsiPath: "roadSegment.value"
+        alternativePaths:
+          - "name.value"
+        type: "string"
+        required: false
+      averageSpeed:
+        ngsiPath: "averageSpeed.value"
+        alternativePaths:
+          - "avgSpeed.value"
+        type: "number"
+        required: false
+        default: 0
+      vehicleCount:
+        ngsiPath: "vehicleCount.value"
+        alternativePaths:
+          - "avgVehicleCount.value"
+        type: "number"
+        required: false
+        default: 0
+      timestamp:
+        ngsiPath: "timestamp.value"
+        alternativePaths:
+          - "dateModified.value"
+          - "observedAt"
+        type: "datetime"
+        required: false
       geometry:
         type: "computed"
         computation: "patternGeometry"
@@ -591,6 +653,82 @@ entities:
         required: false
     filters:
       - name: "congestion"
+        field: "congestionLevel"
+        operator: "equals"
+        enum: ["congested", "moderate", "free"]
+      - name: "cameraId"
+        field: "refDevice"
+        operator: "equals"
+      - name: "limit"
+        operator: "limit"
+        default: 100
+        max: 1000
+
+  # Congestion Observation Entity - Historical congestion detection records
+  CongestionObservation:
+    entityType: "CongestionObservation"
+    endpoint: "/api/congestion"
+    description: "Historical congestion detection observations"
+    fields:
+      id:
+        ngsiPath: "id"
+        type: "string"
+        required: true
+      refDevice:
+        ngsiPath: "refDevice.object"
+        alternativePaths:
+          - "refDevice.value"
+        type: "string"
+        required: false
+      cameraId:
+        ngsiPath: "refDevice.object"
+        type: "string"
+        required: false
+      location:
+        ngsiPath: "location.value.coordinates"
+        type: "geopoint"
+        required: false
+        transform: "coordinatesToLatLng"
+      congested:
+        ngsiPath: "congested.value"
+        type: "boolean"
+        required: false
+        default: false
+      congestionLevel:
+        ngsiPath: "congestionLevel.value"
+        type: "string"
+        required: false
+        enum: ["congested", "moderate", "free"]
+        default: "unknown"
+      occupancy:
+        ngsiPath: "occupancy.value"
+        type: "number"
+        required: false
+        default: 0
+      averageSpeed:
+        ngsiPath: "averageSpeed.value"
+        type: "number"
+        required: false
+        unit: "km/h"
+        default: 0
+      intensity:
+        ngsiPath: "intensity.value"
+        type: "number"
+        required: false
+        default: 0
+      dateObserved:
+        ngsiPath: "dateObserved.value"
+        alternativePaths:
+          - "congested.observedAt"
+          - "congestionLevel.observedAt"
+        type: "datetime"
+        required: false
+    filters:
+      - name: "congested"
+        field: "congested"
+        operator: "equals"
+        type: "boolean"
+      - name: "level"
         field: "congestionLevel"
         operator: "equals"
         enum: ["congested", "moderate", "free"]

@@ -204,15 +204,35 @@ const PatternZones: React.FC<PatternZonesProps> = ({ visible = true, displayMode
   const [animationTrigger, setAnimationTrigger] = useState(0);
   const displayMode = propDisplayMode; // Use displayMode from props
 
+  // Debug logging
+  useEffect(() => {
+    console.log('🔥 PatternZones Debug:', {
+      visible,
+      displayMode,
+      patternsCount: patterns.length,
+      camerasCount: cameras.length,
+      airQualityCount: airQuality.length,
+      patterns: patterns.slice(0, 2) // Log first 2 patterns
+    });
+  }, [visible, patterns, cameras, airQuality, displayMode]);
+
   const zones = useMemo((): ZonePolygon[] => {
     const result: ZonePolygon[] = [];
 
-    patterns.forEach((pattern) => {
+    console.log('🗺️ Building zones from patterns:', {
+      totalPatterns: patterns.length,
+      filterByTime,
+      displayMode
+    });
+
+    patterns.forEach((pattern, index) => {
       if (!pattern.affectedCameras || pattern.affectedCameras.length === 0) {
+        console.log(`⚠️ Pattern ${index} has no affectedCameras:`, pattern);
         return;
       }
 
       if (filterByTime && !isPatternActiveNow(pattern)) {
+        console.log(`⏰ Pattern ${index} filtered by time:`, pattern);
         return;
       }
 
@@ -229,7 +249,16 @@ const PatternZones: React.FC<PatternZonesProps> = ({ visible = true, displayMode
         }
       });
 
-      if (cameraPoints.length === 0) return;
+      if (cameraPoints.length === 0) {
+        console.log(`⚠️ Pattern has no valid camera points:`, {
+          pattern,
+          affectedCameras: pattern.affectedCameras,
+          foundCameras: pattern.affectedCameras.map(id => cameras.find(c => c.id === id))
+        });
+        return;
+      }
+
+      console.log(`✅ Pattern has ${cameraPoints.length} camera points:`, pattern);
 
       // Calculate center of pattern for AQI lookup
       const centerLat = cameraPoints.reduce((sum, p) => sum + p[0], 0) / cameraPoints.length;
@@ -318,6 +347,8 @@ const PatternZones: React.FC<PatternZonesProps> = ({ visible = true, displayMode
       });
     });
 
+    console.log(`📊 Final zones built: ${result.length} zones from ${patterns.length} patterns`);
+
     return result;
   }, [patterns, cameras, airQuality, filterByTime, hoveredPatternId, displayMode]);
 
@@ -336,6 +367,13 @@ const PatternZones: React.FC<PatternZonesProps> = ({ visible = true, displayMode
   }, [animationTrigger, zones]);
 
   if (!visible) return null;
+
+  console.log('🎨 PatternZones Rendering:', {
+    visible,
+    zonesCount: zones.length,
+    displayMode,
+    zones: zones.slice(0, 2)
+  });
 
   return (
     <>
