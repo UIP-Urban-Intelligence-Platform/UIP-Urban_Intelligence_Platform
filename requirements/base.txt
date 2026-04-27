@@ -26,7 +26,7 @@ async-lru>=2.0.5
 
 # HTTP clients
 httpx>=0.24.0
-requests>=2.31.0
+requests>=2.32.5
 
 # ============================================================================
 # Configuration & Environment
