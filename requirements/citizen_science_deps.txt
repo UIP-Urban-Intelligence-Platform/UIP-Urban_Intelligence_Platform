@@ -35,7 +35,7 @@ pydantic>=2.0.0           # Data validation using Python type hints (included wi
 # ============================================================================
 pytest>=7.4.0             # Testing framework
 pytest-asyncio>=0.21.0    # Async test support for pytest
-httpx>=0.24.0             # Async HTTP client for FastAPI testing
+httpx>=0.28.1             # Async HTTP client for FastAPI testing
 
 # ============================================================================
 # Optional: Environment Variables Management
