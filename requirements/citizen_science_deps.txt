@@ -28,7 +28,7 @@ aioresponses>=0.7.0       # Mocking library for aiohttp (testing only)
 # ============================================================================
 # Data Validation
 # ============================================================================
-pydantic>=2.0.0           # Data validation using Python type hints (included with FastAPI)
+pydantic>=2.13.4           # Data validation using Python type hints (included with FastAPI)
 
 # ============================================================================
 # Testing (if not already in main requirements)
