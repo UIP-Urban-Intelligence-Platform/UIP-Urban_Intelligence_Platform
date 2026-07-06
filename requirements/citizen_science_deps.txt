@@ -15,7 +15,7 @@
 # ============================================================================
 # FastAPI Web Framework
 # ============================================================================
-fastapi>=0.104.0          # Modern web framework for building APIs
+fastapi>=0.139.0          # Modern web framework for building APIs
 uvicorn[standard]>=0.24.0 # ASGI server for production deployment
 python-multipart>=0.0.6   # Required for file upload support (future enhancement)
 
